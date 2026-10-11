@@ -41,6 +41,7 @@ sys.path.insert(0, LIVE)
 sys.path.insert(0, LAB)
 
 import charts  # noqa: E402  （迷你 K 線牆，純 Python SVG）
+import extras  # noqa: E402  （RS 板全表＋成長週期，跟圖片實現）
 
 EN_LABELS = {"desk": "Opportunity", "briefing": "Briefing", "leaders": "Leaders",
              "week": "Week Strongest", "rsboard": "RS Board", "method": "Methods",
@@ -165,7 +166,6 @@ def load_briefing():
 
 # ═══════════════════════ ③ RS 板（ETF 群組）═══════════════════════
 def spark_svg(vals, w=86, h=22):
-    """Python 版迷你折線（RS 板用），同 JS 版 spark() 同意義。"""
     vals = [v for v in vals if _fin(v)]
     if len(vals) < 2:
         return ""
@@ -177,6 +177,54 @@ def spark_svg(vals, w=86, h=22):
     return (f'<svg width="{w}" height="{h}" style="vertical-align:middle">'
             f'<polyline points="{" ".join(pts)}" fill="none" stroke="{col}" '
             f'stroke-width="1.5"/></svg>')
+
+
+def cycle_svg(series, w=920, h=280):
+    """成長週期圖：比率（綠線）＋ 上軌／下軌（灰線）＋ 軌內陰影（藍）。"""
+    ratio = series["ratio"]
+    up = series["up"]
+    dn = series["dn"]
+    n = len(ratio)
+    lo = min(dn)
+    hi = max(up)
+    rg = (hi - lo) or 1
+    pad = 12
+
+    def X(i):
+        return pad + i / (n - 1) * (w - 2 * pad)
+
+    def Y(v):
+        return pad + (1 - (v - lo) / rg) * (h - 2 * pad)
+
+    def pts(s):
+        return " ".join(f"{X(i):.0f},{Y(v):.0f}" for i, v in enumerate(s))
+
+    band = (" ".join(f"{X(i):.0f},{Y(up[i]):.0f}" for i in range(n)) + " " +
+            " ".join(f"{X(n - 1 - i):.0f},{Y(dn[n - 1 - i]):.0f}" for i in range(n)))
+    return (f'<svg viewBox="0 0 {w} {h}" width="100%" '
+            f'preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">'
+            f'<polygon points="{band}" fill="#2563eb" opacity=".12"/>'
+            f'<polyline points="{pts(up)}" fill="none" stroke="#8ea0bf" stroke-width="1.2"/>'
+            f'<polyline points="{pts(dn)}" fill="none" stroke="#8ea0bf" stroke-width="1.2"/>'
+            f'<polyline points="{pts(ratio)}" fill="none" stroke="#22c55e" stroke-width="1.8"/>'
+            f'</svg>')
+
+
+def rs_table(rows):
+    """RS 板表（指數／群組／板塊共用）。"""
+    mx = max((abs(r["ex1m"]) for r in rows), default=1) or 1
+    out = []
+    for i, r in enumerate(rows):
+        out.append(
+            f'<tr><td>{i+1}</td><td class="l"><span class="tk">{esc(r["etf"])}</span> '
+            f'<span class="dim">{esc(r["name"])}</span></td>'
+            f'<td><b>{r["thrust"]:.0f}%</b></td>'
+            f'<td class="l">{spark_svg(r["spark"])}</td>'
+            f'<td class="l">{bar(r["ex1m"], mx, r["ex1m"] < 0)} '
+            f'<span class="{tone(r["ex1m"])}">{sgn(r["ex1m"],1)}%</span></td>'
+            f'<td>{r["pct"]}</td>'
+            f'<td>{pct(r["off52w"],1)}</td></tr>')
+    return "".join(out)
 
 
 def load_rsboard():
@@ -523,7 +571,6 @@ def build():
 
     scan = load_scan()
     brief = load_briefing()
-    rsb = load_rsboard()
     meth = load_methods()
     gen = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
@@ -680,44 +727,52 @@ def build():
  <th class="l">觸發條件</th><th class="l">失效條件</th><th class="l">理由</th></tr></thead>
  <tbody>{mrows or '<tr><td colspan=5 class="dim">冇 Layer2 快照</td></tr>'}</tbody></table></div></div></div>""", base)
 
-    # ── RS 板 ──
-    if rsb:
-        mx = max(abs(r["ex1m"]) for r in rsb["rows"]) or 1
-        rr = "".join(
-            f'<tr><td>{i+1}</td><td class="l"><span class="tk">{esc(r["etf"])}</span> '
-            f'<span class="dim">{esc(r["name"])}</span></td>'
-            f'<td class="l dim">{esc(r["sector"])}</td>'
-            f'<td><b>{r["thrust"]:.0f}%</b></td>'
-            f'<td class="l">{spark_svg(r["spark"])}</td>'
-            f'<td class="l">{bar(r["ex1m"], mx, r["ex1m"] < 0)} '
-            f'<span class="{tone(r["ex1m"])}">{sgn(r["ex1m"],1)}%</span></td>'
-            f'<td>{sgn(r["r1d"],2)}%</td><td>{pct(r["r1m"],1)}</td>'
-            f'<td>{pct(r["off52w"],1)}</td><td>{r["pct"]}</td></tr>'
-            for i, r in enumerate(rsb["rows"]))
-        pages["rsboard"] = ("RS 板", f"""
-<div class="warn">⚠ <b>呢個係我嘅定義，唔係 Jeff Sun 嘅原文數字</b>。
- Jeff 嘅 <code>RS Thrust Rate %</code> 我未取得原文定義，所以呢個板用我寫死喺
- <code>build_site.py</code> 嘅版本（見下面註解）。要對得住佢原文，就要有佢嘅定義。</div>
-<div class="card"><h2>ETF 群組相對強度 <small>資料至 {esc(rsb["as_of"])}｜SPY 1 個月 {pct(rsb["spy1m"],1)}</small></h2>
- <div class="body"><table><thead><tr><th>#</th><th class="l">ETF / 名稱</th><th class="l">板塊</th>
- <th>推力率</th><th class="l">1月超額走勢（30日）</th><th class="l">1月超額（百分位）</th><th>日變</th><th>1月</th><th>距52週高</th>
- <th>RS 百分位</th></tr></thead><tbody>{rr}</tbody></table>
- <div class="note"><b>推力率</b>＝最近 30 個交易日之中，呢隻 ETF 嘅 21 日回報贏 SPY 嘅比例。
- <b>1月超額走勢</b>＝每日「21 日回報 − SPY 21 日回報」嘅迷你折線（綠＝近月整體領先、紅＝落後）。
- <b>RS 百分位</b>＝1 個月超額回報喺全部群組之中嘅排名百分位。
- 全部係我自己定義（Jeff 原文未取得），只可以做相對比較，唔可以當佢嘅數。</div></div></div>""", base)
+    # ── RS 板（跟圖片 2/4：指數／群組／板塊三個表）──
+    rsb_full = extras.rsboard_full()
+    if rsb_full:
+        head = ('<table><thead><tr><th>#</th><th class="l">ETF / 名稱</th>'
+                '<th>推力率</th><th class="l">1月超額走勢（30日）</th>'
+                '<th class="l">1月超額</th><th>RS 百分位</th><th>距52週高</th></tr></thead><tbody>')
 
-    # ── 未接分頁 ──
-    pages["cycle"] = ("成長週期", """
-<div class="card"><h2>🌀 Growth Cycle · 未接</h2><div class="body">
-<div class="todo"><b>狀態：掌握定義，等 Desmond 確認一個參數。</b><br><br>
-由你俾嘅 Lab Report 圖蒸餾出嚟嘅模型：<br>
-① 成長／價值比率（兩條線）→ ② 攞<b>週線</b>高低點嘅 <b>EMA10</b> 做「風險閘」帶<br>
-③ 收市<b>升穿</b>帶 ＝ risk-on；<b>跌穿</b>帶 ＝ risk-off；<b>帶內</b> ＝ 維持上一邊（避免來回鋸）<br>
-④ 六個區：RISK-OFF → PROBE → RAMP UP → TRIM 或 HOLD → RELOAD → 回落<br><br>
-<b>我需要你答一句：</b>「成長／價值比率」用邊兩條？<br>
-（我見過嘅可能：<code>IWF/IWD</code>（羅素 1000 成長／價值）、<code>IWY/IWX</code>、
-<code>VUG/VTV</code>、或者你自己嘅組合）</div></div></div>""", base)
+        def one(title, rows):
+            return (f'<div class="card"><h2>{title} <small>{len(rows)} 隻</small></h2>'
+                    f'<div class="body"><div class="scroll">{head}{rs_table(rows)}'
+                    f'</tbody></table></div></div></div>')
+
+        rs_body = ("<div class=\"warn\">⚠ RS 推力率係<b>我嘅定義</b>（Jeff Sun 原文未取得）："
+                   "最近 30 個交易日之中，ETF 嘅 21 日回報贏 SPY 嘅比例。唔會扮係佢嘅數。</div>"
+                   + one("指數 Index", rsb_full["index"])
+                   + one("群組 Group", rsb_full["group"])
+                   + one("板塊 Sector", rsb_full["sector"])
+                   + f'<div class="note">推力率＝30 日內 21 日回報贏 SPY 嘅日數比例（0–100）。'
+                     f'走勢＝每日超額回報迷你線（綠＝領先、紅＝落後）。'
+                     f'RS 百分位＝1 月超額喺本表嘅排名。'
+                     f'資料至 <b>{esc(rsb_full["as_of"])}</b>，SPY 1 月 {pct(rsb_full["spy1m"],1)}。</div>')
+        pages["rsboard"] = ("RS 板", rs_body, base)
+
+    # ── 成長週期（跟圖片 6：IWF/IWD 風險閘）──
+    gc = extras.growth_cycle()
+    if gc:
+        ph = gc["phase"]
+        phc = {"RISK-OFF": "#ef4444", "PROBE": "#f59e0b", "RAMP UP": "#22c55e",
+               "TRIM/HOLD": "#0ea5e9", "RELOAD": "#a78bfa"}.get(ph, "#94a3b8")
+        side_txt = "RISK-ON" if gc["side"] == "on" else "RISK-OFF"
+        side_c = "#22c55e" if gc["side"] == "on" else "#ef4444"
+        cy_body = (
+            '<div class="kpis">'
+            f'<div class="kpi"><div class="k">現時階段</div><div class="v" style="color:{phc}">{esc(ph)}</div></div>'
+            f'<div class="kpi"><div class="k">方向</div><div class="v" style="color:{side_c}">{side_txt}</div></div>'
+            f'<div class="kpi"><div class="k">比率 IWF÷IWD</div><div class="v">{gc["ratio"]}</div></div>'
+            f'<div class="kpi"><div class="k">上軌／下軌</div><div class="v">{gc["up"]} / {gc["dn"]}</div></div>'
+            '</div>'
+            f'<div class="card"><h2>成長／價值 風險閘 '
+            f'<small>IWF {gc["iwf"]} ／ IWD {gc["iwd"]}｜至 {esc(gc["as_of"])}</small></h2>'
+            f'<div class="body">{cycle_svg(gc["series"])}'
+            '<div class="note">綠線＝IWF÷IWD 比率（週收市）；灰線＝週高低 EMA10 風險閘；'
+            '藍色陰影＝閘帶。收市升穿上軌＝risk-on、跌穿下軌＝risk-off、軌內＝維持上一邊。'
+            '六個階段：RISK-OFF → PROBE → RAMP UP → TRIM/HOLD → RELOAD → 回落。'
+            '⚠ 模型由你圖片蒸餾，用 <b>IWF/IWD</b>（羅素 1000 成長÷價值）—— 你之前話「你決定」。</div></div></div>')
+        pages["cycle"] = ("成長週期", cy_body, base)
 
     pages["setups"] = ("Setups", """
 <div class="card"><h2>📐 Setups · 未接</h2><div class="body">
