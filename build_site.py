@@ -740,11 +740,11 @@ def build():
     q = brief.get("queue") or []
     kpi = [
         ("資料日期", reg.get("date") or b.get("as_of") or "—", "#e8eef8"),
-        ("SPY / QQQ / IWM", " ".join(str(lx.get(k, "—")) for k in ("SPY", "QQQ", "IWM")), "#9fd4ff"),
+        ("SPY / QQQ / IWM", " ".join(light(lx.get(k, "—")) for k in ("SPY", "QQQ", "IWM")), "#9fd4ff"),
         ("站上 50MA", pct(bt.get("above50")), "#4ade80"),
         ("站上 200MA", pct(bt.get("above200")), "#4ade80"),
         ("新高 / 新低", f'{num(bt.get("new_highs"),0)} / {num(bt.get("new_lows"),0)}', "#9fd4ff"),
-        ("VIX", f'{reg.get("vix_light","—")}', "#e8eef8"),
+        ("VIX", f'{light(reg.get("vix_light","—"))}', "#e8eef8"),
         ("圖表隊列", len(q), "#9fd4ff"),
     ]
     kpi_html = "".join(f'<div class="kpi"><div class="k">{k}</div>'
