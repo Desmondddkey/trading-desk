@@ -43,13 +43,13 @@ sys.path.insert(0, LAB)
 import charts  # noqa: E402  （迷你 K 線牆，純 Python SVG）
 import extras  # noqa: E402  （RS 板全表＋成長週期，跟圖片實現）
 
-EN_LABELS = {"desk": "Opportunity", "briefing": "Briefing", "leaders": "Leaders",
+EN_LABELS = {"desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
              "week": "Week Strongest", "rsboard": "RS Board", "method": "Methods",
              "cycle": "Growth Cycle", "setups": "Setups"}
 
 TABS = [
     ("desk", "🖥", "機會", "desk.html"),
-    ("briefing", "📋", "簡報", None),
+    ("briefing", "📋", "市場簡報", None),
     ("leaders", "🚀", "領導股", None),
     ("week", "⚡", "最強 1 週", None),
     ("rsboard", "📊", "RS 板", None),
@@ -109,6 +109,68 @@ def bar(v, mx, neg=False):
 
 def tone(v):
     return "pos" if _fin(v) and v > 0 else ("neg" if _fin(v) and v < 0 else "dim")
+
+
+LIGHT_MAP = {"🟢": '<span style="color:#16a34a;font-weight:700">●</span>',
+             "🔴": '<span style="color:#dc2626;font-weight:700">●</span>',
+             "🟠": '<span style="color:#f59e0b;font-weight:700">●</span>',
+             "🟡": '<span style="color:#eab308;font-weight:700">●</span>'}
+
+
+def light(v):
+    s = str(v)
+    return LIGHT_MAP.get(s, esc(s))
+
+
+def tv_link(ticker, name=""):
+    """代號 → TradingView 連結（hover 有 tooltip，click 新分頁開 TV）。"""
+    t = str(ticker).strip().upper()
+    if not t or t in ("—", "N/A"):
+        return esc(str(ticker))
+    url = f"https://www.tradingview.com/chart/?symbol={t}"
+    return (f'<a class="tv" href="{url}" target="_blank" rel="noopener" '
+            f'title="{esc(name or t)} — 開 TradingView">'
+            f'{esc(t)}<span class="tvs">↗</span></a>')
+
+
+def render_insight(reg):
+    """把 market_insight JSON 轉做乾淨表格（唔再 raw dump —— 修亂碼）。"""
+    bt = reg.get("breadth") or {}
+    lx = reg.get("ix_lights") or {}
+    ix = "　".join(f'<b>{esc(k)}</b> {light(lx.get(k, "—"))}'
+                   for k in ("SPY", "QQQ", "IWM"))
+    lines = [
+        ("日期", reg.get("date")),
+        ("指數燈", ix),
+        ("站上 20/50/200MA",
+         f'{num(bt.get("above20"))}% / {num(bt.get("above50"))}% / {num(bt.get("above200"))}%'),
+        ("新高 / 新低", f'{num(bt.get("new_highs"), 0)} / {num(bt.get("new_lows"), 0)}'),
+        ("廣度判斷", esc(reg.get("breadth_note") or "—")),
+        ("領導", esc((reg.get("lead") or {}).get("text") or "—")),
+        ("VIX", esc(reg.get("vix_note") or "—")),
+    ]
+    rows = "".join(f'<tr><td class="l" style="color:#64748b;white-space:nowrap">{k}</td>'
+                   f'<td class="l">{v}</td></tr>' for k, v in lines if v)
+    return f'<table>{rows}</table>'
+
+
+def render_breadth(b):
+    """把 breadth JSON 轉做乾淨表格（修亂碼）。"""
+    po = b.get("posture") or {}
+    lines = [
+        ("資料", esc(b.get("as_of") or "—")),
+        ("範圍", esc(b.get("universe") or "—")),
+        ("Regime", esc(po.get("regime") or "—")),
+        ("Posture", esc(po.get("posture") or "—")),
+        ("備註", esc("；".join(po.get("notes") or []))),
+        ("多空比", num(po.get("ls_ratio"), 2)),
+        ("ADL", num(po.get("adl"), 1)),
+        ("新高新低淨值", num(po.get("nnnl"), 1)),
+        ("站上 40MA", f'{num(po.get("pct40ma"))}%'),
+    ]
+    rows = "".join(f'<tr><td class="l" style="color:#64748b;white-space:nowrap">{k}</td>'
+                   f'<td class="l">{v}</td></tr>' for k, v in lines if v)
+    return f'<table>{rows}</table>'
 
 
 
@@ -216,7 +278,7 @@ def rs_table(rows):
     out = []
     for i, r in enumerate(rows):
         out.append(
-            f'<tr><td>{i+1}</td><td class="l"><span class="tk">{esc(r["etf"])}</span> '
+            f'<tr><td>{i+1}</td><td class="l"><span class="tk">{tv_link(r["etf"], r["name"])}</span> '
             f'<span class="dim">{esc(r["name"])}</span></td>'
             f'<td><b>{r["thrust"]:.0f}%</b></td>'
             f'<td class="l">{spark_svg(r["spark"])}</td>'
@@ -373,6 +435,10 @@ th{color:#8296b4;font-weight:600;font-size:11px;background:#0d1424;position:stic
 td.l,th.l{text-align:left}
 tr:hover td{background:#131c30}
 .tk{font-weight:700;color:#cfe4ff}
+.tv{color:#cfe4ff;text-decoration:none;border-bottom:1px dotted #4a90d9;font-weight:700}
+.tv:hover{color:#4ade80;border-color:#4ade80}
+.tv .tvs{opacity:0;font-size:10px;margin-left:3px}
+.tv:hover .tvs{opacity:1}
 .pos{color:#4ade80}.neg{color:#f87171}.dim{color:#7f90ad}
 .badge{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10.5px;font-weight:700}
 .bar{height:8px;border-radius:4px;display:inline-block;vertical-align:middle;background:#22c55e}
@@ -428,6 +494,8 @@ html[data-theme="light"] td{border-color:#eef2f8}
 html[data-theme="light"] tr:hover td{background:#f6f9fc}
 html[data-theme="light"] .tk{color:#0b63ce}
 html[data-theme="light"] .tk.hl{color:#16a34a;text-shadow:none}
+html[data-theme="light"] .tv{color:#0b63ce;border-color:#93c5fd}
+html[data-theme="light"] .tv:hover{color:#16a34a;border-color:#16a34a}
 html[data-theme="light"] tr.buyrow td{background:rgba(34,197,94,.06)}
 html[data-theme="light"] .dim{color:#94a3b8}
 html[data-theme="light"] .note{color:#64748b}
@@ -530,7 +598,7 @@ DESK_THEME_JS = """
 
 SITENAV_LINKS = [
     ("desk.html", "🖥", "機會", True),
-    ("index.html", "📋", "簡報", False),
+    ("index.html", "📋", "市場簡報", False),
     ("leaders.html", "🚀", "領導股", False),
     ("week.html", "⚡", "最強 1 週", False),
     ("rsboard.html", "📊", "RS 板", False),
@@ -689,9 +757,10 @@ def build():
         tr_cls = " class=buyrow" if r.get("box") else ""
         tk_cls = "tk hl" if r.get("box") else "tk"
         zone = "★ 買入區" if r.get("box") else "—"
-        return (f'<tr{tr_cls}><td class="l"><span class="{tk_cls}">{esc(r["t"])}</span></td>'
+        return (f'<tr{tr_cls}><td class="l"><span class="{tk_cls}">{tv_link(r["t"])}</span></td>'
                 f'<td>{num(r.get("close"),2)}</td><td>{sgn(r.get("x"),2)}</td>'
-                f'<td>{sgn(r.get("y"),2)}</td><td>{zone}</td>'
+                f'<td>{sgn(r.get("y"),2)}</td><td>{band_svg(r.get("y") or 0)}</td>'
+                f'<td>{zone}</td>'
                 f'<td>{num(r.get("stack"),0)}</td></tr>')
     qrows = "".join(_qrow(r) for r in q)
     brief_body = f"""
@@ -699,18 +768,17 @@ def build():
 <div class="kpis">{kpi_html}</div>
 <div class="grid2">
  <div class="card"><h2>市場狀態 <small>{esc(brief.get("regime_src") or "—")}</small></h2>
-  <div class="body"><div class="note">原始 JSON（唔加工，避免我二次演繹）：</div>
-  <pre style="white-space:pre-wrap;font-size:11.5px;color:#9fb0cc;max-height:340px;overflow:auto">{esc(json.dumps(reg, ensure_ascii=False, indent=1)[:2400])}</pre></div></div>
+  <div class="body">{render_insight(reg) if reg else '<div class="dim">冇快照</div>'}</div></div>
  <div class="card"><h2>廣度歷史 <small>{esc(brief.get("breadth_src") or "—")}</small></h2>
-  <div class="body"><pre style="white-space:pre-wrap;font-size:11.5px;color:#9fb0cc;max-height:340px;overflow:auto">{esc(json.dumps(b, ensure_ascii=False, indent=1)[:2400])}</pre></div></div>
+  <div class="body">{render_breadth(b) if b else '<div class="dim">冇快照</div>'}</div></div>
 </div>
 <div class="card"><h2>今日圖表隊列 <small>{esc(brief.get("rs_src") or "")}</small></h2>
  <div class="body"><div class="scroll"><table><thead><tr><th class="l">代號</th><th>收市</th>
- <th>X（21EMA）</th><th>Y（ATRX）</th><th>買入區</th><th>疊加</th></tr></thead>
+ <th>X（21EMA）</th><th>Y（ATRX）</th><th>ATR 帶</th><th>買入區</th><th>疊加</th></tr></thead>
  <tbody>{qrows or '<tr><td colspan=6 class="dim">今日冇快照</td></tr>'}</tbody></table></div>
  <div class="note">X/Y 單位係 ATR：X=(收市−21EMA)/ATR14，Y=(收市−50SMA)/ATR14。
  買入區＝X∈[−0.5,+1] 且 Y∈[0,+4]。</div></div></div>"""
-    pages["briefing"] = ("簡報", brief_body, base)
+    pages["briefing"] = ("市場簡報", brief_body, base)
 
     # ── 領導股（NEL）──
     if scan:
@@ -729,7 +797,7 @@ def build():
             for r in rows:
                 p = r["perf"]
                 tr.append(
-                    f'<tr><td class="l"><span class="tk">{esc(r["symbol"])}</span>'
+                    f'<tr><td class="l"><span class="tk">{tv_link(r["symbol"], r.get("industry"))}</span>'
                     f'<div class="dim" style="font-size:10.5px">{esc(r["industry"])}</div></td>'
                     f'<td>{pct(p.get("1w"))}</td><td>{pct(p.get("1m"))}</td>'
                     f'<td>{pct(p.get("3m"))}</td><td>{pct(p.get("6m"))}</td>'
@@ -779,7 +847,7 @@ def build():
         # ── 最強 1 週 ──
         wk = scan.get("week") or []
         wrows = "".join(
-            f'<tr><td>{i+1}</td><td class="l"><span class="tk">{esc(r["symbol"])}</span>'
+            f'<tr><td>{i+1}</td><td class="l"><span class="tk">{tv_link(r["symbol"], r.get("industry"))}</span>'
             f'<div class="dim" style="font-size:10.5px">{esc(r["industry"])}</div></td>'
             f'<td class="pos">{pct(r["perf"].get("1w"))}</td>'
             f'<td>{pct(r["perf"].get("1m"))}</td><td>{pct(r["perf"].get("3m"))}</td>'
@@ -802,7 +870,7 @@ def build():
                       f'font-weight:700;color:#9fd4ff">{esc(g["label"])}（{len(g["rows"])} 隻）</td></tr>')
             for r in sorted(g["rows"], key=lambda z: -(z.get("score") or 0)):
                 rs = "、".join((r.get("reasons") or [])[:2])
-                mrows += (f'<tr><td class="l"><span class="tk">{esc(r.get("ticker"))}</span></td>'
+                mrows += (f'<tr><td class="l"><span class="tk">{tv_link(r.get("ticker"))}</span></td>'
                           f'<td>{num(r.get("score"),0)}</td>'
                           f'<td class="l">{esc(r.get("watch_price") or "—")}</td>'
                           f'<td class="l">{esc(r.get("invalidation") or "—")}</td>'
@@ -867,7 +935,7 @@ def build():
         pl_rows = []
         for r in st["rows"]:
             pl_rows.append(
-                f'<tr><td class="l"><span class="tk">{esc(r["ticker"])}</span></td>'
+                f'<tr><td class="l"><span class="tk">{tv_link(r["ticker"])}</span></td>'
                 f'<td>{num(r.get("close"),2)}</td>'
                 f'<td class="l">{esc(r.get("watch_price") or "—")}</td>'
                 f'<td class="l">{esc(r.get("invalidation") or "—")}</td>'
