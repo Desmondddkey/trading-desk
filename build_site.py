@@ -51,6 +51,7 @@ TABS = [
     ("desk", "🖥", "機會", "desk.html"),
     ("briefing", "📋", "市場簡報", None),
     ("leaders", "🚀", "領導股", None),
+    ("cm", "🎯", "1CM 回調", None),
     ("week", "⚡", "最強 1 週", None),
     ("rsboard", "📊", "RS 板", None),
     ("method", "🧩", "方法分類", None),
@@ -605,6 +606,7 @@ SITENAV_LINKS = [
     ("desk.html", "🖥", "機會", True),
     ("index.html", "📋", "市場簡報", False),
     ("leaders.html", "🚀", "領導股", False),
+    ("cm.html", "🎯", "1CM 回調", False),
     ("week.html", "⚡", "最強 1 週", False),
     ("rsboard.html", "📊", "RS 板", False),
     ("method.html", "🧩", "方法分類", False),
@@ -861,6 +863,51 @@ def build():
         pages["leaders"] = ("領導股",
                             (f"<style>{_kell.KELL_CSS}</style>" if _kell else "") + leaders_body,
                             base | {"scan": scan})
+        # ── 1CM 回調（1chartmaster RS Leader Pullback Buy）──
+        try:
+            import cm as _cm
+            cmres = _cm.classify([r["symbol"] for r in scan["nel"]])
+        except Exception as _e:                              # noqa: BLE001
+            _cm, cmres = None, {}
+            log(f"⚠ 1CM 分類取唔到：{type(_e).__name__}")
+        if _cm and cmres:
+            ranked = sorted(cmres.values(),
+                            key=lambda x: (-x["n"], abs(x["sup_dist"] or 99)))
+            top = [x for x in ranked if x["n"] >= 4]
+            rest = [x for x in ranked if x["n"] < 4]
+            def cmrow(r):
+                return (f'<tr><td class="l"><span class="tk">'
+                        f'{tv_link(r["ticker"])}</span></td>'
+                        f'<td>{_cm.chip(r["ticker"], r)}</td>'
+                        f'{_cm.detail_cells(r)}'
+                        f'<td>{num(r["close"], 2)}</td></tr>')
+            cmhead = ('<tr><th class="l">代號</th><th>1CM 評級</th>'
+                      '<th>L1 RS 領導</th><th>L2 回調支撐</th><th>L3 量縮</th>'
+                      '<th>L4 買家守</th><th>L5 風險窄</th><th>收市</th></tr>')
+            cm_body = f"""
+<div class="warn">🎯 <b>1chartmaster「RS Leader Pullback Buy」</b>——
+ 呢個分頁係由 Desmond 嘅訂閱證據庫蒸餾出嚟（read-only），
+ <b>唔係我哋原創</b>。原文：「you track Relative Strength (RS) leaders and buy
+ them when they <b>pull back into structural support</b>」。</div>
+<style>{_cm.CM_CSS}</style>
+<div class="kpis">
+ <div class="kpi"><div class="k">A 級以上（≥4/5）</div>
+  <div class="v" style="color:#4ade80">{len(top)}</div></div>
+ <div class="kpi"><div class="k">掃描池（NEL）</div>
+  <div class="v">{len(cmres)}</div></div>
+ <div class="kpi"><div class="k">五條件全中</div>
+  <div class="v" style="color:#22c55e">{sum(1 for x in cmres.values() if x["n"] == 5)}</div></div>
+</div>
+{_cm.legend_html()}
+<div class="card"><h2>A 級設置 <small>≥4/5 條件｜按條件數再按距支撐排序</small></h2>
+ <div class="body"><div class="scroll"><table><thead>{cmhead}</thead>
+ <tbody>{"".join(cmrow(r) for r in top) or '<tr><td colspan=8 class="dim">今日冇 A 級設置</td></tr>'}</tbody>
+ </table></div></div></div>
+<div class="card"><h2>B 級觀察名單 <small>&lt;4/5</small></h2>
+ <div class="body"><div class="scroll"><table><thead>{cmhead}</thead>
+ <tbody>{"".join(cmrow(r) for r in rest) or '<tr><td colspan=8 class="dim">—</td></tr>'}</tbody>
+ </table></div></div></div>"""
+            pages["cm"] = ("1CM 回調", cm_body, base | {"cm": cmres})
         # ── 最強 1 週 ──
         wk = scan.get("week") or []
         wrows = "".join(
