@@ -346,6 +346,47 @@ function tone(v){return v>0?'pos':(v<0?'neg':'dim');}
 
 
 # ═══════════════════════ 頁面產生 ═══════════════════════
+SITENAV_CSS = """
+.sitenav{position:sticky;top:0;z-index:9999;display:flex;flex-wrap:wrap;gap:4px;
+ background:#080d1a;border-bottom:1px solid #1c2740;padding:9px 14px 10px;margin:0;
+ font-family:"Segoe UI","Microsoft JhengHei",system-ui,sans-serif}
+.sitenav a{display:inline-flex;align-items:center;gap:5px;padding:7px 12px 8px;
+ border-radius:8px;font-size:13px;color:#9fb0cc;text-decoration:none;white-space:nowrap}
+.sitenav a:hover{background:#121c31;color:#e8eef8}
+.sitenav a.on{background:#2b6cb0;color:#fff;font-weight:700}
+"""
+
+SITENAV_LINKS = [
+    ("desk.html", "🖥", "交易台", True),
+    ("index.html", "📋", "簡報", False),
+    ("leaders.html", "🚀", "領導股", False),
+    ("week.html", "⚡", "最強 1 週", False),
+    ("rsboard.html", "📊", "RS 板", False),
+    ("method.html", "🧩", "方法分類", False),
+    ("cycle.html", "🌀", "成長週期", False),
+    ("setups.html", "📐", "Setups", False),
+]
+
+
+def sitenav_html():
+    links = "".join(
+        f'<a href="{h}" class="{"on" if on else ""}"><span>{i}</span>{t}</a>'
+        for h, i, t, on in SITENAV_LINKS)
+    return f'<style>{SITENAV_CSS}</style><nav class="sitenav">{links}</nav>'
+
+
+def inject_nav(html):
+    """喺 desk.html（我哋個 dashboard，冇導航）頂部加返網站導航。
+
+    ⚠ 之前 desk.html 係獨立頁，冇 link 返去其他分頁 → 用戶一入交易台就跳唔走。
+    呢度喺 <body> 之後插一條自帶 CSS 嘅導航（用 .sitenav 前綴，唔會撞 dashboard 嘅 CSS）。
+    """
+    marker = "<body>"
+    if marker in html:
+        return html.replace(marker, marker + sitenav_html(), 1)
+    return sitenav_html() + html
+
+
 def nav_html(active):
     """導航：除咗交易台（desk.html 係獨立大檔），其餘全部係自己嘅 .html 檔。
 
@@ -605,8 +646,12 @@ def build():
         cands = sorted(glob.glob(os.path.join(LAB, "output", "dashboard_*.html")))
         src_desk = cands[-1] if cands else None
     if src_desk:
-        shutil.copy2(src_desk, os.path.join(SITE, "desk.html"))
-        log(f"✓ desk.html ← {os.path.basename(src_desk)}")
+        with io.open(src_desk, encoding="utf-8") as f:
+            desk_html = f.read()
+        desk_html = inject_nav(desk_html)
+        with io.open(os.path.join(SITE, "desk.html"), "w", encoding="utf-8") as f:
+            f.write(desk_html)
+        log(f"✓ desk.html ← {os.path.basename(src_desk)}（已加網站導航）")
     else:
         log("⚠ 搵唔到 dashboard HTML —— desk 分頁會係空")
 
