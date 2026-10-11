@@ -340,24 +340,29 @@ def load_rsboard():
 
 
 # ═══════════════════════ ④ 方法分類（Layer1+2）═══════════════════════
-def band_svg(y, w=280, h=40):
-    """ATR 帶視覺（Setups / The Plan）：−3 到 +5 ATR，綠色 = 買入區（0..+4）。"""
+def band_svg(y, w=230, h=18):
+    """ATR 帶（−3 到 +5）：買入區 0..+4 綠、過度延伸 >4 紅、低於 0 灰。
+    位置點跟區上色：綠＝買入區、橙＝延伸、紅＝低於 0。"""
     lo, hi = -3.0, 5.0
 
     def X(v):
         return (v - lo) / (hi - lo) * w
+    y = max(lo, min(hi, y))
     z = X(0.0)
     four = X(4.0)
-    mark = X(max(lo, min(hi, y)))
+    mark = X(y)
+    pos_col = "#22c55e" if 0 <= y <= 4 else ("#f59e0b" if y > 4 else "#ef4444")
     return (f'<svg viewBox="0 0 {w} {h}" width="100%" '
             f'preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">'
-            f'<rect x="{z:.0f}" y="8" width="{four-z:.0f}" height="{h-16}" '
-            f'fill="#22c55e" opacity=".14"/>'
-            f'<line x1="{z:.0f}" y1="6" x2="{z:.0f}" y2="{h-6}" stroke="#8ea0bf" stroke-width="1"/>'
-            f'<line x1="{four:.0f}" y1="6" x2="{four:.0f}" y2="{h-6}" stroke="#8ea0bf" stroke-width="1" stroke-dasharray="3 2"/>'
-            f'<circle cx="{mark:.0f}" cy="{h/2:.0f}" r="5" fill="#cfe4ff"/>'
-            f'<text x="{mark:.0f}" y="{h-2:.0f}" fill="#9fb0cc" font-size="10" '
-            f'text-anchor="middle">{y:+.1f}</text></svg>')
+            f'<rect x="{z:.0f}" y="2" width="{four-z:.0f}" height="{h-4}" '
+            f'fill="#22c55e" opacity=".20"/>'
+            f'<rect x="{four:.0f}" y="2" width="{X(hi)-four:.0f}" height="{h-4}" '
+            f'fill="#ef4444" opacity=".12"/>'
+            f'<line x1="{z:.0f}" y1="1" x2="{z:.0f}" y2="{h-1}" stroke="#8ea0bf" stroke-width="1"/>'
+            f'<line x1="{four:.0f}" y1="1" x2="{four:.0f}" y2="{h-1}" '
+            f'stroke="#f59e0b" stroke-width="1" stroke-dasharray="3 2"/>'
+            f'<circle cx="{mark:.0f}" cy="{h/2:.0f}" r="3.5" fill="{pos_col}"/>'
+            f'</svg>')
 
 
 def load_setups():
@@ -461,7 +466,7 @@ code{background:#16203a;padding:1px 5px;border-radius:4px;font-size:11.5px}
 .todo{background:#141d33;border:1px dashed #35507e;border-radius:10px;padding:14px;color:#9fb0cc;
  font-size:13px;line-height:1.75}
 .chartwall{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:9px}
-.cand{border:1px solid #1e2a44;border-radius:8px;padding:6px 4px 5px;text-align:center;background:#0d1424}
+.cand{border:1px solid #1e2a44;border-radius:8px;padding:6px 4px 5px;text-align:center;background:#0d1424;display:block;text-decoration:none;color:inherit}
 .cand .tk{font-size:11.5px;font-weight:700;color:#cfe4ff;margin-top:3px}
 .cand .mini{min-height:66px;display:flex;align-items:center;justify-content:center}
 .cand:hover{border-color:#4a90d9}
@@ -789,9 +794,11 @@ def build():
             scan["nel"], key=lambda r: -(r["perf"].get("3m") or -99))][:48]
         try:
             wall = charts.grid_html(charts.build_grid(chart_tickers))
+            rs_map = charts.rs_lookup(chart_tickers)
         except Exception as e:                               # noqa: BLE001
             wall = (f'<div class="warn">圖表牆取唔到：{type(e).__name__}'
                     f'（yfinance 限流或離線？）。</div>')
+            rs_map = {}
         def table(rows, extra=True):
             tr = []
             for r in rows:
@@ -799,14 +806,16 @@ def build():
                 tr.append(
                     f'<tr><td class="l"><span class="tk">{tv_link(r["symbol"], r.get("industry"))}</span>'
                     f'<div class="dim" style="font-size:10.5px">{esc(r["industry"])}</div></td>'
-                    f'<td>{pct(p.get("1w"))}</td><td>{pct(p.get("1m"))}</td>'
+                    + charts.rs_col(rs_map.get(r["symbol"], {}))
+                    + f'<td>{pct(p.get("1w"))}</td><td>{pct(p.get("1m"))}</td>'
                     f'<td>{pct(p.get("3m"))}</td><td>{pct(p.get("6m"))}</td>'
                     f'<td>{pct(p.get("1y"))}</td>'
                     + (f'<td>{num(r["extension"],2)}×</td><td>{pct(r["adr"],1)}</td>'
                        f'<td>{money(r["dvol"])}</td>' if extra else "")
                     + f'<td>{pct(r.get("off52w"),1)}</td></tr>')
             return tr
-        head = ('<tr><th class="l">代號 / 行業</th><th>1週</th><th>1月</th><th>3月</th>'
+        head = ('<tr><th class="l">代號 / 行業</th><th>RS-D</th><th>RS-W</th>'
+                '<th>1週</th><th>1月</th><th>3月</th>'
                 '<th>6月</th><th>1年</th><th>延伸</th><th>ADR%</th><th>成交額</th>'
                 '<th>距52週高</th></tr>')
         nel = sorted(scan["nel"], key=lambda r: -(r["perf"].get("3m") or -99))

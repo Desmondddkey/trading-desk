@@ -145,19 +145,93 @@ def build_grid(tickers, max_cells=48):
     return grid
 
 
+def rs_lookup(tickers, bench="SPY"):
+    """RS-Daily/Weekly（跟 Google Sheet「RS Master」公式）：
+
+        ratio = GOOGLEFINANCE(股) ÷ GOOGLEFINANCE(基準)   ——  每日/每週比率
+        SPARKLINE column：普通=lightgreen，最高=blue，最低=red
+
+    我哋用 yfinance OHLC 快取計同一條 ratio。回傳
+    {ticker: {"d": [50 日比率], "w": [每週比率], "d_last": 最新日, "w_last": 最新週}}。
+    """
+    import numpy as np
+    import pandas as pd
+    tickers = sorted(set([bench] + [t for t in tickers if t]))
+    df = fetch(tickers)
+    if df is None:
+        return {}
+    cols = set(df.columns.get_level_values(0))
+    if bench not in cols:
+        return {}
+    try:
+        spy = df[bench]["Close"].dropna()
+    except Exception:                                        # noqa: BLE001
+        return {}
+    out = {}
+    for t in tickers:
+        if t == bench or t not in cols:
+            continue
+        try:
+            c = df[t]["Close"].dropna()
+            j = pd.concat([c, spy], axis=1, keys=["c", "s"]).dropna()
+            ratio = j["c"] / j["s"]
+            daily = ratio.tail(50).astype(float).tolist()
+            wk = ratio.resample("W").last().dropna().astype(float).tolist()
+            out[t] = {"d": daily, "w": wk,
+                      "d_last": daily[-1] if daily else None,
+                      "w_last": wk[-1] if wk else None}
+        except Exception:                                    # noqa: BLE001
+            continue
+    return out
+
+
+def rs_svg(vals, w=52, h=28):
+    """迷你 column sparkline：普通淺綠、最高藍、最低紅（跟 Google SPARKLINE）。"""
+    import numpy as np
+    vals = [float(v) for v in (vals or []) if v is not None]
+    if len(vals) < 2:
+        return ""
+    a = np.array(vals)
+    hi = float(a.max()); lo = float(a.min()); rg = (hi - lo) or 1.0
+    n = len(a)
+    bw = max(1.0, (w - 2) / n * 0.72)
+    out = [f'<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
+           f'xmlns="http://www.w3.org/2000/svg">']
+    for i, v in enumerate(a):
+        x = 1 + (i + 0.5) / n * (w - 2)
+        hh = max(1.0, (v - lo) / rg * (h - 3))
+        col = "#3b82f6" if abs(v - hi) < 1e-9 else ("#f87171" if abs(v - lo) < 1e-9 else "#86efac")
+        out.append(f'<rect x="{x - bw/2:.0f}" y="{h - hh:.0f}" width="{bw:.0f}" '
+                   f'height="{hh:.0f}" fill="{col}"/>')
+    out.append("</svg>")
+    return "".join(out)
+
+
+def rs_col(t):
+    """RS-D / RS-W 兩格迷你圖 ＋ 最新值。"""
+    d = t.get("d") or []; w = t.get("w") or []
+    dv = f'{t["d_last"]:.3f}' if t.get("d_last") is not None else "—"
+    wv = f'{t["w_last"]:.3f}' if t.get("w_last") is not None else "—"
+    return (f'<td>{rs_svg(d)}<div class="dim" style="font-size:9.5px">{dv}</div></td>'
+            f'<td>{rs_svg(w)}<div class="dim" style="font-size:9.5px">{wv}</div></td>')
+
+
 def grid_html(grid, cell_w=72):
-    """一行 HTML：每格 = 迷你圖 ＋ 代號 ＋ ADR%。"""
+    """一行 HTML：每格 = 迷你圖 ＋ 代號 ＋ ADR%。成格 click 開 TradingView。"""
     cells = []
     for t, svg, adr in grid:
+        url = f"https://www.tradingview.com/chart/?symbol={t}"
         if svg:
             cells.append(
-                f'<div class="cand"><div class="mini">{svg}</div>'
+                f'<a class="cand" href="{url}" target="_blank" rel="noopener" '
+                f'title="{t} — 開 TradingView"><div class="mini">{svg}</div>'
                 f'<div class="tk">{t}</div>'
-                f'<div class="dim">{"ADR " + f"{adr:.0f}%" if adr else "—"}</div></div>')
+                f'<div class="dim">{"ADR " + f"{adr:.0f}%" if adr else "—"}</div></a>')
         else:
-            cells.append(f'<div class="cand"><div class="mini" '
+            cells.append(f'<a class="cand" href="{url}" target="_blank" rel="noopener" '
+                         f'title="{t} — 開 TradingView"><div class="mini" '
                          f'style="color:#5f708c;font-size:11px">—</div>'
-                         f'<div class="tk">{t}</div></div>')
+                         f'<div class="tk">{t}</div></a>')
     return ('<div class="chartwall">' + "".join(cells) + "</div>")
 
 
