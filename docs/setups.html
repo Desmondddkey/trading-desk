@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+<!doctype html><html lang="zh-Hant" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Setups · 交易台</title>
 <style>
@@ -65,12 +65,61 @@ code{background:#16203a;padding:1px 5px;border-radius:4px;font-size:11.5px}
 .cand .tk{font-size:11.5px;font-weight:700;color:#cfe4ff;margin-top:3px}
 .cand .mini{min-height:66px;display:flex;align-items:center;justify-content:center}
 .cand:hover{border-color:#4a90d9}
+.tk.hl{color:#22c55e;text-shadow:0 0 10px rgba(34,197,94,.4)}
+tr.buyrow td{background:rgba(34,197,94,.07)}
+.controls{display:flex;gap:6px;align-items:center;margin-left:auto;flex:0 0 auto}
+.controls button{border-radius:7px;padding:5px 10px;font-size:12px}
+
+/* ── 淺色主題（默認）── */
+html[data-theme="light"] body{background:#f6f8fb;color:#1a2433}
+html[data-theme="light"] a{color:#2563eb}
+html[data-theme="light"] header.top{background:#ffffffee;border-bottom:1px solid #e3e8f0}
+html[data-theme="light"] .crumb{color:#64748b}
+html[data-theme="light"] nav a{color:#64748b}
+html[data-theme="light"] nav a:hover{background:#eef2f8;color:#111827}
+html[data-theme="light"] nav a.on{background:#ffffff;border-color:#dbe2ec;color:#111827}
+html[data-theme="light"] .card{background:#ffffff;border-color:#e3e8f0;box-shadow:0 1px 6px rgba(15,23,42,.06)}
+html[data-theme="light"] .card h2{background:#f1f5f9;border-color:#e3e8f0;color:#111827}
+html[data-theme="light"] .card h2 small{color:#64748b}
+html[data-theme="light"] .kpi{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] .kpi .k{color:#64748b}
+html[data-theme="light"] .kpi .v{color:#111827}
+html[data-theme="light"] .bar-nav{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] select,html[data-theme="light"] input[type=search]{background:#ffffff;color:#1a2433;border-color:#d0d7e2}
+html[data-theme="light"] button{background:#ffffff;color:#334155;border-color:#d0d7e2}
+html[data-theme="light"] button:hover{background:#f1f5f9}
+html[data-theme="light"] button.on{background:#2563eb;border-color:#2563eb;color:#fff}
+html[data-theme="light"] th{color:#64748b;background:#f1f5f9}
+html[data-theme="light"] td{border-color:#eef2f8}
+html[data-theme="light"] tr:hover td{background:#f6f9fc}
+html[data-theme="light"] .tk{color:#0b63ce}
+html[data-theme="light"] .tk.hl{color:#16a34a;text-shadow:none}
+html[data-theme="light"] tr.buyrow td{background:rgba(34,197,94,.06)}
+html[data-theme="light"] .dim{color:#94a3b8}
+html[data-theme="light"] .note{color:#64748b}
+html[data-theme="light"] footer{color:#64748b}
+html[data-theme="light"] code{background:#eef2f8}
+html[data-theme="light"] .todo{background:#f6f8fb;border-color:#cbd5e1;color:#475569}
+html[data-theme="light"] .cand{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] .cand .tk{color:#0b63ce}
+html[data-theme="light"] .sitenav{background:#ffffffee;border-color:#e3e8f0}
+html[data-theme="light"] .sitenav a{color:#64748b}
+html[data-theme="light"] .sitenav a:hover{background:#eef2f8;color:#111827}
+html[data-theme="light"] .sitenav a.on{background:#2563eb;color:#fff}
 </style></head><body>
 <div class="wrap">
 <header class="top">
- <h1>📈 Desmond · 交易台</h1>
- <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-11 21:20</code></p>
- <nav><a href="desk.html" class=""><span>🖥</span>交易台</a><a href="briefing.html" class=""><span>📋</span>簡報</a><a href="leaders.html" class=""><span>🚀</span>領導股</a><a href="week.html" class=""><span>⚡</span>最強 1 週</a><a href="rsboard.html" class=""><span>📊</span>RS 板</a><a href="method.html" class=""><span>🧩</span>方法分類</a><a href="cycle.html" class=""><span>🌀</span>成長週期</a><a href="setups.html" class="on"><span>📐</span>Setups</a></nav>
+ <div style="display:flex;align-items:flex-start;gap:10px">
+  <div style="flex:1 1 auto">
+   <h1>📈 <span data-i18n="h1">Desmond · 交易台</span></h1>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-11 21:36</code></p>
+  </div>
+  <div class="controls">
+   <button id="langbtn" title="切換語言 / language">EN</button>
+   <button id="themebtn" title="切換主題 / theme">🌙 深色</button>
+  </div>
+ </div>
+ <nav><a href="desk.html" class=""><span>🖥</span><span data-i18n="nav_desk">機會</span></a><a href="briefing.html" class=""><span>📋</span><span data-i18n="nav_briefing">簡報</span></a><a href="leaders.html" class=""><span>🚀</span><span data-i18n="nav_leaders">領導股</span></a><a href="week.html" class=""><span>⚡</span><span data-i18n="nav_week">最強 1 週</span></a><a href="rsboard.html" class=""><span>📊</span><span data-i18n="nav_rsboard">RS 板</span></a><a href="method.html" class=""><span>🧩</span><span data-i18n="nav_method">方法分類</span></a><a href="cycle.html" class=""><span>🌀</span><span data-i18n="nav_cycle">成長週期</span></a><a href="setups.html" class="on"><span>📐</span><span data-i18n="nav_setups">Setups</span></a></nav>
 </header>
 
 <div class="card"><h2>📐 Setups · 未接</h2><div class="body">
@@ -91,7 +140,7 @@ code{background:#16203a;padding:1px 5px;border-radius:4px;font-size:11.5px}
  ｜交易台 <code>trading-os-lab/dashboard.py</code>
 </footer>
 </div>
-<script>var D={"_generated":"2026-10-11 21:20"};
+<script>var D={"_generated":"2026-10-11 21:36"};var I18N={"h1":{"zh":"Desmond · 交易台","en":"Desmond · Trading Desk"},"nav_desk":{"zh":"機會","en":"Opportunity"},"nav_briefing":{"zh":"簡報","en":"Briefing"},"nav_leaders":{"zh":"領導股","en":"Leaders"},"nav_week":{"zh":"最強 1 週","en":"Week Strongest"},"nav_rsboard":{"zh":"RS 板","en":"RS Board"},"nav_method":{"zh":"方法分類","en":"Methods"},"nav_cycle":{"zh":"成長週期","en":"Growth Cycle"},"nav_setups":{"zh":"Setups","en":"Setups"}};
 function q(s,r){return (r||document).querySelector(s);}
 function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
@@ -120,4 +169,28 @@ function bar(v,mx,neg){
 function tone(v){return v>0?'pos':(v<0?'neg':'dim');}
 
 document.addEventListener('DOMContentLoaded',function(){ if(window.PAGE) PAGE(); });</script>
+<script>
+(function(){
+  function store(k,f){try{return JSON.parse(localStorage.getItem('desk-'+k))??f;}catch(e){return f;}}
+  function save(k,v){try{localStorage.setItem('desk-'+k,JSON.stringify(v));}catch(e){}}
+  var LANG=store('lang','zh'), THEME=store('theme','light');
+  function apply(){
+    document.documentElement.lang = LANG==='zh'?'zh-Hant':'en';
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var o=I18N[el.dataset.i18n]; if(o&&o[LANG]) el.textContent=o[LANG];
+    });
+    var lb=document.getElementById('langbtn'); if(lb) lb.textContent = LANG==='zh'?'EN':'中文';
+    document.documentElement.setAttribute('data-theme',THEME);
+    var tb=document.getElementById('themebtn'); if(tb) tb.textContent = THEME==='light'?'🌙 深色':'☀️ 淺色';
+  }
+  function boot(){
+    var lb=document.getElementById('langbtn');
+    if(lb) lb.addEventListener('click',function(){LANG=LANG==='zh'?'en':'zh';save('lang',LANG);apply();});
+    var tb=document.getElementById('themebtn');
+    if(tb) tb.addEventListener('click',function(){THEME=THEME==='light'?'dark':'light';save('theme',THEME);apply();});
+    apply();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>
 </body></html>

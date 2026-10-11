@@ -42,8 +42,12 @@ sys.path.insert(0, LAB)
 
 import charts  # noqa: E402  （迷你 K 線牆，純 Python SVG）
 
+EN_LABELS = {"desk": "Opportunity", "briefing": "Briefing", "leaders": "Leaders",
+             "week": "Week Strongest", "rsboard": "RS Board", "method": "Methods",
+             "cycle": "Growth Cycle", "setups": "Setups"}
+
 TABS = [
-    ("desk", "🖥", "交易台", "desk.html"),
+    ("desk", "🖥", "機會", "desk.html"),
     ("briefing", "📋", "簡報", None),
     ("leaders", "🚀", "領導股", None),
     ("week", "⚡", "最強 1 週", None),
@@ -313,6 +317,47 @@ code{background:#16203a;padding:1px 5px;border-radius:4px;font-size:11.5px}
 .cand .tk{font-size:11.5px;font-weight:700;color:#cfe4ff;margin-top:3px}
 .cand .mini{min-height:66px;display:flex;align-items:center;justify-content:center}
 .cand:hover{border-color:#4a90d9}
+.tk.hl{color:#22c55e;text-shadow:0 0 10px rgba(34,197,94,.4)}
+tr.buyrow td{background:rgba(34,197,94,.07)}
+.controls{display:flex;gap:6px;align-items:center;margin-left:auto;flex:0 0 auto}
+.controls button{border-radius:7px;padding:5px 10px;font-size:12px}
+
+/* ── 淺色主題（默認）── */
+html[data-theme="light"] body{background:#f6f8fb;color:#1a2433}
+html[data-theme="light"] a{color:#2563eb}
+html[data-theme="light"] header.top{background:#ffffffee;border-bottom:1px solid #e3e8f0}
+html[data-theme="light"] .crumb{color:#64748b}
+html[data-theme="light"] nav a{color:#64748b}
+html[data-theme="light"] nav a:hover{background:#eef2f8;color:#111827}
+html[data-theme="light"] nav a.on{background:#ffffff;border-color:#dbe2ec;color:#111827}
+html[data-theme="light"] .card{background:#ffffff;border-color:#e3e8f0;box-shadow:0 1px 6px rgba(15,23,42,.06)}
+html[data-theme="light"] .card h2{background:#f1f5f9;border-color:#e3e8f0;color:#111827}
+html[data-theme="light"] .card h2 small{color:#64748b}
+html[data-theme="light"] .kpi{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] .kpi .k{color:#64748b}
+html[data-theme="light"] .kpi .v{color:#111827}
+html[data-theme="light"] .bar-nav{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] select,html[data-theme="light"] input[type=search]{background:#ffffff;color:#1a2433;border-color:#d0d7e2}
+html[data-theme="light"] button{background:#ffffff;color:#334155;border-color:#d0d7e2}
+html[data-theme="light"] button:hover{background:#f1f5f9}
+html[data-theme="light"] button.on{background:#2563eb;border-color:#2563eb;color:#fff}
+html[data-theme="light"] th{color:#64748b;background:#f1f5f9}
+html[data-theme="light"] td{border-color:#eef2f8}
+html[data-theme="light"] tr:hover td{background:#f6f9fc}
+html[data-theme="light"] .tk{color:#0b63ce}
+html[data-theme="light"] .tk.hl{color:#16a34a;text-shadow:none}
+html[data-theme="light"] tr.buyrow td{background:rgba(34,197,94,.06)}
+html[data-theme="light"] .dim{color:#94a3b8}
+html[data-theme="light"] .note{color:#64748b}
+html[data-theme="light"] footer{color:#64748b}
+html[data-theme="light"] code{background:#eef2f8}
+html[data-theme="light"] .todo{background:#f6f8fb;border-color:#cbd5e1;color:#475569}
+html[data-theme="light"] .cand{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] .cand .tk{color:#0b63ce}
+html[data-theme="light"] .sitenav{background:#ffffffee;border-color:#e3e8f0}
+html[data-theme="light"] .sitenav a{color:#64748b}
+html[data-theme="light"] .sitenav a:hover{background:#eef2f8;color:#111827}
+html[data-theme="light"] .sitenav a.on{background:#2563eb;color:#fff}
 """
 
 JS = """
@@ -357,7 +402,7 @@ SITENAV_CSS = """
 """
 
 SITENAV_LINKS = [
-    ("desk.html", "🖥", "交易台", True),
+    ("desk.html", "🖥", "機會", True),
     ("index.html", "📋", "簡報", False),
     ("leaders.html", "🚀", "領導股", False),
     ("week.html", "⚡", "最強 1 週", False),
@@ -392,26 +437,43 @@ def nav_html(active):
 
     ⚠ 之前用 `<a href="#key">` 係錯嘅 —— 內容唔喺同一頁，click 咗冇嘢發生。
     修法：直接鏈去真檔（leaders.html、week.html…），click 即轉跳。
+    label 有 `data-i18n`，配合中／英切換。
     """
     out = []
     for key, icon, label, href in TABS:
         target = href or f"{key}.html"
         cls = "on" if key == active else ""
-        out.append(f'<a href="{target}" class="{cls}"><span>{icon}</span>{label}</a>')
+        out.append(f'<a href="{target}" class="{cls}"><span>{icon}</span>'
+                   f'<span data-i18n="nav_{key}">{label}</span></a>')
     return "".join(out)
 
 
 
+def i18n_json():
+    d = {"h1": {"zh": "Desmond · 交易台", "en": "Desmond · Trading Desk"}}
+    for key, icon, label, href in TABS:
+        d[f"nav_{key}"] = {"zh": label, "en": EN_LABELS.get(key, label)}
+    return json.dumps(d, ensure_ascii=False, separators=(",", ":"))
+
+
 def page(active, title, body, payload, extra_head=""):
     data = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
-    return f"""<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+    return f"""<!doctype html><html lang="zh-Hant" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title} · 交易台</title>
 <style>{CSS}</style>{extra_head}</head><body>
 <div class="wrap">
 <header class="top">
- <h1>📈 Desmond · 交易台</h1>
- <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>{payload.get('_generated','?')}</code></p>
+ <div style="display:flex;align-items:flex-start;gap:10px">
+  <div style="flex:1 1 auto">
+   <h1>📈 <span data-i18n="h1">Desmond · 交易台</span></h1>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>{payload.get('_generated','?')}</code></p>
+  </div>
+  <div class="controls">
+   <button id="langbtn" title="切換語言 / language">EN</button>
+   <button id="themebtn" title="切換主題 / theme">🌙 深色</button>
+  </div>
+ </div>
  <nav>{nav_html(active)}</nav>
 </header>
 {body}
@@ -422,9 +484,36 @@ def page(active, title, body, payload, extra_head=""):
  ｜交易台 <code>trading-os-lab/dashboard.py</code>
 </footer>
 </div>
-<script>var D={data};{JS}
+<script>var D={data};var I18N={i18n_json()};{JS}
 document.addEventListener('DOMContentLoaded',function(){{ if(window.PAGE) PAGE(); }});</script>
+<script>{THEME_LANG_JS}</script>
 </body></html>"""
+
+
+THEME_LANG_JS = """
+(function(){
+  function store(k,f){try{return JSON.parse(localStorage.getItem('desk-'+k))??f;}catch(e){return f;}}
+  function save(k,v){try{localStorage.setItem('desk-'+k,JSON.stringify(v));}catch(e){}}
+  var LANG=store('lang','zh'), THEME=store('theme','light');
+  function apply(){
+    document.documentElement.lang = LANG==='zh'?'zh-Hant':'en';
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var o=I18N[el.dataset.i18n]; if(o&&o[LANG]) el.textContent=o[LANG];
+    });
+    var lb=document.getElementById('langbtn'); if(lb) lb.textContent = LANG==='zh'?'EN':'中文';
+    document.documentElement.setAttribute('data-theme',THEME);
+    var tb=document.getElementById('themebtn'); if(tb) tb.textContent = THEME==='light'?'🌙 深色':'☀️ 淺色';
+  }
+  function boot(){
+    var lb=document.getElementById('langbtn');
+    if(lb) lb.addEventListener('click',function(){LANG=LANG==='zh'?'en':'zh';save('lang',LANG);apply();});
+    var tb=document.getElementById('themebtn');
+    if(tb) tb.addEventListener('click',function(){THEME=THEME==='light'?'dark':'light';save('theme',THEME);apply();});
+    apply();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+"""
 
 
 def build():
@@ -461,12 +550,15 @@ def build():
             f'廣度：{esc(reg.get("breadth_note") or b.get("status") or "—")}<br>'
             f'領導：{esc((reg.get("lead") or {}).get("text") or "—")}　·　'
             f'VIX：{esc(reg.get("vix_note") or "—")}</div>')
-    qrows = "".join(
-        f'<tr><td class="l"><span class="tk">{esc(r["t"])}</span></td>'
-        f'<td>{num(r.get("close"),2)}</td><td>{sgn(r.get("x"),2)}</td>'
-        f'<td>{sgn(r.get("y"),2)}</td>'
-        f'<td>{"★" if r.get("box") else "—"}</td><td>{num(r.get("stack"),0)}</td></tr>'
-        for r in q)
+    def _qrow(r):
+        tr_cls = " class=buyrow" if r.get("box") else ""
+        tk_cls = "tk hl" if r.get("box") else "tk"
+        zone = "★ 買入區" if r.get("box") else "—"
+        return (f'<tr{tr_cls}><td class="l"><span class="{tk_cls}">{esc(r["t"])}</span></td>'
+                f'<td>{num(r.get("close"),2)}</td><td>{sgn(r.get("x"),2)}</td>'
+                f'<td>{sgn(r.get("y"),2)}</td><td>{zone}</td>'
+                f'<td>{num(r.get("stack"),0)}</td></tr>')
+    qrows = "".join(_qrow(r) for r in q)
     brief_body = f"""
 {note}
 <div class="kpis">{kpi_html}</div>
@@ -649,6 +741,9 @@ def build():
         with io.open(src_desk, encoding="utf-8") as f:
             desk_html = f.read()
         desk_html = inject_nav(desk_html)
+        # 標題都要改名（機會 = 之前嘅交易台）
+        desk_html = desk_html.replace("📊 交易台 · TRADING DESK", "📊 機會 · OPPORTUNITY DESK")
+        desk_html = desk_html.replace("<title>交易台", "<title>機會")
         with io.open(os.path.join(SITE, "desk.html"), "w", encoding="utf-8") as f:
             f.write(desk_html)
         log(f"✓ desk.html ← {os.path.basename(src_desk)}（已加網站導航）")
