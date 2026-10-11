@@ -1,0 +1,263 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>簡報 · 交易台</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#070b16;color:#e8eef8;
+ font-family:"Segoe UI","Microsoft JhengHei",system-ui,-apple-system,"Noto Sans TC",sans-serif;
+ -webkit-text-size-adjust:100%}
+a{color:#7cc4ff}
+.wrap{max-width:1420px;margin:0 auto;padding:0 14px 60px}
+header.top{position:sticky;top:0;z-index:50;background:#080d1aee;border-bottom:1px solid #1c2740;
+ backdrop-filter:blur(9px);margin:0 -14px 18px;padding:10px 14px 0}
+h1{font-size:19px;margin:0 0 2px;letter-spacing:.4px}
+.crumb{color:#6e80a0;font-size:11.5px;margin:0 0 9px}
+nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
+nav a,nav span.tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;
+ padding:8px 13px 9px;border-radius:9px 9px 0 0;font-size:13.5px;color:#9fb0cc;
+ text-decoration:none;border:1px solid transparent;border-bottom:none;white-space:nowrap}
+nav a:hover{background:#121c31;color:#e8eef8}
+nav a.on{background:#0f1729;border-color:#1e2a44;color:#e8eef8;font-weight:700}
+nav span.off{opacity:.45}
+.card{background:#0f1729;border:1px solid #1e2a44;border-radius:11px;margin:0 0 15px;
+ box-shadow:0 2px 14px rgba(0,0,0,.32)}
+.card h2{font-size:15.5px;margin:0;padding:11px 14px;border-bottom:1px solid #1e2a44;
+ background:#0d1424;border-radius:11px 11px 0 0;display:flex;justify-content:space-between;
+ align-items:center;gap:10px}
+.card h2 small{font-weight:400;color:#7f90ad;font-size:11.5px}
+.card .body{padding:12px 14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+@media(max-width:1080px){.grid2,.grid3{grid-template-columns:1fr}}
+.kpis{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 14px}
+.kpi{background:#0f1729;border:1px solid #1e2a44;border-radius:9px;padding:8px 12px;min-width:96px}
+.kpi .k{font-size:10.5px;color:#7f90ad;letter-spacing:.5px}
+.kpi .v{font-size:17px;font-weight:700;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{padding:5px 7px;text-align:right;border-bottom:1px solid #16203a}
+th{color:#8296b4;font-weight:600;font-size:11px;background:#0d1424;position:sticky;top:0}
+td.l,th.l{text-align:left}
+tr:hover td{background:#131c30}
+.tk{font-weight:700;color:#cfe4ff}
+.pos{color:#4ade80}.neg{color:#f87171}.dim{color:#7f90ad}
+.badge{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10.5px;font-weight:700}
+.bar{height:8px;border-radius:4px;display:inline-block;vertical-align:middle;background:#22c55e}
+.bar.neg{background:#ef4444}
+.note{color:#7f90ad;font-size:11.5px;margin-top:9px;line-height:1.65}
+.warn{background:#3a2410;border:1px solid #a0620f;color:#fbc06a;border-radius:9px;
+ padding:9px 12px;font-size:12.5px;margin:0 0 13px;line-height:1.6}
+.ok{background:#0f2a1a;border:1px solid #2c7a4b;color:#7fe0a3;border-radius:9px;
+ padding:9px 12px;font-size:12.5px;margin:0 0 13px}
+.filters{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 11px;align-items:center}
+input[type=search],select{background:#16203a;color:#e8eef8;border:1px solid #2a3a5c;
+ border-radius:7px;padding:6px 10px;font-size:13px;font-family:inherit}
+button{background:#16203a;color:#c7d4ea;border:1px solid #2a3a5c;border-radius:7px;
+ padding:6px 11px;font-size:12.5px;cursor:pointer;font-family:inherit}
+button:hover{background:#1d2a49}
+button.on{background:#2b6cb0;border-color:#4a90d9;color:#fff;font-weight:700}
+.scroll{max-height:70vh;overflow:auto}
+footer{color:#5f708c;font-size:11.5px;margin-top:22px;line-height:1.7}
+code{background:#16203a;padding:1px 5px;border-radius:4px;font-size:11.5px}
+.todo{background:#141d33;border:1px dashed #35507e;border-radius:10px;padding:14px;color:#9fb0cc;
+ font-size:13px;line-height:1.75}
+.chartwall{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:9px}
+.cand{border:1px solid #1e2a44;border-radius:8px;padding:6px 4px 5px;text-align:center;background:#0d1424}
+.cand .tk{font-size:11.5px;font-weight:700;color:#cfe4ff;margin-top:3px}
+.cand .mini{min-height:66px;display:flex;align-items:center;justify-content:center}
+.cand:hover{border-color:#4a90d9}
+</style></head><body>
+<div class="wrap">
+<header class="top">
+ <h1>📈 Desmond · 交易台</h1>
+ <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-11 20:40</code></p>
+ <nav><a href="desk.html" class=""><span>🖥</span>交易台</a><a href="briefing.html" class="on"><span>📋</span>簡報</a><a href="leaders.html" class=""><span>🚀</span>領導股</a><a href="week.html" class=""><span>⚡</span>最強 1 週</a><a href="rsboard.html" class=""><span>📊</span>RS 板</a><a href="method.html" class=""><span>🧩</span>方法分類</a><a href="cycle.html" class=""><span>🌀</span>成長週期</a><a href="setups.html" class=""><span>📐</span>Setups</a></nav>
+</header>
+
+<div class="warn"><b>我嘅 setups 今日有幾大機會 work？（今日唯一要答嘅問題）</b><br>廣度：參與度窄 — 只有少數領導股頂住，突破易失敗<br>領導：半導體 SOXX/SPY 相對 60 日 +2.8% — 領導力持平　·　VIX：風險偏好回升（收於全部均線下）= 有利做多</div>
+<div class="kpis"><div class="kpi"><div class="k">資料日期</div><div class="v" style="color:#e8eef8">2026-10-09</div></div><div class="kpi"><div class="k">SPY / QQQ / IWM</div><div class="v" style="color:#9fd4ff">🟢 🟢 🔴</div></div><div class="kpi"><div class="k">站上 50MA</div><div class="v" style="color:#4ade80">+33.0%</div></div><div class="kpi"><div class="k">站上 200MA</div><div class="v" style="color:#4ade80">+49.7%</div></div><div class="kpi"><div class="k">新高 / 新低</div><div class="v" style="color:#9fd4ff">34 / 18</div></div><div class="kpi"><div class="k">VIX</div><div class="v" style="color:#e8eef8">🟢</div></div><div class="kpi"><div class="k">圖表隊列</div><div class="v" style="color:#9fd4ff">15</div></div></div>
+<div class="grid2">
+ <div class="card"><h2>市場狀態 <small>market_insight_20261009.json</small></h2>
+  <div class="body"><div class="note">原始 JSON（唔加工，避免我二次演繹）：</div>
+  <pre style="white-space:pre-wrap;font-size:11.5px;color:#9fb0cc;max-height:340px;overflow:auto">{
+ &quot;date&quot;: &quot;2026-10-09&quot;,
+ &quot;weekday&quot;: 4,
+ &quot;quote&quot;: [
+  &quot;優勢 = 環境 × 選擇性 × 風險預算 × 交易後管理。&quot;,
+  &quot;Clement Ang / Marios Stamatoudis&quot;
+ ],
+ &quot;core_question&quot;: &quot;我嘅 setups 今日有幾大機會 work？（今日唯一要答嘅問題）&quot;,
+ &quot;ix_lights&quot;: {
+  &quot;SPY&quot;: &quot;🟢&quot;,
+  &quot;QQQ&quot;: &quot;🟢&quot;,
+  &quot;IWM&quot;: &quot;🔴&quot;
+ },
+ &quot;indices_order&quot;: [
+  &quot;SPY&quot;,
+  &quot;QQQ&quot;,
+  &quot;IWM&quot;
+ ],
+ &quot;breadth&quot;: {
+  &quot;n&quot;: 503,
+  &quot;above20&quot;: 48.7,
+  &quot;above20_prev&quot;: 38.2,
+  &quot;above50&quot;: 33.0,
+  &quot;above50_prev&quot;: 29.2,
+  &quot;above200&quot;: 49.7,
+  &quot;above200_prev&quot;: 46.5,
+  &quot;new_highs&quot;: 34,
+  &quot;new_lows&quot;: 18,
+  &quot;net_new&quot;: 16
+ },
+ &quot;breadth_lights&quot;: {
+  &quot;20&quot;: &quot;🟠&quot;,
+  &quot;50&quot;: &quot;🔴&quot;,
+  &quot;200&quot;: &quot;🔴&quot;
+ },
+ &quot;breadth_light&quot;: &quot;🔴&quot;,
+ &quot;breadth_note&quot;: &quot;參與度窄 — 只有少數領導股頂住，突破易失敗&quot;,
+ &quot;vix_light&quot;: &quot;🟢&quot;,
+ &quot;vix_note&quot;: &quot;風險偏好回升（收於全部均線下）= 有利做多&quot;,
+ &quot;lead&quot;: {
+  &quot;light&quot;: &quot;🟠&quot;,
+  &quot;text&quot;: &quot;半導體 SOXX/SPY 相對 60 日 +2.8% — 領導力持平&quot;
+ },
+ &quot;ix_light&quot;: &quot;🟠&quot;,
+ &quot;posture&quot;: &quot;SELECTIVE&quot;,
+ &quot;posture_label&quot;: &quot;🛡️ 精兵 SELECTIVE&quot;,
+ &quot;posture_advice&quot;: [
+  &quot;環境好壞參半 — 只做最高質素嘅 setup&quot;,
+  &quot;倉位縮細，等確認先入&quot;,
+  &quot;邊個 setup 仲 work 就做邊個，唔好死守一套&quot;
+ ],
+ &quot;g&quot;: 3,
+ &quot;o&quot;: 2,
+ &quot;r&quot;: 3,
+ &quot;warnings&quot;: [
+  &quot;寬度 &lt;40%（實際 33%）— 指數可能只靠少數巨頭，突破失敗率上升&quot;,
+  &quot;小型股（IWM）跌破短期均線 — 風險偏好可能正在收縮&quot;
+ ],
+ &quot;summary&quot;: &quot;好壞參半（🟠）— 精兵策略，寧缺莫濫&quot;,
+ &quot;questions&quot;: [
+  &quot;❓ 我嘅 setups 今日有幾大機會 work？（今日唯一要答嘅問題）&quot;,
+  &quot;我係咪喺度迫自己 trade？有冇 setup 係「唔做都得」？&quot;,
+  &quot;我嘅 watchlist 係擴大定縮緊？&quot;,
+  &quot;邊個 setup 最近連續失效？（連續 3 次止蝕要停手）&quot;,
+  &quot;如果今日只可以做一單，會揀邊單？&quot;,
+  &quot;只有 33% 股票喺 50MA 上 — 突破係咪好易失敗？&quot;
+ ],
+ &quot;indices&quot;: {
+  &quot;SPY&quot;: {
+   &quot;last&quot;: 773.9299926757812,
+   &quot;ma10&quot;: 770.2489990234375,
+   &quot;slope10&quot;: 3.1150024414062045,
+   &quot;ma20&quot;: 766.7924560546875,
+   &quot;slope20&quot;: 2.732296752929642,
+   &quot;ma50&quot;: 765.5093090820312,
+   &quot;slope50&quot;: 3.9464331054687136,
+   &quot;ma200&quot;: 719.162592163086,
+   &quot;slope200&quot;: 2.604114074707013
+  },
+  &quot;QQQ&quot;: {
+   &quot;last&quot;: 747.5800170898438,
+   &quot;ma10&quot;: 747.1510070800781,
+   &quot;slope10&quot;: 7.881097412109398,
+   &quot;ma20&quot;: 735.4996704101562,
+   &quot;slope20&quot;: 9.724325561523415,
+   &quot;ma50&quot;: 722.6336352539063,
+   &quot;slope50&quot;: 7.575090332031323,
+   &quot;ma200&quot;: 670.2056170654297,
+   &quot;slope200&quot;: 3.6807409667968614
+  },
+  &quot;IWM&quot;: {
+   &quot;last&quot;: 277.57000732421875,
+   &quot;ma10&quot;: 279.94200134277344,
+   &quot;slope10&quot;: -1.8959991455078011,
+   &quot;ma20&quot;: 282.48387603759767,
+   &quot;slope20&quot;: -2.9442916870116846,
+   &quot;ma50&quot;: 291.16062133789063,
+   &quot;slope50&quot;: -1.0560333251953011,
+   &quot;ma200&quot;: 275.7764165496826,
+   &quot;slope200&quot;: 0.8109466552734261
+  }
+ },
+ &quot;vix&quot;: {
+  &quot;last&quot;: 15.119999885559082,
+  &quot;ma10&quot;: 15.629000091552735,
+  &quot;slope10&quot;: 0.13400001525879013,
+  &quot;ma20&quot;: 15.667500066757203,
+  &quot;slope20&quot;: -</pre></div></div>
+ <div class="card"><h2>廣度歷史 <small>breadth_20261006.json</small></h2>
+  <div class="body"><pre style="white-space:pre-wrap;font-size:11.5px;color:#9fb0cc;max-height:340px;overflow:auto">{
+ &quot;as_of&quot;: &quot;2026-10-06T18:56:03.140984&quot;,
+ &quot;universe&quot;: &quot;S&amp;P500 (503 loaded)&quot;,
+ &quot;regime&quot;: &quot;NEUTRAL&quot;,
+ &quot;posture&quot;: {
+  &quot;regime&quot;: &quot;NEUTRAL&quot;,
+  &quot;warnings&quot;: [],
+  &quot;posture&quot;: &quot;FLAT_WATCH&quot;,
+  &quot;meanrev_long_allowed&quot;: false,
+  &quot;notes&quot;: [
+   &quot;儲住彈藥，等信號：冇符合 Setup C（&lt;=50MA-2ATR）嘅均值回歸候選之前 = WATCH_ONLY&quot;
+  ],
+  &quot;ls_ratio&quot;: 0.38,
+  &quot;adl&quot;: 19.6,
+  &quot;nnnl&quot;: -16.4,
+  &quot;pct40ma&quot;: 27.7,
+  &quot;risk_block&quot;: {
+   &quot;account_hkd&quot;: 100000,
+   &quot;risk_per_trade_hkd&quot;: 1500,
+   &quot;size_formula&quot;: &quot;qty = risk_hkd / (entry - stop)&quot;,
+   &quot;day_stop_hkd&quot;: -2000,
+   &quot;week_stop_hkd&quot;: -5000,
+   &quot;exit_sop&quot;: &quot;T+3 scale out 33%, then breakeven stop on remainder; stop ref: T1 (20MA) 或 入場-1xATR，取近者&quot;
+  }
+ },
+ &quot;status&quot;: &quot;WATCH_ONLY&quot;,
+ &quot;pct40ma&quot;: 27.7,
+ &quot;ls_ratio_proxy&quot;: 0.38,
+ &quot;spy_close&quot;: 774.83
+}</pre></div></div>
+</div>
+<div class="card"><h2>今日圖表隊列 <small>rs_select_2026-10-11.json</small></h2>
+ <div class="body"><div class="scroll"><table><thead><tr><th class="l">代號</th><th>收市</th>
+ <th>X（21EMA）</th><th>Y（ATRX）</th><th>買入區</th><th>疊加</th></tr></thead>
+ <tbody><tr><td class="l"><span class="tk">CRL</span></td><td>301.79</td><td>+0.73</td><td>+1.41</td><td>★</td><td>6</td></tr><tr><td class="l"><span class="tk">CORT</span></td><td>121.19</td><td>+0.84</td><td>+1.11</td><td>★</td><td>6</td></tr><tr><td class="l"><span class="tk">PARR</span></td><td>81.89</td><td>-0.20</td><td>+0.41</td><td>★</td><td>5</td></tr><tr><td class="l"><span class="tk">KMTS</span></td><td>26.98</td><td>+0.32</td><td>+0.55</td><td>★</td><td>5</td></tr><tr><td class="l"><span class="tk">SNX</span></td><td>273.37</td><td>+0.41</td><td>+0.94</td><td>★</td><td>5</td></tr><tr><td class="l"><span class="tk">ANDG</span></td><td>56.82</td><td>+0.74</td><td>+1.70</td><td>★</td><td>5</td></tr><tr><td class="l"><span class="tk">COHU</span></td><td>68.19</td><td>+0.92</td><td>+3.17</td><td>★</td><td>5</td></tr><tr><td class="l"><span class="tk">GCT</span></td><td>57.26</td><td>+1.37</td><td>+2.08</td><td>—</td><td>5</td></tr><tr><td class="l"><span class="tk">FROG</span></td><td>102.23</td><td>+1.60</td><td>+2.28</td><td>—</td><td>5</td></tr><tr><td class="l"><span class="tk">QLYS</span></td><td>202.42</td><td>+1.77</td><td>+2.48</td><td>—</td><td>5</td></tr><tr><td class="l"><span class="tk">PLSE</span></td><td>53.81</td><td>+1.08</td><td>+1.82</td><td>—</td><td>4</td></tr><tr><td class="l"><span class="tk">XMTR</span></td><td>111.07</td><td>+1.54</td><td>+2.87</td><td>—</td><td>4</td></tr><tr><td class="l"><span class="tk">HUM</span></td><td>431.87</td><td>+1.96</td><td>+2.28</td><td>—</td><td>4</td></tr><tr><td class="l"><span class="tk">PAYS</span></td><td>15.37</td><td>+2.45</td><td>+3.71</td><td>—</td><td>4</td></tr><tr><td class="l"><span class="tk">LIND</span></td><td>35.82</td><td>+2.72</td><td>+3.60</td><td>—</td><td>4</td></tr></tbody></table></div>
+ <div class="note">X/Y 單位係 ATR：X=(收市−21EMA)/ATR14，Y=(收市−50SMA)/ATR14。
+ 買入區＝X∈[−0.5,+1] 且 Y∈[0,+4]。</div></div></div>
+<footer>
+ 所有資料唯讀、研究用途，<b>非買入指令</b>。入場要另行符合 ORH + RVOL 規則；倉位由
+ <code>daily_plan.stop_plan()</code> 決定。<br>
+ 產生器 <code>trading-os-web/build_site.py</code>｜掃描 <code>scan_market.py</code>
+ ｜交易台 <code>trading-os-lab/dashboard.py</code>
+</footer>
+</div>
+<script>var D={"_generated":"2026-10-11 20:40"};
+function q(s,r){return (r||document).querySelector(s);}
+function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function fin(v){return v!==null&&v!==undefined&&v!==''&&isFinite(Number(v));}
+function fmt(v,d){d=(d===undefined?1:d);return fin(v)?Number(v).toLocaleString(undefined,{maximumFractionDigits:d}):'—';}
+function pct(v,d){return fin(v)?(v>0?'+':'')+fmt(v,d)+'%':'—';}
+function sgn(v,d){return fin(v)?(v>0?'+':'')+fmt(v,d):'—';}
+function num(v,d){return fin(v)?fmt(v,d):'—';}
+function money(v){if(!fin(v))return '—';return v>=1e9?'$'+fmt(v/1e9,1)+'B':v>=1e6?'$'+fmt(v/1e6,1)+'M':v>=1e3?'$'+fmt(v/1e3,0)+'K':'$'+fmt(v,0);}
+function cls(v){return fin(v)?(v>0?'pos':(v<0?'neg':'')):'';}
+function spark(vals,w,h){
+  if(!vals||vals.length<2)return '';
+  w=w||90;h=h||22;
+  var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rg=(mx-mn)||1;
+  var pts=vals.map(function(v,i){return [i/(vals.length-1)*w, h-(v-mn)/rg*h];});
+  var d=pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');
+  return '<svg width="'+w+'" height="'+h+'" style="vertical-align:middle"><path d="'+d+
+    '" fill="none" stroke="'+(vals[vals.length-1]>=vals[0]?'#4ade80':'#f87171')+'" stroke-width="1.6"/></svg>';
+}
+function bar(v,mx,neg){
+  if(!fin(v))return '';
+  var w=Math.max(2,Math.min(60,Math.abs(v)/(mx||1)*60));
+  return '<span class="bar'+(neg?' neg':'')+'" style="width:'+w.toFixed(0)+'px;opacity:.8"></span>';
+}
+function tone(v){return v>0?'pos':(v<0?'neg':'dim');}
+
+document.addEventListener('DOMContentLoaded',function(){ if(window.PAGE) PAGE(); });</script>
+</body></html>
