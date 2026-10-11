@@ -278,6 +278,40 @@ def load_rsboard():
 
 
 # ═══════════════════════ ④ 方法分類（Layer1+2）═══════════════════════
+def band_svg(y, w=280, h=40):
+    """ATR 帶視覺（Setups / The Plan）：−3 到 +5 ATR，綠色 = 買入區（0..+4）。"""
+    lo, hi = -3.0, 5.0
+
+    def X(v):
+        return (v - lo) / (hi - lo) * w
+    z = X(0.0)
+    four = X(4.0)
+    mark = X(max(lo, min(hi, y)))
+    return (f'<svg viewBox="0 0 {w} {h}" width="100%" '
+            f'preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">'
+            f'<rect x="{z:.0f}" y="8" width="{four-z:.0f}" height="{h-16}" '
+            f'fill="#22c55e" opacity=".14"/>'
+            f'<line x1="{z:.0f}" y1="6" x2="{z:.0f}" y2="{h-6}" stroke="#8ea0bf" stroke-width="1"/>'
+            f'<line x1="{four:.0f}" y1="6" x2="{four:.0f}" y2="{h-6}" stroke="#8ea0bf" stroke-width="1" stroke-dasharray="3 2"/>'
+            f'<circle cx="{mark:.0f}" cy="{h/2:.0f}" r="5" fill="#cfe4ff"/>'
+            f'<text x="{mark:.0f}" y="{h-2:.0f}" fill="#9fb0cc" font-size="10" '
+            f'text-anchor="middle">{y:+.1f}</text></svg>')
+
+
+def load_setups():
+    """The Plan：讀 rs_select 快照嘅 gate-pass 名單，砌 ATR 帶＋買入／失效線。"""
+    p = os.path.join(LIVE, "output",
+                     f"rs_select_{datetime.date.today().isoformat()}.json")
+    if not os.path.exists(p):
+        p = newest(os.path.join(LIVE, "output", "rs_select_*.json"))
+    rs = jload(p) if p else None
+    if not rs:
+        return None
+    rows = [r for r in rs.get("rows", []) if r.get("gate_pass")]
+    rows.sort(key=lambda r: (-(r.get("stack_n") or 0), abs(r.get("x") or 0)))
+    return {"src": os.path.basename(p), "rows": rows}
+
+
 def load_methods():
     """Layer2 快照裏面每個方法各自一個清單。
 
@@ -774,18 +808,30 @@ def build():
             '⚠ 模型由你圖片蒸餾，用 <b>IWF/IWD</b>（羅素 1000 成長÷價值）—— 你之前話「你決定」。</div></div></div>')
         pages["cycle"] = ("成長週期", cy_body, base)
 
-    pages["setups"] = ("Setups", """
-<div class="card"><h2>📐 Setups · 未接</h2><div class="body">
-<div class="todo"><b>狀態：等 Desmond 確認三個欄位嘅出處。</b><br><br>
-你圖裏面嘅 Lab Report「The Plan」每一行有：<br>
-① 買入線 / 等待線 / 目標 / 止蝕<br>
-② 一條<b>由 −3 到 +5 ATR</b> 嘅橫向帶，標出「邊次收市落喺買入區」、「用咗幾成」、
-   「虛線 ＝ 最舊嗰次收市」、「實線 ＝ 用得最多嗰次」、「綠 ＝ 同一 session、最早落喺帶內嗰個」<br>
-③ 右邊一個迷你方塊圖：最近 30 次收市有幾次落喺帶內 + 恢復日期 + 量／價標籤<br><br>
-①②我哋已經有（<code>daily_plan.stop_plan()</code>、<code>rs_select</code>），
-③ 需要每次收市嘅落帶記錄 —— 要開始累積。<br>
-<b>我需要你答一句：</b>「虛線／實線」同「綠方格」係邊個規則計出嚟（你自己嘅，
-定係來自某篇文章）？冇原文我就唔敢砌，砌錯會誤導你自己。</div></div></div>""", base)
+    st = load_setups()
+    if st:
+        pl_rows = []
+        for r in st["rows"]:
+            pl_rows.append(
+                f'<tr><td class="l"><span class="tk">{esc(r["ticker"])}</span></td>'
+                f'<td>{num(r.get("close"),2)}</td>'
+                f'<td class="l">{esc(r.get("watch_price") or "—")}</td>'
+                f'<td class="l">{esc(r.get("invalidation") or "—")}</td>'
+                f'<td>{sgn(r.get("x"),2)}</td><td>{sgn(r.get("y"),2)}</td>'
+                f'<td>{band_svg(r.get("y") or 0)}</td></tr>')
+        setups_body = (
+            f'<div class="card"><h2>The Plan · 每日計劃 <small>{esc(st["src"])}</small></h2>'
+            f'<div class="body"><div class="scroll"><table>'
+            f'<thead><tr><th class="l">代號</th><th>收市</th>'
+            f'<th class="l">買入線</th><th class="l">失效線</th>'
+            f'<th>X（21EMA）</th><th>Y（ATRX）</th><th>ATR 帶</th></tr></thead><tbody>'
+            f'{"".join(pl_rows)}</tbody></table></div>'
+            '<div class="note">ATR 帶：−3 到 +5 ATR，灰線＝50SMA（0）、'
+            '虛線＝+4（週線過度延伸）、綠區＝買入區（0..+4）、藍點＝而家位置。'
+            '買入線／失效線來自 <code>rs_select</code>（10MA／20MA）。'
+            '⚠ 「虛線＝最舊收市／實線＝用得最多／綠方格＝最早落帶」呢三個視覺係你原創規則，'
+            '要你講一句先砌得準 —— 而家呢條帶係淨位置，冇嗰三樣。</div></div></div>')
+        pages["setups"] = ("Setups", setups_body, base)
 
     # ── 交易台（我原本嘅 dashboard）──
     src_desk = os.path.join(LAB, "output", f"dashboard_{datetime.date.today().isoformat()}.html")
