@@ -675,11 +675,10 @@ def page(active, title, body, payload, extra_head=""):
 <header class="top">
  <div style="display:flex;align-items:flex-start;gap:10px">
   <div style="flex:1 1 auto">
-   <h1>📈 <span data-i18n="h1">Desmond · 交易台</span></h1>
+   <h1>📈 <span>Desmond · 交易台</span></h1>
    <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>{payload.get('_generated','?')}</code></p>
   </div>
   <div class="controls">
-   <button id="langbtn" title="切換語言 / language">EN</button>
    <button id="themebtn" title="切換主題 / theme">🌙 深色</button>
   </div>
  </div>
@@ -693,7 +692,7 @@ def page(active, title, body, payload, extra_head=""):
  ｜交易台 <code>trading-os-lab/dashboard.py</code>
 </footer>
 </div>
-<script>var D={data};var I18N={i18n_json()};{JS}
+<script>var D={data};{JS}
 document.addEventListener('DOMContentLoaded',function(){{ if(window.PAGE) PAGE(); }});</script>
 <script>{THEME_LANG_JS}</script>
 </body></html>"""
@@ -703,19 +702,14 @@ THEME_LANG_JS = """
 (function(){
   function store(k,f){try{return JSON.parse(localStorage.getItem('desk-'+k))??f;}catch(e){return f;}}
   function save(k,v){try{localStorage.setItem('desk-'+k,JSON.stringify(v));}catch(e){}}
-  var LANG=store('lang','zh'), THEME=store('theme','light');
+  // ★ 2026-10-11 Desmond：「移除英文版選項」→ 永久 zh-Hant，冇 LANG 切換。
+  var THEME=store('theme','light');
   function apply(){
-    document.documentElement.lang = LANG==='zh'?'zh-Hant':'en';
-    document.querySelectorAll('[data-i18n]').forEach(function(el){
-      var o=I18N[el.dataset.i18n]; if(o&&o[LANG]) el.textContent=o[LANG];
-    });
-    var lb=document.getElementById('langbtn'); if(lb) lb.textContent = LANG==='zh'?'EN':'中文';
     document.documentElement.setAttribute('data-theme',THEME);
-    var tb=document.getElementById('themebtn'); if(tb) tb.textContent = THEME==='light'?'🌙 深色':'☀️ 淺色';
+    var tb=document.getElementById('themebtn');
+    if(tb) tb.textContent = THEME==='light'?'🌙 深色':'☀️ 淺色';
   }
   function boot(){
-    var lb=document.getElementById('langbtn');
-    if(lb) lb.addEventListener('click',function(){LANG=LANG==='zh'?'en':'zh';save('lang',LANG);apply();});
     var tb=document.getElementById('themebtn');
     if(tb) tb.addEventListener('click',function(){THEME=THEME==='light'?'dark':'light';save('theme',THEME);apply();});
     apply();
@@ -799,6 +793,14 @@ def build():
             wall = (f'<div class="warn">圖表牆取唔到：{type(e).__name__}'
                     f'（yfinance 限流或離線？）。</div>')
             rs_map = {}
+        # ★ Oliver Kell 六階段（item 7）—— 用 kell.py，同 lab 版同一個分類器。
+        # ⚠ 一定要喺 def table / head 之前賦值（closure 求值次序）。
+        try:
+            import kell as _kell
+            kstage = _kell.stages([r["symbol"] for r in scan["nel"]][:120])
+        except Exception as _e:                              # noqa: BLE001
+            _kell, kstage = None, {}
+            log(f"⚠ Kell 階段取唔到：{type(_e).__name__}")
         def table(rows, extra=True):
             tr = []
             for r in rows:
@@ -812,12 +814,16 @@ def build():
                     f'<td>{pct(p.get("1y"))}</td>'
                     + (f'<td>{num(r["extension"],2)}×</td><td>{pct(r["adr"],1)}</td>'
                        f'<td>{money(r["dvol"])}</td>' if extra else "")
-                    + f'<td>{pct(r.get("off52w"),1)}</td></tr>')
+                    + f'<td>{pct(r.get("off52w"),1)}</td>'
+                    + (f'<td>{_kell.chip(r["symbol"], kstage.get(r["symbol"]))}</td>'
+                       if _kell else "")
+                    + '</tr>')
             return tr
         head = ('<tr><th class="l">代號 / 行業</th><th>RS-D</th><th>RS-W</th>'
                 '<th>1週</th><th>1月</th><th>3月</th>'
                 '<th>6月</th><th>1年</th><th>延伸</th><th>ADR%</th><th>成交額</th>'
-                '<th>距52週高</th></tr>')
+                '<th>距52週高</th>'
+                + ('<th>Kell 階段</th>' if _kell else "") + '</tr>')
         nel = sorted(scan["nel"], key=lambda r: -(r["perf"].get("3m") or -99))
         mom = sorted(scan["momentum"], key=lambda r: -(r["perf"].get("3m") or -99))
         # 按行業分組
@@ -844,6 +850,7 @@ def build():
 <div class="card"><h2>NEL · 非延伸領導股 <small>{len(nel)} 隻｜延伸 ≤ {th["max_extension"]}×</small></h2>
  <div class="body"><div class="filters"><input type="search" id="f" placeholder="篩選代號／行業…"></div>
  <div class="scroll"><table id="t-nel"><thead>{head}</thead><tbody>{"".join(table(nel))}</tbody></table></div>
+ {(_kell.legend_html() if _kell else "")}
  <div class="note">門檻：成交額 &gt; ${th["min_dollar_vol"]//10**6}M、ADR &gt; {th["min_adr"]}%、
  10 日平均量 &gt; {th["min_avg_vol"]//1000}K、行業唔可以有 Biotech、四個窗口各取前 {int(th["top_frac"]*100)}%。</div></div></div>
 <div class="card"><h2>動能池（未過延伸閘） <small>{len(mom)} 隻</small></h2>
@@ -851,8 +858,9 @@ def build():
 <div class="card"><h2>領導股按行業 <small>{len(byind)} 個行業</small></h2>
  <div class="body"><table><thead><tr><th class="l">行業</th><th>NEL 隻數</th><th class="l">成員</th></tr></thead>
  <tbody>{ind_html or '<tr><td colspan=3 class="dim">—</td></tr>'}</tbody></table></div></div>"""
-        pages["leaders"] = ("領導股", leaders_body, base | {"scan": scan})
-
+        pages["leaders"] = ("領導股",
+                            (f"<style>{_kell.KELL_CSS}</style>" if _kell else "") + leaders_body,
+                            base | {"scan": scan})
         # ── 最強 1 週 ──
         wk = scan.get("week") or []
         wrows = "".join(
