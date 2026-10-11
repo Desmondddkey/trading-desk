@@ -42,6 +42,7 @@ sys.path.insert(0, LAB)
 
 import charts  # noqa: E402  （迷你 K 線牆，純 Python SVG）
 import extras  # noqa: E402  （RS 板全表＋成長週期，跟圖片實現）
+import stdcols as _std  # noqa: E402  （Item 2：統一所有列表欄位）
 
 EN_LABELS = {"desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
              "week": "Week Strongest", "rsboard": "RS Board", "method": "Methods",
@@ -732,6 +733,10 @@ def build():
     gen = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
     base = {"_generated": gen}
+    # ★ Item 2 統一欄位：呢三個要喺【所有】頁之前定義，因為 briefing/setups/week 都用。
+    _kell = _cm = None
+    cmres = {}
+    kstage = {}
 
     # ── 簡報 ──
     reg = brief.get("regime") or {}
@@ -754,15 +759,43 @@ def build():
             f'廣度：{esc(reg.get("breadth_note") or b.get("status") or "—")}<br>'
             f'領導：{esc((reg.get("lead") or {}).get("text") or "—")}　·　'
             f'VIX：{esc(reg.get("vix_note") or "—")}</div>')
+    # ★ 統一欄位：briefing 都要有 Kell 階段 + 1CM 評級（Item 2）
+    try:
+        if _kell is None:
+            import kell as _kell
+    except Exception:                                        # noqa: BLE001
+        _kell = None
+    try:
+        if _cm is None:
+            import cm as _cm
+    except Exception:                                        # noqa: BLE001
+        _cm = None
+    try:
+        if _kell and q:
+            kstage_b = _kell.stages([r["t"] for r in q][:120])
+        else:
+            kstage_b = {}
+    except Exception:                                        # noqa: BLE001
+        kstage_b = {}
+    if not cmres and _cm and q:
+        try:
+            cmres = _cm.classify([r["t"] for r in q])
+        except Exception:                                    # noqa: BLE001
+            cmres = {}
+
     def _qrow(r):
         tr_cls = " class=buyrow" if r.get("box") else ""
         tk_cls = "tk hl" if r.get("box") else "tk"
         zone = "★ 買入區" if r.get("box") else "—"
-        return (f'<tr{tr_cls}><td class="l"><span class="{tk_cls}">{tv_link(r["t"])}</span></td>'
+        sym = r["t"]
+        kc = (_kell.chip(sym, (kstage_b or {}).get(sym)) if _kell else "—")
+        cc = (_cm.chip(sym, cmres.get(sym)) if _cm else "—")
+        return (f'<tr{tr_cls}><td class="l"><span class="{tk_cls}">{tv_link(sym)}</span></td>'
                 f'<td>{num(r.get("close"),2)}</td><td>{sgn(r.get("x"),2)}</td>'
                 f'<td>{sgn(r.get("y"),2)}</td><td>{band_svg(r.get("y") or 0)}</td>'
                 f'<td>{zone}</td>'
-                f'<td>{num(r.get("stack"),0)}</td></tr>')
+                f'<td>{num(r.get("stack"),0)}</td>'
+                f'<td>{kc}</td><td>{cc}</td></tr>')
     qrows = "".join(_qrow(r) for r in q)
     brief_body = f"""
 {note}
@@ -774,11 +807,14 @@ def build():
   <div class="body">{render_breadth(b) if b else '<div class="dim">冇快照</div>'}</div></div>
 </div>
 <div class="card"><h2>今日圖表隊列 <small>{esc(brief.get("rs_src") or "")}</small></h2>
- <div class="body"><div class="scroll"><table><thead><tr><th class="l">代號</th><th>收市</th>
- <th>X（21EMA）</th><th>Y（ATRX）</th><th>ATR 帶</th><th>買入區</th><th>疊加</th></tr></thead>
- <tbody>{qrows or '<tr><td colspan=6 class="dim">今日冇快照</td></tr>'}</tbody></table></div>
+ <div class="body"><div class="scroll"><table><thead><tr><th class="l">代號 / 行業</th><th>收市</th>
+ <th>X（21EMA）</th><th>Y（ATRX）</th><th>ATR 帶</th><th>買入區</th><th>疊加</th>
+ <th>Kell 階段</th><th>1CM 評級</th></tr></thead>
+ <tbody>{qrows or '<tr><td colspan=9 class="dim">今日冇快照</td></tr>'}</tbody></table></div>
  <div class="note">X/Y 單位係 ATR：X=(收市−21EMA)/ATR14，Y=(收市−50SMA)/ATR14。
- 買入區＝X∈[−0.5,+1] 且 Y∈[0,+4]。</div></div></div>"""
+ 買入區＝X∈[−0.5,+1] 且 Y∈[0,+4]。<b>「Kell 階段」同「1CM 評級」嘅定義同領導股頁完全一樣</b>
+ （統一規格）—— Kell 六階段睇 <a href="cycle.html">成長週期</a>，
+ 1CM 睇 <a href="cm.html">1CM 回調</a>。</div></div></div>"""
     pages["briefing"] = ("市場簡報", brief_body, base)
 
     # ── 領導股（NEL）──
@@ -797,6 +833,8 @@ def build():
             rs_map = {}
         # ★ Oliver Kell 六階段（item 7）—— 用 kell.py，同 lab 版同一個分類器。
         # ⚠ 一定要喺 def table / head 之前賦值（closure 求值次序）。
+        _kell = _cm = None       # 預設，令後面 setups / week 唔會 UnboundLocal
+        cmres = {}
         try:
             import kell as _kell
             kstage = _kell.stages([r["symbol"] for r in scan["nel"]][:120])
@@ -819,13 +857,14 @@ def build():
                     + f'<td>{pct(r.get("off52w"),1)}</td>'
                     + (f'<td>{_kell.chip(r["symbol"], kstage.get(r["symbol"]))}</td>'
                        if _kell else "")
+                    + f'<td>{_cm.chip(r["symbol"], cmres.get(r["symbol"])) if _cm else "—"}</td>'
                     + '</tr>')
             return tr
         head = ('<tr><th class="l">代號 / 行業</th><th>RS-D</th><th>RS-W</th>'
                 '<th>1週</th><th>1月</th><th>3月</th>'
                 '<th>6月</th><th>1年</th><th>延伸</th><th>ADR%</th><th>成交額</th>'
                 '<th>距52週高</th>'
-                + ('<th>Kell 階段</th>' if _kell else "") + '</tr>')
+                + ('<th>Kell 階段</th>' if _kell else "") + '<th>1CM 評級</th></tr>')
         nel = sorted(scan["nel"], key=lambda r: -(r["perf"].get("3m") or -99))
         mom = sorted(scan["momentum"], key=lambda r: -(r["perf"].get("3m") or -99))
         # 按行業分組
@@ -908,24 +947,27 @@ def build():
  <tbody>{"".join(cmrow(r) for r in rest) or '<tr><td colspan=8 class="dim">—</td></tr>'}</tbody>
  </table></div></div></div>"""
             pages["cm"] = ("1CM 回調", cm_body, base | {"cm": cmres})
-        # ── 最強 1 週 ──
+        # ── 最強 1 週 ──（Item 2：統一欄位）—
         wk = scan.get("week") or []
-        wrows = "".join(
-            f'<tr><td>{i+1}</td><td class="l"><span class="tk">{tv_link(r["symbol"], r.get("industry"))}</span>'
-            f'<div class="dim" style="font-size:10.5px">{esc(r["industry"])}</div></td>'
-            f'<td class="pos">{pct(r["perf"].get("1w"))}</td>'
-            f'<td>{pct(r["perf"].get("1m"))}</td><td>{pct(r["perf"].get("3m"))}</td>'
-            f'<td>{num(r["extension"],2)}×</td><td>{pct(r["adr"],1)}</td>'
-            f'<td>{money(r["dvol"])}</td><td>{pct(r.get("off52w"),1)}</td></tr>'
-            for i, r in enumerate(wk))
+        std_ctx = {
+            "tv_link": tv_link, "rs_col": charts.rs_col, "band_svg": band_svg,
+            "rs_map": {r.get("symbol"): r.get("rs") for r in wk},
+            "kstage": (_kell.stages([r["symbol"] for r in wk][:120])
+                       if _kell and wk else {}),
+            "cm": _cm, "cmres": cmres,
+            "kell": _kell,
+        }
+        wk_keys = ["rank", "name", "1w", "1m", "3m", "ext", "adr",
+                   "dvol", "off52", "kell", "cm"]
         pages["week"] = ("最強 1 週", f"""
 <div class="card"><h2>本週最強嘅流動性股 <small>流動池 {len(scan["universe"])} 隻之中，按 1 週表現排</small></h2>
  <div class="body"><div class="note">「流動性」＝成交額 &gt; ${th["min_dollar_vol"]//10**6}M 且
  ADR &gt; {th["min_adr"]}% 且 10 日平均量 &gt; {th["min_avg_vol"]//1000}K。呢個係<b>全市場</b>掃描，
- 唔係我哋自己嘅 103 隻池。</div>
- <div class="scroll"><table><thead><tr><th>#</th><th class="l">代號 / 行業</th>
- <th>1週</th><th>1月</th><th>3月</th><th>延伸</th><th>ADR%</th><th>成交額</th><th>距52週高</th>
- </tr></thead><tbody>{wrows}</tbody></table></div></div></div>""", base)
+ 唔係我哋自己嘅 103 隻池。<br>
+ <b>欄位定義同領導股頁完全一樣</b>（統一規格）—— 「延伸」＝(收市−50SMA)÷ATR14 倍數，
+ 「距52週高」＝負數代表仍低於 52 週高。</div>
+ {_std.table_html(wk_keys, wk, std_ctx, empty="今日冇數據")}</div></div>""",
+            base | {"scan": scan})
 
         # ── 方法分類 ──
         mrows = ""
@@ -1007,14 +1049,19 @@ def build():
                 f'<td>{band_svg(r.get("y") or 0)}</td></tr>')
         setups_body = (
             f'<div class="card"><h2>The Plan · 每日計劃 <small>{esc(st["src"])}</small></h2>'
-            f'<div class="body"><div class="scroll"><table>'
-            f'<thead><tr><th class="l">代號</th><th>收市</th>'
-            f'<th class="l">買入線</th><th class="l">失效線</th>'
-            f'<th>X（21EMA）</th><th>Y（ATRX）</th><th>ATR 帶</th></tr></thead><tbody>'
-            f'{"".join(pl_rows)}</tbody></table></div>'
-            '<div class="note">ATR 帶：−3 到 +5 ATR，灰線＝50SMA（0）、'
+            f'<div class="body">'
+            + _std.table_html(
+                ["name", "close", "watch_f", "inv_f", "x", "y", "band", "kell", "cm"],
+                st["rows"],
+                {"tv_link": tv_link, "band_svg": band_svg,
+                 "kell": _kell, "cm": _cm, "cmres": cmres,
+                 "kstage": (_kell.stages([r["ticker"] for r in st["rows"]][:120])
+                            if _kell and st.get("rows") else {})},
+                empty="今日冇計劃")
+            + '<div class="note">ATR 帶：−3 到 +5 ATR，灰線＝50SMA（0）、'
             '虛線＝+4（週線過度延伸）、綠區＝買入區（0..+4）、藍點＝而家位置。'
             '買入線／失效線來自 <code>rs_select</code>（10MA／20MA）。'
+            '<b>欄位定義同領導股頁一致</b>（統一規格）。'
             '⚠ 「虛線＝最舊收市／實線＝用得最多／綠方格＝最早落帶」呢三個視覺係你原創規則，'
             '要你講一句先砌得準 —— 而家呢條帶係淨位置，冇嗰三樣。</div></div></div>')
         pages["setups"] = ("Setups", setups_body, base)
