@@ -432,6 +432,39 @@ nav span.off{opacity:.45}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
 @media(max-width:1080px){.grid2,.grid3{grid-template-columns:1fr}}
+/* ── Item 9：手機版（空間節省）── */
+@media(max-width:700px){
+  body{padding:9px 8px;font-size:12.5px}
+  .card{border-radius:9px;margin-bottom:10px}
+  .card>h2{font-size:13px;padding:9px 11px;gap:5px}
+  .card>h2 small{display:none}
+  .card>.body{padding:0}
+  .scroll{max-height:none;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{font-size:11px;min-width:0}
+  th,td{padding:4px 5px;white-space:nowrap}
+  th{font-size:10px;letter-spacing:0}
+  /* 第一欄黏住左邊，橫向捲都睇得到代號 */
+  th:first-child,td:first-child{position:sticky;left:0;z-index:2;
+    background:#0f1729;box-shadow:1px 0 0 #1e2a44}
+  html[data-theme="light"] th:first-child,
+  html[data-theme="light"] td:first-child{background:#fff}
+  .tk{font-size:11.5px}
+  .rsmini,.spark{display:none}     /* 迷你圖喺手機太細，索性收起省位 */
+  .kpi{min-width:74px;padding:6px 9px}
+  .kpi .v{font-size:15px}
+  .kpis{gap:6px;margin-bottom:9px}
+  nav.gnav,nav{overflow-x:auto;flex-wrap:nowrap;
+    -webkit-overflow-scrolling:touch;padding-bottom:4px}
+  nav.gnav a,nav a{white-space:nowrap;flex:0 0 auto}
+  .note{font-size:10.5px;line-height:1.6}
+  .chartwall{grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:6px}
+  footer{margin-top:12px;font-size:10.5px}
+}
+@media(max-width:420px){
+  body{padding:6px 5px;font-size:12px}
+  th,td{padding:3px 4px}
+  .kpi{min-width:62px}
+}
 .kpis{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 14px}
 .kpi{background:#0f1729;border:1px solid #1e2a44;border-radius:9px;padding:8px 12px;min-width:96px}
 .kpi .k{font-size:10.5px;color:#7f90ad;letter-spacing:.5px}
@@ -914,13 +947,16 @@ def build():
                             key=lambda x: (-x["n"], abs(x["sup_dist"] or 99)))
             top = [x for x in ranked if x["n"] >= 4]
             rest = [x for x in ranked if x["n"] < 4]
+            nel_ind = {r["symbol"]: r.get("industry", "") for r in scan["nel"]}
             def cmrow(r):
+                ind = nel_ind.get(r["ticker"], "")
                 return (f'<tr><td class="l"><span class="tk">'
-                        f'{tv_link(r["ticker"])}</span></td>'
+                        f'{tv_link(r["ticker"], ind)}</span>'
+                        f'<div class="dim" style="font-size:10.5px">{esc(ind)}</div></td>'
                         f'<td>{_cm.chip(r["ticker"], r)}</td>'
                         f'{_cm.detail_cells(r)}'
                         f'<td>{num(r["close"], 2)}</td></tr>')
-            cmhead = ('<tr><th class="l">代號</th><th>1CM 評級</th>'
+            cmhead = ('<tr><th class="l">代號 / 行業</th><th>1CM 評級</th>'
                       '<th>L1 RS 領導</th><th>L2 回調支撐</th><th>L3 量縮</th>'
                       '<th>L4 買家守</th><th>L5 風險窄</th><th>收市</th></tr>')
             cm_body = f"""
@@ -976,18 +1012,31 @@ def build():
                       f'font-weight:700;color:#9fd4ff">{esc(g["label"])}（{len(g["rows"])} 隻）</td></tr>')
             for r in sorted(g["rows"], key=lambda z: -(z.get("score") or 0)):
                 rs = "、".join((r.get("reasons") or [])[:2])
-                mrows += (f'<tr><td class="l"><span class="tk">{tv_link(r.get("ticker"))}</span></td>'
+                ind = r.get("industry") or ""
+                atrx = r.get("atrx")
+                if atrx is None:
+                    atrx = r.get("extension")
+                lbl = ("過度延伸 ⚠" if (atrx or 0) > 4
+                       else "買入區" if 0 <= (atrx or -99) <= 4
+                       else "偏低")
+                mrows += (f'<tr><td class="l"><span class="tk">'
+                          f'{tv_link(r.get("ticker"), ind)}</span>'
+                          f'<div class="dim" style="font-size:10.5px">{esc(ind)}</div></td>'
                           f'<td>{num(r.get("score"),0)}</td>'
+                          f'<td>{num(atrx,2)}×</td><td>{esc(lbl)}</td>'
                           f'<td class="l">{esc(r.get("watch_price") or "—")}</td>'
                           f'<td class="l">{esc(r.get("invalidation") or "—")}</td>'
                           f'<td class="l dim">{esc(rs)}</td></tr>')
         pages["method"] = ("方法分類", f"""
 <div class="card"><h2>Layer 2 · 每個方法各自一個清單 <small>{esc((meth or {}).get("src") or "冇快照")}</small></h2>
  <div class="body"><div class="note">Focus ＝ 已經起動、等入場；Stalk ＝ 未起動、放觀察名單。
- 呢度<b>照原樣分組</b>，唔重新判斷，避免我二次演繹。</div>
- <div class="scroll"><table><thead><tr><th class="l">代號</th><th>分數</th>
- <th class="l">觸發條件</th><th class="l">失效條件</th><th class="l">理由</th></tr></thead>
- <tbody>{mrows or '<tr><td colspan=5 class="dim">冇 Layer2 快照</td></tr>'}</tbody></table></div></div></div>""", base)
+ 呢度<b>照原樣分組</b>，唔重新判斷，避免我二次演繹。<br>
+ <b>ATRX</b> ＝ (收市 − 50SMA) ÷ ATR14（同領導股頁「延伸」<b>係同一個數</b>，只係呢邊要你睇住
+ 4 呢條線：<b>&gt;4 ＝ 硬刪</b>、0–4 ＝ 買入區、&lt;0 ＝ 仲喺 50MA 之下）。</div>
+ <div class="scroll"><table><thead><tr><th class="l">代號 / 行業</th><th>分數</th>
+ <th>ATRX</th><th>位置</th><th class="l">觸發條件</th><th class="l">失效條件</th>
+ <th class="l">理由</th></tr></thead>
+ <tbody>{mrows or '<tr><td colspan=7 class="dim">冇 Layer2 快照</td></tr>'}</tbody></table></div></div></div>""", base)
 
     # ── RS 板（跟圖片 2/4：指數／群組／板塊三個表）──
     rsb_full = extras.rsboard_full()
