@@ -145,13 +145,28 @@ html[data-theme="light"] .sitenav{background:#ffffffee;border-color:#e3e8f0}
 html[data-theme="light"] .sitenav a{color:#64748b}
 html[data-theme="light"] .sitenav a:hover{background:#eef2f8;color:#111827}
 html[data-theme="light"] .sitenav a.on{background:#2563eb;color:#fff}
+
+#tvpop{display:none;position:fixed;z-index:9999;width:440px;
+  background:#0b1120;border:1px solid #2a3a5c;border-radius:11px;
+  box-shadow:0 14px 40px rgba(0,0,0,.6);overflow:hidden}
+#tvpopbar{display:flex;align-items:center;gap:8px;padding:6px 9px;
+  background:#111a2e;border-bottom:1px solid #1e2a44;font-size:12px}
+#tvpopsym{font-weight:700;color:#9fd4ff;flex:1 1 auto}
+#tvpopbar a{color:#7fd4a8;text-decoration:none;font-size:11.5px}
+#tvpopbar a:hover{text-decoration:underline}
+#tvpopclose{background:none;border:none;color:#7f90ad;cursor:pointer;
+  font-size:14px;padding:0 3px;font-family:inherit}
+#tvpopclose:hover{color:#fff}
+#tvpopchart{height:340px;background:#0b1120}
+#tvpopnote{font-size:11px;color:#8fa3c8;padding:0 9px 6px;min-height:0}
+@media(max-width:700px){#tvpop{display:none!important}}
 </style></head><body>
 <div class="wrap">
 <header class="top">
  <div style="display:flex;align-items:flex-start;gap:10px">
   <div style="flex:1 1 auto">
    <h1>📈 <span>Desmond · 交易台</span></h1>
-   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-12 07:42</code></p>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-12 07:57</code></p>
   </div>
   <div class="controls">
    <button id="themebtn" title="切換主題 / theme">🌙 深色</button>
@@ -167,7 +182,7 @@ html[data-theme="light"] .sitenav a.on{background:#2563eb;color:#fff}
  ｜交易台 <code>trading-os-lab/dashboard.py</code>
 </footer>
 </div>
-<script>var D={"_generated":"2026-10-12 07:42"};
+<script>var D={"_generated":"2026-10-12 07:57"};
 function q(s,r){return (r||document).querySelector(s);}
 function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
@@ -213,6 +228,113 @@ document.addEventListener('DOMContentLoaded',function(){ if(window.PAGE) PAGE();
     apply();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>
+<script>
+(function(){
+  var box=null, timer=null, cur=null, tvLoaded=false, tvFailed=false, syncing=false;
+
+  function ensureBox(){
+    if(box) return box;
+    box=document.createElement('div');
+    box.id='tvpop';
+    box.innerHTML='<div id="tvpopbar"><span id="tvpopsym"></span>'
+      +'<a id="tvpopopen" target="_blank" rel="noopener">開 TV ↗</a>'
+      +'<button id="tvpopclose" type="button" title="關閉">&#10005;</button></div>'
+      +'<div id="tvpopchart"></div><div id="tvpopnote"></div>';
+    document.body.appendChild(box);
+    box.querySelector('#tvpopclose').addEventListener('click',hide);
+    return box;
+  }
+  function hide(){ clearTimeout(timer); if(box) box.style.display='none'; }
+
+  function loadTV(cb){
+    if(tvLoaded) return cb();
+    if(tvFailed){
+      say('\u26a0 TradingView widget \u8f09\u5514\u5230\uff08\u7db2\u7d61\uff0f\u88ab\u906e\uff09\u2014\u2014 \u9ede\u300c\u958b TV \u2197\u300d\u76f4\u63a5\u53bb\u7db2\u7ad9');
+      return;
+    }
+    var s=document.createElement('script');
+    s.src='https://s3.tradingview.com/tv.js';
+    s.async=true;
+    s.onload=function(){ tvLoaded=true; cb(); };
+    s.onerror=function(){ tvFailed=true;
+      say('\u26a0 TradingView widget \u8f09\u5514\u5230\uff08\u7db2\u7d61\uff0f\u88ab\u906e\uff09\u2014\u2014 \u9ede\u300c\u958b TV \u2197\u300d\u76f4\u63a5\u53bb\u7db2\u7ad9'); };
+    document.head.appendChild(s);
+  }
+  function say(t){ var n=document.getElementById('tvpopnote'); if(n) n.textContent=t||''; }
+
+  function show(el){
+    var sym=el.getAttribute('data-sym');
+    if(!sym) return;
+    var b=ensureBox();
+    b.querySelector('#tvpopsym').textContent=sym;
+    b.querySelector('#tvpopopen').href=el.href||('#');
+    if(cur!==sym){
+      cur=sym;
+      b.querySelector('#tvpopchart').innerHTML='';
+      say('\u8f09\u5165\u4e2d\u2026');
+      loadTV(function(){
+        var host=b.querySelector('#tvpopchart');
+        host.innerHTML='<div id="tvwbox" style="height:340px"></div>';
+        try{
+          /* global TradingView */
+          new TradingView.widget({
+            container_id:'tvwbox', symbol:sym, interval:'D',
+            theme:'dark', style:'1', locale:'zh_TW',
+            hide_side_toolbar:true, hide_top_toolbar:false,
+            allow_symbol_change:false, save_image:false,
+            withdateranges:false, details:false,
+            studies:['Volume@tv-basicstudies'],
+            width:'100%', height:340, autosize:false
+          });
+          setTimeout(function(){ say(''); }, 1100);
+        }catch(e){ say('\u26a0 widget \u8d77\u5514\u5230\uff1a'+e.message); }
+      });
+    }
+    b.style.display='block';
+    place(el);
+  }
+
+  function place(el){
+    if(!box) return;
+    var r=el.getBoundingClientRect(), w=box.offsetWidth||440, h=box.offsetHeight||400;
+    var left=r.right+14, top=r.top-6;
+    if(left+w>window.innerWidth-10) left=Math.max(8, r.left-w-14);
+    if(top+h>window.innerHeight-10) top=Math.max(8, window.innerHeight-h-10);
+    if(top<8) top=8;
+    box.style.left=left+'px'; box.style.top=top+'px';
+  }
+  function near(el){
+    return el.closest && el.closest('a.tv');
+  }
+
+  document.addEventListener('mouseover',function(e){
+    var a=near(e.target);
+    if(!a) return;
+    var sym=a.getAttribute('data-sym');
+    if(sym && sym===cur && box && box.style.display==='block'){ clearTimeout(timer); return; }
+    clearTimeout(timer);
+    timer=setTimeout(function(){ show(a); }, 400);      /* 400ms：掃過唔會連彈 */
+  }, true);
+
+  document.addEventListener('mouseout',function(e){
+    var a=near(e.target);
+    if(!a) return;
+    clearTimeout(timer);
+    setTimeout(function(){
+      if(syncing) return;
+      if(box && box.style.display==='block' && box.matches(':hover')) return;
+      hide();
+    }, 260);
+  }, true);
+
+  document.addEventListener('mouseenter',function(){ syncing=true; }, true);
+  document.addEventListener('mouseleave',function(){ syncing=false; }, true);
+  window.addEventListener('scroll',function(){
+    if(box && box.style.display==='block') hide();
+  }, {passive:true});
+  window.addEventListener('keydown',function(e){ if(e.key==='Escape') hide(); });
 })();
 </script>
 </body></html>
