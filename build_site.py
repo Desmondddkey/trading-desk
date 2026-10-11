@@ -43,6 +43,7 @@ sys.path.insert(0, LAB)
 import charts  # noqa: E402  （迷你 K 線牆，純 Python SVG）
 import extras  # noqa: E402  （RS 板全表＋成長週期，跟圖片實現）
 import stdcols as _std  # noqa: E402  （Item 2：統一所有列表欄位）
+import tvhover  # noqa: E402  （Item 8：hover 代號彈 TradingView 圖）
 
 EN_LABELS = {"desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
              "week": "Week Strongest", "rsboard": "RS Board", "method": "Methods",
@@ -125,13 +126,18 @@ def light(v):
 
 
 def tv_link(ticker, name=""):
-    """代號 → TradingView 連結（hover 有 tooltip，click 新分頁開 TV）。"""
+    """代號 → TradingView 連結。
+
+    Item 8：`data-sym` 係 hover 彈 widget 用嘅（TradingView 要 `EXCHANGE:SYMBOL`
+    或者裸 symbol；裸 symbol 會自動揀，所以照傳代號）。
+    """
     t = str(ticker).strip().upper()
     if not t or t in ("—", "N/A"):
         return esc(str(ticker))
     url = f"https://www.tradingview.com/chart/?symbol={t}"
     return (f'<a class="tv" href="{url}" target="_blank" rel="noopener" '
-            f'title="{esc(name or t)} — 開 TradingView">'
+            f'data-sym="{esc(t)}" '
+            f'title="{esc(name or t)} — hover 睇圖｜click 開 TradingView">'
             f'{esc(t)}<span class="tvs">↗</span></a>')
 
 
@@ -706,7 +712,7 @@ def page(active, title, body, payload, extra_head=""):
     return f"""<!doctype html><html lang="zh-Hant" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title} · 交易台</title>
-<style>{CSS}</style>{extra_head}</head><body>
+<style>{CSS}{tvhover.TVHOVER_CSS}</style>{extra_head}</head><body>
 <div class="wrap">
 <header class="top">
  <div style="display:flex;align-items:flex-start;gap:10px">
@@ -731,6 +737,7 @@ def page(active, title, body, payload, extra_head=""):
 <script>var D={data};{JS}
 document.addEventListener('DOMContentLoaded',function(){{ if(window.PAGE) PAGE(); }});</script>
 <script>{THEME_LANG_JS}</script>
+<script>{tvhover.TVHOVER_JS}</script>
 </body></html>"""
 
 
