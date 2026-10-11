@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+<!doctype html><html lang="zh-Hant" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>機會 2026-10-11 19:53</title><style>
 *{box-sizing:border-box}
@@ -51,6 +51,29 @@ code{background:#16203a;padding:1px 5px;border-radius:4px;font-size:11.5px}
 .pane{display:none}
 .pane.on{display:block}
 </style></head><body><style>
+html[data-theme="light"] body{background:#f6f8fb;color:#1a2433}
+html[data-theme="light"] .sub{color:#64748b}
+html[data-theme="light"] h1,html[data-theme="light"] h2,html[data-theme="light"] h3{color:#111827}
+html[data-theme="light"] .card{background:#ffffff;border-color:#e3e8f0;box-shadow:0 1px 6px rgba(15,23,42,.06)}
+html[data-theme="light"] .card h2{background:#f1f5f9;border-color:#e3e8f0;color:#111827}
+html[data-theme="light"] .kpi{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] .kpi .k{color:#64748b}
+html[data-theme="light"] .kpi .v{color:#111827}
+html[data-theme="light"] .bar-nav{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] select,html[data-theme="light"] input{background:#ffffff;color:#1a2433;border-color:#d0d7e2}
+html[data-theme="light"] button{background:#ffffff;color:#334155;border-color:#d0d7e2}
+html[data-theme="light"] button:hover{background:#f1f5f9}
+html[data-theme="light"] button.on{background:#2563eb;border-color:#2563eb;color:#fff}
+html[data-theme="light"] th{color:#64748b;background:#f1f5f9}
+html[data-theme="light"] td{border-color:#eef2f8}
+html[data-theme="light"] tr:hover td{background:#f6f9fc}
+html[data-theme="light"] .note{color:#64748b}
+html[data-theme="light"] footer{color:#64748b}
+html[data-theme="light"] code{background:#eef2f8;color:#334155}
+html[data-theme="light"] .pos{color:#16a34a}
+html[data-theme="light"] .neg{color:#dc2626}
+html[data-theme="light"] svg text{fill:#334155}
+</style><style>
 .sitenav{position:sticky;top:0;z-index:9999;display:flex;flex-wrap:wrap;gap:4px;
  background:#080d1a;border-bottom:1px solid #1c2740;padding:9px 14px 10px;margin:0;
  font-family:"Segoe UI","Microsoft JhengHei",system-ui,sans-serif}
@@ -58,7 +81,25 @@ code{background:#16203a;padding:1px 5px;border-radius:4px;font-size:11.5px}
  border-radius:8px;font-size:13px;color:#9fb0cc;text-decoration:none;white-space:nowrap}
 .sitenav a:hover{background:#121c31;color:#e8eef8}
 .sitenav a.on{background:#2b6cb0;color:#fff;font-weight:700}
-</style><nav class="sitenav"><a href="desk.html" class="on"><span>🖥</span>機會</a><a href="index.html" class=""><span>📋</span>簡報</a><a href="leaders.html" class=""><span>🚀</span>領導股</a><a href="week.html" class=""><span>⚡</span>最強 1 週</a><a href="rsboard.html" class=""><span>📊</span>RS 板</a><a href="method.html" class=""><span>🧩</span>方法分類</a><a href="cycle.html" class=""><span>🌀</span>成長週期</a><a href="setups.html" class=""><span>📐</span>Setups</a></nav>
+.sitenav button{margin-left:auto;border-radius:7px;padding:5px 10px;font-size:12px;
+ background:#16203a;color:#c7d4ea;border:1px solid #2a3a5c;cursor:pointer;font-family:inherit}
+</style><nav class="sitenav"><a href="desk.html" class="on"><span>🖥</span>機會</a><a href="index.html" class=""><span>📋</span>簡報</a><a href="leaders.html" class=""><span>🚀</span>領導股</a><a href="week.html" class=""><span>⚡</span>最強 1 週</a><a href="rsboard.html" class=""><span>📊</span>RS 板</a><a href="method.html" class=""><span>🧩</span>方法分類</a><a href="cycle.html" class=""><span>🌀</span>成長週期</a><a href="setups.html" class=""><span>📐</span>Setups</a><button id="themebtn">🌙 深色</button></nav><script>
+(function(){
+  function store(k,f){try{return JSON.parse(localStorage.getItem('desk-'+k))??f;}catch(e){return f;}}
+  function save(k,v){try{localStorage.setItem('desk-'+k,JSON.stringify(v));}catch(e){}}
+  var THEME=store('theme','light');
+  function apply(){
+    document.documentElement.setAttribute('data-theme',THEME);
+    var tb=document.getElementById('themebtn'); if(tb) tb.textContent = THEME==='light'?'🌙 深色':'☀️ 淺色';
+  }
+  function boot(){
+    var tb=document.getElementById('themebtn');
+    if(tb) tb.addEventListener('click',function(){THEME=THEME==='light'?'dark':'light';save('theme',THEME);apply();});
+    apply();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>
 <div class="wrap">
 <h1>📊 機會 · OPPORTUNITY DESK</h1>
 <p class="sub">位置（領導股喺邊）｜輪動（資金去邊）｜風險（ATRX 幾大機率跌）
