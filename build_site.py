@@ -481,6 +481,51 @@ SITENAV_CSS = """
  border-radius:8px;font-size:13px;color:#9fb0cc;text-decoration:none;white-space:nowrap}
 .sitenav a:hover{background:#121c31;color:#e8eef8}
 .sitenav a.on{background:#2b6cb0;color:#fff;font-weight:700}
+.sitenav button{margin-left:auto;border-radius:7px;padding:5px 10px;font-size:12px;
+ background:#16203a;color:#c7d4ea;border:1px solid #2a3a5c;cursor:pointer;font-family:inherit}
+"""
+
+DESK_LIGHT_CSS = """
+html[data-theme="light"] body{background:#f6f8fb;color:#1a2433}
+html[data-theme="light"] .sub{color:#64748b}
+html[data-theme="light"] h1,html[data-theme="light"] h2,html[data-theme="light"] h3{color:#111827}
+html[data-theme="light"] .card{background:#ffffff;border-color:#e3e8f0;box-shadow:0 1px 6px rgba(15,23,42,.06)}
+html[data-theme="light"] .card h2{background:#f1f5f9;border-color:#e3e8f0;color:#111827}
+html[data-theme="light"] .kpi{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] .kpi .k{color:#64748b}
+html[data-theme="light"] .kpi .v{color:#111827}
+html[data-theme="light"] .bar-nav{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] select,html[data-theme="light"] input{background:#ffffff;color:#1a2433;border-color:#d0d7e2}
+html[data-theme="light"] button{background:#ffffff;color:#334155;border-color:#d0d7e2}
+html[data-theme="light"] button:hover{background:#f1f5f9}
+html[data-theme="light"] button.on{background:#2563eb;border-color:#2563eb;color:#fff}
+html[data-theme="light"] th{color:#64748b;background:#f1f5f9}
+html[data-theme="light"] td{border-color:#eef2f8}
+html[data-theme="light"] tr:hover td{background:#f6f9fc}
+html[data-theme="light"] .note{color:#64748b}
+html[data-theme="light"] footer{color:#64748b}
+html[data-theme="light"] code{background:#eef2f8;color:#334155}
+html[data-theme="light"] .pos{color:#16a34a}
+html[data-theme="light"] .neg{color:#dc2626}
+html[data-theme="light"] svg text{fill:#334155}
+"""
+
+DESK_THEME_JS = """
+(function(){
+  function store(k,f){try{return JSON.parse(localStorage.getItem('desk-'+k))??f;}catch(e){return f;}}
+  function save(k,v){try{localStorage.setItem('desk-'+k,JSON.stringify(v));}catch(e){}}
+  var THEME=store('theme','light');
+  function apply(){
+    document.documentElement.setAttribute('data-theme',THEME);
+    var tb=document.getElementById('themebtn'); if(tb) tb.textContent = THEME==='light'?'🌙 深色':'☀️ 淺色';
+  }
+  function boot(){
+    var tb=document.getElementById('themebtn');
+    if(tb) tb.addEventListener('click',function(){THEME=THEME==='light'?'dark':'light';save('theme',THEME);apply();});
+    apply();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
 """
 
 SITENAV_LINKS = [
@@ -499,19 +544,28 @@ def sitenav_html():
     links = "".join(
         f'<a href="{h}" class="{"on" if on else ""}"><span>{i}</span>{t}</a>'
         for h, i, t, on in SITENAV_LINKS)
-    return f'<style>{SITENAV_CSS}</style><nav class="sitenav">{links}</nav>'
+    return (f'<style>{SITENAV_CSS}</style>'
+            f'<nav class="sitenav">{links}<button id="themebtn">🌙 深色</button></nav>')
 
 
 def inject_nav(html):
-    """喺 desk.html（我哋個 dashboard，冇導航）頂部加返網站導航。
+    """喺 desk.html 頂部加返網站導航＋主題一致化。
 
-    ⚠ 之前 desk.html 係獨立頁，冇 link 返去其他分頁 → 用戶一入交易台就跳唔走。
-    呢度喺 <body> 之後插一條自帶 CSS 嘅導航（用 .sitenav 前綴，唔會撞 dashboard 嘅 CSS）。
+    ⚠ 之前 desk.html 係獨立頁（dashboard.py 生成），硬編碼深色，冇 link 返去其他分頁。
+    呢度做三件事：① 插導航 ② 設 data-theme=light（默認淺色，同網站一致）
+    ③ 注入淺色 CSS 覆寫 + 主題切換 JS，令「機會」頁同網站其他頁一樣跟 theme。
     """
+    # 設默認淺色主題
+    if '<html lang="zh-Hant">' in html:
+        html = html.replace('<html lang="zh-Hant">', '<html lang="zh-Hant" data-theme="light">', 1)
+    elif '<html>' in html:
+        html = html.replace('<html>', '<html data-theme="light">', 1)
+    inject = (f'<style>{DESK_LIGHT_CSS}</style>' + sitenav_html() +
+              f'<script>{DESK_THEME_JS}</script>')
     marker = "<body>"
     if marker in html:
-        return html.replace(marker, marker + sitenav_html(), 1)
-    return sitenav_html() + html
+        return html.replace(marker, marker + inject, 1)
+    return inject + html
 
 
 def nav_html(active):
