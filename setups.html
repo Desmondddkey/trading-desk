@@ -29,6 +29,39 @@ nav span.off{opacity:.45}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
 @media(max-width:1080px){.grid2,.grid3{grid-template-columns:1fr}}
+/* ── Item 9：手機版（空間節省）── */
+@media(max-width:700px){
+  body{padding:9px 8px;font-size:12.5px}
+  .card{border-radius:9px;margin-bottom:10px}
+  .card>h2{font-size:13px;padding:9px 11px;gap:5px}
+  .card>h2 small{display:none}
+  .card>.body{padding:0}
+  .scroll{max-height:none;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{font-size:11px;min-width:0}
+  th,td{padding:4px 5px;white-space:nowrap}
+  th{font-size:10px;letter-spacing:0}
+  /* 第一欄黏住左邊，橫向捲都睇得到代號 */
+  th:first-child,td:first-child{position:sticky;left:0;z-index:2;
+    background:#0f1729;box-shadow:1px 0 0 #1e2a44}
+  html[data-theme="light"] th:first-child,
+  html[data-theme="light"] td:first-child{background:#fff}
+  .tk{font-size:11.5px}
+  .rsmini,.spark{display:none}     /* 迷你圖喺手機太細，索性收起省位 */
+  .kpi{min-width:74px;padding:6px 9px}
+  .kpi .v{font-size:15px}
+  .kpis{gap:6px;margin-bottom:9px}
+  nav.gnav,nav{overflow-x:auto;flex-wrap:nowrap;
+    -webkit-overflow-scrolling:touch;padding-bottom:4px}
+  nav.gnav a,nav a{white-space:nowrap;flex:0 0 auto}
+  .note{font-size:10.5px;line-height:1.6}
+  .chartwall{grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:6px}
+  footer{margin-top:12px;font-size:10.5px}
+}
+@media(max-width:420px){
+  body{padding:6px 5px;font-size:12px}
+  th,td{padding:3px 4px}
+  .kpi{min-width:62px}
+}
 .kpis{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 14px}
 .kpi{background:#0f1729;border:1px solid #1e2a44;border-radius:9px;padding:8px 12px;min-width:96px}
 .kpi .k{font-size:10.5px;color:#7f90ad;letter-spacing:.5px}
@@ -118,7 +151,7 @@ html[data-theme="light"] .sitenav a.on{background:#2563eb;color:#fff}
  <div style="display:flex;align-items:flex-start;gap:10px">
   <div style="flex:1 1 auto">
    <h1>📈 <span>Desmond · 交易台</span></h1>
-   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-12 00:20</code></p>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-12 07:42</code></p>
   </div>
   <div class="controls">
    <button id="themebtn" title="切換主題 / theme">🌙 深色</button>
@@ -134,7 +167,7 @@ html[data-theme="light"] .sitenav a.on{background:#2563eb;color:#fff}
  ｜交易台 <code>trading-os-lab/dashboard.py</code>
 </footer>
 </div>
-<script>var D={"_generated":"2026-10-12 00:20"};
+<script>var D={"_generated":"2026-10-12 07:42"};
 function q(s,r){return (r||document).querySelector(s);}
 function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
