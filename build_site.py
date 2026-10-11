@@ -34,7 +34,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "data")
-SITE = os.path.join(HERE, "site")
+SITE = os.path.join(HERE, "docs")
 LIVE = r"C:\Users\rain0\trading-os"
 LAB = r"C:\Users\rain0\trading-os-lab"
 sys.path.insert(0, LIVE)
