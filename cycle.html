@@ -1,0 +1,121 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>成長週期 · 交易台</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#070b16;color:#e8eef8;
+ font-family:"Segoe UI","Microsoft JhengHei",system-ui,-apple-system,"Noto Sans TC",sans-serif;
+ -webkit-text-size-adjust:100%}
+a{color:#7cc4ff}
+.wrap{max-width:1420px;margin:0 auto;padding:0 14px 60px}
+header.top{position:sticky;top:0;z-index:50;background:#080d1aee;border-bottom:1px solid #1c2740;
+ backdrop-filter:blur(9px);margin:0 -14px 18px;padding:10px 14px 0}
+h1{font-size:19px;margin:0 0 2px;letter-spacing:.4px}
+.crumb{color:#6e80a0;font-size:11.5px;margin:0 0 9px}
+nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
+nav a,nav span.tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;
+ padding:8px 13px 9px;border-radius:9px 9px 0 0;font-size:13.5px;color:#9fb0cc;
+ text-decoration:none;border:1px solid transparent;border-bottom:none;white-space:nowrap}
+nav a:hover{background:#121c31;color:#e8eef8}
+nav a.on{background:#0f1729;border-color:#1e2a44;color:#e8eef8;font-weight:700}
+nav span.off{opacity:.45}
+.card{background:#0f1729;border:1px solid #1e2a44;border-radius:11px;margin:0 0 15px;
+ box-shadow:0 2px 14px rgba(0,0,0,.32)}
+.card h2{font-size:15.5px;margin:0;padding:11px 14px;border-bottom:1px solid #1e2a44;
+ background:#0d1424;border-radius:11px 11px 0 0;display:flex;justify-content:space-between;
+ align-items:center;gap:10px}
+.card h2 small{font-weight:400;color:#7f90ad;font-size:11.5px}
+.card .body{padding:12px 14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+@media(max-width:1080px){.grid2,.grid3{grid-template-columns:1fr}}
+.kpis{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 14px}
+.kpi{background:#0f1729;border:1px solid #1e2a44;border-radius:9px;padding:8px 12px;min-width:96px}
+.kpi .k{font-size:10.5px;color:#7f90ad;letter-spacing:.5px}
+.kpi .v{font-size:17px;font-weight:700;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{padding:5px 7px;text-align:right;border-bottom:1px solid #16203a}
+th{color:#8296b4;font-weight:600;font-size:11px;background:#0d1424;position:sticky;top:0}
+td.l,th.l{text-align:left}
+tr:hover td{background:#131c30}
+.tk{font-weight:700;color:#cfe4ff}
+.pos{color:#4ade80}.neg{color:#f87171}.dim{color:#7f90ad}
+.badge{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10.5px;font-weight:700}
+.bar{height:8px;border-radius:4px;display:inline-block;vertical-align:middle;background:#22c55e}
+.bar.neg{background:#ef4444}
+.note{color:#7f90ad;font-size:11.5px;margin-top:9px;line-height:1.65}
+.warn{background:#3a2410;border:1px solid #a0620f;color:#fbc06a;border-radius:9px;
+ padding:9px 12px;font-size:12.5px;margin:0 0 13px;line-height:1.6}
+.ok{background:#0f2a1a;border:1px solid #2c7a4b;color:#7fe0a3;border-radius:9px;
+ padding:9px 12px;font-size:12.5px;margin:0 0 13px}
+.filters{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 11px;align-items:center}
+input[type=search],select{background:#16203a;color:#e8eef8;border:1px solid #2a3a5c;
+ border-radius:7px;padding:6px 10px;font-size:13px;font-family:inherit}
+button{background:#16203a;color:#c7d4ea;border:1px solid #2a3a5c;border-radius:7px;
+ padding:6px 11px;font-size:12.5px;cursor:pointer;font-family:inherit}
+button:hover{background:#1d2a49}
+button.on{background:#2b6cb0;border-color:#4a90d9;color:#fff;font-weight:700}
+.scroll{max-height:70vh;overflow:auto}
+footer{color:#5f708c;font-size:11.5px;margin-top:22px;line-height:1.7}
+code{background:#16203a;padding:1px 5px;border-radius:4px;font-size:11.5px}
+.todo{background:#141d33;border:1px dashed #35507e;border-radius:10px;padding:14px;color:#9fb0cc;
+ font-size:13px;line-height:1.75}
+.chartwall{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:9px}
+.cand{border:1px solid #1e2a44;border-radius:8px;padding:6px 4px 5px;text-align:center;background:#0d1424}
+.cand .tk{font-size:11.5px;font-weight:700;color:#cfe4ff;margin-top:3px}
+.cand .mini{min-height:66px;display:flex;align-items:center;justify-content:center}
+.cand:hover{border-color:#4a90d9}
+</style></head><body>
+<div class="wrap">
+<header class="top">
+ <h1>📈 Desmond · 交易台</h1>
+ <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-11 20:58</code></p>
+ <nav><a href="desk.html" class=""><span>🖥</span>交易台</a><a href="briefing.html" class=""><span>📋</span>簡報</a><a href="leaders.html" class=""><span>🚀</span>領導股</a><a href="week.html" class=""><span>⚡</span>最強 1 週</a><a href="rsboard.html" class=""><span>📊</span>RS 板</a><a href="method.html" class=""><span>🧩</span>方法分類</a><a href="cycle.html" class="on"><span>🌀</span>成長週期</a><a href="setups.html" class=""><span>📐</span>Setups</a></nav>
+</header>
+
+<div class="card"><h2>🌀 Growth Cycle · 未接</h2><div class="body">
+<div class="todo"><b>狀態：掌握定義，等 Desmond 確認一個參數。</b><br><br>
+由你俾嘅 Lab Report 圖蒸餾出嚟嘅模型：<br>
+① 成長／價值比率（兩條線）→ ② 攞<b>週線</b>高低點嘅 <b>EMA10</b> 做「風險閘」帶<br>
+③ 收市<b>升穿</b>帶 ＝ risk-on；<b>跌穿</b>帶 ＝ risk-off；<b>帶內</b> ＝ 維持上一邊（避免來回鋸）<br>
+④ 六個區：RISK-OFF → PROBE → RAMP UP → TRIM 或 HOLD → RELOAD → 回落<br><br>
+<b>我需要你答一句：</b>「成長／價值比率」用邊兩條？<br>
+（我見過嘅可能：<code>IWF/IWD</code>（羅素 1000 成長／價值）、<code>IWY/IWX</code>、
+<code>VUG/VTV</code>、或者你自己嘅組合）</div></div></div>
+<footer>
+ 所有資料唯讀、研究用途，<b>非買入指令</b>。入場要另行符合 ORH + RVOL 規則；倉位由
+ <code>daily_plan.stop_plan()</code> 決定。<br>
+ 產生器 <code>trading-os-web/build_site.py</code>｜掃描 <code>scan_market.py</code>
+ ｜交易台 <code>trading-os-lab/dashboard.py</code>
+</footer>
+</div>
+<script>var D={"_generated":"2026-10-11 20:58"};
+function q(s,r){return (r||document).querySelector(s);}
+function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function fin(v){return v!==null&&v!==undefined&&v!==''&&isFinite(Number(v));}
+function fmt(v,d){d=(d===undefined?1:d);return fin(v)?Number(v).toLocaleString(undefined,{maximumFractionDigits:d}):'—';}
+function pct(v,d){return fin(v)?(v>0?'+':'')+fmt(v,d)+'%':'—';}
+function sgn(v,d){return fin(v)?(v>0?'+':'')+fmt(v,d):'—';}
+function num(v,d){return fin(v)?fmt(v,d):'—';}
+function money(v){if(!fin(v))return '—';return v>=1e9?'$'+fmt(v/1e9,1)+'B':v>=1e6?'$'+fmt(v/1e6,1)+'M':v>=1e3?'$'+fmt(v/1e3,0)+'K':'$'+fmt(v,0);}
+function cls(v){return fin(v)?(v>0?'pos':(v<0?'neg':'')):'';}
+function spark(vals,w,h){
+  if(!vals||vals.length<2)return '';
+  w=w||90;h=h||22;
+  var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rg=(mx-mn)||1;
+  var pts=vals.map(function(v,i){return [i/(vals.length-1)*w, h-(v-mn)/rg*h];});
+  var d=pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');
+  return '<svg width="'+w+'" height="'+h+'" style="vertical-align:middle"><path d="'+d+
+    '" fill="none" stroke="'+(vals[vals.length-1]>=vals[0]?'#4ade80':'#f87171')+'" stroke-width="1.6"/></svg>';
+}
+function bar(v,mx,neg){
+  if(!fin(v))return '';
+  var w=Math.max(2,Math.min(60,Math.abs(v)/(mx||1)*60));
+  return '<span class="bar'+(neg?' neg':'')+'" style="width:'+w.toFixed(0)+'px;opacity:.8"></span>';
+}
+function tone(v){return v>0?'pos':(v<0?'neg':'dim');}
+
+document.addEventListener('DOMContentLoaded',function(){ if(window.PAGE) PAGE(); });</script>
+</body></html>
