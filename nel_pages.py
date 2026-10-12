@@ -145,15 +145,20 @@ def themes_page(ohlc):
 
 
 # ══════════════════════════ ② Sectors ══════════════════════════
-def sectors_page(ohlc):
-    """直接用 rotation_map 嘅實作 —— 唔准重寫。"""
-    if ohlc is None:
-        return _unavail("Sectors", "冇 OHLC 快取")
+def sectors_page(ohlc=None):
+    """直接用 rotation_map 嘅實作 —— 唔准重寫。
+
+    ★ 2026-10-12 修：唔可以拿股票池 OHLC 塞入去。
+      `rotation_map` 要嘅係**34 個行業 ETF**，佢自己 `fetch()` 抓；
+      股票池（84 隻個股）入去會出 0 行（第一次就係咁）。
+      所以呢度**唔傳 ohlc**，叫 rotation_map 自己攞 —— 保證同 desk.html 同源。
+    """
     try:
         import rotation_map as rm
-        df, spy = rm.compute(ohlc)
+        d = rm.fetch()
+        df, spy = rm.compute(d)
         if df is None or df.empty:
-            return _unavail("Sectors", "rotation_map 計唔到")
+            return _unavail("Sectors", "rotation_map 計唔到（ETF 數據不足）")
     except Exception as e:                                   # noqa: BLE001
         return _unavail("Sectors", f"rotation_map 失敗：{type(e).__name__}")
     rows = []
