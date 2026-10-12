@@ -44,6 +44,7 @@ import charts  # noqa: E402  （迷你 K 線牆，純 Python SVG）
 import extras  # noqa: E402  （RS 板全表＋成長週期，跟圖片實現）
 import stdcols as _std  # noqa: E402  （Item 2：統一所有列表欄位）
 import tvhover  # noqa: E402  （Item 8：hover 代號彈 TradingView 圖）
+import nel_pages as _np  # noqa: E402  （Item 1：NEL 五頁蒸餾）
 
 EN_LABELS = {"desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
              "week": "Week Strongest", "rsboard": "RS Board", "method": "Methods",
@@ -55,6 +56,11 @@ TABS = [
     ("leaders", "🚀", "領導股", None),
     ("cm", "🎯", "1CM 回調", None),
     ("week", "⚡", "最強 1 週", None),
+    ("themes", "🧩", "Themes", None),
+    ("sectors", "🏭", "Sectors", None),
+    ("breadth", "🌊", "Breadth", None),
+    ("positioning", "🎯", "Positioning", None),
+    ("review", "⏪", "Review", None),
     ("rsboard", "📊", "RS 板", None),
     ("method", "🧩", "方法分類", None),
     ("cycle", "🌀", "成長週期", None),
@@ -648,6 +654,11 @@ SITENAV_LINKS = [
     ("leaders.html", "🚀", "領導股", False),
     ("cm.html", "🎯", "1CM 回調", False),
     ("week.html", "⚡", "最強 1 週", False),
+    ("themes.html", "🧩", "Themes", False),
+    ("sectors.html", "🏭", "Sectors", False),
+    ("breadth.html", "🌊", "Breadth", False),
+    ("positioning.html", "🎯", "Positioning", False),
+    ("review.html", "⏪", "Review", False),
     ("rsboard.html", "📊", "RS 板", False),
     ("method.html", "🧩", "方法分類", False),
     ("cycle.html", "🌀", "成長週期", False),
@@ -1044,6 +1055,25 @@ def build():
  <th>ATRX</th><th>位置</th><th class="l">觸發條件</th><th class="l">失效條件</th>
  <th class="l">理由</th></tr></thead>
  <tbody>{mrows or '<tr><td colspan=7 class="dim">冇 Layer2 快照</td></tr>'}</tbody></table></div></div></div>""", base)
+
+    # ── Item 1：NEL 五頁蒸餾（Themes／Sectors／Breadth／Positioning／Review）──
+    # ★ 每頁用 nel_pages.py 嘅唯一實作，呢度只負責寫入 pages dict。
+    #   唔准喺呢度重算任何公式（EDGE-036 教訓：同一個概念只可以一個實作）。
+    try:
+        _ohlc_df = _np._ohlc()
+        for _key, _title, _fn in (
+                ("themes", "Themes", lambda: _np.themes_page(_ohlc_df)),
+                ("sectors", "Sectors", lambda: _np.sectors_page(_ohlc_df)),
+                ("breadth", "Breadth", _np.breadth_page),
+                ("positioning", "Positioning", _np.positioning_page),
+                ("review", "Review", _np.review_page)):
+            try:
+                pages[_key] = (_title, _fn(), base)
+            except Exception as _e2:                         # noqa: BLE001
+                log(f"⚠ {_title} 頁失敗：{type(_e2).__name__}")
+                pages[_key] = (_title, _np._unavail(_title, str(_e2)), base)
+    except Exception as _e1:                                 # noqa: BLE001
+        log(f"⚠ NEL 五頁整體失敗：{type(_e1).__name__}")
 
     # ── RS 板（跟圖片 2/4：指數／群組／板塊三個表）──
     rsb_full = extras.rsboard_full()

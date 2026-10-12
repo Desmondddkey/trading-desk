@@ -1,0 +1,340 @@
+<!doctype html><html lang="zh-Hant" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Positioning · 交易台</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#070b16;color:#e8eef8;
+ font-family:"Segoe UI","Microsoft JhengHei",system-ui,-apple-system,"Noto Sans TC",sans-serif;
+ -webkit-text-size-adjust:100%}
+a{color:#7cc4ff}
+.wrap{max-width:1420px;margin:0 auto;padding:0 14px 60px}
+header.top{position:sticky;top:0;z-index:50;background:#080d1aee;border-bottom:1px solid #1c2740;
+ backdrop-filter:blur(9px);margin:0 -14px 18px;padding:10px 14px 0}
+h1{font-size:19px;margin:0 0 2px;letter-spacing:.4px}
+.crumb{color:#6e80a0;font-size:11.5px;margin:0 0 9px}
+nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
+nav a,nav span.tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;
+ padding:8px 13px 9px;border-radius:9px 9px 0 0;font-size:13.5px;color:#9fb0cc;
+ text-decoration:none;border:1px solid transparent;border-bottom:none;white-space:nowrap}
+nav a:hover{background:#121c31;color:#e8eef8}
+nav a.on{background:#0f1729;border-color:#1e2a44;color:#e8eef8;font-weight:700}
+nav span.off{opacity:.45}
+.card{background:#0f1729;border:1px solid #1e2a44;border-radius:11px;margin:0 0 15px;
+ box-shadow:0 2px 14px rgba(0,0,0,.32)}
+.card h2{font-size:15.5px;margin:0;padding:11px 14px;border-bottom:1px solid #1e2a44;
+ background:#0d1424;border-radius:11px 11px 0 0;display:flex;justify-content:space-between;
+ align-items:center;gap:10px}
+.card h2 small{font-weight:400;color:#7f90ad;font-size:11.5px}
+.card .body{padding:12px 14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+@media(max-width:1080px){.grid2,.grid3{grid-template-columns:1fr}}
+/* ── Item 9：手機版（空間節省）── */
+@media(max-width:700px){
+  body{padding:9px 8px;font-size:12.5px}
+  .card{border-radius:9px;margin-bottom:10px}
+  .card>h2{font-size:13px;padding:9px 11px;gap:5px}
+  .card>h2 small{display:none}
+  .card>.body{padding:0}
+  .scroll{max-height:none;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{font-size:11px;min-width:0}
+  th,td{padding:4px 5px;white-space:nowrap}
+  th{font-size:10px;letter-spacing:0}
+  /* 第一欄黏住左邊，橫向捲都睇得到代號 */
+  th:first-child,td:first-child{position:sticky;left:0;z-index:2;
+    background:#0f1729;box-shadow:1px 0 0 #1e2a44}
+  html[data-theme="light"] th:first-child,
+  html[data-theme="light"] td:first-child{background:#fff}
+  .tk{font-size:11.5px}
+  .rsmini,.spark{display:none}     /* 迷你圖喺手機太細，索性收起省位 */
+  .kpi{min-width:74px;padding:6px 9px}
+  .kpi .v{font-size:15px}
+  .kpis{gap:6px;margin-bottom:9px}
+  nav.gnav,nav{overflow-x:auto;flex-wrap:nowrap;
+    -webkit-overflow-scrolling:touch;padding-bottom:4px}
+  nav.gnav a,nav a{white-space:nowrap;flex:0 0 auto}
+  .note{font-size:10.5px;line-height:1.6}
+  .chartwall{grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:6px}
+  footer{margin-top:12px;font-size:10.5px}
+}
+@media(max-width:420px){
+  body{padding:6px 5px;font-size:12px}
+  th,td{padding:3px 4px}
+  .kpi{min-width:62px}
+}
+.kpis{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 14px}
+.kpi{background:#0f1729;border:1px solid #1e2a44;border-radius:9px;padding:8px 12px;min-width:96px}
+.kpi .k{font-size:10.5px;color:#7f90ad;letter-spacing:.5px}
+.kpi .v{font-size:17px;font-weight:700;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{padding:5px 7px;text-align:right;border-bottom:1px solid #16203a}
+th{color:#8296b4;font-weight:600;font-size:11px;background:#0d1424;position:sticky;top:0}
+td.l,th.l{text-align:left}
+tr:hover td{background:#131c30}
+.tk{font-weight:700;color:#cfe4ff}
+.tv{color:#cfe4ff;text-decoration:none;border-bottom:1px dotted #4a90d9;font-weight:700}
+.tv:hover{color:#4ade80;border-color:#4ade80}
+.tv .tvs{opacity:0;font-size:10px;margin-left:3px}
+.tv:hover .tvs{opacity:1}
+.pos{color:#4ade80}.neg{color:#f87171}.dim{color:#7f90ad}
+.badge{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10.5px;font-weight:700}
+.bar{height:8px;border-radius:4px;display:inline-block;vertical-align:middle;background:#22c55e}
+.bar.neg{background:#ef4444}
+.note{color:#7f90ad;font-size:11.5px;margin-top:9px;line-height:1.65}
+.warn{background:#3a2410;border:1px solid #a0620f;color:#fbc06a;border-radius:9px;
+ padding:9px 12px;font-size:12.5px;margin:0 0 13px;line-height:1.6}
+.ok{background:#0f2a1a;border:1px solid #2c7a4b;color:#7fe0a3;border-radius:9px;
+ padding:9px 12px;font-size:12.5px;margin:0 0 13px}
+.filters{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 11px;align-items:center}
+input[type=search],select{background:#16203a;color:#e8eef8;border:1px solid #2a3a5c;
+ border-radius:7px;padding:6px 10px;font-size:13px;font-family:inherit}
+button{background:#16203a;color:#c7d4ea;border:1px solid #2a3a5c;border-radius:7px;
+ padding:6px 11px;font-size:12.5px;cursor:pointer;font-family:inherit}
+button:hover{background:#1d2a49}
+button.on{background:#2b6cb0;border-color:#4a90d9;color:#fff;font-weight:700}
+.scroll{max-height:70vh;overflow:auto}
+footer{color:#5f708c;font-size:11.5px;margin-top:22px;line-height:1.7}
+code{background:#16203a;padding:1px 5px;border-radius:4px;font-size:11.5px}
+.todo{background:#141d33;border:1px dashed #35507e;border-radius:10px;padding:14px;color:#9fb0cc;
+ font-size:13px;line-height:1.75}
+.chartwall{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:9px}
+.cand{border:1px solid #1e2a44;border-radius:8px;padding:6px 4px 5px;text-align:center;background:#0d1424;display:block;text-decoration:none;color:inherit}
+.cand .tk{font-size:11.5px;font-weight:700;color:#cfe4ff;margin-top:3px}
+.cand .mini{min-height:66px;display:flex;align-items:center;justify-content:center}
+.cand:hover{border-color:#4a90d9}
+.tk.hl{color:#22c55e;text-shadow:0 0 10px rgba(34,197,94,.4)}
+tr.buyrow td{background:rgba(34,197,94,.07)}
+.controls{display:flex;gap:6px;align-items:center;margin-left:auto;flex:0 0 auto}
+.controls button{border-radius:7px;padding:5px 10px;font-size:12px}
+
+/* ── 淺色主題（默認）── */
+html[data-theme="light"] body{background:#f6f8fb;color:#1a2433}
+html[data-theme="light"] a{color:#2563eb}
+html[data-theme="light"] header.top{background:#ffffffee;border-bottom:1px solid #e3e8f0}
+html[data-theme="light"] .crumb{color:#64748b}
+html[data-theme="light"] nav a{color:#64748b}
+html[data-theme="light"] nav a:hover{background:#eef2f8;color:#111827}
+html[data-theme="light"] nav a.on{background:#ffffff;border-color:#dbe2ec;color:#111827}
+html[data-theme="light"] .card{background:#ffffff;border-color:#e3e8f0;box-shadow:0 1px 6px rgba(15,23,42,.06)}
+html[data-theme="light"] .card h2{background:#f1f5f9;border-color:#e3e8f0;color:#111827}
+html[data-theme="light"] .card h2 small{color:#64748b}
+html[data-theme="light"] .kpi{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] .kpi .k{color:#64748b}
+html[data-theme="light"] .kpi .v{color:#111827}
+html[data-theme="light"] .bar-nav{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] select,html[data-theme="light"] input[type=search]{background:#ffffff;color:#1a2433;border-color:#d0d7e2}
+html[data-theme="light"] button{background:#ffffff;color:#334155;border-color:#d0d7e2}
+html[data-theme="light"] button:hover{background:#f1f5f9}
+html[data-theme="light"] button.on{background:#2563eb;border-color:#2563eb;color:#fff}
+html[data-theme="light"] th{color:#64748b;background:#f1f5f9}
+html[data-theme="light"] td{border-color:#eef2f8}
+html[data-theme="light"] tr:hover td{background:#f6f9fc}
+html[data-theme="light"] .tk{color:#0b63ce}
+html[data-theme="light"] .tk.hl{color:#16a34a;text-shadow:none}
+html[data-theme="light"] .tv{color:#0b63ce;border-color:#93c5fd}
+html[data-theme="light"] .tv:hover{color:#16a34a;border-color:#16a34a}
+html[data-theme="light"] tr.buyrow td{background:rgba(34,197,94,.06)}
+html[data-theme="light"] .dim{color:#94a3b8}
+html[data-theme="light"] .note{color:#64748b}
+html[data-theme="light"] footer{color:#64748b}
+html[data-theme="light"] code{background:#eef2f8}
+html[data-theme="light"] .todo{background:#f6f8fb;border-color:#cbd5e1;color:#475569}
+html[data-theme="light"] .cand{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] .cand .tk{color:#0b63ce}
+html[data-theme="light"] .sitenav{background:#ffffffee;border-color:#e3e8f0}
+html[data-theme="light"] .sitenav a{color:#64748b}
+html[data-theme="light"] .sitenav a:hover{background:#eef2f8;color:#111827}
+html[data-theme="light"] .sitenav a.on{background:#2563eb;color:#fff}
+
+#tvpop{display:none;position:fixed;z-index:9999;width:440px;
+  background:#0b1120;border:1px solid #2a3a5c;border-radius:11px;
+  box-shadow:0 14px 40px rgba(0,0,0,.6);overflow:hidden}
+#tvpopbar{display:flex;align-items:center;gap:8px;padding:6px 9px;
+  background:#111a2e;border-bottom:1px solid #1e2a44;font-size:12px}
+#tvpopsym{font-weight:700;color:#9fd4ff;flex:1 1 auto}
+#tvpopbar a{color:#7fd4a8;text-decoration:none;font-size:11.5px}
+#tvpopbar a:hover{text-decoration:underline}
+#tvpopclose{background:none;border:none;color:#7f90ad;cursor:pointer;
+  font-size:14px;padding:0 3px;font-family:inherit}
+#tvpopclose:hover{color:#fff}
+#tvpopchart{height:340px;background:#0b1120}
+#tvpopnote{font-size:11px;color:#8fa3c8;padding:0 9px 6px;min-height:0}
+@media(max-width:700px){#tvpop{display:none!important}}
+</style></head><body>
+<div class="wrap">
+<header class="top">
+ <div style="display:flex;align-items:flex-start;gap:10px">
+  <div style="flex:1 1 auto">
+   <h1>📈 <span>Desmond · 交易台</span></h1>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-12 08:36</code></p>
+  </div>
+  <div class="controls">
+   <button id="themebtn" title="切換主題 / theme">🌙 深色</button>
+  </div>
+ </div>
+ <nav><a href="desk.html" class=""><span>🖥</span><span data-i18n="nav_desk">機會</span></a><a href="briefing.html" class=""><span>📋</span><span data-i18n="nav_briefing">市場簡報</span></a><a href="leaders.html" class=""><span>🚀</span><span data-i18n="nav_leaders">領導股</span></a><a href="cm.html" class=""><span>🎯</span><span data-i18n="nav_cm">1CM 回調</span></a><a href="week.html" class=""><span>⚡</span><span data-i18n="nav_week">最強 1 週</span></a><a href="themes.html" class=""><span>🧩</span><span data-i18n="nav_themes">Themes</span></a><a href="sectors.html" class=""><span>🏭</span><span data-i18n="nav_sectors">Sectors</span></a><a href="breadth.html" class=""><span>🌊</span><span data-i18n="nav_breadth">Breadth</span></a><a href="positioning.html" class="on"><span>🎯</span><span data-i18n="nav_positioning">Positioning</span></a><a href="review.html" class=""><span>⏪</span><span data-i18n="nav_review">Review</span></a><a href="rsboard.html" class=""><span>📊</span><span data-i18n="nav_rsboard">RS 板</span></a><a href="method.html" class=""><span>🧩</span><span data-i18n="nav_method">方法分類</span></a><a href="cycle.html" class=""><span>🌀</span><span data-i18n="nav_cycle">成長週期</span></a><a href="setups.html" class=""><span>📐</span><span data-i18n="nav_setups">Setups</span></a></nav>
+</header>
+<div class="card"><h2>🎯 Positioning · 大型投機者擁擠度 <small>CFTC COT｜報告日 2026-10-06</small></h2><div class="body"><div class="note"><b>淨持倉</b>＝ non-commercial long − short（大型投機者）。<b>52 週位置</b>：0 = 一年最淡、100 = 一年最牛。極端 ≥90 或 ≤25 = 擁擠，反向風險高（同 NEL 嘅 156 週極端同一個思路）。<br>數據：CFTC Socrata 公開 API（免 key），報告日為<b>上週二</b>，週五發布 —— 有固有延遲，唔係即時。</div><div class="scroll"><table><thead><tr><th class="l">市場</th><th>類別</th><th>淨持倉</th><th>佔 OI</th><th>52 週位置</th><th>讀法</th><th>4 週變化</th><th>走勢</th></tr></thead><tbody><tr><td class="l"><b>E-mini Nasdaq-100</b></td><td class="dim">股指</td><td>+2,540</td><td>+11.9%</td><td><b>79</b></td><td>🟠 偏擁擠（&gt;75）</td><td><span class="pos">+1,016</span></td><td><svg width="96" height="22" viewBox="0 0 96 22"><polyline points="0.0,18.0 1.9,17.6 3.8,18.3 5.6,17.4 7.5,16.0 9.4,17.5 11.3,16.8 13.2,14.5 15.1,15.6 16.9,16.1 18.8,18.1 20.7,18.2 22.6,19.0 24.5,16.2 26.4,15.4 28.2,14.1 30.1,13.0 32.0,13.0 33.9,10.8 35.8,12.4 37.6,13.0 39.5,12.0 41.4,10.4 43.3,9.2 45.2,8.7 47.1,7.7 48.9,8.9 50.8,9.3 52.7,8.2 54.6,11.5 56.5,12.1 58.4,9.2 60.2,8.6 62.1,8.0 64.0,6.1 65.9,4.5 67.8,4.3 69.6,3.5 71.5,4.4 73.4,5.8 75.3,5.9 77.2,3.0 79.1,3.5 80.9,3.1 82.8,7.0 84.7,9.7 86.6,14.0 88.5,11.2 90.4,8.0 92.2,7.0 94.1,8.0 96.0,7.7" fill="none" stroke="#7fd4a8" stroke-width="1.5"/></svg></td></tr><tr><td class="l"><b>10 年美債</b></td><td class="dim">利率</td><td>+12,011</td><td>+23.5%</td><td><b>73</b></td><td>⚪ 中性</td><td><span class="neg">-5,593</span></td><td><svg width="96" height="22" viewBox="0 0 96 22"><polyline points="0.0,18.4 1.9,18.6 3.8,18.9 5.6,18.7 7.5,18.7 9.4,18.9 11.3,19.0 13.2,18.9 15.1,18.0 16.9,14.2 18.8,13.9 20.7,13.9 22.6,13.8 24.5,13.8 26.4,14.9 28.2,14.1 30.1,12.6 32.0,12.6 33.9,12.1 35.8,13.0 37.6,14.3 39.5,14.7 41.4,10.7 43.3,10.8 45.2,10.8 47.1,10.0 48.9,10.1 50.8,10.2 52.7,10.4 54.6,12.0 56.5,11.0 58.4,12.5 60.2,11.9 62.1,10.7 64.0,11.7 65.9,6.8 67.8,6.9 69.6,6.9 71.5,6.8 73.4,6.8 75.3,5.8 77.2,5.2 79.1,3.0 80.9,3.4 82.8,4.4 84.7,4.6 86.6,5.3 88.5,5.0 90.4,7.9 92.2,8.0 94.1,7.4 96.0,7.3" fill="none" stroke="#7fd4a8" stroke-width="1.5"/></svg></td></tr><tr><td class="l"><b>VIX 期貨</b></td><td class="dim">波動率</td><td>-40,125</td><td>-28.5%</td><td><b>62</b></td><td>⚪ 中性</td><td><span class="neg">-38,216</span></td><td><svg width="96" height="22" viewBox="0 0 96 22"><polyline points="0.0,6.8 1.9,4.8 3.8,4.1 5.6,5.8 7.5,5.7 9.4,7.8 11.3,8.9 13.2,9.7 15.1,10.2 16.9,10.7 18.8,3.9 20.7,3.3 22.6,3.0 24.5,3.8 26.4,5.9 28.2,4.6 30.1,6.5 32.0,5.6 33.9,6.6 35.8,6.6 37.6,8.5 39.5,7.3 41.4,7.2 43.3,6.8 45.2,5.8 47.1,6.8 48.9,5.9 50.8,7.0 52.7,7.6 54.6,7.2 56.5,9.1 58.4,9.2 60.2,8.6 62.1,9.9 64.0,11.7 65.9,13.2 67.8,9.9 69.6,12.3 71.5,12.5 73.4,14.0 75.3,14.8 77.2,15.2 79.1,19.0 80.9,7.5 82.8,6.2 84.7,4.3 86.6,4.3 88.5,5.2 90.4,5.8 92.2,7.7 94.1,9.1 96.0,7.8" fill="none" stroke="#f08a8a" stroke-width="1.5"/></svg></td></tr><tr><td class="l"><b>黃金</b></td><td class="dim">貴金屬</td><td>+210,335</td><td>+53.1%</td><td><b>57</b></td><td>⚪ 中性</td><td><span class="neg">-21,625</span></td><td><svg width="96" height="22" viewBox="0 0 96 22"><polyline points="0.0,10.8 1.9,15.3 3.8,10.7 5.6,11.1 7.5,10.3 9.4,9.7 11.3,10.7 13.2,8.6 15.1,7.5 16.9,5.8 18.8,4.7 20.7,6.3 22.6,6.9 24.5,3.0 26.4,4.1 28.2,10.6 30.1,17.1 32.0,18.1 33.9,18.1 35.8,18.2 37.6,18.0 39.5,17.5 41.4,18.1 43.3,16.7 45.2,17.5 47.1,18.7 48.9,17.6 50.8,17.4 52.7,18.1 54.6,17.5 56.5,16.1 58.4,18.1 60.2,19.0 62.1,15.4 64.0,15.8 65.9,14.7 67.8,14.5 69.6,12.4 71.5,12.4 73.4,13.7 75.3,14.1 77.2,14.4 79.1,11.8 80.9,8.5 82.8,7.8 84.7,4.3 86.6,6.8 88.5,6.2 90.4,6.4 92.2,7.2 94.1,8.4 96.0,9.7" fill="none" stroke="#7fd4a8" stroke-width="1.5"/></svg></td></tr><tr><td class="l"><b>E-mini S&amp;P 500</b></td><td class="dim">股指</td><td>-154,070</td><td>-8.0%</td><td><b>24</b></td><td>🟢 偏淡（&lt;25）</td><td><span class="neg">-78,034</span></td><td><svg width="96" height="22" viewBox="0 0 96 22"><polyline points="0.0,15.2 1.9,13.8 3.8,14.1 5.6,15.1 7.5,14.7 9.4,13.9 11.3,14.5 13.2,17.3 15.1,16.9 16.9,15.2 18.8,9.4 20.7,10.3 22.6,11.1 24.5,12.2 26.4,9.4 28.2,10.7 30.1,12.9 32.0,11.0 33.9,16.0 35.8,17.1 37.6,15.4 39.5,13.1 41.4,11.6 43.3,9.4 45.2,6.7 47.1,6.9 48.9,11.8 50.8,11.4 52.7,10.8 54.6,10.9 56.5,13.7 58.4,13.5 60.2,15.2 62.1,19.0 64.0,18.0 65.9,17.2 67.8,6.2 69.6,6.4 71.5,6.7 73.4,6.5 75.3,4.9 77.2,5.0 79.1,5.7 80.9,3.0 82.8,4.5 84.7,8.5 86.6,9.0 88.5,9.0 90.4,10.7 92.2,13.0 94.1,13.6 96.0,14.4" fill="none" stroke="#7fd4a8" stroke-width="1.5"/></svg></td></tr><tr><td class="l"><b>白銀</b></td><td class="dim">貴金屬</td><td>+23,153</td><td>+22.0%</td><td><b>20</b></td><td>🟢 偏淡（&lt;25）</td><td><span class="neg">-2,896</span></td><td><svg width="96" height="22" viewBox="0 0 96 22"><polyline points="0.0,4.1 1.9,8.2 3.8,8.3 5.6,11.1 7.5,11.2 9.4,10.5 11.3,11.8 13.2,7.3 15.1,3.0 16.9,8.9 18.8,9.2 20.7,13.3 22.6,13.8 24.5,11.9 26.4,16.7 28.2,17.7 30.1,16.2 32.0,18.2 33.9,17.5 35.8,18.7 37.6,18.0 39.5,17.1 41.4,19.0 43.3,17.0 45.2,17.6 47.1,17.9 48.9,17.8 50.8,17.7 52.7,17.4 54.6,17.6 56.5,16.0 58.4,17.0 60.2,18.8 62.1,17.6 64.0,18.8 65.9,17.1 67.8,17.7 69.6,15.2 71.5,14.7 73.4,16.8 75.3,17.9 77.2,18.8 79.1,18.7 80.9,17.8 82.8,17.8 84.7,16.6 86.6,15.6 88.5,16.1 90.4,16.6 92.2,16.5 94.1,18.9 96.0,18.1" fill="none" stroke="#f08a8a" stroke-width="1.5"/></svg></td></tr><tr><td class="l"><b>原油（WTI）</b></td><td class="dim">能源</td><td>+99,060</td><td>+5.2%</td><td><b>19</b></td><td>🟢 偏淡（&lt;25）</td><td><span class="neg">-37,519</span></td><td><svg width="96" height="22" viewBox="0 0 96 22"><polyline points="0.0,17.3 1.9,19.0 3.8,16.9 5.6,16.1 7.5,17.3 9.4,16.6 11.3,17.7 13.2,18.1 15.1,17.5 16.9,17.8 18.8,16.9 20.7,17.0 22.6,17.6 24.5,17.5 26.4,15.8 28.2,14.3 30.1,12.0 32.0,12.6 33.9,10.6 35.8,8.0 37.6,8.1 39.5,3.5 41.4,4.2 43.3,3.0 45.2,4.7 47.1,5.6 48.9,5.2 50.8,6.4 52.7,6.4 54.6,7.5 56.5,8.3 58.4,8.0 60.2,9.0 62.1,9.4 64.0,11.5 65.9,12.0 67.8,12.8 69.6,13.2 71.5,16.0 73.4,17.1 75.3,15.5 77.2,12.4 79.1,13.0 80.9,14.1 82.8,12.2 84.7,12.1 86.6,11.6 88.5,11.0 90.4,11.1 92.2,10.6 94.1,13.2 96.0,14.1" fill="none" stroke="#7fd4a8" stroke-width="1.5"/></svg></td></tr><tr><td class="l"><b>美元指數</b></td><td class="dim">外匯</td><td>-97,611</td><td>-36.7%</td><td><b>3</b></td><td>🟢 偏淡（&lt;25）</td><td><span class="neg">-38,775</span></td><td><svg width="96" height="22" viewBox="0 0 96 22"><polyline points="0.0,3.0 1.9,3.9 3.8,4.5 5.6,10.4 7.5,14.8 9.4,14.5 11.3,16.9 13.2,14.7 15.1,13.9 16.9,9.3 18.8,8.0 20.7,6.7 22.6,6.2 24.5,5.3 26.4,4.8 28.2,3.8 30.1,3.4 32.0,5.4 33.9,8.2 35.8,10.7 37.6,13.4 39.5,15.3 41.4,12.2 43.3,11.0 45.2,10.0 47.1,10.6 48.9,10.3 50.8,9.9 52.7,11.3 54.6,11.9 56.5,8.3 58.4,12.0 60.2,11.5 62.1,9.9 64.0,11.9 65.9,13.2 67.8,19.0 69.6,18.4 71.5,16.0 73.4,13.1 75.3,10.5 77.2,12.0 79.1,10.9 80.9,10.6 82.8,10.3 84.7,8.6 86.6,9.5 88.5,11.0 90.4,11.0 92.2,15.1 94.1,16.5 96.0,17.6" fill="none" stroke="#f08a8a" stroke-width="1.5"/></svg></td></tr></tbody></table></div></div></div>
+<footer>
+ 所有資料唯讀、研究用途，<b>非買入指令</b>。入場要另行符合 ORH + RVOL 規則；倉位由
+ <code>daily_plan.stop_plan()</code> 決定。<br>
+ 產生器 <code>trading-os-web/build_site.py</code>｜掃描 <code>scan_market.py</code>
+ ｜交易台 <code>trading-os-lab/dashboard.py</code>
+</footer>
+</div>
+<script>var D={"_generated":"2026-10-12 08:36"};
+function q(s,r){return (r||document).querySelector(s);}
+function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function fin(v){return v!==null&&v!==undefined&&v!==''&&isFinite(Number(v));}
+function fmt(v,d){d=(d===undefined?1:d);return fin(v)?Number(v).toLocaleString(undefined,{maximumFractionDigits:d}):'—';}
+function pct(v,d){return fin(v)?(v>0?'+':'')+fmt(v,d)+'%':'—';}
+function sgn(v,d){return fin(v)?(v>0?'+':'')+fmt(v,d):'—';}
+function num(v,d){return fin(v)?fmt(v,d):'—';}
+function money(v){if(!fin(v))return '—';return v>=1e9?'$'+fmt(v/1e9,1)+'B':v>=1e6?'$'+fmt(v/1e6,1)+'M':v>=1e3?'$'+fmt(v/1e3,0)+'K':'$'+fmt(v,0);}
+function cls(v){return fin(v)?(v>0?'pos':(v<0?'neg':'')):'';}
+function spark(vals,w,h){
+  if(!vals||vals.length<2)return '';
+  w=w||90;h=h||22;
+  var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rg=(mx-mn)||1;
+  var pts=vals.map(function(v,i){return [i/(vals.length-1)*w, h-(v-mn)/rg*h];});
+  var d=pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');
+  return '<svg width="'+w+'" height="'+h+'" style="vertical-align:middle"><path d="'+d+
+    '" fill="none" stroke="'+(vals[vals.length-1]>=vals[0]?'#4ade80':'#f87171')+'" stroke-width="1.6"/></svg>';
+}
+function bar(v,mx,neg){
+  if(!fin(v))return '';
+  var w=Math.max(2,Math.min(60,Math.abs(v)/(mx||1)*60));
+  return '<span class="bar'+(neg?' neg':'')+'" style="width:'+w.toFixed(0)+'px;opacity:.8"></span>';
+}
+function tone(v){return v>0?'pos':(v<0?'neg':'dim');}
+
+document.addEventListener('DOMContentLoaded',function(){ if(window.PAGE) PAGE(); });</script>
+<script>
+(function(){
+  function store(k,f){try{return JSON.parse(localStorage.getItem('desk-'+k))??f;}catch(e){return f;}}
+  function save(k,v){try{localStorage.setItem('desk-'+k,JSON.stringify(v));}catch(e){}}
+  // ★ 2026-10-11 Desmond：「移除英文版選項」→ 永久 zh-Hant，冇 LANG 切換。
+  var THEME=store('theme','light');
+  function apply(){
+    document.documentElement.setAttribute('data-theme',THEME);
+    var tb=document.getElementById('themebtn');
+    if(tb) tb.textContent = THEME==='light'?'🌙 深色':'☀️ 淺色';
+  }
+  function boot(){
+    var tb=document.getElementById('themebtn');
+    if(tb) tb.addEventListener('click',function(){THEME=THEME==='light'?'dark':'light';save('theme',THEME);apply();});
+    apply();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>
+<script>
+(function(){
+  var box=null, timer=null, cur=null, tvLoaded=false, tvFailed=false, syncing=false;
+
+  function ensureBox(){
+    if(box) return box;
+    box=document.createElement('div');
+    box.id='tvpop';
+    box.innerHTML='<div id="tvpopbar"><span id="tvpopsym"></span>'
+      +'<a id="tvpopopen" target="_blank" rel="noopener">開 TV ↗</a>'
+      +'<button id="tvpopclose" type="button" title="關閉">&#10005;</button></div>'
+      +'<div id="tvpopchart"></div><div id="tvpopnote"></div>';
+    document.body.appendChild(box);
+    box.querySelector('#tvpopclose').addEventListener('click',hide);
+    return box;
+  }
+  function hide(){ clearTimeout(timer); if(box) box.style.display='none'; }
+
+  function loadTV(cb){
+    if(tvLoaded) return cb();
+    if(tvFailed){
+      say('\u26a0 TradingView widget \u8f09\u5514\u5230\uff08\u7db2\u7d61\uff0f\u88ab\u906e\uff09\u2014\u2014 \u9ede\u300c\u958b TV \u2197\u300d\u76f4\u63a5\u53bb\u7db2\u7ad9');
+      return;
+    }
+    var s=document.createElement('script');
+    s.src='https://s3.tradingview.com/tv.js';
+    s.async=true;
+    s.onload=function(){ tvLoaded=true; cb(); };
+    s.onerror=function(){ tvFailed=true;
+      say('\u26a0 TradingView widget \u8f09\u5514\u5230\uff08\u7db2\u7d61\uff0f\u88ab\u906e\uff09\u2014\u2014 \u9ede\u300c\u958b TV \u2197\u300d\u76f4\u63a5\u53bb\u7db2\u7ad9'); };
+    document.head.appendChild(s);
+  }
+  function say(t){ var n=document.getElementById('tvpopnote'); if(n) n.textContent=t||''; }
+
+  function show(el){
+    var sym=el.getAttribute('data-sym');
+    if(!sym) return;
+    var b=ensureBox();
+    b.querySelector('#tvpopsym').textContent=sym;
+    b.querySelector('#tvpopopen').href=el.href||('#');
+    if(cur!==sym){
+      cur=sym;
+      b.querySelector('#tvpopchart').innerHTML='';
+      say('\u8f09\u5165\u4e2d\u2026');
+      loadTV(function(){
+        var host=b.querySelector('#tvpopchart');
+        host.innerHTML='<div id="tvwbox" style="height:340px"></div>';
+        try{
+          /* global TradingView */
+          new TradingView.widget({
+            container_id:'tvwbox', symbol:sym, interval:'D',
+            theme:'dark', style:'1', locale:'zh_TW',
+            hide_side_toolbar:true, hide_top_toolbar:false,
+            allow_symbol_change:false, save_image:false,
+            withdateranges:false, details:false,
+            studies:['Volume@tv-basicstudies'],
+            width:'100%', height:340, autosize:false
+          });
+          setTimeout(function(){ say(''); }, 1100);
+        }catch(e){ say('\u26a0 widget \u8d77\u5514\u5230\uff1a'+e.message); }
+      });
+    }
+    b.style.display='block';
+    place(el);
+  }
+
+  function place(el){
+    if(!box) return;
+    var r=el.getBoundingClientRect(), w=box.offsetWidth||440, h=box.offsetHeight||400;
+    var left=r.right+14, top=r.top-6;
+    if(left+w>window.innerWidth-10) left=Math.max(8, r.left-w-14);
+    if(top+h>window.innerHeight-10) top=Math.max(8, window.innerHeight-h-10);
+    if(top<8) top=8;
+    box.style.left=left+'px'; box.style.top=top+'px';
+  }
+  function near(el){
+    return el.closest && el.closest('a.tv');
+  }
+
+  document.addEventListener('mouseover',function(e){
+    var a=near(e.target);
+    if(!a) return;
+    var sym=a.getAttribute('data-sym');
+    if(sym && sym===cur && box && box.style.display==='block'){ clearTimeout(timer); return; }
+    clearTimeout(timer);
+    timer=setTimeout(function(){ show(a); }, 400);      /* 400ms：掃過唔會連彈 */
+  }, true);
+
+  document.addEventListener('mouseout',function(e){
+    var a=near(e.target);
+    if(!a) return;
+    clearTimeout(timer);
+    setTimeout(function(){
+      if(syncing) return;
+      if(box && box.style.display==='block' && box.matches(':hover')) return;
+      hide();
+    }, 260);
+  }, true);
+
+  document.addEventListener('mouseenter',function(){ syncing=true; }, true);
+  document.addEventListener('mouseleave',function(){ syncing=false; }, true);
+  window.addEventListener('scroll',function(){
+    if(box && box.style.display==='block') hide();
+  }, {passive:true});
+  window.addEventListener('keydown',function(e){ if(e.key==='Escape') hide(); });
+})();
+</script>
+</body></html>
