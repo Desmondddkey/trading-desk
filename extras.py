@@ -104,12 +104,22 @@ def _metrics(df, pairs):
             continue
         r1 = c / c.shift(21) - 1
         s1 = spy / spy.shift(21) - 1
-        tail = min(30, len(r1) - 1)
-        thrust = float((r1.iloc[-tail:] > s1.iloc[-tail:]).mean() * 100)
+        # ★ 2026-10-13 修 bug：r1（ETF）同 s1（SPY）嘅 index 唔一定一樣
+        #   （SPY 有日、ETF 冇，反之亦然）→ pandas 對比時會強制 align →
+        #   `ValueError: Can only compare identically-labeled Series objects`
+        #   （build_site 直接爆，14 頁全部唔出）。
+        #   第一性原理：比較兩個時間序列之前，一定要先對齊 index。
+        common = r1.index.intersection(s1.index)
+        if len(common) < 30:
+            continue
+        r1a = r1.reindex(common)
+        s1a = s1.reindex(common)
+        tail = min(30, len(r1a) - 1)
+        thrust = float((r1a.iloc[-tail:] > s1a.iloc[-tail:]).mean() * 100)
         r1m = float(c.iloc[-1] / c.iloc[-22] - 1) * 100
         r1d = float(c.iloc[-1] / c.iloc[-2] - 1) * 100
         hh = float(c.tail(252).max())
-        spark = [round(float(v), 1) for v in (r1 - s1).tail(30).tolist()
+        spark = [round(float(v), 1) for v in (r1a - s1a).tail(30).tolist()
                  if math.isfinite(v)]
         rows.append({"etf": tk, "name": name,
                      "thrust": round(thrust, 0), "ex1m": round(r1m - spy1m, 1),

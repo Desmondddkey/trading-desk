@@ -427,10 +427,17 @@ header.top{position:sticky;top:0;z-index:50;background:#080d1aee;border-bottom:1
  backdrop-filter:blur(9px);margin:0 -14px 18px;padding:10px 14px 0}
 h1{font-size:19px;margin:0 0 2px;letter-spacing:.4px}
 .crumb{color:#6e80a0;font-size:11.5px;margin:0 0 9px}
-nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
+/* 導覽：桌面要 wrap，唔可以靠橫向 scroll ——
+   ★ 2026-10-13 修（Desmond 用 Control Glass 睇到「方法分類」被切一半）：
+   原本只有 overflow-x:auto，冇 flex-wrap → 默認 nowrap →
+   14 個 link 需要 1433px 但容器 1213px → 最後 1-2 個被切斷，
+   而 Chrome 隱藏 scrollbar → 完全冇提示。
+   縮 padding/font 都補唔到 220px 差額（實測只夠縮 ~170px）→ 一定要 wrap。
+   手機（≤768px）維持 nowrap + scroll（拇指滑動係自然嘅）。 */
+nav{display:flex;flex-wrap:wrap;gap:4px;padding-bottom:2px}
 nav a,nav span.tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;
- padding:8px 13px 9px;border-radius:9px 9px 0 0;font-size:13.5px;color:#9fb0cc;
- text-decoration:none;border:1px solid transparent;border-bottom:none;white-space:nowrap}
+ padding:7px 11px 8px;border-radius:9px;font-size:13px;color:#9fb0cc;
+ text-decoration:none;border:1px solid transparent;white-space:nowrap}
 nav a:hover{background:#121c31;color:#e8eef8}
 nav a.on{background:#0f1729;border-color:#1e2a44;color:#e8eef8;font-weight:700}
 nav span.off{opacity:.45}
