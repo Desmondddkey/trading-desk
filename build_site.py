@@ -48,7 +48,8 @@ import nel_pages as _np  # noqa: E402  （Item 1：NEL 五頁蒸餾）
 
 EN_LABELS = {"desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
              "week": "Week Strongest", "rsboard": "RS Board", "method": "Methods",
-             "cycle": "Growth Cycle", "setups": "Setups"}
+             "cycle": "Growth Cycle", "setups": "Setups",
+             "regime": "Setup x Regime"}
 
 TABS = [
     ("desk", "🖥", "機會", "desk.html"),
@@ -65,6 +66,7 @@ TABS = [
     ("method", "🧩", "方法分類", None),
     ("cycle", "🌀", "成長週期", None),
     ("setups", "📐", "Setups", None),
+    ("regime", "🎲", "Setup×Regime", None),
 ]
 
 
@@ -1158,6 +1160,92 @@ def build():
             '⚠ 「虛線＝最舊收市／實線＝用得最多／綠方格＝最早落帶」呢三個視覺係你原創規則，'
             '要你講一句先砌得準 —— 而家呢條帶係淨位置，冇嗰三樣。</div></div></div>')
         pages["setups"] = ("Setups", setups_body, base)
+
+    # ── ★ Setup × Regime 矩陣（Desmond 2026-10-15 要求）──
+    _rg = None
+    for _p in (os.path.join(LIVE, "output", "setup_regime_backtest.json"),
+               os.path.join(LAB, "output", "setup_regime_backtest.json")):
+        if os.path.exists(_p):
+            try:
+                with io.open(_p, encoding="utf-8") as f:
+                    _rg = json.load(f)
+                _rg["_src"] = os.path.basename(_p)
+                break
+            except Exception:
+                pass
+    if _rg and _rg.get("cells"):
+        _cells = _rg["cells"]
+        _setups = sorted({k.split("|")[0] for k in _cells})
+        _regs = sorted({k.split("|")[1] for k in _cells})
+        _minc = _rg.get("min_cell", 30)
+        _tot = _rg.get("total", 0)
+        # 搵每格最大值（用嚟上色深淺）
+        _mx = max((abs(v["mean_r"]) for v in _cells.values()), default=1) or 1
+        _h = ['<div class="card"><h2>🎲 Setup × Regime 矩陣'
+              f' <small>{esc(_rg["_src"])}｜{_rg.get("years","?")} 年｜'
+              f'{_tot:,} 單</small></h2><div class="body">']
+        _h.append('<div class="note">★ 核心洞察：<b>唔係問「邊個 setup 最好」，'
+                  '係問「邊個 setup 喺邊個 regime 最好」</b>。'
+                  '同一批 setup 訊號，喺唔同市場階段嘅平均 R 差天共地。'
+                  '市場階段決定回報分佈 —— 呢個就係 Portfolio-T 嘅邏輯。'
+                  f'<br>判準：n ≥ {_minc} 才准當結論（SOUL §8.14）｜'
+                  '止蝕 1.0 ATR｜出場 = 日線收市跌穿 10EMA（EDGE-034 ACTIVE）｜'
+                  '持倉上限 20 日。⚠ 未扣成本。</div>')
+        _h.append('<table class="t"><thead><tr><th class="l">Setup</th>')
+        for _r in _regs:
+            _h.append(f'<th>{esc(_r)}</th>')
+        _h.append('<th>最佳</th></tr></thead><tbody>')
+        _rows_rank = []
+        for _s in _setups:
+            _h.append(f'<tr><td class="l"><b>{esc(_s)}</b></td>')
+            _best = None
+            for _r in _regs:
+                _c = _cells.get(f"{_s}|{_r}")
+                if not _c or _c["n"] < _minc:
+                    _n = _c["n"] if _c else 0
+                    _h.append(f'<td style="opacity:.35">—<br>'
+                              f'<small>n={_n}</small></td>')
+                    continue
+                _m = _c["mean_r"]
+                _inten = min(0.55, abs(_m) / _mx * 0.55)
+                _bg = (f"rgba(35,134,54,{_inten:.2f})" if _m > 0
+                       else f"rgba(218,54,51,{_inten:.2f})")
+                _h.append(f'<td style="background:{_bg}">'
+                          f'<b>{_m:+.2f}R</b><br>'
+                          f'<small>n={_c["n"]}｜勝率 {_c["win_pct"]:.0f}%</small></td>')
+                _rows_rank.append((_s, _r, _m, _c["n"], _c["win_pct"]))
+                if _best is None or _m > _best[1]:
+                    _best = (_r, _m)
+            _h.append('<td>' + (f'<b>{esc(_best[0])}</b> {_best[1]:+.2f}R'
+                                if _best else '—') + '</td></tr>')
+        _h.append('</tbody></table>')
+        # 排名
+        if _rows_rank:
+            _rows_rank.sort(key=lambda x: -x[2])
+            _h.append('<h3 style="margin-top:18px">★ 有效組合排名'
+                      f'（n ≥ {_minc}）</h3><table class="t"><thead><tr>'
+                      '<th class="l">#</th><th class="l">Setup</th>'
+                      '<th class="l">Regime</th><th>平均 R</th>'
+                      '<th>n</th><th>勝率</th></tr></thead><tbody>')
+            for _i, (_s, _r, _m, _n, _w) in enumerate(_rows_rank[:12], 1):
+                _h.append(f'<tr><td class="l">{_i}</td>'
+                          f'<td class="l"><b>{esc(_s)}</b></td>'
+                          f'<td class="l">{esc(_r)}</td>'
+                          f'<td><b>{_m:+.3f}R</b></td><td>{_n}</td>'
+                          f'<td>{_w:.1f}%</td></tr>')
+            _h.append('</tbody></table>')
+            _b = _rows_rank[0]
+            _h.append(f'<div class="note" style="margin-top:14px">'
+                      f'★★ <b>數據答案</b>：目前最強組合 = '
+                      f'<b>{esc(_b[0])} × {esc(_b[1])}</b>'
+                      f'（{_b[2]:+.3f}R｜n={_b[3]}｜勝率 {_b[4]:.1f}%）。'
+                      f'<br>⚠ 但記住：呢個係 <b>3 年</b> 樣本、'
+                      f'未扣成本。要向前累積到 n≥200 才可以當定論。</div>')
+        else:
+            _h.append(f'<div class="note">⚠ 冇任何組合達到 n ≥ {_minc}'
+                      '—— 樣本不足，唔可以出結論。</div>')
+        _h.append('</div></div>')
+        pages["regime"] = ("Setup × Regime", "".join(_h), base)
 
     # ── 交易台（我原本嘅 dashboard）──
     src_desk = os.path.join(LAB, "output", f"dashboard_{datetime.date.today().isoformat()}.html")
