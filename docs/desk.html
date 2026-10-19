@@ -158,6 +158,63 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
     transform:translateX(202px);opacity:1;pointer-events:auto}
   body.drawer-open #sb.collapsed #sbtoggle{transform:translateX(28px)}
 }
+
+/* ══════════════════════════════════════════════════════════════
+   ★ 2026-10-19 Desmond：「深色版我想風格改成 CLAUDE 既風格顏色」
+   Claude（Anthropic）深色配色：
+     頁面底 #1F1E1D｜卡片 #262624｜浮起 #30302E｜邊框 #3E3E38
+     主文字 #FAF9F5（奶白）｜次文字 #B7B5A9｜弱 #8B8A82
+     強調 #D97757（赤陶橙）｜綠 #7DBE8A｜紅 #E2816D
+   ★ 只覆寫深色（light 模式由上方 html[data-theme="light"] 控制）
+   ══════════════════════════════════════════════════════════════ */
+html[data-theme="dark"] body{background:#1F1E1D;color:#FAF9F5}
+html[data-theme="dark"] a{color:#D97757}
+html[data-theme="dark"] header.top{background:#262624E6;
+  border-bottom:1px solid #3E3E38}
+html[data-theme="dark"] .crumb{color:#8B8A82}
+html[data-theme="dark"] .card{background:#262624;border-color:#3E3E38;
+  box-shadow:0 1px 3px rgba(0,0,0,.35)}
+html[data-theme="dark"] .card h2{background:#30302E;border-color:#3E3E38;
+  color:#FAF9F5}
+html[data-theme="dark"] .card h2 small{color:#B7B5A9}
+html[data-theme="dark"] .kpi{background:#262624;border-color:#3E3E38}
+html[data-theme="dark"] .kpi .k{color:#8B8A82}
+html[data-theme="dark"] th{background:#30302E;color:#B7B5A9;
+  border-color:#3E3E38}
+html[data-theme="dark"] td{border-color:#33332F}
+html[data-theme="dark"] tr:hover td{background:#2C2C29}
+html[data-theme="dark"] .tk{color:#FAF9F5}
+html[data-theme="dark"] .dim{color:#8B8A82}
+html[data-theme="dark"] .note{color:#B7B5A9}
+html[data-theme="dark"] .up{color:#7DBE8A}
+html[data-theme="dark"] .dn{color:#E2816D}
+html[data-theme="dark"] .buyrow td{background:rgba(217,119,87,.10)}
+html[data-theme="dark"] .hl{color:#D97757}
+html[data-theme="dark"] code{background:#30302E;color:#E8C4B0}
+/* 側欄 */
+html[data-theme="dark"] #sb{background:#262624;
+  border-right:1px solid #3E3E38;box-shadow:1px 0 0 #3E3E38}
+html[data-theme="dark"] #sb .brand{color:#FAF9F5}
+html[data-theme="dark"] #sb .grp{color:#8B8A82;border-top-color:#38382F}
+html[data-theme="dark"] #sb a{color:#B7B5A9}
+html[data-theme="dark"] #sb a:hover{background:#30302E;color:#FAF9F5}
+html[data-theme="dark"] #sb a.on{background:#3A2E28;color:#F0A882;
+  border-left:2px solid #D97757}
+html[data-theme="dark"] #sbtoggle{background:#30302E;border-color:#4A4A42;
+  color:#B7B5A9}
+html[data-theme="dark"] #sbtoggle:hover{background:#D97757;color:#1F1E1D;
+  border-color:#D97757}
+html[data-theme="dark"] #navtoggle{background:#262624EE;
+  border-color:#3E3E38;color:#FAF9F5}
+html[data-theme="dark"] #themebtn{background:#30302E;color:#B7B5A9}
+/* 按鈕 / 分頁 */
+html[data-theme="dark"] nav a{color:#B7B5A9}
+html[data-theme="dark"] nav a:hover{background:#30302E;color:#FAF9F5}
+html[data-theme="dark"] nav a.on{background:#3A2E28;border-color:#D97757;
+  color:#F0A882}
+/* 統計數字仍用色碼但調暖 */
+html[data-theme="dark"] .jb-ok,.html[data-theme="dark"] .kn-ok{color:#7DBE8A}
+html[data-theme="dark"] .jb-err{color:#E2816D}
 </style><button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button><div id="navoverlay"></div><button id="sbtoggle" title="收合側欄">&lsaquo;</button><aside id="sb"><a class="brand" href="index.html">📈 Desmond · 交易台</a><button id="themebtn">🌙 深色</button><a href="jobboard.html" data-pin="1"><span class="i"></span><span>廚房看板</span></a><div class="grp">市場</div><a href="regime_mri.html" data-ab="MA"><span class="ab">MA</span><span class="lbl">MARKET REGIME</span></a><a href="index.html" data-ab="市場"><span class="ab">市場</span><span class="lbl">市場簡報</span></a><a href="sectors.html" data-ab="Se"><span class="ab">Se</span><span class="lbl">Sectors</span></a><a href="themes.html" data-ab="Th"><span class="ab">Th</span><span class="lbl">Themes</span></a><a href="breadth.html" data-ab="Br"><span class="ab">Br</span><span class="lbl">Breadth</span></a><div class="grp">選股</div><a href="dailyscan.html" data-ab="Da"><span class="ab">Da</span><span class="lbl">Daily Scan</span></a><a href="leadermap.html" data-ab="RS"><span class="ab">RS</span><span class="lbl">RS Leader 位置圖</span></a><a href="earnings.html" data-ab="財報"><span class="ab">財報</span><span class="lbl">財報日曆</span></a><a href="desk.html" class="on" data-ab="機會"><span class="ab">機會</span><span class="lbl">機會（總表）</span></a><a href="leaders.html" data-ab="領導"><span class="ab">領導</span><span class="lbl">領導股</span></a><a href="cm.html" data-ab="1C"><span class="ab">1C</span><span class="lbl">1CM 回調</span></a><a href="week.html" data-ab="最強"><span class="ab">最強</span><span class="lbl">最強 1 週</span></a><a href="rsboard.html" data-ab="RS"><span class="ab">RS</span><span class="lbl">RS 板</span></a><a href="regime.html" data-ab="Se"><span class="ab">Se</span><span class="lbl">Setup 矩陣</span></a><div class="grp">成績</div><a href="positioning.html" data-ab="Po"><span class="ab">Po</span><span class="lbl">Positioning</span></a><a href="review.html" data-ab="Re"><span class="ab">Re</span><span class="lbl">Review</span></a><a href="calculator.html" data-ab="倉位"><span class="ab">倉位</span><span class="lbl">倉位計算機</span></a><div class="grp">外部數據</div><a href="rocketstock.html" data-ab="Ro"><span class="ab">Ro</span><span class="lbl">RocketStock</span></a><a href="livefeeds.html" data-ab="外部"><span class="ab">外部</span><span class="lbl">外部即時數據</span></a><a href="mm.html" data-ab="Ma"><span class="ab">Ma</span><span class="lbl">Market Monitor</span></a><a href="bee50.html" data-ab="St"><span class="ab">St</span><span class="lbl">Stockbee 50</span></a><a href="ndx.html" data-ab="納指"><span class="ab">納指</span><span class="lbl">納指權重股</span></a><a href="jeffsun.html" data-ab="Je"><span class="ab">Je</span><span class="lbl">Jeff Sun Mom.</span></a><a href="external.html" data-ab="外部"><span class="ab">外部</span><span class="lbl">外部數據源（NEL 等）</span></a><div class="grp">方法</div><a href="method.html" data-ab="方法"><span class="ab">方法</span><span class="lbl">方法分類</span></a><a href="cycle.html" data-ab="成長"><span class="ab">成長</span><span class="lbl">成長週期</span></a><a href="setups.html" data-ab="Se"><span class="ab">Se</span><span class="lbl">Setups</span></a><div class="grp">PLAYBOOK</div><a href="https://jfsrev.substack.com/p/my-trading-tools-process-routine" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span>Jeff Sun 工具/流程</span></a><a href="https://traderslab.gitbook.io/primetrading" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span>PrimeTrading 手冊</span></a><a href="https://qullamaggie.net/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span>Qullamaggie</span></a><a href="https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span>QM 3 個 setups</span></a><a href="https://qullamaggie.net/alex-desjardinss-method/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span>Alex Desjardins 方法</span></a></aside><script>
 (function(){
   function store(k,f){try{return JSON.parse(localStorage.getItem('desk-'+k))??f;}catch(e){return f;}}
