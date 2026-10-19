@@ -58,13 +58,15 @@ CSS = """
 .lb-more a{font-size:12px;opacity:.7}
 @media(max-width:700px){
   .lb-tbl thead{display:none}
-  .lb-tbl,.lb-tbl tbody,.lb-tbl tr,.lb-tbl td{display:block;width:100%}
-  .lb-tbl tr{padding:9px 0;border-bottom:1px solid rgba(128,128,128,.16)}
-  .lb-tbl td{border:0;padding:1px 0}
-  .lb-tbl td:nth-child(1){display:inline;margin-right:8px}
-  .lb-tbl td:nth-child(2){display:inline}
-  .lb-tbl td:nth-child(3){margin-top:3px}
-  .lb-tbl td:nth-child(4){margin-top:2px}
+  .lb-tbl,.lb-tbl tbody,.lb-tbl tr{display:block;width:100%}
+  .lb-tbl tr{padding:10px 0;border-bottom:1px solid rgba(128,128,128,.16)}
+  .lb-tbl td{display:block;width:auto;text-align:left!important;
+    border:0;padding:0}
+  .lb-tbl td:nth-child(1){display:inline;font-size:11px;margin:0}
+  .lb-tbl td:nth-child(2){display:inline;margin:0 0 0 8px}
+  .lb-tbl td:nth-child(3){margin-top:5px;font-size:13.5px;line-height:1.4}
+  .lb-tbl td:nth-child(4){margin-top:3px}
+  .lb-d{font-size:12px;line-height:1.55}
 }
 """
 
