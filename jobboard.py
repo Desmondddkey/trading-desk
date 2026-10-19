@@ -106,13 +106,26 @@ def load_exec():
                 "ended_at" if "ended_at" in cols else
                 "started_at" if "started_at" in cols else
                 "claimed_at" if "claimed_at" in cols else "id")
+        _extra = ", ".join(
+            c if c in cols else f"NULL AS {c}"
+            for c in ("started_at", "finished_at", "error"))
         rows = cur.execute(
-            f"SELECT job_id, status, {tcol} FROM executions "
+            f"SELECT job_id, status, {tcol}, {_extra} FROM executions "
             f"ORDER BY id DESC LIMIT 1200").fetchall()
-        for jid, st, ts in rows:
+        for jid, st, ts, s_at, f_at, err in rows:
             d = out.setdefault(jid, {"recent": [], "last": None})
             if len(d["recent"]) < RECENT_N:
-                d["recent"].append({"status": st, "at": ts})
+                _dur = None
+                try:
+                    _a = datetime.datetime.fromisoformat(
+                        str(s_at).replace("Z", "+00:00"))
+                    _b = datetime.datetime.fromisoformat(
+                        str(f_at).replace("Z", "+00:00"))
+                    _dur = max(0.0, (_b - _a).total_seconds())
+                except (TypeError, ValueError):
+                    pass
+                d["recent"].append({"status": st, "at": ts,
+                                    "dur": _dur, "err": err})
             if d["last"] is None:
                 d["last"] = {"status": st, "at": ts}
         con.close()
@@ -204,6 +217,15 @@ CSS = """
 .d-ok{background:#2fbf71}.d-err{background:#e5484d}.d-none{background:#8b93a3}
 .jb-nm{font-weight:700;font-size:14px;line-height:1.3}
 
+.jb-log{margin:8px 0 4px;border:1px solid rgba(128,128,128,.2);
+  border-radius:8px;overflow:hidden}
+.jb-log-h{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;
+  opacity:.55;padding:5px 8px;background:rgba(128,128,128,.09);font-weight:700}
+.jb-log-r{display:grid;grid-template-columns:20px 1fr auto auto;gap:8px;
+  padding:4px 8px;font-size:11.5px;font-family:ui-monospace,monospace;
+  border-top:1px solid rgba(128,128,128,.1);align-items:center}
+.jb-log-r.e{color:#e5484d}
+.jb-log-s{opacity:.7;font-size:10.5px}
 .jb-cat{font-size:10px;font-weight:700;padding:1px 6px;border-radius:999px;
   border:1px solid rgba(128,128,128,.35);margin-left:6px;opacity:.75;
   white-space:nowrap;vertical-align:middle}
@@ -465,6 +487,31 @@ def build(jobs, execs, incs):
             parts.append('<div class="jb-chips">' +
                          "".join(f'<span class="jb-chip">{_esc(c)}</span>'
                                  for c in chips) + '</div>')
+
+            # ★ 2026-10-19 Desmond：「加個log 記錄」
+            #   每次跑嘅時間 / 狀態 / 耗時（最新在上）
+            rec = r.get("recent") or []
+            if rec:
+                okl = {"ok": "✅", "success": "✅", "done": "✅",
+                       "error": "❌", "failed": "❌", "timeout": "⏱",
+                       "skipped": "⏭", "running": "▶"}
+                parts.append('<div class="jb-log"><div class="jb-log-h">'
+                             '執行記錄（最新在上）</div>')
+                for e in rec:
+                    stt = str(e.get("status") or "?")
+                    ic = okl.get(stt, "·")
+                    at = str(e.get("at") or "")[:16].replace("T", " ")
+                    du = e.get("dur")
+                    du_s = (f"{du:.1f}s" if isinstance(du, (int, float))
+                            and du < 60 else
+                            f"{du/60:.1f}m" if isinstance(du, (int, float))
+                            else "—")
+                    parts.append(
+                        f'<div class="jb-log-r{" e" if "err" in stt or "fail" in stt else ""}">'
+                        f'<span>{ic}</span><span>{_esc(at)}</span>'
+                        f'<span class="jb-log-s">{_esc(stt)}</span>'
+                        f'<span>{_esc(du_s)}</span></div>')
+                parts.append('</div>')
 
             if r["err"]:
                 parts.append('<div class="jb-pre" style="color:#e5484d;'
