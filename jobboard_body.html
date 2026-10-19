@@ -1,0 +1,1420 @@
+<style>
+.jb-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:12px;margin:0 0 18px}
+.jb-stat{padding:14px 16px;border-radius:12px;
+  border:1px solid rgba(128,128,128,.28);background:rgba(128,128,128,.05)}
+.jb-stat .v{font-size:26px;font-weight:800;line-height:1.1}
+.jb-stat .k{font-size:11px;letter-spacing:.07em;text-transform:uppercase;
+  opacity:.62;margin-top:5px}
+.jb-ok{color:#1a7f4b}.jb-err{color:#c0262b}.jb-none{color:#8b8b8b}
+[data-theme="dark"] .jb-ok{color:#7ce0a8}
+[data-theme="dark"] .jb-err{color:#ff9a9d}
+[data-theme="dark"] .jb-none{color:#8d9bb0}
+
+.jb-grid{display:grid;gap:12px}
+.jb-card{border:1px solid rgba(128,128,128,.26);border-radius:12px;
+  overflow:hidden;background:rgba(128,128,128,.035)}
+.jb-card.err{border-color:rgba(192,38,43,.5);
+  background:rgba(192,38,43,.055)}
+.jb-hd{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;
+  cursor:pointer;user-select:none}
+.jb-hd:hover{background:rgba(128,128,128,.08)}
+.jb-dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;margin-top:5px}
+.d-ok{background:#2fbf71}.d-err{background:#e5484d}.d-none{background:#8b93a3}
+.jb-nm{font-weight:700;font-size:14px;line-height:1.3}
+.jb-meta{font-size:11.5px;opacity:.68;margin-top:3px;line-height:1.55}
+.jb-meta code{font-size:11px;padding:1px 5px;border-radius:4px;
+  background:rgba(128,128,128,.16)}
+.jb-body{padding:0 14px 14px;display:none}
+.jb-card.open .jb-body{display:block}
+.jb-pre{white-space:pre-wrap;word-break:break-word;font-size:12.5px;
+  line-height:1.65;padding:12px;border-radius:9px;
+  background:rgba(128,128,128,.075);border:1px solid rgba(128,128,128,.18);
+  max-height:420px;overflow:auto;font-family:ui-monospace,Menlo,Consolas,monospace}
+.jb-chips{display:flex;gap:5px;flex-wrap:wrap;margin:0 0 9px}
+.jb-chip{font-size:10.5px;padding:2px 7px;border-radius:999px;
+  border:1px solid rgba(128,128,128,.34);opacity:.86}
+.jb-empty{opacity:.5;font-size:12px;padding:8px 0}
+.jb-filters{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 16px}
+.jb-filters button{padding:7px 13px;border-radius:999px;font-size:12.5px;
+  border:1px solid rgba(128,128,128,.34);background:rgba(128,128,128,.07);
+  color:inherit;cursor:pointer;font-family:inherit}
+.jb-filters button.on{background:#2563eb;border-color:#2563eb;color:#fff}
+.jb-sched{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px}
+@media(max-width:700px){.jb-pre{max-height:300px;font-size:12px}}
+</style><script>
+function jbToggle(el){el.parentElement.classList.toggle('open')}
+function jbFilter(mode,btn){
+  document.querySelectorAll('.jb-filters button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.jb-card').forEach(c=>{
+    const ok = mode==='all' ? true
+      : mode==='err' ? c.classList.contains('err')
+      : mode==='never' ? c.dataset.state==='never'
+      : mode==='on' ? c.dataset.state!=='never'
+      : true;
+    c.style.display = ok ? '' : 'none';
+  });
+}
+</script><h2>🍳 廚房看板 <small>所有常駐 job 狀態</small></h2><p class="crumb">本機讀取 <code>~/AppData/Local/hermes/cron/</code>｜生成 2026-10-19｜<b>57</b> 個 job 註冊｜<a href="https://desmondddkey.github.io/trading-desk/index.html">回主頁</a></p><div class="jb-stats"><div class="jb-stat"><div class="v jb-ok">50</div><div class="k">正常</div></div><div class="jb-stat"><div class="v jb-err">4</div><div class="k">失敗</div></div><div class="jb-stat"><div class="v jb-none">2</div><div class="k">從未跑過</div></div><div class="jb-stat"><div class="v jb-none">1</div><div class="k">已停用</div></div><div class="jb-stat"><div class="v jb-err">6</div><div class="k">未關閉事故</div></div></div><div class="card"><h2>🚨 需要處理 <small>4 個 job 失敗</small></h2><div style="padding:12px 16px"><div style="padding:9px 0;border-bottom:1px solid rgba(128,128,128,.16);font-size:13px"><b>usic-monthly-log-excel</b> <code style="font-size:11px">9d00a631d4dc</code><br><span class="jb-err" style="font-size:12px">8 小時前｜subprocess.TimeoutExpired: Command &#x27;[&#x27;C:\\Users\\rain0\\trading-os\\.venv\\Scripts\\python.exe&#x27;, &#x27;-X&#x27;, &#x27;utf8&#x27;, &#x27;C:\\Users\\rain0\\trading-os\\notion_sync.py&#x27;, &#x27;2026-10&#x27;]&#x27; timed out after 300 seconds</span></div><div style="padding:9px 0;border-bottom:1px solid rgba(128,128,128,.16);font-size:13px"><b>tree-trace-weekly</b> <code style="font-size:11px">8d0aec5f36cf</code><br><span class="jb-err" style="font-size:12px">2 日前｜⚠ tree-trace 失敗</span></div><div style="padding:9px 0;border-bottom:1px solid rgba(128,128,128,.16);font-size:13px"><b>usic-edge-audit-notion</b> <code style="font-size:11px">37b72d4e3b22</code><br><span class="jb-err" style="font-size:12px">2 日前｜subprocess.TimeoutExpired: Command &#x27;[&#x27;C:\\Users\\rain0\\trading-os\\.venv\\Scripts\\python.exe&#x27;, &#x27;-X&#x27;, &#x27;utf8&#x27;, &#x27;C:\\Users\\rain0\\trading-os\\edge_audit_cron.py&#x27;]&#x27; timed out after 600 seconds</span></div><div style="padding:9px 0;border-bottom:1px solid rgba(128,128,128,.16);font-size:13px"><b>premarket-notion-record</b> <code style="font-size:11px">bdd949eb80ef</code><br><span class="jb-err" style="font-size:12px">2 日前｜⚠️ 盤前記錄同步失敗（詳見 log）</span></div></div></div><div class="jb-filters"><button class="on" onclick="jbFilter('all',this)">全部 57</button><button onclick="jbFilter('err',this)">🚨 失敗 4</button><button onclick="jbFilter('on',this)">✅ 運作中 54</button><button onclick="jbFilter('never',this)">⚪ 從未跑 2</button></div><div class="jb-grid"><div class="jb-card err" data-state="err"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-err"></span><div style="flex:1"><div class="jb-nm">usic-monthly-log-excel</div><div class="jb-meta"><code>9d00a631d4dc</code> <span class="jb-sched">0 7 * * *</span><br>上次：8 小時前（2026-10-19T07:05）｜下次：2026-10-20T07:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">usic_log_builder_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-19 07:05</span><span class="jb-chip">⚠ 1 個未關閉事故</span></div><div class="jb-pre" style="color:#e5484d;border-color:rgba(229,72,77,.4)">n _run_code
+  File &quot;C:\Users\rain0\AppData\Local\hermes\scripts\usic_log_builder_cron.py&quot;, line 51, in &lt;module&gt;
+    r = subprocess.run([VENV_PY, &quot;-X&quot;, &quot;utf8&quot;, NOTION, m],
+                       capture_output=True, text=True, encoding=&quot;utf-8&quot;, timeout=300,
+                       env=_env, cwd=TRADING_OS)
+  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 1664, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command &#x27;[&#x27;C:\\Users\\rain0\\trading-os\\.venv\\Scripts\\python.exe&#x27;, &#x27;-X&#x27;, &#x27;utf8&#x27;, &#x27;C:\\Users\\rain0\\trading-os\\notion_sync.py&#x27;, &#x27;2026-10&#x27;]&#x27; timed out after 300 seconds</div><div class="jb-pre"># Cron Job: usic-monthly-log-excel
+
+**Job ID:** 9d00a631d4dc
+**Run Time:** 2026-10-19 07:05:41
+**Mode:** no_agent (script)
+**Status:** script failed
+
+Script exited with code 1
+stderr:
+Traceback (most recent call last):
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+    import os, runpy, site, sys;site.addsitedir(&#x27;C:\\Users\\rain0\\AppData\\Local\\hermes\\installs\\8729f4be64c59c59\\environments\\4ccb6b659d994814bfbe898c674cb4ea\\venv\\Lib\\site-packages&#x27;);script = sys.argv[1];sys.argv = [script] + sys.argv[2:];sys.path.insert(0, os.path.dirname(os.path.abspath(script)));runpy.run_path(script, run_name=&#x27;__main__&#x27;)
+                                                                                                                                                                                                                                                                                                                       ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;&lt;frozen runpy&gt;&quot;, line 294, in run_path
+  File &quot;&lt;frozen runpy&gt;&quot;, line 98, in _run_module_code
+  File &quot;&lt;frozen runpy&gt;&quot;, line 88, in _run_code
+  File &quot;C:\Users\rain0\AppData\Local\hermes\scripts\usic_log_builder_cron.py&quot;, line 51, in &lt;module&gt;
+    r = subprocess.run([VENV_PY, &quot;-X&quot;, &quot;utf8&quot;, NOTION, m],
+                       capture_output=True, text=True, encoding=&quot;utf-8&quot;, timeout=300,
+                       env=_env, cwd=TRADING_OS)
+  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 1664, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command &#x27;[&#x27;C:\\Users\\rain0\\trading-os\\.venv\\Scripts\\python.exe&#x27;, &#x27;-X&#x27;, &#x27;utf8&#x27;, &#x27;C:\\Users\\rain0\\trading-os\\notion_sync.py&#x27;, &#x27;2026-10&#x27;]&#x27; timed out after 300 seconds</div><div class="jb-empty">來源：cron/output/9d00a631d4dc/2026-10-19_07-05-41.md</div></div></div><div class="jb-card err" data-state="err"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-err"></span><div style="flex:1"><div class="jb-nm">tree-trace-weekly</div><div class="jb-meta"><code>8d0aec5f36cf</code> <span class="jb-sched">10 9 * * 6</span><br>上次：2 日前（2026-10-17T09:10）｜下次：2026-10-24T09:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">tree_trace_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-17 09:10</span><span class="jb-chip">⚠ 1 個未關閉事故</span></div><div class="jb-pre" style="color:#e5484d;border-color:rgba(229,72,77,.4)">Script exited with code 1
+stderr:
+⚠ tree-trace 失敗</div><div class="jb-pre"># Cron Job: tree-trace-weekly
+
+**Job ID:** 8d0aec5f36cf
+**Run Time:** 2026-10-17 09:10:43
+**Mode:** no_agent (script)
+**Status:** script failed
+
+Script exited with code 1
+stderr:
+⚠ tree-trace 失敗</div><div class="jb-empty">來源：cron/output/8d0aec5f36cf/2026-10-17_09-10-43.md</div></div></div><div class="jb-card err" data-state="err"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-err"></span><div style="flex:1"><div class="jb-nm">usic-edge-audit-notion</div><div class="jb-meta"><code>37b72d4e3b22</code> <span class="jb-sched">30 6 * * 2-6</span><br>上次：2 日前（2026-10-17T06:40）｜下次：2026-10-20T06:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">edge_audit_notion_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-17 06:40</span><span class="jb-chip">⚠ 1 個未關閉事故</span></div><div class="jb-pre" style="color:#e5484d;border-color:rgba(229,72,77,.4)">ine 88, in _run_code
+  File &quot;C:\Users\rain0\AppData\Local\hermes\scripts\edge_audit_notion_cron.py&quot;, line 28, in &lt;module&gt;
+    r = subprocess.run([VENV_PY, &quot;-X&quot;, &quot;utf8&quot;, SCRIPT],
+                       capture_output=True, text=True, encoding=&quot;utf-8&quot;, timeout=600,
+                       env=_env, cwd=TRADING_OS)
+  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 1664, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command &#x27;[&#x27;C:\\Users\\rain0\\trading-os\\.venv\\Scripts\\python.exe&#x27;, &#x27;-X&#x27;, &#x27;utf8&#x27;, &#x27;C:\\Users\\rain0\\trading-os\\edge_audit_cron.py&#x27;]&#x27; timed out after 600 seconds</div><div class="jb-pre"># Cron Job: usic-edge-audit-notion
+
+**Job ID:** 37b72d4e3b22
+**Run Time:** 2026-10-17 06:40:42
+**Mode:** no_agent (script)
+**Status:** script failed
+
+Script exited with code 1
+stderr:
+Traceback (most recent call last):
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+    import os, runpy, site, sys;site.addsitedir(&#x27;C:\\Users\\rain0\\AppData\\Local\\hermes\\installs\\8729f4be64c59c59\\environments\\5f668f6a189343708dc78ccb1397b6cb\\venv\\Lib\\site-packages&#x27;);script = sys.argv[1];sys.argv = [script] + sys.argv[2:];sys.path.insert(0, os.path.dirname(os.path.abspath(script)));runpy.run_path(script, run_name=&#x27;__main__&#x27;)
+                                                                                                                                                                                                                                                                                                                       ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;&lt;frozen runpy&gt;&quot;, line 294, in run_path
+  File &quot;&lt;frozen runpy&gt;&quot;, line 98, in _run_module_code
+  File &quot;&lt;frozen runpy&gt;&quot;, line 88, in _run_code
+  File &quot;C:\Users\rain0\AppData\Local\hermes\scripts\edge_audit_notion_cron.py&quot;, line 28, in &lt;module&gt;
+    r = subprocess.run([VENV_PY, &quot;-X&quot;, &quot;utf8&quot;, SCRIPT],
+                       capture_output=True, text=True, encoding=&quot;utf-8&quot;, timeout=600,
+                       env=_env, cwd=TRADING_OS)
+  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 1664, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command &#x27;[&#x27;C:\\Users\\rain0\\trading-os\\.venv\\Scripts\\python.exe&#x27;, &#x27;-X&#x27;, &#x27;utf8&#x27;, &#x27;C:\\Users\\rain0\\trading-os\\edge_audit_cron.py&#x27;]&#x27; timed out after 600 seconds</div><div class="jb-empty">來源：cron/output/37b72d4e3b22/2026-10-17_06-40-42.md</div></div></div><div class="jb-card err" data-state="err"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-err"></span><div style="flex:1"><div class="jb-nm">premarket-notion-record</div><div class="jb-meta"><code>bdd949eb80ef</code> <span class="jb-sched">0 19 * * 1-5</span><br>上次：2 日前（2026-10-16T19:00）｜下次：2026-10-19T19:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">premarket_notion_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-16 19:00</span><span class="jb-chip">⚠ 1 個未關閉事故</span></div><div class="jb-pre" style="color:#e5484d;border-color:rgba(229,72,77,.4)">Script exited with code 1
+stderr:
+list_children 3ee1ab85-01ba-80cf-b01f-d8426f771d1f -&gt; 0 {&quot;error&quot;: &quot;URLError: &lt;urlopen error [Errno 11001] getaddrinfo failed&gt;&quot;}
+create page &#x27;📈 盤前記錄&#x27; -&gt; 0 {&quot;error&quot;: &quot;URLError: &lt;urlopen error [Errno 11001] getaddrinfo failed&gt;&quot;}
+cannot obtain parent page
+stdout:
+⚠️ 盤前記錄同步失敗（詳見 log）</div><div class="jb-pre"># Cron Job: premarket-notion-record
+
+**Job ID:** bdd949eb80ef
+**Run Time:** 2026-10-16 19:00:51
+**Mode:** no_agent (script)
+**Status:** script failed
+
+Script exited with code 1
+stderr:
+list_children 3ee1ab85-01ba-80cf-b01f-d8426f771d1f -&gt; 0 {&quot;error&quot;: &quot;URLError: &lt;urlopen error [Errno 11001] getaddrinfo failed&gt;&quot;}
+create page &#x27;📈 盤前記錄&#x27; -&gt; 0 {&quot;error&quot;: &quot;URLError: &lt;urlopen error [Errno 11001] getaddrinfo failed&gt;&quot;}
+cannot obtain parent page
+stdout:
+⚠️ 盤前記錄同步失敗（詳見 log）</div><div class="jb-empty">來源：cron/output/bdd949eb80ef/2026-10-16_19-00-51.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">kitchen-watchdog</div><div class="jb-meta"><code>8db0186fed4a</code> <span class="jb-sched">0 * * * *</span><br>上次：56 分鐘前（2026-10-19T15:00）｜下次：2026-10-19T16:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">kitchen_watchdog_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-19 15:00</span></div><div class="jb-pre"># Cron Job: kitchen-watchdog
+
+**Job ID:** 8db0186fed4a
+**Run Time:** 2026-10-19 15:00:40
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/8db0186fed4a/2026-10-19_15-00-40.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">edge-candidate-daily</div><div class="jb-meta"><code>eec144c36d53</code> <span class="jb-sched">10 8 * * *</span><br>上次：7 小時前（2026-10-19T08:10）｜下次：2026-10-20T08:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">edge_candidate_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-19 08:10</span></div><div class="jb-pre"># Cron Job: edge-candidate-daily
+
+**Job ID:** eec144c36d53
+**Run Time:** 2026-10-19 08:10:40
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/eec144c36d53/2026-10-19_08-10-40.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">notion-kb-sync</div><div class="jb-meta"><code>4e6508a24b92</code> <span class="jb-sched">0 7 * * *</span><br>上次：8 小時前（2026-10-19T07:03）｜下次：2026-10-20T07:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">notion_kb_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-19 07:03</span></div><div class="jb-pre"># Cron Job: notion-kb-sync
+
+**Job ID:** 4e6508a24b92
+**Run Time:** 2026-10-19 07:03:58
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/4e6508a24b92/2026-10-19_07-03-58.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">fleet-sim-daily</div><div class="jb-meta"><code>ab8cc0033aae</code> <span class="jb-sched">0 7 * * 1-5</span><br>上次：8 小時前（2026-10-19T07:00）｜下次：2026-10-20T07:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">fleet_sim_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-19 07:00</span></div><div class="jb-pre"># Cron Job: fleet-sim-daily
+
+**Job ID:** ab8cc0033aae
+**Run Time:** 2026-10-19 07:00:45
+**Mode:** no_agent (script)
+
+---
+
+🚀 選股 Job 艦隊 —— 資金曲線
+
+
+
+  每個 job 起始 NAV $100,000（paper，冇 broker）
+
+
+
+  ┌────────────────┬──────────┬──────────┬──────────┬────────┬────────┐
+
+  │ Job             │ 訊號     │ 已結算   │ 而家 NAV │ 報酬   │ 持倉   │
+
+  ├────────────────┼──────────┼──────────┼──────────┼────────┼────────┤
+
+  │ layer1_layer2 │    348   │      0   │  100,000 │ +0.00% │     0  │
+
+  │ layer2a_rs    │     19   │      0   │  100,000 │ +0.00% │     1  │
+
+  │ weekly_watch  │     16   │      0   │  100,000 │ +0.00% │     0  │
+
+  │ daily_plan    │     30   │      0   │  100,000 │ +0.00% │     0  │
+
+  │ setup_alerts  │     24   │      0   │   92,928 │ -7.07% │     1  │
+
+  │ orh_rvol      │      2   │      0   │  100,000 │ +0.00% │     0  │
+
+  └────────────────┴──────────┴──────────┴──────────┴────────┴────────┘
+
+  合計 NAV $592,928（6 個 job × $100,000）
+
+MEDIA:C:\Users\rain0\trading-os\output\fleet_equity_20261013.png</div><div class="jb-empty">來源：cron/output/ab8cc0033aae/2026-10-19_07-00-45.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">setup-alerts</div><div class="jb-meta"><code>82a425b3367b</code> <span class="jb-sched">* 21-23,0 * * 1-5</span><br>上次：14 小時前（2026-10-19T00:59）｜下次：2026-10-19T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">setup_alerts_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-19 00:59</span></div><div class="jb-pre"># Cron Job: setup-alerts
+
+**Job ID:** 82a425b3367b
+**Run Time:** 2026-10-19 00:59:40
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/82a425b3367b/2026-10-19_00-59-40.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">changelog-notion-sync</div><div class="jb-meta"><code>18ffa2fd30aa</code> <span class="jb-sched">30 22 * * *</span><br>上次：17 小時前（2026-10-18T22:30）｜下次：2026-10-19T22:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">changelog_sync_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-18 22:30</span></div><div class="jb-pre"># Cron Job: changelog-notion-sync
+
+**Job ID:** 18ffa2fd30aa
+**Run Time:** 2026-10-18 22:30:40
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/18ffa2fd30aa/2026-10-18_22-30-40.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">edgebook-notion-sync</div><div class="jb-meta"><code>5de069059c64</code> <span class="jb-sched">20 22 * * *</span><br>上次：17 小時前（2026-10-18T22:21）｜下次：2026-10-19T22:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">edgebook_notion_sync.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-18 22:21</span></div><div class="jb-pre"># Cron Job: edgebook-notion-sync
+
+**Job ID:** 5de069059c64
+**Run Time:** 2026-10-18 22:21:01
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/5de069059c64/2026-10-18_22-21-01.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">hermes-daily-digest</div><div class="jb-meta"><code>30170a274064</code> <span class="jb-sched">0 20 * * *</span><br>上次：19 小時前（2026-10-18T20:00）｜下次：2026-10-19T20:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">daily_digest_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-18 20:00</span></div><div class="jb-pre"># Cron Job: hermes-daily-digest
+
+**Job ID:** 30170a274064
+**Run Time:** 2026-10-18 20:00:41
+**Mode:** no_agent (script)
+
+---
+
+📊 HERMES 每日觀察 — 2026-10-18 20:00
+
+【目標】+1000%/年｜贏輸比需 4.38:1
+  ███████████░░░░░░░░░ 60%｜而家 2.63:1（1279 單）
+
+【今日最需要修嘅一件事】
+  &lt;30 分鐘：631 單，EV -0.500%/單
+  ≥1 日　：190 單，EV +4.354%/單
+  → 長持 EV 係短炒嘅 9 倍
+  → 贏單中位持倉 76 分鐘
+  → 最大出血出場類型：MKT（113 單，EV -0.412%）
+
+【廚房】
+  55 個 job（54 enabled）｜⭐⭐⭐ 13｜⭐ 30｜未達標 5
+  知識庫：104 頁｜141,603 字｜今日新抓 0
+  比賽：20261006 開賽｜權益 +7.49%｜持倉 5｜斷路器 未觸發
+
+【等你決定（單向門，唔會自動做）】
+  • 止蝕凍結中，2026-11-04 後可重審
+  • 止蝕解凍提請仍未批（選項 A/B/維持）
+
+（本紙由 hermes_daily_digest.py 生成；所有數字可由 output/ 重跑核對）</div><div class="jb-empty">來源：cron/output/30170a274064/2026-10-18_20-00-41.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">rotation-map-weekly</div><div class="jb-meta"><code>361060b9cf75</code> <span class="jb-sched">30 19 * * 0,3</span><br>上次：20 小時前（2026-10-18T19:30）｜下次：2026-10-21T19:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">rotation_map_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-18 19:30</span></div><div class="jb-pre"># Cron Job: rotation-map-weekly
+
+**Job ID:** 361060b9cf75
+**Run Time:** 2026-10-18 19:30:42
+**Mode:** no_agent (script)
+
+---
+
+🔄 行業輪動圖（週報）
+前三強：
+
+MEDIA:C:\Users\rain0\trading-os-lab\output\rotation_map_2026-10-16.png</div><div class="jb-empty">來源：cron/output/361060b9cf75/2026-10-18_19-30-42.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">kitchen-status-daily</div><div class="jb-meta"><code>17880add1334</code> <span class="jb-sched">0 19 * * *</span><br>上次：20 小時前（2026-10-18T19:01）｜下次：2026-10-19T19:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">kitchen_status_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-18 19:01</span></div><div class="jb-pre"># Cron Job: kitchen-status-daily
+
+**Job ID:** 17880add1334
+**Run Time:** 2026-10-18 19:01:24
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/17880add1334/2026-10-18_19-01-24.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">theme-watch-daily</div><div class="jb-meta"><code>b3ca777d817f</code> <span class="jb-sched">25 18 * * 0-5</span><br>上次：21 小時前（2026-10-18T18:25）｜下次：2026-10-19T18:25</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">theme_watch_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-18 18:25</span></div><div class="jb-pre"># Cron Job: theme-watch-daily
+
+**Job ID:** b3ca777d817f
+**Run Time:** 2026-10-18 18:25:58
+**Mode:** no_agent (script)
+
+---
+
+🎯 主題雷達 · 2026-10-16 收市　AI 安全（AI Security）
+主題分 47.8　｜　50MA 上 55.0%　｜　200MA 上 90.0%　｜　破新高 60日 13／20日 11
+子主題：AI 紅隊測試 58 ＞ AI 身份認證 55 ＞ AI 網絡安全 54 ＞ 代理安全 54
+
+🏆 年度候選（持有一年型 · 而家喺新高）（6）
+🏆 年度候選 MSFT　分 65　RS 84　距52wH -4.0%　ATRX 2.1　沙灘球 62
+🏆 年度候選 FFIV　分 62　RS 90　距52wH -8.5%　ATRX 1.4　沙灘球 33
+🏆 年度候選 FTNT🔴　分 62　RS 96　距52wH -14.2%　ATRX 0.0　沙灘球 42
+🏆 年度候選 PANW　分 58　RS 95　距52wH -20.9%　ATRX 1.6　沙灘球 36
+🏆 年度候選 DDOG🔴　分 57　RS 94　距52wH -17.8%　ATRX 0.0　沙灘球 30
+🏆 年度候選 CRWD🔴　分 56　RS 96　距52wH -20.8%　ATRX 0.5　沙灘球 28
+
+🟢 領導（5）
+🟢 領導 DT　分 65　RS 77　距52wH -7.8%　ATRX 3.4　沙灘球 56
+🟢 領導 OKTA　分 54　RS 74　距52wH -20.3%　ATRX 0.7　沙灘球 34
+🟢 領導 ESTC　分 47　RS 74　距52wH -15.1%　ATRX 0.8　沙灘球 52
+🟢 領導 NOW🔴　分 46　RS 82　距52wH -26.4%　ATRX 1.2　沙灘球 43
+🟢 領導 SAP　分 43　RS 70　距52wH -18.9%　ATRX 2.4　沙灘球 30
+
+🟡 觀察（7）
+🟡 觀察 QLYS　分 54　RS 68　距52wH -12.2%　ATRX 0.2　沙灘球 42
+🟡 觀察 SNOW🔴　分 48　RS 66　距52wH -20.2%　ATRX 1.5　沙灘球 40
+🟡 觀察 NET🔴　分 46　RS 72　距52wH -20.0%　ATRX 1.4　沙灘球 27
+🟡 觀察 S　分 46　RS 70　距52wH -18.6%　ATRX 0.8　沙灘球 15
+🟡 觀察 CSCO　分 40　RS 86　距52wH -17.0%　ATRX 1.2　沙灘球 26
+🟡 觀察 ZS　分 36　RS 68　距52wH -38.5%　ATRX 1.6　沙灘球 40
+🟡 觀察 SAIL　分 28　RS 64　距52wH -21.5%　ATRX 0.7　沙灘球 32
+⚡ 沙灘球最強：MSFT 62、DT 56、ESTC 52
+🛡️ 抗跌最強：QLYS 57、CHKP 49、IBM 28
+
+📌 持倉：FTNT 🏆 62　DDOG 🏆 57　CRWD 🏆 56　SNOW 🟡 48　NET 🟡 46　NOW 🟢 46
+
+🔄 相對上次
+　主題分 53.0 → 47.8（-5.2 ▼）
+　50MA 上嘅成員 85.0% → 55.0%（-30.0）
+　級別變動：S LEADER→WATCH；ZS LEADER→WATCH
+
+規則 theme-watch-v1｜RS 來源 universe｜研究輸出，唔係入場訊號</div><div class="jb-empty">來源：cron/output/b3ca777d817f/2026-10-18_18-25-58.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">michelin-audit-weekly</div><div class="jb-meta"><code>65e21c80519e</code> <span class="jb-sched">40 9 * * 0</span><br>上次：1 日前（2026-10-18T09:40）｜下次：2026-10-25T09:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">michelin_audit_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-18 09:40</span></div><div class="jb-pre"># Cron Job: michelin-audit-weekly
+
+**Job ID:** 65e21c80519e
+**Run Time:** 2026-10-18 09:40:41
+**Mode:** no_agent (script)
+
+---
+
+⭐⭐⭐ 廚房星級評鑑 — 2026-10-18
+三星 13／二星 7／一星 29／零未達標 6（共 55 個 job）
+
+⭐⭐⭐ Daily-Pre-market-Plan — 米芝蓮三星（2 次，失敗 0）
+    功能：每日一張紙（USIC Daily Brief）
+    作用：合併 Insight 格式 + Plan 內容：regime、候選卡、組合熱度、集中度、贏家紀律。寫入 output/daily_plan_card_&lt;date&gt;.txt 供 Notion 同步。
+    出處：SOUL §8.16
+⭐⭐⭐ close-watch-exit — 米芝蓮三星（5 次，失敗 0）
+    功能：收市前出場提醒（15:40–16:05 ET）
+    作用：讀 positions.json，按 SOUL §4.3 檢查：③ 收市跌穿 10EMA 全清、① 觸及 2R 減 33%、② ATRX&gt;8 減 33%、🛑 止蝕觸發、🔒 贏家區紀律。沉默合約：冇動作＝完全唔出聲。
+    出處：SOUL §8.18（出場同入場要對稱）
+⭐⭐⭐ edge-candidate-daily — 米芝蓮三星（4 次，失敗 0）
+    功能：每日最多一條 Edge 候選（08:10）
+    作用：抽最多 1 條 CANDIDATE（優先次序：重複失敗 &gt; 書內未修風險 &gt; 統計門檻）。只加一行入 EDGE_BOOK 待審批隊列，唔會自己升 ACTIVE。冇新候選＝完全靜音。
+    出處：SOUL §8.10
+⭐⭐⭐ jeffsun-intraday-ORH-RVOL-alert — 米芝蓮三星（30 次，失敗 0）
+    功能：盤中 ORH / RVOL 警報
+    作用：開市區間突破（ORH）+ 相對成交量（RVOL ≥100% by 12:00 ET）觸發即出警報。Jeff Sun Setup-A。
+    出處：SOUL §4 設置類型
+⭐⭐⭐ kitchen-watchdog — 米芝蓮三星（30 次，失敗 0）
+    功能：廚房自己巡邏（每小時）
+    作用：捉：爆量失敗（60 分鐘 ≥5 次）、job 過期未跑、連敗、execution 卡死、未關閉 incident、已刪 job 仍失敗、數據庫讀唔到。乾淨＝完全靜音；同一件事最多 12 小時通知一次。
+    出處：SOUL §8.9
+⭐⭐⭐ michelin-audit-weekly — 米芝蓮三星（1 次，失敗 0）
+    功能：廚房星級評鑑（逢日 09:40）
+    作用：逐個 job 對照廚房標準評星：★ 可靠（失敗率 ≤5%）｜★★ 有專屬測試｜★★★ no_agent + wrapper 合約齊（環境隔離／utf-8／timeout）。每粒星都印證據，零主觀分。
+    出處：SOUL §8.13
+⭐⭐⭐ model-book-weekly — 米芝蓮三星（1 次，失敗 0）
+    功能：每週 Model Book 建構（逢六 07:00 HKT ＝ 美股週五收市後）
+    作用：model_book.py 更新交易模型書，記錄 setup 表現、regime 變化。
+    出處：Model book
+⭐⭐⭐ quality-watch-weekly — 米芝蓮三星（1 次，失敗 0）
+    功能：6-setup quality 分每週驗證（逢六 08:30）
+    作用：量度 quality 分係唔係真係預測到嘢。基準 = 拖 10EMA（ACTIVE，EDGE-034/036）。判準事先寫死：&lt;20 交易日只記錄唔准調參。
+    出處：SOUL §8.14
+⭐⭐⭐ risk-gate-daily — 米芝蓮三星（2 次，失敗 0）
+    功能：風險閘 × 動量（星期一至五 18:00 HKT，純腳本）：今日應該做咩
+    作用：機械化 SOUL §3 regime 判斷（填 2026-10-08 審計第 7 條：唯一影響倉位嘅輸入冇自動化）。三個輸入 → 一個答案：① 閘門 IWF÷IWD 收市 vs 佢自己 10 週結構（EMA10 每週高低）② 動量 距中線 gap 嘅 10 日變化 ③ 延伸 距中線 σ 數。判六區（RISK_OFF／PROBE／RAMP_UP／TRIM／HOLD／RELOAD），每區有行動指示 + 之後 20 日 QQQE 歷史。出 output/risk_gate_&lt;date&gt;.json|txt|png，歷史 _risk_gate_history.jsonl。stdout = 卡（週末靜音）。
+    出處：EDGE-053｜Desmond 2026-10-11 提供原圖｜規則 config/risk_gate.yaml｜測試 tests/test_risk_gate.py（18 個）
+⭐⭐⭐ setup-alerts — 米芝蓮三星（30 次，失敗 0）
+    功能：6-setup 盤中警報（每分鐘，21:00–00:00 HKT）
+    作用：setup_alerts.py 輪詢 6 種 setup。空 stdout ＝ 冇警報。呢個係最重要嘅即時入場訊號。
+    出處：SOUL §4 設置類型
+⭐⭐⭐ theme-watch-daily — 米芝蓮三星（2 次，失敗 0）
+    功能：主題雷達桌（逢日一至五＋星期日 18:25，純腳本）：主題成員表 → Notion
+    作用：按 config/themes.yaml 嘅主題（現時：AI 安全 6 子群組 20 隻）計四個目的：①相對強度（S&amp;P500 TRUE percentile RS）②沙灘球（沉低即彈率/彈返速度/壓縮）③不斷創新高＋抗跌（跌市日捕獲率）④年度大贏家候選。輸出 output/theme_watch_&lt;date&gt;.json|txt + 寫
+
+…（截斷）</div><div class="jb-empty">來源：cron/output/65e21c80519e/2026-10-18_09-40-41.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">weekly-watchlist-sunday-0900</div><div class="jb-meta"><code>60db02c0cae2</code> <span class="jb-sched">0 9 * * 0</span><br>上次：1 日前（2026-10-18T09:01）｜下次：2026-10-25T09:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">weekly_watchlist_cron.py</span><span class="jb-chip">→ telegram:322829419</span><span class="jb-chip">輸出 10-18 09:01</span></div><div class="jb-pre"># Cron Job: weekly-watchlist-sunday-0900
+
+**Job ID:** 60db02c0cae2
+**Run Time:** 2026-10-18 09:01:05
+**Mode:** no_agent (script)
+
+---
+
+📋 WEEKLY WATCHLIST — Week of Oct 19, 2026
+數據截至 2026-10-16 收市 · rule weekly-watchlist-v1
+
+REGIME DOWNTREND｜QQQ 距52w高 -7.0%｜5日 -5.52%｜VIX 20.0 (擴張)｜net 52w 新高−新低 +19（10日平均 +8）
+池 48 → 通過 4 → 精選 4（RS≥70 / ATRX≤4.0 / ADR≥4.0% / 距52w高≤12.0% / 盈利&gt;5日 / 價≥$5 / 成交額≥$8M）
+RS = 相對 S&amp;P500 之 3/6/9/12 個月加權表現百分位（0-99）
+
+$GCT
+ Grade A  RS 95  · ATRX 1.9  · ADR 4.5%  · 距52w高 -5.1%
+Consolidating near highs / testing $58.25 supply pivot.
+
+$PARR
+ Grade A  RS 96  · ATRX 0.6  · ADR 5.7%  · 距52w高 -8.1%
+Re-test / pullback watching for a pivot / under $87.72 pivot.
+
+$LPG
+ Grade B+  RS 96  · ATRX 0.3  · ADR 4.3%  · 距52w高 -10.6%
+Consolidating.
+
+$STNG
+ Grade B  RS 84  · ATRX 0.2  · ADR 4.1%  · 距52w高 -9.6%
+Consolidating.
+
+Downtrend regime — 唔做多，現金為主；呢張清單淨係觀察名單。
+No Chasing / No FOMO / Focus on the names and levels you like. 🐟 🎣
+WATCH_ONLY · 研究用途，非買入指令（entry 要另行符合 ORH+RVOL 規則）</div><div class="jb-empty">來源：cron/output/60db02c0cae2/2026-10-18_09-01-05.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">digest-evening</div><div class="jb-meta"><code>2cd155ef3ea4</code> <span class="jb-sched">35 23 * * 2-6</span><br>上次：1 日前（2026-10-17T23:35）｜下次：2026-10-20T23:35</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">push_evening_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-17 23:35</span></div><div class="jb-pre"># Cron Job: digest-evening
+
+**Job ID:** 2cd155ef3ea4
+**Run Time:** 2026-10-17 23:35:37
+**Mode:** no_agent (script)
+
+---
+
+🌃 收市後（今日總結）｜2026-10-17
+
+
+
+━━━ risk-gate-daily ━━━
+
+🚦 RISK GATE · 2026-10-15 收市　（IWF÷IWD）
+
+
+
+▶ 今日應該做咩 → 【RISK_OFF】🛑 唔開新倉（現金為王）· 只建立觀察清單
+
+　資金去 value／現金。增長股清倉或只留極少，主力做觀察清單。
+
+
+
+── 三個輸入 ──
+
+ ① 閘門　risk_off　ratio 0.4851 vs band 0.4892–0.4985
+
+　　　　risk-off 自 2026-10-14（第 2 日）　｜　現時 zone 自 2026-10-14（第 2 日）
+
+ ② 動量　fading（-2.20σ）　距 10 週中線 -1.77%（10 日前 3.95%）
+
+ ③ 延伸　距 10 週中線 -0.69σ（band 外 -1.05σ）　21 日 EMA -0.99σ　未延伸
+
+
+
+── 之後 20 日歷史（本機重算，n = 該 zone 日數）──
+
+ ▶RISK_OFF  n=298   QQQE 0.4%  升 51%  growth 贏 47%
+
+ 　PROBE     n=207   QQQE 0.8%  升 54%  growth 贏 45%
+
+ 　RAMP_UP   n=203   QQQE 1.3%  升 66%  growth 贏 73%
+
+ 　TRIM      n=79    QQQE 0.7%  升 65%  growth 贏 35%
+
+ 　HOLD      n=104   QQQE 2.4%  升 74%  growth 贏 54%
+
+ 　RELOAD    n=237   QQQE 1.2%  升 65%  growth 贏 60%
+
+
+
+── 對照原圖（2026-10-09 同一日）──
+
+ ratio 0.4851 vs 0.5045　band 0.4892–0.4985 vs 0.4865–0.4989
+
+ band 外 -1.05σ vs 0.44σ　距中線 -0.69σ vs 0.93σ　gap% -1.77 vs 2.2（10 日前 3.95 vs 2.8）
+
+ 日數（本機 vs 原圖）：RISK_OFF 298/289｜PROBE 207/201｜RAMP_UP 203/230｜TRIM 79/81｜HOLD 104/104｜RELOAD 237/239
+
+
+
+⚠️ 原圖卡②寫「Rising · −0.02σ」—— 個字同自己個數（負數）矛盾。本引擎照**符號**判（負 = fading → RELOAD）。要改成「Rising」請講。
+
+
+
+倉位鐵律（不變）：單筆風險 0.5%｜單一倉位 ≤33%｜組合風險 ≤1.5%｜ATRX &gt;4 = 硬刪（EDGE-009）
+
+規則 risk-gate-v1｜環境判斷，唔係入場訊號｜改 trade_cap／倉位 = 單向門，要 Desmond 批
+
+
+
+━━━ notion-records-daily ━━━
+
+📒 Notion 記錄同步完成
+
+  🔥 T1 RVOL 事件：4 行（新 1 / 更新 3）
+
+  🎯 T1 每日勝率：4 行（新 1 / 更新 3）
+
+  🎯 6-Setup 警報：83 行（新 0 / 更新 83）
+
+  ⚡ Jeff Sun 盤中 RVOL：2 行（新 0 / 更新 2）
+
+  🔬 Edge 審計：83 行（新 0 / 更新 83）
+
+  👤 Vibe 影子：164 行（新 0 / 更新 164）
+
+  位置：https://app.notion.com/p/3ef1ab8501ba816192c8d202273e4819
+
+
+
+━━━ hermes-daily-digest ━━━
+
+📊 HERMES 每日觀察 — 2026-10-17 20:00
+
+
+
+【目標】+1000%/年｜贏輸比需 4.38:1
+
+  ███████████░░░░░░░░░ 60%｜而家 2.63:1（1279 單）
+
+
+
+【今日最需要修嘅一件事】
+
+  &lt;30 分鐘：631 單，EV -0.500%/單
+
+  ≥1 日　：190 單，EV +4.354%/單
+
+  → 長持 EV 係短炒嘅 9 倍
+
+  → 贏單中位持倉 76 分鐘
+
+  → 最大出血出場類型：MKT（113 單，EV -0.412%）
+
+
+
+【廚房】
+
+  55 個 job（54 enabled）｜⭐⭐⭐ 11｜⭐ 29｜未達標 8
+
+  知識庫：104 頁｜141,603 字｜今日新抓 65
+
+  比賽：20261006 開賽｜權益 +7.49%｜持倉 5｜斷路器 未觸發
+
+
+
+【等你決定（單向門，唔會自動做）】
+
+  • 止蝕凍結中，2026-11-04 後可重審
+
+  • 止蝕解凍提請仍未批（選項 A/B/維持）
+
+
+
+（本紙由 hermes_daily_digest.py 生成；所有數字可由 output/ 重跑核對）
+
+
+
+⚠️ 非今日數據：risk-gate-daily（2026-10-16）、notion-records-daily（2026-10-16）
+
+── 全部 paper，冇 broker 連線（SOUL §8.7）</div><div class="jb-empty">來源：cron/output/2cd155ef3ea4/2026-10-17_23-35-37.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">discipline-gate</div><div class="jb-meta"><code>1ff4503b45e5</code> <span class="jb-sched">0,30 21-23,0-5 * * 2-6</span><br>上次：1 日前（2026-10-17T23:30）｜下次：2026-10-20T00:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">discipline_gate_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-17 23:30</span></div><div class="jb-pre"># Cron Job: discipline-gate
+
+**Job ID:** 1ff4503b45e5
+**Run Time:** 2026-10-17 23:30:37
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/1ff4503b45e5/2026-10-17_23-30-37.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">sim-trade-daily</div><div class="jb-meta"><code>9717c2be80fb</code> <span class="jb-sched">5 22 * * 2-6</span><br>上次：1 日前（2026-10-17T22:05）｜下次：2026-10-20T22:05</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">sim_daily_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-17 22:05</span></div><div class="jb-pre"># Cron Job: sim-trade-daily
+
+**Job ID:** 9717c2be80fb
+**Run Time:** 2026-10-17 22:05:40
+**Mode:** no_agent (script)
+
+---
+
+📊 交易訊息 — 2026-10-14
+
+
+
+（今日冇 entry／trim／exit）
+
+
+
+── 持倉 ──
+
+  PBF  312/312 股｜入 85.87 → 現 85.87｜+0.00R｜止蝕 84.27｜持 1 日
+
+
+
+💰 帳戶 $99,495（-0.51%）｜現金 $72,704｜開放風險 0.50%
+
+📈 已結算 0 單｜總 R +0.00</div><div class="jb-empty">來源：cron/output/9717c2be80fb/2026-10-17_22-05-40.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">cashdesk-daily</div><div class="jb-meta"><code>80fea3d4e7d9</code> <span class="jb-sched">0 21 * * 2-6</span><br>上次：1 日前（2026-10-17T21:00）｜下次：2026-10-20T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">cashdesk_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-17 21:00</span></div><div class="jb-pre"># Cron Job: cashdesk-daily
+
+**Job ID:** 80fea3d4e7d9
+**Run Time:** 2026-10-17 21:00:43
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/80fea3d4e7d9/2026-10-17_21-00-43.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">site-db-daily</div><div class="jb-meta"><code>6d4bcfa998fe</code> <span class="jb-sched">30 19 * * 2-6</span><br>上次：1 日前（2026-10-17T19:31）｜下次：2026-10-20T19:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">site_db_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-17 19:31</span></div><div class="jb-pre"># Cron Job: site-db-daily
+
+**Job ID:** 6d4bcfa998fe
+**Run Time:** 2026-10-17 19:31:12
+**Mode:** no_agent (script)
+
+---
+
+📊 網站數據庫 — 2026-10-13
+   12 張表 OK
+   快照：db/site_db_2026-10-13.xlsx（37 KB）
+   歷史：db/site_db_history.xlsx</div><div class="jb-empty">來源：cron/output/6d4bcfa998fe/2026-10-17_19-31-12.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">market-watch</div><div class="jb-meta"><code>91fa81dc34c3</code> <span class="jb-sched">10 19 * * 2-6</span><br>上次：1 日前（2026-10-17T19:10）｜下次：2026-10-20T19:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">market_watch_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-17 19:10</span></div><div class="jb-pre"># Cron Job: market-watch
+
+**Job ID:** 91fa81dc34c3
+**Run Time:** 2026-10-17 19:10:45
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/91fa81dc34c3/2026-10-17_19-10-45.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">trading-desk-daily (19:00)</div><div class="jb-meta"><code>e6f5e1ec5fc9</code> <span class="jb-sched">0 19 * * 2-6</span><br>上次：1 日前（2026-10-17T19:01）｜下次：2026-10-20T19:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">desk_daily_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-17 19:01</span></div><div class="jb-pre"># Cron Job: trading-desk-daily (19:00)
+
+**Job ID:** e6f5e1ec5fc9
+**Run Time:** 2026-10-17 19:01:46
+**Mode:** no_agent (script)
+
+---
+
+📊 交易台 2026-10-17
+價格：124 隻，2024-09-03 → 2026-10-09；出 12 個日期
+日期：2026-09-24(123) 2026-09-25(123) 2026-09-28(123) 2026-09-29(123) 2026-09-30(123) 2026-10-01(123) 2026-10-02(123) 2026-10-05(123) 2026-10-06(123) 2026-10-07(123) 2026-10-08(123) 2026-10-09(123)
+輪動：20 行｜風險：10 桶
+網站：✓ 已重建+上線
+Notion：✓ 上載圖片 fid=3fc1ab85-01ba-8185-ab62-00b2711207c6｜✓ 開新頁 📊 交易台記錄 2026-10-17（3fc1ab85-01ba-81e2-8e4c-db3ab9916512）｜回讀：22 個 block｜image block 1 個｜圖片已掛 = True｜https://www.notion.so/3fc1ab8501ba81e28e4cdb3ab9916512
+
+① 位置圖（領導股喺邊）② 行業輪動 ③ ATRX 風險
+HTML 有日期選擇器，可以揀過去 12 個交易日重播＋睇之後表現。
+
+WATCH_ONLY · 研究用途，非買入指令。
+
+MEDIA:C:\Users\rain0\trading-os-lab\output\dashboard_2026-10-17.png
+MEDIA:C:\Users\rain0\trading-os-lab\output\dashboard_2026-10-17.html</div><div class="jb-empty">來源：cron/output/e6f5e1ec5fc9/2026-10-17_19-01-46.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">setup-check</div><div class="jb-meta"><code>7162d6d74296</code> <span class="jb-sched">50 18 * * 2-6</span><br>上次：1 日前（2026-10-17T18:50）｜下次：2026-10-20T18:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">setup_check_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-17 18:50</span></div><div class="jb-pre"># Cron Job: setup-check
+
+**Job ID:** 7162d6d74296
+**Run Time:** 2026-10-17 18:50:43
+**Mode:** no_agent (script)
+
+---
+
+🔍 Setup 檢查（每日）
+  🟡 階段 CHOP｜倉位 ×0.75
+
+  ⚠️ ★★ 廣度背馳警告（指數撐、廣度跌）
+     廣度 20 日變化 -33.9pp
+     → 歷史上係危險前兆（2021-10 / 2000-10）
+     → 每個 setup 各減半倉，唔好新開突破倉
+
+  ⛔ 今日暫停：
+     HVE（7 HVE 史上最高量 (Omar/1chartmaster)）—— ⚠️ 疑有害（BULL n=31 -0.138）</div><div class="jb-empty">來源：cron/output/7162d6d74296/2026-10-17_18-50-43.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">shadow-exit-weekly</div><div class="jb-meta"><code>ee849131dcf8</code> <span class="jb-sched">20 9 * * 6</span><br>上次：2 日前（2026-10-17T09:20）｜下次：2026-10-24T09:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">shadow_exit_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-17 09:20</span></div><div class="jb-pre"># Cron Job: shadow-exit-weekly
+
+**Job ID:** ee849131dcf8
+**Run Time:** 2026-10-17 09:20:44
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/ee849131dcf8/2026-10-17_09-20-44.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">edge-question-weekly</div><div class="jb-meta"><code>97b862ecb1c1</code> <span class="jb-sched">45 8 * * 6</span><br>上次：2 日前（2026-10-17T08:45）｜下次：2026-10-24T08:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">edge_question_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-17 08:45</span></div><div class="jb-pre"># Cron Job: edge-question-weekly
+
+**Job ID:** 97b862ecb1c1
+**Run Time:** 2026-10-17 08:45:46
+**Mode:** no_agent (script)
+
+---
+
+📏 追高審計（J Law 質疑 #2）— 23 個被剔訊號已評分
+   基準：exit_trail10ema（ACTIVE）｜全部用 edge_audit 同一個評分器
+
+   [拖10EMA]
+     實際做：n=83  平均 -0.685R  勝率 4%
+     被剔走：n=23  平均 +2.267R  勝率 13%
+     → ⚠️ 剔除係錯嘅：被剔組中位多 0.000R（CHASE_MAX_LOD_ATR 可能太緊）
+
+   被剔訊號嘅前向高位：中位 0.86R，最大 76.37R，6/23 個曾達 +2R
+   剔除原因分佈：{&#x27;&#x27;: 6, &#x27;距 LoD 0.66 ATR &gt; 0.6&#x27;: 1, &#x27;距 LoD 0.87 ATR &gt; 0.6&#x27;: 1, &#x27;距 LoD 0.98 ATR &gt; 0.6&#x27;: 2, &#x27;距 LoD 1.44 ATR &gt; 0.6&#x27;: 1, &#x27;距 LoD 0.63 ATR &gt; 0.6&#x27;: 1, &#x27;距 LoD 1.01 ATR &gt; 0.6&#x27;: 1, &#x27;距 LoD 1.03 ATR &gt; 0.6&#x27;: 1, &#x27;距 LoD 0.62 ATR &gt; 0.6&#x27;: 1, &#x27;距 LoD 0.76 ATR &gt; 0.6&#x27;: 1, &#x27;距 LoD 0.68 ATR &gt; 0.6&#x27;: 1, &#x27;距 LoD 0.64 ATR &gt; 0.6&#x27;: 1, &#x27;距 LoD 0.88 ATR &gt; 0.6&#x27;: 2, &#x27;距 LoD 0.84 ATR &gt; 0.6&#x27;: 2, &#x27;距 LoD 0.9 ATR &gt; 0.6&#x27;: 1}
+
+🛑 止蝕反事實（J Law 質疑 #4）— 83 單可重播（有前向交易日）
+   方法：逐日順序重播，止蝕（日低觸及）先於拖尾（收市跌穿 10EMA）；同日兩中當止蝕（保守）
+
+   變體             n   平均R     勝率   被止蝕%   中位止蝕(ATR)
+   0.50 ATR       83  -0.413      4%       78%         0.50
+   0.75 ATR       83  -0.572      4%       65%         0.75
+   1.00 ATR       83  -0.691      4%       49%         1.00
+   1.25 ATR       83  -0.706      4%       17%         1.25
+   1.50 ATR       83  -0.686      4%        7%         1.50
+   2.00 ATR       83  -0.684      4%        1%         2.00
+   現行規則           83  -0.231      4%       94%         0.25
+
+   現行規則中位止蝕 = 0.25 ATR（94% 嘅單被止蝕）
+   最佳變體：0.50 ATR（-0.413R vs 現行 -0.231R，差 -0.183R）
+   🔒 凍結中（Desmond 2026-10-06）：要 &gt;= 20 個 graded 交易日 或 跨 regime 樣本，AND diff &gt; +0.10R 才可以提請改
+      解凍日：2026-11-04｜判準：用 stop_counterfactual.py 重跑；只有當 (a) 已有 &gt;=20 個 graded 交易日 或跨 …
+   ⚠️ 28 單同一日止蝕同拖尾都中，冇日內數據分先後 → 當止蝕。真實結果可能好過上面。
+
+🪜 分批減倉審計 — 83 單順序重播（跳過 0：冇 pivot／冇前向 bar／冇 ATR）
+   1R = 該單自己嘅風險（入場 − 止蝕）；注意同 edge_audit 嘅 ATR-R 唔同尺
+
+   規則                         n   平均R     勝率    最大R    最小R
+   A 3 段式階梯（現行 §4.3）           83  -1.771     24%    +3.05    -6.30
+   B 純拖 10EMA（ACTIVE）          83  -3.001      4%    +1.27   -10.29
+   C 只減 2R，其餘拖到尾               83  -1.790     24%    +1.51    -6.30
+   D 觸及 2R 全清                  83  +0.669     75%    +2.00    -6.30
+
+   階梯 vs 純拖尾：+1.230R/單
+   → 階梯反而更好：分批減倉嘅防守價值大過剪尾成本
+   波動：階梯 σ 1.93R vs 純拖 σ 2.36R → 降波動 18%
+   觸及 2R：75%｜觸及 ATRX&gt;7：1%
+   ⚠️ ATRX&gt;7 幾乎唔會觸發 → 第②段實際上係死條文（同 LOD 閘一樣）
+   ⚠️ 37 單同日減倉同拖尾都中，當減倉先（對階梯有利），真實可能冇咁好
+
+   🔧 第一次減倉位置掃描（同一階梯，只改 ① 嘅價位）
+      現行 ①2R 實際上 = 中位 0.50 ATR（因為風險中位只有 0.25 ATR）
+      ① 價位        n   平均R     勝率
+      entry+0.50 ATR   83  -1.699     20%  ← 接近現行
+      entry+0.75 ATR   83  -1.534     23%
+      entry+1.00 ATR   83  -1.417     25%
+      entry+1.50 ATR   83  -2.183     14%
+      entry+2.00 
+
+…（截斷）</div><div class="jb-empty">來源：cron/output/97b862ecb1c1/2026-10-17_08-45-46.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">quality-watch-weekly</div><div class="jb-meta"><code>33529297ef77</code> <span class="jb-sched">30 8 * * 6</span><br>上次：2 日前（2026-10-17T08:30）｜下次：2026-10-24T08:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">quality_watch_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-17 08:30</span></div><div class="jb-pre"># Cron Job: quality-watch-weekly
+
+**Job ID:** 33529297ef77
+**Run Time:** 2026-10-17 08:30:42
+**Mode:** no_agent (script)
+
+---
+
+📊 Quality vs Edge 週報 — 2026-10-17
+基準：拖10EMA（ACTIVE，EDGE-034/036）｜凍結門檻：每個 setup 20 個交易日
+樣本：83 單有 quality + 拖10EMA 評分
+
+— 逐個 setup —
+DEP     4/20日  n=8   q&lt;=2 -0.878R(n=6)  q=3 -1.570R(n=2)  q&gt;=4 —(n=0)｜ρ -0.76
+HVE     2/20日  n=2   q&lt;=2 -0.440R(n=1)  q=3 -0.520R(n=1)  q&gt;=4 —(n=0)
+JM      5/20日  n=20  q&lt;=2 —(n=0)  q=3 —(n=0)  q&gt;=4 -0.785R(n=20)｜ρ -0.14
+PIV30   4/20日  n=12  q&lt;=2 -0.550R(n=10)  q=3 -0.825R(n=2)  q&gt;=4 —(n=0)｜ρ -0.23
+SHK     4/20日  n=14  q&lt;=2 -0.643R(n=8)  q=3 -0.590R(n=2)  q&gt;=4 -0.280R(n=4)｜ρ +0.39
+UCR     4/20日  n=14  q&lt;=2 —(n=0)  q=3 -0.632R(n=10)  q&gt;=4 -0.280R(n=4)｜ρ +0.51
+YOYO    4/20日  n=13  q&lt;=2 -2.040R(n=1)  q=3 -0.664R(n=5)  q&gt;=4 -0.621R(n=7)｜ρ +0.26
+
+— 整體 —
+全部      5/20日  n=83  q&lt;=2 -0.707R(n=26)  q=3 -0.733R(n=22)  q&gt;=4 -0.637R(n=35)｜ρ +0.06
+        q&gt;=4 − q&lt;=2 = +0.070R（負 = 高 quality 反而差）
+        判讀：樣本不足（5/20 日，n=83/30）— 只記錄，唔准調參
+
+⏳ 全部 setup 都未夠 20 日（現時最多 5 日）→ 本週結論：唔准因為呢個數字改任何權重
+判準係事先定死嘅（唔係睇完數才決定）：diff&gt;0 支持，diff&lt;=0 提請覆核。
+
+（已存檔 C:\Users\rain0\trading-os\output\quality_watch_2026-10-17.md）</div><div class="jb-empty">來源：cron/output/33529297ef77/2026-10-17_08-30-42.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">digest-morning</div><div class="jb-meta"><code>9c6b1538e232</code> <span class="jb-sched">40 7 * * 2-6</span><br>上次：2 日前（2026-10-17T07:40）｜下次：2026-10-20T07:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">push_morning_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-17 07:40</span></div><div class="jb-pre"># Cron Job: digest-morning
+
+**Job ID:** 9c6b1538e232
+**Run Time:** 2026-10-17 07:40:42
+**Mode:** no_agent (script)
+
+---
+
+🌅 早報（美股收市後）｜2026-10-17
+
+
+
+━━━ usic-edge-audit-notion ━━━
+
+# Cron Job: usic-edge-audit-notion
+
+
+
+**Job ID:** 37b72d4e3b22
+
+**Run Time:** 2026-10-17 06:40:42
+
+**Mode:** no_agent (script)
+
+**Status:** script failed
+
+
+
+Script exited with code 1
+
+stderr:
+
+Traceback (most recent call last):
+
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+
+    import os, runpy, site, sys;site.addsitedir(&#x27;C:\\Users\\rain0\\AppData\\Local\\hermes\\installs\\8729f4be64c59c59\\environments\\5f668f6a189343708dc78ccb1397b6cb\\venv\\Lib\\site-packages&#x27;);script = sys.argv[1];sys.argv = [script] + sys.argv[2:];sys.path.insert(0, os.path.dirname(os.path.abspath(script)));runpy.run_path(script, run_name=&#x27;__main__&#x27;)
+
+                                                                                                                                                                                                                                                                                                                       ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File &quot;&lt;frozen runpy&gt;&quot;, line 294, in run_path
+
+  File &quot;&lt;frozen runpy&gt;&quot;, line 98, in _run_module_code
+
+  File &quot;&lt;frozen runpy&gt;&quot;, line 88, in _run_code
+
+  File &quot;C:\Users\rain0\AppData\Local\hermes\scripts\edge_audit_notion_cron.py&quot;, line 28, in &lt;module&gt;
+
+    r = subprocess.run([VENV_PY, &quot;-X&quot;, &quot;utf8&quot;, SCRIPT],
+
+                       capture_output=True, text=True, encoding=&quot;utf-8&quot;, timeout=600,
+
+                       env=_env, cwd=TRAD
+
+   …（截短，完整 2295 字元見 local）
+
+
+
+━━━ edge-candidate-daily ━━━
+
+🧪 Edge 候選提案 — 2026-10-16
+
+來源：重複失敗（executions.db）
+
+題目：同一失敗簽名 14 日內 89 次（最後 2026-10-15，0 日前）
+
+
+
+簽名：`⚠️ setup_alerts live exited &lt;n&gt;`
+
+⚠️ 0 日前仍然發生 — 屬現行故障。
+
+提案：為呢個失敗類別加一條物理防護（測試／斷言／前置檢查／明確錯誤訊息），令佢下次出現時**自己出聲**，而唔係靜靜咁死 89 次。
+
+備註：如果佢係 agent session 層（模型拒絕、context 過大），落地位置係 cron 設定或 prompt；如果係腳本層，落地係 wrapper 嘅 try/except ＋ 測試。
+
+
+
+證據：executions.db：status=failed 且 finished_at 喺 [2026-10-02T08:10:43.584157+08:00 , 2026-10-16T08:10:43.584157+08:00]，同 signature 89 次
+
+
+
+你要做嘅：ratify（升 PENDING_APPROVAL）／reject（我記低唔再提）／叫我即場做（如果係可逆嘅工具修正）。
+
+
+
+記錄：C:\Users\rain0\trading-os\output\edge_candidate_2026-10-16.md
+
+入隊：隊列之後仲有下一個 section — append 會插錯位，唔敢寫
+
+
+
+⚠️ 非今日數據：edge-candidate-daily（2026-10-16）
+
+── 全部 paper，冇 broker 連線（SOUL §8.7）</div><div class="jb-empty">來源：cron/output/9c6b1538e232/2026-10-17_07-40-42.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">model-book-weekly</div><div class="jb-meta"><code>8f0ac5240f32</code> <span class="jb-sched">0 7 * * 6</span><br>上次：2 日前（2026-10-17T07:01）｜下次：2026-10-24T07:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">model_book_cron.py</span><span class="jb-chip">→ telegram:322829419</span><span class="jb-chip">輸出 10-17 07:01</span></div><div class="jb-pre"># Cron Job: model-book-weekly
+
+**Job ID:** 8f0ac5240f32
+**Run Time:** 2026-10-17 07:01:10
+**Mode:** no_agent (script)
+
+---
+
+📚 Model Book 2026-W42 ｜ 5 隻（pool 40）
+
+1. KMTS  8/10  (a2 b2 c1 d2 e1)  tight 0.42 ATRX 0.52
+2. CVI  8/10  (a2 b2 c1 d2 e1)  tight 0.56 ATRX 4.9
+3. PARR  9/10  (a2 b2 c1 d2 e2)  tight 0.64 ATRX 0.54
+4. PNTG  8/10  (a2 b2 c1 d2 e1)  tight 0.66 ATRX 1.75
+5. PBF  9/10  (a2 b2 c1 d2 e2)  tight 0.71 ATRX 1.82
+
+排序＝gate(total≥8, b=2, a≥1) 後按 tightness → ATRX；每板塊最多 4 隻。係檢查清單式 gate，唔係預測排名。
+圖：C:\Users\rain0\trading-os\output\model_book\2026W42
+Notion：https://www.notion.so/3fb1ab8501ba8185b66ffa5769a3b110
+⭐ 星級 + NUANCE 兩行留返俾你填。</div><div class="jb-empty">來源：cron/output/8f0ac5240f32/2026-10-17_07-01-10.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">jeffsun-intraday-rvol-record</div><div class="jb-meta"><code>eb999ff9b9d5</code> <span class="jb-sched">5 6 * * 2-6</span><br>上次：2 日前（2026-10-17T06:07）｜下次：2026-10-20T06:05</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">jeffsun_intraday_record_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-17 06:07</span></div><div class="jb-pre"># Cron Job: jeffsun-intraday-rvol-record
+
+**Job ID:** eb999ff9b9d5
+**Run Time:** 2026-10-17 06:07:48
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/eb999ff9b9d5/2026-10-17_06-07-48.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">money-daily-benchmark</div><div class="jb-meta"><code>c2dad105fc32</code> <span class="jb-sched">0 6 * * 2-6</span><br>上次：2 日前（2026-10-17T06:00）｜下次：2026-10-20T06:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">money_daily_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-17 06:00</span></div><div class="jb-pre"># Cron Job: money-daily-benchmark
+
+**Job ID:** c2dad105fc32
+**Run Time:** 2026-10-17 06:00:44
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/c2dad105fc32/2026-10-17_06-00-44.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">competition-daily</div><div class="jb-meta"><code>f2f7cc3fbdd0</code> <span class="jb-sched">0 5,6 * * 2-6</span><br>上次：2 日前（2026-10-17T06:00）｜下次：2026-10-20T05:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">competition_cron.py</span><span class="jb-chip">→ telegram</span><span class="jb-chip">輸出 10-17 06:00</span></div><div class="jb-pre"># Cron Job: competition-daily
+
+**Job ID:** f2f7cc3fbdd0
+**Run Time:** 2026-10-17 06:00:43
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/f2f7cc3fbdd0/2026-10-17_06-00-43.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">usic-setup-daily-review</div><div class="jb-meta"><code>929e1c5b381e</code> <span class="jb-sched">0 6 * * 2-6</span><br>上次：2 日前（2026-10-17T06:00）｜下次：2026-10-20T06:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">usic_setup_review_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-17 06:00</span></div><div class="jb-pre"># Cron Job: usic-setup-daily-review
+
+**Job ID:** 929e1c5b381e
+**Run Time:** 2026-10-17 06:00:43
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/929e1c5b381e/2026-10-17_06-00-43.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">yoyo-gap-postclose</div><div class="jb-meta"><code>046006cbd297</code> <span class="jb-sched">45 5 * * 2-6</span><br>上次：2 日前（2026-10-17T05:45）｜下次：2026-10-20T05:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">yoyo_gap_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-17 05:45</span></div><div class="jb-pre"># Cron Job: yoyo-gap-postclose
+
+**Job ID:** 046006cbd297
+**Run Time:** 2026-10-17 05:45:52
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/046006cbd297/2026-10-17_05-45-52.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">close-watch-exit</div><div class="jb-meta"><code>ee30ce622ee2</code> <span class="jb-sched">45 3,4 * * 2-6</span><br>上次：2 日前（2026-10-17T04:45）｜下次：2026-10-20T03:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">close_watch_cron.py</span><span class="jb-chip">→ telegram:322829419</span><span class="jb-chip">輸出 10-17 04:45</span></div><div class="jb-pre"># Cron Job: close-watch-exit
+
+**Job ID:** ee30ce622ee2
+**Run Time:** 2026-10-17 04:45:42
+**Mode:** no_agent (script)
+
+---
+
+⚠️ 出場提醒停用 —— 持倉簿唔存在（edge_book/positions.json）。
+   收市前檢查冇嘢可以檢查：唔係「今日冇動作」，係系統冇數據。
+   開返：cp edge_book/positions.example.json edge_book/positions.json
+   然後 positions.py --add TICKER --entry X --stop Y 記低你嘅倉。</div><div class="jb-empty">來源：cron/output/ee30ce622ee2/2026-10-17_04-45-42.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">jeffsun-intraday-ORH-RVOL-alert</div><div class="jb-meta"><code>b09331bb96e3</code> <span class="jb-sched">* 21-23 * * 1-5</span><br>上次：2 日前（2026-10-16T23:59）｜下次：2026-10-19T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">jeffsun_intraday_alert_cron.py</span><span class="jb-chip">→ origin,local</span><span class="jb-chip">輸出 10-16 23:59</span></div><div class="jb-pre"># Cron Job: jeffsun-intraday-ORH-RVOL-alert
+
+**Job ID:** b09331bb96e3
+**Run Time:** 2026-10-16 23:59:45
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/b09331bb96e3/2026-10-16_23-59-45.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">premarket-list-daily</div><div class="jb-meta"><code>e582a8d94a5b</code> <span class="jb-sched">0 21,22 * * 1-5</span><br>上次：2 日前（2026-10-16T22:00）｜下次：2026-10-19T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">premarket_list_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-16 22:00</span></div><div class="jb-pre"># Cron Job: premarket-list-daily
+
+**Job ID:** e582a8d94a5b
+**Run Time:** 2026-10-16 22:00:42
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/e582a8d94a5b/2026-10-16_22-00-43.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">yoyo-gap-alert</div><div class="jb-meta"><code>3db5b92a221f</code> <span class="jb-sched">50 21 * * 1-5</span><br>上次：2 日前（2026-10-16T21:50）｜下次：2026-10-19T21:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">yoyo_gap_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-16 21:50</span></div><div class="jb-pre"># Cron Job: yoyo-gap-alert
+
+**Job ID:** 3db5b92a221f
+**Run Time:** 2026-10-16 21:50:53
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/3db5b92a221f/2026-10-16_21-50-53.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">osib-setup-alert</div><div class="jb-meta"><code>4489ae84e4bd</code> <span class="jb-sched">40 21 * * 1-5</span><br>上次：2 日前（2026-10-16T21:40）｜下次：2026-10-19T21:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">osib_alert_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-16 21:40</span></div><div class="jb-pre"># Cron Job: osib-setup-alert
+
+**Job ID:** 4489ae84e4bd
+**Run Time:** 2026-10-16 21:40:44
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/4489ae84e4bd/2026-10-16_21-40-44.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">journal-open-check</div><div class="jb-meta"><code>516f06b39789</code> <span class="jb-sched">35 21 * * 1-5</span><br>上次：2 日前（2026-10-16T21:35）｜下次：2026-10-19T21:35</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">journal_open_check_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-16 21:35</span></div><div class="jb-pre"># Cron Job: journal-open-check
+
+**Job ID:** 516f06b39789
+**Run Time:** 2026-10-16 21:35:44
+**Mode:** no_agent (script)
+
+---
+
+🔔 開市檢查｜2026-10-16
+
+
+
+📊 OKLL｜現價 5.86｜+0.61R｜入 5.28 止 4.334（初始 4.334）
+
+   🔴 現價 5.86 &lt; 日線 10EMA 7.28 → §4.3 ③ 收市跌穿就全清（要確認【收市】價）
+
+   （ATR14 0.77 = 14.6%｜10EMA 7.28（距現價 -20%））
+
+📊 WDCX｜現價 9.64｜-0.06R｜入 9.745 止 8.029（初始 8.029）
+
+   🔴 現價 9.64 &lt; 日線 10EMA 12.16 → §4.3 ③ 收市跌穿就全清（要確認【收市】價）
+
+   （ATR14 1.23 = 12.6%｜10EMA 12.16（距現價 -21%））
+
+📊 CBRG｜現價 1.53｜-0.07R｜入 1.553 止 1.171（初始 1.171）
+
+   🔴 現價 1.53 &lt; 日線 10EMA 2.03 → §4.3 ③ 收市跌穿就全清（要確認【收市】價）
+
+   （ATR14 0.29 = 18.4%｜10EMA 2.03（距現價 -25%））
+
+📊 SNOW｜現價 333.87｜+0.69R｜入 323.931 止 309.431（初始 309.431）
+
+   🔴 現價 333.87 &lt; 日線 10EMA 342.11 → §4.3 ③ 收市跌穿就全清（要確認【收市】價）
+
+   （ATR14 13.97 = 4.3%｜10EMA 342.11（距現價 -2%））
+
+
+
+  ★ 以上係樹嘅自動對照。執行與否由你決定（§8.7 單向門）。</div><div class="jb-empty">來源：cron/output/516f06b39789/2026-10-16_21-35-44.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">digest-premarket</div><div class="jb-meta"><code>3c9b5aedff28</code> <span class="jb-sched">28 21 * * 1-5</span><br>上次：2 日前（2026-10-16T21:28）｜下次：2026-10-19T21:28</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">push_premarket_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-16 21:28</span></div><div class="jb-pre"># Cron Job: digest-premarket
+
+**Job ID:** 3c9b5aedff28
+**Run Time:** 2026-10-16 21:28:42
+**Mode:** no_agent (script)
+
+---
+
+🌙 開市前（美股 pre-market）｜2026-10-16
+
+
+
+━━━ premarket-list-daily ━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 開市前清單　2026-10-16 09:00 ET　（開市前 30 分鐘）
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+■ 三個原則（全部由你自己 1,279 單真實成交推導）
+
+
+
+  ① 唔做少於 1 日嘅交易
+
+   你 &lt;30 分鐘嘅單：631 單蝕 19,317 USD（勝率 21%）
+
+   你 ≥1 日嘅單：190 單賺 14,617 USD（勝率 54-72%）
+
+   → 呢一個規則就把全年由 −12,805 變 +6,512
+
+
+
+  ② 贏要贏 3 倍輸
+
+   贏輸比 1.68:1 → 3.0:1（勝率不變）＝ 全年 −12,805 → +25,630
+
+   做法：唔好見 +1% 就跑。贏單持倉中位得 76 分鐘。
+
+
+
+  ③ 同一隻股每日最多 1 次入場｜全組合每日最多 3 次
+
+   你平均每日 16.2 單（中位 11，最多 64）
+
+   同一日同一隻股進場 ≥5 次：70 組（最多 44 次）
+
+   SNDK 交易 35 次 → −8,470 USD（你總虧損嘅 66%）
+
+
+
+──────────────────────────────────────────────────────────────
+
+■ 今日唔應該做
+
+
+
+  ✗ 唔好做 &lt;30 分鐘嘅交易
+
+     631 單（49% 嘅單）蝕 19,317 USD，勝率只有 21%
+
+
+
+  ✗ 唔好平倉後 60 分鐘內再入同一隻股
+
+     你做到 1,342 次，中位間隔 22 分鐘 —— 呢個係報復交易簽名
+
+
+
+  ✗ 唔好同一日同一隻股進場超過 2 次
+
+     有 70 組做到 5 次以上，最多同一日同一隻股進場 44 次
+
+
+
+  ✗ 唔好抱住蝕錢嘅股超過 5 日
+
+     SNDK 持 17.7 日 → 單筆蝕 3,029 USD
+
+
+
+  ✗ 唔好開市頭 30 分鐘落超過 2 張單
+
+     17.3% 嘅成交單擠喺開市頭 30 分鐘
+
+
+
+  ✗ 唔好用手動平倉取代諗好嘅出場計劃
+
+     手動平倉 867 單蝕 15,160｜自動止蝕 412 單反而賺 2,355
+
+
+
+──────────────────────────────────────────────────────────────
+
+■ 開市前 30 秒自問（答唔到就唔好落單）
+
+
+
+  1. 入場前有冇寫低理由？（冇 = 手勢，唔係交易）
+
+  2. 平倉係因為規則，定係因為唔舒服？
+
+  3. 如果今日完全唔做，我會賺定蝕？
+
+
+
+──────────────────────────────────────────────────────────────
+
+■ 收市後（21:00 前）記低
+
+  · 實際 PnL vs 「完全唔做」PnL
+
+  · python did_nothing.py --date &lt;今日&gt; --actual &lt;你嘅PnL&gt;
+
+  · 累積差距 &gt; 0 ＝ 交易令你蝕多咗
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+── 全部 paper，冇 broker 連線（SOUL §8.7）</div><div class="jb-empty">來源：cron/output/3c9b5aedff28/2026-10-16_21-28-42.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">macro-tail-guard</div><div class="jb-meta"><code>c2e00155bc00</code> <span class="jb-sched">25 21 * * 1-5</span><br>上次：2 日前（2026-10-16T21:25）｜下次：2026-10-19T21:25</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">macro_tail_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-16 21:25</span></div><div class="jb-pre"># Cron Job: macro-tail-guard
+
+**Job ID:** c2e00155bc00
+**Run Time:** 2026-10-16 21:25:44
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/c2e00155bc00/2026-10-16_21-25-44.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">morales-prone</div><div class="jb-meta"><code>115779632393</code> <span class="jb-sched">20 21 * * 1-5</span><br>上次：2 日前（2026-10-16T21:20）｜下次：2026-10-19T21:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">morales_prone_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-16 21:20</span></div><div class="jb-pre"># Cron Job: morales-prone
+
+**Job ID:** 115779632393
+**Run Time:** 2026-10-16 21:20:46
+**Mode:** no_agent (script)
+
+---
+
+⚠️ Gil Morales prone pattern：5 隻
+
+  AVGO H&amp;S｜現價 344.33
+
+  ORCL H&amp;S｜現價 134.47
+
+  QCOM H&amp;S｜現價 178.40
+
+  DELL LSFB｜現價 473.39
+
+  HPE LSFB｜現價 58.63</div><div class="jb-empty">來源：cron/output/115779632393/2026-10-16_21-20-46.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">sector-rotation-daily</div><div class="jb-meta"><code>6248845b6f3a</code> <span class="jb-sched">0 21 * * 1-5</span><br>上次：2 日前（2026-10-16T21:00）｜下次：2026-10-19T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">sector_rotation_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-16 21:00</span></div><div class="jb-pre"># Cron Job: sector-rotation-daily
+
+**Job ID:** 6248845b6f3a
+**Run Time:** 2026-10-16 21:00:47
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/6248845b6f3a/2026-10-16_21-00-47.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">notion-records-daily</div><div class="jb-meta"><code>4358f4b0099b</code> <span class="jb-sched">35 19 * * 1-5</span><br>上次：2 日前（2026-10-16T19:40）｜下次：2026-10-19T19:35</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">notion_records_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-16 19:40</span></div><div class="jb-pre"># Cron Job: notion-records-daily
+
+**Job ID:** 4358f4b0099b
+**Run Time:** 2026-10-16 19:40:57
+**Mode:** no_agent (script)
+
+---
+
+📒 Notion 記錄同步完成
+  🔥 T1 RVOL 事件：4 行（新 1 / 更新 3）
+  🎯 T1 每日勝率：4 行（新 1 / 更新 3）
+  🎯 6-Setup 警報：83 行（新 0 / 更新 83）
+  ⚡ Jeff Sun 盤中 RVOL：2 行（新 0 / 更新 2）
+  🔬 Edge 審計：83 行（新 0 / 更新 83）
+  👤 Vibe 影子：164 行（新 0 / 更新 164）
+  位置：https://app.notion.com/p/3ef1ab8501ba816192c8d202273e4819</div><div class="jb-empty">來源：cron/output/4358f4b0099b/2026-10-16_19-40-57.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">layer4-breadth-daily</div><div class="jb-meta"><code>65e8f22aeca8</code> <span class="jb-sched">40 18 * * 1-5</span><br>上次：2 日前（2026-10-16T18:40）｜下次：2026-10-19T18:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">layer4_breadth_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-16 18:40</span></div><div class="jb-pre"># Cron Job: layer4-breadth-daily
+
+**Job ID:** 65e8f22aeca8
+**Run Time:** 2026-10-16 18:40:51
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/65e8f22aeca8/2026-10-16_18-40-51.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">Daily-Pre-market-Plan</div><div class="jb-meta"><code>a3e31543c579</code> <span class="jb-sched">10 18 * * 1-5</span><br>上次：2 日前（2026-10-16T18:11）｜下次：2026-10-19T18:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">daily_plan_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-16 18:11</span></div><div class="jb-pre"># Cron Job: Daily-Pre-market-Plan
+
+**Job ID:** a3e31543c579
+**Run Time:** 2026-10-16 18:11:08
+**Mode:** no_agent (script)
+
+---
+
+⚡ USIC Daily Brief｜Thu 15 Oct 2026
+   （plan 2026-10-15 收市｜insight 2026-10-16）
+   ⚠️ 兩份來源日期唔同（plan 用收市日、insight 用發布日）— 睇數字時記住呢個差
+「正確嘅注碼，可以將一個蝕錢策略變成捱得住嘅策略。」—— Jeff Sun
+
+① 今日唯一要答嘅問題
+   我嘅 setups 今日有幾大機會 work？（今日唯一要答嘅問題）
+
+② 環境（決定倉位大細，唔係決定買邊隻）
+   🟢 日線入市 YES｜🔴 週線入市 NO｜🛡 最多 1 單
+   🔴 價格行為：SPY 771.79 vs 5DMA 775.21
+   🟢 淨 52 週新高低 23.00（NH 24 / NL 1，S&amp;P500，10 日均 4.70）
+      20 日新高低：170 / 32（淨 138）｜50MA 上 44.30% vs 前日 35.20% ← 兩個唔同嘅尺，唔可以混用
+   🟢 VIX 16.46｜波動擴張（風險升、止蝕易被打）
+   🟢 領導板塊（1 週 RS vs SPY）：醫療 5.65%｜必需消費 4.18%｜地產 3.07%
+   🔴 落後板塊（1 週 RS vs SPY）：工業 -0.03%（1月 -2.83%）｜科技 -4.07%（1月 0.37%） ⚠️由強轉弱｜半導體 -8.35%（1月 -0.09%）
+      🎯 逆勢機會（若做空/逆向 ETF）：科技／半導體 —— 1 週 RS 落後大盤 &gt;3%
+      （排序共 14 個板塊；上下各印 3 個）
+   🛡️ 精兵 SELECTIVE｜好壞參半（🟠）— 精兵策略，寧缺莫濫
+
+③ 今日候選（最多 1 單）
+   1. RCEL $13.41｜醫療 5.65%｜RS 4/4 1M 32.60%｜coiled+pullback+near-break｜pivot 13.18（0.33 ATR）｜FOCUS
+   2. KMTS $28.68｜醫療 5.65%｜RS 4/4 1M 31.00%｜coiled+pullback+near-break｜pivot 27.01（1.05 ATR）｜FOCUS
+   3. PBF $86.99｜能源 2.30%｜RS 4/4 1M 25.70%｜coiled+pullback+near-break｜pivot 85.78（0.26 ATR）｜FOCUS
+   4. HPK $9.95｜能源 2.30%｜RS 4/4 1M 18.70%｜coiled+near-break｜pivot 9.06（1.74 ATR）｜FOCUS
+   5. LVWR $1.64｜非必需消費 1.80%｜RS 3/4 1M 49.10%｜coiled+pullback+near-break｜pivot 1.58（0.40 ATR）｜FOCUS
+   6. CDNA $66.67｜生物科技 0.60%｜RS 4/4 1M 27.70%｜coiled+pullback+near-break｜pivot 64.96（0.43 ATR）｜FOCUS
+
+④ 風控參數（單筆風險 0.50%｜止蝕 3%｜LOD 需 &lt;0.60 ATR｜ATRX ≤4）
+   1. RCEL 入 13.18｜止 12.78（3%，0.56 ATR）｜倉 16.67%｜目標 ≥14.37｜ATRX 3.85
+   2. KMTS 入 27.01｜止 26.79（LOD，0.14 ATR）｜倉 33.00%｜目標 ≥27.67｜ATRX 1.46
+   3. PBF 入 85.78｜止 83.21（3%，0.56 ATR）｜倉 16.67%｜目標 ≥93.50｜ATRX 2.51
+   4. HPK 入 9.06｜止 8.79（3%，0.53 ATR）｜倉 16.67%｜目標 ≥9.88｜ATRX 3.45
+   5. LVWR 入 1.58｜止 1.55（LOD，0.20 ATR）｜倉 26.33%｜目標 ≥1.67｜ATRX 2.02
+   6. CDNA 入 64.96｜止 63.01（3%，0.48 ATR）｜倉 16.67%｜目標 ≥70.81｜ATRX 3.01
+   📐 組合熱度（最多 1 單）：總風險 0.50% 帳戶｜總敞口 ~16.7% 淨值（每單 0.50%｜倉上限 33%）
+   📐 集中度：醫療 2／能源 2／非必需消費 1／生物科技 1
+
+⑤ 分批止賺（3 段式・SOUL.md §4.3）
+   1. RCEL ①2R 13.97 −33%｜②ATRX&gt;7 15.64 −33%｜③拖10EMA 13.01 餘 33%，收市跌穿全清
+   2. KMTS ①2R 27.45 −33%｜②ATRX&gt;7 37.46 −33%｜③拖10EMA 27.00 餘 33%，收市跌穿全清
+   3. PBF ①2R 90.93 −33%｜②ATRX&gt;7 107.64 −33%｜③拖10EMA 85.47 餘 33%，收市跌穿全清
+   4. HPK ①2R 9.60 −33%｜②ATRX&gt;7 11.76 −33%｜③拖10EMA 9.27 餘 33%，收市跌穿全清
+   5. LVWR ①2R 1.64 −33%｜②ATRX&gt;7 2.39 −33%｜③拖10EMA 1.58 餘 33%，收市跌穿全清
+   6. CDNA ①2R 68.86 −33%｜②ATRX&gt;7 82.71 −33%｜③拖10EMA 64.41 餘 33%，收市跌穿全清
+   🔒 贏家紀律：ATRX 3.5–7 之間、收市仍在 10EMA 上 = 唔准因為回調而減
+
+⑥ 比賽時鐘：USIC 月度 剩 11 個交易日（至 2026-10-31）｜目標 ≥5.0%
+       要 +0.296R/單（剩 33 單 @每單風險 0.50%
+
+…（截斷）</div><div class="jb-empty">來源：cron/output/a3e31543c579/2026-10-16_18-11-08.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">jeffsun-daily-scan-layer1+2</div><div class="jb-meta"><code>0c0bef303eee</code> <span class="jb-sched">5 18 * * 1-5</span><br>上次：2 日前（2026-10-16T18:06）｜下次：2026-10-19T18:05</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">jeffsun_scan_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-16 18:06</span></div><div class="jb-pre"># Cron Job: jeffsun-daily-scan-layer1+2
+
+**Job ID:** 0c0bef303eee
+**Run Time:** 2026-10-16 18:06:03
+**Mode:** no_agent (script)
+
+---
+
+L1 | 92 tickers
+  Mom_1W_Small: INDP, MAX, ODD
+  Mom_1M_Small: KMTS, LVWR, RCEL, SUJA
+  Mom_3M_Small: APPN, CDNA, CVI, EFOR, LIFE, LVWR, PAYS, RCEL …+1
+  Mom_6M_Small: APPN, ATEX, CDNA, CVI, LIFE, PAYS, RCEL, SMWB
+  Mom_1M_Large: PTC
+  Mom_6M_Large: HUM, NTRA, PBF
+  1_Fundamental_Growth: AAMI, AAON, AGX, ANIP, ARW, ATRO, BBT, BRZE …+45
+  3_Post_Earnings_Cont_Base: PAG
+  4_Strongest_Stock_JK: CVI, GCT, HPK, KNSA, PAYS, SEZL
+  5_Strongest_Stock_10B_Rev_30_JK: EXPD, NTRA, STLD
+  Daily_Tightness_Swing: AAMI, AMPH, ASTH, CHEF, CRL, DUOL, EBS, FWRD …+9
+  [empty scans: Mom_1W_Large, Mom_3M_Large]
+
+Excel saved: C:\Users\rain0\trading-os\output\My_Scans_20261016.xlsx
+JS Layer-2 | 2026-10-16
+D-N = 累計喺呢個 list 嘅連續日數（D1=今日首次上 list，D2=連續第2日，越高风险越大/越值得優先）
+
+FOCUS (41)
+AMPH D1 · 52wH 90% · 50MA 3.08x · earn 21D
+BRZE D6 · 52wH 81% · 50MA 1.56x · earn 54D
+CDNA D1 · 52wH 92% · 50MA 3.01x · earn 14D
+CHEF D2 · 52wH 96% · 50MA 0.77x · earn 12D
+CRL D2 · 52wH 92% · 50MA 1.5x · earn 19D
+CVI D6 · 52wH 97% · 50MA 5.14x · earn 13D
+EFOR D6 · 52wH 72% · 50MA 3.42x · earn 13D
+EXPD D1 · 52wH 100% · 50MA 2.66x · earn 18D
+EZPW D4 · 52wH 89% · 50MA 1.81x · earn 34D
+GCT D6 · 52wH 98% · 50MA 2.66x · earn 20D
+GTE D4 · 52wH 92% · 50MA 1.49x · earn 20D
+HPK D6 · 52wH 94% · 50MA 3.45x · earn 20D
+HUM D6 · 52wH 95% · 50MA 1.98x · earn 21D
+KMTS D1 · 52wH 96% · 50MA 1.46x · earn 60D
+KNSA D6 · 52wH 96% · 50MA 0.8x · earn 11D
+LVWR D1 · 52wH 26% · 50MA 2.02x · earn 19D
+NSP D1 · 52wH 91% · 50MA 0.26x · earn 13D
+NTRA D1 · 52wH 92% · 50MA 2.79x · earn 21D
+PAYS D6 · 52wH 100% · 50MA 3.14x · earn 25D
+PBF D4 · 52wH 94% · 50MA 2.51x · earn 13D
+PI D1 · 52wH 77% · 50MA 1.83x · earn 13D
+PNTG D6 · 52wH 99% · 50MA 2.07x · earn 20D
+RCEL D6 · 52wH 98% · 50MA 3.85x · earn 21D
+SIBN D1 · 52wH 91% · 50MA 1.3x · earn 25D
+SMWB D1 · 52wH 92% · 50MA 0.95x · earn 32D
+APPN D1 · 52wH 95% · 50MA 2.91x · earn 20D
+DUOL D1 · 52wH 45% · 50MA 0.71x · earn 19D
+AAMI D2 · 52wH 94% · 50MA 0.14x · earn 13D
+MTW D3 · 52wH 94% · 50MA 1.6x · earn 20D
+PARR D6 · 52wH 92% · 50MA 0.7x · earn 19D
+STLN D6 · 52wH 97% · 50MA 1.49x · earn 25D
+SEZL D6 · 52wH 68% · 50MA 1.97x · earn 20D
+ATEX D4 · 52wH 75% · 50MA -0.33x · earn 27D
+ELF D6 · 52wH 83% · 50MA 3.79x · earn 20D
+SCCO D6 · 52wH 91% · 50MA 0.1x · earn 7D
+ARW D6 · 52wH 88% · 50MA 0.26x · earn 13D
+INSW D6 · 52wH 90% · 50MA 1.57x · earn 20D
+VIA D1 · 52wH 61% · 50MA 4.01x · earn 24D
+XMTR D1 · 52wH 88% · 50MA 0.69x · earn 18D
+ASTH D1 · 52wH 74% · 50MA 0.55x · earn 21D
+M
+
+…（截斷）</div><div class="jb-empty">來源：cron/output/0c0bef303eee/2026-10-16_18-06-03.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">risk-gate-daily</div><div class="jb-meta"><code>cdeefec14434</code> <span class="jb-sched">0 18 * * 1-5</span><br>上次：2 日前（2026-10-16T18:00）｜下次：2026-10-19T18:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">risk_gate_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-16 18:00</span></div><div class="jb-pre"># Cron Job: risk-gate-daily
+
+**Job ID:** cdeefec14434
+**Run Time:** 2026-10-16 18:00:47
+**Mode:** no_agent (script)
+
+---
+
+🚦 RISK GATE · 2026-10-15 收市　（IWF÷IWD）
+
+▶ 今日應該做咩 → 【RISK_OFF】🛑 唔開新倉（現金為王）· 只建立觀察清單
+　資金去 value／現金。增長股清倉或只留極少，主力做觀察清單。
+
+── 三個輸入 ──
+ ① 閘門　risk_off　ratio 0.4851 vs band 0.4892–0.4985
+　　　　risk-off 自 2026-10-14（第 2 日）　｜　現時 zone 自 2026-10-14（第 2 日）
+ ② 動量　fading（-2.20σ）　距 10 週中線 -1.77%（10 日前 3.95%）
+ ③ 延伸　距 10 週中線 -0.69σ（band 外 -1.05σ）　21 日 EMA -0.99σ　未延伸
+
+── 之後 20 日歷史（本機重算，n = 該 zone 日數）──
+ ▶RISK_OFF  n=298   QQQE 0.4%  升 51%  growth 贏 47%
+ 　PROBE     n=207   QQQE 0.8%  升 54%  growth 贏 45%
+ 　RAMP_UP   n=203   QQQE 1.3%  升 66%  growth 贏 73%
+ 　TRIM      n=79    QQQE 0.7%  升 65%  growth 贏 35%
+ 　HOLD      n=104   QQQE 2.4%  升 74%  growth 贏 54%
+ 　RELOAD    n=237   QQQE 1.2%  升 65%  growth 贏 60%
+
+── 對照原圖（2026-10-09 同一日）──
+ ratio 0.4851 vs 0.5045　band 0.4892–0.4985 vs 0.4865–0.4989
+ band 外 -1.05σ vs 0.44σ　距中線 -0.69σ vs 0.93σ　gap% -1.77 vs 2.2（10 日前 3.95 vs 2.8）
+ 日數（本機 vs 原圖）：RISK_OFF 298/289｜PROBE 207/201｜RAMP_UP 203/230｜TRIM 79/81｜HOLD 104/104｜RELOAD 237/239
+
+⚠️ 原圖卡②寫「Rising · −0.02σ」—— 個字同自己個數（負數）矛盾。本引擎照**符號**判（負 = fading → RELOAD）。要改成「Rising」請講。
+
+倉位鐵律（不變）：單筆風險 0.5%｜單一倉位 ≤33%｜組合風險 ≤1.5%｜ATRX &gt;4 = 硬刪（EDGE-009）
+規則 risk-gate-v1｜環境判斷，唔係入場訊號｜改 trade_cap／倉位 = 單向門，要 Desmond 批</div><div class="jb-empty">來源：cron/output/cdeefec14434/2026-10-16_18-00-47.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">market-insight-layer3b</div><div class="jb-meta"><code>2367ab2cc84b</code> <span class="jb-sched">50 17 * * 1-5</span><br>上次：2 日前（2026-10-16T17:50）｜下次：2026-10-19T17:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">layer3b_market_insight_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-16 17:50</span></div><div class="jb-pre"># Cron Job: market-insight-layer3b
+
+**Job ID:** 2367ab2cc84b
+**Run Time:** 2026-10-16 17:50:54
+**Mode:** no_agent (script)
+
+---
+
+🎯 每日市場計劃 · 2026-10-16 星期五
+
+━━━━━━━━━━━━━━━━━━━━━
+💬 市場巫師的話
+━━━━━━━━━━━━━━━━━━━━━
+「正確嘅注碼，可以將一個蝕錢策略變成捱得住嘅策略。」
+   — Jeff Sun
+
+━━━━━━━━━━━━━━━━━━━━━
+🧭 情境感知：今日係咩市場？
+━━━━━━━━━━━━━━━━━━━━━
+❓ 我嘅 setups 今日有幾大機會 work？（今日唯一要答嘅問題）
+
+【大盤結構】 🟠
+  SPY   $771.79  🟠  均線糾纏
+        ▸10D 775.08↑  20D 771.11↑  50D 767.47↑  200D 721.47↑
+  QQQ   $728.00  🔴  價&lt;10MA、&lt;20MA
+        ▸10D 746.86↓  20D 743.06↑  50D 726.41↑  200D 673.20↑
+  IWM   $275.08  🔴  價&lt;10MA、&lt;20MA
+        ▸10D 278.15↓  20D 279.99↓  50D 289.21↓  200D 276.42↑
+
+【市場寬度】 🟠   （表面之下有幾多人參與）
+  &gt;20MA    69.8% ↑  🟢
+  &gt;50MA    44.3% ↑  🟠
+  &gt;200MA    53.7% ↑  🟠
+  新高 170 / 新低 32  (淨 +138)
+  → 參與度窄 — 只有少數領導股頂住，突破易失敗
+
+【波動率】 🟠
+  VIX 16.01  -2.73%  ▸10D 15.57↓  50D 15.52↑  200D 18.11↑
+  → 風險偏好中性 — 波動唔算極端
+
+【領導力】 🔴
+  半導體 SOXX/SPY 相對 60 日 -10.9% — 領導力轉弱
+
+━━━━━━━━━━━━━━━━━━━━━
+🌡️ 市場溫度：🟢 1 · 🟠 4 · 🔴 3
+   ➜ 姿態：【🛡️ 精兵 SELECTIVE】
+━━━━━━━━━━━━━━━━━━━━━
+  • 環境好壞參半 — 只做最高質素嘅 setup
+  • 倉位縮細，等確認先入
+  • 邊個 setup 仲 work 就做邊個，唔好死守一套
+
+⚠️ 環境變化警示
+  • 小型股（IWM）跌破短期均線 — 風險偏好可能正在收縮
+
+━━━━━━━━━━━━━━━━━━━━━
+🤔 今日問自己（引導思考）
+━━━━━━━━━━━━━━━━━━━━━
+  1. ❓ 我嘅 setups 今日有幾大機會 work？（今日唯一要答嘅問題）
+  2. 我係咪喺度迫自己 trade？有冇 setup 係「唔做都得」？
+  3. 我嘅 watchlist 係擴大定縮緊？
+  4. 邊個 setup 最近連續失效？（連續 3 次止蝕要停手）
+  5. 如果今日只可以做一單，會揀邊單？
+  6. 只有 44% 股票喺 50MA 上 — 突破係咪好易失敗？
+
+━━━━━━━━━━━━━━━━━━━━━
+📋 一句總結：好壞參半（🟠）— 精兵策略，寧缺莫濫
+
+研究用途 · 唔係買賣信號 · 由 HERMES Layer 3b 生成</div><div class="jb-empty">來源：cron/output/2367ab2cc84b/2026-10-16_17-50-54.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">track-record-daily</div><div class="jb-meta"><code>de5b5231056b</code> <span class="jb-sched">45 17 * * 1-5</span><br>上次：2 日前（2026-10-16T17:45）｜下次：2026-10-19T17:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">track_record_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-16 17:45</span></div><div class="jb-pre"># Cron Job: track-record-daily
+
+**Job ID:** de5b5231056b
+**Run Time:** 2026-10-16 17:45:57
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/de5b5231056b/2026-10-16_17-45-57.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">trading-os-tests</div><div class="jb-meta"><code>9ad4e340ccea</code> <span class="jb-sched">40 17 * * 1-5</span><br>上次：2 日前（2026-10-16T17:40）｜下次：2026-10-19T17:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">trading_os_tests_cron.py</span><span class="jb-chip">→ telegram:322829419</span><span class="jb-chip">輸出 10-16 17:40</span></div><div class="jb-pre"># Cron Job: trading-os-tests
+
+**Job ID:** 9ad4e340ccea
+**Run Time:** 2026-10-16 17:40:53
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div><div class="jb-empty">來源：cron/output/9ad4e340ccea/2026-10-16_17-40-53.md</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1"><div class="jb-nm">journal-daily-reminder</div><div class="jb-meta"><code>223124270d83</code> <span class="jb-sched">30 17 * * 1-5</span><br>上次：2 日前（2026-10-16T17:30）｜下次：2026-10-19T17:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">trade_journal_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-16 17:30</span></div><div class="jb-pre"># Cron Job: journal-daily-reminder
+
+**Job ID:** 223124270d83
+**Run Time:** 2026-10-16 17:30:43
+**Mode:** no_agent (script)
+
+---
+
+📓 實盤交易日誌｜2026-10-16
+
+
+
+  🔒 OKLL 止損 4.334 仍喺入場 5.28 之下（仲未鎖 breakeven）
+
+  🔒 WDCX 止損 8.029 仍喺入場 9.745 之下（仲未鎖 breakeven）
+
+  🔒 CBRG 止損 1.171 仍喺入場 1.553 之下（仲未鎖 breakeven）
+
+  🔒 SNOW 止損 309.431 仍喺入場 323.931 之下（仲未鎖 breakeven）
+
+
+
+  持倉中 4 隻：
+
+    OKLL   2000.0 @5.28｜止 4.334｜2026-10-15
+
+    WDCX   150.0 @9.745｜止 8.029｜2026-10-15
+
+    CBRG   2200.0 @1.553｜止 1.171｜2026-10-15
+
+    SNOW   50.0 @323.931｜止 309.431｜2026-10-15
+
+
+
+  ★ 記錄方法：&quot;記錄 &lt;代號&gt; &lt;方向&gt; &lt;入場&gt; &lt;股數&gt; &lt;止蝕&gt;&quot;
+
+    或直接貼券商截圖。</div><div class="jb-empty">來源：cron/output/223124270d83/2026-10-16_17-30-43.md</div></div></div><div class="jb-card" data-state="never"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-none"></span><div style="flex:1"><div class="jb-nm">notion-trade-journal-sync</div><div class="jb-meta"><code>3260d2bbd052</code> <span class="jb-sched">40 6 * * 2-6</span><br>上次：從未（—）｜下次：2026-10-20T06:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">notion_trade_journal_cron.py</span><span class="jb-chip">→ origin</span></div><div class="jb-empty">（冇輸出檔 —— 沉默合約：成功但冇事報告 = 空白）</div></div></div><div class="jb-card" data-state="never"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-none"></span><div style="flex:1"><div class="jb-nm">ftd-pre-alert-daily</div><div class="jb-meta"><code>6a495306cd96</code> <span class="jb-sched">20 21 * * 1-5</span><br>上次：從未（—）｜下次：2026-10-19T21:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">ftd_pre_cron.py</span><span class="jb-chip">→ origin</span></div><div class="jb-empty">（冇輸出檔 —— 沉默合約：成功但冇事報告 = 空白）</div></div></div><div class="jb-card" data-state="off"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-none"></span><div style="flex:1"><div class="jb-nm">edge-036-recheck</div><div class="jb-meta"><code>1f30bf089025</code> <span class="jb-sched">once at 2026-10-13 07:00</span><br>上次：6 日前（2026-10-13T07:00）｜下次：—</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">edge036_recheck_cron.py</span><span class="jb-chip">→ telegram:322829419</span><span class="jb-chip">輸出 10-13 07:00</span></div><div class="jb-pre"># Cron Job: edge-036-recheck
+
+**Job ID:** 1f30bf089025
+**Run Time:** 2026-10-13 07:00:33
+**Mode:** no_agent (script)
+
+---
+
+🔎 EDGE-036 覆核｜2026-10-13
+
+拖10EMA 18%（-0.45R）｜T+1 47%（+0.10R）
+樣本 83 單 / 5 日｜前瞻中位 7 日
+
+出場規則平均R（同一批入場，唔同出場）
+當日收 +0.073｜T+1 +0.104｜T+3 -0.164｜T+10 -1.191｜拖10EMA -0.454｜5R:1R -0.807
+
+達2R 8/83 (9.6%)｜達5R 0/83 (0.0%)｜成熟 fwd≥5 n=82 達2R 8/82 (9.8%)
+最後警報日 2026-10-06（已評分 2026-10-06）
+
+判定：樣本未夠 → 延後
+判準（事前定死）：n≥30 且 前瞻中位≥10 日 且 平均R&gt;0
+下次覆核：2026-10-20
+
+Δ 相對上次：n 66 → 83｜前瞻中位 2 → 7｜拖10EMA +0.649 → -0.454</div><div class="jb-empty">來源：cron/output/1f30bf089025/2026-10-13_07-00-33.md</div></div></div></div>

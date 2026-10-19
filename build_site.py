@@ -72,6 +72,7 @@ TABS = [
     ("bee50", "🐝", "Stockbee 50", None),
     ("jeffsun", "🎯", "Jeff Sun Mom.", None),
     ("ndx", "🇺🇸", "納指權重股", None),
+    ("jobboard", "🍳", "廚房看板", None),
 ]
 
 
@@ -749,6 +750,7 @@ SIDEBAR_LINKS = [
     ("bee50.html", "🐝", "Stockbee 50"),
     ("jeffsun.html", "🎯", "Jeff Sun Mom."),
     ("ndx.html", "🇺🇸", "納指權重股"),
+    ("jobboard.html", "🍳", "廚房看板"),
 ]
 
 SIDEBAR_JS = """
@@ -1208,6 +1210,17 @@ def build():
         pages["calculator"] = ("倉位計算機", _calc.calc_page(), base)
     except Exception as _e3:                                 # noqa: BLE001
         log(f"⚠ 計算機頁失敗：{type(_e3).__name__}: {_e3}")
+
+    # ── 廚房看板（Desmond 2026-10-19：所有 job 狀態）──
+    try:
+        import jobboard as _jb
+        _jobs, _jerr = _jb.load_jobs()
+        if _jobs:
+            _body = _jb.build(_jobs, _jb.load_exec(), _jb.load_incidents())
+            pages["jobboard"] = ("廚房看板", _body, base)
+            log(f"✓ jobboard.html ({len(_body)//1024} KB, {len(_jobs)} jobs)")
+    except Exception as _e6:                                 # noqa: BLE001
+        log(f"⚠ 廚房看板失敗：{type(_e6).__name__}: {_e6}")
 
     # ── 四個外部數據源（Desmond 2026-10-19）──
     # Market Monitor / Stockbee 50 / Sector RS / Jeff Sun Momentum
