@@ -742,7 +742,10 @@ SIDEBAR_CSS = """
   transition:transform .22s ease}
 html[data-theme="light"] #sb{background:#ffffff;border-right:1px solid #e3e8f0}
 #sb .brand{font-size:14px;font-weight:700;letter-spacing:.04em;
-  padding:6px 10px 12px;display:block;color:inherit;text-decoration:none}
+  padding:6px 10px 12px;display:flex;align-items:baseline;gap:7px;
+  color:inherit;text-decoration:none;flex-wrap:wrap}
+#sb .bld{font-size:10px;font-weight:600;letter-spacing:0;opacity:.42;
+  font-family:ui-monospace,monospace;margin-left:auto}
 #sb .gw{margin:0}
 #sb .grp{font-size:13.5px;font-weight:800;letter-spacing:.01em;
   text-transform:none;opacity:1;padding:11px 11px 7px;cursor:pointer;
@@ -1127,7 +1130,9 @@ def sidebar_html(active=""):
             '<div id="navoverlay"></div>'
             '<button id="sbtoggle" title="收合側欄">&lsaquo;</button>'
             '<aside id="sb">'
-            '<a class="brand" href="index.html">📈 Desmond · 交易台</a>'
+            '<a class="brand" href="index.html">📈 Desmond · 交易台'
+            f'<span class="bld">{__import__("datetime").datetime.now().strftime("%m-%d %H:%M")}</span>'
+            '</a>'
             '<button id="themebtn">🌙 深色</button>'
             + "".join(head) + "".join(body) +
             '</aside>')
