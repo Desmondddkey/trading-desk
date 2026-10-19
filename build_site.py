@@ -46,7 +46,7 @@ import stdcols as _std  # noqa: E402  （Item 2：統一所有列表欄位）
 import tvhover  # noqa: E402  （Item 8：hover 代號彈 TradingView 圖）
 import nel_pages as _np  # noqa: E402  （Item 1：NEL 五頁蒸餾）
 
-EN_LABELS = {"livefeeds": "Live Feeds", "dailyscan": "Daily Scan", "leadermap": "RS Leader Map", "earnings": "Earnings", "external": "External", "desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
+EN_LABELS = {"rocketstock": "RocketStock", "livefeeds": "Live Feeds", "dailyscan": "Daily Scan", "leadermap": "RS Leader Map", "earnings": "Earnings", "external": "External", "desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
              "week": "Week Strongest", "rsboard": "RS Board", "method": "Methods",
              "cycle": "Growth Cycle", "setups": "Setups",
              "regime": "Setup x Regime", "calculator": "Position Sizing"}
@@ -69,6 +69,7 @@ TABS = [
     ("cycle", "", "成長週期", None),
     ("setups", "", "Setups", None),
     ("regime", "", "Setup×Regime", None),
+    ("rocketstock", "", "RocketStock", None),
     ("livefeeds", "", "外部即時數據", None),
     ("mm", "", "Market Monitor", None),
     ("bee50", "", "Stockbee 50", None),
@@ -845,6 +846,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "倉位計算機", "calculator.html"),
 
     ("_grp", "外部數據"),
+    ("_link", None, "RocketStock", "rocketstock.html"),
     ("_link", None, "外部即時數據", "livefeeds.html"),
     ("_link", None, "Market Monitor", "mm.html"),
     ("_link", None, "Stockbee 50", "bee50.html"),
@@ -1425,6 +1427,15 @@ def build():
         log(f"✓ earnings.html ({len(_b2)//1024} KB)")
     except Exception as _e8:                                 # noqa: BLE001
         log(f"⚠ 財報日曆失敗：{type(_e8).__name__}: {_e8}")
+
+    # ── RocketStock 公開 API（Desmond 2026-10-19）──
+    try:
+        import rocketstock as _rsk
+        _rt, _rb = _rsk.build()
+        pages["rocketstock"] = (_rt, _rb, base)
+        log(f"✓ rocketstock.html ({len(_rb)//1024} KB)")
+    except Exception as _e12:                                # noqa: BLE001
+        log(f"⚠ RocketStock 失敗：{type(_e12).__name__}: {_e12}")
 
     # ── 外部即時數據（Desmond 2026-10-19：LST + TradersLab iframe）──
     try:
