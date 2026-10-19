@@ -1009,6 +1009,7 @@ SIDEBAR_LINKS = [
 
     ("_grp", "選股"),
     ("_link", None, "警報總覽", "alerts.html"),
+    ("_link", None, "Setups（The Plan）", "setups.html"),
     ("_link", None, "Daily Scan", "dailyscan.html"),
     ("_link", None, "RS Leader 位置圖", "leadermap.html"),
     ("_link", None, "財報日曆", "earnings.html"),
@@ -1036,7 +1037,6 @@ SIDEBAR_LINKS = [
     ("_grp", "方法"),
     ("_link", None, "方法分類", "method.html"),
     ("_link", None, "成長週期", "cycle.html"),
-    ("_link", None, "Setups", "setups.html"),
 
     ("_grp", "PLAYBOOK"),
     ("_ext", "", "Jeff Sun 工具/流程", "https://jfsrev.substack.com/p/my-trading-tools-process-routine"),
