@@ -1719,29 +1719,14 @@ def build():
         _jobs, _jerr = _jb.load_jobs()
         if _jobs:
             _body = _jb.build(_jobs, _jb.load_exec(), _jb.load_incidents())
-            # ★ 所有 Alert 分類捷徑（Desmond 2026-10-19）
+            # ★ 所有 Alert 分類：直接放喺廚房看板最底（Desmond 2026-10-19）
             try:
                 import alerts_page as _alp
-                _arows = _alp.load()
-                _cnt = {}
-                for _r in _arows:
-                    _cnt[_r["setup"]] = _cnt.get(_r["setup"], 0) + 1
-                _chips = "".join(
-                    f'<a href="alerts.html" style="font-size:11.5px;'
-                    f'font-weight:700;padding:3px 9px;border-radius:999px;'
-                    f'background:rgba(217,119,87,.14);color:#d97757;'
-                    f'text-decoration:none">{_s} {_n}</a>'
-                    for _s, _n in sorted(_cnt.items(),
-                                         key=lambda kv: -kv[1]))
-                _body = (
-                    '<div class="card"><h2>🔔 所有 Alert 分類 '
-                    f'<small>{len(_arows)} 筆｜{len(_cnt)} 個 setup</small>'
-                    '</h2><div style="padding:12px 16px;display:flex;'
-                    'gap:7px;flex-wrap:wrap;align-items:center">'
-                    + _chips +
-                    '<a href="alerts.html" style="margin-left:auto;'
-                    'font-size:12px;font-weight:700">睇完整清單 →</a>'
-                    '</div></div>') + _body
+                _abody = _alp.build()[1]
+                _body = (_body +
+                         '<div style="margin-top:22px;padding-top:6px;'
+                         'border-top:2px solid rgba(217,119,87,.35)">'
+                         + _abody + '</div>')
             except Exception:                                # noqa: BLE001
                 pass
             pages["jobboard"] = ("廚房看板", _body, base)
