@@ -154,7 +154,7 @@ def mm_page(d):
     series = d.get("series") or []
     if series:
         mx = max([max(s["up4"] or 0, s["down4"] or 0) for s in series] or [1])
-        HALF = 78          # 每邊最大像素
+        HALF = 88          # 每邊最大像素
         out.append('<div class="card"><h2>近 40 日升跌家數 '
                    '<small>綠向左＝升 4%+，紅向右＝跌 4%+</small></h2>'
                    '<div style="padding:12px 14px">'
@@ -190,8 +190,8 @@ def mm_page(d):
                 '<div style="flex:1;display:flex;justify-content:flex-end">'
                 f'<span style="height:10px;width:{wu}px;background:#2fbf71;'
                 'border-radius:3px 0 0 3px"></span></div>'
-                '<div style="width:1px;height:13px;background:'
-                'rgba(128,128,128,.45);flex:0 0 auto"></div>'
+                '<div style="width:2px;height:15px;background:'
+                'rgba(120,130,150,.75);flex:0 0 auto;border-radius:1px"></div>'
                 '<div style="flex:1;display:flex;justify-content:flex-start">'
                 f'<span style="height:10px;width:{wd}px;background:#e5484d;'
                 'border-radius:0 3px 3px 0"></span></div>'
