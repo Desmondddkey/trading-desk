@@ -220,7 +220,7 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
  <div style="display:flex;align-items:flex-start;gap:10px">
   <div style="flex:1 1 auto">
    <h1>📈 <span>Desmond · 交易台</span></h1>
-   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-19 16:13</code></p>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-19 16:19</code></p>
   </div>
  </div>
 </header>
@@ -304,63 +304,38 @@ function jbFilter(mode,btn){
     if(mode!=='all') g.open = vis;
   });
 }
-</script><h2>🍳 廚房看板 <small>所有常駐 job 狀態</small></h2><p class="crumb">本機讀取 <code>~/AppData/Local/hermes/cron/</code>｜生成 2026-10-19｜<b>58</b> 個 job 註冊｜<a href="https://desmondddkey.github.io/trading-desk/index.html">回主頁</a></p><div class="jb-stats"><div class="jb-stat"><div class="v jb-ok">55</div><div class="k">正常</div></div><div class="jb-stat"><div class="v jb-err">1</div><div class="k">失敗</div></div><div class="jb-stat"><div class="v jb-none">1</div><div class="k">從未跑過</div></div><div class="jb-stat"><div class="v jb-none">1</div><div class="k">已停用</div></div><div class="jb-stat"><div class="v jb-err">3</div><div class="k">未關閉事故</div></div></div><div class="card"><h2>🚨 需要處理 <small>1 個 job 失敗</small></h2><div style="padding:12px 16px"><div style="padding:9px 0;border-bottom:1px solid rgba(128,128,128,.16);font-size:13px"><b>usic-edge-audit-notion</b> <code style="font-size:11px">37b72d4e3b22</code><br><span class="jb-err" style="font-size:12px">2 日前｜subprocess.TimeoutExpired: Command &#x27;[&#x27;C:\\Users\\rain0\\trading-os\\.venv\\Scripts\\python.exe&#x27;, &#x27;-X&#x27;, &#x27;utf8&#x27;, &#x27;C:\\Users\\rain0\\trading-os\\edge_audit_cron.py&#x27;]&#x27; timed out after 600 seconds</span></div></div></div><div class="jb-filters"><button class="on" onclick="jbFilter('all',this)">全部 58</button><button onclick="jbFilter('err',this)">🚨 失敗 1</button><button onclick="jbFilter('on',this)">✅ 運作中 56</button><button onclick="jbFilter('never',this)">⚪ 從未跑 1</button></div><details class="jb-group" open><summary><b>🌅 05:00–09:40</b> · 收市後分析<span class="jb-g-n">18 個</span> <span class="jb-g-err">🚨 1</span></summary><div class="jb-grid"><div class="jb-card err" data-state="err"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-err"></span><div style="flex:1;min-width:0"><div class="jb-nm">usic-edge-audit-notion</div><div class="jb-meta"><span class="jb-sched">30 6 * * 2-6</span>｜2 日前｜下次 10-20T06:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">edge_audit_notion_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-17 06:40</span><span class="jb-chip">⚠ 1 事故</span><span class="jb-chip">37b72d4e3b22</span></div><div class="jb-pre" style="color:#e5484d;border-color:rgba(229,72,77,.4)">ine 88, in _run_code
-  File &quot;C:\Users\rain0\AppData\Local\hermes\scripts\edge_audit_notion_cron.py&quot;, line 28, in &lt;module&gt;
-    r = subprocess.run([VENV_PY, &quot;-X&quot;, &quot;utf8&quot;, SCRIPT],
-                       capture_output=True, text=True, encoding=&quot;utf-8&quot;, timeout=600,
-                       env=_env, cwd=TRADING_OS)
-  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 557, in run
-    stdout, stderr = process.communicate(input, timeout=timeout)
-                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
-  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 1221, in communicate
-    stdout, stderr = self._communicate(input, endtime, timeout)
-                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
-  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 1664, in _communicate
-    raise TimeoutExpired(self.args, orig_timeout)
-subprocess.TimeoutExpired: Command &#x27;[&#x27;C:\\Users\\rain0\\trading-os\\.venv\\Scripts\\python.exe&#x27;, &#x27;-X&#x27;, &#x27;utf8&#x27;, &#x27;C:\\Users\\rain0\\trading-os\\edge_audit_cron.py&#x27;]&#x27; timed out after 600 seconds</div><div class="jb-pre"># Cron Job: usic-edge-audit-notion
+</script><h2>🍳 廚房看板 <small>所有常駐 job 狀態</small></h2><p class="crumb">本機讀取 <code>~/AppData/Local/hermes/cron/</code>｜生成 2026-10-19｜<b>58</b> 個 job 註冊｜<a href="https://desmondddkey.github.io/trading-desk/index.html">回主頁</a></p><div class="jb-stats"><div class="jb-stat"><div class="v jb-ok">56</div><div class="k">正常</div></div><div class="jb-stat"><div class="v jb-err">0</div><div class="k">失敗</div></div><div class="jb-stat"><div class="v jb-none">1</div><div class="k">從未跑過</div></div><div class="jb-stat"><div class="v jb-none">1</div><div class="k">已停用</div></div><div class="jb-stat"><div class="v jb-err">2</div><div class="k">未關閉事故</div></div></div><div class="jb-filters"><button class="on" onclick="jbFilter('all',this)">全部 58</button><button onclick="jbFilter('err',this)">🚨 失敗 0</button><button onclick="jbFilter('on',this)">✅ 運作中 56</button><button onclick="jbFilter('never',this)">⚪ 從未跑 1</button></div><details class="jb-group"><summary><b>🌅 05:00–09:40</b> · 收市後分析<span class="jb-g-n">18 個</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">usic-edge-audit-notion</div><div class="jb-meta"><span class="jb-sched">30 6 * * 2-6</span>｜1 分鐘前｜下次 10-20T06:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">edge_audit_notion_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-19 16:18</span><span class="jb-chip">37b72d4e3b22</span></div><div class="jb-pre"># Cron Job: usic-edge-audit-notion
 
 **Job ID:** 37b72d4e3b22
-**Run Time:** 2026-10-17 06:40:42
+**Run Time:** 2026-10-19 16:18:17
 **Mode:** no_agent (script)
-**Status:** script failed
 
-Script exited with code 1
-stderr:
-Traceback (most recent call last):
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
-    import os, runpy, site, sys;site.addsitedir(&#x27;C:\\Users\\rain0\\AppData\\Local\\hermes\\installs\\8729f4be64c59c59\\environments\\5f668f6a189343708dc78ccb1397b6cb\\venv\\Lib\\site-packages&#x27;);script = sys.argv[1];sys.argv = [script] + sys.argv[2:];sys.path.insert(0, os.path.dirname(os.path.abspath(script)));runpy.run_path(script, run_name=&#x27;__main__&#x27;)
-                                                                                                                                                                                                                                                                                                                       ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File &quot;&lt;frozen runpy&gt;&quot;, line 294, in run_path
-  File &quot;&lt;frozen runpy&gt;&quot;, line 98, in _run_module_code
-  File &quot;&lt;frozen runpy&gt;&quot;, line 88, in _run_code
-  File &quot;C:\Users\rain0\AppData\Local\hermes\scripts\edge_audit_notion_cron.py&quot;, line 28, in &lt;module&gt;
-    r = subprocess.run([VENV_PY, &quot;-X&quot;, &quot;utf8&quot;, SCRIPT],
-                       capture_output=True, text=True, encoding=&quot;utf-8&quot;, timeout=600,
-                       env=_env, cwd=TRADING_OS)
-  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 557, in run
-    stdout, stderr = process.communicate(input, timeout=timeout)
-                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
-  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 1221, in communicate
-    stdout, stderr = self._communicate(input, endtime, timeout)
-                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
-  File &quot;C:\Users\rain0\AppData\Local\hermes\tools\python-3.14.7+202****0901-win32-x64\Lib\subprocess.py&quot;, line 1664, in _communicate
-    raise TimeoutExpired(self.args, orig_timeout)
-subprocess.TimeoutExpired: Command &#x27;[&#x27;C:\\Users\\rain0\\trading-os\\.venv\\Scripts\\python.exe&#x27;, &#x27;-X&#x27;, &#x27;utf8&#x27;, &#x27;C:\\Users\\rain0\\trading-os\\edge_audit_cron.py&#x27;]&#x27; timed out after 600 seconds</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">notion-trade-journal-sync</div><div class="jb-meta"><span class="jb-sched">40 6 * * 2-6</span>｜2 分鐘前｜下次 10-20T06:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">notion_trade_journal_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-19 16:11</span><span class="jb-chip">3260d2bbd052</span></div><div class="jb-pre"># Cron Job: notion-trade-journal-sync
+---
+
+🧮 Edge Audit｜樣本 83｜達2R 9.6%｜達1:5 0.0%（成熟樣本 n=83 達2R 9.6%）｜T+1 成功 47.0%｜期望T+1 0.104R｜賠率 1.65｜PF 1.47｜最佳出場 exit_t1
+  DEP: n8｜達2R 12.5%｜T+1勝 37.5%｜期望 -0.033R｜PF 0.9
+  HVE: n2｜達2R 0.0%｜T+1勝 50.0%｜期望 0.345R｜PF 4.45
+  JM: n20｜達2R 10.0%｜T+1勝 35.0%｜期望 -0.046R｜PF 0.87
+  PIV30: n12｜達2R 16.7%｜T+1勝 58.3%｜期望 0.274R｜PF 3.04
+  SHK: n14｜達2R 7.1%｜T+1勝 50.0%｜期望 0.083R｜PF 1.46
+  UCR: n14｜達2R 7.1%｜T+1勝 50.0%｜期望 0.083R｜PF 1.46
+  YOYO: n13｜達2R 7.7%｜T+1勝 53.8%｜期望 0.27R｜PF 2.53
+📓 Notion 已更新：月頁 + 日頁（掃描結果 / ORH 警報 / Edge Audit）</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">notion-trade-journal-sync</div><div class="jb-meta"><span class="jb-sched">40 6 * * 2-6</span>｜8 分鐘前｜下次 10-20T06:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">notion_trade_journal_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-19 16:11</span><span class="jb-chip">3260d2bbd052</span></div><div class="jb-pre"># Cron Job: notion-trade-journal-sync
 
 **Job ID:** 3260d2bbd052
 **Run Time:** 2026-10-19 16:11:31
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">edge-candidate-daily</div><div class="jb-meta"><span class="jb-sched">10 8 * * *</span>｜2 分鐘前｜下次 10-20T08:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">edge_candidate_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-19 16:11</span><span class="jb-chip">eec144c36d53</span></div><div class="jb-pre"># Cron Job: edge-candidate-daily
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">edge-candidate-daily</div><div class="jb-meta"><span class="jb-sched">10 8 * * *</span>｜8 分鐘前｜下次 10-20T08:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">edge_candidate_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-19 16:11</span><span class="jb-chip">eec144c36d53</span></div><div class="jb-pre"># Cron Job: edge-candidate-daily
 
 **Job ID:** eec144c36d53
 **Run Time:** 2026-10-19 16:11:10
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">usic-monthly-log-excel</div><div class="jb-meta"><span class="jb-sched">0 7 * * *</span>｜3 分鐘前｜下次 10-20T07:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">usic_log_builder_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-19 16:10</span><span class="jb-chip">9d00a631d4dc</span></div><div class="jb-pre"># Cron Job: usic-monthly-log-excel
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">usic-monthly-log-excel</div><div class="jb-meta"><span class="jb-sched">0 7 * * *</span>｜9 分鐘前｜下次 10-20T07:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">usic_log_builder_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-19 16:10</span><span class="jb-chip">9d00a631d4dc</span></div><div class="jb-pre"># Cron Job: usic-monthly-log-excel
 
 **Job ID:** 9d00a631d4dc
 **Run Time:** 2026-10-19 16:10:25
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">tree-trace-weekly</div><div class="jb-meta"><span class="jb-sched">10 9 * * 6</span>｜4 分鐘前｜下次 10-24T09:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">tree_trace_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-19 16:09</span><span class="jb-chip">8d0aec5f36cf</span></div><div class="jb-pre"># Cron Job: tree-trace-weekly
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">tree-trace-weekly</div><div class="jb-meta"><span class="jb-sched">10 9 * * 6</span>｜10 分鐘前｜下次 10-24T09:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">tree_trace_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-19 16:09</span><span class="jb-chip">8d0aec5f36cf</span></div><div class="jb-pre"># Cron Job: tree-trace-weekly
 
 **Job ID:** 8d0aec5f36cf
 **Run Time:** 2026-10-19 16:09:33
@@ -1067,7 +1042,7 @@ M
 
   ★ 記錄方法：&quot;記錄 &lt;代號&gt; &lt;方向&gt; &lt;入場&gt; &lt;股數&gt; &lt;止蝕&gt;&quot;
 
-    或直接貼券商截圖。</div></div></div></div></details><details class="jb-group"><summary><b>🌃 19:00–21:50</b> · 選股 + 警報<span class="jb-g-n">17 個</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">premarket-notion-record</div><div class="jb-meta"><span class="jb-sched">0 19 * * 1-5</span>｜2 分鐘前｜下次 10-19T19:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">premarket_notion_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-19 16:11</span><span class="jb-chip">bdd949eb80ef</span></div><div class="jb-pre"># Cron Job: premarket-notion-record
+    或直接貼券商截圖。</div></div></div></div></details><details class="jb-group"><summary><b>🌃 19:00–21:50</b> · 選股 + 警報<span class="jb-g-n">17 個</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">premarket-notion-record</div><div class="jb-meta"><span class="jb-sched">0 19 * * 1-5</span>｜7 分鐘前｜下次 10-19T19:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">premarket_notion_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-19 16:11</span><span class="jb-chip">bdd949eb80ef</span></div><div class="jb-pre"># Cron Job: premarket-notion-record
 
 **Job ID:** bdd949eb80ef
 **Run Time:** 2026-10-19 16:11:55
@@ -1080,7 +1055,7 @@ M
   🎯 選股掃描：FOCUS 29 ｜ STALK 19
   📋 每日計劃：已收錄
   📄 81 blocks
-  位置：https://app.notion.com/p/3fe1ab8501ba81eab7d3f6758653b87a</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">ftd-pre-alert-daily</div><div class="jb-meta"><span class="jb-sched">20 21 * * 1-5</span>｜2 分鐘前｜下次 10-19T21:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">ftd_pre_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-19 16:11</span><span class="jb-chip">6a495306cd96</span></div><div class="jb-pre"># Cron Job: ftd-pre-alert-daily
+  位置：https://app.notion.com/p/3fe1ab8501ba81eab7d3f6758653b87a</div></div></div><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">ftd-pre-alert-daily</div><div class="jb-meta"><span class="jb-sched">20 21 * * 1-5</span>｜8 分鐘前｜下次 10-19T21:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">ftd_pre_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-19 16:11</span><span class="jb-chip">6a495306cd96</span></div><div class="jb-pre"># Cron Job: ftd-pre-alert-daily
 
 **Job ID:** 6a495306cd96
 **Run Time:** 2026-10-19 16:11:25
@@ -1578,7 +1553,7 @@ MEDIA:C:\Users\rain0\trading-os-lab\output\dashboard_2026-10-17.html</div></div>
 
 💰 帳戶 $99,495（-0.51%）｜現金 $72,704｜開放風險 0.50%
 
-📈 已結算 0 單｜總 R +0.00</div></div></div></div></details><details class="jb-group"><summary><b>🌏 跨時區 / 盤中</b> · 盤中 + 收市檢查<span class="jb-g-n">9 個</span> <span class="jb-g-none">⚪ 1</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">kitchen-watchdog</div><div class="jb-meta"><span class="jb-sched">0 * * * *</span>｜13 分鐘前｜下次 10-19T17:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">kitchen_watchdog_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-19 16:00</span><span class="jb-chip">8db0186fed4a</span></div><div class="jb-pre"># Cron Job: kitchen-watchdog
+📈 已結算 0 單｜總 R +0.00</div></div></div></div></details><details class="jb-group"><summary><b>🌏 跨時區 / 盤中</b> · 盤中 + 收市檢查<span class="jb-g-n">9 個</span> <span class="jb-g-none">⚪ 1</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">kitchen-watchdog</div><div class="jb-meta"><span class="jb-sched">0 * * * *</span>｜19 分鐘前｜下次 10-19T17:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">kitchen_watchdog_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-19 16:00</span><span class="jb-chip">8db0186fed4a</span></div><div class="jb-pre"># Cron Job: kitchen-watchdog
 
 **Job ID:** 8db0186fed4a
 **Run Time:** 2026-10-19 16:00:40
@@ -1650,7 +1625,7 @@ MEDIA:C:\Users\rain0\trading-os-lab\output\dashboard_2026-10-17.html</div></div>
  ｜交易台 <code>trading-os-lab/dashboard.py</code>
 </footer>
 </div>
-<script>var D={"_generated":"2026-10-19 16:13"};
+<script>var D={"_generated":"2026-10-19 16:19"};
 function q(s,r){return (r||document).querySelector(s);}
 function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
