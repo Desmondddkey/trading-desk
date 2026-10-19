@@ -159,12 +159,17 @@ def calc_page():
         return (f'<option value="{v}"{" selected" if sel else ""}>'
                 f'{_h.escape(label)}</option>')
 
-    risk_opts = "".join([
-        opt("0.25", "0.25%"), opt("0.35", "0.35%"),
-        opt("0.5", "0.50%（SOUL 預設）", True),
-        opt("0.75", "0.75%"), opt("1.0", "1.00%"),
-        opt("2.0", "2.00%（超上限）"),
-    ])
+    # ★ 2026-10-19 Desmond：「唔好用列表揀 RISK，用方格比我揀」
+    RISKS = [("0.25", "0.25%", ""), ("0.35", "0.35%", ""),
+             ("0.5", "0.50%", "SOUL 預設"),
+             ("0.75", "0.75%", ""), ("1.0", "1.00%", "上限"),
+             ("2.0", "2.00%", "超上限")]
+    risk_opts = "".join(
+        f'<button data-v="{v}"{" class=\"on\"" if v == "0.5" else ""}>'
+        f'<span class="rv">{lbl}</span>'
+        + (f'<span class="rn">{note}</span>' if note else '')
+        + '</button>'
+        for v, lbl, note in RISKS)
 
     return f"""
 <style>
@@ -183,6 +188,13 @@ def calc_page():
   border:1px solid rgba(128,128,128,.38);border-radius:9px;padding:11px 12px;
   color:inherit;font-size:15px;font-family:inherit}}
 .frow input:focus,.frow select:focus{{outline:none;border-color:#4c8dff}}
+.seg-risk{display:grid!important;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg-risk button{flex-direction:column;gap:2px;padding:11px 6px;
+  line-height:1.25}
+.seg-risk .rv{font-size:14.5px;font-weight:800}
+.seg-risk .rn{font-size:9.5px;opacity:.62;font-weight:600;letter-spacing:.02em}
+.seg-risk button.on .rn{opacity:.85}
+@media(min-width:560px){.seg-risk{grid-template-columns:repeat(6,1fr)}}
 .seg{{display:flex;gap:8px}}
 .seg button{{flex:1;background:rgba(128,128,128,.10);
   border:1px solid rgba(128,128,128,.38);
@@ -242,7 +254,7 @@ def calc_page():
     </div>
     <div class="frow">
       <label>風險 Risk (1R)</label>
-      <select id="c_risk">{risk_opts}</select>
+      <div class="seg seg-risk" id="c_risk">{risk_opts}</div>
     </div>
     <div class="frow">
       <label>入場價 Entry</label>
@@ -311,14 +323,22 @@ def calc_page():
     }};
   }});
   ["c_cap","c_entry","c_stop"].forEach(id => $(id).oninput = run);
-  $("c_risk").onchange = run;
+  let riskVal = "0.5";
+  document.querySelectorAll("#c_risk button").forEach(b => {{
+    b.onclick = () => {{
+      riskVal = b.dataset.v;
+      document.querySelectorAll("#c_risk button").forEach(x =>
+        x.classList.toggle("on", x === b));
+      run();
+    }};
+  }});
 
   const money = v => "$" + v.toLocaleString("en-US", {{maximumFractionDigits:2, minimumFractionDigits:2}});
   const num = (v,d=2) => v.toLocaleString("en-US", {{maximumFractionDigits:d}});
 
   function run(){{
     const cap = +$("c_cap").value, entry = +$("c_entry").value,
-          stop = +$("c_stop").value, risk = +$("c_risk").value;
+          stop = +$("c_stop").value, risk = +riskVal;
     const warn = $("r_warn");
     const fail = m => {{ warn.className = "warnbox err show"; warn.innerHTML = "⛔ " + m;
       ["r_r1","r_shares","r_pos","r_stop"].forEach(i => $(i).textContent = "—");
