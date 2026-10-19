@@ -49,7 +49,7 @@ import nel_pages as _np  # noqa: E402  （Item 1：NEL 五頁蒸餾）
 EN_LABELS = {"desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
              "week": "Week Strongest", "rsboard": "RS Board", "method": "Methods",
              "cycle": "Growth Cycle", "setups": "Setups",
-             "regime": "Setup x Regime"}
+             "regime": "Setup x Regime", "calculator": "Position Sizing"}
 
 TABS = [
     ("desk", "🖥", "機會", "desk.html"),
@@ -61,6 +61,7 @@ TABS = [
     ("sectors", "🏭", "Sectors", None),
     ("breadth", "🌊", "Breadth", None),
     ("positioning", "🎯", "Positioning", None),
+    ("calculator", "🧮", "倉位計算機", None),
     ("review", "⏪", "Review", None),
     ("rsboard", "📊", "RS 板", None),
     ("method", "🧩", "方法分類", None),
@@ -1083,6 +1084,15 @@ def build():
                 pages[_key] = (_title, _np._unavail(_title, str(_e2)), base)
     except Exception as _e1:                                 # noqa: BLE001
         log(f"⚠ NEL 五頁整體失敗：{type(_e1).__name__}")
+
+    # ── 🧮 倉位計算機（Desmond 2026-10-19）──
+    # ★ 純前端 JS 計算，唔需要數據 → 永遠可用
+    #   數學對照過 lonestocktrader 截圖（69 股 / 0.66R / 99.33 階梯 全部吻合）
+    try:
+        import calculator as _calc
+        pages["calculator"] = ("倉位計算機", _calc.calc_page(), base)
+    except Exception as _e3:                                 # noqa: BLE001
+        log(f"⚠ 計算機頁失敗：{type(_e3).__name__}: {_e3}")
 
     # ── RS 板（跟圖片 2/4：指數／群組／板塊三個表）──
     rsb_full = extras.rsboard_full()
