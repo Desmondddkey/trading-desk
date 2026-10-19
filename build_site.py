@@ -286,15 +286,22 @@ def load_briefing():
                            "pct40ma", "ls_ratio_proxy", "spy_close",
                            "adl", "nnnl", "series")}
         out["breadth_src"] = os.path.basename(p2)
-    # 今日圖表隊列（rs_select，圖示用）
-    rs = jload(os.path.join(LIVE, "output",
-                            f"rs_select_{datetime.date.today().isoformat()}.json"))
-    if not rs:
-        p3 = newest(os.path.join(LIVE, "output", "rs_select_*.json"))
-        rs = jload(p3) if p3 else None
-        out["rs_src"] = os.path.basename(p3) if p3 else None
-    else:
-        out["rs_src"] = f"rs_select_{datetime.date.today().isoformat()}.json"
+    # 今日圖表隊列（rs_select）
+    # ★ 2026-10-20 修假更新：舊版搵唔到今日檔就靜靜用 newest()，但標題照寫「今日」
+    #   實測 rs_select_2026-10-11.json（8 日前）被當成今日顯示。
+    #   現在一律經 freshness.status()，並把真實狀態帶去 UI。
+    try:
+        import freshness as _fr
+        _rsd, _rsst = _fr.load("rs_select")
+    except Exception:                                        # noqa: BLE001
+        _rsd, _rsst = None, dict(status="MISSING", age=None, mtime=None,
+                                 path=None)
+    out["rs_status"] = _rsst.get("status")
+    out["rs_age"] = _rsst.get("age")
+    out["rs_mtime"] = _rsst.get("mtime")
+    out["rs_src"] = (os.path.basename(_rsst["path"])
+                     if _rsst.get("path") else None)
+    rs = _rsd
     if rs:
         rows = [r for r in rs.get("rows", []) if r.get("gate_pass")]
         rows.sort(key=lambda r: (-(r.get("stack_n") or 0), abs(r.get("x") or 0)))
@@ -999,6 +1006,7 @@ html[data-theme="light"] .jb-card{border-color:#E3E1DA;
 SIDEBAR_LINKS = [
     # 2026-10-19 方案 C：5 個分組；廚房看板獨立最頂；PLAYBOOK 最底
     ("_pinned", "", "廚房看板", "jobboard.html"),
+    ("_pinned", "", "數據健康", "datahealth.html"),
 
     ("_grp", "市場"),
     ("_link", None, "MARKET REGIME", "regime_mri.html"),
@@ -1396,6 +1404,25 @@ def build():
             '⚠ 模型由你圖片蒸餾，用 <b>IWF/IWD</b>（羅素 1000 成長÷價值）。'
             '<a href="cycle.html">完整頁 →</a></div></div></div>')
 
+    # ★ 圖表隊列標題：永遠顯示真實狀態，唔准扮「今日」
+    _rs_st = brief.get("rs_status")
+    if _rs_st == "MISSING":
+        _qhead = "⛔ 圖表隊列（冇數據）"
+        _qnote = ("<div style=\"color:#dc2626;font-weight:700;margin-bottom:8px\">"
+                  "⛔ 搵唔到任何 rs_select 檔案 —— 呢個功能冇數據，"
+                  "下面唔會有股票。</div>")
+    elif _rs_st == "STALE":
+        _age = brief.get("rs_age")
+        _mt = brief.get("rs_mtime") or "?"
+        _qhead = f"⚠️ 圖表隊列（過期 {_age} 日）"
+        _qnote = ("<div style=\"color:#dc2626;font-weight:700;margin-bottom:8px\">"
+                  f"⚠️ 呢啲股票係 <b>{_mt}</b> 嘅數據，已經 <b>{_age} 日</b> "
+                  "冇更新 —— <b>唔係今日嘅名單</b>。"
+                  "rs_select 冇對應嘅 cron job，所以一直唔會更新。</div>")
+    else:
+        _qhead = "圖表隊列"
+        _qnote = ""
+
     brief_body = f"""
 {note}
 {_gc_card}
@@ -1408,8 +1435,8 @@ def build():
 </div>
 <div class="card"><h2>🌊 Stockbee 廣度 <small>升 4%+ / 跌 4%+ 家數｜呢把尺同上面唔同，唔可以混用</small></h2>
  <div class="body">{render_stockbee_breadth(_sbf)}</div></div>
-<div class="card"><h2>今日圖表隊列 <small>{esc(brief.get("rs_src") or "")}</small></h2>
- <div class="body"><div class="scroll"><table><thead><tr><th class="l">代號 / 行業</th><th>收市</th>
+<div class="card"><h2>{_qhead} <small>{esc(brief.get("rs_mtime") or "")}</small></h2>
+ <div class="body">{_qnote}<div class="scroll"><table><thead><tr><th class="l">代號 / 行業</th><th>收市</th>
  <th>X（21EMA）</th><th>Y（ATRX）</th><th>ATR 帶</th><th>買入區</th><th>疊加</th>
  <th>Kell 階段</th><th>1CM 評級</th></tr></thead>
  <tbody>{qrows or '<tr><td colspan=9 class="dim">今日冇快照</td></tr>'}</tbody></table></div>
@@ -1652,6 +1679,17 @@ def build():
         log(f"✓ earnings.html ({len(_b2)//1024} KB)")
     except Exception as _e8:                                 # noqa: BLE001
         log(f"⚠ 財報日曆失敗：{type(_e8).__name__}: {_e8}")
+
+    # ── 數據健康後台（Desmond 2026-10-20：唔想有假更新）──
+    try:
+        import datahealth as _dh
+        _dht, _dhb = _dh.build()
+        pages["datahealth"] = (_dht, _dhb, base)
+        _sm = __import__("freshness").summary()
+        log(f'✓ datahealth.html（即時 {_sm["fresh"]}／過期 {_sm["stale"]}'
+            f'／缺失 {_sm["missing"]}）')
+    except Exception as _e16:                                # noqa: BLE001
+        log(f"⚠ 數據健康失敗：{type(_e16).__name__}: {_e16}")
 
     # ── ALERTS 分類總覽（Desmond 2026-10-19）──
     try:
