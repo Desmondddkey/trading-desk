@@ -334,7 +334,7 @@ html[data-theme="dark"] .jb-err{color:#E2816D}
  <div style="display:flex;align-items:flex-start;gap:10px">
   <div style="flex:1 1 auto">
    <h1>📈 <span>Desmond · 交易台</span></h1>
-   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-19 22:38</code></p>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-19 22:42</code></p>
   </div>
  </div>
 </header>
@@ -355,6 +355,13 @@ html[data-theme="dark"] .jb-err{color:#E2816D}
   border:1px solid rgba(128,128,128,.38);border-radius:9px;padding:11px 12px;
   color:inherit;font-size:15px;font-family:inherit}
 .frow input:focus,.frow select:focus{outline:none;border-color:#4c8dff}
+.seg-risk{display:grid!important;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg-risk button{flex-direction:column;gap:2px;padding:11px 6px;
+  line-height:1.25}
+.seg-risk .rv{font-size:14.5px;font-weight:800}
+.seg-risk .rn{font-size:9.5px;opacity:.62;font-weight:600;letter-spacing:.02em}
+.seg-risk button.on .rn{opacity:.85}
+@media(min-width:560px){.seg-risk{grid-template-columns:repeat(6,1fr)}}
 .seg{display:flex;gap:8px}
 .seg button{flex:1;background:rgba(128,128,128,.10);
   border:1px solid rgba(128,128,128,.38);
@@ -414,7 +421,7 @@ html[data-theme="dark"] .jb-err{color:#E2816D}
     </div>
     <div class="frow">
       <label>風險 Risk (1R)</label>
-      <select id="c_risk"><option value="0.25">0.25%</option><option value="0.35">0.35%</option><option value="0.5" selected>0.50%（SOUL 預設）</option><option value="0.75">0.75%</option><option value="1.0">1.00%</option><option value="2.0">2.00%（超上限）</option></select>
+      <div class="seg seg-risk" id="c_risk"><button data-v="0.25"><span class="rv">0.25%</span></button><button data-v="0.35"><span class="rv">0.35%</span></button><button data-v="0.5" class="on"><span class="rv">0.50%</span><span class="rn">SOUL 預設</span></button><button data-v="0.75"><span class="rv">0.75%</span></button><button data-v="1.0"><span class="rv">1.00%</span><span class="rn">上限</span></button><button data-v="2.0"><span class="rv">2.00%</span><span class="rn">超上限</span></button></div>
     </div>
     <div class="frow">
       <label>入場價 Entry</label>
@@ -483,14 +490,22 @@ html[data-theme="dark"] .jb-err{color:#E2816D}
     };
   });
   ["c_cap","c_entry","c_stop"].forEach(id => $(id).oninput = run);
-  $("c_risk").onchange = run;
+  let riskVal = "0.5";
+  document.querySelectorAll("#c_risk button").forEach(b => {
+    b.onclick = () => {
+      riskVal = b.dataset.v;
+      document.querySelectorAll("#c_risk button").forEach(x =>
+        x.classList.toggle("on", x === b));
+      run();
+    };
+  });
 
   const money = v => "$" + v.toLocaleString("en-US", {maximumFractionDigits:2, minimumFractionDigits:2});
   const num = (v,d=2) => v.toLocaleString("en-US", {maximumFractionDigits:d});
 
   function run(){
     const cap = +$("c_cap").value, entry = +$("c_entry").value,
-          stop = +$("c_stop").value, risk = +$("c_risk").value;
+          stop = +$("c_stop").value, risk = +riskVal;
     const warn = $("r_warn");
     const fail = m => { warn.className = "warnbox err show"; warn.innerHTML = "⛔ " + m;
       ["r_r1","r_shares","r_pos","r_stop"].forEach(i => $(i).textContent = "—");
@@ -587,7 +602,7 @@ html[data-theme="dark"] .jb-err{color:#E2816D}
  ｜交易台 <code>trading-os-lab/dashboard.py</code>
 </footer>
 </div>
-<script>var D={"_generated":"2026-10-19 22:38"};
+<script>var D={"_generated":"2026-10-19 22:42"};
 function q(s,r){return (r||document).querySelector(s);}
 function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){

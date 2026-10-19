@@ -164,12 +164,12 @@ def calc_page():
              ("0.5", "0.50%", "SOUL 預設"),
              ("0.75", "0.75%", ""), ("1.0", "1.00%", "上限"),
              ("2.0", "2.00%", "超上限")]
-    risk_opts = "".join(
-        f'<button data-v="{v}"{" class=\"on\"" if v == "0.5" else ""}>'
-        f'<span class="rv">{lbl}</span>'
-        + (f'<span class="rn">{note}</span>' if note else '')
-        + '</button>'
-        for v, lbl, note in RISKS)
+    risk_opts = ""
+    for v, lbl, note in RISKS:
+        _cls = ' class="on"' if v == "0.5" else ""
+        _note = f'<span class="rn">{note}</span>' if note else ""
+        risk_opts += (f'<button data-v="{v}"{_cls}>'
+                      f'<span class="rv">{lbl}</span>{_note}</button>')
 
     return f"""
 <style>
@@ -188,13 +188,13 @@ def calc_page():
   border:1px solid rgba(128,128,128,.38);border-radius:9px;padding:11px 12px;
   color:inherit;font-size:15px;font-family:inherit}}
 .frow input:focus,.frow select:focus{{outline:none;border-color:#4c8dff}}
-.seg-risk{display:grid!important;grid-template-columns:repeat(3,1fr);gap:8px}
-.seg-risk button{flex-direction:column;gap:2px;padding:11px 6px;
-  line-height:1.25}
-.seg-risk .rv{font-size:14.5px;font-weight:800}
-.seg-risk .rn{font-size:9.5px;opacity:.62;font-weight:600;letter-spacing:.02em}
-.seg-risk button.on .rn{opacity:.85}
-@media(min-width:560px){.seg-risk{grid-template-columns:repeat(6,1fr)}}
+.seg-risk{{display:grid!important;grid-template-columns:repeat(3,1fr);gap:8px}}
+.seg-risk button{{flex-direction:column;gap:2px;padding:11px 6px;
+  line-height:1.25}}
+.seg-risk .rv{{font-size:14.5px;font-weight:800}}
+.seg-risk .rn{{font-size:9.5px;opacity:.62;font-weight:600;letter-spacing:.02em}}
+.seg-risk button.on .rn{{opacity:.85}}
+@media(min-width:560px){{.seg-risk{{grid-template-columns:repeat(6,1fr)}}}}
 .seg{{display:flex;gap:8px}}
 .seg button{{flex:1;background:rgba(128,128,128,.10);
   border:1px solid rgba(128,128,128,.38);
