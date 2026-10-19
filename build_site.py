@@ -1570,16 +1570,38 @@ def build():
             nel_ind = {r["symbol"]: r.get("industry", "") for r in scan["nel"]}
             def cmrow(r):
                 ind = nel_ind.get(r["ticker"], "")
+                st_ = stats.get(r["ticker"], {})
+                p = st_.get("perf") or {}
+
+                def _pf(k):
+                    v = p.get(k)
+                    return (f'<td class="{tone(v)}">{pct(v)}</td>'
+                            if v is not None else '<td class="dim">—</td>')
+                ext = st_.get("extension")
+                adr = st_.get("adr")
+                dv = st_.get("dvol")
+                o52 = st_.get("off52w")
                 return (f'<tr><td class="l"><span class="tk">'
                         f'{tv_link(r["ticker"], ind)}</span>'
                         f'<div class="dim" style="font-size:10.5px">{esc(ind)}</div></td>'
-                        # ★ 2026-10-20：RS-D / RS-W 統一格式
+                        # ★ 同領導股完全同一組欄位
                         + charts.rs_col(rs_map.get(r["ticker"], {}))
-                        + f'<td>{_cm.chip(r["ticker"], r)}</td>'
+                        + _pf("1w") + _pf("1m") + _pf("3m")
+                        + _pf("6m") + _pf("1y")
+                        + f'<td>{num(ext, 2)}×</td>'
+                        f'<td>{pct(adr, 1)}</td>'
+                        f'<td>{money(dv)}</td>'
+                        f'<td class="{"pos" if (o52 or 0) > -3 else "neg"}">'
+                        f'{pct(o52, 1)}</td>'
+                        f'<td>{_cm.chip(r["ticker"], r)}</td>'
                         f'{_cm.detail_cells(r)}'
                         f'<td>{num(r["close"], 2)}</td></tr>')
             cmhead = ('<tr><th class="l">代號 / 行業</th>'
-                      '<th>RS-D</th><th>RS-W</th><th>1CM 評級</th>'
+                      '<th>RS-D</th><th>RS-W</th>'
+                      '<th>1週</th><th>1月</th><th>3月</th>'
+                      '<th>6月</th><th>1年</th>'
+                      '<th>延伸</th><th>ADR%</th><th>成交額</th><th>距52週高</th>'
+                      '<th>1CM 評級</th>'
                       '<th>L1 RS 領導</th><th>L2 回調支撐</th><th>L3 量縮</th>'
                       '<th>L4 買家守</th><th>L5 風險窄</th><th>收市</th></tr>')
             cm_body = f"""
