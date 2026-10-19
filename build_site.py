@@ -1433,7 +1433,29 @@ def build():
         _qhead = "圖表隊列"
         _qnote = ""
 
+    # ★ 2026-10-20 Desmond：市場簡報 - RS THEMES 改用新 Google Sheet
+    #   呢個 Sheet 嘅公式靠 add-on 即時算，匯出全部 #N/A（XLK 481 行冇數）
+    #   → 唯一可行係 iframe 原貌（htmlembed 無 X-Frame-Options）
+    _themes_sid = "1TDiU6Wt0YYoJ1YPEtcwqWY4UU8FMj1vLLYFxQitg6oE"
+    _themes_gid = "634720175"
+    _themes = (
+        '<div class="card"><h2>RS THEMES <small>原 Sheet 即時（iframe）</small></h2>'
+        '<div class="body">'
+        '<div class="note">資料直接來自 Desmond 指定嘅 Google Sheet，'
+        '由 Google 即時計算 —— <b>網站唔會快取、唔會造假</b>。'
+        '如果你想睇其他分頁（XLK/XLF/…），喺下面嘅 Sheet 自己切換。</div>'
+        f'<iframe src="https://docs.google.com/spreadsheets/d/{_themes_sid}'
+        f'/htmlembed?gid={_themes_gid}&amp;widget=true&amp;headers=false" '
+        'style="width:100%;height:620px;border:0;border-radius:10px;'
+        'background:#fff" loading="lazy" referrerpolicy="no-referrer">'
+        '</iframe>'
+        f'<div style="margin-top:8px;font-size:11.5px;opacity:.6">'
+        f'Sheet ID <code>{_themes_sid[:12]}…</code>｜gid {_themes_gid}'
+        '｜嵌入失敗時請直接開原 Sheet</div>'
+        '</div></div>')
+
     brief_body = f"""
+{_themes}
 {note}
 {_gc_card}
 <div class="kpis">{kpi_html}</div>
