@@ -220,7 +220,7 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
  <div style="display:flex;align-items:flex-start;gap:10px">
   <div style="flex:1 1 auto">
    <h1>📈 <span>Desmond · 交易台</span></h1>
-   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-19 15:39</code></p>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-19 15:43</code></p>
   </div>
  </div>
 </header>
@@ -229,6 +229,13 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
   border:1px solid rgba(128,128,128,.3);border-radius:12px;overflow:hidden;
   background:#fff;margin:0 0 16px}
 .sheetbox iframe{width:100%;height:100%;border:0;display:block}
+.sheetload{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:14px;background:#0d1220;
+  color:#9fb0cc;font-size:13px;z-index:2}
+[data-theme="light"] .sheetload{background:#f6f8fb;color:#64748b}
+.spin{width:26px;height:26px;border-radius:50%;border:3px solid rgba(128,128,128,.3);
+  border-top-color:#2563eb;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
 .sheetbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;
   margin:0 0 10px;font-size:12.5px}
 .sheetbar a,.sheetbar button{display:inline-flex;align-items:center;gap:5px;
@@ -255,7 +262,7 @@ details summary{cursor:pointer;font-weight:700;padding:10px 0;font-size:14px}
  ｜交易台 <code>trading-os-lab/dashboard.py</code>
 </footer>
 </div>
-<script>var D={"_generated":"2026-10-19 15:39"};
+<script>var D={"_generated":"2026-10-19 15:43"};
 function q(s,r){return (r||document).querySelector(s);}
 function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){

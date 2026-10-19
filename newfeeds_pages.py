@@ -39,6 +39,13 @@ SHEET_CSS = """
   border:1px solid rgba(128,128,128,.3);border-radius:12px;overflow:hidden;
   background:#fff;margin:0 0 16px}
 .sheetbox iframe{width:100%;height:100%;border:0;display:block}
+.sheetload{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:14px;background:#0d1220;
+  color:#9fb0cc;font-size:13px;z-index:2}
+[data-theme="light"] .sheetload{background:#f6f8fb;color:#64748b}
+.spin{width:26px;height:26px;border-radius:50%;border:3px solid rgba(128,128,128,.3);
+  border-top-color:#2563eb;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
 .sheetbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;
   margin:0 0 10px;font-size:12.5px}
 .sheetbar a,.sheetbar button{display:inline-flex;align-items:center;gap:5px;
@@ -59,7 +66,10 @@ details summary{cursor:pointer;font-weight:700;padding:10px 0;font-size:14px}
 
 
 def _sheet_iframe(sheet_id, gid, title):
-    """Google Sheet iframe（/preview = 唯讀、可嵌入）。"""
+    """Google Sheet iframe（/preview = 唯讀、可嵌入）。
+
+    ★ Google 用 JS 渲染，實測要 15-20 秒才出表 → 加載入提示，唔好令人以為壞。
+    """
     src = (f"https://docs.google.com/spreadsheets/d/{sheet_id}/preview"
            f"?gid={gid}&rm=minimal&widget=true")
     full = (f"https://docs.google.com/spreadsheets/d/{sheet_id}/edit#gid={gid}")
@@ -70,8 +80,16 @@ def _sheet_iframe(sheet_id, gid, title):
         'if(f.requestFullscreen)f.requestFullscreen()">⛶ 全螢幕</button>'
         '<span style="opacity:.6">唯讀嵌入 · 自動跟原表更新</span>'
         '</div>'
-        f'<div class="sheetbox"><iframe id="sb_{gid}" src="{src}" '
-        f'loading="lazy" title="{_esc(title)}"></iframe></div>')
+        f'<div class="sheetbox">'
+        f'<div id="ld_{gid}" class="sheetload">'
+        '<div class="spin"></div>'
+        '<div>載入 Google Sheet…（首次約 15-20 秒）</div>'
+        '</div>'
+        f'<iframe id="sb_{gid}" src="{src}" loading="lazy" '
+        f'title="{_esc(title)}" '
+        f'onload="var d=document.getElementById(\'ld_{gid}\');'
+        "if(d)d.style.display='none'\"></iframe>"
+        '</div>')
 
 
 def _head(title, sub, asof, src_url="", src_label=""):
