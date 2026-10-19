@@ -40,10 +40,10 @@ LAB = r"C:\Users\rain0\trading-os-lab\output"
 # key = 穩定標識；pattern = glob；max_age = 容許最大日曆日差
 # producer = 邊個 cron / 腳本負責更新（方便追）
 SOURCES = [
-    dict(k="l1_scans",   label="L1 掃描（My_Scans）",
+    dict(k="l1_scans",   label="Jeff Sun Daily Scan（盤前）",
          pattern="My_Scans_*.xlsx", base=TO, max_age=1,
          producer="jeffsun_scan（盤後）", used="Daily Scan、機會"),
-    dict(k="l2_focus",   label="L2 焦點名單",
+    dict(k="l2_focus",   label="Focus&Stalking List",
          pattern="layer2_*.json", base=TO, max_age=1,
          producer="layer2_focus_stalk", used="Daily Scan、領導股"),
     dict(k="breadth",    label="廣度（40MA/ADL）",

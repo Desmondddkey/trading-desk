@@ -752,6 +752,9 @@ SIDEBAR_CSS = """
   display:flex;flex-direction:column;gap:2px;
   transition:transform .22s ease}
 html[data-theme="light"] #sb{background:#ffffff;border-right:1px solid #e3e8f0}
+/* ★ 2026-10-20 Desmond：LOG BOOK 貼側欄最底（唔屬任何分組） */
+#sb .sbbtm{margin-top:auto;padding-top:10px;
+  border-top:1px solid rgba(128,128,128,.22)}
 #sb .brand{font-size:14px;font-weight:700;letter-spacing:.04em;
   padding:6px 10px 12px;display:flex;align-items:baseline;gap:7px;
   color:inherit;text-decoration:none;flex-wrap:wrap}
@@ -1052,8 +1055,8 @@ SIDEBAR_LINKS = [
     ("_ext", "", "Qullamaggie", "https://qullamaggie.net/"),
     ("_ext", "", "QM 3 個 setups", "https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/"),
     ("_ext", "", "Alex Desjardins 方法", "https://qullamaggie.net/alex-desjardinss-method/"),
-    # ★ 2026-10-20 Desmond：LOG BOOK 放喺 PLAYBOOK 最下面
-    ("_link", None, "LOG BOOK", "logbook.html"),
+    # ★ 2026-10-20 Desmond：LOG BOOK 貼側欄最底，唔屬於任何分組
+    ("_bottom", "", "LOG BOOK", "logbook.html"),
 ]
 
 SIDEBAR_JS = """
@@ -1112,6 +1115,7 @@ def sidebar_html(active=""):
                 f'<span class="lbl">{label}</span></a>')
 
     head = []
+    bottom = []           # ★ 唔屬於任何分組，貼側欄最底
     groups = []            # [(name, [html...])]
     cur = None
     for row in SIDEBAR_LINKS:
@@ -1131,6 +1135,10 @@ def sidebar_html(active=""):
             head.append(f'<a href="{href}"{on} data-pin="1">'
                         f'<span class="i">{icon}</span>'
                         f'<span class="lbl">{label}</span></a>')
+        elif kind == "_bottom":
+            _, icon, label, href = row
+            bottom.append(_link(label, href, extra=' data-bottom="1"'))
+            cur = None
         else:                                              # _link
             _, _ic, label, href = row
             (cur[1] if cur else head).append(_link(label, href))
@@ -1151,8 +1159,10 @@ def sidebar_html(active=""):
             f'<span class="bld">{__import__("datetime").datetime.now().strftime("%m-%d %H:%M")}</span>'
             '</a>'
             '<button id="themebtn">🌙 深色</button>'
-            + "".join(head) + "".join(body) +
-            '</aside>')
+            + "".join(head) + "".join(body)
+            + ('<div class="sbbtm">' + "".join(bottom) + '</div>'
+               if bottom else '')
+            + '</aside>')
 
 
 def sitenav_html():
