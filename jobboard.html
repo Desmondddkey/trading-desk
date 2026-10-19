@@ -228,6 +228,14 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
   #navtoggle{display:flex}
   body{padding-left:0}
   header.top{padding-top:56px}
+  /* ★ 2026-10-19 Desmond：「小圓球可以跟住左邊隱藏時一齊收入」
+     drawer 關閉時圓球一齊滑出畫面，唔會浮喺中間。 */
+  #sbtoggle{left:0;top:14px;
+    transform:translateX(-58px);opacity:0;pointer-events:none;
+    transition:transform .22s ease,opacity .18s ease}
+  body.drawer-open #sbtoggle{
+    transform:translateX(202px);opacity:1;pointer-events:auto}
+  body.drawer-open #sb.collapsed #sbtoggle{transform:translateX(28px)}
 }
 
 #tvpop{display:none;position:fixed;z-index:9999;width:440px;
@@ -251,7 +259,7 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
  <div style="display:flex;align-items:flex-start;gap:10px">
   <div style="flex:1 1 auto">
    <h1>📈 <span>Desmond · 交易台</span></h1>
-   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-19 19:58</code></p>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-19 19:59</code></p>
   </div>
  </div>
 </header>
@@ -475,7 +483,7 @@ function jbFilter(mode,btn){
   GOOGL      340.59      6    -6.5%     -2.0%    +4.5%   3 ★★★
   NFLX        70.53      6    -4.5%     -0.2%   +10.5%   3 ★★★
   ★★★ 四條全中（實測中位 +5.09%、平均 +7.02%、贏率 64.6%）：
-      AAPL</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 setup-alerts<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">6 種 setup 嘅即時入場警報（每分鐘掃）。冇訊息＝冇 setup 成立，唔係壞。</div><div class="jb-meta"><span class="jb-sched">* 21-23,0 * * 1-5</span>｜18 小時前｜下次 10-19T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">setup_alerts_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-19 00:59</span><span class="jb-chip">82a425b3367b</span></div><div class="jb-pre"># Cron Job: setup-alerts
+      AAPL</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 setup-alerts<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">6 種 setup 嘅即時入場警報（每分鐘掃）。冇訊息＝冇 setup 成立，唔係壞。</div><div class="jb-meta"><span class="jb-sched">* 21-23,0 * * 1-5</span>｜19 小時前｜下次 10-19T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">setup_alerts_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-19 00:59</span><span class="jb-chip">82a425b3367b</span></div><div class="jb-pre"># Cron Job: setup-alerts
 
 **Job ID:** 82a425b3367b
 **Run Time:** 2026-10-19 00:59:40
@@ -1078,7 +1086,36 @@ Notion：https://www.notion.so/3fb1ab8501ba8185b66ffa5769a3b110
 判準（事前定死）：n≥30 且 前瞻中位≥10 日 且 平均R&gt;0
 下次覆核：2026-10-20
 
-Δ 相對上次：n 66 → 83｜前瞻中位 2 → 7｜拖10EMA +0.649 → -0.454</div></div></div></div></details><details class="jb-group" data-cat="rec"><summary><b>📓 記錄同步</b> · Notion、日誌、每日摘要<span class="jb-g-n">12 個</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok" data-cat="rec" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 notion-records-daily<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">Notion 記錄同步（日誌／筆記）。</div><div class="jb-meta"><span class="jb-sched">35 19 * * 1-5</span>｜17 分鐘前｜下次 10-20T19:35</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">notion_records_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-19 19:41</span><span class="jb-chip">4358f4b0099b</span></div><div class="jb-pre"># Cron Job: notion-records-daily
+Δ 相對上次：n 66 → 83｜前瞻中位 2 → 7｜拖10EMA +0.649 → -0.454</div></div></div></div></details><details class="jb-group" data-cat="rec"><summary><b>📓 記錄同步</b> · Notion、日誌、每日摘要<span class="jb-g-n">12 個</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok" data-cat="rec" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 hermes-daily-digest<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">Hermes 自己嘅每日摘要。</div><div class="jb-meta"><span class="jb-sched">0 20 * * *</span>｜0 分鐘前｜下次 10-20T20:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">daily_digest_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-19 20:00</span><span class="jb-chip">30170a274064</span></div><div class="jb-pre"># Cron Job: hermes-daily-digest
+
+**Job ID:** 30170a274064
+**Run Time:** 2026-10-19 20:00:41
+**Mode:** no_agent (script)
+
+---
+
+📊 HERMES 每日觀察 — 2026-10-19 20:00
+
+【目標】+1000%/年｜贏輸比需 4.38:1
+  ███████████░░░░░░░░░ 60%｜而家 2.63:1（1279 單）
+
+【今日最需要修嘅一件事】
+  &lt;30 分鐘：631 單，EV -0.500%/單
+  ≥1 日　：190 單，EV +4.354%/單
+  → 長持 EV 係短炒嘅 9 倍
+  → 贏單中位持倉 76 分鐘
+  → 最大出血出場類型：MKT（113 單，EV -0.412%）
+
+【廚房】
+  61 個 job（60 enabled）｜⭐⭐⭐ 15｜⭐ 29｜未達標 10
+  知識庫：104 頁｜141,603 字｜今日新抓 0
+  比賽：20261006 開賽｜權益 +7.49%｜持倉 5｜斷路器 未觸發
+
+【等你決定（單向門，唔會自動做）】
+  • 止蝕凍結中，2026-11-04 後可重審
+  • 止蝕解凍提請仍未批（選項 A/B/維持）
+
+（本紙由 hermes_daily_digest.py 生成；所有數字可由 output/ 重跑核對）</div></div></div><div class="jb-card" data-state="ok" data-cat="rec" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 notion-records-daily<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">Notion 記錄同步（日誌／筆記）。</div><div class="jb-meta"><span class="jb-sched">35 19 * * 1-5</span>｜19 分鐘前｜下次 10-20T19:35</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">notion_records_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-19 19:41</span><span class="jb-chip">4358f4b0099b</span></div><div class="jb-pre"># Cron Job: notion-records-daily
 
 **Job ID:** 4358f4b0099b
 **Run Time:** 2026-10-19 19:41:33
@@ -1093,7 +1130,7 @@ Notion：https://www.notion.so/3fb1ab8501ba8185b66ffa5769a3b110
   ⚡ Jeff Sun 盤中 RVOL：2 行（新 0 / 更新 2）
   🔬 Edge 審計：83 行（新 0 / 更新 83）
   👤 Vibe 影子：164 行（新 0 / 更新 164）
-  位置：https://app.notion.com/p/3ef1ab8501ba816192c8d202273e4819</div></div></div><div class="jb-card" data-state="ok" data-cat="rec" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 premarket-notion-record<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">把盤前分析（洞察＋掃描＋計劃）寫入 Notion，保留歷史。</div><div class="jb-meta"><span class="jb-sched">0 19 * * 1-5</span>｜57 分鐘前｜下次 10-20T19:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">premarket_notion_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-19 19:01</span><span class="jb-chip">bdd949eb80ef</span></div><div class="jb-pre"># Cron Job: premarket-notion-record
+  位置：https://app.notion.com/p/3ef1ab8501ba816192c8d202273e4819</div></div></div><div class="jb-card" data-state="ok" data-cat="rec" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 premarket-notion-record<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">把盤前分析（洞察＋掃描＋計劃）寫入 Notion，保留歷史。</div><div class="jb-meta"><span class="jb-sched">0 19 * * 1-5</span>｜58 分鐘前｜下次 10-20T19:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">premarket_notion_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-19 19:01</span><span class="jb-chip">bdd949eb80ef</span></div><div class="jb-pre"># Cron Job: premarket-notion-record
 
 **Job ID:** bdd949eb80ef
 **Run Time:** 2026-10-19 19:01:57
@@ -1162,36 +1199,7 @@ Notion：https://www.notion.so/3fb1ab8501ba8185b66ffa5769a3b110
 **Job ID:** 5de069059c64
 **Run Time:** 2026-10-18 22:21:01
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="rec" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 hermes-daily-digest<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">Hermes 自己嘅每日摘要。</div><div class="jb-meta"><span class="jb-sched">0 20 * * *</span>｜23 小時前｜下次 10-19T20:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">daily_digest_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 10-18 20:00</span><span class="jb-chip">30170a274064</span></div><div class="jb-pre"># Cron Job: hermes-daily-digest
-
-**Job ID:** 30170a274064
-**Run Time:** 2026-10-18 20:00:41
-**Mode:** no_agent (script)
-
----
-
-📊 HERMES 每日觀察 — 2026-10-18 20:00
-
-【目標】+1000%/年｜贏輸比需 4.38:1
-  ███████████░░░░░░░░░ 60%｜而家 2.63:1（1279 單）
-
-【今日最需要修嘅一件事】
-  &lt;30 分鐘：631 單，EV -0.500%/單
-  ≥1 日　：190 單，EV +4.354%/單
-  → 長持 EV 係短炒嘅 9 倍
-  → 贏單中位持倉 76 分鐘
-  → 最大出血出場類型：MKT（113 單，EV -0.412%）
-
-【廚房】
-  55 個 job（54 enabled）｜⭐⭐⭐ 13｜⭐ 30｜未達標 5
-  知識庫：104 頁｜141,603 字｜今日新抓 0
-  比賽：20261006 開賽｜權益 +7.49%｜持倉 5｜斷路器 未觸發
-
-【等你決定（單向門，唔會自動做）】
-  • 止蝕凍結中，2026-11-04 後可重審
-  • 止蝕解凍提請仍未批（選項 A/B/維持）
-
-（本紙由 hermes_daily_digest.py 生成；所有數字可由 output/ 重跑核對）</div></div></div><div class="jb-card" data-state="ok" data-cat="rec" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 digest-evening<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">收市後摘要：今日成績、邊單贏輸、明日重點。</div><div class="jb-meta"><span class="jb-sched">35 23 * * 2-6</span>｜1 日前｜下次 10-20T23:35</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">push_evening_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-17 23:35</span><span class="jb-chip">2cd155ef3ea4</span></div><div class="jb-pre"># Cron Job: digest-evening
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="rec" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 digest-evening<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">收市後摘要：今日成績、邊單贏輸、明日重點。</div><div class="jb-meta"><span class="jb-sched">35 23 * * 2-6</span>｜1 日前｜下次 10-20T23:35</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">push_evening_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-17 23:35</span><span class="jb-chip">2cd155ef3ea4</span></div><div class="jb-pre"># Cron Job: digest-evening
 
 **Job ID:** 2cd155ef3ea4
 **Run Time:** 2026-10-17 23:35:37
@@ -1667,15 +1675,15 @@ FAIL: test_every_live_job_has_description (tests.test_job_descriptions.TestJobDe
 正向：每個 live job 都要有描述（唔可以靜靜地加 job 冇描述）。
 ---------
 
-…（截斷）</div></div></div><div class="jb-card" data-state="ok" data-cat="sys" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 kitchen-status-daily<span class="jb-cat">⚙️ 系統</span></div><div class="jb-purpose">更新 Notion「廚房狀態」頁。</div><div class="jb-meta"><span class="jb-sched">0 19 * * *</span>｜58 分鐘前｜下次 10-20T19:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">kitchen_status_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-19 19:00</span><span class="jb-chip">17880add1334</span></div><div class="jb-pre"># Cron Job: kitchen-status-daily
+…（截斷）</div></div></div><div class="jb-card" data-state="ok" data-cat="sys" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 kitchen-watchdog<span class="jb-cat">⚙️ 系統</span></div><div class="jb-purpose">每小時巡查：邊個 job 失敗咗就叫你。健康時完全靜音。</div><div class="jb-meta"><span class="jb-sched">0 * * * *</span>｜0 分鐘前｜下次 10-19T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">kitchen_watchdog_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-19 20:00</span><span class="jb-chip">8db0186fed4a</span></div><div class="jb-pre"># Cron Job: kitchen-watchdog
+
+**Job ID:** 8db0186fed4a
+**Run Time:** 2026-10-19 20:00:40
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="sys" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 kitchen-status-daily<span class="jb-cat">⚙️ 系統</span></div><div class="jb-purpose">更新 Notion「廚房狀態」頁。</div><div class="jb-meta"><span class="jb-sched">0 19 * * *</span>｜59 分鐘前｜下次 10-20T19:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">kitchen_status_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 10-19 19:00</span><span class="jb-chip">17880add1334</span></div><div class="jb-pre"># Cron Job: kitchen-status-daily
 
 **Job ID:** 17880add1334
 **Run Time:** 2026-10-19 19:00:43
-**Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="sys" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 kitchen-watchdog<span class="jb-cat">⚙️ 系統</span></div><div class="jb-purpose">每小時巡查：邊個 job 失敗咗就叫你。健康時完全靜音。</div><div class="jb-meta"><span class="jb-sched">0 * * * *</span>｜58 分鐘前｜下次 10-19T20:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">kitchen_watchdog_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-19 19:00</span><span class="jb-chip">8db0186fed4a</span></div><div class="jb-pre"># Cron Job: kitchen-watchdog
-
-**Job ID:** 8db0186fed4a
-**Run Time:** 2026-10-19 19:00:40
 **Mode:** no_agent (script)
 **Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="sys" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 michelin-audit-weekly<span class="jb-cat">⚙️ 系統</span></div><div class="jb-purpose">每週評星：邊個 job 係三星級（可靠＋有測試＋確定性合約）。</div><div class="jb-meta"><span class="jb-sched">40 9 * * 0</span>｜1 日前｜下次 10-25T09:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">michelin_audit_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 10-18 09:40</span><span class="jb-chip">65e21c80519e</span></div><div class="jb-pre"># Cron Job: michelin-audit-weekly
 
@@ -1772,7 +1780,7 @@ MEDIA:C:\Users\rain0\trading-os-lab\output\dashboard_2026-10-17.html</div></div>
  ｜交易台 <code>trading-os-lab/dashboard.py</code>
 </footer>
 </div>
-<script>var D={"_generated":"2026-10-19 19:58"};
+<script>var D={"_generated":"2026-10-19 19:59"};
 function q(s,r){return (r||document).querySelector(s);}
 function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
@@ -1843,9 +1851,13 @@ document.addEventListener('DOMContentLoaded',function(){ if(window.PAGE) PAGE();
   var sb=document.getElementById('sb'), tg=document.getElementById('navtoggle'),
       ov=document.getElementById('navoverlay');
   if(!sb||!tg) return;
-  function open(){sb.classList.add('open');if(ov)ov.classList.add('show');
+  function open(){sb.classList.add('open');
+    document.body.classList.add('drawer-open');
+    if(ov)ov.classList.add('show');
     tg.setAttribute('aria-expanded','true');}
-  function close(){sb.classList.remove('open');if(ov)ov.classList.remove('show');
+  function close(){sb.classList.remove('open');
+    document.body.classList.remove('drawer-open');
+    if(ov)ov.classList.remove('show');
     tg.setAttribute('aria-expanded','false');}
   tg.addEventListener('click',function(e){e.stopPropagation();
     sb.classList.contains('open')?close():open();});

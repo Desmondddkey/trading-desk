@@ -228,6 +228,14 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
   #navtoggle{display:flex}
   body{padding-left:0}
   header.top{padding-top:56px}
+  /* ★ 2026-10-19 Desmond：「小圓球可以跟住左邊隱藏時一齊收入」
+     drawer 關閉時圓球一齊滑出畫面，唔會浮喺中間。 */
+  #sbtoggle{left:0;top:14px;
+    transform:translateX(-58px);opacity:0;pointer-events:none;
+    transition:transform .22s ease,opacity .18s ease}
+  body.drawer-open #sbtoggle{
+    transform:translateX(202px);opacity:1;pointer-events:auto}
+  body.drawer-open #sb.collapsed #sbtoggle{transform:translateX(28px)}
 }
 
 #tvpop{display:none;position:fixed;z-index:9999;width:440px;
@@ -251,7 +259,7 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
  <div style="display:flex;align-items:flex-start;gap:10px">
   <div style="flex:1 1 auto">
    <h1>📈 <span>Desmond · 交易台</span></h1>
-   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-19 19:58</code></p>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-19 19:59</code></p>
   </div>
  </div>
 </header>
@@ -326,7 +334,7 @@ function dsFilter(mode,btn){
  ｜交易台 <code>trading-os-lab/dashboard.py</code>
 </footer>
 </div>
-<script>var D={"_generated":"2026-10-19 19:58"};
+<script>var D={"_generated":"2026-10-19 19:59"};
 function q(s,r){return (r||document).querySelector(s);}
 function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
@@ -397,9 +405,13 @@ document.addEventListener('DOMContentLoaded',function(){ if(window.PAGE) PAGE();
   var sb=document.getElementById('sb'), tg=document.getElementById('navtoggle'),
       ov=document.getElementById('navoverlay');
   if(!sb||!tg) return;
-  function open(){sb.classList.add('open');if(ov)ov.classList.add('show');
+  function open(){sb.classList.add('open');
+    document.body.classList.add('drawer-open');
+    if(ov)ov.classList.add('show');
     tg.setAttribute('aria-expanded','true');}
-  function close(){sb.classList.remove('open');if(ov)ov.classList.remove('show');
+  function close(){sb.classList.remove('open');
+    document.body.classList.remove('drawer-open');
+    if(ov)ov.classList.remove('show');
     tg.setAttribute('aria-expanded','false');}
   tg.addEventListener('click',function(e){e.stopPropagation();
     sb.classList.contains('open')?close():open();});
