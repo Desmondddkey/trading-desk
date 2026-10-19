@@ -73,24 +73,43 @@ def load_l1():
     except Exception:                                        # noqa: BLE001
         return None, asof
     scans = {}
-    if "All_Scans" in wb.sheetnames:
-        ws = wb["All_Scans"]
-        rows = ws.iter_rows(values_only=True)
-        hdr = next(rows, None) or ()
-        try:
-            i_scan = list(hdr).index("Source_Scan")
-            i_tk = list(hdr).index("ticker")
-        except ValueError:
-            wb.close()
-            return None, asof
-        for r in rows:
-            if not r:
+
+    def _read_sheet(ws, i_scan, i_tk):
+        for r in ws.iter_rows(values_only=True):
+            if not r or len(r) <= max(i_scan, i_tk):
                 continue
             sc, tk = r[i_scan], r[i_tk]
             if not sc or not tk:
                 continue
             tk = str(tk).split(":")[-1].strip().upper()
-            scans.setdefault(sc, []).append(tk)
+            scans.setdefault(str(sc), []).append(tk)
+
+    # ★ 2026-10-19：Momentum scan（Mom_1W/1M/3M/6M × Small/Large）唔喺
+    #   All_Scans sheet，佢哋喺獨立 `Momentum` sheet。要兩個都讀。
+    if "All_Scans" in wb.sheetnames:
+        ws = wb["All_Scans"]
+        rows = ws.iter_rows(values_only=True)
+        hdr = list(next(rows, None) or ())
+        try:
+            i_scan = hdr.index("Source_Scan")
+            i_tk = hdr.index("ticker")
+        except ValueError:
+            i_scan = i_tk = -1
+        if i_scan >= 0:
+            _read_sheet(ws, i_scan, i_tk)
+
+    if "Momentum" in wb.sheetnames:
+        ws = wb["Momentum"]
+        rows = ws.iter_rows(values_only=True)
+        hdr = list(next(rows, None) or ())
+        try:
+            i_scan = hdr.index("Source_Scan")
+            i_tk = hdr.index("ticker")
+        except ValueError:
+            i_scan = i_tk = -1
+        if i_scan >= 0:
+            _read_sheet(ws, i_scan, i_tk)
+
     wb.close()
     for k in scans:
         scans[k] = sorted(set(scans[k]))
