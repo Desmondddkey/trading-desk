@@ -835,7 +835,7 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
     transition:transform .22s ease,opacity .18s ease}
   body.drawer-open #sbtoggle{
     transform:translateX(202px);opacity:1;pointer-events:auto}
-  body.drawer-open #sb.collapsed #sbtoggle{transform:translateX(28px)}
+  body.drawer-open.sb-collapsed #sbtoggle{transform:translateX(28px)}
 }
 
 /* ══════════════════════════════════════════════════════════════
