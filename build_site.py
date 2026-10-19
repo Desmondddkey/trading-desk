@@ -715,7 +715,8 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
 }
 /* 手機：sidebar 變 drawer */
 @media(max-width:900px){
-  #sb{transform:translateX(-100%);box-shadow:4px 0 24px rgba(0,0,0,.4)}
+  #sb{transform:translateX(-100%);box-shadow:4px 0 24px rgba(0,0,0,.4);
+      padding-top:56px}
   #sb.open{transform:translateX(0)}
   #navtoggle{display:flex}
   body{padding-left:0}
