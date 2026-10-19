@@ -893,6 +893,88 @@ html[data-theme="dark"] input,html[data-theme="dark"] select{
 html[data-theme="dark"] .scroll::-webkit-scrollbar-thumb{background:#4A4A42}
 html[data-theme="dark"] ::selection{background:#D97757;color:#1F1E1D}
 html[data-theme="dark"] .jb-err{color:#E2816D}
+/* ══════════════════════════════════════════════════════════════
+   ★ 2026-10-19 Desmond：「3, 4」
+   ③ 赤陶橙用得更重（標題、按鈕、選中項全部橙）
+   ④ 淺色版也改成 Claude 淺色
+   Claude 淺色：底 #FAF9F5｜卡片 #FFFFFF｜邊框 #E3E1DA
+                主字 #1F1E1D｜次字 #6B6A63｜強調 #D97757
+   ══════════════════════════════════════════════════════════════ */
+/* ── ③ 深色：橙加得更重 ── */
+html[data-theme="dark"] .card h2{
+  color:#F0A882;border-bottom-color:#4A3A32}
+html[data-theme="dark"] .card h2 small{color:#B7B5A9}
+html[data-theme="dark"] .kpi .v{color:#FAF9F5}
+html[data-theme="dark"] #sb a.on{background:#3A2E28;color:#F0A882;
+  border-left:3px solid #D97757;font-weight:700}
+html[data-theme="dark"] #sb .brand{color:#F0A882}
+html[data-theme="dark"] nav a.on{background:#3A2E28;border-color:#D97757;
+  color:#F0A882;font-weight:700}
+html[data-theme="dark"] .tk.hl{color:#D97757}
+html[data-theme="dark"] .hl{color:#D97757;font-weight:800}
+html[data-theme="dark"] .jb-group>summary{color:#F0A882}
+html[data-theme="dark"] .jb-card{border-color:#3E3E38}
+html[data-theme="dark"] .jb-chip{border-color:#4A4A42;color:#B7B5A9}
+html[data-theme="dark"] .seg button.on,
+html[data-theme="dark"] .c-seg button.on{
+  background:#D97757!important;border-color:#D97757!important;
+  color:#1F1E1D!important;font-weight:800}
+html[data-theme="dark"] .badge,html[data-theme="dark"] .pill{
+  background:#3A2E28;border-color:#D97757;color:#F0A882}
+
+/* ── ④ 淺色版改成 Claude 淺色 ── */
+html[data-theme="light"] body{background:#FAF9F5;color:#1F1E1D}
+html[data-theme="light"] a{color:#C4633F}
+html[data-theme="light"] header.top{background:#FAF9F5EE;
+  border-bottom:1px solid #E3E1DA}
+html[data-theme="light"] .crumb{color:#6B6A63}
+html[data-theme="light"] .card{background:#FFFFFF;border-color:#E3E1DA;
+  box-shadow:0 1px 3px rgba(31,30,29,.06)}
+html[data-theme="light"] .card h2{background:#F4F2ED;
+  border-color:#E3E1DA;color:#1F1E1D}
+html[data-theme="light"] .card h2 small{color:#6B6A63}
+html[data-theme="light"] .kpi{background:#FFFFFF;border-color:#E3E1DA}
+html[data-theme="light"] .kpi .k{color:#6B6A63}
+html[data-theme="light"] th{background:#F4F2ED;color:#6B6A63;
+  border-color:#E3E1DA}
+html[data-theme="light"] td{border-color:#EFEDE7}
+html[data-theme="light"] tr:hover td{background:#FAF8F4}
+html[data-theme="light"] .tk{color:#1F1E1D}
+html[data-theme="light"] .dim{color:#8E8C84}
+html[data-theme="light"] .note{color:#6B6A63}
+html[data-theme="light"] .pos,html[data-theme="light"] .up{color:#2E7D4F}
+html[data-theme="light"] .neg,html[data-theme="light"] .dn{color:#C0402C}
+html[data-theme="light"] .bar{background:#D97757}
+html[data-theme="light"] .tk.hl{color:#D97757;text-shadow:none}
+html[data-theme="light"] .hl{color:#C4633F;font-weight:800}
+html[data-theme="light"] .buyrow td{background:rgba(217,119,87,.07)}
+html[data-theme="light"] code{background:#F4F2ED;color:#8A4A32}
+html[data-theme="light"] #sb{background:#F4F2ED;border-right:1px solid #E3E1DA}
+html[data-theme="light"] #sb .brand{color:#C4633F}
+html[data-theme="light"] #sb .grp{color:#8E8C84;border-top-color:#E3E1DA}
+html[data-theme="light"] #sb a{color:#4A4842}
+html[data-theme="light"] #sb a:hover{background:#EAE7E0;color:#1F1E1D}
+html[data-theme="light"] #sb a.on{background:#F7E9E3;color:#C4633F;
+  border-left:3px solid #D97757;font-weight:700}
+html[data-theme="light"] #sbtoggle{background:#FFFFFF;border-color:#DAD9D4;
+  color:#6B6A63}
+html[data-theme="light"] #sbtoggle:hover{background:#D97757;color:#fff;
+  border-color:#D97757}
+html[data-theme="light"] nav a{color:#6B6A63}
+html[data-theme="light"] nav a:hover{background:#F4F2ED;color:#1F1E1D}
+html[data-theme="light"] nav a.on{background:#F7E9E3;border-color:#D97757;
+  color:#C4633F;font-weight:700}
+html[data-theme="light"] button,html[data-theme="light"] .btn{
+  background:#FFFFFF;border-color:#DAD9D4;color:#1F1E1D}
+html[data-theme="light"] button:hover{background:#F4F2ED}
+html[data-theme="light"] button.on,html[data-theme="light"] .btn.pri,
+html[data-theme="light"] .seg button.on{
+  background:#D97757!important;border-color:#D97757!important;
+  color:#FFFFFF!important;font-weight:800}
+html[data-theme="light"] .jb-group>summary{color:#C4633F}
+html[data-theme="light"] .jb-card{border-color:#E3E1DA;
+  background:#FFFFFF}
+
 """
 
 SIDEBAR_LINKS = [
