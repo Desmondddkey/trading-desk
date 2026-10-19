@@ -828,7 +828,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "1CM 回調", "cm.html"),
     ("_link", None, "最強 1 週", "week.html"),
     ("_link", None, "RS 板", "rsboard.html"),
-    ("_link", None, "Setup", "regime.html"),
+    ("_link", None, "Setup 矩陣", "regime.html"),
 
     ("_grp", "成績"),
     ("_link", None, "Positioning", "positioning.html"),
