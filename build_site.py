@@ -46,12 +46,13 @@ import stdcols as _std  # noqa: E402  （Item 2：統一所有列表欄位）
 import tvhover  # noqa: E402  （Item 8：hover 代號彈 TradingView 圖）
 import nel_pages as _np  # noqa: E402  （Item 1：NEL 五頁蒸餾）
 
-EN_LABELS = {"leadermap": "RS Leader Map", "earnings": "Earnings", "external": "External", "desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
+EN_LABELS = {"dailyscan": "Daily Scan", "leadermap": "RS Leader Map", "earnings": "Earnings", "external": "External", "desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
              "week": "Week Strongest", "rsboard": "RS Board", "method": "Methods",
              "cycle": "Growth Cycle", "setups": "Setups",
              "regime": "Setup x Regime", "calculator": "Position Sizing"}
 
 TABS = [
+    ("dailyscan", "", "Daily Scan", None),
     ("desk", "", "機會", "desk.html"),
     ("briefing", "", "市場簡報", None),
     ("leaders", "", "領導股", None),
@@ -761,6 +762,29 @@ html[data-theme="light"] #sb #themebtn{background:transparent;
   border-color:#dbe2ec;color:#64748b}
 html[data-theme="light"] #sb #themebtn:hover{background:#f3f6fa;color:#1a2433}
 html[data-theme="light"] #sb button{background:#f3f6fa;border-color:#dbe2ec;color:#1a2433}
+
+/* ★ 2026-10-19 側欄收合（Desmond：左邊加個小球可以縮個欄） */
+#sbtoggle{position:fixed;left:236px;top:14px;z-index:9100;
+  width:26px;height:26px;border-radius:50%;border:1px solid #4b5563;
+  background:#0f1729;color:#9fb0cc;font-size:11px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:left .22s ease,background .15s;font-family:inherit;padding:0}
+#sbtoggle:hover{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
+html[data-theme="light"] #sbtoggle{background:#fff;border-color:#cbd5e1;
+  color:#64748b}
+html[data-theme="light"] #sbtoggle:hover{background:#2563eb;color:#fff}
+#sb.collapsed{width:62px}
+#sb.collapsed .brand{font-size:0;padding:10px 0;text-align:center}
+#sb.collapsed .brand::before{content:"📈";font-size:18px}
+#sb.collapsed #themebtn{display:none}
+#sb.collapsed .grp{font-size:0;padding:8px 0;border-top:1px solid #1e2a44;
+  margin:4px 8px}
+#sb.collapsed a{justify-content:center;padding:9px 0}
+#sb.collapsed a .lbl{display:none}
+#sb.collapsed a .ab{display:block}
+#sb a .ab{display:none;font-size:11px;font-weight:700;letter-spacing:.02em}
+#sb.collapsed #sbtoggle{left:62px}
+
 #navtoggle{display:none;position:fixed;left:10px;top:10px;z-index:9100;
   width:42px;height:42px;border-radius:11px;border:1px solid #2a3346;
   background:#0b1220ee;color:#e8eef8;font-size:19px;cursor:pointer;
@@ -796,6 +820,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "Breadth", "breadth.html"),
 
     ("_grp", "選股"),
+    ("_link", None, "Daily Scan", "dailyscan.html"),
     ("_link", None, "RS Leader 位置圖", "leadermap.html"),
     ("_link", None, "財報日曆", "earnings.html"),
     ("_link", None, "機會（總表）", "desk.html"),
@@ -831,6 +856,24 @@ SIDEBAR_LINKS = [
 ]
 
 SIDEBAR_JS = """
+(function(){
+  var sb=document.getElementById('sb'), tg=document.getElementById('sbtoggle');
+  if(!sb||!tg) return;
+  var KEY='desk-sb-collapsed';
+  function apply(c){
+    sb.classList.toggle('collapsed', c);
+    document.body.classList.toggle('sb-collapsed', c);
+    tg.innerHTML = c ? '&rsaquo;' : '&lsaquo;';
+    tg.title = c ? '展開側欄' : '收合側欄';
+    try{localStorage.setItem(KEY, c?'1':'0');}catch(e){}
+  }
+  tg.addEventListener('click', function(){ apply(!sb.classList.contains('collapsed')); });
+  var st='0';
+  try{st=localStorage.getItem(KEY)||'0';}catch(e){}
+  apply(st==='1');
+})();
+
+
 (function(){
   var sb=document.getElementById('sb'), tg=document.getElementById('navtoggle'),
       ov=document.getElementById('navoverlay');
@@ -871,10 +914,14 @@ def sidebar_html(active=""):
         else:                                              # _link
             _, _ic, label, href = row
             on = ' class="on"' if href == active else ""
-            items.append(f'<a href="{href}"{on}><span>{label}</span></a>')
+            ab = label[:2] if len(label) > 1 else label[:1]
+            items.append(f'<a href="{href}"{on} data-ab="{esc(ab)}">'
+                         f'<span class="ab">{esc(ab)}</span>'
+                         f'<span class="lbl">{label}</span></a>')
     # ★ 深淺色選項移到標題下面（原本喺最底，要捲到底才撳到）
     return ('<button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button>'
             '<div id="navoverlay"></div>'
+            '<button id="sbtoggle" title="收合側欄">&lsaquo;</button>'
             '<aside id="sb">'
             '<a class="brand" href="index.html">📈 Desmond · 交易台</a>'
             '<button id="themebtn">🌙 深色</button>'
@@ -1328,6 +1375,15 @@ def build():
         log(f"✓ earnings.html ({len(_b2)//1024} KB)")
     except Exception as _e8:                                 # noqa: BLE001
         log(f"⚠ 財報日曆失敗：{type(_e8).__name__}: {_e8}")
+
+    # ── Daily Scan（Desmond 2026-10-19：L1 + L2）──
+    try:
+        import dailyscan as _ds
+        _td, _bd = _ds.build()
+        pages["dailyscan"] = (_td, _bd, base)
+        log(f"✓ dailyscan.html ({len(_bd)//1024} KB)")
+    except Exception as _e10:                                # noqa: BLE001
+        log(f"⚠ Daily Scan 失敗：{type(_e10).__name__}: {_e10}")
 
     # ── RS Leader 位置圖（Desmond 2026-10-19：加日期選取器）──
     try:

@@ -1,0 +1,519 @@
+<!doctype html><html lang="zh-Hant" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Daily Scan · 交易台</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#070b16;color:#e8eef8;
+ font-family:"Segoe UI","Microsoft JhengHei",system-ui,-apple-system,"Noto Sans TC",sans-serif;
+ -webkit-text-size-adjust:100%}
+a{color:#7cc4ff}
+.wrap{max-width:1420px;margin:0 auto;padding:0 14px 60px}
+header.top{position:sticky;top:0;z-index:50;background:#080d1aee;border-bottom:1px solid #1c2740;
+ backdrop-filter:blur(9px);margin:0 -14px 18px;padding:10px 14px 0}
+h1{font-size:19px;margin:0 0 2px;letter-spacing:.4px}
+.crumb{color:#6e80a0;font-size:11.5px;margin:0 0 9px}
+/* 導覽：桌面要 wrap，唔可以靠橫向 scroll ——
+   ★ 2026-10-13 修（Desmond 用 Control Glass 睇到「方法分類」被切一半）：
+   原本只有 overflow-x:auto，冇 flex-wrap → 默認 nowrap →
+   14 個 link 需要 1433px 但容器 1213px → 最後 1-2 個被切斷，
+   而 Chrome 隱藏 scrollbar → 完全冇提示。
+   縮 padding/font 都補唔到 220px 差額（實測只夠縮 ~170px）→ 一定要 wrap。
+   手機（≤768px）維持 nowrap + scroll（拇指滑動係自然嘅）。 */
+nav{display:flex;flex-wrap:wrap;gap:4px;padding-bottom:2px}
+nav a,nav span.tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;
+ padding:7px 11px 8px;border-radius:9px;font-size:13px;color:#9fb0cc;
+ text-decoration:none;border:1px solid transparent;white-space:nowrap}
+nav a:hover{background:#121c31;color:#e8eef8}
+nav a.on{background:#0f1729;border-color:#1e2a44;color:#e8eef8;font-weight:700}
+nav span.off{opacity:.45}
+.card{background:#0f1729;border:1px solid #1e2a44;border-radius:11px;margin:0 0 15px;
+ box-shadow:0 2px 14px rgba(0,0,0,.32)}
+.card h2{font-size:15.5px;margin:0;padding:11px 14px;border-bottom:1px solid #1e2a44;
+ background:#0d1424;border-radius:11px 11px 0 0;display:flex;justify-content:space-between;
+ align-items:center;gap:10px}
+.card h2 small{font-weight:400;color:#7f90ad;font-size:11.5px}
+.card .body{padding:12px 14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+@media(max-width:1080px){.grid2,.grid3{grid-template-columns:1fr}}
+/* ── Item 9：手機版（空間節省）── */
+@media(max-width:700px){
+  body{padding:9px 8px;font-size:12.5px}
+  .card{border-radius:9px;margin-bottom:10px}
+  .card>h2{font-size:13px;padding:9px 11px;gap:5px}
+  .card>h2 small{display:none}
+  .card>.body{padding:0}
+  .scroll{max-height:none;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{font-size:11px;min-width:0}
+  th,td{padding:4px 5px;white-space:nowrap}
+  th{font-size:10px;letter-spacing:0}
+  /* 第一欄黏住左邊，橫向捲都睇得到代號 */
+  th:first-child,td:first-child{position:sticky;left:0;z-index:2;
+    background:#0f1729;box-shadow:1px 0 0 #1e2a44}
+  html[data-theme="light"] th:first-child,
+  html[data-theme="light"] td:first-child{background:#fff}
+  .tk{font-size:11.5px}
+  .rsmini,.spark{display:none}     /* 迷你圖喺手機太細，索性收起省位 */
+  .kpi{min-width:74px;padding:6px 9px}
+  .kpi .v{font-size:15px}
+  .kpis{gap:6px;margin-bottom:9px}
+  nav.gnav,nav{overflow-x:auto;flex-wrap:nowrap;
+    -webkit-overflow-scrolling:touch;padding-bottom:4px}
+  nav.gnav a,nav a{white-space:nowrap;flex:0 0 auto}
+  .note{font-size:10.5px;line-height:1.6}
+  .chartwall{grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:6px}
+  footer{margin-top:12px;font-size:10.5px}
+}
+@media(max-width:420px){
+  body{padding:6px 5px;font-size:12px}
+  th,td{padding:3px 4px}
+  .kpi{min-width:62px}
+}
+.kpis{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 14px}
+.kpi{background:#0f1729;border:1px solid #1e2a44;border-radius:9px;padding:8px 12px;min-width:96px}
+.kpi .k{font-size:10.5px;color:#7f90ad;letter-spacing:.5px}
+.kpi .v{font-size:17px;font-weight:700;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{padding:5px 7px;text-align:right;border-bottom:1px solid #16203a}
+th{color:#8296b4;font-weight:600;font-size:11px;background:#0d1424;position:sticky;top:0}
+td.l,th.l{text-align:left}
+tr:hover td{background:#131c30}
+.tk{font-weight:700;color:#cfe4ff}
+.tv{color:#cfe4ff;text-decoration:none;border-bottom:1px dotted #4a90d9;font-weight:700}
+.tv:hover{color:#4ade80;border-color:#4ade80}
+.tv .tvs{opacity:0;font-size:10px;margin-left:3px}
+.tv:hover .tvs{opacity:1}
+.pos{color:#4ade80}.neg{color:#f87171}.dim{color:#7f90ad}
+.badge{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10.5px;font-weight:700}
+.bar{height:8px;border-radius:4px;display:inline-block;vertical-align:middle;background:#22c55e}
+.bar.neg{background:#ef4444}
+.note{color:#7f90ad;font-size:11.5px;margin-top:9px;line-height:1.65}
+.warn{background:#3a2410;border:1px solid #a0620f;color:#fbc06a;border-radius:9px;
+ padding:9px 12px;font-size:12.5px;margin:0 0 13px;line-height:1.6}
+.ok{background:#0f2a1a;border:1px solid #2c7a4b;color:#7fe0a3;border-radius:9px;
+ padding:9px 12px;font-size:12.5px;margin:0 0 13px}
+.filters{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 11px;align-items:center}
+input[type=search],select{background:#16203a;color:#e8eef8;border:1px solid #2a3a5c;
+ border-radius:7px;padding:6px 10px;font-size:13px;font-family:inherit}
+button{background:#16203a;color:#c7d4ea;border:1px solid #2a3a5c;border-radius:7px;
+ padding:6px 11px;font-size:12.5px;cursor:pointer;font-family:inherit}
+button:hover{background:#1d2a49}
+button.on{background:#2b6cb0;border-color:#4a90d9;color:#fff;font-weight:700}
+.scroll{max-height:70vh;overflow:auto}
+footer{color:#5f708c;font-size:11.5px;margin-top:22px;line-height:1.7}
+code{background:#16203a;padding:1px 5px;border-radius:4px;font-size:11.5px}
+.todo{background:#141d33;border:1px dashed #35507e;border-radius:10px;padding:14px;color:#9fb0cc;
+ font-size:13px;line-height:1.75}
+.chartwall{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:9px}
+.cand{border:1px solid #1e2a44;border-radius:8px;padding:6px 4px 5px;text-align:center;background:#0d1424;display:block;text-decoration:none;color:inherit}
+.cand .tk{font-size:11.5px;font-weight:700;color:#cfe4ff;margin-top:3px}
+.cand .mini{min-height:66px;display:flex;align-items:center;justify-content:center}
+.cand:hover{border-color:#4a90d9}
+.tk.hl{color:#22c55e;text-shadow:0 0 10px rgba(34,197,94,.4)}
+tr.buyrow td{background:rgba(34,197,94,.07)}
+.controls{display:flex;gap:6px;align-items:center;margin-left:auto;flex:0 0 auto}
+.controls button{border-radius:7px;padding:5px 10px;font-size:12px}
+
+/* ── 淺色主題（默認）── */
+html[data-theme="light"] body{background:#f6f8fb;color:#1a2433}
+html[data-theme="light"] a{color:#2563eb}
+html[data-theme="light"] header.top{background:#ffffffee;border-bottom:1px solid #e3e8f0}
+html[data-theme="light"] .crumb{color:#64748b}
+html[data-theme="light"] nav a{color:#64748b}
+html[data-theme="light"] nav a:hover{background:#eef2f8;color:#111827}
+html[data-theme="light"] nav a.on{background:#ffffff;border-color:#dbe2ec;color:#111827}
+html[data-theme="light"] .card{background:#ffffff;border-color:#e3e8f0;box-shadow:0 1px 6px rgba(15,23,42,.06)}
+html[data-theme="light"] .card h2{background:#f1f5f9;border-color:#e3e8f0;color:#111827}
+html[data-theme="light"] .card h2 small{color:#64748b}
+html[data-theme="light"] .kpi{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] .kpi .k{color:#64748b}
+html[data-theme="light"] .kpi .v{color:#111827}
+html[data-theme="light"] .bar-nav{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] select,html[data-theme="light"] input[type=search]{background:#ffffff;color:#1a2433;border-color:#d0d7e2}
+html[data-theme="light"] button{background:#ffffff;color:#334155;border-color:#d0d7e2}
+html[data-theme="light"] button:hover{background:#f1f5f9}
+html[data-theme="light"] button.on{background:#2563eb;border-color:#2563eb;color:#fff}
+html[data-theme="light"] th{color:#64748b;background:#f1f5f9}
+html[data-theme="light"] td{border-color:#eef2f8}
+html[data-theme="light"] tr:hover td{background:#f6f9fc}
+html[data-theme="light"] .tk{color:#0b63ce}
+html[data-theme="light"] .tk.hl{color:#16a34a;text-shadow:none}
+html[data-theme="light"] .tv{color:#0b63ce;border-color:#93c5fd}
+html[data-theme="light"] .tv:hover{color:#16a34a;border-color:#16a34a}
+html[data-theme="light"] tr.buyrow td{background:rgba(34,197,94,.06)}
+html[data-theme="light"] .dim{color:#94a3b8}
+html[data-theme="light"] .note{color:#64748b}
+html[data-theme="light"] footer{color:#64748b}
+html[data-theme="light"] code{background:#eef2f8}
+html[data-theme="light"] .todo{background:#f6f8fb;border-color:#cbd5e1;color:#475569}
+html[data-theme="light"] .cand{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] .cand .tk{color:#0b63ce}
+html[data-theme="light"] .sitenav{background:#ffffffee;border-color:#e3e8f0}
+html[data-theme="light"] .sitenav a{color:#64748b}
+html[data-theme="light"] .sitenav a:hover{background:#eef2f8;color:#111827}
+html[data-theme="light"] .sitenav a.on{background:#2563eb;color:#fff}
+
+/* ═══ 左側導航（Desmond 2026-10-19：所有頁面選擇 bar 放左邊，方便手機） ═══ */
+#sb{position:fixed;left:0;top:0;bottom:0;width:236px;z-index:9000;
+  overflow-y:auto;overflow-x:hidden;padding:14px 10px 20px;
+  background:#0b1220;border-right:1px solid #1e2a44;
+  display:flex;flex-direction:column;gap:2px;
+  transition:transform .22s ease}
+html[data-theme="light"] #sb{background:#ffffff;border-right:1px solid #e3e8f0}
+#sb .brand{font-size:14px;font-weight:700;letter-spacing:.04em;
+  padding:6px 10px 12px;display:block;color:inherit;text-decoration:none}
+#sb .grp{font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  opacity:.45;padding:12px 10px 5px}
+#sb a{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px;
+  font-size:13.5px;text-decoration:none;color:#9fb0cc;line-height:1.25}
+#sb a:hover{background:#121c31;color:#e8eef8}
+#sb a.on{background:#1d4ed8;color:#fff;font-weight:700}
+html[data-theme="light"] #sb a{color:#4a5568}
+html[data-theme="light"] #sb a:hover{background:#eef2f8;color:#111827}
+html[data-theme="light"] #sb a.on{background:#2563eb;color:#fff}
+#sb a span.i{flex:0 0 18px;text-align:center;font-size:14px}
+#sb .spacer{flex:1 1 auto;min-height:14px}
+#sb button{margin:8px 6px 0;padding:8px;border-radius:8px;border:1px solid #2a3346;
+  background:#121c31;color:#e8eef8;font-size:12.5px;cursor:pointer;font-family:inherit}
+/* ★ 深淺色按鈕：標題下面、細粒、左對齊（Desmond 2026-10-19） */
+#sb #themebtn{margin:0 10px 12px;padding:6px 10px;border-radius:7px;
+  font-size:11.5px;align-self:flex-start;background:transparent;
+  border:1px solid #2a3346;color:#8fa0bd;letter-spacing:.02em}
+#sb #themebtn:hover{background:#121c31;color:#e8eef8}
+html[data-theme="light"] #sb #themebtn{background:transparent;
+  border-color:#dbe2ec;color:#64748b}
+html[data-theme="light"] #sb #themebtn:hover{background:#f3f6fa;color:#1a2433}
+html[data-theme="light"] #sb button{background:#f3f6fa;border-color:#dbe2ec;color:#1a2433}
+
+/* ★ 2026-10-19 側欄收合（Desmond：左邊加個小球可以縮個欄） */
+#sbtoggle{position:fixed;left:236px;top:14px;z-index:9100;
+  width:26px;height:26px;border-radius:50%;border:1px solid #4b5563;
+  background:#0f1729;color:#9fb0cc;font-size:11px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:left .22s ease,background .15s;font-family:inherit;padding:0}
+#sbtoggle:hover{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
+html[data-theme="light"] #sbtoggle{background:#fff;border-color:#cbd5e1;
+  color:#64748b}
+html[data-theme="light"] #sbtoggle:hover{background:#2563eb;color:#fff}
+#sb.collapsed{width:62px}
+#sb.collapsed .brand{font-size:0;padding:10px 0;text-align:center}
+#sb.collapsed .brand::before{content:"📈";font-size:18px}
+#sb.collapsed #themebtn{display:none}
+#sb.collapsed .grp{font-size:0;padding:8px 0;border-top:1px solid #1e2a44;
+  margin:4px 8px}
+#sb.collapsed a{justify-content:center;padding:9px 0}
+#sb.collapsed a .lbl{display:none}
+#sb.collapsed a .ab{display:block}
+#sb a .ab{display:none;font-size:11px;font-weight:700;letter-spacing:.02em}
+#sb.collapsed #sbtoggle{left:62px}
+
+#navtoggle{display:none;position:fixed;left:10px;top:10px;z-index:9100;
+  width:42px;height:42px;border-radius:11px;border:1px solid #2a3346;
+  background:#0b1220ee;color:#e8eef8;font-size:19px;cursor:pointer;
+  align-items:center;justify-content:center;line-height:1}
+html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;color:#1a2433}
+#navoverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:8999}
+#navoverlay.show{display:block}
+/* 桌面：內容右移 */
+@media(min-width:901px){
+  body{padding-left:236px}
+  /* desk.html 自己嘅頂部 nav 隱藏（已由 sidebar 取代） */
+  nav.sitenav{display:none!important}
+}
+/* 手機：sidebar 變 drawer */
+@media(max-width:900px){
+  #sb{transform:translateX(-100%);box-shadow:4px 0 24px rgba(0,0,0,.4);
+      padding-top:56px}
+  #sb.open{transform:translateX(0)}
+  #navtoggle{display:flex}
+  body{padding-left:0}
+  header.top{padding-top:56px}
+}
+
+#tvpop{display:none;position:fixed;z-index:9999;width:440px;
+  background:#0b1120;border:1px solid #2a3a5c;border-radius:11px;
+  box-shadow:0 14px 40px rgba(0,0,0,.6);overflow:hidden}
+#tvpopbar{display:flex;align-items:center;gap:8px;padding:6px 9px;
+  background:#111a2e;border-bottom:1px solid #1e2a44;font-size:12px}
+#tvpopsym{font-weight:700;color:#9fd4ff;flex:1 1 auto}
+#tvpopbar a{color:#7fd4a8;text-decoration:none;font-size:11.5px}
+#tvpopbar a:hover{text-decoration:underline}
+#tvpopclose{background:none;border:none;color:#7f90ad;cursor:pointer;
+  font-size:14px;padding:0 3px;font-family:inherit}
+#tvpopclose:hover{color:#fff}
+#tvpopchart{height:340px;background:#0b1120}
+#tvpopnote{font-size:11px;color:#8fa3c8;padding:0 9px 6px;min-height:0}
+@media(max-width:700px){#tvpop{display:none!important}}
+</style></head><body>
+<button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button><div id="navoverlay"></div><button id="sbtoggle" title="收合側欄">&lsaquo;</button><aside id="sb"><a class="brand" href="index.html">📈 Desmond · 交易台</a><button id="themebtn">🌙 深色</button><a href="jobboard.html" data-pin="1"><span class="i"></span><span>廚房看板</span></a><div class="grp">市場</div><a href="index.html" data-ab="市場"><span class="ab">市場</span><span class="lbl">市場簡報</span></a><a href="sectors.html" data-ab="Se"><span class="ab">Se</span><span class="lbl">Sectors</span></a><a href="themes.html" data-ab="Th"><span class="ab">Th</span><span class="lbl">Themes</span></a><a href="breadth.html" data-ab="Br"><span class="ab">Br</span><span class="lbl">Breadth</span></a><div class="grp">選股</div><a href="dailyscan.html" class="on" data-ab="Da"><span class="ab">Da</span><span class="lbl">Daily Scan</span></a><a href="leadermap.html" data-ab="RS"><span class="ab">RS</span><span class="lbl">RS Leader 位置圖</span></a><a href="earnings.html" data-ab="財報"><span class="ab">財報</span><span class="lbl">財報日曆</span></a><a href="desk.html" data-ab="機會"><span class="ab">機會</span><span class="lbl">機會（總表）</span></a><a href="leaders.html" data-ab="領導"><span class="ab">領導</span><span class="lbl">領導股</span></a><a href="cm.html" data-ab="1C"><span class="ab">1C</span><span class="lbl">1CM 回調</span></a><a href="week.html" data-ab="最強"><span class="ab">最強</span><span class="lbl">最強 1 週</span></a><a href="rsboard.html" data-ab="RS"><span class="ab">RS</span><span class="lbl">RS 板</span></a><a href="regime.html" data-ab="Se"><span class="ab">Se</span><span class="lbl">Setup</span></a><div class="grp">成績</div><a href="positioning.html" data-ab="Po"><span class="ab">Po</span><span class="lbl">Positioning</span></a><a href="review.html" data-ab="Re"><span class="ab">Re</span><span class="lbl">Review</span></a><a href="calculator.html" data-ab="倉位"><span class="ab">倉位</span><span class="lbl">倉位計算機</span></a><div class="grp">外部數據</div><a href="mm.html" data-ab="Ma"><span class="ab">Ma</span><span class="lbl">Market Monitor</span></a><a href="bee50.html" data-ab="St"><span class="ab">St</span><span class="lbl">Stockbee 50</span></a><a href="ndx.html" data-ab="納指"><span class="ab">納指</span><span class="lbl">納指權重股</span></a><a href="jeffsun.html" data-ab="Je"><span class="ab">Je</span><span class="lbl">Jeff Sun Mom.</span></a><a href="external.html" data-ab="外部"><span class="ab">外部</span><span class="lbl">外部數據源（NEL 等）</span></a><div class="grp">方法</div><a href="method.html" data-ab="方法"><span class="ab">方法</span><span class="lbl">方法分類</span></a><a href="cycle.html" data-ab="成長"><span class="ab">成長</span><span class="lbl">成長週期</span></a><a href="setups.html" data-ab="Se"><span class="ab">Se</span><span class="lbl">Setups</span></a><div class="grp">PLAYBOOK</div><a href="https://jfsrev.substack.com/p/my-trading-tools-process-routine" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span>Jeff Sun 工具/流程</span></a><a href="https://traderslab.gitbook.io/primetrading" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span>PrimeTrading 手冊</span></a><a href="https://qullamaggie.net/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span>Qullamaggie</span></a><a href="https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span>QM 3 個 setups</span></a><a href="https://qullamaggie.net/alex-desjardinss-method/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span>Alex Desjardins 方法</span></a></aside>
+<div class="wrap">
+<header class="top">
+ <div style="display:flex;align-items:flex-start;gap:10px">
+  <div style="flex:1 1 auto">
+   <h1>📈 <span>Desmond · 交易台</span></h1>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-19 18:19</code></p>
+  </div>
+ </div>
+</header>
+<style>
+.ds-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 4px}
+.ds-l1{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:10px;margin:0 0 16px}
+.ds-sc{border:1px solid rgba(128,128,128,.26);border-radius:11px;
+  padding:10px 12px;background:rgba(128,128,128,.035)}
+.ds-sc .nm{font-weight:700;font-size:12.5px;display:flex;align-items:center;gap:7px}
+.ds-sc .n{margin-left:auto;font-size:11px;opacity:.6;font-weight:400}
+.ds-tk{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.ds-tk a{font-size:11.5px;padding:2px 7px;border-radius:6px;
+  border:1px solid rgba(128,128,128,.32);text-decoration:none;color:inherit;
+  font-family:ui-monospace,monospace}
+.ds-tk a:hover{background:rgba(128,128,128,.18)}
+.ds-empty{font-size:11.5px;opacity:.45;margin-top:6px;font-style:italic}
+.ds-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.ds-tbl th{text-align:right;font-size:10.5px;letter-spacing:.04em;
+  text-transform:uppercase;opacity:.6;padding:6px 7px;border-bottom:1px solid rgba(128,128,128,.25);
+  white-space:nowrap}
+.ds-tbl td{text-align:right;padding:6px 7px;border-bottom:1px solid rgba(128,128,128,.1);
+  white-space:nowrap}
+.ds-tbl td.l,.ds-tbl th.l{text-align:left}
+.ds-tbl tr:hover{background:rgba(128,128,128,.07)}
+.ds-buy{background:rgba(22,163,74,.09)}
+.ds-ext{color:#dc2626;font-weight:700}
+.ds-ok{color:#16a34a}
+.ds-tag{font-size:9.5px;padding:1px 6px;border-radius:999px;
+  border:1px solid rgba(128,128,128,.35);font-weight:700}
+.ds-f{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.ds-f button{padding:6px 12px;border-radius:999px;font-size:12px;
+  border:1px solid rgba(128,128,128,.34);background:rgba(128,128,128,.07);
+  color:inherit;cursor:pointer;font-family:inherit}
+.ds-f button.on{background:#2563eb;border-color:#2563eb;color:#fff}
+.ds-wrap{overflow-x:auto}
+</style><script>
+function dsSort(btn, col){
+  var tb=document.getElementById('dsbody');
+  var rows=Array.from(tb.querySelectorAll('tr'));
+  var dir = btn.dataset.dir==='desc'?'asc':'desc';
+  btn.dataset.dir=dir;
+  document.querySelectorAll('.ds-f button').forEach(b=>{if(b!==btn)b.dataset.dir='';});
+  var idx=parseInt(col,10);
+  rows.sort(function(a,b){
+    var x=a.children[idx].dataset.v, y=b.children[idx].dataset.v;
+    var nx=parseFloat(x), ny=parseFloat(y);
+    var vx=isNaN(nx)?x:nx, vy=isNaN(ny)?y:ny;
+    if(dir==='asc') return vx>vy?1:vx<vy?-1:0;
+    return vx<vy?1:vx>vy?-1:0;
+  });
+  rows.forEach(r=>tb.appendChild(r));
+}
+function dsFilter(mode,btn){
+  document.querySelectorAll('.ds-f button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('#dsbody tr').forEach(r=>{
+    var ok = mode==='all' ? true
+      : mode==='buy' ? r.dataset.buy==='1'
+      : mode==='ext' ? r.dataset.state==='EXTENDED'
+      : mode==='focus' ? r.dataset.src==='FOCUS'
+      : true;
+    r.style.display=ok?'':'none';
+  });
+}
+</script><h2>Daily Scan <small>L1 掃描 + L2 圖表隊列</small></h2><p class="crumb">L1 <code>20261019</code>｜L2 <code>layer2_20261019_1810.json</code>｜價格 <code>2026-10-16</code>｜唯讀研究用途｜<b>非買入指令</b></p><div class="ds-h"><h3 style="margin:0">L1</h3><span style="font-size:12.5px;opacity:.7">77 tickers｜8 個 scan</span></div><div class="ds-l1"><div class="ds-sc"><div class="nm">Mom_1W_Small <span class=ds-tag>Small</span><span class="n">2</span></div><div class="ds-tk"><a href="https://www.tradingview.com/chart/?symbol=CBRL" target="_blank" rel="noopener">CBRL</a><a href="https://www.tradingview.com/chart/?symbol=HPK" target="_blank" rel="noopener">HPK</a></div></div><div class="ds-sc"><div class="nm">Mom_1M_Small <span class=ds-tag>Small</span><span class="n">2</span></div><div class="ds-tk"><a href="https://www.tradingview.com/chart/?symbol=CBRL" target="_blank" rel="noopener">CBRL</a><a href="https://www.tradingview.com/chart/?symbol=PICS" target="_blank" rel="noopener">PICS</a></div></div><div class="ds-sc"><div class="nm">Mom_3M_Small <span class=ds-tag>Small</span><span class="n">5</span></div><div class="ds-tk"><a href="https://www.tradingview.com/chart/?symbol=AUGO" target="_blank" rel="noopener">AUGO</a><a href="https://www.tradingview.com/chart/?symbol=CVI" target="_blank" rel="noopener">CVI</a><a href="https://www.tradingview.com/chart/?symbol=EFOR" target="_blank" rel="noopener">EFOR</a><a href="https://www.tradingview.com/chart/?symbol=LIFE" target="_blank" rel="noopener">LIFE</a><a href="https://www.tradingview.com/chart/?symbol=VIA" target="_blank" rel="noopener">VIA</a></div></div><div class="ds-sc"><div class="nm">Mom_6M_Small <span class=ds-tag>Small</span><span class="n">2</span></div><div class="ds-tk"><a href="https://www.tradingview.com/chart/?symbol=CBRL" target="_blank" rel="noopener">CBRL</a><a href="https://www.tradingview.com/chart/?symbol=LIFE" target="_blank" rel="noopener">LIFE</a></div></div><div class="ds-sc"><div class="nm">1_Fundamental_Growth<span class="n">53</span></div><div class="ds-tk"><a href="https://www.tradingview.com/chart/?symbol=AAMI" target="_blank" rel="noopener">AAMI</a><a href="https://www.tradingview.com/chart/?symbol=AAON" target="_blank" rel="noopener">AAON</a><a href="https://www.tradingview.com/chart/?symbol=AGX" target="_blank" rel="noopener">AGX</a><a href="https://www.tradingview.com/chart/?symbol=ANIP" target="_blank" rel="noopener">ANIP</a><a href="https://www.tradingview.com/chart/?symbol=ARW" target="_blank" rel="noopener">ARW</a><a href="https://www.tradingview.com/chart/?symbol=ATRO" target="_blank" rel="noopener">ATRO</a><a href="https://www.tradingview.com/chart/?symbol=BBT" target="_blank" rel="noopener">BBT</a><a href="https://www.tradingview.com/chart/?symbol=BRZE" target="_blank" rel="noopener">BRZE</a><a href="https://www.tradingview.com/chart/?symbol=CARE" target="_blank" rel="noopener">CARE</a><a href="https://www.tradingview.com/chart/?symbol=COCO" target="_blank" rel="noopener">COCO</a><a href="https://www.tradingview.com/chart/?symbol=COHU" target="_blank" rel="noopener">COHU</a><a href="https://www.tradingview.com/chart/?symbol=DGII" target="_blank" rel="noopener">DGII</a><a href="https://www.tradingview.com/chart/?symbol=ECG" target="_blank" rel="noopener">ECG</a><a href="https://www.tradingview.com/chart/?symbol=ELF" target="_blank" rel="noopener">ELF</a><a href="https://www.tradingview.com/chart/?symbol=ESTA" target="_blank" rel="noopener">ESTA</a><a href="https://www.tradingview.com/chart/?symbol=EZPW" target="_blank" rel="noopener">EZPW</a><a href="https://www.tradingview.com/chart/?symbol=FCFS" target="_blank" rel="noopener">FCFS</a><a href="https://www.tradingview.com/chart/?symbol=FEIM" target="_blank" rel="noopener">FEIM</a><a href="https://www.tradingview.com/chart/?symbol=FIX" target="_blank" rel="noopener">FIX</a><a href="https://www.tradingview.com/chart/?symbol=FORM" target="_blank" rel="noopener">FORM</a><a href="https://www.tradingview.com/chart/?symbol=HCC" target="_blank" rel="noopener">HCC</a><a href="https://www.tradingview.com/chart/?symbol=HPK" target="_blank" rel="noopener">HPK</a><a href="https://www.tradingview.com/chart/?symbol=HRMY" target="_blank" rel="noopener">HRMY</a><a href="https://www.tradingview.com/chart/?symbol=HSHP" target="_blank" rel="noopener">HSHP</a><a href="https://www.tradingview.com/chart/?symbol=IESC" target="_blank" rel="noopener">IESC</a><a href="https://www.tradingview.com/chart/?symbol=INOD" target="_blank" rel="noopener">INOD</a><a href="https://www.tradingview.com/chart/?symbol=INSW" target="_blank" rel="noopener">INSW</a><a href="https://www.tradingview.com/chart/?symbol=KNSA" target="_blank" rel="noopener">KNSA</a><a href="https://www.tradingview.com/chart/?symbol=LPG" target="_blank" rel="noopener">LPG</a><a href="https://www.tradingview.com/chart/?symbol=MAMA" target="_blank" rel="noopener">MAMA</a><a href="https://www.tradingview.com/chart/?symbol=MFA" target="_blank" rel="noopener">MFA</a><a href="https://www.tradingview.com/chart/?symbol=MSGE" target="_blank" rel="noopener">MSGE</a><a href="https://www.tradingview.com/chart/?symbol=NESR" target="_blank" rel="noopener">NESR</a><a href="https://www.tradingview.com/chart/?symbol=NEXA" target="_blank" rel="noopener">NEXA</a><a href="https://www.tradingview.com/chart/?symbol=NVGS" target="_blank" rel="noopener">NVGS</a><a href="https://www.tradingview.com/chart/?symbol=OOMA" target="_blank" rel="noopener">OOMA</a><a href="https://www.tradingview.com/chart/?symbol=PARR" target="_blank" rel="noopener">PARR</a><a href="https://www.tradingview.com/chart/?symbol=PAY" target="_blank" rel="noopener">PAY</a><a href="https://www.tradingview.com/chart/?symbol=PHAT" target="_blank" rel="noopener">PHAT</a><a href="https://www.tradingview.com/chart/?symbol=PICS" target="_blank" rel="noopener">PICS</a><a href="https://www.tradingview.com/chart/?symbol=PNTG" target="_blank" rel="noopener">PNTG</a><a href="https://www.tradingview.com/chart/?symbol=QNST" target="_blank" rel="noopener">QNST</a><a href="https://www.tradingview.com/chart/?symbol=SANM" target="_blank" rel="noopener">SANM</a><a href="https://www.tradingview.com/chart/?symbol=SCCO" target="_blank" rel="noopener">SCCO</a><a href="https://www.tradingview.com/chart/?symbol=SEZL" target="_blank" rel="noopener">SEZL</a><a href="https://www.tradingview.com/chart/?symbol=SNDX" target="_blank" rel="noopener">SNDX</a><a href="https://www.tradingview.com/chart/?symbol=STLN" target="_blank" rel="noopener">STLN</a><a href="https://www.tradingview.com/chart/?symbol=STNG" target="_blank" rel="noopener">STNG</a><a href="https://www.tradingview.com/chart/?symbol=TNK" target="_blank" rel="noopener">TNK</a><a href="https://www.tradingview.com/chart/?symbol=TOWN" target="_blank" rel="noopener">TOWN</a><a href="https://www.tradingview.com/chart/?symbol=VMET" target="_blank" rel="noopener">VMET</a><a href="https://www.tradingview.com/chart/?symbol=XMTR" target="_blank" rel="noopener">XMTR</a><a href="https://www.tradingview.com/chart/?symbol=YOU" target="_blank" rel="noopener">YOU</a></div></div><div class="ds-sc"><div class="nm">3_Post_Earnings_Cont_Base<span class="n">1</span></div><div class="ds-tk"><a href="https://www.tradingview.com/chart/?symbol=XLAB" target="_blank" rel="noopener">XLAB</a></div></div><div class="ds-sc"><div class="nm">4_Strongest_Stock_JK<span class="n">5</span></div><div class="ds-tk"><a href="https://www.tradingview.com/chart/?symbol=AUGO" target="_blank" rel="noopener">AUGO</a><a href="https://www.tradingview.com/chart/?symbol=CVI" target="_blank" rel="noopener">CVI</a><a href="https://www.tradingview.com/chart/?symbol=GCT" target="_blank" rel="noopener">GCT</a><a href="https://www.tradingview.com/chart/?symbol=KNSA" target="_blank" rel="noopener">KNSA</a><a href="https://www.tradingview.com/chart/?symbol=SEZL" target="_blank" rel="noopener">SEZL</a></div></div><div class="ds-sc"><div class="nm">Daily_Tightness_Swing<span class="n">20</span></div><div class="ds-tk"><a href="https://www.tradingview.com/chart/?symbol=ANDG" target="_blank" rel="noopener">ANDG</a><a href="https://www.tradingview.com/chart/?symbol=AUGO" target="_blank" rel="noopener">AUGO</a><a href="https://www.tradingview.com/chart/?symbol=BOBS" target="_blank" rel="noopener">BOBS</a><a href="https://www.tradingview.com/chart/?symbol=CHEF" target="_blank" rel="noopener">CHEF</a><a href="https://www.tradingview.com/chart/?symbol=CVI" target="_blank" rel="noopener">CVI</a><a href="https://www.tradingview.com/chart/?symbol=DAVE" target="_blank" rel="noopener">DAVE</a><a href="https://www.tradingview.com/chart/?symbol=EFOR" target="_blank" rel="noopener">EFOR</a><a href="https://www.tradingview.com/chart/?symbol=FDS" target="_blank" rel="noopener">FDS</a><a href="https://www.tradingview.com/chart/?symbol=FNKO" target="_blank" rel="noopener">FNKO</a><a href="https://www.tradingview.com/chart/?symbol=GPRK" target="_blank" rel="noopener">GPRK</a><a href="https://www.tradingview.com/chart/?symbol=GTE" target="_blank" rel="noopener">GTE</a><a href="https://www.tradingview.com/chart/?symbol=LMRI" target="_blank" rel="noopener">LMRI</a><a href="https://www.tradingview.com/chart/?symbol=MH" target="_blank" rel="noopener">MH</a><a href="https://www.tradingview.com/chart/?symbol=MNDY" target="_blank" rel="noopener">MNDY</a><a href="https://www.tradingview.com/chart/?symbol=NP" target="_blank" rel="noopener">NP</a><a href="https://www.tradingview.com/chart/?symbol=OPRT" target="_blank" rel="noopener">OPRT</a><a href="https://www.tradingview.com/chart/?symbol=PNTG" target="_blank" rel="noopener">PNTG</a><a href="https://www.tradingview.com/chart/?symbol=SIBN" target="_blank" rel="noopener">SIBN</a><a href="https://www.tradingview.com/chart/?symbol=WEST" target="_blank" rel="noopener">WEST</a><a href="https://www.tradingview.com/chart/?symbol=WK" target="_blank" rel="noopener">WK</a></div></div><div class="ds-sc"><div class="nm">空 scan<span class="n">5</span></div><div class="ds-empty">Mom_1W_Large, Mom_1M_Large, Mom_3M_Large, Mom_6M_Large, 5_Strongest_Stock_10B_Rev_30_JK</div></div></div><div class="ds-h" style="margin-top:18px"><h3 style="margin:0">L2 圖表隊列</h3><span style="font-size:12.5px;opacity:.7">48 隻｜買入區 27｜EXT&gt;4 3</span></div><div class="ds-f"><button class="on" onclick="dsFilter('all',this)">全部 48</button><button onclick="dsFilter('buy',this)">買入區 27</button><button onclick="dsFilter('ext',this)">延伸 3</button><button onclick="dsFilter('focus',this)">FOCUS</button></div><div class="ds-wrap card" style="padding:0"><table class="ds-tbl"><thead><tr><th class="l">代號</th><th class="l">來源</th><th>收市</th><th>EXT</th><th>ATR%</th><th>RVOL(50D)</th><th>DAY ON</th><th>距 52 高</th><th>財報</th><th class="l">入場 / 失效</th></tr></thead><tbody id="dsbody"><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>STLN</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="6.43">6.43</td><td data-v="0.03" class="">0.03</td><td data-v="5.05">5.1%</td><td data-v="0.23" class="">0.23x</td><td data-v="1">1</td><td data-v="90">90%</td><td>OK_22D (22d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 6.56 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 6.57 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>KNSA</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="78.59">78.59</td><td data-v="0.27" class="">0.27</td><td data-v="3.26">3.3%</td><td data-v="0.17" class="">0.17x</td><td data-v="1">1</td><td data-v="95">95%</td><td>OK_8D (8d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 78.50 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 77.26 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="STALK"><td class="l"><b>LPG</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="53.60">53.60</td><td data-v="0.30" class="">0.30</td><td data-v="3.46">3.5%</td><td data-v="0.25" class="">0.25x</td><td data-v="1">1</td><td data-v="89">89%</td><td>OK_17D (17d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 56.49 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 55.66 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>PARR</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="83.42">83.42</td><td data-v="0.54" class="">0.54</td><td data-v="4.92">4.9%</td><td data-v="0.28" class="">0.28x</td><td data-v="1">1</td><td data-v="92">92%</td><td>OK_16D (16d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 85.89 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 82.97 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>CHEF</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="113.57">113.57</td><td data-v="0.57" class="">0.57</td><td data-v="—">—%</td><td data-v="—" class="">—</td><td data-v="1">1</td><td data-v="96">96%</td><td>OK_9D (9d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 111.74 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 111.52 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="STALK"><td class="l"><b>TNK</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="96.82">96.82</td><td data-v="0.57" class="">0.57</td><td data-v="—">—%</td><td data-v="—" class="">—</td><td data-v="1">1</td><td data-v="88">88%</td><td>OK_17D (17d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 102.97 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 100.02 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>AUGO</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="87.20">87.20</td><td data-v="0.69" class="">0.69</td><td data-v="4.28">4.3%</td><td data-v="0.44" class="">0.44x</td><td data-v="1">1</td><td data-v="79">79%</td><td>OK_18D (18d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 86.23 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 84.64 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>WK</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="75.31">75.31</td><td data-v="0.78" class="">0.78</td><td data-v="—">—%</td><td data-v="—" class="">—</td><td data-v="1">1</td><td data-v="78">78%</td><td>OK_18D (18d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 73.12 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 71.33 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>BRZE</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="29.34">29.34</td><td data-v="0.79" class="">0.79</td><td data-v="4.62">4.6%</td><td data-v="0.36" class="">0.36x</td><td data-v="1">1</td><td data-v="79">79%</td><td>OK_51D (51d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 28.49 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 26.66 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>INSW</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="109.99">109.99</td><td data-v="0.84" class="">0.84</td><td data-v="3.75">3.7%</td><td data-v="0.40" class="">0.40x</td><td data-v="1">1</td><td data-v="87">87%</td><td>OK_17D (17d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 118.27 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 113.37 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>SIBN</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="19.68">19.68</td><td data-v="0.91" class="">0.91</td><td data-v="3.63">3.6%</td><td data-v="0.24" class="">0.24x</td><td data-v="1">1</td><td data-v="90">90%</td><td>OK_22D (22d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 19.55 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 19.09 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>DAVE</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="367.40">367.40</td><td data-v="0.93" class="">0.93</td><td data-v="—">—%</td><td data-v="—" class="">—</td><td data-v="1">1</td><td data-v="80">80%</td><td>OK_17D (17d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 359.59 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 346.87 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>WEST</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="8.44">8.44</td><td data-v="1.30" class="">1.30</td><td data-v="—">—%</td><td data-v="—" class="">—</td><td data-v="1">1</td><td data-v="83">83%</td><td>OK_18D (18d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 8.22 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 8.14 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>SEZL</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="127.65">127.65</td><td data-v="1.31" class="">1.31</td><td data-v="4.30">4.3%</td><td data-v="0.19" class="">0.19x</td><td data-v="1">1</td><td data-v="65">65%</td><td>OK_17D (17d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 122.71 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 116.15 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>FDS</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="301.67">301.67</td><td data-v="1.37" class="">1.37</td><td data-v="—">—%</td><td data-v="—" class="">—</td><td data-v="1">1</td><td data-v="94">94%</td><td>OK_59D (59d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 286.77 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 279.66 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>EZPW</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="33.00">33.00</td><td data-v="1.58" class="">1.58</td><td data-v="3.14">3.1%</td><td data-v="0.25" class="">0.25x</td><td data-v="1">1</td><td data-v="89">89%</td><td>OK_31D (31d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 31.95 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 31.15 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>PNTG</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="41.87">41.87</td><td data-v="1.75" class="">1.75</td><td data-v="3.32">3.3%</td><td data-v="0.85" class="">0.85x</td><td data-v="1">1</td><td data-v="98">98%</td><td>OK_17D (17d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 40.56 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 40.12 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>GCT</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="57.35">57.35</td><td data-v="1.77" class="">1.77</td><td data-v="4.44">4.4%</td><td data-v="0.25" class="">0.25x</td><td data-v="1">1</td><td data-v="95">95%</td><td>OK_17D (17d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 56.83 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 54.82 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>MH</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="13.98">13.98</td><td data-v="1.77" class="">1.77</td><td data-v="—">—%</td><td data-v="—" class="">—</td><td data-v="1">1</td><td data-v="78">78%</td><td>OK_17D (17d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 13.38 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 13.25 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>FNKO</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="6.63">6.63</td><td data-v="2.01" class="">2.01</td><td data-v="—">—%</td><td data-v="—" class="">—</td><td data-v="1">1</td><td data-v="90">90%</td><td>OK_18D (18d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 6.42 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 5.96 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>ANDG</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="58.27">58.27</td><td data-v="2.06" class="">2.06</td><td data-v="—">—%</td><td data-v="—" class="">—</td><td data-v="1">1</td><td data-v="97">97%</td><td>OK_25D (25d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 57.17 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 55.85 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>GTE</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="10.90">10.90</td><td data-v="2.20" class="">2.20</td><td data-v="—">—%</td><td data-v="—" class="">—</td><td data-v="1">1</td><td data-v="95">95%</td><td>OK_17D (17d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 10.58 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 10.25 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>GPRK</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="11.76">11.76</td><td data-v="2.39" class="">2.39</td><td data-v="—">—%</td><td data-v="—" class="">—</td><td data-v="1">1</td><td data-v="90">90%</td><td>OK_16D (16d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 11.54 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 11.18 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>VIA</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="31.93">31.93</td><td data-v="2.55" class="">2.55</td><td data-v="4.43">4.4%</td><td data-v="0.13" class="">0.13x</td><td data-v="1">1</td><td data-v="58">58%</td><td>OK_21D (21d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 31.70 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 30.49 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>EFOR</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="38.36">38.36</td><td data-v="2.57" class="">2.57</td><td data-v="4.88">4.9%</td><td data-v="0.16" class="">0.16x</td><td data-v="1">1</td><td data-v="70">70%</td><td>OK_10D (10d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 37.27 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 35.28 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>OPRT</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="9.08">9.08</td><td data-v="2.88" class="">2.88</td><td data-v="3.80">3.8%</td><td data-v="0.34" class="">0.34x</td><td data-v="1">1</td><td data-v="97">97%</td><td>OK_16D (16d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 8.80 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 8.56 (20MA)</td></tr><tr class="ds-buy" data-buy="1" data-state="BUY" data-src="FOCUS"><td class="l"><b>ELF</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="113.54">113.54</td><td data-v="2.95" class="">2.95</td><td data-v="3.36">3.4%</td><td data-v="0.24" class="">0.24x</td><td data-v="1">1</td><td data-v="83">83%</td><td>OK_17D (17d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 108.26 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 104.83 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>MFA</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="6.59">6.59</td><td data-v="-7.82" class="">-7.82</td><td data-v="2.63">2.6%</td><td data-v="0.85" class="">0.85x</td><td data-v="1">1</td><td data-v="63">63%</td><td>OK_16D (16d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 6.91 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 7.50 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>ATRO</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="61.53">61.53</td><td data-v="-4.12" class="">-4.12</td><td data-v="3.67">3.7%</td><td data-v="0.25" class="">0.25x</td><td data-v="1">1</td><td data-v="65">65%</td><td>OK_23D (23d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 64.24 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 66.37 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>MAMA</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="12.87">12.87</td><td data-v="-3.92" class="">-3.92</td><td data-v="3.48">3.5%</td><td data-v="0.25" class="">0.25x</td><td data-v="1">1</td><td data-v="61">61%</td><td>OK_46D (46d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 13.09 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 13.14 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>PAY</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="31.54">31.54</td><td data-v="-3.30" class="">-3.30</td><td data-v="4.13">4.1%</td><td data-v="0.15" class="">0.15x</td><td data-v="1">1</td><td data-v="70">70%</td><td>OK_15D (15d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 31.63 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 31.32 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>VMET</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="8.46">8.46</td><td data-v="-3.23" class="">-3.23</td><td data-v="—">—%</td><td data-v="—" class="">—</td><td data-v="1">1</td><td data-v="61">61%</td><td>DATA_UNAVAILABLE</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 8.50 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 8.78 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>PHAT</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="6.92">6.92</td><td data-v="-3.12" class="">-3.12</td><td data-v="5.27">5.3%</td><td data-v="0.50" class="">0.50x</td><td data-v="1">1</td><td data-v="38">38%</td><td>OK_10D (10d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 7.06 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 7.16 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>ESTA</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="59.18">59.18</td><td data-v="-3.05" class="">-3.05</td><td data-v="3.97">4.0%</td><td data-v="0.28" class="">0.28x</td><td data-v="1">1</td><td data-v="61">61%</td><td>OK_16D (16d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 61.64 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 63.70 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>OOMA</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="19.72">19.72</td><td data-v="-2.43" class="">-2.43</td><td data-v="4.45">4.4%</td><td data-v="0.37" class="">0.37x</td><td data-v="1">1</td><td data-v="75">75%</td><td>NO_UPCOMING (-53d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 20.10 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 20.82 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>DGII</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="69.90">69.90</td><td data-v="-1.93" class="">-1.93</td><td data-v="3.45">3.5%</td><td data-v="0.25" class="">0.25x</td><td data-v="1">1</td><td data-v="80">80%</td><td>OK_29D (29d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 73.70 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 74.74 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>HCC</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="89.94">89.94</td><td data-v="-1.86" class="">-1.86</td><td data-v="3.40">3.4%</td><td data-v="0.18" class="">0.18x</td><td data-v="1">1</td><td data-v="81">81%</td><td>OK_17D (17d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 91.44 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 90.50 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>NEXA</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="12.52">12.52</td><td data-v="-1.73" class="">-1.73</td><td data-v="3.31">3.3%</td><td data-v="0.40" class="">0.40x</td><td data-v="1">1</td><td data-v="74">74%</td><td>OK_11D (11d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 12.69 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 12.59 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>HRMY</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="37.95">37.95</td><td data-v="-1.40" class="">-1.40</td><td data-v="3.43">3.4%</td><td data-v="0.16" class="">0.16x</td><td data-v="1">1</td><td data-v="87">87%</td><td>OK_15D (15d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 38.75 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 39.59 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>CARE</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="30.21">30.21</td><td data-v="-1.36" class="">-1.36</td><td data-v="2.05">2.0%</td><td data-v="0.13" class="">0.13x</td><td data-v="1">1</td><td data-v="84">84%</td><td>OK_10D (10d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 30.29 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 30.25 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>MSGE</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="77.76">77.76</td><td data-v="-0.82" class="">-0.82</td><td data-v="3.35">3.4%</td><td data-v="0.24" class="">0.24x</td><td data-v="1">1</td><td data-v="86">86%</td><td>OK_17D (17d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 80.11 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 80.13 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>STNG</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="81.45">81.45</td><td data-v="-0.18" class="">-0.18</td><td data-v="3.34">3.3%</td><td data-v="0.34" class="">0.34x</td><td data-v="1">1</td><td data-v="90">90%</td><td>OK_10D (10d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 85.70 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 84.58 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>SCCO</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="200.51">200.51</td><td data-v="-0.09" class="">-0.09</td><td data-v="2.97">3.0%</td><td data-v="0.23" class="">0.23x</td><td data-v="1">1</td><td data-v="91">91%</td><td>BLACKOUT_4D (4d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 203.70 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 203.06 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="FOCUS"><td class="l"><b>AAMI</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="92.16">92.16</td><td data-v="-0.06" class="">-0.06</td><td data-v="3.54">3.5%</td><td data-v="0.22" class="">0.22x</td><td data-v="1">1</td><td data-v="94">94%</td><td>OK_10D (10d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 92.95 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 93.02 (20MA)</td></tr><tr class="" data-buy="0" data-state="BELOW" data-src="STALK"><td class="l"><b>COCO</b></td><td class="l"><span class="ds-tag">STALK</span></td><td data-v="58.69">58.69</td><td data-v="-0.03" class="">-0.03</td><td data-v="4.53">4.5%</td><td data-v="0.21" class="">0.21x</td><td data-v="1">1</td><td data-v="68">68%</td><td>BLACKOUT_3D (3d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>recapture: close back above 56.51 (10MA)<br><span class="ds-ext">止：</span>stop-stalking: close below 57.11 (20MA)</td></tr><tr class="" data-buy="0" data-state="EXTENDED" data-src="FOCUS"><td class="l"><b>HPK</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="10.55">10.55</td><td data-v="4.13" class="ds-ext">4.13</td><td data-v="4.85">4.9%</td><td data-v="0.52" class="">0.52x</td><td data-v="1">1</td><td data-v="97">97%</td><td>OK_17D (17d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 9.33 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 8.58 (20MA)</td></tr><tr class="" data-buy="0" data-state="EXTENDED" data-src="FOCUS"><td class="l"><b>CVI</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="61.42">61.42</td><td data-v="4.90" class="ds-ext">4.90</td><td data-v="4.69">4.7%</td><td data-v="0.19" class="">0.19x</td><td data-v="1">1</td><td data-v="97">97%</td><td>OK_10D (10d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 59.64 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 55.89 (20MA)</td></tr><tr class="" data-buy="0" data-state="EXTENDED" data-src="FOCUS"><td class="l"><b>CBRL</b></td><td class="l"><span class="ds-tag">FOCUS</span></td><td data-v="68.97">68.97</td><td data-v="5.31" class="ds-ext">5.31</td><td data-v="4.54">4.5%</td><td data-v="0.12" class="">0.12x</td><td data-v="1">1</td><td data-v="98">98%</td><td>OK_51D (51d)</td><td class="l" style="max-width:340px;white-space:normal;font-size:11.5px;line-height:1.5;opacity:.82"><span class="ds-ok">入：</span>break &amp; hold above 60.09 (10MA) / recent pivot on volume<br><span class="ds-ext">止：</span>close below 55.44 (20MA)</td></tr></tbody></table></div><div style="font-size:12px;line-height:1.9;opacity:.8;margin-top:10px"><b>欄位定義</b>（全部寫死，唔准臨時改）<br><b>EXT</b> = ATRX =（收市 − SMA50）／ATR14，硬刪門檻 4.0（EDGE-009）<br><b>ATR%</b> = ATR14／收市 ×100 —— 決定止蝕闊度<br><b>RVOL(50D)</b> = 當日量／過去 50 日平均量。≥2x 紅字＝爆量<br><b>DAY ON</b> = 連續在名單幾日（新上榜 = 1）<br>點欄名可以排序。</div>
+<footer>
+ 所有資料唯讀、研究用途，<b>非買入指令</b>。入場要另行符合 ORH + RVOL 規則；倉位由
+ <code>daily_plan.stop_plan()</code> 決定。<br>
+ 產生器 <code>trading-os-web/build_site.py</code>｜掃描 <code>scan_market.py</code>
+ ｜交易台 <code>trading-os-lab/dashboard.py</code>
+</footer>
+</div>
+<script>var D={"_generated":"2026-10-19 18:19"};
+function q(s,r){return (r||document).querySelector(s);}
+function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function fin(v){return v!==null&&v!==undefined&&v!==''&&isFinite(Number(v));}
+function fmt(v,d){d=(d===undefined?1:d);return fin(v)?Number(v).toLocaleString(undefined,{maximumFractionDigits:d}):'—';}
+function pct(v,d){return fin(v)?(v>0?'+':'')+fmt(v,d)+'%':'—';}
+function sgn(v,d){return fin(v)?(v>0?'+':'')+fmt(v,d):'—';}
+function num(v,d){return fin(v)?fmt(v,d):'—';}
+function money(v){if(!fin(v))return '—';return v>=1e9?'$'+fmt(v/1e9,1)+'B':v>=1e6?'$'+fmt(v/1e6,1)+'M':v>=1e3?'$'+fmt(v/1e3,0)+'K':'$'+fmt(v,0);}
+function cls(v){return fin(v)?(v>0?'pos':(v<0?'neg':'')):'';}
+function spark(vals,w,h){
+  if(!vals||vals.length<2)return '';
+  w=w||90;h=h||22;
+  var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rg=(mx-mn)||1;
+  var pts=vals.map(function(v,i){return [i/(vals.length-1)*w, h-(v-mn)/rg*h];});
+  var d=pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');
+  return '<svg width="'+w+'" height="'+h+'" style="vertical-align:middle"><path d="'+d+
+    '" fill="none" stroke="'+(vals[vals.length-1]>=vals[0]?'#4ade80':'#f87171')+'" stroke-width="1.6"/></svg>';
+}
+function bar(v,mx,neg){
+  if(!fin(v))return '';
+  var w=Math.max(2,Math.min(60,Math.abs(v)/(mx||1)*60));
+  return '<span class="bar'+(neg?' neg':'')+'" style="width:'+w.toFixed(0)+'px;opacity:.8"></span>';
+}
+function tone(v){return v>0?'pos':(v<0?'neg':'dim');}
+
+document.addEventListener('DOMContentLoaded',function(){ if(window.PAGE) PAGE(); });</script>
+<script>
+(function(){
+  function store(k,f){try{return JSON.parse(localStorage.getItem('desk-'+k))??f;}catch(e){return f;}}
+  function save(k,v){try{localStorage.setItem('desk-'+k,JSON.stringify(v));}catch(e){}}
+  // ★ 2026-10-11 Desmond：「移除英文版選項」→ 永久 zh-Hant，冇 LANG 切換。
+  var THEME=store('theme','light');
+  function apply(){
+    document.documentElement.setAttribute('data-theme',THEME);
+    var tb=document.getElementById('themebtn');
+    if(tb) tb.textContent = THEME==='light'?'🌙 深色':'☀️ 淺色';
+  }
+  function boot(){
+    var tb=document.getElementById('themebtn');
+    if(tb) tb.addEventListener('click',function(){THEME=THEME==='light'?'dark':'light';save('theme',THEME);apply();});
+    apply();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>
+<script>
+(function(){
+  var sb=document.getElementById('sb'), tg=document.getElementById('sbtoggle');
+  if(!sb||!tg) return;
+  var KEY='desk-sb-collapsed';
+  function apply(c){
+    sb.classList.toggle('collapsed', c);
+    document.body.classList.toggle('sb-collapsed', c);
+    tg.innerHTML = c ? '&rsaquo;' : '&lsaquo;';
+    tg.title = c ? '展開側欄' : '收合側欄';
+    try{localStorage.setItem(KEY, c?'1':'0');}catch(e){}
+  }
+  tg.addEventListener('click', function(){ apply(!sb.classList.contains('collapsed')); });
+  var st='0';
+  try{st=localStorage.getItem(KEY)||'0';}catch(e){}
+  apply(st==='1');
+})();
+
+
+(function(){
+  var sb=document.getElementById('sb'), tg=document.getElementById('navtoggle'),
+      ov=document.getElementById('navoverlay');
+  if(!sb||!tg) return;
+  function open(){sb.classList.add('open');if(ov)ov.classList.add('show');
+    tg.setAttribute('aria-expanded','true');}
+  function close(){sb.classList.remove('open');if(ov)ov.classList.remove('show');
+    tg.setAttribute('aria-expanded','false');}
+  tg.addEventListener('click',function(e){e.stopPropagation();
+    sb.classList.contains('open')?close():open();});
+  if(ov) ov.addEventListener('click',close);
+  sb.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){ if(window.innerWidth<=900) close(); });
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+})();
+</script>
+<script>
+(function(){
+  var box=null, timer=null, cur=null, tvLoaded=false, tvFailed=false, syncing=false;
+
+  function ensureBox(){
+    if(box) return box;
+    box=document.createElement('div');
+    box.id='tvpop';
+    box.innerHTML='<div id="tvpopbar"><span id="tvpopsym"></span>'
+      +'<a id="tvpopopen" target="_blank" rel="noopener">開 TV ↗</a>'
+      +'<button id="tvpopclose" type="button" title="關閉">&#10005;</button></div>'
+      +'<div id="tvpopchart"></div><div id="tvpopnote"></div>';
+    document.body.appendChild(box);
+    box.querySelector('#tvpopclose').addEventListener('click',hide);
+    return box;
+  }
+  function hide(){ clearTimeout(timer); if(box) box.style.display='none'; }
+
+  function loadTV(cb){
+    if(tvLoaded) return cb();
+    if(tvFailed){
+      say('\u26a0 TradingView widget \u8f09\u5514\u5230\uff08\u7db2\u7d61\uff0f\u88ab\u906e\uff09\u2014\u2014 \u9ede\u300c\u958b TV \u2197\u300d\u76f4\u63a5\u53bb\u7db2\u7ad9');
+      return;
+    }
+    var s=document.createElement('script');
+    s.src='https://s3.tradingview.com/tv.js';
+    s.async=true;
+    s.onload=function(){ tvLoaded=true; cb(); };
+    s.onerror=function(){ tvFailed=true;
+      say('\u26a0 TradingView widget \u8f09\u5514\u5230\uff08\u7db2\u7d61\uff0f\u88ab\u906e\uff09\u2014\u2014 \u9ede\u300c\u958b TV \u2197\u300d\u76f4\u63a5\u53bb\u7db2\u7ad9'); };
+    document.head.appendChild(s);
+  }
+  function say(t){ var n=document.getElementById('tvpopnote'); if(n) n.textContent=t||''; }
+
+  function show(el){
+    var sym=el.getAttribute('data-sym');
+    if(!sym) return;
+    var b=ensureBox();
+    b.querySelector('#tvpopsym').textContent=sym;
+    b.querySelector('#tvpopopen').href=el.href||('#');
+    if(cur!==sym){
+      cur=sym;
+      b.querySelector('#tvpopchart').innerHTML='';
+      say('\u8f09\u5165\u4e2d\u2026');
+      loadTV(function(){
+        var host=b.querySelector('#tvpopchart');
+        host.innerHTML='<div id="tvwbox" style="height:340px"></div>';
+        try{
+          /* global TradingView */
+          new TradingView.widget({
+            container_id:'tvwbox', symbol:sym, interval:'D',
+            theme:'dark', style:'1', locale:'zh_TW',
+            hide_side_toolbar:true, hide_top_toolbar:false,
+            allow_symbol_change:false, save_image:false,
+            withdateranges:false, details:false,
+            studies:['Volume@tv-basicstudies'],
+            width:'100%', height:340, autosize:false
+          });
+          setTimeout(function(){ say(''); }, 1100);
+        }catch(e){ say('\u26a0 widget \u8d77\u5514\u5230\uff1a'+e.message); }
+      });
+    }
+    b.style.display='block';
+    place(el);
+  }
+
+  function place(el){
+    if(!box) return;
+    var r=el.getBoundingClientRect(), w=box.offsetWidth||440, h=box.offsetHeight||400;
+    var left=r.right+14, top=r.top-6;
+    if(left+w>window.innerWidth-10) left=Math.max(8, r.left-w-14);
+    if(top+h>window.innerHeight-10) top=Math.max(8, window.innerHeight-h-10);
+    if(top<8) top=8;
+    box.style.left=left+'px'; box.style.top=top+'px';
+  }
+  function near(el){
+    return el.closest && el.closest('a.tv');
+  }
+
+  document.addEventListener('mouseover',function(e){
+    var a=near(e.target);
+    if(!a) return;
+    var sym=a.getAttribute('data-sym');
+    if(sym && sym===cur && box && box.style.display==='block'){ clearTimeout(timer); return; }
+    clearTimeout(timer);
+    timer=setTimeout(function(){ show(a); }, 400);      /* 400ms：掃過唔會連彈 */
+  }, true);
+
+  document.addEventListener('mouseout',function(e){
+    var a=near(e.target);
+    if(!a) return;
+    clearTimeout(timer);
+    setTimeout(function(){
+      if(syncing) return;
+      if(box && box.style.display==='block' && box.matches(':hover')) return;
+      hide();
+    }, 260);
+  }, true);
+
+  document.addEventListener('mouseenter',function(){ syncing=true; }, true);
+  document.addEventListener('mouseleave',function(){ syncing=false; }, true);
+  window.addEventListener('scroll',function(){
+    if(box && box.style.display==='block') hide();
+  }, {passive:true});
+  window.addEventListener('keydown',function(e){ if(e.key==='Escape') hide(); });
+})();
+</script>
+</body></html>
