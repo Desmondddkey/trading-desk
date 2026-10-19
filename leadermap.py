@@ -142,6 +142,23 @@ def _detail(js_path, date):
     return (f'<table><thead>{head}</thead><tbody>{body}</tbody></table>')
 
 
+def _expected_last_trading_day():
+    """美股最後一個應該有完整數據嘅交易日（香港時間計）。
+
+    ★ 第一性原理：美股交易日 D 收市 = HKT (D+1) 04:00–05:30。
+      → HKT 星期一 17:00 時，最新完整交易日一定係上星期五。
+      → 唔可以用「日曆日差」判斷 stale（會永遠誤報）。
+    """
+    import datetime as _dt
+    now = _dt.datetime.now()
+    d = now.date() - _dt.timedelta(days=1)
+    if now.hour < 6:
+        d -= _dt.timedelta(days=1)
+    while d.weekday() >= 5:
+        d -= _dt.timedelta(days=1)
+    return d.isoformat()
+
+
 def _gap_days(a, b):
     """兩個 ISO 日期相差幾多日（a 較早）。"""
     try:
@@ -197,16 +214,17 @@ def build():
 
     # ★ 2026-10-19：圖上面嘅日期係【生成日】，唔一定等於【價格最後交易日】。
     #   兩個都要印，唔准扮同一日（SOUL §8.16）。
+    #   ★★ 判斷 stale 要用「應該有嘅最後交易日」，唔係圖生成日。
+    _exp = _expected_last_trading_day()
     if pa:
-        if pa == latest:
+        if pa >= _exp:
             parts.append(f'<div class="lm-asof ok">✅ <b>已最新</b>：'
-                         f'價格截至 <b>{pa}</b>（美股最新完整交易日）'
-                         f'｜圖生成日 {latest}</div>')
+                         f'價格截至 <b>{pa}</b> ＝ 美股最新完整交易日'
+                         f'（圖生成日 {latest}）。下一交易日數據要等 HKT 明早 05:30 後。</div>')
         else:
-            parts.append(f'<div class="lm-asof warn">⚠️ 圖生成日 <b>{latest}</b>，'
-                         f'但價格只到 <b>{pa}</b> —— 兩者唔同，'
-                         f'以價格日為準。差值 {(_gap_days(pa, latest))} 日'
-                         f'（週末／未收市屬正常）。</div>')
+            parts.append(f'<div class="lm-asof warn">⚠️ 價格落後：最新 <b>{pa}</b>，'
+                         f'應該有 <b>{_exp}</b>。→ 跑 <code>desk-refresh-daily</code>。'
+                         f'（圖生成日 {latest}）</div>')
 
     # 圖
     parts.append('<div class="lm-wrap card" style="padding:10px">'
