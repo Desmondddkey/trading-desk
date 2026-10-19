@@ -743,8 +743,18 @@ SIDEBAR_CSS = """
 html[data-theme="light"] #sb{background:#ffffff;border-right:1px solid #e3e8f0}
 #sb .brand{font-size:14px;font-weight:700;letter-spacing:.04em;
   padding:6px 10px 12px;display:block;color:inherit;text-decoration:none}
-#sb .grp{font-size:10px;letter-spacing:.12em;text-transform:uppercase;
-  opacity:.45;padding:12px 10px 5px}
+#sb .gw{margin:0}
+#sb .grp{font-size:13.5px;font-weight:800;letter-spacing:.01em;
+  text-transform:none;opacity:1;padding:11px 11px 7px;cursor:pointer;
+  list-style:none;display:flex;align-items:center;gap:7px;
+  user-select:none;color:inherit}
+#sb .grp::-webkit-details-marker{display:none}
+#sb .grp::before{content:"▸";font-size:10px;opacity:.55;
+  transition:transform .15s;display:inline-block}
+#sb .gw[open]>.grp::before{transform:rotate(90deg)}
+#sb .grp:hover{color:#e8eef8}
+html[data-theme="light"] #sb .grp:hover{color:#111827}
+#sb .gl{padding:0 0 4px}
 #sb a{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px;
   font-size:13.5px;text-decoration:none;color:#9fb0cc;line-height:1.25}
 #sb a:hover{background:#121c31;color:#e8eef8}
@@ -1070,29 +1080,48 @@ SIDEBAR_JS = """
 
 def sidebar_html(active=""):
     # 左側導航 HTML（active = 檔名，例如 'desk.html'）
-    # ★ 2026-10-19：支援 (_pinned, ...) / (_grp, 標題) / (_link, None, 名, 檔)
-    items = []
+    # ★ 2026-10-19 Desmond：「全部標題太細 用返同下面相同既字」「使用粗體」
+    #   「如果無禁入去佢會自動收起」
+    #   → 分組標題同連結一樣字級（13.5px）＋粗體，每組係 <details>，
+    #     只有「當前頁所屬組」預設展開，其餘自動收起。
+    def _link(label, href, cls="", extra=""):
+        on = ' class="on"' if href == active else ""
+        ab = label[:2] if len(label) > 1 else label[:1]
+        return (f'<a href="{href}"{on}{extra}>'
+                f'<span class="ab">{esc(ab)}</span>'
+                f'<span class="lbl">{label}</span></a>')
+
+    head = []
+    groups = []            # [(name, [html...])]
+    cur = None
     for row in SIDEBAR_LINKS:
         kind = row[0]
         if kind == "_grp":
-            items.append(f'<div class="grp">{row[1]}</div>')
+            cur = (row[1], [])
+            groups.append(cur)
         elif kind == "_ext":
             _, icon, label, href = row
-            items.append(f'<a href="{href}" target="_blank" rel="noopener" '
-                         f'class="ext-link"><span class="i">{icon}</span>'
-                         f'<span>{label}</span></a>')
+            html = (f'<a href="{href}" target="_blank" rel="noopener" '
+                    f'class="ext-link"><span class="i">{icon}</span>'
+                    f'<span class="lbl">{label}</span></a>')
+            (cur[1] if cur else head).append(html)
         elif kind == "_pinned":
             _, icon, label, href = row
             on = ' class="on"' if href == active else ""
-            items.append(f'<a href="{href}"{on} data-pin="1">'
-                         f'<span class="i">{icon}</span><span>{label}</span></a>')
+            head.append(f'<a href="{href}"{on} data-pin="1">'
+                        f'<span class="i">{icon}</span>'
+                        f'<span class="lbl">{label}</span></a>')
         else:                                              # _link
             _, _ic, label, href = row
-            on = ' class="on"' if href == active else ""
-            ab = label[:2] if len(label) > 1 else label[:1]
-            items.append(f'<a href="{href}"{on} data-ab="{esc(ab)}">'
-                         f'<span class="ab">{esc(ab)}</span>'
-                         f'<span class="lbl">{label}</span></a>')
+            (cur[1] if cur else head).append(_link(label, href))
+    # ★ 每組係 <details>：只有「當前頁所屬組」預設展開，其餘自動收起
+    body = []
+    for name, links in groups:
+        is_open = any(f'href="{active}"' in h for h in links) if active else False
+        body.append(
+            f'<details class="gw"{" open" if is_open else ""}>'
+            f'<summary class="grp">{name}</summary>'
+            '<div class="gl">' + "".join(links) + '</div></details>')
     # ★ 深淺色選項移到標題下面（原本喺最底，要捲到底才撳到）
     return ('<button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button>'
             '<div id="navoverlay"></div>'
@@ -1100,7 +1129,7 @@ def sidebar_html(active=""):
             '<aside id="sb">'
             '<a class="brand" href="index.html">📈 Desmond · 交易台</a>'
             '<button id="themebtn">🌙 深色</button>'
-            + "".join(items) +
+            + "".join(head) + "".join(body) +
             '</aside>')
 
 
