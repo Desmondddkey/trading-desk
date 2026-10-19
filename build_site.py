@@ -828,6 +828,7 @@ SIDEBAR_LINKS = [
     ("_ext", "📘", "Jeff Sun 工具/流程", "https://jfsrev.substack.com/p/my-trading-tools-process-routine"),
     ("_ext", "📗", "PrimeTrading 手冊", "https://traderslab.gitbook.io/primetrading"),
     ("_ext", "📙", "Qullamaggie", "https://qullamaggie.net/"),
+    ("_ext", "⚡", "QM 3 個 setups", "https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/"),
     ("_ext", "📕", "Alex Desjardins 方法", "https://qullamaggie.net/alex-desjardinss-method/"),
 ]
 
