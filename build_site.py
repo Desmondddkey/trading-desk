@@ -1196,7 +1196,7 @@ def page(active, title, body, payload, extra_head=""):
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title} · 交易台</title>
 <style>{CSS}{SIDEBAR_CSS}{tvhover.TVHOVER_CSS}</style>{extra_head}</head><body>
-{sidebar_html(active + ".html" if active else "")}
+{sidebar_html("index.html" if active == "briefing" else (active + ".html" if active else ""))}
 <div class="wrap">
 <header class="top">
  <div style="display:flex;align-items:flex-start;gap:10px">
