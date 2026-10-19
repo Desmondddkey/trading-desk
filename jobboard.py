@@ -172,6 +172,21 @@ CSS = """
 [data-theme="dark"] .jb-none{color:#8d9bb0}
 
 .jb-grid{display:grid;gap:12px}
+.jb-group{border:1px solid rgba(128,128,128,.28);border-radius:14px;
+  margin:0 0 12px;background:rgba(128,128,128,.03);overflow:hidden}
+.jb-group>summary{padding:13px 16px;cursor:pointer;font-size:14px;
+  list-style:none;display:flex;align-items:center;gap:9px;
+  background:rgba(128,128,128,.07);user-select:none}
+.jb-group>summary::-webkit-details-marker{display:none}
+.jb-group>summary::before{content:"▸";font-size:12px;opacity:.55;
+  transition:transform .15s}
+.jb-group[open]>summary::before{transform:rotate(90deg)}
+.jb-group>summary:hover{background:rgba(128,128,128,.13)}
+.jb-group>.jb-grid{padding:12px}
+.jb-g-n{margin-left:auto;font-size:12px;opacity:.62;font-weight:400}
+.jb-g-err{font-size:12px;color:#c0262b;font-weight:700}
+.jb-g-none{font-size:12px;opacity:.6;font-weight:400}
+[data-theme="dark"] .jb-g-err{color:#ff9a9d}
 .jb-card{border:1px solid rgba(128,128,128,.26);border-radius:12px;
   overflow:hidden;background:rgba(128,128,128,.035)}
 .jb-card.err{border-color:rgba(192,38,43,.5);
@@ -216,6 +231,13 @@ function jbFilter(mode,btn){
       : mode==='on' ? c.dataset.state!=='never'
       : true;
     c.style.display = ok ? '' : 'none';
+  });
+  // 篩選時自動展開有可見卡嘅組
+  document.querySelectorAll('.jb-group').forEach(g=>{
+    const vis = Array.from(g.querySelectorAll('.jb-card'))
+      .some(c=>c.style.display!=='none');
+    g.style.display = vis ? '' : 'none';
+    if(mode!=='all') g.open = vis;
   });
 }
 """
@@ -310,69 +332,107 @@ def build(jobs, execs, incs):
                  f'⚪ 從未跑 {n_never}</button>')
     parts.append('</div>')
 
-    # ── Job 卡（按狀態排序：err → ok → never → off）──
+    # ── Job 卡：分組 + 摺疊（Desmond 2026-10-19「做返好個格式」）──
+    # 58 張卡平鋪 = 睇唔到。改成 6 個時段組，每組預設摺疊，
+    # 有失敗嘅組自動打開。
     order = {"err": 0, "ok": 1, "never": 2, "off": 3}
     rows.sort(key=lambda r: (order.get(r["state"], 4),
                              -(datetime.datetime.fromisoformat(
                                  str(r["last_at"]).replace("Z", "+00:00")
                              ).timestamp() if r["last_at"] else 0)))
 
-    parts.append('<div class="jb-grid">')
+    def _hour(r):
+        """由 cron expr 抽 hour；非標準 → -1。"""
+        try:
+            p = str(r["sched"]).split()
+            return int(p[1])
+        except (ValueError, IndexError):
+            return -1
+
+    GROUPS = [
+        ("🌅", "05:00–09:40", "收市後分析", range(5, 10)),
+        ("🌆", "17:30–18:50", "開市前準備", range(17, 19)),
+        ("🌃", "19:00–21:50", "選股 + 警報", range(19, 22)),
+        ("🌙", "22:00–23:35", "收市總結", range(22, 24)),
+        ("🌏", "跨時區 / 盤中", "盤中 + 收市檢查", None),
+        ("⚙️", "基礎設施", "看門狗 / 網站", None),
+    ]
+
+    def _bucket(r):
+        h = _hour(r)
+        for gi, (_ic, _t, _n, rng) in enumerate(GROUPS):
+            if rng and h in rng:
+                return gi
+        return 4
+
+    buckets = {}
     for r in rows:
-        st = r["state"]
-        dot = {"ok": "d-ok", "err": "d-err", "never": "d-none",
-               "off": "d-none"}[st]
-        cls = " err" if st == "err" else ""
-        parts.append(f'<div class="jb-card{cls}" data-state="{st}">')
-        parts.append('<div class="jb-hd" onclick="jbToggle(this)">'
-                     f'<span class="jb-dot {dot}"></span><div style="flex:1">'
-                     f'<div class="jb-nm">{_esc(r["name"])}</div>'
-                     '<div class="jb-meta">'
-                     f'<code>{_esc(r["jid"])}</code> '
-                     f'<span class="jb-sched">{_esc(r["sched"])}</span><br>'
-                     f'上次：{_esc(_ago(r["last_at"]))}'
-                     f'（{_esc(str(r["last_at"] or "—")[:16])}）'
-                     f'｜下次：{_esc(str(r["next_at"] or "—")[:16])}')
+        buckets.setdefault(_bucket(r), []).append(r)
 
-        parts.append('</div></div></div>')
+    for gi, (icon, span, label, _rng) in enumerate(GROUPS):
+        grp = buckets.get(gi) or []
+        if not grp:
+            continue
+        g_err = sum(1 for r in grp if r["state"] == "err")
+        g_never = sum(1 for r in grp if r["state"] == "never")
+        badge = (f' <span class="jb-g-err">🚨 {g_err}</span>' if g_err else "")
+        badge += (f' <span class="jb-g-none">⚪ {g_never}</span>' if g_never else "")
+        parts.append(
+            f'<details class="jb-group"{" open" if g_err else ""}>'
+            f'<summary><b>{icon} {span}</b> · {label}'
+            f'<span class="jb-g-n">{len(grp)} 個</span>{badge}</summary>'
+            '<div class="jb-grid">')
 
-        # body
-        parts.append('<div class="jb-body">')
-        chips = []
-        if r["no_agent"]:
-            chips.append("零 token")
-        if r["script"]:
-            chips.append(r["script"])
-        if r["deliver"]:
-            chips.append("→ " + r["deliver"][:34])
-        if r["out_mt"]:
-            chips.append("輸出 " + r["out_mt"].strftime("%m-%d %H:%M"))
-        if r["inc"]:
-            chips.append(f"⚠ {len(r['inc'])} 個未關閉事故")
-        if chips:
+        for r in grp:
+            st = r["state"]
+            dot = {"ok": "d-ok", "err": "d-err", "never": "d-none",
+                   "off": "d-none"}[st]
+            cls = " err" if st == "err" else ""
+            parts.append(f'<div class="jb-card{cls}" data-state="{st}">')
+            parts.append('<div class="jb-hd" onclick="jbToggle(this)">'
+                         f'<span class="jb-dot {dot}"></span>'
+                         '<div style="flex:1;min-width:0">'
+                         f'<div class="jb-nm">{_esc(r["name"])}</div>'
+                         '<div class="jb-meta">'
+                         f'<span class="jb-sched">{_esc(r["sched"])}</span>'
+                         f'｜{_esc(_ago(r["last_at"]))}'
+                         f'｜下次 {_esc(str(r["next_at"] or "—")[5:16])}'
+                         '</div></div></div>')
+
+            parts.append('<div class="jb-body">')
+            chips = []
+            if r["no_agent"]:
+                chips.append("零 token")
+            if r["script"]:
+                chips.append(r["script"])
+            if r["deliver"]:
+                chips.append("→ " + r["deliver"][:30])
+            if r["out_mt"]:
+                chips.append("輸出 " + r["out_mt"].strftime("%m-%d %H:%M"))
+            if r["inc"]:
+                chips.append(f"⚠ {len(r['inc'])} 事故")
+            chips.append(r["jid"])
             parts.append('<div class="jb-chips">' +
                          "".join(f'<span class="jb-chip">{_esc(c)}</span>'
                                  for c in chips) + '</div>')
 
-        if r["err"]:
-            parts.append('<div class="jb-pre" style="color:#e5484d;'
-                         'border-color:rgba(229,72,77,.4)">'
-                         f'{_esc(r["err"][-1200:])}</div>')
+            if r["err"]:
+                parts.append('<div class="jb-pre" style="color:#e5484d;'
+                             'border-color:rgba(229,72,77,.4)">'
+                             f'{_esc(r["err"][-1200:])}</div>')
 
-        if r["out"]:
-            t = r["out"].strip()
-            if len(t) > MAX_OUT_CHARS:
-                t = t[:MAX_OUT_CHARS] + "\n\n…（截斷）"
-            parts.append(f'<div class="jb-pre">{_esc(t)}</div>')
-            parts.append('<div class="jb-empty">'
-                         f'來源：cron/output/{_esc(r["jid"])}/'
-                         f'{_esc(r["out_name"])}</div>')
-        elif not r["err"]:
-            parts.append('<div class="jb-empty">'
-                         '（冇輸出檔 —— 沉默合約：成功但冇事報告 = 空白）'
-                         '</div>')
-        parts.append('</div></div>')
-    parts.append('</div>')
+            if r["out"]:
+                t = r["out"].strip()
+                if len(t) > MAX_OUT_CHARS:
+                    t = t[:MAX_OUT_CHARS] + "\n\n…（截斷）"
+                parts.append(f'<div class="jb-pre">{_esc(t)}</div>')
+            elif not r["err"]:
+                parts.append('<div class="jb-empty">'
+                             '（成功但冇報告 = 沉默合約，空白即正常）'
+                             '</div>')
+            parts.append('</div></div>')
+
+        parts.append('</div></details>')
 
     return "".join(parts)
 
