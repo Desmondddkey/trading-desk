@@ -1031,6 +1031,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "外部數據源（NEL 等）", "external.html"),
 
     ("_grp", "方法"),
+    ("_link", None, "LOG BOOK", "logbook.html"),
     ("_link", None, "方法分類", "method.html"),
     ("_link", None, "成長週期", "cycle.html"),
     ("_link", None, "Setups", "setups.html"),
@@ -1201,6 +1202,12 @@ def i18n_json():
 
 def page(active, title, body, payload, extra_head=""):
     data = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+    # ★ LOG BOOK：每頁最底一張更新記錄表（logbook.html 自己唔重複）
+    try:
+        import logbook as _lb
+        LOGBOOK = "" if active == "logbook" else _lb.build(40)
+    except Exception:                                        # noqa: BLE001
+        LOGBOOK = ""
     return f"""<!doctype html><html lang="zh-Hant" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title} · 交易台</title>
@@ -1236,6 +1243,7 @@ def page(active, title, body, payload, extra_head=""):
  </div>
 </header>
 {body}
+{LOGBOOK}
 <footer>
  所有資料唯讀、研究用途，<b>非買入指令</b>。入場要另行符合 ORH + RVOL 規則；倉位由
  <code>daily_plan.stop_plan()</code> 決定。<br>
@@ -1644,6 +1652,15 @@ def build():
         log(f"✓ earnings.html ({len(_b2)//1024} KB)")
     except Exception as _e8:                                 # noqa: BLE001
         log(f"⚠ 財報日曆失敗：{type(_e8).__name__}: {_e8}")
+
+    # ── LOG BOOK（Desmond 2026-10-19：最底留個更新記錄表）──
+    try:
+        import logbook as _lbk
+        _lt, _lbody = _lbk.build_full()
+        pages["logbook"] = (_lt, _lbody, base)
+        log(f"✓ logbook.html ({_lbody.count('<tr>')} 條)")
+    except Exception as _e14:                                # noqa: BLE001
+        log(f"⚠ LOG BOOK 失敗：{type(_e14).__name__}: {_e14}")
 
     # ── MARKET REGIME MRI（Desmond 2026-10-19）──
     try:
