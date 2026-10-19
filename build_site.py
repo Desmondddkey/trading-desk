@@ -806,6 +806,14 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
   #navtoggle{display:flex}
   body{padding-left:0}
   header.top{padding-top:56px}
+  /* ★ 2026-10-19 Desmond：「小圓球可以跟住左邊隱藏時一齊收入」
+     drawer 關閉時圓球一齊滑出畫面，唔會浮喺中間。 */
+  #sbtoggle{left:0;top:14px;
+    transform:translateX(-58px);opacity:0;pointer-events:none;
+    transition:transform .22s ease,opacity .18s ease}
+  body.drawer-open #sbtoggle{
+    transform:translateX(202px);opacity:1;pointer-events:auto}
+  body.drawer-open #sb.collapsed #sbtoggle{transform:translateX(28px)}
 }
 """
 
@@ -878,9 +886,13 @@ SIDEBAR_JS = """
   var sb=document.getElementById('sb'), tg=document.getElementById('navtoggle'),
       ov=document.getElementById('navoverlay');
   if(!sb||!tg) return;
-  function open(){sb.classList.add('open');if(ov)ov.classList.add('show');
+  function open(){sb.classList.add('open');
+    document.body.classList.add('drawer-open');
+    if(ov)ov.classList.add('show');
     tg.setAttribute('aria-expanded','true');}
-  function close(){sb.classList.remove('open');if(ov)ov.classList.remove('show');
+  function close(){sb.classList.remove('open');
+    document.body.classList.remove('drawer-open');
+    if(ov)ov.classList.remove('show');
     tg.setAttribute('aria-expanded','false');}
   tg.addEventListener('click',function(e){e.stopPropagation();
     sb.classList.contains('open')?close():open();});
