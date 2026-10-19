@@ -7,11 +7,11 @@
  "pos_pct": 25,
  "diff": "CHOP",
  "opp": "風險：價升但內部轉弱，停止加倉",
- "delta": 18,
+ "delta": null,
  "mmtw": 36.78,
  "mmtw_rising": false,
  "oversold": false,
- "delta_txt": "較昨日 +18",
+ "delta_txt": "昨日資料建立中",
  "rows": [
   {
    "n": 1,
@@ -46,14 +46,14 @@
    "name": "VIX 風險",
    "w": 10,
    "s": 7.0,
-   "d": "17.6｜HOLD 持倉觀察"
+   "d": "17.5｜HOLD 持倉觀察"
   },
   {
    "n": 6,
    "name": "RSP vs SPY",
    "w": 10,
    "s": 4.0,
-   "d": "21D -0.29%｜窄·大票獨舞"
+   "d": "21D -0.28%｜窄·大票獨舞"
   },
   {
    "n": 7,
@@ -63,5 +63,5 @@
    "d": "10 月 +0.8%｜中性"
   }
  ],
- "updated": "00:00"
+ "updated": "00:05"
 }

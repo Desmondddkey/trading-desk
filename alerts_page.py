@@ -41,19 +41,19 @@ SETUP_INFO = {
     "UCR": dict(
         full="UnderCut & Rally",
         zh="下探回升",
-        cat="PULLBACK",
+        cat="REVERSAL",
         src="Martin Luk",
-        how="開盤先跌破昨日低位（Undercut），然後即日收回昨日低位以上。"
-            "等「收回」嗰一刻買，唔係等跌破嗰一刻。",
-        stop="當日低位 Low of Day",
+        how="開盤先跌破昨日低位或 ORL（Undercut），造出假突破殺止蝕，"
+            "15 分鐘內 1 分鐘收市價重新站回被跌破嗰個位。等「收回」買。",
+        stop="插針低位（當日 Low of Day）",
         emoji="⬆️"),
     "YOYO": dict(
-        full="Yoyo",
+        full="Yo-yo Ball",
         zh="溜溜球",
-        cat="PULLBACK",
+        cat="REVERSAL",
         src="1chartmaster",
-        how="連續幾日窄幅橫行（band 收窄）之後突然向下插，但即刻彈返。"
-            "要 RVOL 配合同價格站返 VWAP 之上。",
+        how="連續 ≥2 個 V 型腳（跌 ≥0.4 ATR、10 分鐘內收回 ≥90%、低點逐步抬高），"
+            "突破整個 cluster 高位就買。★ 呢個係震盪型，唔係回調型。",
         stop="插針低位",
         emoji="🪀"),
     "DEP": dict(
@@ -116,13 +116,13 @@ SETUP_INFO = {
         stop="當日低位",
         emoji="📉"),
     "PEG": dict(
-        full="PEG Delayed Reaction",
-        zh="PEG 延遲反應",
-        cat="REVERSAL",
+        full="PEG Delayed Reaction Breakout",
+        zh="PEG 延遲反應突破",
+        cat="BREAKOUT",
         src="Jeff Sun",
-        how="PEG 事件日爆量 → 之後多週淡出 → 收窄 → 再爆。"
-            "買「淡出完再收窄」嗰一段。",
-        stop="收窄區低位",
+        how="爆量事件日（PEG）→ 之後多週淡出 → 收窄 → 回升到 2 個月高位正下方；"
+            "開市頭 30 分鐘跌穿前一日高位（RVOL ≥20%）就入。",
+        stop="當日低位",
         emoji="🧷"),
     "M.E.T.A": dict(
         full="M.E.T.A — Multiple Edge Territory Accumulation",

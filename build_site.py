@@ -1034,7 +1034,6 @@ SIDEBAR_LINKS = [
     ("_link", None, "外部數據源（NEL 等）", "external.html"),
 
     ("_grp", "方法"),
-    ("_link", None, "LOG BOOK", "logbook.html"),
     ("_link", None, "方法分類", "method.html"),
     ("_link", None, "成長週期", "cycle.html"),
     ("_link", None, "Setups", "setups.html"),
@@ -1045,6 +1044,8 @@ SIDEBAR_LINKS = [
     ("_ext", "", "Qullamaggie", "https://qullamaggie.net/"),
     ("_ext", "", "QM 3 個 setups", "https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/"),
     ("_ext", "", "Alex Desjardins 方法", "https://qullamaggie.net/alex-desjardinss-method/"),
+    # ★ 2026-10-20 Desmond：LOG BOOK 放喺 PLAYBOOK 最下面
+    ("_link", None, "LOG BOOK", "logbook.html"),
 ]
 
 SIDEBAR_JS = """

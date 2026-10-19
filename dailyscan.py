@@ -40,6 +40,60 @@ SCAN_ORDER = [
     "Daily_Tightness_Swing",
 ]
 
+# ★ 2026-10-20 Desmond：滑鼠移過去顯示方格（同 ALERT 卡一樣）
+SCAN_DESC = {
+    "Mom_1W_Small": dict(full="Momentum 1-Week · Small Cap",
+                         zh="1 週動能（小市值）",
+                         how="過去 5 個交易日升幅最大嘅小型股。用嚟捉短線起步。"),
+    "Mom_1W_Large": dict(full="Momentum 1-Week · Large Cap",
+                         zh="1 週動能（大市值）",
+                         how="過去 5 個交易日升幅最大嘅大型股。大票郁得慢但穩。"),
+    "Mom_1M_Small": dict(full="Momentum 1-Month · Small Cap",
+                         zh="1 月動能（小市值）",
+                         how="過去 21 個交易日升幅最大嘅小型股。捉月度趨勢。"),
+    "Mom_1M_Large": dict(full="Momentum 1-Month · Large Cap",
+                         zh="1 月動能（大市值）",
+                         how="過去 21 個交易日升幅最大嘅大型股。"),
+    "Mom_3M_Small": dict(full="Momentum 3-Month · Small Cap",
+                         zh="3 月動能（小市值）",
+                         how="過去 63 個交易日升幅最大。較長線嘅趨勢確認。"),
+    "Mom_3M_Large": dict(full="Momentum 3-Month · Large Cap",
+                         zh="3 月動能（大市值）",
+                         how="過去 63 個交易日升幅最大嘅大型股。"),
+    "Mom_6M_Small": dict(full="Momentum 6-Month · Small Cap",
+                         zh="6 月動能（小市值）",
+                         how="過去 126 個交易日。捉中期領先股，噪音最少。"),
+    "Mom_6M_Large": dict(full="Momentum 6-Month · Large Cap",
+                         zh="6 月動能（大市值）",
+                         how="過去 126 個交易日升幅最大嘅大型股。"),
+    "1_Fundamental_Growth": dict(
+        full="Fundamental Growth Screen",
+        zh="基本面成長",
+        how="盈利／營收成長達標嘅股票。Jeff Sun：基本面係「為什麼要升」嘅理由。"),
+    "3_Post_Earnings_Cont_Base": dict(
+        full="Post-Earnings Continuation Base",
+        zh="財報後延續整理",
+        how="財報大漲之後橫行整理（唔跌返去），等佢再突破。"
+            "典型 O'Neil / Minervini 形態。"),
+    "4_Strongest_Stock_JK": dict(
+        full="Strongest Stock (JK)",
+        zh="最強股票（JK 版）",
+        how="JK 篩選條件下最強嘅股票清單。"),
+    "5_Strongest_Stock_10B_Rev_30_JK": dict(
+        full="Strongest + Revenue >$10B / Growth 30% (JK)",
+        zh="最強 ＋ 營收 100 億以上、成長 30%",
+        how="市值夠大、營收成長 ≥30% 嘅最強股票。過濾走細價股。"),
+    "Daily_Tightness_Swing": dict(
+        full="Daily Tightness Swing",
+        zh="日線收窄（波段）",
+        how="日線波幅持續收窄（ATR 壓縮）—— 收窄之後通常爆邊。"
+            "配合 ATRX ≤4 入場。"),
+}
+
+
+def _sinfo(k):
+    return SCAN_DESC.get(k) or dict(full=k, zh=k, how="—")
+
 
 def _esc(v):
     return _h.escape(str(v)) if v is not None else ""
@@ -227,6 +281,20 @@ CSS = """
 .ds-ok{color:#16a34a}
 .ds-tag{font-size:9.5px;padding:1px 6px;border-radius:999px;
   border:1px solid rgba(128,128,128,.35);font-weight:700}
+/* ★ 2026-10-20 scan 卡 hover 方格 */
+.ds-hasTip{position:relative}
+.ds-tip{display:none;position:absolute;z-index:60;left:0;top:calc(100% + 5px);
+  width:min(320px,84vw);padding:11px 13px;border-radius:11px;
+  background:#1b1b19;border:1px solid #4A4A42;
+  box-shadow:0 10px 26px rgba(0,0,0,.5);font-size:11.5px;line-height:1.6;
+  color:#F0EDE8;text-align:left;white-space:normal;word-break:break-word}
+html[data-theme="light"] .ds-tip{background:#FFFFFF;border-color:#DAD9D4;
+  color:#1F1E1D;box-shadow:0 10px 26px rgba(0,0,0,.14)}
+.ds-hasTip:hover .ds-tip,.ds-hasTip:focus-within .ds-tip{display:block}
+.ds-tip>b{font-size:12.5px;font-weight:800;display:block}
+.ds-tipzh{font-size:11px;opacity:.72;margin-bottom:6px}
+.ds-tiprow{font-size:11.5px}
+@media(hover:none){.ds-hasTip:active .ds-tip{display:block}}
 .ds-f{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
 .ds-f button{padding:6px 12px;border-radius:999px;font-size:12px;
   border:1px solid rgba(128,128,128,.34);background:rgba(128,128,128,.07);
@@ -296,7 +364,7 @@ def build():
                 continue
             kind = ("Small" if "Small" in sc else
                     "Large" if "Large" in sc else "")
-            parts.append(f'<div class="ds-sc">'
+            parts.append(f'<div class="ds-sc ds-hasTip">'
                          f'<div class="nm">{_esc(sc)}'
                          f'{f" <span class=ds-tag>{kind}</span>" if kind else ""}'
                          f'<span class="n">{len(tks)}</span></div>'
@@ -304,7 +372,13 @@ def build():
             for t in tks:
                 parts.append(f'<a href="https://www.tradingview.com/chart/?symbol={_esc(t)}"'
                              f' target="_blank" rel="noopener">{_esc(t)}</a>')
-            parts.append('</div></div>')
+            _d = _sinfo(sc)
+            parts.append(
+                '</div>'
+                f'<div class="ds-tip"><b>{_esc(_d["full"])}</b>'
+                f'<div class="ds-tipzh">{_esc(_d["zh"])}</div>'
+                f'<div class="ds-tiprow">{_esc(_d["how"])}</div></div>'
+                '</div>')
         empty = [s for s in SCAN_ORDER if s not in scans]
         if empty:
             parts.append('<div class="ds-sc"><div class="nm">空 scan'
