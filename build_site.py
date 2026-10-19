@@ -676,6 +676,109 @@ SITENAV_LINKS = [
 ]
 
 
+SIDEBAR_CSS = """
+/* ═══ 左側導航（Desmond 2026-10-19：所有頁面選擇 bar 放左邊，方便手機） ═══ */
+#sb{position:fixed;left:0;top:0;bottom:0;width:236px;z-index:9000;
+  overflow-y:auto;overflow-x:hidden;padding:14px 10px 20px;
+  background:#0b1220;border-right:1px solid #1e2a44;
+  display:flex;flex-direction:column;gap:2px;
+  transition:transform .22s ease}
+html[data-theme="light"] #sb{background:#ffffff;border-right:1px solid #e3e8f0}
+#sb .brand{font-size:14px;font-weight:700;letter-spacing:.04em;
+  padding:6px 10px 12px;display:block;color:inherit;text-decoration:none}
+#sb .grp{font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  opacity:.45;padding:12px 10px 5px}
+#sb a{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px;
+  font-size:13.5px;text-decoration:none;color:#9fb0cc;line-height:1.25}
+#sb a:hover{background:#121c31;color:#e8eef8}
+#sb a.on{background:#1d4ed8;color:#fff;font-weight:700}
+html[data-theme="light"] #sb a{color:#4a5568}
+html[data-theme="light"] #sb a:hover{background:#eef2f8;color:#111827}
+html[data-theme="light"] #sb a.on{background:#2563eb;color:#fff}
+#sb a span.i{flex:0 0 18px;text-align:center;font-size:14px}
+#sb .spacer{flex:1 1 auto;min-height:14px}
+#sb button{margin:8px 6px 0;padding:8px;border-radius:8px;border:1px solid #2a3346;
+  background:#121c31;color:#e8eef8;font-size:12.5px;cursor:pointer;font-family:inherit}
+html[data-theme="light"] #sb button{background:#f3f6fa;border-color:#dbe2ec;color:#1a2433}
+#navtoggle{display:none;position:fixed;left:10px;top:10px;z-index:9100;
+  width:42px;height:42px;border-radius:11px;border:1px solid #2a3346;
+  background:#0b1220ee;color:#e8eef8;font-size:19px;cursor:pointer;
+  align-items:center;justify-content:center;line-height:1}
+html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;color:#1a2433}
+#navoverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:8999}
+#navoverlay.show{display:block}
+/* 桌面：內容右移 */
+@media(min-width:901px){
+  body{padding-left:236px}
+  /* desk.html 自己嘅頂部 nav 隱藏（已由 sidebar 取代） */
+  nav.sitenav{display:none!important}
+}
+/* 手機：sidebar 變 drawer */
+@media(max-width:900px){
+  #sb{transform:translateX(-100%);box-shadow:4px 0 24px rgba(0,0,0,.4)}
+  #sb.open{transform:translateX(0)}
+  #navtoggle{display:flex}
+  body{padding-left:0}
+  header.top{padding-top:56px}
+}
+"""
+
+SIDEBAR_LINKS = [
+    ("desk.html", "🖥", "機會"),
+    ("index.html", "📋", "市場簡報"),
+    ("leaders.html", "🚀", "領導股"),
+    ("cm.html", "🎯", "1CM 回調"),
+    ("week.html", "⚡", "最強 1 週"),
+    ("themes.html", "🧩", "Themes"),
+    ("sectors.html", "🏭", "Sectors"),
+    ("breadth.html", "🌊", "Breadth"),
+    ("positioning.html", "🎯", "Positioning"),
+    ("calculator.html", "🧮", "倉位計算機"),
+    ("review.html", "⏪", "Review"),
+    ("rsboard.html", "📊", "RS 板"),
+    ("method.html", "🧩", "方法分類"),
+    ("cycle.html", "🌀", "成長週期"),
+    ("setups.html", "📐", "Setups"),
+    ("regime.html", "🎲", "Setup×Regime"),
+]
+
+SIDEBAR_JS = """
+(function(){
+  var sb=document.getElementById('sb'), tg=document.getElementById('navtoggle'),
+      ov=document.getElementById('navoverlay');
+  if(!sb||!tg) return;
+  function open(){sb.classList.add('open');if(ov)ov.classList.add('show');
+    tg.setAttribute('aria-expanded','true');}
+  function close(){sb.classList.remove('open');if(ov)ov.classList.remove('show');
+    tg.setAttribute('aria-expanded','false');}
+  tg.addEventListener('click',function(e){e.stopPropagation();
+    sb.classList.contains('open')?close():open();});
+  if(ov) ov.addEventListener('click',close);
+  sb.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){ if(window.innerWidth<=900) close(); });
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+})();
+"""
+
+
+def sidebar_html(active=""):
+    # 左側導航 HTML（active = 檔名，例如 'desk.html'）
+    items = []
+    for href, icon, label in SIDEBAR_LINKS:
+        on = ' class="on"' if href == active else ""
+        items.append(f'<a href="{href}"{on}><span class="i">{icon}</span>'
+                     f'<span>{label}</span></a>')
+    return ('<button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button>'
+            '<div id="navoverlay"></div>'
+            '<aside id="sb">'
+            '<a class="brand" href="index.html">📈 Desmond · 交易台</a>'
+            + "".join(items) +
+            '<div class="spacer"></div>'
+            '<button id="themebtn">🌙 深色</button>'
+            '</aside>')
+
+
 def sitenav_html():
     links = "".join(
         f'<a href="{h}" class="{"on" if on else ""}"><span>{i}</span>{t}</a>'
@@ -696,8 +799,13 @@ def inject_nav(html):
         html = html.replace('<html lang="zh-Hant">', '<html lang="zh-Hant" data-theme="light">', 1)
     elif '<html>' in html:
         html = html.replace('<html>', '<html data-theme="light">', 1)
-    inject = (f'<style>{DESK_LIGHT_CSS}</style>' + sitenav_html() +
-              f'<script>{DESK_THEME_JS}</script>')
+    # ★ desk.html 自己有個 themebtn → 改名避免同 sidebar 撞 ID（sidebar 嗰個係唯一控制）
+    html = html.replace('id="themebtn"', 'id="themebtn-old" style="display:none"', 1)
+
+    inject = (f'<style>{DESK_LIGHT_CSS}{SIDEBAR_CSS}</style>'
+              + sidebar_html("desk.html") +
+              f'<script>{DESK_THEME_JS}</script>'
+              f'<script>{SIDEBAR_JS}</script>')
     marker = "<body>"
     if marker in html:
         return html.replace(marker, marker + inject, 1)
@@ -733,7 +841,8 @@ def page(active, title, body, payload, extra_head=""):
     return f"""<!doctype html><html lang="zh-Hant" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title} · 交易台</title>
-<style>{CSS}{tvhover.TVHOVER_CSS}</style>{extra_head}</head><body>
+<style>{CSS}{SIDEBAR_CSS}{tvhover.TVHOVER_CSS}</style>{extra_head}</head><body>
+{sidebar_html(active + ".html" if active else "")}
 <div class="wrap">
 <header class="top">
  <div style="display:flex;align-items:flex-start;gap:10px">
@@ -741,11 +850,7 @@ def page(active, title, body, payload, extra_head=""):
    <h1>📈 <span>Desmond · 交易台</span></h1>
    <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>{payload.get('_generated','?')}</code></p>
   </div>
-  <div class="controls">
-   <button id="themebtn" title="切換主題 / theme">🌙 深色</button>
-  </div>
  </div>
- <nav>{nav_html(active)}</nav>
 </header>
 {body}
 <footer>
@@ -758,6 +863,7 @@ def page(active, title, body, payload, extra_head=""):
 <script>var D={data};{JS}
 document.addEventListener('DOMContentLoaded',function(){{ if(window.PAGE) PAGE(); }});</script>
 <script>{THEME_LANG_JS}</script>
+<script>{SIDEBAR_JS}</script>
 <script>{tvhover.TVHOVER_JS}</script>
 </body></html>"""
 

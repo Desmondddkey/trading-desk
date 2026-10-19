@@ -73,17 +73,52 @@ html[data-theme="light"] code{background:#eef2f8;color:#334155}
 html[data-theme="light"] .pos{color:#16a34a}
 html[data-theme="light"] .neg{color:#dc2626}
 html[data-theme="light"] svg text{fill:#334155}
-</style><style>
-.sitenav{position:sticky;top:0;z-index:9999;display:flex;flex-wrap:wrap;gap:4px;
- background:#080d1a;border-bottom:1px solid #1c2740;padding:9px 14px 10px;margin:0;
- font-family:"Segoe UI","Microsoft JhengHei",system-ui,sans-serif}
-.sitenav a{display:inline-flex;align-items:center;gap:5px;padding:7px 12px 8px;
- border-radius:8px;font-size:13px;color:#9fb0cc;text-decoration:none;white-space:nowrap}
-.sitenav a:hover{background:#121c31;color:#e8eef8}
-.sitenav a.on{background:#2b6cb0;color:#fff;font-weight:700}
-.sitenav button{margin-left:auto;border-radius:7px;padding:5px 10px;font-size:12px;
- background:#16203a;color:#c7d4ea;border:1px solid #2a3a5c;cursor:pointer;font-family:inherit}
-</style><nav class="sitenav"><a href="desk.html" class="on"><span>🖥</span>機會</a><a href="index.html" class=""><span>📋</span>市場簡報</a><a href="leaders.html" class=""><span>🚀</span>領導股</a><a href="cm.html" class=""><span>🎯</span>1CM 回調</a><a href="week.html" class=""><span>⚡</span>最強 1 週</a><a href="themes.html" class=""><span>🧩</span>Themes</a><a href="sectors.html" class=""><span>🏭</span>Sectors</a><a href="breadth.html" class=""><span>🌊</span>Breadth</a><a href="positioning.html" class=""><span>🎯</span>Positioning</a><a href="review.html" class=""><span>⏪</span>Review</a><a href="rsboard.html" class=""><span>📊</span>RS 板</a><a href="method.html" class=""><span>🧩</span>方法分類</a><a href="cycle.html" class=""><span>🌀</span>成長週期</a><a href="setups.html" class=""><span>📐</span>Setups</a><button id="themebtn">🌙 深色</button></nav><script>
+
+/* ═══ 左側導航（Desmond 2026-10-19：所有頁面選擇 bar 放左邊，方便手機） ═══ */
+#sb{position:fixed;left:0;top:0;bottom:0;width:236px;z-index:9000;
+  overflow-y:auto;overflow-x:hidden;padding:14px 10px 20px;
+  background:#0b1220;border-right:1px solid #1e2a44;
+  display:flex;flex-direction:column;gap:2px;
+  transition:transform .22s ease}
+html[data-theme="light"] #sb{background:#ffffff;border-right:1px solid #e3e8f0}
+#sb .brand{font-size:14px;font-weight:700;letter-spacing:.04em;
+  padding:6px 10px 12px;display:block;color:inherit;text-decoration:none}
+#sb .grp{font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  opacity:.45;padding:12px 10px 5px}
+#sb a{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px;
+  font-size:13.5px;text-decoration:none;color:#9fb0cc;line-height:1.25}
+#sb a:hover{background:#121c31;color:#e8eef8}
+#sb a.on{background:#1d4ed8;color:#fff;font-weight:700}
+html[data-theme="light"] #sb a{color:#4a5568}
+html[data-theme="light"] #sb a:hover{background:#eef2f8;color:#111827}
+html[data-theme="light"] #sb a.on{background:#2563eb;color:#fff}
+#sb a span.i{flex:0 0 18px;text-align:center;font-size:14px}
+#sb .spacer{flex:1 1 auto;min-height:14px}
+#sb button{margin:8px 6px 0;padding:8px;border-radius:8px;border:1px solid #2a3346;
+  background:#121c31;color:#e8eef8;font-size:12.5px;cursor:pointer;font-family:inherit}
+html[data-theme="light"] #sb button{background:#f3f6fa;border-color:#dbe2ec;color:#1a2433}
+#navtoggle{display:none;position:fixed;left:10px;top:10px;z-index:9100;
+  width:42px;height:42px;border-radius:11px;border:1px solid #2a3346;
+  background:#0b1220ee;color:#e8eef8;font-size:19px;cursor:pointer;
+  align-items:center;justify-content:center;line-height:1}
+html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;color:#1a2433}
+#navoverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:8999}
+#navoverlay.show{display:block}
+/* 桌面：內容右移 */
+@media(min-width:901px){
+  body{padding-left:236px}
+  /* desk.html 自己嘅頂部 nav 隱藏（已由 sidebar 取代） */
+  nav.sitenav{display:none!important}
+}
+/* 手機：sidebar 變 drawer */
+@media(max-width:900px){
+  #sb{transform:translateX(-100%);box-shadow:4px 0 24px rgba(0,0,0,.4)}
+  #sb.open{transform:translateX(0)}
+  #navtoggle{display:flex}
+  body{padding-left:0}
+  header.top{padding-top:56px}
+}
+</style><button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button><div id="navoverlay"></div><aside id="sb"><a class="brand" href="index.html">📈 Desmond · 交易台</a><a href="desk.html" class="on"><span class="i">🖥</span><span>機會</span></a><a href="index.html"><span class="i">📋</span><span>市場簡報</span></a><a href="leaders.html"><span class="i">🚀</span><span>領導股</span></a><a href="cm.html"><span class="i">🎯</span><span>1CM 回調</span></a><a href="week.html"><span class="i">⚡</span><span>最強 1 週</span></a><a href="themes.html"><span class="i">🧩</span><span>Themes</span></a><a href="sectors.html"><span class="i">🏭</span><span>Sectors</span></a><a href="breadth.html"><span class="i">🌊</span><span>Breadth</span></a><a href="positioning.html"><span class="i">🎯</span><span>Positioning</span></a><a href="calculator.html"><span class="i">🧮</span><span>倉位計算機</span></a><a href="review.html"><span class="i">⏪</span><span>Review</span></a><a href="rsboard.html"><span class="i">📊</span><span>RS 板</span></a><a href="method.html"><span class="i">🧩</span><span>方法分類</span></a><a href="cycle.html"><span class="i">🌀</span><span>成長週期</span></a><a href="setups.html"><span class="i">📐</span><span>Setups</span></a><a href="regime.html"><span class="i">🎲</span><span>Setup×Regime</span></a><div class="spacer"></div><button id="themebtn">🌙 深色</button></aside><script>
 (function(){
   function store(k,f){try{return JSON.parse(localStorage.getItem('desk-'+k))??f;}catch(e){return f;}}
   function save(k,v){try{localStorage.setItem('desk-'+k,JSON.stringify(v));}catch(e){}}
@@ -98,6 +133,23 @@ html[data-theme="light"] svg text{fill:#334155}
     apply();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script><script>
+(function(){
+  var sb=document.getElementById('sb'), tg=document.getElementById('navtoggle'),
+      ov=document.getElementById('navoverlay');
+  if(!sb||!tg) return;
+  function open(){sb.classList.add('open');if(ov)ov.classList.add('show');
+    tg.setAttribute('aria-expanded','true');}
+  function close(){sb.classList.remove('open');if(ov)ov.classList.remove('show');
+    tg.setAttribute('aria-expanded','false');}
+  tg.addEventListener('click',function(e){e.stopPropagation();
+    sb.classList.contains('open')?close():open();});
+  if(ov) ov.addEventListener('click',close);
+  sb.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){ if(window.innerWidth<=900) close(); });
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
 })();
 </script>
 <div class="wrap">
