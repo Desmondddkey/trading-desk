@@ -52,27 +52,27 @@ EN_LABELS = {"leadermap": "RS Leader Map", "earnings": "Earnings", "external": "
              "regime": "Setup x Regime", "calculator": "Position Sizing"}
 
 TABS = [
-    ("desk", "🖥", "機會", "desk.html"),
-    ("briefing", "📋", "市場簡報", None),
-    ("leaders", "🚀", "領導股", None),
-    ("cm", "🎯", "1CM 回調", None),
-    ("week", "⚡", "最強 1 週", None),
-    ("themes", "🧩", "Themes", None),
-    ("sectors", "🏭", "Sectors", None),
-    ("breadth", "🌊", "Breadth", None),
-    ("positioning", "🎯", "Positioning", None),
-    ("calculator", "🧮", "倉位計算機", None),
-    ("review", "⏪", "Review", None),
-    ("rsboard", "📊", "RS 板", None),
-    ("method", "🧩", "方法分類", None),
-    ("cycle", "🌀", "成長週期", None),
-    ("setups", "📐", "Setups", None),
-    ("regime", "🎲", "Setup×Regime", None),
-    ("mm", "🌊", "Market Monitor", None),
-    ("bee50", "🐝", "Stockbee 50", None),
-    ("jeffsun", "🎯", "Jeff Sun Mom.", None),
-    ("ndx", "🇺🇸", "納指權重股", None),
-    ("jobboard", "🍳", "廚房看板", None),
+    ("desk", "", "機會", "desk.html"),
+    ("briefing", "", "市場簡報", None),
+    ("leaders", "", "領導股", None),
+    ("cm", "", "1CM 回調", None),
+    ("week", "", "最強 1 週", None),
+    ("themes", "", "Themes", None),
+    ("sectors", "", "Sectors", None),
+    ("breadth", "", "Breadth", None),
+    ("positioning", "", "Positioning", None),
+    ("calculator", "", "倉位計算機", None),
+    ("review", "", "Review", None),
+    ("rsboard", "", "RS 板", None),
+    ("method", "", "方法分類", None),
+    ("cycle", "", "成長週期", None),
+    ("setups", "", "Setups", None),
+    ("regime", "", "Setup×Regime", None),
+    ("mm", "", "Market Monitor", None),
+    ("bee50", "", "Stockbee 50", None),
+    ("jeffsun", "", "Jeff Sun Mom.", None),
+    ("ndx", "", "納指權重股", None),
+    ("jobboard", "", "廚房看板", None),
 ]
 
 
@@ -786,50 +786,27 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
 """
 
 SIDEBAR_LINKS = [
-    # ★ Desmond 2026-10-19 方案 C：側欄 5 個分組（視覺分組，連結唔變）
+    #  Desmond 2026-10-19 方案 C：側欄 5 個分組（視覺分組，連結唔變）
     # 廚房看板獨立放最頂，唔入任何一組（Desmond：「廚房看板放到左邊最頂」）
-    ("_pinned", "🍳", "廚房看板", "jobboard.html"),
+    ("_pinned", "", "廚房看板", "jobboard.html"),
 
-    ("_grp", "🌍 市場"),
-    ("_link", None, "市場簡報", "index.html"),
-    ("_link", None, "Sectors", "sectors.html"),
-    ("_link", None, "Themes", "themes.html"),
-    ("_link", None, "Breadth", "breadth.html"),
-    ("_link", None, "Setup×Regime", "regime.html"),
+    ("_grp", "市場"),
 
-    ("_grp", "🎯 選股"),
-    ("_link", None, "📍 RS Leader 位置圖", "leadermap.html"),
-    ("_link", None, "📊 財報日曆", "earnings.html"),
-    ("_link", None, "機會（總表）", "desk.html"),
-    ("_link", None, "領導股", "leaders.html"),
-    ("_link", None, "1CM 回調", "cm.html"),
-    ("_link", None, "最強 1 週", "week.html"),
-    ("_link", None, "RS 板", "rsboard.html"),
+    ("_grp", "選股"),
 
-    ("_grp", "📊 成績"),
-    ("_link", None, "Positioning", "positioning.html"),
-    ("_link", None, "Review", "review.html"),
-    ("_link", None, "倉位計算機", "calculator.html"),
+    ("_grp", "成績"),
 
-    ("_grp", "🌐 外部數據"),
-    ("_link", None, "Market Monitor", "mm.html"),
-    ("_link", None, "Stockbee 50", "bee50.html"),
-    ("_link", None, "納指權重股", "ndx.html"),
-    ("_link", None, "Jeff Sun Mom.", "jeffsun.html"),
-    ("_link", None, "🌐 外部數據源（NEL 等）", "external.html"),
+    ("_grp", "外部數據"),
 
-    ("_grp", "📚 方法"),
-    ("_link", None, "方法分類", "method.html"),
-    ("_link", None, "成長週期", "cycle.html"),
-    ("_link", None, "Setups", "setups.html"),
+    ("_grp", "方法"),
 
-    # ★ Desmond 2026-10-19：PLAYBOOK 放最底（外部權威來源）
-    ("_grp", "📖 PLAYBOOK"),
-    ("_ext", "📘", "Jeff Sun 工具/流程", "https://jfsrev.substack.com/p/my-trading-tools-process-routine"),
-    ("_ext", "📗", "PrimeTrading 手冊", "https://traderslab.gitbook.io/primetrading"),
-    ("_ext", "📙", "Qullamaggie", "https://qullamaggie.net/"),
-    ("_ext", "⚡", "QM 3 個 setups", "https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/"),
-    ("_ext", "📕", "Alex Desjardins 方法", "https://qullamaggie.net/alex-desjardinss-method/"),
+    #  Desmond 2026-10-19：PLAYBOOK 放最底（外部權威來源）
+    ("_grp", "PLAYBOOK"),
+    ("_ext", "", "Jeff Sun 工具/流程", "https://jfsrev.substack.com/p/my-trading-tools-process-routine"),
+    ("_ext", "", "PrimeTrading 手冊", "https://traderslab.gitbook.io/primetrading"),
+    ("_ext", "", "Qullamaggie", "https://qullamaggie.net/"),
+    ("_ext", "", "QM 3 個 setups", "https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/"),
+    ("_ext", "", "Alex Desjardins 方法", "https://qullamaggie.net/alex-desjardinss-method/"),
 ]
 
 SIDEBAR_JS = """
