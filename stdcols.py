@@ -26,7 +26,8 @@ RS 欄    RS-D, RS-W      ← 比率迷你圖（比率 = 股價 ÷ SPY，50 bar�
 ```
 唔同頁可以**少幾欄**（例如 method 冇 X/Y），但**同一欄嘅定義同格式必須完全一樣**。
 """
-import html as _html
+import html
+import re as _html
 
 
 def esc(s):
@@ -131,6 +132,15 @@ def cell(key, r, ctx):
         v = r.get("watch_price") if key == "watch_f" else r.get("invalidation")
         lbl = "買入線" if key == "watch_f" else "失效線"
         return f'<td class="l">{esc(v) if v else "—"}</td>'
+    if key in ("watch_p", "inv_p"):
+        # ★ 2026-10-19：手機上長句把表格擠爆 → 只顯示數字，原文入 title
+        raw = r.get("watch_price") if key == "watch_p" else r.get("invalidation")
+        px = _first_num(raw)
+        if px is None:
+            return '<td>—</td>'
+        cls = "" if key == "watch_p" else "dim"
+        return (f'<td class="{cls}" title="{esc(raw or "")}">'
+                f'{px:,.2f}</td>')
     if key in ("rsd", "rsw"):
         col = ctx.get("rs_col")
         rs = (ctx.get("rs_map") or {}).get(r.get("symbol") or r.get("ticker"), {})

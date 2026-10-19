@@ -1483,7 +1483,7 @@ def build():
             f'<div class="card"><h2>The Plan · 每日計劃 <small>{esc(st["src"])}</small></h2>'
             f'<div class="body">'
             + _std.table_html(
-                ["name", "close", "watch_f", "inv_f", "x", "y", "band", "kell", "cm"],
+                ["name", "close", "watch_p", "inv_p", "x", "y", "band", "kell", "cm"],
                 st["rows"],
                 {"tv_link": tv_link, "band_svg": band_svg,
                  "kell": _kell, "cm": _cm, "cmres": cmres,
