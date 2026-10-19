@@ -168,46 +168,58 @@ def calc_page():
 
     return f"""
 <style>
+/* ★ 主題無關：唔用 CSS 變數（網站冇定義），面板透明 + 邊框，
+   文字繼承 body 色 → 淺色／深色主題都讀得到 */
 .calcbox{{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0}}
 @media(max-width:800px){{.calcbox{{grid-template-columns:1fr}}}}
-.calc-panel{{background:var(--card,#151a26);border:1px solid var(--line,#2a3346);
+.calc-panel{{background:rgba(128,128,128,.06);border:1px solid rgba(128,128,128,.32);
   border-radius:14px;padding:18px}}
 .calc-panel h3{{margin:0 0 14px;font-size:15px;letter-spacing:.06em;
-  text-transform:uppercase;color:var(--dim,#8a93a6)}}
+  text-transform:uppercase;opacity:.75}}
 .frow{{margin-bottom:14px}}
 .frow label{{display:block;font-size:12px;letter-spacing:.05em;
-  text-transform:uppercase;color:var(--dim,#8a93a6);margin-bottom:6px}}
-.frow input,.frow select{{width:100%;background:var(--bg2,#0d1220);
-  border:1px solid var(--line,#2a3346);border-radius:9px;padding:11px 12px;
-  color:var(--tx,#e8eefc);font-size:15px;font-family:inherit}}
+  text-transform:uppercase;opacity:.7;margin-bottom:6px}}
+.frow input,.frow select{{width:100%;background:rgba(128,128,128,.10);
+  border:1px solid rgba(128,128,128,.38);border-radius:9px;padding:11px 12px;
+  color:inherit;font-size:15px;font-family:inherit}}
 .frow input:focus,.frow select:focus{{outline:none;border-color:#4c8dff}}
 .seg{{display:flex;gap:8px}}
-.seg button{{flex:1;background:var(--bg2,#0d1220);border:1px solid var(--line,#2a3346);
-  border-radius:9px;padding:11px;color:var(--tx,#e8eefc);font-size:14px;
+.seg button{{flex:1;background:rgba(128,128,128,.10);
+  border:1px solid rgba(128,128,128,.38);
+  border-radius:9px;padding:11px;color:inherit;font-size:14px;
   cursor:pointer;font-family:inherit}}
 .seg button.on{{background:#2fbf71;border-color:#2fbf71;color:#04140b;font-weight:700}}
 .seg button.on.sell{{background:#e5484d;border-color:#e5484d;color:#fff}}
 .res-item{{margin-bottom:16px}}
 .res-item .k{{font-size:11px;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--dim,#8a93a6);margin-bottom:4px}}
-.res-item .v{{font-size:19px;font-weight:700}}
-.res-item .v small{{font-size:12px;font-weight:400;color:var(--dim,#8a93a6);
-  margin-left:8px}}
+  opacity:.65;margin-bottom:4px}}
+.res-item .v{{font-size:19px;font-weight:700;color:inherit}}
+.res-item .v small{{font-size:12px;font-weight:400;opacity:.65;margin-left:8px}}
 .stop-row{{display:flex;justify-content:space-between;padding:6px 0;
-  border-bottom:1px dashed var(--line,#2a3346);font-size:14px}}
+  border-bottom:1px dashed rgba(128,128,128,.28);font-size:14px}}
 .stop-row:last-child{{border-bottom:none}}
-.stop-row .lbl{{color:var(--dim,#8a93a6)}}
+.stop-row .lbl{{opacity:.65}}
 .warnbox{{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:13px;
   line-height:1.6;display:none}}
 .warnbox.show{{display:block}}
-.warnbox.err{{background:rgba(229,72,77,.12);border:1px solid rgba(229,72,77,.4);
-  color:#ff9a9d}}
-.warnbox.ok{{background:rgba(47,191,113,.10);border:1px solid rgba(47,191,113,.35);
-  color:#7ce0a8}}
-.evnote{{font-size:12px;line-height:1.7;color:var(--dim,#8a93a6);
+.warnbox.err{{background:rgba(229,72,77,.14);border:1px solid rgba(229,72,77,.5);
+  color:#c0262b}}
+.warnbox.ok{{background:rgba(47,191,113,.12);border:1px solid rgba(47,191,113,.45);
+  color:#1a7f4b}}
+.evnote{{font-size:12px;line-height:1.7;opacity:.85;
   margin-top:16px;padding:12px;border-radius:10px;
-  background:var(--bg2,#0d1220);border:1px solid var(--line,#2a3346)}}
-.evnote b{{color:#ffd166}}
+  background:rgba(128,128,128,.06);border:1px solid rgba(128,128,128,.3)}}
+.evnote b{{color:#b8860b}}
+/* 數值顏色（主題感知） */
+.c-red{{color:#c0262b;font-weight:700}}
+.c-green{{color:#1a7f4b;font-weight:700}}
+.c-strong{{font-weight:700}}
+/* 深色主題：提高對比 */
+[data-theme="dark"] .warnbox.err{{color:#ff9a9d}}
+[data-theme="dark"] .warnbox.ok{{color:#7ce0a8}}
+[data-theme="dark"] .evnote b{{color:#ffd166}}
+[data-theme="dark"] .c-red{{color:#ff9a9d}}
+[data-theme="dark"] .c-green{{color:#7ce0a8}}
 </style>
 
 <h2>🧮 倉位計算機 <small>Position Sizing</small></h2>
@@ -357,11 +369,11 @@ def calc_page():
     stops.forEach((s,i) => {{
       const sh = tranche[i] !== undefined ? tranche[i] : 0;
       ws += '<div class="stop-row"><span class="lbl">Stop ' + (i+1) + '</span>' +
-            '<span style="color:#ff9a9d;font-weight:700">' + money(s) +
+            '<span class="c-red">' + money(s) +
             '</span><span class="lbl">' + num(sh,0) + ' 股</span></div>';
     }});
     ws += '<div class="stop-row"><span class="lbl">全部止蝕</span>' +
-          '<span style="font-weight:700">' + money(riskAll) +
+          '<span class="c-strong">' + money(riskAll) +
           '（' + num(riskAll/r1,2) + 'R · ' + num(riskAll/cap*100,3) + '%）</span></div>';
     ws += '</div>';
     $("r_stops_wrap").innerHTML = ws;
@@ -370,7 +382,7 @@ def calc_page():
     [1,2,3,4].forEach(n => {{
       const p = entry + sign*perShare*n;
       ts += '<div class="stop-row"><span class="lbl">' + n + 'R</span>' +
-            '<span style="color:#7ce0a8;font-weight:700">' + money(p) +
+            '<span class="c-green">' + money(p) +
             '</span><span class="lbl">+' + num(perShare*n*shares,0) + '</span></div>';
     }});
     ts += '</div>';
