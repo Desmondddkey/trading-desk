@@ -153,29 +153,55 @@ def mm_page(d):
 
     series = d.get("series") or []
     if series:
-        mx = max([(s["up4"] or 0) + (s["down4"] or 0) for s in series] or [1])
-        out.append('<div class="card"><h2>近 40 日升跌家數</h2>'
-                   '<div style="padding:14px 16px;overflow-x:auto">'
+        mx = max([max(s["up4"] or 0, s["down4"] or 0) for s in series] or [1])
+        HALF = 78          # 每邊最大像素
+        out.append('<div class="card"><h2>近 40 日升跌家數 '
+                   '<small>綠向左＝升 4%+，紅向右＝跌 4%+</small></h2>'
+                   '<div style="padding:12px 14px">'
                    '<table style="width:100%;border-collapse:collapse;'
-                   'font-size:12.5px">'
+                   'font-size:12.5px;table-layout:fixed">'
+                   '<colgroup><col style="width:74px"><col style="width:52px">'
+                   '<col style="width:52px"><col style="width:60px">'
+                   '<col></colgroup>'
                    '<thead><tr><th class="l">日期</th><th>升 4%+</th>'
-                   '<th>跌 4%+</th><th class="l">分佈</th></tr></thead><tbody>')
+                   '<th>跌 4%+</th><th>升/跌比</th>'
+                   '<th class="l">分佈（中央對齊）</th></tr></thead><tbody>')
         for s in series[:40]:
             u = s["up4"] or 0
             dd = s["down4"] or 0
-            wu = int(u / mx * 110)
-            wd = int(dd / mx * 110)
-            out.append(f'<tr><td class="l">{_esc(s["date"])}</td>'
-                       f'<td class="up">{int(u)}</td>'
-                       f'<td class="dn">{int(dd)}</td>'
-                       '<td class="l" style="white-space:nowrap">'
-                       f'<span style="display:inline-block;height:9px;'
-                       f'width:{wu}px;background:#2fbf71;border-radius:2px">'
-                       '</span>'
-                       f'<span style="display:inline-block;height:9px;'
-                       f'width:{wd}px;background:#e5484d;border-radius:2px;'
-                       'margin-left:1px"></span></td></tr>')
-        out.append("</tbody></table></div></div>")
+            wu = max(2, int(u / mx * HALF)) if u else 0
+            wd = max(2, int(dd / mx * HALF)) if dd else 0
+            ratio = (u / dd) if dd else (999 if u else 0)
+            if dd == 0 and u == 0:
+                rt_s, rt_c = "—", ""
+            elif dd == 0:
+                rt_s, rt_c = "∞", "up"
+            else:
+                rt_s = f"{ratio:.2f}"
+                rt_c = "up" if ratio >= 1 else "dn"
+            out.append(
+                f'<tr>'
+                f'<td class="l" style="font-size:11.5px">{_esc(s["date"])}</td>'
+                f'<td class="up">{int(u)}</td>'
+                f'<td class="dn">{int(dd)}</td>'
+                f'<td class="{rt_c}" style="font-weight:700">{rt_s}</td>'
+                '<td><div style="display:flex;align-items:center;'
+                'width:100%;height:11px">'
+                '<div style="flex:1;display:flex;justify-content:flex-end">'
+                f'<span style="height:10px;width:{wu}px;background:#2fbf71;'
+                'border-radius:3px 0 0 3px"></span></div>'
+                '<div style="width:1px;height:13px;background:'
+                'rgba(128,128,128,.45);flex:0 0 auto"></div>'
+                '<div style="flex:1;display:flex;justify-content:flex-start">'
+                f'<span style="height:10px;width:{wd}px;background:#e5484d;'
+                'border-radius:0 3px 3px 0"></span></div>'
+                '</div></td></tr>')
+        out.append("</tbody></table>"
+                   '<div class="note" style="margin-top:8px">'
+                   '★ 中間灰線＝0。綠條長度＝升 4%+ 家數，紅條＝跌 4%+ 家數，'
+                   '左綠右紅由中央向外。'
+                   '<b>升/跌比 &gt;1</b> 綠字＝升多於跌；<b>&lt;1</b> 紅字＝跌多於升。'
+                   '</div></div></div>')
     return "".join(out)
 
 
