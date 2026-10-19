@@ -33,6 +33,10 @@ import shutil
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+# ★ 每次 build 一個時間戳：寫入每頁（顯示喺側欄）＋ docs/version.json
+#   前端 fetch version.json，發現版本唔同就自己 reload 一次，
+#   所以 Desmond 用返原來條 link 就永遠睇到最新，唔需要加 ?v=
+BUILD_TS = __import__("datetime").datetime.now().strftime("%Y-%m-%d %H:%M")
 DATA = os.path.join(HERE, "data")
 SITE = os.path.join(HERE, "docs")
 LIVE = r"C:\Users\rain0\trading-os"
@@ -1201,6 +1205,26 @@ def page(active, title, body, payload, extra_head=""):
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title} · 交易台</title>
 <style>{CSS}{SIDEBAR_CSS}{tvhover.TVHOVER_CSS}</style>{extra_head}</head><body>
+<script>
+/* ★ 自動更新：用返原來網址，頁面發現有新 build 就自己 reload 一次
+   唔會迴圈：sessionStorage 記住已 reload 過嘅版本 */
+(function(){{
+  var BV="{BUILD_TS}";
+  try{{
+    if(sessionStorage.getItem('hv')===BV) return;
+  }}catch(e){{}}
+  fetch('version.json?t='+Date.now(),{{cache:'no-store'}})
+    .then(function(r){{return r.ok?r.json():null;}})
+    .then(function(d){{
+      if(!d||!d.v||d.v===BV) return;
+      try{{sessionStorage.setItem('hv',d.v);}}catch(e){{}}
+      var u=new URL(location.href);
+      u.searchParams.set('v',d.v.replace(/\\D/g,''));
+      location.replace(u.toString());
+    }})
+    .catch(function(){{}});
+}})();
+</script>
 {sidebar_html("index.html" if active == "briefing" else (active + ".html" if active else ""))}
 <div class="wrap">
 <header class="top">
@@ -1890,7 +1914,20 @@ def main(argv=None):
     sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser()
     ap.parse_args(argv if argv is not None else sys.argv[1:])
-    return build()
+    rc = build()
+    # ★ 寫 version.json：前端每頁 fetch 呢個檔，發現版本唔同就自動 reload
+    #   咁 Desmond 用返原本條 link 就永遠睇到最新，唔需要記住 ?v=
+    try:
+        import json as _json
+        vp = os.path.join(SITE, "version.json")
+        with open(vp, "w", encoding="utf-8") as f:
+            _json.dump({"v": BUILD_TS,
+                        "ts": __import__("time").time()},
+                       f, ensure_ascii=False)
+        print(f"✓ version.json  {BUILD_TS}")
+    except Exception as e:                                   # noqa: BLE001
+        print(f"⚠ version.json 失敗: {e}")
+    return rc
 
 
 if __name__ == "__main__":
