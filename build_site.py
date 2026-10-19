@@ -1173,6 +1173,7 @@ def build():
 
     brief_body = f"""
 {note}
+{_gc_card}
 <div class="kpis">{kpi_html}</div>
 <div class="grid2">
  <div class="card"><h2>市場狀態 <small>{esc(brief.get("regime_src") or "—")}</small></h2>
@@ -1182,7 +1183,6 @@ def build():
 </div>
 <div class="card"><h2>🌊 Stockbee 廣度 <small>升 4%+ / 跌 4%+ 家數｜呢把尺同上面唔同，唔可以混用</small></h2>
  <div class="body">{render_stockbee_breadth(_sbf)}</div></div>
-{_gc_card}
 <div class="card"><h2>今日圖表隊列 <small>{esc(brief.get("rs_src") or "")}</small></h2>
  <div class="body"><div class="scroll"><table><thead><tr><th class="l">代號 / 行業</th><th>收市</th>
  <th>X（21EMA）</th><th>Y（ATRX）</th><th>ATR 帶</th><th>買入區</th><th>疊加</th>
