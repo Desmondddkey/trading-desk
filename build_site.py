@@ -1006,6 +1006,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "Breadth", "breadth.html"),
 
     ("_grp", "選股"),
+    ("_link", None, "警報總覽", "alerts.html"),
     ("_link", None, "Daily Scan", "dailyscan.html"),
     ("_link", None, "RS Leader 位置圖", "leadermap.html"),
     ("_link", None, "財報日曆", "earnings.html"),
@@ -1649,6 +1650,15 @@ def build():
     except Exception as _e8:                                 # noqa: BLE001
         log(f"⚠ 財報日曆失敗：{type(_e8).__name__}: {_e8}")
 
+    # ── ALERTS 分類總覽（Desmond 2026-10-19）──
+    try:
+        import alerts_page as _al
+        _at, _ab = _al.build()
+        pages["alerts"] = (_at, _ab, base)
+        log(f"✓ alerts.html ({_al.load().__len__()} 筆)")
+    except Exception as _e15:                                # noqa: BLE001
+        log(f"⚠ ALERTS 失敗：{type(_e15).__name__}: {_e15}")
+
     # ── LOG BOOK（Desmond 2026-10-19：最底留個更新記錄表）──
     try:
         import logbook as _lbk
@@ -1709,6 +1719,31 @@ def build():
         _jobs, _jerr = _jb.load_jobs()
         if _jobs:
             _body = _jb.build(_jobs, _jb.load_exec(), _jb.load_incidents())
+            # ★ 所有 Alert 分類捷徑（Desmond 2026-10-19）
+            try:
+                import alerts_page as _alp
+                _arows = _alp.load()
+                _cnt = {}
+                for _r in _arows:
+                    _cnt[_r["setup"]] = _cnt.get(_r["setup"], 0) + 1
+                _chips = "".join(
+                    f'<a href="alerts.html" style="font-size:11.5px;'
+                    f'font-weight:700;padding:3px 9px;border-radius:999px;'
+                    f'background:rgba(217,119,87,.14);color:#d97757;'
+                    f'text-decoration:none">{_s} {_n}</a>'
+                    for _s, _n in sorted(_cnt.items(),
+                                         key=lambda kv: -kv[1]))
+                _body = (
+                    '<div class="card"><h2>🔔 所有 Alert 分類 '
+                    f'<small>{len(_arows)} 筆｜{len(_cnt)} 個 setup</small>'
+                    '</h2><div style="padding:12px 16px;display:flex;'
+                    'gap:7px;flex-wrap:wrap;align-items:center">'
+                    + _chips +
+                    '<a href="alerts.html" style="margin-left:auto;'
+                    'font-size:12px;font-weight:700">睇完整清單 →</a>'
+                    '</div></div>') + _body
+            except Exception:                                # noqa: BLE001
+                pass
             pages["jobboard"] = ("廚房看板", _body, base)
             log(f"✓ jobboard.html ({len(_body)//1024} KB, {len(_jobs)} jobs)")
     except Exception as _e6:                                 # noqa: BLE001
