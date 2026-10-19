@@ -68,6 +68,10 @@ TABS = [
     ("cycle", "🌀", "成長週期", None),
     ("setups", "📐", "Setups", None),
     ("regime", "🎲", "Setup×Regime", None),
+    ("mm", "🌊", "Market Monitor", None),
+    ("bee50", "🐝", "Stockbee 50", None),
+    ("sectorrs", "🏭", "Sector RS", None),
+    ("jeffsun", "🎯", "Jeff Sun Mom.", None),
 ]
 
 
@@ -741,6 +745,10 @@ SIDEBAR_LINKS = [
     ("cycle.html", "🌀", "成長週期"),
     ("setups.html", "📐", "Setups"),
     ("regime.html", "🎲", "Setup×Regime"),
+    ("mm.html", "🌊", "Market Monitor"),
+    ("bee50.html", "🐝", "Stockbee 50"),
+    ("sectorrs.html", "🏭", "Sector RS"),
+    ("jeffsun.html", "🎯", "Jeff Sun Mom."),
 ]
 
 SIDEBAR_JS = """
@@ -1200,6 +1208,22 @@ def build():
         pages["calculator"] = ("倉位計算機", _calc.calc_page(), base)
     except Exception as _e3:                                 # noqa: BLE001
         log(f"⚠ 計算機頁失敗：{type(_e3).__name__}: {_e3}")
+
+    # ── 四個外部數據源（Desmond 2026-10-19）──
+    # Market Monitor / Stockbee 50 / Sector RS / Jeff Sun Momentum
+    # ★ 3 個用 iframe 嵌原表；Market Monitor 封鎖 iframe → 自己 render
+    try:
+        import newfeeds as _nf
+        import newfeeds_pages as _nfp
+        _feeds = _nf.load_all()
+        for _k, (_title, _fn) in _nfp.PAGES.items():
+            try:
+                pages[_k] = (_title, _fn(_feeds.get(_k)), base)
+            except Exception as _e4:                         # noqa: BLE001
+                log(f"⚠ {_k} 頁失敗：{type(_e4).__name__}: {_e4}")
+                pages[_k] = (_title, _nfp._unavail(_title, str(_e4)), base)
+    except Exception as _e5:                                 # noqa: BLE001
+        log(f"⚠ 外部數據源整體失敗：{type(_e5).__name__}: {_e5}")
 
     # ── RS 板（跟圖片 2/4：指數／群組／板塊三個表）──
     rsb_full = extras.rsboard_full()
