@@ -1202,12 +1202,8 @@ def i18n_json():
 
 def page(active, title, body, payload, extra_head=""):
     data = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
-    # ★ LOG BOOK：每頁最底一張更新記錄表（logbook.html 自己唔重複）
-    try:
-        import logbook as _lb
-        LOGBOOK = "" if active == "logbook" else _lb.build(40)
-    except Exception:                                        # noqa: BLE001
-        LOGBOOK = ""
+    # ★ LOG BOOK：只喺 logbook.html 自己一頁顯示，其他頁唔加
+    LOGBOOK = ""
     return f"""<!doctype html><html lang="zh-Hant" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title} · 交易台</title>
