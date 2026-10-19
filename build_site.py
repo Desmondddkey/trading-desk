@@ -271,9 +271,12 @@ def load_briefing():
     p2 = newest(os.path.join(LIVE, "output", "breadth_*.json"))
     if p2:
         d = jload(p2) or {}
+        # ★ 2026-10-19：原本白名單漏咗 adl / nnnl，令市場簡報嘅
+        #   「ADL」「新高新低淨值」兩行永遠空白（Desmond 見到嘅「有d無更新」）。
         out["breadth"] = {k: d.get(k) for k in
                           ("as_of", "universe", "regime", "posture", "status",
-                           "pct40ma", "ls_ratio_proxy", "spy_close")}
+                           "pct40ma", "ls_ratio_proxy", "spy_close",
+                           "adl", "nnnl", "series")}
         out["breadth_src"] = os.path.basename(p2)
     # 今日圖表隊列（rs_select，圖示用）
     rs = jload(os.path.join(LIVE, "output",
