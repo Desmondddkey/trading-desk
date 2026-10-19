@@ -221,7 +221,8 @@ CSS = """
   white-space:nowrap}
 .ds-tbl td.l,.ds-tbl th.l{text-align:left}
 .ds-tbl tr:hover{background:rgba(128,128,128,.07)}
-.ds-buy{background:rgba(22,163,74,.09)}
+.ds-sym-buy{color:#15803d;font-weight:800}
+[data-theme="dark"] .ds-sym-buy{color:#7ce0a8}
 .ds-ext{color:#dc2626;font-weight:700}
 .ds-ok{color:#16a34a}
 .ds-tag{font-size:9.5px;padding:1px 6px;border-radius:999px;
@@ -342,7 +343,6 @@ def build():
                      '<th class="l">代號</th><th class="l">來源</th>'
                      '<th>收市</th><th>EXT</th><th>ATR%</th><th>RVOL(50D)</th>'
                      '<th>DAY ON</th><th>距 52 高</th><th>財報</th>'
-                     '<th class="l">入場 / 失效</th>'
                      '</tr></thead><tbody id="dsbody">')
 
         # 排序：買入區優先，再按 EXT 細至大
@@ -373,10 +373,10 @@ def build():
             inval = (r.get("invalidation") or "").replace("invalidation: ", "")
 
             parts.append(
-                f'<tr class="{"ds-buy" if inbox else ""}" '
+                f'<tr '
                 f'data-buy="{1 if inbox else 0}" data-state="{state}" '
                 f'data-src="{_esc(r.get("_src",""))}">'
-                f'<td class="l"><b>{_esc(t)}</b></td>'
+                f'<td class="l"><b class="{"ds-sym-buy" if inbox else ""}">{_esc(t)}</b></td>'
                 f'<td class="l"><span class="ds-tag">{_esc(r.get("_src",""))}</span></td>'
                 f'<td data-v="{_f(r.get("close"),2)}">{_f(r.get("close"))}</td>'
                 f'<td data-v="{_f(ext_f,2)}" class="{"ds-ext" if (ext_f or 0)>4 else ""}">'
@@ -386,10 +386,6 @@ def build():
                 f'<td data-v="{dayon.get(t,0)}">{dayon.get(t,0)}</td>'
                 f'<td data-v="{_f(dist,0)}">{dist_s}</td>'
                 f'<td>{_esc(es_s)}</td>'
-                f'<td class="l" style="max-width:340px;white-space:normal;'
-                f'font-size:11.5px;line-height:1.5;opacity:.82">'
-                f'<span class="ds-ok">入：</span>{_esc(watch)}<br>'
-                f'<span class="ds-ext">止：</span>{_esc(inval)}</td>'
                 '</tr>')
         parts.append('</tbody></table></div>')
 
