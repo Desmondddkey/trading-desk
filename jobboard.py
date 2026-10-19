@@ -494,8 +494,9 @@ def build(jobs, execs, incs):
             rec = r.get("recent") or []
             if rec:
                 okl = {"ok": "✅", "success": "✅", "done": "✅",
-                       "error": "❌", "failed": "❌", "timeout": "⏱",
-                       "skipped": "⏭", "running": "▶"}
+                       "completed": "✅", "complete": "✅",
+                       "error": "❌", "failed": "❌", "fail": "❌",
+                       "timeout": "⏱", "skipped": "⏭", "running": "▶"}
                 parts.append('<div class="jb-log"><div class="jb-log-h">'
                              '執行記錄（最新在上）</div>')
                 for e in rec:
