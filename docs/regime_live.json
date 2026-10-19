@@ -8,7 +8,7 @@
  "diff": "CHOP",
  "opp": "觀察：等待 breadth 或結構確認",
  "delta": null,
- "mmtw": 34.92,
+ "mmtw": 34.91,
  "mmtw_rising": false,
  "oversold": false,
  "delta_txt": "昨日資料建立中",
@@ -53,7 +53,7 @@
    "name": "RSP vs SPY",
    "w": 10,
    "s": 4.0,
-   "d": "21D -0.13%｜窄·大票獨舞"
+   "d": "21D -0.11%｜窄·大票獨舞"
   },
   {
    "n": 7,
@@ -63,5 +63,5 @@
    "d": "10 月 +0.8%｜中性"
   }
  ],
- "updated": "04:10"
+ "updated": "04:25"
 }
