@@ -1,9 +1,11 @@
-  圖表快取命中（433 隻，至 2026-10-19）
-  圖表快取命中（433 隻，至 2026-10-19）
+  yfinance 下載 48 隻 OHLC…
+  下載完成：48 隻，最後 2026-10-19
+  yfinance 下載 433 隻 OHLC…
+  下載完成：433 隻，最後 2026-10-19
 ✓ RS 迷你圖：432/432 隻有數據
 ✓ external.html (3 KB)
 ✓ earnings.html (154 KB)
-✓ datahealth.html（即時 7／過期 3／缺失 1）
+✓ datahealth.html（即時 8／過期 2／缺失 1）
 ✓ alerts.html (239 筆)
 ✓ logbook.html (117 條)
 ✓ regime_mri.html (7 KB)
@@ -11,12 +13,12 @@
 ✓ livefeeds.html (5 KB)
 ✓ dailyscan.html (32 KB)
 ✓ leadermap.html (4 KB)
-✓ jobboard.html (157 KB, 63 jobs)
+✓ jobboard.html (158 KB, 63 jobs)
 ✓ desk.html ← dashboard_2026-10-20.html（已加網站導航）
 ✓ briefing.html (67 KB)
-✓ leaders.html (1074 KB)
-✓ cm.html (352 KB)
-✓ week.html (760 KB)
+✓ leaders.html (1657 KB)
+✓ cm.html (629 KB)
+✓ week.html (1273 KB)
 ✓ method.html (65 KB)
 ✓ themes.html (39 KB)
 ✓ sectors.html (42 KB)
@@ -27,14 +29,14 @@
 ✓ external.html (42 KB)
 ✓ earnings.html (196 KB)
 ✓ datahealth.html (44 KB)
-✓ alerts.html (91 KB)
+✓ alerts.html (92 KB)
 ✓ logbook.html (190 KB)
 ✓ regime_mri.html (46 KB)
 ✓ rocketstock.html (53 KB)
 ✓ livefeeds.html (45 KB)
 ✓ dailyscan.html (71 KB)
 ✓ leadermap.html (43 KB)
-✓ jobboard.html (223 KB)
+✓ jobboard.html (224 KB)
 ✓ mm.html (68 KB)
 ✓ bee50.html (53 KB)
 ✓ ndx.html (79 KB)
@@ -44,4 +46,4 @@
 ✓ setups.html (57 KB)
 ✓ regime.html (44 KB)
 ✓ index.html（＝簡報）
-✓ version.json  2026-10-20 01:24
+✓ version.json  2026-10-20 01:27

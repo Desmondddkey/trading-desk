@@ -52,7 +52,10 @@ def fetch(tickers, maxage_days=1):
         return None
     log(f"  yfinance 下載 {len(tickers)} 隻 OHLC…")
     end = (datetime.date.today() + datetime.timedelta(days=1)).isoformat()
-    d = yf.download(tickers, start="2026-07-01", end=end, interval="1d",
+    # ★ 2026-10-20 修 bug：原本 hardcode start="2026-07-01" 只有 77 日，
+    #   令 6月/1年 表現、52週距高 永遠算唔到（stats_lookup 出 None）。
+    #   改抓 2 年，令所有週期都有數。
+    d = yf.download(tickers, period="2y", end=end, interval="1d",
                     auto_adjust=False, progress=False, group_by="ticker", threads=True)
     if d is None or d.empty:
         return None
