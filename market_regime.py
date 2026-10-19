@@ -107,6 +107,49 @@ def _breadth():
         return None
 
 
+def _tv_mmtw(ttl_min=10):
+    """用 TradingView screener 算真正 % above 20MA（＝MMTW 定義）。
+
+    全美股有 SMA20 嘅股票，計 close > SMA20 嘅比例。
+    快取 10 分鐘，避免每 5 分鐘 cron 都打 TV。
+    → (pct, n_total, asof_str) 或 (None, 0, None)
+    """
+    import time
+    os.makedirs(CACHE, exist_ok=True)
+    p = os.path.join(CACHE, "mmtw.json")
+    if os.path.exists(p):
+        try:
+            d = json.load(io.open(p, encoding="utf-8"))
+            ts = d.get("ts", 0)
+            if time.time() - ts < ttl_min * 60:
+                return d.get("pct"), d.get("n", 0), d.get("asof")
+        except (OSError, ValueError):
+            pass
+    try:
+        from tradingview_screener import Query
+        q = (Query().set_markets("america")
+             .select("name", "close", "SMA20")
+             .limit(6500))
+        _c, df = q.get_scanner_data()
+        d = df.dropna(subset=["close", "SMA20"])
+        n = len(d)
+        if not n:
+            raise ValueError("no rows")
+        pct = float((d["close"] > d["SMA20"]).sum()) / n * 100.0
+        rec = dict(pct=round(pct, 2), n=n, ts=time.time(),
+                   asof=dt.date.today().isoformat())
+        io.open(p, "w", encoding="utf-8").write(
+            json.dumps(rec, ensure_ascii=False))
+        return rec["pct"], n, rec["asof"]
+    except Exception:                                        # noqa: BLE001
+        # 退回舊快取
+        try:
+            d = json.load(io.open(p, encoding="utf-8"))
+            return d.get("pct"), d.get("n", 0), d.get("asof")
+        except (OSError, ValueError):
+            return None, 0, None
+
+
 def compute():
     try:
         d, asof = _yf(["SPY", "RSP", "^VIX"])
@@ -135,14 +178,18 @@ def compute():
                   "上行趨勢 (+1)" if upTrend else
                   "下行趨勢 (-1)" if downTrend else "波動上落 (0)")
 
-    # ② 寬度 20（用 40MA 代替 MMTW）
+    # ② 寬度 20（真正 % above 20MA = MMTW 定義，TV screener）
     br = _breadth() or {}
-    mmtw = br.get("pct40ma")
+    tv_pct, tv_n, tv_asof = _tv_mmtw()
+    mmtw = tv_pct if tv_pct is not None else br.get("pct40ma")
     breadthRaw = (10.0 if mmtw is None
                   else max(0.0, min(20.0, (mmtw - 20.0) / 60.0 * 20.0)))
-    OS_LEVEL, OS_EXIT = 30.0, 38.0   # 40MA 尺嘅超賣門檻（比 20MA 高）
+    OS_LEVEL, OS_EXIT = 25.0, 30.0   # Pine 原值（20MA 尺）
+    prev42 = br.get("pct40ma")
+    # 用 breadth json 的 40MA 變化做方向代理（兩者高度相關）
     prev = br.get("prev_pct40ma")
-    mmtwRising = bool(mmtw is not None and prev is not None and mmtw > prev)
+    mmtwRising = bool(mmtw is not None and prev is not None
+                      and prev42 is not None and prev42 > prev)
     oversold = bool(mmtw is not None and mmtw <= OS_LEVEL)
     breadthScore = (max(breadthRaw, 7.0) if (oversold and mmtwRising)
                     else breadthRaw)
@@ -333,7 +380,7 @@ def compute():
                    f"較昨日 {delta:.0f}" if delta < 0 else "較昨日持平"),
         rows=[
             dict(n=1, name="SPY 趨勢", w=25, s=trendScore, d=trendLabel),
-            dict(n=2, name="寬度（40MA 代 MMTW）", w=20,
+            dict(n=2, name="MMTW 寬度", w=20,
                  s=round(breadthScore, 1),
                  d=(f"{mmtw:.1f}%" if mmtw is not None else "N/A")
                    + (" ↑改善" if mmtwRising else "")
@@ -440,7 +487,7 @@ def build():
     parts.append(
         '<p class="crumb">計分公式照 Desmond 嘅 Pine 原碼'
         '（Smart Money Sector Flow v1.9 + MRI）｜'
-        '寬度用我哋自己嘅 40MA 代替 TradingView MMTW｜'
+        'MMTW 由 TradingView screener 實時計算（全美股 % above 20MA）｜'
         '<span id="mr-live" style="opacity:.6">⏳ 等實時資料…</span></p>')
 
     if r.get("err"):
@@ -460,7 +507,7 @@ def build():
             "#f59e0b" if bv and bv >= 40 else "#dc2626")
     parts.append(
         '<div class="mr-big">'
-        '<div><div class="lab">寬度 MMTW（40MA 代替）</div>'
+        '<div><div class="lab">MMTW 寬度（% above 20MA）</div>'
         f'<div class="val" id="mr-breadth" style="color:{bcol}">'
         f'{f"{bv:.1f}%" if bv is not None else "N/A"}</div></div>'
         f'<div class="mr-bar10" style="color:{bcol}">{bar}</div>'
@@ -468,6 +515,26 @@ def build():
         + ("↑ 改善" if r.get("mmtw_rising") else "↓ 惡化" if bv else "")
         + ("｜超賣區" if r.get("oversold") else "")
         + '</div></div>')
+
+    # ★ TradingView 圖表（Desmond 要求保留）
+    parts.append(
+        '<div class="card" style="padding:0;overflow:hidden">'
+        '<div style="padding:10px 14px;background:rgba(128,128,128,.08);'
+        'display:flex;align-items:center;gap:10px;flex-wrap:wrap">'
+        '<b style="font-size:13px">TradingView</b>'
+        '<span style="font-size:11.5px;opacity:.6">SPY 日線</span>'
+        '<span style="margin-left:auto;font-size:11.5px">'
+        '<a href="https://www.tradingview.com/chart/h6bQ6ADj/" '
+        'target="_blank" rel="noopener noreferrer">↗ 你嘅私有 chart</a>'
+        '</span></div>'
+        '<iframe src="https://s.tradingview.com/widgetembed/?'
+        'symbol=AMEX%3ASPY&interval=D&hidesidetoolbar=1&symboledit=0&'
+        'saveimage=0&toolbarbg=rgba(0,0,0,0)&studies=[]&theme=dark&style=1&'
+        'timezone=America%2FNew_York&withdateranges=1&hide_side_toolbar=1&'
+        'allow_symbol_change=0&details=0&hotlist=0&calendar=0" '
+        'style="width:100%;height:460px;border:0;display:block" '
+        'allowfullscreen loading="lazy" '
+        'referrerpolicy="no-referrer-when-downgrade"></iframe></div>')
 
     # ② MRI
     parts.append(
