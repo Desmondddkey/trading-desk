@@ -84,6 +84,14 @@ CSS = """
 [data-theme="dark"] .lm-blue{color:#7caeff}
 .lm-empty{padding:20px;border-radius:12px;border:1px dashed rgba(128,128,128,.4);
   opacity:.7;font-size:13.5px;line-height:1.8}
+.lm-asof{border-radius:10px;padding:10px 14px;font-size:12.5px;
+  margin:0 0 12px;line-height:1.65}
+.lm-asof.ok{background:rgba(47,191,113,.12);border:1px solid rgba(47,191,113,.45);
+  color:#1a7f4b}
+.lm-asof.warn{background:rgba(224,168,0,.12);border:1px solid rgba(224,168,0,.5);
+  color:#8a6100}
+[data-theme="dark"] .lm-asof.ok{color:#7ce0a8}
+[data-theme="dark"] .lm-asof.warn{color:#fbc06a}
 """
 
 JS = """
@@ -134,8 +142,29 @@ def _detail(js_path, date):
     return (f'<table><thead>{head}</thead><tbody>{body}</tbody></table>')
 
 
+def _gap_days(a, b):
+    """兩個 ISO 日期相差幾多日（a 較早）。"""
+    try:
+        import datetime as _dt
+        return (_dt.date.fromisoformat(b) - _dt.date.fromisoformat(a)).days
+    except (ValueError, TypeError):
+        return "?"
+
+
+def _price_asof():
+    """讀 pkl 嘅最後交易日 —— 唔可以靠生成日扮數據日期。"""
+    try:
+        import pickle
+        p = pickle.load(open(os.path.join(
+            r"C:\Users\rain0\trading-os-lab", "cache", "daily_2y.pkl"), "rb"))
+        return str(p.index[-1].date())
+    except Exception:                                        # noqa: BLE001
+        return ""
+
+
 def build():
     items = collect()
+    pa = _price_asof()
     if not items:
         body = ('<div class="lm-empty">⛔ <b>DATA_UNAVAILABLE</b><br>'
                 '搵唔到 <code>trading-os-lab/output/leader_map_*.png</code>。<br>'
@@ -165,6 +194,19 @@ def build():
                  f'<span class="lm-n">共 {len(dates)} 日'
                  f'｜最新 <b id="lmlab">{latest}</b></span>'
                  '</div>')
+
+    # ★ 2026-10-19：圖上面嘅日期係【生成日】，唔一定等於【價格最後交易日】。
+    #   兩個都要印，唔准扮同一日（SOUL §8.16）。
+    if pa:
+        if pa == latest:
+            parts.append(f'<div class="lm-asof ok">✅ <b>已最新</b>：'
+                         f'價格截至 <b>{pa}</b>（美股最新完整交易日）'
+                         f'｜圖生成日 {latest}</div>')
+        else:
+            parts.append(f'<div class="lm-asof warn">⚠️ 圖生成日 <b>{latest}</b>，'
+                         f'但價格只到 <b>{pa}</b> —— 兩者唔同，'
+                         f'以價格日為準。差值 {(_gap_days(pa, latest))} 日'
+                         f'（週末／未收市屬正常）。</div>')
 
     # 圖
     parts.append('<div class="lm-wrap card" style="padding:10px">'

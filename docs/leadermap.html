@@ -228,7 +228,7 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
  <div style="display:flex;align-items:flex-start;gap:10px">
   <div style="flex:1 1 auto">
    <h1>📈 <span>Desmond · 交易台</span></h1>
-   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-19 17:08</code></p>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-19 17:09</code></p>
   </div>
  </div>
 </header>
@@ -251,6 +251,14 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
 [data-theme="dark"] .lm-blue{color:#7caeff}
 .lm-empty{padding:20px;border-radius:12px;border:1px dashed rgba(128,128,128,.4);
   opacity:.7;font-size:13.5px;line-height:1.8}
+.lm-asof{border-radius:10px;padding:10px 14px;font-size:12.5px;
+  margin:0 0 12px;line-height:1.65}
+.lm-asof.ok{background:rgba(47,191,113,.12);border:1px solid rgba(47,191,113,.45);
+  color:#1a7f4b}
+.lm-asof.warn{background:rgba(224,168,0,.12);border:1px solid rgba(224,168,0,.5);
+  color:#8a6100}
+[data-theme="dark"] .lm-asof.ok{color:#7ce0a8}
+[data-theme="dark"] .lm-asof.warn{color:#fbc06a}
 </style><script>
 function lmPick(sel){
   var d = sel.value;
@@ -262,7 +270,7 @@ function lmPick(sel){
   var lab = document.getElementById('lmlab');
   if(lab) lab.textContent = d;
 }
-</script><h2>📍 RS Leader 位置圖 <small>邊隻領導股有交易機會？</small></h2><p class="crumb">X 軸 =（收市 − 21日EMA）／ATR14（每日維度）｜Y 軸 =（收市 − 50日SMA）／ATR14 ＝ ATRX（週線維度）｜綠框買入區：−0.5 ≤ X ≤ +1 且 0 ≤ Y ≤ +4｜唯讀研究用途，<b>非買入指令</b></p><div class="lm-bar"><label for="lmsel">日期</label><select id="lmsel" onchange="lmPick(this)"><option value="2026-10-19" selected>2026-10-19（最新）</option><option value="2026-10-10">2026-10-10</option></select><span class="lm-n">共 2 日｜最新 <b id="lmlab">2026-10-19</b></span></div><div class="lm-wrap card" style="padding:10px"><img id="lmimg" class="lm-img" alt="RS Leader 位置圖 2026-10-19" src="img/lm/2026-10-19.png"></div><div class="card" data-lmdate="2026-10-19"><h2>當日候選 <small>2026-10-19</small></h2><div class="body"><div class="scroll"><table><thead><tr><th class="l">代號</th><th>收市</th><th>ADR%</th><th>X（日）</th><th>Y（週 ATRX）</th><th>疊加</th><th>距新高</th><th>1M 超額</th></tr></thead><tbody><tr><td class="l"><b class="lm-red">STLN</b></td><td>6.66</td><td>—%</td><td>0.57</td><td>1.34</td><td>—/6</td><td>—%</td><td>—%</td></tr><tr><td class="l"><b class="lm-blue">HPK</b></td><td>8.26</td><td>—%</td><td>0.60</td><td>1.00</td><td>—/6</td><td>—%</td><td>—%</td></tr><tr><td class="l"><b class="lm-blue">CORT</b></td><td>120.92</td><td>—%</td><td>0.81</td><td>1.04</td><td>—/6</td><td>—%</td><td>—%</td></tr><tr><td class="l"><b class="lm-blue">FROG</b></td><td>98.05</td><td>—%</td><td>0.92</td><td>1.59</td><td>—/6</td><td>—%</td><td>—%</td></tr></tbody></table></div><div class="lm-legend"><span><b class="lm-red">● 紅</b>＝多重概率疊加（6 條件最高分）</span><span><b class="lm-blue">● 藍</b>＝候選（3 隻）</span></div><div class="note">★ X 同 Y 都係 ATR 單位，唔係 %。Y 就係系統嘅 <code>ATRX</code>（EDGE-009 / EDGE-036 同一條公式），硬刪門檻 4.0。</div></div></div><div class="card" data-lmdate="2026-10-10" style="display:none"><h2>當日候選 <small>2026-10-10</small></h2><div class="body"><div class="scroll"><table><thead><tr><th class="l">代號</th><th>收市</th><th>ADR%</th><th>X（日）</th><th>Y（週 ATRX）</th><th>疊加</th><th>距新高</th><th>1M 超額</th></tr></thead><tbody><tr><td class="l"><b class="lm-red">STLN</b></td><td>6.66</td><td>—%</td><td>0.57</td><td>1.34</td><td>—/6</td><td>—%</td><td>—%</td></tr><tr><td class="l"><b class="lm-blue">HPK</b></td><td>8.26</td><td>—%</td><td>0.60</td><td>1.00</td><td>—/6</td><td>—%</td><td>—%</td></tr><tr><td class="l"><b class="lm-blue">CORT</b></td><td>120.92</td><td>—%</td><td>0.81</td><td>1.04</td><td>—/6</td><td>—%</td><td>—%</td></tr><tr><td class="l"><b class="lm-blue">FROG</b></td><td>98.05</td><td>—%</td><td>0.92</td><td>1.59</td><td>—/6</td><td>—%</td><td>—%</td></tr></tbody></table></div><div class="lm-legend"><span><b class="lm-red">● 紅</b>＝多重概率疊加（6 條件最高分）</span><span><b class="lm-blue">● 藍</b>＝候選（3 隻）</span></div><div class="note">★ X 同 Y 都係 ATR 單位，唔係 %。Y 就係系統嘅 <code>ATRX</code>（EDGE-009 / EDGE-036 同一條公式），硬刪門檻 4.0。</div></div></div>
+</script><h2>📍 RS Leader 位置圖 <small>邊隻領導股有交易機會？</small></h2><p class="crumb">X 軸 =（收市 − 21日EMA）／ATR14（每日維度）｜Y 軸 =（收市 − 50日SMA）／ATR14 ＝ ATRX（週線維度）｜綠框買入區：−0.5 ≤ X ≤ +1 且 0 ≤ Y ≤ +4｜唯讀研究用途，<b>非買入指令</b></p><div class="lm-bar"><label for="lmsel">日期</label><select id="lmsel" onchange="lmPick(this)"><option value="2026-10-19" selected>2026-10-19（最新）</option><option value="2026-10-10">2026-10-10</option></select><span class="lm-n">共 2 日｜最新 <b id="lmlab">2026-10-19</b></span></div><div class="lm-asof warn">⚠️ 圖生成日 <b>2026-10-19</b>，但價格只到 <b>2026-10-16</b> —— 兩者唔同，以價格日為準。差值 3 日（週末／未收市屬正常）。</div><div class="lm-wrap card" style="padding:10px"><img id="lmimg" class="lm-img" alt="RS Leader 位置圖 2026-10-19" src="img/lm/2026-10-19.png"></div><div class="card" data-lmdate="2026-10-19"><h2>當日候選 <small>2026-10-19</small></h2><div class="body"><div class="scroll"><table><thead><tr><th class="l">代號</th><th>收市</th><th>ADR%</th><th>X（日）</th><th>Y（週 ATRX）</th><th>疊加</th><th>距新高</th><th>1M 超額</th></tr></thead><tbody><tr><td class="l"><b class="lm-red">STLN</b></td><td>6.66</td><td>—%</td><td>0.57</td><td>1.34</td><td>—/6</td><td>—%</td><td>—%</td></tr><tr><td class="l"><b class="lm-blue">HPK</b></td><td>8.26</td><td>—%</td><td>0.60</td><td>1.00</td><td>—/6</td><td>—%</td><td>—%</td></tr><tr><td class="l"><b class="lm-blue">CORT</b></td><td>120.92</td><td>—%</td><td>0.81</td><td>1.04</td><td>—/6</td><td>—%</td><td>—%</td></tr><tr><td class="l"><b class="lm-blue">FROG</b></td><td>98.05</td><td>—%</td><td>0.92</td><td>1.59</td><td>—/6</td><td>—%</td><td>—%</td></tr></tbody></table></div><div class="lm-legend"><span><b class="lm-red">● 紅</b>＝多重概率疊加（6 條件最高分）</span><span><b class="lm-blue">● 藍</b>＝候選（3 隻）</span></div><div class="note">★ X 同 Y 都係 ATR 單位，唔係 %。Y 就係系統嘅 <code>ATRX</code>（EDGE-009 / EDGE-036 同一條公式），硬刪門檻 4.0。</div></div></div><div class="card" data-lmdate="2026-10-10" style="display:none"><h2>當日候選 <small>2026-10-10</small></h2><div class="body"><div class="scroll"><table><thead><tr><th class="l">代號</th><th>收市</th><th>ADR%</th><th>X（日）</th><th>Y（週 ATRX）</th><th>疊加</th><th>距新高</th><th>1M 超額</th></tr></thead><tbody><tr><td class="l"><b class="lm-red">STLN</b></td><td>6.66</td><td>—%</td><td>0.57</td><td>1.34</td><td>—/6</td><td>—%</td><td>—%</td></tr><tr><td class="l"><b class="lm-blue">HPK</b></td><td>8.26</td><td>—%</td><td>0.60</td><td>1.00</td><td>—/6</td><td>—%</td><td>—%</td></tr><tr><td class="l"><b class="lm-blue">CORT</b></td><td>120.92</td><td>—%</td><td>0.81</td><td>1.04</td><td>—/6</td><td>—%</td><td>—%</td></tr><tr><td class="l"><b class="lm-blue">FROG</b></td><td>98.05</td><td>—%</td><td>0.92</td><td>1.59</td><td>—/6</td><td>—%</td><td>—%</td></tr></tbody></table></div><div class="lm-legend"><span><b class="lm-red">● 紅</b>＝多重概率疊加（6 條件最高分）</span><span><b class="lm-blue">● 藍</b>＝候選（3 隻）</span></div><div class="note">★ X 同 Y 都係 ATR 單位，唔係 %。Y 就係系統嘅 <code>ATRX</code>（EDGE-009 / EDGE-036 同一條公式），硬刪門檻 4.0。</div></div></div>
 <footer>
  所有資料唯讀、研究用途，<b>非買入指令</b>。入場要另行符合 ORH + RVOL 規則；倉位由
  <code>daily_plan.stop_plan()</code> 決定。<br>
@@ -270,7 +278,7 @@ function lmPick(sel){
  ｜交易台 <code>trading-os-lab/dashboard.py</code>
 </footer>
 </div>
-<script>var D={"_generated":"2026-10-19 17:08"};
+<script>var D={"_generated":"2026-10-19 17:09"};
 function q(s,r){return (r||document).querySelector(s);}
 function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
