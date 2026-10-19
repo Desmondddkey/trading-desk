@@ -321,6 +321,7 @@ def build(jobs, execs, incs):
             deliver=str(j.get("deliver") or ""),
             purpose=_purpose(name)[0],
             picon=_purpose(name)[1],
+            recent=(execs.get(jid) or {}).get("recent") or [],
         ))
 
     def state(r):
