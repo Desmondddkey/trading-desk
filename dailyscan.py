@@ -75,14 +75,23 @@ def load_l1():
     scans = {}
 
     def _read_sheet(ws, i_scan, i_tk):
+        first = True
         for r in ws.iter_rows(values_only=True):
             if not r or len(r) <= max(i_scan, i_tk):
+                continue
+            if first:            # ★ 跳過表頭，唔可以當數據
+                first = False
                 continue
             sc, tk = r[i_scan], r[i_tk]
             if not sc or not tk:
                 continue
+            sc = str(sc).strip()
+            if sc in ("Source_Scan", "", "None"):
+                continue
             tk = str(tk).split(":")[-1].strip().upper()
-            scans.setdefault(str(sc), []).append(tk)
+            if not tk or tk in ("TICKER", "None"):
+                continue
+            scans.setdefault(sc, []).append(tk)
 
     # ★ 2026-10-19：Momentum scan（Mom_1W/1M/3M/6M × Small/Large）唔喺
     #   All_Scans sheet，佢哋喺獨立 `Momentum` sheet。要兩個都讀。
