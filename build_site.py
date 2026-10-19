@@ -46,7 +46,7 @@ import stdcols as _std  # noqa: E402  （Item 2：統一所有列表欄位）
 import tvhover  # noqa: E402  （Item 8：hover 代號彈 TradingView 圖）
 import nel_pages as _np  # noqa: E402  （Item 1：NEL 五頁蒸餾）
 
-EN_LABELS = {"leadermap": "RS Leader Map", "desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
+EN_LABELS = {"leadermap": "RS Leader Map", "earnings": "Earnings", "desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
              "week": "Week Strongest", "rsboard": "RS Board", "method": "Methods",
              "cycle": "Growth Cycle", "setups": "Setups",
              "regime": "Setup x Regime", "calculator": "Position Sizing"}
@@ -799,6 +799,7 @@ SIDEBAR_LINKS = [
 
     ("_grp", "🎯 選股"),
     ("_link", None, "📍 RS Leader 位置圖", "leadermap.html"),
+    ("_link", None, "📊 財報日曆", "earnings.html"),
     ("_link", None, "機會（總表）", "desk.html"),
     ("_link", None, "領導股", "leaders.html"),
     ("_link", None, "1CM 回調", "cm.html"),
@@ -1297,6 +1298,15 @@ def build():
         pages["calculator"] = ("倉位計算機", _calc.calc_page(), base)
     except Exception as _e3:                                 # noqa: BLE001
         log(f"⚠ 計算機頁失敗：{type(_e3).__name__}: {_e3}")
+
+    # ── 財報日曆（Desmond 2026-10-19）──
+    try:
+        import earnings_page as _ep
+        _t2, _b2 = _ep.build()
+        pages["earnings"] = (_t2, _b2, base)
+        log(f"✓ earnings.html ({len(_b2)//1024} KB)")
+    except Exception as _e8:                                 # noqa: BLE001
+        log(f"⚠ 財報日曆失敗：{type(_e8).__name__}: {_e8}")
 
     # ── RS Leader 位置圖（Desmond 2026-10-19：加日期選取器）──
     try:
