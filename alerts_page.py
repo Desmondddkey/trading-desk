@@ -26,20 +26,123 @@ TO = r"C:\Users\rain0\trading-os\output"
 SETUP_CSV = os.path.join(TO, "setup_alerts_history.csv")
 ORH_CSV = os.path.join(TO, "orh_alert_history.csv")
 
-# setup 名 → (emoji, 中文說明)
-SETUP_INFO = {
-    "JM":    ("📈", "Jeff Sun Momentum 延續"),
-    "UCR":   ("⬆️", "UnderCut & Rally 反包"),
-    "SHK":   ("💥", "Shakeout 洗盤後回升"),
-    "PIV30": ("🎯", "Pivot 30 突破"),
-    "YOYO":  ("🪀", "Yoyo 急跌反彈"),
-    "DEP":   ("🕳", "Deep Pullback 深回調"),
-    "HVE":   ("⚡", "High Volume Explosion 爆量"),
-    "IAIN":  ("🌀", "Inside Day Break"),
-    "OSIB":  ("📉", "OverSold Intraday Bounce"),
-    "PEG":   ("🧷", "PEG 成長突破"),
-    "ORH":   ("🔔", "Opening Range High 開盤高"),
+# setup 名 → dict（全名 / 中文 / 分類 / 用法 / 止蝕 / emoji）
+# ★ 2026-10-19 Desmond：滑鼠移過去顯示方格詳情 + Full name；
+#   分一分邊啲係 PULLBACK；講每個 setup 點用；JM 改做 M.E.T.A
+CAT_ORDER = ["PULLBACK", "BREAKOUT", "REVERSAL", "MOMENTUM"]
+CAT_INFO = {
+    "PULLBACK": ("📉", "回調買入 — 等股票跌到支撐再買，唔追高"),
+    "BREAKOUT": ("🚀", "突破買入 — 等價格衝穿阻力"),
+    "REVERSAL": ("🔄", "反轉買入 — 恐慌／假跌破之後買反彈"),
+    "MOMENTUM": ("📈", "動能延續 — 已經行緊，順勢加"),
 }
+
+SETUP_INFO = {
+    "UCR": dict(
+        full="UnderCut & Rally",
+        zh="下探回升",
+        cat="PULLBACK",
+        src="Martin Luk",
+        how="開盤先跌破昨日低位（Undercut），然後即日收回昨日低位以上。"
+            "等「收回」嗰一刻買，唔係等跌破嗰一刻。",
+        stop="當日低位 Low of Day",
+        emoji="⬆️"),
+    "YOYO": dict(
+        full="Yoyo",
+        zh="溜溜球",
+        cat="PULLBACK",
+        src="1chartmaster",
+        how="連續幾日窄幅橫行（band 收窄）之後突然向下插，但即刻彈返。"
+            "要 RVOL 配合同價格站返 VWAP 之上。",
+        stop="插針低位",
+        emoji="🪀"),
+    "DEP": dict(
+        full="Delayed Entry Point",
+        zh="延遲入場點",
+        cat="PULLBACK",
+        src="Jeff Sun 系",
+        how="股票已經升咗一輪，回調到支撐（ATR 距離足夠）先入。"
+            "唔喺第一日追，等回調確認。",
+        stop="Low of Day，距入場 ≤0.60 ATR",
+        emoji="🕳"),
+    "IAIN": dict(
+        full="Weekly 9EMA + LTF Confirm",
+        zh="週線 9EMA ＋ 低時框確認",
+        cat="PULLBACK",
+        src="iain",
+        how="股價回到週線 9EMA 附近，再用日內（低時框）出現確認信號才入。",
+        stop="當日低位，用 ATR 計風險",
+        emoji="🌀"),
+    "PIV30": dict(
+        full="30-Minute Pivot",
+        zh="30 分鐘樞紐",
+        cat="BREAKOUT",
+        src="1chartmaster",
+        how="開市頭 30 分鐘形成高低區間；第 31 分鐘之後衝穿高位就買。",
+        stop="30 分鐘區間低位",
+        emoji="🎯"),
+    "HVE": dict(
+        full="High Volume Explosion",
+        zh="史上最高量",
+        cat="BREAKOUT",
+        src="Omar / 1chartmaster",
+        how="成交量創歷史新高（milestone volume）＋ 新鮮度 ＋ RVOL 確認。"
+            "代表有大戶入場。",
+        stop="當日低位",
+        emoji="⚡"),
+    "ORH": dict(
+        full="Opening Range High",
+        zh="開盤區間高位",
+        cat="BREAKOUT",
+        src="我方主策略",
+        how="開市後形成開盤區間，價格衝穿區間高位 + RVOL 達標才 fire。",
+        stop="Low of Day，距入場 ≤0.60 ATR",
+        emoji="🔔"),
+    "SHK": dict(
+        full="Shakeout",
+        zh="假跌破概率疊加",
+        cat="REVERSAL",
+        src="多方方法疊加",
+        how="價格跌穿明顯支撐（製造恐慌）但即刻收回，"
+            "多個「假跌破」條件同時成立才買。",
+        stop="假跌破最低點",
+        emoji="💥"),
+    "OSIB": dict(
+        full="Oversold Intraday Bounce",
+        zh="超賣板塊日內反彈",
+        cat="REVERSAL",
+        src="Jeff Sun 認可",
+        how="板塊極度超賣（距 20 日高），日內出現錘子（開≈低）就博反彈。",
+        stop="當日低位",
+        emoji="📉"),
+    "PEG": dict(
+        full="PEG Delayed Reaction",
+        zh="PEG 延遲反應",
+        cat="REVERSAL",
+        src="Jeff Sun",
+        how="PEG 事件日爆量 → 之後多週淡出 → 收窄 → 再爆。"
+            "買「淡出完再收窄」嗰一段。",
+        stop="收窄區低位",
+        emoji="🧷"),
+    "M.E.T.A": dict(
+        full="M.E.T.A — Multiple Edge Territory Accumulation",
+        zh="多重邊際區（原 JM）",
+        cat="MOMENTUM",
+        src="J Law",
+        how="數「邊際優勢」數量（0–6 個條件同時成立）："
+            "趨勢、相對強度、量能、結構、延伸度、大市。"
+            "越多邊際同時出現，勝率越高。",
+        stop="當日低位",
+        emoji="🎖"),
+}
+# 舊代號 → 新代號（CSV 仍然寫 JM）
+ALIAS = {"JM": "M.E.T.A"}
+
+
+def info(key):
+    k = ALIAS.get(key, key)
+    return SETUP_INFO.get(k) or dict(
+        full=k, zh=k, cat="MOMENTUM", src="—", how="—", stop="—", emoji="•")
 
 STATUS_ZH = {
     "FIRED":          ("✅", "真 fire（可交易）", "#16a34a"),
@@ -84,6 +187,30 @@ CSS = """
 .al-fold>summary::-webkit-details-marker{display:none}
 .al-fold>summary::before{content:"▸ ";font-size:10px;opacity:.55}
 .al-fold[open]>summary::before{content:"▾ "}
+/* ★ 分類標題 */
+.al-cat{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;
+  margin:20px 0 9px;padding:8px 12px;border-radius:9px;
+  background:rgba(217,119,87,.09);border-left:3px solid #d97757}
+.al-catn{font-size:13.5px;font-weight:800;letter-spacing:.03em}
+.al-catd{font-size:11.5px;opacity:.68}
+.al-catc{margin-left:auto;font-size:11.5px;font-weight:700;opacity:.65}
+/* ★ Hover 詳情方格 */
+.al-hasTip{position:relative}
+.al-tip{display:none;position:absolute;z-index:50;left:0;top:calc(100% + 6px);
+  width:min(340px,86vw);padding:12px 14px;border-radius:11px;
+  background:#1b1b19;border:1px solid #4A4A42;box-shadow:0 10px 28px rgba(0,0,0,.5);
+  font-size:12px;line-height:1.65;color:#F0EDE8;text-align:left;
+  white-space:normal;word-break:break-word}
+html[data-theme="light"] .al-tip{background:#FFFFFF;border-color:#DAD9D4;
+  color:#1F1E1D;box-shadow:0 10px 28px rgba(0,0,0,.14)}
+.al-hasTip:hover .al-tip,.al-hasTip:focus-within .al-tip{display:block}
+.al-tip>b{font-size:13px;font-weight:800;display:block;margin-bottom:3px}
+.al-tipzh{font-size:11.5px;opacity:.75;margin-bottom:7px}
+.al-tipcat{font-size:10px;font-weight:800;padding:1px 7px;border-radius:999px;
+  border:1px solid currentColor;margin-left:7px;opacity:.9}
+.al-tiprow{margin-top:5px;font-size:11.5px}
+.al-tiprow b{opacity:.7;font-weight:700}
+@media(hover:none){.al-hasTip:active .al-tip{display:block}}
 @media(max-width:700px){
   .al-tbl thead{display:none}
   .al-tbl,.al-tbl tbody,.al-tbl tr{display:block;width:100%}
@@ -147,37 +274,60 @@ def load():
 def _cards(rows):
     by = {}
     for r in rows:
-        by.setdefault(r["setup"], []).append(r)
-    out = ['<div class="al-grid">']
-    for s in sorted(by, key=lambda k: (-len(by[k]), k)):
-        rs = by[s]
-        ic, desc = SETUP_INFO.get(s, ("•", s))
-        tk = {}
-        for r in rs:
-            tk[r["ticker"]] = tk.get(r["ticker"], 0) + 1
-        st = {}
-        for r in rs:
-            st[r["status"]] = st.get(r["status"], 0) + 1
-        days = sorted({r["day"] for r in rs if r["day"]})
-        chips = "".join(
-            f'<span><b>{_esc(t)}</b>{f"×{n}" if n > 1 else ""}</span>'
-            for t, n in sorted(tk.items(), key=lambda kv: (-kv[1], kv[0])))
-        stl = "　".join(
-            f'{st.get(k, 0)}× {STATUS_ZH.get(k, ("·", k, "#647"))[1]}'
-            for k in sorted(st, key=lambda k: -st[k]))
+        k = ALIAS.get(r["setup"], r["setup"])
+        by.setdefault(k, []).append(r)
+    # 按分類分組：PULLBACK → BREAKOUT → REVERSAL → MOMENTUM
+    groups = {}
+    for s, rs in by.items():
+        groups.setdefault(info(s)["cat"], []).append((s, rs))
+    out = []
+    for cat in CAT_ORDER:
+        if cat not in groups:
+            continue
+        ci, cdesc = CAT_INFO[cat]
+        n = sum(len(x[1]) for x in groups[cat])
         out.append(
-            f'<div class="al-card">'
-            f'<div class="al-top"><span class="al-name">{ic} {_esc(s)}</span>'
-            f'<span class="al-cnt" style="color:#d97757">{len(rs)} 次</span>'
-            f'<span style="font-size:11px;opacity:.55">'
-            f'{len(tk)} 隻股</span></div>'
-            f'<div class="al-desc">{_esc(desc)}</div>'
-            f'<div class="al-tk">{chips}</div>'
-            f'<div class="al-st">{_esc(stl)}'
-            + (f'<br><span style="opacity:.55">'
-               f'{days[0]} → {days[-1]}</span>' if days else "")
-            + '</div></div>')
-    out.append('</div>')
+            f'<div class="al-cat"><span class="al-catn">{ci} {cat}</span>'
+            f'<span class="al-catd">{_esc(cdesc)}</span>'
+            f'<span class="al-catc">{n} 次</span></div>')
+        out.append('<div class="al-grid">')
+        for s, rs in sorted(groups[cat], key=lambda kv: -len(kv[1])):
+            d = info(s)
+            tk = {}
+            for r in rs:
+                tk[r["ticker"]] = tk.get(r["ticker"], 0) + 1
+            st = {}
+            for r in rs:
+                st[r["status"]] = st.get(r["status"], 0) + 1
+            days = sorted({r["day"] for r in rs if r["day"]})
+            chips = "".join(
+                f'<span><b>{_esc(t)}</b>{f"×{n2}" if n2 > 1 else ""}</span>'
+                for t, n2 in sorted(tk.items(), key=lambda kv: (-kv[1], kv[0])))
+            stl = "　".join(
+                f'{st.get(k, 0)}× {STATUS_ZH.get(k, ("·", k, "#647"))[1]}'
+                for k in sorted(st, key=lambda k: -st[k]))
+            tip = (f'<div class="al-tip">'
+                   f'<b>{_esc(d["full"])}</b>'
+                   f'<div class="al-tipzh">{_esc(d["zh"])}'
+                   f'<span class="al-tipcat">{_esc(d["cat"])}</span></div>'
+                   f'<div class="al-tiprow"><b>點用：</b>{_esc(d["how"])}</div>'
+                   f'<div class="al-tiprow"><b>止蝕：</b>{_esc(d["stop"])}</div>'
+                   f'<div class="al-tiprow" style="opacity:.6">'
+                   f'來源 {_esc(d["src"])}</div></div>')
+            out.append(
+                f'<div class="al-card al-hasTip">'
+                f'<div class="al-top"><span class="al-name">{d["emoji"]} '
+                f'{_esc(s)}</span>'
+                f'<span class="al-cnt" style="color:#d97757">{len(rs)} 次</span>'
+                f'<span style="font-size:11px;opacity:.55">'
+                f'{len(tk)} 隻股</span></div>'
+                f'<div class="al-desc">{_esc(d["full"])}</div>'
+                f'<div class="al-tk">{chips}</div>'
+                f'<div class="al-st">{_esc(stl)}'
+                + (f'<br><span style="opacity:.55">'
+                   f'{days[0]} → {days[-1]}</span>' if days else "")
+                + '</div>' + tip + '</div>')
+        out.append('</div>')
     return "".join(out)
 
 
@@ -202,7 +352,7 @@ def _table(rows, limit=None):
         out.append(
             f'<tr><td>{_esc(r["day"])}</td>'
             f'<td><b>{_esc(r["ticker"])}</b></td>'
-            f'<td>{_esc(r["setup"])}</td>'
+            f'<td>{_esc(ALIAS.get(r["setup"], r["setup"]))}</td>'
             f'<td>{r["px"]:.2f}</td>'
             f'<td style="color:{zc}">{note}</td></tr>')
     out.append('</tbody></table>')

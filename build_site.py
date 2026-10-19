@@ -803,7 +803,9 @@ html[data-theme="light"] #sbtoggle:hover{background:#2563eb;color:#fff}
 #sb.collapsed a .lbl{display:none}
 #sb.collapsed a .ab{display:block}
 #sb a .ab{display:none;font-size:11px;font-weight:700;letter-spacing:.02em}
-#sb.collapsed #sbtoggle{left:62px}
+/* ★ 修（2026-10-19）：#sbtoggle 係 #sb 嘅兄弟節點，唔係後代，
+   `#sb.collapsed #sbtoggle` 永遠 match 唔到 → 改用 body class */
+body.sb-collapsed #sbtoggle{left:62px}
 
 #navtoggle{display:none;position:fixed;left:10px;top:10px;z-index:9100;
   width:42px;height:42px;border-radius:11px;border:1px solid #2a3346;
