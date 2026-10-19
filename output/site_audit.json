@@ -1,0 +1,678 @@
+{
+ "pages": [
+  {
+   "page": "alerts.html",
+   "bytes": 86032,
+   "issues": [
+    [
+     "NO_DATE_BADGE",
+     "「ALERT 所有警報分類」附近冇 ISO 日期"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "ALERT 所有警報分類"
+   ],
+   "date_formats": {
+    "ISO": 535
+   },
+   "decimals": {
+    "1": 7,
+    "2": 477
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "bee50.html",
+   "bytes": 51945,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🐝 Stockbee 50 每日最強動能 50 隻"
+   ],
+   "date_formats": {
+    "ISO": 12,
+    "MD": 1
+   },
+   "decimals": {
+    "1": 4,
+    "2": 3
+   },
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
+   "page": "breadth.html",
+   "bytes": 38191,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🌊 Breadth · 市場廣度 Stockbee Market Monitor 式｜至 2026-10-19"
+   ],
+   "date_formats": {
+    "ISO": 13
+   },
+   "decimals": {
+    "1": 9,
+    "2": 3
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "briefing.html",
+   "bytes": 63558,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "成長／價值 風險閘 IWF 122.92 ／ IWD 255.52｜至 2026-10-16",
+    "市場狀態 market_insight_20261019.json",
+    "廣度歷史（我哋自己） breadth_20261019.json",
+    "🌊 Stockbee 廣度 升 4%+ / 跌 4%+ 家數｜呢把尺同上面唔同，唔可以混用",
+    "⚠️ 圖表隊列（過期 8 日） 2026-10-11 15:43"
+   ],
+   "date_formats": {
+    "ISO": 17
+   },
+   "decimals": {
+    "1": 47,
+    "2": 55,
+    "4": 3,
+    "6": 1
+   },
+   "tables": 4,
+   "empty_tables": 0
+  },
+  {
+   "page": "calculator.html",
+   "bytes": 47258,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🧮 倉位計算機 Position Sizing"
+   ],
+   "date_formats": {
+    "ISO": 12
+   },
+   "decimals": {
+    "1": 12,
+    "2": 22,
+    "3": 2
+   },
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
+   "page": "cm.html",
+   "bytes": 97588,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "A 級設置 ≥4/5 條件｜按條件數再按距支撐排序",
+    "B 級觀察名單 &lt;4/5"
+   ],
+   "date_formats": {
+    "ISO": 13
+   },
+   "decimals": {
+    "1": 119,
+    "2": 508
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "cycle.html",
+   "bytes": 42929,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "成長／價值 風險閘 IWF 122.91 ／ IWD 255.52｜至 2026-10-16"
+   ],
+   "date_formats": {
+    "ISO": 13
+   },
+   "decimals": {
+    "1": 7,
+    "2": 5,
+    "3": 1,
+    "4": 2
+   },
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan.html",
+   "bytes": 69577,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 14
+   },
+   "decimals": {
+    "1": 43,
+    "2": 267
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "datahealth.html",
+   "bytes": 41747,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "數據健康 Data Health"
+   ],
+   "date_formats": {
+    "ISO": 15,
+    "MD": 7
+   },
+   "decimals": {
+    "1": 7,
+    "2": 3
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "desk.html",
+   "bytes": 649082,
+   "issues": [],
+   "h1": "📊 機會 · OPPORTUNITY DESK",
+   "h2": [
+    "① 📍 RS Leader 位置圖 —— 邊隻領導股有交易機會？",
+    "② 🔄 行業輪動 —— 資金去邊",
+    "③ ⚠️ ATRX 風險 —— 到呢個位，幾大機率跌"
+   ],
+   "date_formats": {
+    "ISO": 96
+   },
+   "decimals": {
+    "1": 10929,
+    "2": 9543,
+    "3": 2652
+   },
+   "tables": 14,
+   "empty_tables": 0
+  },
+  {
+   "page": "earnings.html",
+   "bytes": 194609,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "📊 財報日曆 EDGE-008 二元風險判定",
+    "★ 判定規則（EDGE-008）"
+   ],
+   "date_formats": {
+    "ISO": 23
+   },
+   "decimals": {
+    "1": 5,
+    "2": 714
+   },
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
+   "page": "external.html",
+   "bytes": 40282,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🌐 外部數據源 第三方站接入",
+    "★ 接入原則"
+   ],
+   "date_formats": {
+    "ISO": 12
+   },
+   "decimals": {
+    "1": 6,
+    "2": 4
+   },
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
+   "page": "index.html",
+   "bytes": 63558,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "成長／價值 風險閘 IWF 122.92 ／ IWD 255.52｜至 2026-10-16",
+    "市場狀態 market_insight_20261019.json",
+    "廣度歷史（我哋自己） breadth_20261019.json",
+    "🌊 Stockbee 廣度 升 4%+ / 跌 4%+ 家數｜呢把尺同上面唔同，唔可以混用",
+    "⚠️ 圖表隊列（過期 8 日） 2026-10-11 15:43"
+   ],
+   "date_formats": {
+    "ISO": 17
+   },
+   "decimals": {
+    "1": 47,
+    "2": 55,
+    "4": 3,
+    "6": 1
+   },
+   "tables": 4,
+   "empty_tables": 0
+  },
+  {
+   "page": "jeffsun.html",
+   "bytes": 45038,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🎯 Jeff Sun Momentum 板塊 / ETF 動能",
+    "★ 讀法"
+   ],
+   "date_formats": {
+    "ISO": 12,
+    "MD": 1
+   },
+   "decimals": {
+    "1": 76,
+    "2": 16
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "jobboard.html",
+   "bytes": 197748,
+   "issues": [
+    [
+     "DATE_FORMAT",
+     "混用 ISO×772/MD×64/US×1"
+    ],
+    [
+     "NUM_FORMAT",
+     "5 種小數位：.1×178,.2×749,.3×56,.4×17,.6×2"
+    ],
+    [
+     "NO_DATE_BADGE",
+     "「ALERT 所有警報分類」附近冇 ISO 日期"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🍳 廚房看板 所有常駐 job 狀態",
+    "🚨 需要處理 1 個 job 失敗",
+    "ALERT 所有警報分類"
+   ],
+   "date_formats": {
+    "ISO": 772,
+    "MD": 64,
+    "US": 1
+   },
+   "decimals": {
+    "1": 178,
+    "2": 749,
+    "4": 17,
+    "3": 56,
+    "6": 2
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "leadermap.html",
+   "bytes": 41505,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "📍 RS Leader 位置圖 邊隻領導股有交易機會？",
+    "當日候選 2026-10-19",
+    "當日候選 2026-10-10"
+   ],
+   "date_formats": {
+    "ISO": 25
+   },
+   "decimals": {
+    "1": 8,
+    "2": 28
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "leaders.html",
+   "bytes": 952612,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "8 種小數位：.1×6713,.2×2325,.3×192,.4×4,.5×20,.6×89,.7×76,.8×8"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "圖表牆 · 一次過睇哂所有 NEL 迷你 K 線 ＋ 50SMA ＋ ADR%（90 日，最後 40 支）",
+    "NEL · 非延伸領導股 62 隻｜延伸 ≤ 4.0×",
+    "動能池（未過延伸閘） 68 隻",
+    "領導股按行業 25 個行業"
+   ],
+   "date_formats": {
+    "ISO": 13
+   },
+   "decimals": {
+    "1": 6713,
+    "2": 2325,
+    "3": 192,
+    "4": 4,
+    "5": 20,
+    "6": 89,
+    "7": 76,
+    "8": 8
+   },
+   "tables": 3,
+   "empty_tables": 0
+  },
+  {
+   "page": "livefeeds.html",
+   "bytes": 42830,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "外部即時數據 iframe 原貌"
+   ],
+   "date_formats": {
+    "ISO": 15
+   },
+   "decimals": {
+    "1": 7,
+    "2": 4
+   },
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
+   "page": "logbook.html",
+   "bytes": 148822,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "LOG BOOK 全部更新記錄"
+   ],
+   "date_formats": {
+    "ISO": 187,
+    "MD": 42
+   },
+   "decimals": {
+    "1": 166,
+    "2": 224,
+    "3": 33,
+    "4": 7
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "method.html",
+   "bytes": 63358,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Layer 2 · 每個方法各自一個清單 layer2_20261019_1810.json"
+   ],
+   "date_formats": {
+    "ISO": 12
+   },
+   "decimals": {
+    "1": 30,
+    "2": 128
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "mm.html",
+   "bytes": 66710,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🌊 Market Monitor Stockbee 每日 breadth",
+    "最新一日 10/16/2026",
+    "近 40 日升跌家數 綠向左＝升 4%+，紅向右＝跌 4%+"
+   ],
+   "date_formats": {
+    "ISO": 12
+   },
+   "decimals": {
+    "1": 5,
+    "2": 46
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "ndx.html",
+   "bytes": 77883,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🇺🇸 納指權重股 NDX 100 成分 + 市值權重",
+    "前 10 大 合共 69.4%",
+    "全部成分股 按市值排序",
+    "★ 點用"
+   ],
+   "date_formats": {
+    "ISO": 12
+   },
+   "decimals": {
+    "1": 8,
+    "2": 329
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "positioning.html",
+   "bytes": 43641,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🎯 Positioning · 大型投機者擁擠度 CFTC COT｜報告日 2026-10-13"
+   ],
+   "date_formats": {
+    "ISO": 13
+   },
+   "decimals": {
+    "1": 852,
+    "2": 3
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "regime.html",
+   "bytes": 41864,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🎲 Setup × Regime 矩陣 setup_regime_backtest.json｜3 年｜16,066 單"
+   ],
+   "date_formats": {
+    "ISO": 12
+   },
+   "decimals": {
+    "1": 18,
+    "2": 26
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "regime_mri.html",
+   "bytes": 44344,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "MARKET REGIME MRI 0–100",
+    "七個分項 滿分 = 權重｜照 Pine 原碼"
+   ],
+   "date_formats": {
+    "ISO": 13
+   },
+   "decimals": {
+    "1": 17,
+    "2": 5
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "review.html",
+   "bytes": 37018,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Review"
+   ],
+   "date_formats": {
+    "ISO": 12
+   },
+   "decimals": {
+    "1": 4,
+    "2": 3
+   },
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
+   "page": "rocketstock.html",
+   "bytes": 51279,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RocketStock SEPA 相對強弱排名（公開 API）",
+    "今日精選 2026-10-19｜市場狀態 regular｜3 隻",
+    "RS 排名 Top 20 2026-10-17",
+    "板塊資金流 5 日",
+    "SEPA 實績 站方自己公布｜未平倉 33 隻",
+    "基本面追蹤 15 隻"
+   ],
+   "date_formats": {
+    "ISO": 14
+   },
+   "decimals": {
+    "1": 14,
+    "2": 117
+   },
+   "tables": 3,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsboard.html",
+   "bytes": 107697,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "指數 Index 8 隻",
+    "群組 Group 50 隻",
+    "板塊 Sector 34 隻"
+   ],
+   "date_formats": {
+    "ISO": 13
+   },
+   "decimals": {
+    "1": 281,
+    "2": 3
+   },
+   "tables": 3,
+   "empty_tables": 0
+  },
+  {
+   "page": "sectors.html",
+   "bytes": 39993,
+   "issues": [
+    [
+     "NO_DATE_BADGE",
+     "「🏭 Sectors · 行業輪動 同 機會 頁第」附近冇 ISO 日期"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🏭 Sectors · 行業輪動 同 機會 頁第③面板同一個實作"
+   ],
+   "date_formats": {
+    "ISO": 12
+   },
+   "decimals": {
+    "1": 44,
+    "2": 3
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "setups.html",
+   "bytes": 55257,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "The Plan · 每日計劃 rs_select_2026-10-11.json"
+   ],
+   "date_formats": {
+    "ISO": 12
+   },
+   "decimals": {
+    "1": 33,
+    "2": 78
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "themes.html",
+   "bytes": 37347,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🧩 Themes · 主題強度 NEL 原文公式：70%×中位 + 30%×最強"
+   ],
+   "date_formats": {
+    "ISO": 12
+   },
+   "decimals": {
+    "1": 9,
+    "2": 3
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "week.html",
+   "bytes": 247953,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "7 種小數位：.1×6056,.2×2255,.4×4,.5×20,.6×89,.7×76,.8×8"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "本週最強嘅流動性股 流動池 432 隻之中，按 1 週表現排"
+   ],
+   "date_formats": {
+    "ISO": 12
+   },
+   "decimals": {
+    "1": 6056,
+    "2": 2255,
+    "4": 4,
+    "5": 20,
+    "6": 89,
+    "7": 76,
+    "8": 8
+   },
+   "tables": 1,
+   "empty_tables": 0
+  }
+ ],
+ "dead_links": {}
+}

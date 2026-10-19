@@ -249,3 +249,65 @@ if __name__ == "__main__":
     print(f"{len(g)} 格 OK")
     for t, svg, adr in g[:4]:
         print(t, "ADR", adr, "svg", len(svg), "chars")
+
+
+def stats_lookup(tickers, maxage_days=1):
+    """★ 2026-10-20 Desmond：「全部列表都要咁做」
+
+    一個股票嘅「標準統計」：表現、延伸、ADR、成交額、距 52 週高。
+    用**同一份**價格數據算（同 rs_lookup 共用快取），唔另外抓。
+
+    回傳 {ticker: {"close","perf":{1w,1m,3m,6m,1y},"extension","adr",
+                   "dvol","off52w"}}
+    任何一格算唔到 = None（唔會用 0 填，EDGE-016）。
+    """
+    import numpy as np
+    import pandas as pd
+    tk = sorted({t for t in tickers if t})
+    if not tk:
+        return {}
+    df = fetch(tk, maxage_days=maxage_days)
+    if df is None:
+        return {}
+    cols = set(df.columns.get_level_values(0))
+    out = {}
+    for t in tk:
+        if t not in cols:
+            continue
+        try:
+            sub = df[t]
+            c = sub["Close"].dropna()
+            if len(c) < 25:
+                continue
+            h = sub["High"].reindex(c.index).ffill()
+            lo = sub["Low"].reindex(c.index).ffill()
+            vol = sub["Volume"].reindex(c.index)
+            px = float(c.iloc[-1])
+
+            def ret(n):
+                return ((px / float(c.iloc[-1 - n]) - 1) * 100
+                        if len(c) > n else None)
+
+            tr = pd.concat([h - lo, (h - c.shift()).abs(),
+                            (lo - c.shift()).abs()], axis=1).max(axis=1)
+            atr = (float(tr.rolling(14).mean().iloc[-1])
+                   if len(tr) >= 14 and pd.notna(tr.rolling(14).mean().iloc[-1])
+                   else None)
+            sma50 = (float(c.rolling(50).mean().iloc[-1])
+                     if len(c) >= 50 else None)
+            adr = (float(((h - lo) / c).tail(20).mean() * 100)
+                   if len(c) >= 20 else None)
+            dv = (float((c * vol).tail(10).mean())
+                  if vol.notna().any() else None)
+            off52 = ((px / float(c.tail(252).max()) - 1) * 100
+                     if len(c) >= 60 else None)
+            ext = ((px - sma50) / atr
+                   if (sma50 and atr and atr > 0) else None)
+            out[t] = {"close": px,
+                      "perf": {"1w": ret(5), "1m": ret(21), "3m": ret(63),
+                               "6m": ret(126), "1y": ret(252)},
+                      "extension": ext, "adr": adr, "dvol": dv,
+                      "off52w": off52}
+        except Exception:                                    # noqa: BLE001
+            continue
+    return out

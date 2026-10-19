@@ -1006,7 +1006,7 @@ html[data-theme="light"] .jb-card{border-color:#E3E1DA;
 SIDEBAR_LINKS = [
     # 2026-10-19 方案 C：5 個分組；廚房看板獨立最頂；PLAYBOOK 最底
     ("_pinned", "", "廚房看板", "jobboard.html"),
-    ("_pinned", "", "數據健康", "datahealth.html"),
+    ("_pinned", "", "DATABASE", "datahealth.html"),
 
     ("_grp", "市場"),
     ("_link", None, "MARKET REGIME", "regime_mri.html"),
@@ -1455,7 +1455,16 @@ def build():
             scan["nel"], key=lambda r: -(r["perf"].get("3m") or -99))][:48]
         try:
             wall = charts.grid_html(charts.build_grid(chart_tickers))
-            rs_map = charts.rs_lookup(chart_tickers)
+            # ★ 2026-10-20 Desmond：RS-D / RS-W 要應用到「選股」全部列表
+            #   所以一次過抓齊所有列表嘅股票，唔止 48 隻 NEL
+            _all = set(chart_tickers)
+            for _v in scan.values():
+                if isinstance(_v, list):
+                    for _r in _v:
+                        if isinstance(_r, dict) and _r.get("symbol"):
+                            _all.add(_r["symbol"])
+            rs_map = charts.rs_lookup(sorted(_all))
+            log(f"✓ RS 迷你圖：{len(rs_map)}/{len(_all)} 隻有數據")
         except Exception as e:                               # noqa: BLE001
             wall = (f'<div class="warn">圖表牆取唔到：{type(e).__name__}'
                     f'（yfinance 限流或離線？）。</div>')
@@ -1549,10 +1558,13 @@ def build():
                 return (f'<tr><td class="l"><span class="tk">'
                         f'{tv_link(r["ticker"], ind)}</span>'
                         f'<div class="dim" style="font-size:10.5px">{esc(ind)}</div></td>'
-                        f'<td>{_cm.chip(r["ticker"], r)}</td>'
+                        # ★ 2026-10-20：RS-D / RS-W 統一格式
+                        + charts.rs_col(rs_map.get(r["ticker"], {}))
+                        + f'<td>{_cm.chip(r["ticker"], r)}</td>'
                         f'{_cm.detail_cells(r)}'
                         f'<td>{num(r["close"], 2)}</td></tr>')
-            cmhead = ('<tr><th class="l">代號 / 行業</th><th>1CM 評級</th>'
+            cmhead = ('<tr><th class="l">代號 / 行業</th>'
+                      '<th>RS-D</th><th>RS-W</th><th>1CM 評級</th>'
                       '<th>L1 RS 領導</th><th>L2 回調支撐</th><th>L3 量縮</th>'
                       '<th>L4 買家守</th><th>L5 風險窄</th><th>收市</th></tr>')
             cm_body = f"""
@@ -1583,14 +1595,16 @@ def build():
         wk = scan.get("week") or []
         std_ctx = {
             "tv_link": tv_link, "rs_col": charts.rs_col, "band_svg": band_svg,
-            "rs_map": {r.get("symbol"): r.get("rs") for r in wk},
+            # ★ 用全站共用 rs_map（唔再係 r.get("rs")，嗰個根本唔存在）
+            "rs_map": rs_map,
             "kstage": (_kell.stages([r["symbol"] for r in wk][:120])
                        if _kell and wk else {}),
             "cm": _cm, "cmres": cmres,
             "kell": _kell,
         }
-        wk_keys = ["rank", "name", "1w", "1m", "3m", "ext", "adr",
-                   "dvol", "off52", "kell", "cm"]
+        # ★ 加 rsd/rsw（同領導股一樣格式）+ band（ATR 帶）
+        wk_keys = ["rank", "name", "rsd", "rsw", "1w", "1m", "3m", "ext",
+                   "band", "adr", "dvol", "off52", "kell", "cm"]
         pages["week"] = ("最強 1 週", f"""
 <div class="card"><h2>本週最強嘅流動性股 <small>流動池 {len(scan["universe"])} 隻之中，按 1 週表現排</small></h2>
  <div class="body"><div class="note">「流動性」＝成交額 &gt; ${th["min_dollar_vol"]//10**6}M 且
@@ -1963,8 +1977,8 @@ def build():
         with io.open(src_desk, encoding="utf-8") as f:
             desk_html = f.read()
         desk_html = inject_nav(desk_html)
-        # 標題都要改名（機會 = 之前嘅交易台）
-        desk_html = desk_html.replace("📊 交易台 · TRADING DESK", "📊 機會 · OPPORTUNITY DESK")
+        # ★ 2026-10-20 統一：全站 h1 一律 HI! Desmond，
+        #   頁面身份（機會）降級為副標，唔再搶 h1
         desk_html = desk_html.replace("<title>交易台", "<title>機會")
         with io.open(os.path.join(SITE, "desk.html"), "w", encoding="utf-8") as f:
             f.write(desk_html)

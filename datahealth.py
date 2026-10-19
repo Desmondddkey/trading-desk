@@ -57,8 +57,8 @@ def build():
     bad = [r for r in rs if r["status"] != "FRESH"]
 
     parts = [f"<style>{CSS}</style>",
-             "<h2>數據健康 <small>Data Health</small></h2>",
-             '<p class="crumb">每個數據源嘅真實更新時間｜'
+             "<h2>DATABASE <small>每個數據源嘅真實更新時間</small></h2>",
+             '<p class="crumb">邊個源有數據、幾時更新、邊個 job 負責｜'
              '過期嘅源會喺所屬頁面標示警告，唔會被當成即時數據</p>']
 
     # ── KPI ──

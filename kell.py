@@ -36,15 +36,9 @@ STAGES = ["① Reversal Extension", "② Wedge Pop", "③ EMA Crossback",
           "④ Base 'n Break", "⑤ Exhaustion Extension", "⑥ Wedge Drop",
           "— 無法分類"]
 
-STAGE_SHORT = {
-    "① Reversal Extension": "① 反轉延伸",
-    "② Wedge Pop": "② 楔形彈出",
-    "③ EMA Crossback": "③ 回踩 EMA",
-    "④ Base 'n Break": "④ 基底突破",
-    "⑤ Exhaustion Extension": "⑤ 過度延伸",
-    "⑥ Wedge Drop": "⑥ 楔形下跌",
-    "— 無法分類": "—",
-}
+# ★ 2026-10-20 Desmond：「kell 階段全部轉返做英文」
+# 保留 dict 介面（下游有 .get()），但值 = 英文原名，唔再譯中文
+STAGE_SHORT = {s: s for s in STAGES}
 
 # 階段顏色（同網站主題一致）
 STAGE_COLOR = {
@@ -236,7 +230,7 @@ def legend_html():
             '基準＝日線 10 EMA + 20 EMA。'
             '定義來源：kelltrading.com（佢本人網站）+ 2020 USIC 研討會。'
             '勝率數字來自我哋 1,279 單實盤（持倉 ≥1 日）—— '
-            '<b>③ 回踩 EMA 係最好，⑤ 過度延伸最差</b>。</div>')
+            '<b>③ EMA Crossback 係最好，⑤ Exhaustion Extension 最差</b>。</div>')
 
 
 KELL_CSS = """

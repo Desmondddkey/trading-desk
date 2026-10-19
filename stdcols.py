@@ -87,8 +87,9 @@ STD_HEADS = [
     ("adr",      "ADR%"),
     ("dvol",     "成交額"),
     ("off52",    "距52週高"),
-    ("x",        "X（21EMA）"),
-    ("y",        "Y（ATRX）"),
+    # ★ 2026-10-20 Desmond：X/Y 座標改用標準名，唔再用內部代號
+    ("x",        "21EMA"),
+    ("y",        "EXT."),
     ("band",     "ATR 帶"),
     ("stack",    "疊加"),
     ("kell",     "Kell 階段"),
