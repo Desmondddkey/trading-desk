@@ -801,8 +801,8 @@ html[data-theme="light"] #sbtoggle:hover{background:#2563eb;color:#fff}
   margin:4px 8px}
 #sb.collapsed a{justify-content:center;padding:9px 0}
 #sb.collapsed a .lbl{display:none}
-#sb.collapsed a .ab{display:block}
-#sb a .ab{display:none;font-size:11px;font-weight:700;letter-spacing:.02em}
+#sb.collapsed a .ab{display:block!important}
+#sb a .ab{display:none!important;font-size:11px;font-weight:700;letter-spacing:.02em}
 /* ★ 修（2026-10-19）：#sbtoggle 係 #sb 嘅兄弟節點，唔係後代，
    `#sb.collapsed #sbtoggle` 永遠 match 唔到 → 改用 body class */
 body.sb-collapsed #sbtoggle{left:62px}
