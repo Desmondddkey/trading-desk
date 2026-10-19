@@ -39,6 +39,22 @@ CSS = """
   border:1px solid rgba(128,128,128,.4);margin-right:7px;opacity:.85}
 .er-when.pre{background:rgba(37,99,235,.14);border-color:rgba(37,99,235,.45)}
 .er-when.post{background:rgba(147,51,234,.14);border-color:rgba(147,51,234,.45)}
+.er-list{padding:6px 14px 10px}
+.er-row{display:grid;grid-template-columns:64px 54px 1fr 56px 86px;
+  gap:10px;align-items:center;padding:7px 0;
+  border-bottom:1px solid rgba(128,128,128,.12);font-size:13px}
+.er-row:last-child{border-bottom:0}
+.er-tk{font-family:ui-monospace,monospace;font-size:13.5px}
+.er-nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  opacity:.85;font-size:12.5px}
+/* ★ 手機：唔橫滑，改成兩行 */
+@media(max-width:700px){
+  .er-row{grid-template-columns:auto auto 1fr auto;row-gap:2px;
+    column-gap:8px;padding:8px 0}
+  .er-row>.er-nm{grid-column:1/-1;order:9;font-size:11.5px;opacity:.62}
+  .er-mc{font-size:12px}
+  .er-eps{font-size:12px}
+}
 .er-sym{font-weight:700}
 .er-held{color:#c0262b;font-weight:800}
 .er-watch{color:#b45309;font-weight:800}
@@ -120,12 +136,7 @@ def build():
         other = [r for r in grp if r["when"] not in ("盤前", "盤後")]
         parts.append(f'<div class="er-day"><h3>📅 {_esc(d)}（{wd}）'
                      f'<span class="n">{len(grp)} 隻</span></h3>'
-                     '<div style="padding:10px 14px;overflow-x:auto">'
-                     '<table style="width:100%;border-collapse:collapse;'
-                     'font-size:13px"><thead><tr>'
-                     '<th class="l">時段</th><th class="l">代號</th>'
-                     '<th class="l">公司</th><th>市值</th><th>EPS 預測</th>'
-                     '</tr></thead><tbody>')
+                     '<div class="er-list">')
         for r in pre + post + other:
             cls = ("er-held" if r.get("held") else
                    "er-watch" if r.get("watch") else "er-sym")
@@ -135,15 +146,15 @@ def build():
             eps = r.get("eps_fc") or "—"
             if eps in ("N/A", ""):
                 eps = "—"
-            parts.append(f'<tr><td class="l">'
-                         f'<span class="er-when {wcls}">{_esc(r["when"])}</span></td>'
-                         f'<td class="l"><b class="{cls}">{_esc(r["sym"])}</b></td>'
-                         f'<td class="l" style="max-width:250px;overflow:hidden;'
-                         f'text-overflow:ellipsis;white-space:nowrap">'
-                         f'{_esc(r["name"][:44])}</td>'
-                         f'<td class="er-mc">{mc}</td>'
-                         f'<td class="er-eps">{_esc(eps)}</td></tr>')
-        parts.append('</tbody></table></div></div>')
+            parts.append(
+                f'<div class="er-row">'
+                f'<span class="er-when {wcls}">{_esc(r["when"])}</span>'
+                f'<b class="{cls} er-tk">{_esc(r["sym"])}</b>'
+                f'<span class="er-nm">{_esc(r["name"][:44])}</span>'
+                f'<span class="er-mc">{mc}</span>'
+                f'<span class="er-eps">EPS {_esc(eps)}</span>'
+                '</div>')
+        parts.append('</div></div>')
 
     # ③ 判定說明
     parts.append('<div class="card"><h2>★ 判定規則（EDGE-008）</h2>'

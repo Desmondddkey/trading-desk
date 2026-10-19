@@ -1132,6 +1132,41 @@ def build():
         _sbf = _nf2.load_all().get("mm")
     except Exception:                                        # noqa: BLE001
         _sbf = None
+    # ★ 2026-10-19 Desmond：「放入去市場簡報」—— 成長/價值風險閘搬入簡報
+    _gc = None
+    try:
+        _gc = extras.growth_cycle()
+    except Exception:                                        # noqa: BLE001
+        _gc = None
+    _gc_card = ""
+    if _gc:
+        _ph = _gc["phase"]
+        _phc = {"RISK-OFF": "#ef4444", "PROBE": "#f59e0b",
+                "RAMP UP": "#22c55e", "TRIM/HOLD": "#0ea5e9",
+                "RELOAD": "#a78bfa"}.get(_ph, "#94a3b8")
+        _side = "RISK-ON" if _gc["side"] == "on" else "RISK-OFF"
+        _sidec = "#22c55e" if _gc["side"] == "on" else "#ef4444"
+        _gc_card = (
+            '<div class="card"><h2>成長／價值 風險閘 '
+            f'<small>IWF {_gc["iwf"]} ／ IWD {_gc["iwd"]}｜至 {esc(_gc["as_of"])}</small></h2>'
+            '<div class="body">'
+            '<div class="kpis" style="margin-bottom:10px">'
+            f'<div class="kpi"><div class="k">現時階段</div>'
+            f'<div class="v" style="color:{_phc}">{esc(_ph)}</div></div>'
+            f'<div class="kpi"><div class="k">方向</div>'
+            f'<div class="v" style="color:{_sidec}">{_side}</div></div>'
+            f'<div class="kpi"><div class="k">比率 IWF÷IWD</div>'
+            f'<div class="v">{_gc["ratio"]}</div></div>'
+            f'<div class="kpi"><div class="k">上軌／下軌</div>'
+            f'<div class="v">{_gc["up"]} / {_gc["dn"]}</div></div>'
+            '</div>'
+            f'{cycle_svg(_gc["series"])}'
+            '<div class="note">綠線＝IWF÷IWD 比率（週收市）；灰線＝週高低 EMA10 風險閘；'
+            '藍色陰影＝閘帶。收市升穿上軌＝risk-on、跌穿下軌＝risk-off、軌內＝維持上一邊。'
+            '六個階段：RISK-OFF → PROBE → RAMP UP → TRIM/HOLD → RELOAD → 回落。'
+            '⚠ 模型由你圖片蒸餾，用 <b>IWF/IWD</b>（羅素 1000 成長÷價值）。'
+            '<a href="cycle.html">完整頁 →</a></div></div></div>')
+
     brief_body = f"""
 {note}
 <div class="kpis">{kpi_html}</div>
@@ -1143,6 +1178,7 @@ def build():
 </div>
 <div class="card"><h2>🌊 Stockbee 廣度 <small>升 4%+ / 跌 4%+ 家數｜呢把尺同上面唔同，唔可以混用</small></h2>
  <div class="body">{render_stockbee_breadth(_sbf)}</div></div>
+{_gc_card}
 <div class="card"><h2>今日圖表隊列 <small>{esc(brief.get("rs_src") or "")}</small></h2>
  <div class="body"><div class="scroll"><table><thead><tr><th class="l">代號 / 行業</th><th>收市</th>
  <th>X（21EMA）</th><th>Y（ATRX）</th><th>ATR 帶</th><th>買入區</th><th>疊加</th>
