@@ -54,7 +54,7 @@ SOURCES = [
          producer="layer3b insight", used="市場簡報"),
     dict(k="rs_select",  label="RS 選股（圖表隊列）",
          pattern="rs_select_*.json", base=TO, max_age=1,
-         producer="rs_select ⚠️ 未見對應 cron", used="市場簡報「今日圖表隊列」"),
+         producer="rs_select ⚠️ 未見對應 cron", used="市場簡報 · 圖表隊列"),
     dict(k="layer5",     label="競賽 campaign",
          pattern="layer5_campaign_*.json", base=TO, max_age=3,
          producer="layer5_campaign ⚠️ 未見對應 cron", used="Review / Positioning"),

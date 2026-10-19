@@ -1016,7 +1016,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "Breadth", "breadth.html"),
 
     ("_grp", "選股"),
-    ("_link", None, "警報總覽", "alerts.html"),
+    ("_link", None, "Alert", "alerts.html"),
     ("_link", None, "Setups（The Plan）", "setups.html"),
     ("_link", None, "Daily Scan", "dailyscan.html"),
     ("_link", None, "RS Leader 位置圖", "leadermap.html"),

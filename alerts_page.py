@@ -210,6 +210,15 @@ html[data-theme="light"] .al-tip{background:#FFFFFF;border-color:#DAD9D4;
   border:1px solid currentColor;margin-left:7px;opacity:.9}
 .al-tiprow{margin-top:5px;font-size:11.5px}
 .al-tiprow b{opacity:.7;font-weight:700}
+/* ★ 日期 select（Desmond 2026-10-20：唔要成個長表） */
+.al-dbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+  margin:0 0 11px;padding:9px 12px;border-radius:10px;
+  background:rgba(128,128,128,.07);border:1px solid rgba(128,128,128,.2)}
+.al-dbar label{font-size:12.5px;font-weight:700;opacity:.8}
+.al-dbar select{font-family:inherit;font-size:13px;padding:6px 11px;
+  border-radius:8px;border:1px solid rgba(128,128,128,.4);
+  background:inherit;color:inherit;cursor:pointer;max-width:60vw}
+.al-cnt2{margin-left:auto;font-size:12px;font-weight:700;opacity:.7}
 @media(hover:none){.al-hasTip:active .al-tip{display:block}}
 @media(max-width:700px){
   .al-tbl thead{display:none}
@@ -333,7 +342,17 @@ def _cards(rows):
 
 def _table(rows, limit=None):
     rs = rows[:limit] if limit else rows
-    out = ['<table class="al-tbl"><thead><tr>'
+    days = sorted({r["day"] for r in rs if r["day"]}, reverse=True)
+    opts = "".join(f'<option value="{d}">{d}（'
+                   f'{sum(1 for x in rs if x["day"] == d)} 筆）</option>'
+                   for d in days)
+    out = ['<div class="al-dbar">'
+           '<label>揀日期　</label>'
+           f'<select id="al-date" onchange="alFilter()">'
+           f'<option value="">全部（{len(rs)} 筆）</option>{opts}'
+           '</select>'
+           f'<span id="al-cnt" class="al-cnt2">{len(rs)} 筆</span></div>',
+           '<table class="al-tbl" id="al-tbl"><thead><tr>'
            '<th style="width:86px">日期</th>'
            '<th style="width:74px">代號</th>'
            '<th style="width:70px">Setup</th>'
@@ -350,13 +369,30 @@ def _table(rows, limit=None):
         if r.get("t3") not in ("", None):
             note += f'｜T3 {_esc(r["t3"])}R'
         out.append(
-            f'<tr><td>{_esc(r["day"])}</td>'
+            f'<tr data-d="{_esc(r["day"])}">'
+            f'<td>{_esc(r["day"])}</td>'
             f'<td><b>{_esc(r["ticker"])}</b></td>'
             f'<td>{_esc(ALIAS.get(r["setup"], r["setup"]))}</td>'
             f'<td>{r["px"]:.2f}</td>'
             f'<td style="color:{zc}">{note}</td></tr>')
     out.append('</tbody></table>')
     return "".join(out)
+
+
+JS = """
+function alFilter(){
+  var sel=document.getElementById('al-date');
+  if(!sel) return;
+  var v=sel.value, n=0;
+  document.querySelectorAll('#al-tbl tbody tr').forEach(function(tr){
+    var ok = (!v || tr.getAttribute('data-d')===v);
+    tr.style.display = ok ? '' : 'none';
+    if(ok) n++;
+  });
+  var c=document.getElementById('al-cnt');
+  if(c) c.textContent = n + ' 筆';
+}
+"""
 
 
 def build():
@@ -367,8 +403,8 @@ def build():
     n_setup = sum(1 for r in rows if r["kind"] == "setup")
     n_orh = sum(1 for r in rows if r["kind"] == "orh")
     n_fire = sum(1 for r in rows if r["status"] == "FIRED")
-    parts = [f"<style>{CSS}</style>",
-             '<h2>ALERTS <small>所有警報分類</small></h2>',
+    parts = [f"<style>{CSS}</style><script>{JS}</script>",
+             '<h2>ALERT <small>所有警報分類</small></h2>',
              f'<p class="al-note">共 <b>{len(rows)}</b> 筆 — '
              f'setup 警報 <b>{n_setup}</b>｜ORH 警報 <b>{n_orh}</b>'
              f'｜真正 fire <b>{n_fire}</b>。'
