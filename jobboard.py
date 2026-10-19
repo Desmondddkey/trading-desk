@@ -203,6 +203,10 @@ CSS = """
 .jb-dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;margin-top:5px}
 .d-ok{background:#2fbf71}.d-err{background:#e5484d}.d-none{background:#8b93a3}
 .jb-nm{font-weight:700;font-size:14px;line-height:1.3}
+
+.jb-cat{font-size:10px;font-weight:700;padding:1px 6px;border-radius:999px;
+  border:1px solid rgba(128,128,128,.35);margin-left:6px;opacity:.75;
+  white-space:nowrap;vertical-align:middle}
 .jb-purpose{font-size:12.5px;line-height:1.6;margin-top:5px;
   opacity:.9;color:inherit}
 .jb-meta{font-size:11.5px;opacity:.68;margin-top:3px;line-height:1.55}
@@ -229,6 +233,17 @@ CSS = """
 
 JS = """
 function jbToggle(el){el.parentElement.classList.toggle('open')}
+
+function jbCat(cat,btn){
+  document.querySelectorAll('.jb-filters button').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  document.querySelectorAll('.jb-group').forEach(g=>{
+    var on = (g.dataset.cat===cat);
+    g.style.display = on ? '' : 'none';
+    if(on) g.open = true;
+  });
+}
+
 function jbFilter(mode,btn){
   document.querySelectorAll('.jb-filters button').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
@@ -367,37 +382,47 @@ def build(jobs, execs, incs):
         except (ValueError, IndexError):
             return -1
 
-    GROUPS = [
-        ("🌅", "05:00–09:40", "收市後分析", range(5, 10)),
-        ("🌆", "17:30–18:50", "開市前準備", range(17, 19)),
-        ("🌃", "19:00–21:50", "選股 + 警報", range(19, 22)),
-        ("🌙", "22:00–23:35", "收市總結", range(22, 24)),
-        ("🌏", "跨時區 / 盤中", "盤中 + 收市檢查", None),
-        ("⚙️", "基礎設施", "看門狗 / 網站", None),
-    ]
+    # ★ 2026-10-19 Desmond：「廚房看板 將setup分類返出黎」
+    #   由「按時間」改成「按你做咩決定」分 6 類。
+    try:
+        import job_purpose as _jp
+        CATS = _jp.CATS
+        CAT = _jp.CAT
+    except Exception:                                        # noqa: BLE001
+        CATS, CAT = [], {}
+
+    ICON = {"act": "📌", "scan": "🔍", "mkt": "🌍",
+            "perf": "📊", "rec": "📓", "sys": "⚙️"}
 
     def _bucket(r):
-        h = _hour(r)
-        for gi, (_ic, _t, _n, rng) in enumerate(GROUPS):
-            if rng and h in rng:
-                return gi
-        return 4
+        return CAT.get(r.get("name"), "other")
 
+    order_cat = [c[0] for c in CATS] + ["other"]
     buckets = {}
     for r in rows:
         buckets.setdefault(_bucket(r), []).append(r)
 
-    for gi, (icon, span, label, _rng) in enumerate(GROUPS):
-        grp = buckets.get(gi) or []
+    # 失敗一律排最前
+    for _k in buckets:
+        buckets[_k].sort(key=lambda r: 0 if r["state"] == "err" else 1)
+
+    labels = {c[0]: (c[1], c[2]) for c in CATS}
+    labels["other"] = ("未分類", "")
+
+    for ck in order_cat:
+        grp = buckets.get(ck) or []
         if not grp:
             continue
         g_err = sum(1 for r in grp if r["state"] == "err")
         g_never = sum(1 for r in grp if r["state"] == "never")
         badge = (f' <span class="jb-g-err">🚨 {g_err}</span>' if g_err else "")
         badge += (f' <span class="jb-g-none">⚪ {g_never}</span>' if g_never else "")
+        nm, desc = labels.get(ck, ("未分類", ""))
         parts.append(
-            f'<details class="jb-group"{" open" if g_err else ""}>'
-            f'<summary><b>{icon} {span}</b> · {label}'
+            f'<details class="jb-group" data-cat="{ck}"'
+            f'{" open" if g_err or ck == "act" else ""}>'
+            f'<summary><b>{ICON.get(ck, "·")} {nm}</b>'
+            f'{" · " + desc if desc else ""}'
             f'<span class="jb-g-n">{len(grp)} 個</span>{badge}</summary>'
             '<div class="jb-grid">')
 
@@ -406,11 +431,16 @@ def build(jobs, execs, incs):
             dot = {"ok": "d-ok", "err": "d-err", "never": "d-none",
                    "off": "d-none"}[st]
             cls = " err" if st == "err" else ""
-            parts.append(f'<div class="jb-card{cls}" data-state="{st}" data-pri="{_esc(r["picon"])}">')
+            parts.append(f'<div class="jb-card{cls}" data-state="{st}" '
+                         f'data-cat="{_esc(_bucket(r))}" '
+                         f'data-pri="{_esc(r["picon"])}">')
             parts.append('<div class="jb-hd" onclick="jbToggle(this)">'
                          f'<span class="jb-dot {dot}"></span>'
                          '<div style="flex:1;min-width:0">'
-                         f'<div class="jb-nm">{_esc(r["picon"])} {_esc(r["name"])}</div>'
+                         f'<div class="jb-nm">{_esc(r["picon"])} {_esc(r["name"])}'
+                         f'<span class="jb-cat">{ICON.get(_bucket(r), "")} '
+                         f'{_esc(labels.get(_bucket(r), ("未分類", ""))[0])}</span>'
+                         '</div>'
                          + (f'<div class="jb-purpose">{_esc(r["purpose"])}</div>'
                             if r["purpose"] else '')
                          + '<div class="jb-meta">'

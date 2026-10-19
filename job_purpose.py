@@ -181,3 +181,96 @@ def purpose(name):
     if name in WORTH_READ:
         return p, "👀"
     return p, "🔧"
+
+
+# ══════════════════════════════════════════════════════════════
+# ★ 2026-10-19 Desmond：「廚房看板 將setup分類返出黎」
+#   6 個分類，對應你實際會做嘅動作，唔係按技術職能。
+# ══════════════════════════════════════════════════════════════
+CATS = [
+    ("act",   "今日行動",  "直接影響你今日買咩、幾時出"),
+    ("scan",  "選股掃描",  "產生候選名單，你揀邊隻睇圖"),
+    ("mkt",   "市場環境",  "regime / 廣度 / 板塊 / 主題——決定用幾多子彈"),
+    ("perf",  "成績覆盤",  "你賺蝕幾多、邊個 setup 真係得"),
+    ("rec",   "記錄同步",  "Notion、日誌、每日摘要"),
+    ("sys",   "系統",      "網站、測試、廚房自己"),
+]
+
+CAT = {
+    # ── 今日行動 ──
+    "Daily-Pre-market-Plan": "act",
+    "setup-alerts": "act",
+    "jeffsun-intraday-ORH-RVOL-alert": "act",
+    "osib-setup-alert": "act",
+    "yoyo-gap-alert": "act",
+    "ftd-pre-alert-daily": "act",
+    "risk-gate-daily": "act",
+    "discipline-gate": "act",
+    "macro-tail-guard": "act",
+    "close-watch-exit": "act",
+    "premarket-list-daily": "act",
+    # ── 選股掃描 ──
+    "jeffsun-daily-scan-layer1+2": "scan",
+    "leader-map-daily": "scan",
+    "weekly-watchlist-sunday-0900": "scan",
+    "morales-prone": "scan",
+    "yoyo-gap-postclose": "scan",
+    # ── 市場環境 ──
+    "market-insight-layer3b": "mkt",
+    "layer4-breadth-daily": "mkt",
+    "market-watch": "mkt",
+    "sector-rotation-daily": "mkt",
+    "rotation-map-weekly": "mkt",
+    "theme-watch-daily": "mkt",
+    "momentum-theme-daily": "mkt",
+    "cashdesk-daily": "mkt",
+    # ── 成績覆盤 ──
+    "usic-edge-audit-notion": "perf",
+    "usic-setup-daily-review": "perf",
+    "usic-monthly-log-excel": "perf",
+    "track-record-daily": "perf",
+    "money-daily-benchmark": "perf",
+    "competition-daily": "perf",
+    "fleet-sim-daily": "perf",
+    "sim-trade-daily": "perf",
+    "quality-watch-weekly": "perf",
+    "shadow-exit-weekly": "perf",
+    "edge-candidate-daily": "perf",
+    "edge-question-weekly": "perf",
+    "edge-036-recheck": "perf",
+    "tree-trace-weekly": "perf",
+    "model-book-weekly": "perf",
+    "jeffsun-intraday-rvol-record": "perf",
+    "earnings-daily": "perf",
+    # ── 記錄同步 ──
+    "notion-trade-journal-sync": "rec",
+    "premarket-notion-record": "rec",
+    "notion-records-daily": "rec",
+    "journal-open-check": "rec",
+    "journal-daily-reminder": "rec",
+    "notion-kb-sync": "rec",
+    "changelog-notion-sync": "rec",
+    "edgebook-notion-sync": "rec",
+    "hermes-daily-digest": "rec",
+    "digest-morning": "rec",
+    "digest-premarket": "rec",
+    "digest-evening": "rec",
+    # ── 系統 ──
+    "site-auto-rebuild": "sys",
+    "site-db-daily": "sys",
+    "trading-desk-daily": "sys",
+    "desk-refresh-daily": "sys",
+    "trading-os-tests": "sys",
+    "kitchen-watchdog": "sys",
+    "kitchen-status-daily": "sys",
+    "michelin-audit-weekly": "sys",
+}
+
+
+def cat_of(job):
+    """→ (key, 中文名)。冇分類 = ('other', '未分類')。"""
+    k = CAT.get(job) or "other"
+    for kk, nm, _ in CATS:
+        if kk == k:
+            return k, nm
+    return "other", "未分類"
