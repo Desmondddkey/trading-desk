@@ -46,7 +46,7 @@ import stdcols as _std  # noqa: E402  （Item 2：統一所有列表欄位）
 import tvhover  # noqa: E402  （Item 8：hover 代號彈 TradingView 圖）
 import nel_pages as _np  # noqa: E402  （Item 1：NEL 五頁蒸餾）
 
-EN_LABELS = {"leadermap": "RS Leader Map", "earnings": "Earnings", "desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
+EN_LABELS = {"leadermap": "RS Leader Map", "earnings": "Earnings", "external": "External", "desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
              "week": "Week Strongest", "rsboard": "RS Board", "method": "Methods",
              "cycle": "Growth Cycle", "setups": "Setups",
              "regime": "Setup x Regime", "calculator": "Position Sizing"}
@@ -816,11 +816,19 @@ SIDEBAR_LINKS = [
     ("_link", None, "Stockbee 50", "bee50.html"),
     ("_link", None, "納指權重股", "ndx.html"),
     ("_link", None, "Jeff Sun Mom.", "jeffsun.html"),
+    ("_link", None, "🌐 外部數據源（NEL 等）", "external.html"),
 
     ("_grp", "📚 方法"),
     ("_link", None, "方法分類", "method.html"),
     ("_link", None, "成長週期", "cycle.html"),
     ("_link", None, "Setups", "setups.html"),
+
+    # ★ Desmond 2026-10-19：PLAYBOOK 放最底（外部權威來源）
+    ("_grp", "📖 PLAYBOOK"),
+    ("_ext", "📘", "Jeff Sun 工具/流程", "https://jfsrev.substack.com/p/my-trading-tools-process-routine"),
+    ("_ext", "📗", "PrimeTrading 手冊", "https://traderslab.gitbook.io/primetrading"),
+    ("_ext", "📙", "Qullamaggie", "https://qullamaggie.net/"),
+    ("_ext", "📕", "Alex Desjardins 方法", "https://qullamaggie.net/alex-desjardinss-method/"),
 ]
 
 SIDEBAR_JS = """
@@ -851,6 +859,11 @@ def sidebar_html(active=""):
         kind = row[0]
         if kind == "_grp":
             items.append(f'<div class="grp">{row[1]}</div>')
+        elif kind == "_ext":
+            _, icon, label, href = row
+            items.append(f'<a href="{href}" target="_blank" rel="noopener" '
+                         f'class="ext-link"><span class="i">{icon}</span>'
+                         f'<span>{label}</span></a>')
         elif kind == "_pinned":
             _, icon, label, href = row
             on = ' class="on"' if href == active else ""
@@ -1298,6 +1311,15 @@ def build():
         pages["calculator"] = ("倉位計算機", _calc.calc_page(), base)
     except Exception as _e3:                                 # noqa: BLE001
         log(f"⚠ 計算機頁失敗：{type(_e3).__name__}: {_e3}")
+
+    # ── 外部數據源（Desmond 2026-10-19）──
+    try:
+        import external_page as _xp
+        _t3, _b3 = _xp.build()
+        pages["external"] = (_t3, _b3, base)
+        log(f"✓ external.html ({len(_b3)//1024} KB)")
+    except Exception as _e9:                                 # noqa: BLE001
+        log(f"⚠ 外部數據源失敗：{type(_e9).__name__}: {_e9}")
 
     # ── 財報日曆（Desmond 2026-10-19）──
     try:

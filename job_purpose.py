@@ -95,6 +95,8 @@ PURPOSE = {
         "收市後摘要：今日成績、邊單贏輸、明日重點。",
 
     # ── 🔧 系統自動：你唔需要理 ──
+    "earnings-daily":
+        "財報日曆：邊隻幾時出財報 + 你嘅持倉／候選有冇中招（D≤5 唔可以入場）。",
     "site-auto-rebuild":
         "自動重建網站並上線（08:50 + 23:50）。你唔需要睇。",
     "kitchen-watchdog":
@@ -150,7 +152,7 @@ MUST_READ = {
     "Daily-Pre-market-Plan", "setup-alerts", "jeffsun-intraday-ORH-RVOL-alert",
     "osib-setup-alert", "yoyo-gap-alert", "ftd-pre-alert-daily",
     "leader-map-daily", "risk-gate-daily", "discipline-gate",
-    "macro-tail-guard", "close-watch-exit",
+    "macro-tail-guard", "close-watch-exit", "earnings-daily",
 }
 
 WORTH_READ = {
