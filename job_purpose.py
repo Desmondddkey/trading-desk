@@ -259,6 +259,8 @@ CAT = {
     "site-auto-rebuild": "sys",
     "site-db-daily": "sys",
     "trading-desk-daily": "sys",
+    "trading-desk-daily (19:00)": "sys",
+    "setup-check": "act",
     "desk-refresh-daily": "sys",
     "trading-os-tests": "sys",
     "kitchen-watchdog": "sys",
