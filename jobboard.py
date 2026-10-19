@@ -22,6 +22,12 @@ import os
 import sqlite3
 import sys
 
+try:
+    from job_purpose import purpose as _purpose
+except Exception:                                    # noqa: BLE001
+    def _purpose(n):
+        return '', ''
+
 HERMES = os.path.expanduser("~/AppData/Local/hermes")
 JOBS = os.path.join(HERMES, "cron", "jobs.json")
 EXECDB = os.path.join(HERMES, "cron", "executions.db")
@@ -197,6 +203,8 @@ CSS = """
 .jb-dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;margin-top:5px}
 .d-ok{background:#2fbf71}.d-err{background:#e5484d}.d-none{background:#8b93a3}
 .jb-nm{font-weight:700;font-size:14px;line-height:1.3}
+.jb-purpose{font-size:12.5px;line-height:1.6;margin-top:5px;
+  opacity:.9;color:inherit}
 .jb-meta{font-size:11.5px;opacity:.68;margin-top:3px;line-height:1.55}
 .jb-meta code{font-size:11px;padding:1px 5px;border-radius:4px;
   background:rgba(128,128,128,.16)}
@@ -229,6 +237,8 @@ function jbFilter(mode,btn){
       : mode==='err' ? c.classList.contains('err')
       : mode==='never' ? c.dataset.state==='never'
       : mode==='on' ? c.dataset.state!=='never'
+      : mode==='must' ? c.dataset.pri==='📌'
+      : mode==='eye' ? (c.dataset.pri==='📌'||c.dataset.pri==='👀')
       : true;
     c.style.display = ok ? '' : 'none';
   });
@@ -272,6 +282,8 @@ def build(jobs, execs, incs):
             sched=_sched(j), script=j.get("script") or "",
             no_agent=bool(j.get("no_agent")),
             deliver=str(j.get("deliver") or ""),
+            purpose=_purpose(name)[0],
+            picon=_purpose(name)[1],
         ))
 
     def state(r):
@@ -330,6 +342,12 @@ def build(jobs, execs, incs):
                  f'✅ 運作中 {n_ok + n_err}</button>')
     parts.append('<button onclick="jbFilter(\'never\',this)">'
                  f'⚪ 從未跑 {n_never}</button>')
+    n_must = sum(1 for r in rows if r.get("picon") == "📌")
+    n_eye = sum(1 for r in rows if r.get("picon") == "👀")
+    parts.append('<button onclick="jbFilter(\'must\',this)">'
+                 f'📌 一定要睇 {n_must}</button>')
+    parts.append('<button onclick="jbFilter(\'eye\',this)">'
+                 f'👀 有時間睇 {n_must + n_eye}</button>')
     parts.append('</div>')
 
     # ── Job 卡：分組 + 摺疊（Desmond 2026-10-19「做返好個格式」）──
@@ -388,12 +406,14 @@ def build(jobs, execs, incs):
             dot = {"ok": "d-ok", "err": "d-err", "never": "d-none",
                    "off": "d-none"}[st]
             cls = " err" if st == "err" else ""
-            parts.append(f'<div class="jb-card{cls}" data-state="{st}">')
+            parts.append(f'<div class="jb-card{cls}" data-state="{st}" data-pri="{_esc(r["picon"])}">')
             parts.append('<div class="jb-hd" onclick="jbToggle(this)">'
                          f'<span class="jb-dot {dot}"></span>'
                          '<div style="flex:1;min-width:0">'
-                         f'<div class="jb-nm">{_esc(r["name"])}</div>'
-                         '<div class="jb-meta">'
+                         f'<div class="jb-nm">{_esc(r["picon"])} {_esc(r["name"])}</div>'
+                         + (f'<div class="jb-purpose">{_esc(r["purpose"])}</div>'
+                            if r["purpose"] else '')
+                         + '<div class="jb-meta">'
                          f'<span class="jb-sched">{_esc(r["sched"])}</span>'
                          f'｜{_esc(_ago(r["last_at"]))}'
                          f'｜下次 {_esc(str(r["next_at"] or "—")[5:16])}'

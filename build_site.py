@@ -46,7 +46,7 @@ import stdcols as _std  # noqa: E402  （Item 2：統一所有列表欄位）
 import tvhover  # noqa: E402  （Item 8：hover 代號彈 TradingView 圖）
 import nel_pages as _np  # noqa: E402  （Item 1：NEL 五頁蒸餾）
 
-EN_LABELS = {"desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
+EN_LABELS = {"leadermap": "RS Leader Map", "desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
              "week": "Week Strongest", "rsboard": "RS Board", "method": "Methods",
              "cycle": "Growth Cycle", "setups": "Setups",
              "regime": "Setup x Regime", "calculator": "Position Sizing"}
@@ -786,28 +786,40 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
 """
 
 SIDEBAR_LINKS = [
-    # ★ Desmond 2026-10-19：廚房看板放最頂（第一個）
-    ("jobboard.html", "🍳", "廚房看板"),
-    ("desk.html", "🖥", "機會"),
-    ("index.html", "📋", "市場簡報"),
-    ("leaders.html", "🚀", "領導股"),
-    ("cm.html", "🎯", "1CM 回調"),
-    ("week.html", "⚡", "最強 1 週"),
-    ("themes.html", "🧩", "Themes"),
-    ("sectors.html", "🏭", "Sectors"),
-    ("breadth.html", "🌊", "Breadth"),
-    ("positioning.html", "🎯", "Positioning"),
-    ("calculator.html", "🧮", "倉位計算機"),
-    ("review.html", "⏪", "Review"),
-    ("rsboard.html", "📊", "RS 板"),
-    ("method.html", "🧩", "方法分類"),
-    ("cycle.html", "🌀", "成長週期"),
-    ("setups.html", "📐", "Setups"),
-    ("regime.html", "🎲", "Setup×Regime"),
-    ("mm.html", "🌊", "Market Monitor"),
-    ("bee50.html", "🐝", "Stockbee 50"),
-    ("jeffsun.html", "🎯", "Jeff Sun Mom."),
-    ("ndx.html", "🇺🇸", "納指權重股"),
+    # ★ Desmond 2026-10-19 方案 C：側欄 5 個分組（視覺分組，連結唔變）
+    # 廚房看板獨立放最頂，唔入任何一組（Desmond：「廚房看板放到左邊最頂」）
+    ("_pinned", "🍳", "廚房看板", "jobboard.html"),
+
+    ("_grp", "🌍 市場"),
+    ("_link", None, "市場簡報", "index.html"),
+    ("_link", None, "Sectors", "sectors.html"),
+    ("_link", None, "Themes", "themes.html"),
+    ("_link", None, "Breadth", "breadth.html"),
+    ("_link", None, "Setup×Regime", "regime.html"),
+
+    ("_grp", "🎯 選股"),
+    ("_link", None, "📍 RS Leader 位置圖", "leadermap.html"),
+    ("_link", None, "機會（總表）", "desk.html"),
+    ("_link", None, "領導股", "leaders.html"),
+    ("_link", None, "1CM 回調", "cm.html"),
+    ("_link", None, "最強 1 週", "week.html"),
+    ("_link", None, "RS 板", "rsboard.html"),
+
+    ("_grp", "📊 成績"),
+    ("_link", None, "Positioning", "positioning.html"),
+    ("_link", None, "Review", "review.html"),
+    ("_link", None, "倉位計算機", "calculator.html"),
+
+    ("_grp", "🌐 外部數據"),
+    ("_link", None, "Market Monitor", "mm.html"),
+    ("_link", None, "Stockbee 50", "bee50.html"),
+    ("_link", None, "納指權重股", "ndx.html"),
+    ("_link", None, "Jeff Sun Mom.", "jeffsun.html"),
+
+    ("_grp", "📚 方法"),
+    ("_link", None, "方法分類", "method.html"),
+    ("_link", None, "成長週期", "cycle.html"),
+    ("_link", None, "Setups", "setups.html"),
 ]
 
 SIDEBAR_JS = """
@@ -832,12 +844,22 @@ SIDEBAR_JS = """
 
 def sidebar_html(active=""):
     # 左側導航 HTML（active = 檔名，例如 'desk.html'）
+    # ★ 2026-10-19：支援 (_pinned, ...) / (_grp, 標題) / (_link, None, 名, 檔)
     items = []
-    for href, icon, label in SIDEBAR_LINKS:
-        on = ' class="on"' if href == active else ""
-        items.append(f'<a href="{href}"{on}><span class="i">{icon}</span>'
-                     f'<span>{label}</span></a>')
-    # ★ Desmond 2026-10-19：深淺色選項移到標題下面（原本喺最底，要捲到底才撳到）
+    for row in SIDEBAR_LINKS:
+        kind = row[0]
+        if kind == "_grp":
+            items.append(f'<div class="grp">{row[1]}</div>')
+        elif kind == "_pinned":
+            _, icon, label, href = row
+            on = ' class="on"' if href == active else ""
+            items.append(f'<a href="{href}"{on} data-pin="1">'
+                         f'<span class="i">{icon}</span><span>{label}</span></a>')
+        else:                                              # _link
+            _, _ic, label, href = row
+            on = ' class="on"' if href == active else ""
+            items.append(f'<a href="{href}"{on}><span>{label}</span></a>')
+    # ★ 深淺色選項移到標題下面（原本喺最底，要捲到底才撳到）
     return ('<button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button>'
             '<div id="navoverlay"></div>'
             '<aside id="sb">'
@@ -1275,6 +1297,15 @@ def build():
         pages["calculator"] = ("倉位計算機", _calc.calc_page(), base)
     except Exception as _e3:                                 # noqa: BLE001
         log(f"⚠ 計算機頁失敗：{type(_e3).__name__}: {_e3}")
+
+    # ── RS Leader 位置圖（Desmond 2026-10-19：加日期選取器）──
+    try:
+        import leadermap as _lm
+        _title, _body = _lm.build()
+        pages["leadermap"] = (_title, _body, base)
+        log(f"✓ leadermap.html ({len(_body)//1024} KB)")
+    except Exception as _e7:                                 # noqa: BLE001
+        log(f"⚠ RS Leader 位置圖失敗：{type(_e7).__name__}: {_e7}")
 
     # ── 廚房看板（Desmond 2026-10-19：所有 job 狀態）──
     try:
