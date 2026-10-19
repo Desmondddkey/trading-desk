@@ -38,6 +38,18 @@ FEEDS = [
         login=True,
     ),
     dict(
+        key="rstock",
+        name="RocketStock",
+        sub="RS Ranking · SEPA 排名",
+        url="https://rocketstock.app/rs-ranking?tab=sepa",
+        home="https://rocketstock.app/",
+        note="SEPA（Mark Minervini 方法）相對強弱排名。"
+             "★ 實測（2026-10-19）原站回 X-Frame-Options: SAMEORIGIN "
+             "＋ CSP frame-ancestors 'self'，明確禁止嵌入 → 只能開原站。",
+        login=True,
+        embed=False,
+    ),
+    dict(
         key="tlab",
         name="TradersLab",
         sub="Market Overview · 市場總覽",
@@ -71,6 +83,7 @@ CSS = """
 .lf-frame{width:100%;height:78vh;min-height:520px;border:0;display:block;
   background:#fff}
 [data-theme="dark"] .lf-frame{background:#0f1420}
+.lf-nobody{padding:18px 16px;background:rgba(128,128,128,.05)}
 .lf-load{position:absolute;inset:0;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:12px;
   font-size:13px;opacity:.75;pointer-events:none;text-align:center;padding:20px}
@@ -122,10 +135,23 @@ def build():
             f'<span class="nm">{_esc(f["name"])}</span>'
             f'<span class="sb">{_esc(f["sub"])}</span>'
             '<span class="lf-btns">'
-            f'<a href="#" onclick="lfLoad(\'{f["key"]}\');return false;">載入</a>'
-            f'<a class="pri" href="{_esc(f["url"])}" target="_blank" '
+            + ("" if f.get("embed") is False else
+               f'<a href="#" onclick="lfLoad(\'{f["key"]}\');'
+               'return false;">載入</a>')
+            + f'<a class="pri" href="{_esc(f["url"])}" target="_blank" '
             'rel="noopener noreferrer">↗ 開原站</a>'
             '</span></div>')
+        if f.get("embed") is False:
+            parts.append(
+                '<div class="lf-nobody">'
+                '<div style="font-size:13px;line-height:1.8;opacity:.8">'
+                '原站禁止 iframe 嵌入（<code>X-Frame-Options: SAMEORIGIN</code>'
+                ' ＋ <code>CSP frame-ancestors &quot;self&quot;</code>），'
+                '所以只能用上方「↗ 開原站」喺新視窗睇。</div></div>')
+            parts.append(f'<div class="lf-note">{_esc(f["note"])}'
+                         f'<br>網址：<code>{_esc(f["url"])}</code></div>')
+            parts.append('</div>')
+            continue
         parts.append('<div class="lf-body">')
         parts.append(
             f'<div class="lf-load" id="ld-{f["key"]}">'
