@@ -153,6 +153,51 @@ html[data-theme="light"] .sitenav a{color:#64748b}
 html[data-theme="light"] .sitenav a:hover{background:#eef2f8;color:#111827}
 html[data-theme="light"] .sitenav a.on{background:#2563eb;color:#fff}
 
+/* ═══ 左側導航（Desmond 2026-10-19：所有頁面選擇 bar 放左邊，方便手機） ═══ */
+#sb{position:fixed;left:0;top:0;bottom:0;width:236px;z-index:9000;
+  overflow-y:auto;overflow-x:hidden;padding:14px 10px 20px;
+  background:#0b1220;border-right:1px solid #1e2a44;
+  display:flex;flex-direction:column;gap:2px;
+  transition:transform .22s ease}
+html[data-theme="light"] #sb{background:#ffffff;border-right:1px solid #e3e8f0}
+#sb .brand{font-size:14px;font-weight:700;letter-spacing:.04em;
+  padding:6px 10px 12px;display:block;color:inherit;text-decoration:none}
+#sb .grp{font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  opacity:.45;padding:12px 10px 5px}
+#sb a{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px;
+  font-size:13.5px;text-decoration:none;color:#9fb0cc;line-height:1.25}
+#sb a:hover{background:#121c31;color:#e8eef8}
+#sb a.on{background:#1d4ed8;color:#fff;font-weight:700}
+html[data-theme="light"] #sb a{color:#4a5568}
+html[data-theme="light"] #sb a:hover{background:#eef2f8;color:#111827}
+html[data-theme="light"] #sb a.on{background:#2563eb;color:#fff}
+#sb a span.i{flex:0 0 18px;text-align:center;font-size:14px}
+#sb .spacer{flex:1 1 auto;min-height:14px}
+#sb button{margin:8px 6px 0;padding:8px;border-radius:8px;border:1px solid #2a3346;
+  background:#121c31;color:#e8eef8;font-size:12.5px;cursor:pointer;font-family:inherit}
+html[data-theme="light"] #sb button{background:#f3f6fa;border-color:#dbe2ec;color:#1a2433}
+#navtoggle{display:none;position:fixed;left:10px;top:10px;z-index:9100;
+  width:42px;height:42px;border-radius:11px;border:1px solid #2a3346;
+  background:#0b1220ee;color:#e8eef8;font-size:19px;cursor:pointer;
+  align-items:center;justify-content:center;line-height:1}
+html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;color:#1a2433}
+#navoverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:8999}
+#navoverlay.show{display:block}
+/* 桌面：內容右移 */
+@media(min-width:901px){
+  body{padding-left:236px}
+  /* desk.html 自己嘅頂部 nav 隱藏（已由 sidebar 取代） */
+  nav.sitenav{display:none!important}
+}
+/* 手機：sidebar 變 drawer */
+@media(max-width:900px){
+  #sb{transform:translateX(-100%);box-shadow:4px 0 24px rgba(0,0,0,.4)}
+  #sb.open{transform:translateX(0)}
+  #navtoggle{display:flex}
+  body{padding-left:0}
+  header.top{padding-top:56px}
+}
+
 #tvpop{display:none;position:fixed;z-index:9999;width:440px;
   background:#0b1120;border:1px solid #2a3a5c;border-radius:11px;
   box-shadow:0 14px 40px rgba(0,0,0,.6);overflow:hidden}
@@ -168,18 +213,15 @@ html[data-theme="light"] .sitenav a.on{background:#2563eb;color:#fff}
 #tvpopnote{font-size:11px;color:#8fa3c8;padding:0 9px 6px;min-height:0}
 @media(max-width:700px){#tvpop{display:none!important}}
 </style></head><body>
+<button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button><div id="navoverlay"></div><aside id="sb"><a class="brand" href="index.html">📈 Desmond · 交易台</a><a href="desk.html"><span class="i">🖥</span><span>機會</span></a><a href="index.html"><span class="i">📋</span><span>市場簡報</span></a><a href="leaders.html"><span class="i">🚀</span><span>領導股</span></a><a href="cm.html"><span class="i">🎯</span><span>1CM 回調</span></a><a href="week.html"><span class="i">⚡</span><span>最強 1 週</span></a><a href="themes.html"><span class="i">🧩</span><span>Themes</span></a><a href="sectors.html"><span class="i">🏭</span><span>Sectors</span></a><a href="breadth.html"><span class="i">🌊</span><span>Breadth</span></a><a href="positioning.html"><span class="i">🎯</span><span>Positioning</span></a><a href="calculator.html"><span class="i">🧮</span><span>倉位計算機</span></a><a href="review.html"><span class="i">⏪</span><span>Review</span></a><a href="rsboard.html"><span class="i">📊</span><span>RS 板</span></a><a href="method.html"><span class="i">🧩</span><span>方法分類</span></a><a href="cycle.html"><span class="i">🌀</span><span>成長週期</span></a><a href="setups.html"><span class="i">📐</span><span>Setups</span></a><a href="regime.html" class="on"><span class="i">🎲</span><span>Setup×Regime</span></a><div class="spacer"></div><button id="themebtn">🌙 深色</button></aside>
 <div class="wrap">
 <header class="top">
  <div style="display:flex;align-items:flex-start;gap:10px">
   <div style="flex:1 1 auto">
    <h1>📈 <span>Desmond · 交易台</span></h1>
-   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-19 15:11</code></p>
-  </div>
-  <div class="controls">
-   <button id="themebtn" title="切換主題 / theme">🌙 深色</button>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-19 15:28</code></p>
   </div>
  </div>
- <nav><a href="desk.html" class=""><span>🖥</span><span data-i18n="nav_desk">機會</span></a><a href="briefing.html" class=""><span>📋</span><span data-i18n="nav_briefing">市場簡報</span></a><a href="leaders.html" class=""><span>🚀</span><span data-i18n="nav_leaders">領導股</span></a><a href="cm.html" class=""><span>🎯</span><span data-i18n="nav_cm">1CM 回調</span></a><a href="week.html" class=""><span>⚡</span><span data-i18n="nav_week">最強 1 週</span></a><a href="themes.html" class=""><span>🧩</span><span data-i18n="nav_themes">Themes</span></a><a href="sectors.html" class=""><span>🏭</span><span data-i18n="nav_sectors">Sectors</span></a><a href="breadth.html" class=""><span>🌊</span><span data-i18n="nav_breadth">Breadth</span></a><a href="positioning.html" class=""><span>🎯</span><span data-i18n="nav_positioning">Positioning</span></a><a href="calculator.html" class=""><span>🧮</span><span data-i18n="nav_calculator">倉位計算機</span></a><a href="review.html" class=""><span>⏪</span><span data-i18n="nav_review">Review</span></a><a href="rsboard.html" class=""><span>📊</span><span data-i18n="nav_rsboard">RS 板</span></a><a href="method.html" class=""><span>🧩</span><span data-i18n="nav_method">方法分類</span></a><a href="cycle.html" class=""><span>🌀</span><span data-i18n="nav_cycle">成長週期</span></a><a href="setups.html" class=""><span>📐</span><span data-i18n="nav_setups">Setups</span></a><a href="regime.html" class="on"><span>🎲</span><span data-i18n="nav_regime">Setup×Regime</span></a></nav>
 </header>
 <div class="card"><h2>🎲 Setup × Regime 矩陣 <small>setup_regime_backtest.json｜3 年｜16,066 單</small></h2><div class="body"><div class="note">★ 核心洞察：<b>唔係問「邊個 setup 最好」，係問「邊個 setup 喺邊個 regime 最好」</b>。同一批 setup 訊號，喺唔同市場階段嘅平均 R 差天共地。市場階段決定回報分佈 —— 呢個就係 Portfolio-T 嘅邏輯。<br>判準：n ≥ 30 才准當結論（SOUL §8.14）｜止蝕 1.0 ATR｜出場 = 日線收市跌穿 10EMA（EDGE-034 ACTIVE）｜持倉上限 20 日。⚠ 未扣成本。</div><table class="t"><thead><tr><th class="l">Setup</th><th>BEAR</th><th>BULL</th><th>CHOP</th><th>最佳</th></tr></thead><tbody><tr><td class="l"><b>DEP</b></td><td style="background:rgba(218,54,51,0.04)"><b>-0.04R</b><br><small>n=556｜勝率 42%</small></td><td style="background:rgba(35,134,54,0.09)"><b>+0.08R</b><br><small>n=884｜勝率 32%</small></td><td style="background:rgba(35,134,54,0.26)"><b>+0.23R</b><br><small>n=828｜勝率 39%</small></td><td><b>CHOP</b> +0.23R</td></tr><tr><td class="l"><b>HVE</b></td><td style="opacity:.35">—<br><small>n=25</small></td><td style="background:rgba(218,54,51,0.16)"><b>-0.14R</b><br><small>n=31｜勝率 32%</small></td><td style="opacity:.35">—<br><small>n=22</small></td><td><b>BULL</b> -0.14R</td></tr><tr><td class="l"><b>JM</b></td><td style="background:rgba(35,134,54,0.06)"><b>+0.05R</b><br><small>n=1368｜勝率 32%</small></td><td style="background:rgba(35,134,54,0.09)"><b>+0.08R</b><br><small>n=2940｜勝率 31%</small></td><td style="background:rgba(35,134,54,0.13)"><b>+0.11R</b><br><small>n=2519｜勝率 35%</small></td><td><b>CHOP</b> +0.11R</td></tr><tr><td class="l"><b>PEG</b></td><td style="background:rgba(35,134,54,0.11)"><b>+0.10R</b><br><small>n=124｜勝率 42%</small></td><td style="background:rgba(35,134,54,0.24)"><b>+0.21R</b><br><small>n=570｜勝率 33%</small></td><td style="background:rgba(35,134,54,0.55)"><b>+0.48R</b><br><small>n=438｜勝率 40%</small></td><td><b>CHOP</b> +0.48R</td></tr><tr><td class="l"><b>PIV30</b></td><td style="background:rgba(218,54,51,0.08)"><b>-0.07R</b><br><small>n=129｜勝率 31%</small></td><td style="background:rgba(35,134,54,0.25)"><b>+0.22R</b><br><small>n=809｜勝率 32%</small></td><td style="background:rgba(35,134,54,0.33)"><b>+0.29R</b><br><small>n=489｜勝率 35%</small></td><td><b>CHOP</b> +0.29R</td></tr><tr><td class="l"><b>SHK</b></td><td style="background:rgba(218,54,51,0.02)"><b>-0.02R</b><br><small>n=714｜勝率 48%</small></td><td style="background:rgba(35,134,54,0.15)"><b>+0.13R</b><br><small>n=280｜勝率 52%</small></td><td style="background:rgba(35,134,54,0.18)"><b>+0.15R</b><br><small>n=267｜勝率 48%</small></td><td><b>CHOP</b> +0.15R</td></tr><tr><td class="l"><b>UCR</b></td><td style="background:rgba(218,54,51,0.01)"><b>-0.01R</b><br><small>n=736｜勝率 38%</small></td><td style="background:rgba(35,134,54,0.23)"><b>+0.20R</b><br><small>n=965｜勝率 37%</small></td><td style="background:rgba(35,134,54,0.21)"><b>+0.18R</b><br><small>n=996｜勝率 38%</small></td><td><b>BULL</b> +0.20R</td></tr><tr><td class="l"><b>YOYO</b></td><td style="background:rgba(218,54,51,0.01)"><b>-0.01R</b><br><small>n=206｜勝率 42%</small></td><td style="background:rgba(35,134,54,0.27)"><b>+0.23R</b><br><small>n=71｜勝率 44%</small></td><td style="background:rgba(35,134,54,0.22)"><b>+0.19R</b><br><small>n=99｜勝率 38%</small></td><td><b>BULL</b> +0.23R</td></tr></tbody></table><h3 style="margin-top:18px">★ 有效組合排名（n ≥ 30）</h3><table class="t"><thead><tr><th class="l">#</th><th class="l">Setup</th><th class="l">Regime</th><th>平均 R</th><th>n</th><th>勝率</th></tr></thead><tbody><tr><td class="l">1</td><td class="l"><b>PEG</b></td><td class="l">CHOP</td><td><b>+0.484R</b></td><td>438</td><td>40.4%</td></tr><tr><td class="l">2</td><td class="l"><b>PIV30</b></td><td class="l">CHOP</td><td><b>+0.293R</b></td><td>489</td><td>35.0%</td></tr><tr><td class="l">3</td><td class="l"><b>YOYO</b></td><td class="l">BULL</td><td><b>+0.234R</b></td><td>71</td><td>43.7%</td></tr><tr><td class="l">4</td><td class="l"><b>DEP</b></td><td class="l">CHOP</td><td><b>+0.231R</b></td><td>828</td><td>39.3%</td></tr><tr><td class="l">5</td><td class="l"><b>PIV30</b></td><td class="l">BULL</td><td><b>+0.218R</b></td><td>809</td><td>32.0%</td></tr><tr><td class="l">6</td><td class="l"><b>PEG</b></td><td class="l">BULL</td><td><b>+0.209R</b></td><td>570</td><td>33.3%</td></tr><tr><td class="l">7</td><td class="l"><b>UCR</b></td><td class="l">BULL</td><td><b>+0.198R</b></td><td>965</td><td>36.9%</td></tr><tr><td class="l">8</td><td class="l"><b>YOYO</b></td><td class="l">CHOP</td><td><b>+0.191R</b></td><td>99</td><td>38.4%</td></tr><tr><td class="l">9</td><td class="l"><b>UCR</b></td><td class="l">CHOP</td><td><b>+0.183R</b></td><td>996</td><td>37.6%</td></tr><tr><td class="l">10</td><td class="l"><b>SHK</b></td><td class="l">CHOP</td><td><b>+0.154R</b></td><td>267</td><td>47.9%</td></tr><tr><td class="l">11</td><td class="l"><b>SHK</b></td><td class="l">BULL</td><td><b>+0.129R</b></td><td>280</td><td>51.8%</td></tr><tr><td class="l">12</td><td class="l"><b>JM</b></td><td class="l">CHOP</td><td><b>+0.111R</b></td><td>2519</td><td>35.4%</td></tr></tbody></table><div class="note" style="margin-top:14px">★★ <b>數據答案</b>：目前最強組合 = <b>PEG × CHOP</b>（+0.484R｜n=438｜勝率 40.4%）。<br>⚠ 但記住：呢個係 <b>3 年</b> 樣本、未扣成本。要向前累積到 n≥200 才可以當定論。</div></div></div>
 <footer>
@@ -189,7 +231,7 @@ html[data-theme="light"] .sitenav a.on{background:#2563eb;color:#fff}
  ｜交易台 <code>trading-os-lab/dashboard.py</code>
 </footer>
 </div>
-<script>var D={"_generated":"2026-10-19 15:11"};
+<script>var D={"_generated":"2026-10-19 15:28"};
 function q(s,r){return (r||document).querySelector(s);}
 function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
@@ -235,6 +277,24 @@ document.addEventListener('DOMContentLoaded',function(){ if(window.PAGE) PAGE();
     apply();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>
+<script>
+(function(){
+  var sb=document.getElementById('sb'), tg=document.getElementById('navtoggle'),
+      ov=document.getElementById('navoverlay');
+  if(!sb||!tg) return;
+  function open(){sb.classList.add('open');if(ov)ov.classList.add('show');
+    tg.setAttribute('aria-expanded','true');}
+  function close(){sb.classList.remove('open');if(ov)ov.classList.remove('show');
+    tg.setAttribute('aria-expanded','false');}
+  tg.addEventListener('click',function(e){e.stopPropagation();
+    sb.classList.contains('open')?close():open();});
+  if(ov) ov.addEventListener('click',close);
+  sb.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){ if(window.innerWidth<=900) close(); });
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
 })();
 </script>
 <script>
