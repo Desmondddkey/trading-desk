@@ -107,6 +107,19 @@ def head_html(keys, first_left=True):
 
 
 # ── 標準儲存格 ───────────────────────────────────────────────
+def _first_num(s):
+    """由 'trigger: break & hold above 297.84 (10MA)...' 抽出第一個價格。"""
+    if not s:
+        return None
+    m = _html.search(r"(\d{1,6}(?:\.\d{1,4})?)", str(s))
+    if not m:
+        return None
+    try:
+        return float(m.group(1))
+    except ValueError:
+        return None
+
+
 def cell(key, r, ctx):
     """砌一格。
 
