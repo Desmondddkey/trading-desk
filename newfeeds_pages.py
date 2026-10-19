@@ -209,43 +209,6 @@ def bee50_page(d):
 
 
 # ══════════════════════════════════════════════════════════════
-# 3. Sector RS（iframe + 摘要）
-# ══════════════════════════════════════════════════════════════
-def sectorrs_page(d):
-    SID, GID = "1sR0Edn3q5PKEAcaAOSZIAAisn8bvEzzY8EwiKJTIlBQ", "539776210"
-    asof = (d or {}).get("_asof", "")
-    out = [_head("🏭 Sector RS", "相對強度（NSE 印度）", asof,
-                 f"https://docs.google.com/spreadsheets/d/{SID}/edit#gid={GID}",
-                 "原表")]
-    out.append(_sheet_iframe(SID, GID, "Sector RS"))
-
-    if d:
-        rows = [x for x in (d.get("rows") or []) if x.get("m3") is not None]
-        rows.sort(key=lambda x: -x["m3"])
-        exchs = ", ".join(d.get("exchanges") or [])
-        out.append('<details><summary>▸ 我嘅整理：按 3 個月排序'
-                   f'（★ 呢個表係 {_esc(exchs)} 印度交易所，唔係美股）'
-                   '</summary><div style="padding:6px 0 14px;overflow-x:auto">'
-                   '<table style="width:100%;border-collapse:collapse;'
-                   'font-size:13px">'
-                   '<thead><tr><th class="l">#</th><th class="l">代號</th>'
-                   '<th>LTP</th><th>日%</th><th>1M%</th><th>3M%</th><th>6M%</th>'
-                   '</tr></thead><tbody>')
-        for i, x in enumerate(rows[:30], 1):
-            out.append(f'<tr><td class="l">{i}</td>'
-                       '<td class="l"><a href="https://www.tradingview.com/chart/'
-                       f'?symbol={_esc(x["exch"])}:{_esc(x["sym"])}" '
-                       f'target="_blank" rel="noopener">{_esc(x["sym"])}</a></td>'
-                       f'<td>{_num(x.get("ltp"), 1)}</td>'
-                       f'<td{_tone(x.get("chg"))}>{_pct(x.get("chg"))}</td>'
-                       f'<td{_tone(x.get("m1"))}>{_pct(x.get("m1"))}</td>'
-                       f'<td{_tone(x.get("m3"))}><b>{_pct(x.get("m3"))}</b></td>'
-                       f'<td{_tone(x.get("m6"))}>{_pct(x.get("m6"))}</td></tr>')
-        out.append("</tbody></table></div></details>")
-    return "".join(out)
-
-
-# ══════════════════════════════════════════════════════════════
 # 4. Jeff Sun Momentum（iframe + 摘要）
 # ══════════════════════════════════════════════════════════════
 def jeffsun_page(d):
@@ -296,9 +259,83 @@ def jeffsun_page(d):
     return "".join(out)
 
 
+# ══════════════════════════════════════════════════════════════
+# 5. 納指權重股（NDX 100）
+# ══════════════════════════════════════════════════════════════
+def ndx_page(d):
+    if not d or not d.get("rows"):
+        return _unavail("納指權重股")
+    out = [_head("🇺🇸 納指權重股", "NDX 100 成分 + 市值權重",
+                 d.get("_asof", ""),
+                 "https://www.nasdaq.com/market-activity/quotes/nasdaq-ndx-index",
+                 "Nasdaq 官方")]
+
+    rows = d["rows"]
+    total = d.get("total_mcap") or 0
+    out.append('<div class="card"><div style="padding:12px 16px;font-size:12.5px;'
+               'line-height:1.7">'
+               f'<b>{len(rows)} 隻｜總市值 ${total/1e12:.2f}T</b><br>'
+               '⚠️ <b>權重 = 市值比（近似值）</b>。指數實際用 modified '
+               'market-cap weighting（有上限機制），所以頭幾大嘅實際權重會'
+               '略低過呢度顯示。<br>'
+               '★ 用途：睇邊隻股一動就推／拖指數幾多'
+               '</div></div>')
+
+    # 前 10 大卡
+    out.append('<div class="card"><h2>前 10 大 '
+               f'<small>合共 {sum(x["weight"] or 0 for x in rows[:10]):.1f}%</small>'
+               '</h2><div style="padding:14px 16px">'
+               '<div style="display:grid;grid-template-columns:repeat(auto-fit,'
+               'minmax(120px,1fr));gap:12px">')
+    for x in rows[:10]:
+        cls = "up" if (x.get("chgpct") or 0) > 0 else (
+            "dn" if (x.get("chgpct") or 0) < 0 else "")
+        out.append(f'<div><div style="font-size:13px;font-weight:700">'
+                   f'{_esc(x["sym"])}</div>'
+                   f'<div style="font-size:19px;font-weight:700;'
+                   f'">{x["weight"] or 0:.2f}%</div>'
+                   f'<div class="{cls}" style="font-size:12px">'
+                   f'{_pct(x.get("chgpct"), 2)}</div></div>')
+    out.append("</div></div></div>")
+
+    # 完整表
+    out.append('<div class="card"><h2>全部成分股 '
+               '<small>按市值排序</small></h2>'
+               '<div style="padding:14px 16px;overflow-x:auto">'
+               '<table style="width:100%;border-collapse:collapse;font-size:13px">'
+               '<thead><tr><th class="l">#</th><th class="l">代號</th>'
+               '<th class="l">公司</th><th>市值</th><th>權重</th>'
+               '<th>現價</th><th>漲跌%</th></tr></thead><tbody>')
+    for i, x in enumerate(rows, 1):
+        mc = (f"${x['mcap']/1e9:,.0f}B" if x.get("mcap") else "—")
+        out.append(f'<tr><td class="l">{i}</td>'
+                   '<td class="l"><a href="https://www.tradingview.com/chart/'
+                   f'?symbol={_esc(x["sym"])}" target="_blank" rel="noopener">'
+                   f'<b>{_esc(x["sym"])}</b></a></td>'
+                   '<td class="l" style="max-width:230px;overflow:hidden;'
+                   'text-overflow:ellipsis;white-space:nowrap">'
+                   f'{_esc(x.get("name","")[:46])}</td>'
+                   f'<td>{mc}</td>'
+                   f'<td><b>{x["weight"] or 0:.2f}%</b></td>'
+                   f'<td>{_num(x.get("px"), 2)}</td>'
+                   f'<td{_tone(x.get("chgpct"))}>{_pct(x.get("chgpct"), 2)}</td>'
+                   '</tr>')
+    out.append("</tbody></table></div></div>")
+
+    out.append('<div class="card"><h2>★ 點用</h2>'
+               '<div style="padding:12px 16px;font-size:13px;line-height:1.75">'
+               '① <b>權重 ≥3%</b> 嘅股（NVDA/AAPL/GOOGL/GOOG/MSFT/AMZN/SPCX）'
+               '動 1% ≈ 指數動 0.03–0.11%<br>'
+               '② 前 10 大佔 <b>69.5%</b> → 指數走勢基本上係呢 10 隻話事<br>'
+               '③ 小品種（<0.5%）就算暴漲對指數影響都好細<br>'
+               '④ 你持倉同呢張表重疊 = 集中度風險'
+               '</div></div>')
+    return "".join(out)
+
+
 PAGES = {
     "mm": ("Market Monitor", mm_page),
     "bee50": ("Stockbee 50", bee50_page),
-    "sectorrs": ("Sector RS", sectorrs_page),
+    "ndx": ("納指權重股", ndx_page),
     "jeffsun": ("Jeff Sun Mom.", jeffsun_page),
 }

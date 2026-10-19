@@ -39,13 +39,13 @@ SOURCES = {
              "gviz/tq?tqx=out:csv&gid=1499398020"),
         note="每日 50 隻最強動能股（日期為欄）",
     ),
-    "sectorrs": dict(
-        label="Sector RS",
-        icon="🏭",
-        url=("https://docs.google.com/spreadsheets/d/"
-             "1sR0Edn3q5PKEAcaAOSZIAAisn8bvEzzY8EwiKJTIlBQ/"
-             "gviz/tq?tqx=out:csv&gid=539776210"),
-        note="★ NSE（印度）500 隻 + 相對強度 30 日",
+    "ndx": dict(
+        label="納指權重股",
+        icon="🇺🇸",
+        url=("https://api.nasdaq.com/api/quote/list-type/"
+             "nasdaq100?assetclass=stocks&limit=150"),
+        note="NDX 100 成分 + 市值（權重由市值推算，近似值）",
+        json=True,
     ),
     "jeffsun": dict(
         label="Jeff Sun Momentum",
@@ -182,6 +182,53 @@ def parse_bee50(txt):
                 today=cols[0] if cols else [])
 
 
+def parse_ndx(txt):
+    """Nasdaq API JSON → NDX 100 成分 + 市值權重（近似）。
+
+    ★ 注意：指數用 modified market-cap weighting（有上限機制），
+      所以市值權重係【近似值】，唔係官方權重。
+    """
+    import json
+    try:
+        d = json.loads(txt)
+    except Exception:
+        return None
+    data = (d.get("data") or {})
+    inner = data.get("data") or {}
+    rows = inner.get("rows") or []
+    if not rows:
+        return None
+
+    def num(v):
+        try:
+            return float(str(v).replace(",", "").replace("$", "")
+                         .replace("%", "").replace("+", "").strip())
+        except (TypeError, ValueError):
+            return None
+
+    out = []
+    for r in rows:
+        mc = num(r.get("marketCap"))
+        out.append(dict(
+            sym=str(r.get("symbol", "")).strip(),
+            name=str(r.get("companyName", "")).strip(),
+            sector=str(r.get("sector", "")).strip(),
+            mcap=mc,
+            px=num(r.get("lastSalePrice")),
+            chg=num(r.get("netChange")),
+            chgpct=num(r.get("percentageChange")),
+            dir=str(r.get("deltaIndicator", "")),
+        ))
+    out = [x for x in out if x["sym"]]
+    # 市值權重
+    total = sum(x["mcap"] for x in out if x["mcap"])
+    for x in out:
+        x["weight"] = (x["mcap"] / total * 100) if (x["mcap"] and total) else None
+    out.sort(key=lambda x: -(x["mcap"] or 0))
+    return dict(rows=out, n=len(out), total_mcap=total,
+                asof_inner=inner.get("asOf"))
+
+
 def parse_sectorrs(txt):
     """Sector RS → 按 3 個月變動排序（★ RS-30D 欄原表空白，用 %Chg_3M 代替）。"""
     import csv
@@ -298,8 +345,8 @@ def load_all(force=False):
                 d = parse_mm(txt)
             elif name == "bee50":
                 d = parse_bee50(txt)
-            elif name == "sectorrs":
-                d = parse_sectorrs(txt)
+            elif name == "ndx":
+                d = parse_ndx(txt)
             else:
                 d = parse_jeffsun(txt)
         except Exception:

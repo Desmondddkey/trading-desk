@@ -70,8 +70,8 @@ TABS = [
     ("regime", "🎲", "Setup×Regime", None),
     ("mm", "🌊", "Market Monitor", None),
     ("bee50", "🐝", "Stockbee 50", None),
-    ("sectorrs", "🏭", "Sector RS", None),
     ("jeffsun", "🎯", "Jeff Sun Mom.", None),
+    ("ndx", "🇺🇸", "納指權重股", None),
 ]
 
 
@@ -747,8 +747,8 @@ SIDEBAR_LINKS = [
     ("regime.html", "🎲", "Setup×Regime"),
     ("mm.html", "🌊", "Market Monitor"),
     ("bee50.html", "🐝", "Stockbee 50"),
-    ("sectorrs.html", "🏭", "Sector RS"),
     ("jeffsun.html", "🎯", "Jeff Sun Mom."),
+    ("ndx.html", "🇺🇸", "納指權重股"),
 ]
 
 SIDEBAR_JS = """
