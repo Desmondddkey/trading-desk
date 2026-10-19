@@ -1,6 +1,7 @@
   圖表快取命中（433 隻，至 2026-10-19）
   圖表快取命中（433 隻，至 2026-10-19）
-✓ RS 迷你圖：432/432 隻有數據
+  圖表快取命中（433 隻，至 2026-10-19）
+✓ RS 迷你圖：432/432 隻有數據｜統計：431 隻
 ✓ external.html (3 KB)
 ✓ earnings.html (154 KB)
 ✓ datahealth.html（即時 8／過期 2／缺失 1）
@@ -16,7 +17,7 @@
 ✓ briefing.html (67 KB)
 ✓ leaders.html (1657 KB)
 ✓ cm.html (629 KB)
-✓ week.html (1273 KB)
+✓ week.html (1248 KB)
 ✓ method.html (65 KB)
 ✓ themes.html (39 KB)
 ✓ sectors.html (42 KB)
@@ -44,4 +45,4 @@
 ✓ setups.html (57 KB)
 ✓ regime.html (44 KB)
 ✓ index.html（＝簡報）
-✓ version.json  2026-10-20 01:29
+✓ version.json  2026-10-20 01:32

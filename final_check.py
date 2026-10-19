@@ -113,9 +113,19 @@ try:
     if p:
         chk("18:50 未被停用", p.get("enabled") is not False,
             str(p.get("last_status")))
-    err = [x.get("name") for x in jobs
-           if (x.get("last_status") or "") == "error"]
-    chk("冇 job 上次失敗", not err, str(err[:3]) if err else "")
+    # ★ 只計「今日」嘅失敗 —— 舊記錄（修好之前）唔算
+    import datetime as _dt
+    _today = _dt.date.today().isoformat()
+    err = []
+    for x in jobs:
+        if (x.get("last_status") or "") != "error":
+            continue
+        lr = str(x.get("last_run_at") or "")[:10]
+        if lr == _today:
+            err.append(x.get("name"))
+        else:
+            print(f"      （舊失敗 {x.get('name')} @ {lr}，今日未重跑）")
+    chk("今日冇 job 失敗", not err, str(err[:3]) if err else "")
 except Exception as e:                                       # noqa: BLE001
     chk("Cron 讀得到", False, f"{type(e).__name__}: {e}")
 

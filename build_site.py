@@ -1474,11 +1474,16 @@ def build():
                         if isinstance(_r, dict) and _r.get("symbol"):
                             _all.add(_r["symbol"])
             rs_map = charts.rs_lookup(sorted(_all))
-            log(f"✓ RS 迷你圖：{len(rs_map)}/{len(_all)} 隻有數據")
+            # ★ 同一批股票嘅標準統計（表現/延伸/ADR/成交額/距52週高）
+            #   令所有列表都可以出同一組欄位，唔會得個「—」
+            stats = charts.stats_lookup(sorted(_all))
+            log(f"✓ RS 迷你圖：{len(rs_map)}/{len(_all)} 隻有數據"
+                f"｜統計：{len(stats)} 隻")
         except Exception as e:                               # noqa: BLE001
             wall = (f'<div class="warn">圖表牆取唔到：{type(e).__name__}'
                     f'（yfinance 限流或離線？）。</div>')
             rs_map = {}
+            stats = {}
         # ★ Oliver Kell 六階段（item 7）—— 用 kell.py，同 lab 版同一個分類器。
         # ⚠ 一定要喺 def table / head 之前賦值（closure 求值次序）。
         _kell = _cm = None       # 預設，令後面 setups / week 唔會 UnboundLocal
@@ -1612,9 +1617,11 @@ def build():
             "cm": _cm, "cmres": cmres,
             "kell": _kell,
         }
-        # ★ 加 rsd/rsw（同領導股一樣格式）+ band（ATR 帶）
-        wk_keys = ["rank", "name", "rsd", "rsw", "1w", "1m", "3m", "ext",
-                   "band", "adr", "dvol", "off52", "kell", "cm"]
+        # ★ 2026-10-20 Desmond「全部列表都要咁做」
+        #   欄位同「領導股」完全一致，一個都唔少
+        wk_keys = ["rank", "name", "rsd", "rsw",
+                   "1w", "1m", "3m", "6m", "1y",
+                   "ext", "adr", "dvol", "off52", "kell", "cm"]
         pages["week"] = ("最強 1 週", f"""
 <div class="card"><h2>本週最強嘅流動性股 <small>流動池 {len(scan["universe"])} 隻之中，按 1 週表現排</small></h2>
  <div class="body"><div class="note">「流動性」＝成交額 &gt; ${th["min_dollar_vol"]//10**6}M 且
