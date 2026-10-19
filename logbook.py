@@ -41,7 +41,7 @@ CSS = """
   text-transform:uppercase;opacity:.55;padding:6px 8px;
   border-bottom:1px solid rgba(128,128,128,.28);font-weight:700}
 .lb-tbl td{padding:7px 8px;border-bottom:1px solid rgba(128,128,128,.1);
-  vertical-align:top}
+  vertical-align:top;text-align:left}
 .lb-tbl tr:hover{background:rgba(128,128,128,.06)}
 .lb-when{font-family:ui-monospace,monospace;font-size:11px;
   opacity:.66;white-space:nowrap}

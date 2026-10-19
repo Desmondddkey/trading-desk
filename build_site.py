@@ -1135,7 +1135,7 @@ def sidebar_html(active=""):
             '<div id="navoverlay"></div>'
             '<button id="sbtoggle" title="收合側欄">&lsaquo;</button>'
             '<aside id="sb">'
-            '<a class="brand" href="index.html">📈 Desmond · 交易台'
+            '<a class="brand" href="index.html">HI! Desmond'
             f'<span class="bld">{__import__("datetime").datetime.now().strftime("%m-%d %H:%M")}</span>'
             '</a>'
             '<button id="themebtn">🌙 深色</button>'
@@ -1237,7 +1237,7 @@ def page(active, title, body, payload, extra_head=""):
 <header class="top">
  <div style="display:flex;align-items:flex-start;gap:10px">
   <div style="flex:1 1 auto">
-   <h1>📈 <span>Desmond · 交易台</span></h1>
+   <h1><span>HI! Desmond</span></h1>
    <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>{payload.get('_generated','?')}</code></p>
   </div>
  </div>

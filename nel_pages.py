@@ -171,7 +171,7 @@ def sectors_page(ohlc=None):
             f'<td class="{_tone(r["x1m"])}">{r["x1m"]:+.1f}%</td>'
             f'<td class="{_tone(r["x3m"])}">{r["x3m"]:+.1f}%</td>'
             f'<td>{r.get("etf", "")}</td></tr>')
-    head = ('<tr><th>#</th><th class="l">行業</th><th>階段</th><th>分</th>'
+    head = ('<tr><th>#</th><th class="l">SECTOR</th><th>STAGE</th><th>分</th>'
             '<th>1M 超額</th><th>3M 超額</th><th>ETF</th></tr>')
     return (f'<div class="card"><h2>🏭 Sectors · 行業輪動 '
             f'<small>同 <a href="desk.html">機會</a>頁第③面板同一個實作</small></h2>'
