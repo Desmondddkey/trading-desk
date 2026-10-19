@@ -177,22 +177,67 @@ def render_insight(reg):
 
 
 def render_breadth(b):
-    """把 breadth JSON 轉做乾淨表格（修亂碼）。"""
+    """把 breadth JSON 轉做乾淨表格。
+
+    ★ 2026-10-19 修 bug（Desmond：「breadth 放入市場簡報」）：
+      原本全部用 `posture.xxx` 讀 → 但實際結構係：
+        pct40ma / ls_ratio_proxy  = 頂層 float
+        adl / nnnl                = 頂層 dict {"value": ...}
+        regime / posture          = 頂層 str + dict
+      結果只有 Regime / Posture 顯示到，其餘 7 行全部空白。
+    """
     po = b.get("posture") or {}
+    if not isinstance(po, dict):
+        po = {}
+
+    def _val(x, k="value"):
+        """dict → 取 value；純量 → 原值。"""
+        if isinstance(x, dict):
+            return x.get(k)
+        return x
+
     lines = [
         ("資料", esc(b.get("as_of") or "—")),
         ("範圍", esc(b.get("universe") or "—")),
-        ("Regime", esc(po.get("regime") or "—")),
+        ("Regime", esc(b.get("regime") or po.get("regime") or "—")),
         ("Posture", esc(po.get("posture") or "—")),
-        ("備註", esc("；".join(po.get("notes") or []))),
-        ("多空比", num(po.get("ls_ratio"), 2)),
-        ("ADL", num(po.get("adl"), 1)),
-        ("新高新低淨值", num(po.get("nnnl"), 1)),
-        ("站上 40MA", f'{num(po.get("pct40ma"))}%'),
+        ("狀態", esc(b.get("status") or "—")),
+        ("多空比", num(b.get("ls_ratio_proxy") or po.get("ls_ratio"), 2)),
+        ("ADL", num(_val(b.get("adl")), 1)),
+        ("新高新低淨值", num(_val(b.get("nnnl")), 1)),
+        ("站上 40MA", f'{num(b.get("pct40ma"))}%'),
+        ("SPY 收市", num(b.get("spy_close"), 2)),
+        ("備註", esc("；".join(po.get("notes") or po.get("warnings") or []))),
     ]
     rows = "".join(f'<tr><td class="l" style="color:#64748b;white-space:nowrap">{k}</td>'
                    f'<td class="l">{v}</td></tr>' for k, v in lines if v)
     return f'<table>{rows}</table>'
+
+
+def render_stockbee_breadth(sb):
+    """Stockbee Market Monitor 最新一日（升4%/跌4% 家數）—— 補入市場簡報。
+
+    ★ Desmond 2026-10-19：「breadth 放入市場簡報」。
+      我哋自己嘅 breadth 係 pct40ma/ADL，但 Jeff Sun/Stockbee 方法用嘅係
+      「今日幾多隻升 4%+ / 跌 4%+」。兩把尺唔可以混用，所以並排顯示。
+    """
+    if not sb:
+        return '<div class="dim">DATA_UNAVAILABLE（Stockbee 抓唔到）</div>'
+    up, dn = sb.get("up4"), sb.get("down4")
+    ratio = (up / dn) if (up is not None and dn) else None
+    rows = [
+        ("日期", esc(sb.get("date") or "—")),
+        ("升 4%+ 家數", f'<b class="up">{int(up) if up is not None else "—"}</b>'),
+        ("跌 4%+ 家數", f'<b class="dn">{int(dn) if dn is not None else "—"}</b>'),
+        ("升/跌 比", f'<b>{ratio:.2f}</b>' if ratio else "—"),
+        ("5 日比率", num(sb.get("r5"), 2)),
+        ("10 日比率", num(sb.get("r10"), 2)),
+        ("升 25%+ (季)", num(sb.get("up25q"), 0)),
+        ("跌 25%+ (季)", num(sb.get("down25q"), 0)),
+    ]
+    out = "".join(f'<tr><td class="l" style="color:#64748b;white-space:nowrap">{k}</td>'
+                  f'<td class="l">{v}</td></tr>' for k, v in rows if v and v != "—")
+    return f'<table>{out}</table>'
 
 
 
@@ -704,6 +749,14 @@ html[data-theme="light"] #sb a.on{background:#2563eb;color:#fff}
 #sb .spacer{flex:1 1 auto;min-height:14px}
 #sb button{margin:8px 6px 0;padding:8px;border-radius:8px;border:1px solid #2a3346;
   background:#121c31;color:#e8eef8;font-size:12.5px;cursor:pointer;font-family:inherit}
+/* ★ 深淺色按鈕：標題下面、細粒、左對齊（Desmond 2026-10-19） */
+#sb #themebtn{margin:0 10px 12px;padding:6px 10px;border-radius:7px;
+  font-size:11.5px;align-self:flex-start;background:transparent;
+  border:1px solid #2a3346;color:#8fa0bd;letter-spacing:.02em}
+#sb #themebtn:hover{background:#121c31;color:#e8eef8}
+html[data-theme="light"] #sb #themebtn{background:transparent;
+  border-color:#dbe2ec;color:#64748b}
+html[data-theme="light"] #sb #themebtn:hover{background:#f3f6fa;color:#1a2433}
 html[data-theme="light"] #sb button{background:#f3f6fa;border-color:#dbe2ec;color:#1a2433}
 #navtoggle{display:none;position:fixed;left:10px;top:10px;z-index:9100;
   width:42px;height:42px;border-radius:11px;border:1px solid #2a3346;
@@ -730,6 +783,8 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
 """
 
 SIDEBAR_LINKS = [
+    # ★ Desmond 2026-10-19：廚房看板放最頂（第一個）
+    ("jobboard.html", "🍳", "廚房看板"),
     ("desk.html", "🖥", "機會"),
     ("index.html", "📋", "市場簡報"),
     ("leaders.html", "🚀", "領導股"),
@@ -750,7 +805,6 @@ SIDEBAR_LINKS = [
     ("bee50.html", "🐝", "Stockbee 50"),
     ("jeffsun.html", "🎯", "Jeff Sun Mom."),
     ("ndx.html", "🇺🇸", "納指權重股"),
-    ("jobboard.html", "🍳", "廚房看板"),
 ]
 
 SIDEBAR_JS = """
@@ -780,13 +834,13 @@ def sidebar_html(active=""):
         on = ' class="on"' if href == active else ""
         items.append(f'<a href="{href}"{on}><span class="i">{icon}</span>'
                      f'<span>{label}</span></a>')
+    # ★ Desmond 2026-10-19：深淺色選項移到標題下面（原本喺最底，要捲到底才撳到）
     return ('<button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button>'
             '<div id="navoverlay"></div>'
             '<aside id="sb">'
             '<a class="brand" href="index.html">📈 Desmond · 交易台</a>'
-            + "".join(items) +
-            '<div class="spacer"></div>'
             '<button id="themebtn">🌙 深色</button>'
+            + "".join(items) +
             '</aside>')
 
 
@@ -975,15 +1029,23 @@ def build():
                 f'<td>{num(r.get("stack"),0)}</td>'
                 f'<td>{kc}</td><td>{cc}</td></tr>')
     qrows = "".join(_qrow(r) for r in q)
+    # ★ Stockbee Market Monitor（升4%/跌4% 家數）—— Desmond 2026-10-19
+    try:
+        import newfeeds as _nf2
+        _sbf = _nf2.load_all().get("mm")
+    except Exception:                                        # noqa: BLE001
+        _sbf = None
     brief_body = f"""
 {note}
 <div class="kpis">{kpi_html}</div>
 <div class="grid2">
  <div class="card"><h2>市場狀態 <small>{esc(brief.get("regime_src") or "—")}</small></h2>
   <div class="body">{render_insight(reg) if reg else '<div class="dim">冇快照</div>'}</div></div>
- <div class="card"><h2>廣度歷史 <small>{esc(brief.get("breadth_src") or "—")}</small></h2>
+ <div class="card"><h2>廣度歷史（我哋自己） <small>{esc(brief.get("breadth_src") or "—")}</small></h2>
   <div class="body">{render_breadth(b) if b else '<div class="dim">冇快照</div>'}</div></div>
 </div>
+<div class="card"><h2>🌊 Stockbee 廣度 <small>升 4%+ / 跌 4%+ 家數｜呢把尺同上面唔同，唔可以混用</small></h2>
+ <div class="body">{render_stockbee_breadth(_sbf)}</div></div>
 <div class="card"><h2>今日圖表隊列 <small>{esc(brief.get("rs_src") or "")}</small></h2>
  <div class="body"><div class="scroll"><table><thead><tr><th class="l">代號 / 行業</th><th>收市</th>
  <th>X（21EMA）</th><th>Y（ATRX）</th><th>ATR 帶</th><th>買入區</th><th>疊加</th>
