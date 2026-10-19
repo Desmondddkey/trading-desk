@@ -442,6 +442,39 @@ def build():
         '讀唔到原始碼）｜權重同分項跟足畫面，'
         '每項計分公式由本系統定義｜唯讀研究用途</p>')
 
+
+    # ★ 2026-10-19 Desmond：「你要將呢個網頁嵌入直接顯示係入面」
+    #   實測：www.tradingview.com/chart/h6bQ6ADj/ → 403 + frame-ancestors 'none'
+    #        → 私有 chart 物理上唔可能嵌入。
+    #   改用官方 s.tradingview.com/widgetembed/（200，無 X-Frame-Options）。
+    parts.append(
+        '<div class="card" style="padding:0;overflow:hidden">'
+        '<div style="padding:11px 15px;background:rgba(128,128,128,.08);'
+        'display:flex;align-items:center;gap:10px;flex-wrap:wrap">'
+        '<b style="font-size:13.5px">TradingView 圖表</b>'
+        '<span style="font-size:11.5px;opacity:.6">SPY 日線 · 官方 widget</span>'
+        '<span style="margin-left:auto;font-size:11.5px">'
+        '<a href="https://www.tradingview.com/chart/h6bQ6ADj/" '
+        'target="_blank" rel="noopener noreferrer">↗ 你嘅私有 chart（要登入）</a>'
+        '</span></div>'
+        '<iframe src="https://s.tradingview.com/widgetembed/?'
+        'symbol=AMEX%3ASPY&interval=D&hidesidetoolbar=0&symboledit=1&'
+        'saveimage=1&toolbarbg=rgba(0,0,0,0)&studies=[]&theme=dark&style=1&'
+        'timezone=America%2FNew_York&withdateranges=1&hide_side_toolbar=1&'
+        'allow_symbol_change=1&details=0&hotlist=0&calendar=0" '
+        'style="width:100%;height:520px;border:0;display:block" '
+        'allowfullscreen loading="lazy" '
+        'referrerpolicy="no-referrer-when-downgrade"></iframe>'
+        '<div style="padding:10px 15px;font-size:12px;line-height:1.75;'
+        'opacity:.75">'
+        '★ <b>你嗰個 MARKET REGIME 指標嵌唔到</b>：'
+        'TradingView 對 <code>/chart/h6bQ6ADj/</code> 回 <b>403</b>'
+        ' 同 <code>frame-ancestors &quot;none&quot;</code>，'
+        '而且私有 Pine 腳本只有你自己登入後才見到。'
+        '呢個 iframe 用官方 widget，所以係真嘅即時 TradingView 圖；'
+        '指標數值就用下面我哋自己計嘅七個分項。'
+        '</div></div>')
+
     if r.get("err"):
         parts.append('<div class="card"><div class="body" style="color:#e5484d">'
                      f'⛔ DATA_UNAVAILABLE：{_esc(r["err"])}'

@@ -818,6 +818,63 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
     transform:translateX(202px);opacity:1;pointer-events:auto}
   body.drawer-open #sb.collapsed #sbtoggle{transform:translateX(28px)}
 }
+
+/* ══════════════════════════════════════════════════════════════
+   ★ 2026-10-19 Desmond：「深色版我想風格改成 CLAUDE 既風格顏色」
+   Claude（Anthropic）深色配色：
+     頁面底 #1F1E1D｜卡片 #262624｜浮起 #30302E｜邊框 #3E3E38
+     主文字 #FAF9F5（奶白）｜次文字 #B7B5A9｜弱 #8B8A82
+     強調 #D97757（赤陶橙）｜綠 #7DBE8A｜紅 #E2816D
+   ★ 只覆寫深色（light 模式由上方 html[data-theme="light"] 控制）
+   ══════════════════════════════════════════════════════════════ */
+html[data-theme="dark"] body{background:#1F1E1D;color:#FAF9F5}
+html[data-theme="dark"] a{color:#D97757}
+html[data-theme="dark"] header.top{background:#262624E6;
+  border-bottom:1px solid #3E3E38}
+html[data-theme="dark"] .crumb{color:#8B8A82}
+html[data-theme="dark"] .card{background:#262624;border-color:#3E3E38;
+  box-shadow:0 1px 3px rgba(0,0,0,.35)}
+html[data-theme="dark"] .card h2{background:#30302E;border-color:#3E3E38;
+  color:#FAF9F5}
+html[data-theme="dark"] .card h2 small{color:#B7B5A9}
+html[data-theme="dark"] .kpi{background:#262624;border-color:#3E3E38}
+html[data-theme="dark"] .kpi .k{color:#8B8A82}
+html[data-theme="dark"] th{background:#30302E;color:#B7B5A9;
+  border-color:#3E3E38}
+html[data-theme="dark"] td{border-color:#33332F}
+html[data-theme="dark"] tr:hover td{background:#2C2C29}
+html[data-theme="dark"] .tk{color:#FAF9F5}
+html[data-theme="dark"] .dim{color:#8B8A82}
+html[data-theme="dark"] .note{color:#B7B5A9}
+html[data-theme="dark"] .up{color:#7DBE8A}
+html[data-theme="dark"] .dn{color:#E2816D}
+html[data-theme="dark"] .buyrow td{background:rgba(217,119,87,.10)}
+html[data-theme="dark"] .hl{color:#D97757}
+html[data-theme="dark"] code{background:#30302E;color:#E8C4B0}
+/* 側欄 */
+html[data-theme="dark"] #sb{background:#262624;
+  border-right:1px solid #3E3E38;box-shadow:1px 0 0 #3E3E38}
+html[data-theme="dark"] #sb .brand{color:#FAF9F5}
+html[data-theme="dark"] #sb .grp{color:#8B8A82;border-top-color:#38382F}
+html[data-theme="dark"] #sb a{color:#B7B5A9}
+html[data-theme="dark"] #sb a:hover{background:#30302E;color:#FAF9F5}
+html[data-theme="dark"] #sb a.on{background:#3A2E28;color:#F0A882;
+  border-left:2px solid #D97757}
+html[data-theme="dark"] #sbtoggle{background:#30302E;border-color:#4A4A42;
+  color:#B7B5A9}
+html[data-theme="dark"] #sbtoggle:hover{background:#D97757;color:#1F1E1D;
+  border-color:#D97757}
+html[data-theme="dark"] #navtoggle{background:#262624EE;
+  border-color:#3E3E38;color:#FAF9F5}
+html[data-theme="dark"] #themebtn{background:#30302E;color:#B7B5A9}
+/* 按鈕 / 分頁 */
+html[data-theme="dark"] nav a{color:#B7B5A9}
+html[data-theme="dark"] nav a:hover{background:#30302E;color:#FAF9F5}
+html[data-theme="dark"] nav a.on{background:#3A2E28;border-color:#D97757;
+  color:#F0A882}
+/* 統計數字仍用色碼但調暖 */
+html[data-theme="dark"] .jb-ok,.html[data-theme="dark"] .kn-ok{color:#7DBE8A}
+html[data-theme="dark"] .jb-err{color:#E2816D}
 """
 
 SIDEBAR_LINKS = [
