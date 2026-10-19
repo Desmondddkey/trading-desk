@@ -58,6 +58,16 @@ FEEDS = [
         note="Market Overview：PrimeTrading 嘅成長週期 → 領先者 → 設置流程。需要登入帳戶。",
         login=True,
     ),
+    dict(
+        key="koblich",
+        name="Koblich Chronicles",
+        sub="Interactive Stock Trading Model Book",
+        url="https://www.koblich-chronicles.com/",
+        home="https://www.koblich-chronicles.com/",
+        note="互動式 Model Book — 模式圖鑑，可以逐個 setup 睇圖對照。"
+             "★ 實測（2026-10-19）冇 X-Frame-Options、冇 CSP frame-ancestors → 可以嵌入。",
+        login=False,
+    ),
 ]
 
 CSS = """
@@ -118,14 +128,15 @@ def build():
 
     parts.append(
         '<div class="lf-warn">'
-        '<b>⚠ 呢兩個源需要登入帳戶</b><br>'
+        '<b>⚠ 需要登入嘅源：LoneStockTrader、TradersLab</b><br>'
         '實測（2026-10-19）：兩個網址都會 307 轉去登入頁，'
         '而登入頁本身冇設 <code>X-Frame-Options</code>，所以 iframe <b>載得入</b>。'
         '但瀏覽器會封鎖 iframe 內嘅第三方 Cookie → '
         '<b>喺呢個框入面登入通常唔會成功</b>，你會見到登入畫面或者空白。<br>'
         '★ 正確用法：① 先按右上「↗ 開原站」喺真瀏覽器登入一次 '
         '② 返嚟呢頁再按「載入」—— 部分瀏覽器仍然會擋，'
-        '所以最穩陣係直接喺原站睇。'
+        '所以最穩陣係直接喺原站睇。<br>'
+        '<b>Koblich Chronicles 唔需要登入</b>，載入即見。'
         '</div>')
 
     for f in FEEDS:
