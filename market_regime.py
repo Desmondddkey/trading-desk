@@ -410,6 +410,22 @@ CSS = """
   background:rgba(128,128,128,.25);width:60px;vertical-align:middle;
   overflow:hidden;margin-right:6px}
 .mr-mini>span{display:block;height:100%}
+
+/* ★ 手機：判讀欄換行到下一行，唔會被切 */
+@media(max-width:700px){
+  .mr-tbl thead{display:none}
+  .mr-tbl,.mr-tbl tbody,.mr-tbl tr,.mr-tbl td{display:block;width:100%}
+  .mr-tbl tr{padding:9px 0;border-bottom:1px solid rgba(128,128,128,.18)}
+  .mr-tbl td{border:0;padding:1px 0;text-align:left!important}
+  .mr-tbl td:nth-child(1){font-size:13px}
+  .mr-tbl td:nth-child(2){display:inline;font-size:15px}
+  .mr-tbl td:nth-child(3){display:inline;font-size:11px;opacity:.55;
+    margin-left:4px}
+  .mr-tbl td:nth-child(4){display:inline;margin-left:8px}
+  .mr-tbl td:nth-child(5){font-size:11.5px;opacity:.8;margin-top:3px;
+    line-height:1.6;white-space:normal}
+  .mr-mini{width:70px}
+}
 """
 
 
@@ -471,7 +487,8 @@ def build():
             f'<td class="r mr-wt">{c["wt"]}</td>'
             f'<td><span class="mr-mini"><span style="width:{pctv:.0f}%;'
             f'background:{cc}"></span></span></td>'
-            f'<td class="{c["tone"]}" style="font-size:12px">'
+            f'<td class="{c["tone"]}" style="font-size:12px;white-space:normal;'
+            f'word-break:break-word">'
             f'{_esc(c["detail"])}</td></tr>')
     parts.append('</tbody></table></div></div>')
 
