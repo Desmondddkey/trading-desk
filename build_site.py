@@ -874,6 +874,24 @@ html[data-theme="dark"] nav a.on{background:#3A2E28;border-color:#D97757;
   color:#F0A882}
 /* 統計數字仍用色碼但調暖 */
 html[data-theme="dark"] .jb-ok,.html[data-theme="dark"] .kn-ok{color:#7DBE8A}
+html[data-theme="dark"] .pos{color:#7DBE8A}
+html[data-theme="dark"] .neg{color:#E2816D}
+html[data-theme="dark"] .bar{background:#7DBE8A}
+html[data-theme="dark"] .tk.hl{color:#E8A07E;
+  text-shadow:0 0 10px rgba(217,119,87,.35)}
+html[data-theme="dark"] .tv:hover{color:#D97757;border-color:#D97757}
+html[data-theme="dark"] .up,html[data-theme="dark"] .g{color:#7DBE8A}
+html[data-theme="dark"] .dn,html[data-theme="dark"] .r{color:#E2816D}
+html[data-theme="dark"] .mark{background:#D97757;color:#1F1E1D}
+html[data-theme="dark"] button,html[data-theme="dark"] .btn{
+  background:#30302E;border-color:#4A4A42;color:#FAF9F5}
+html[data-theme="dark"] button:hover{background:#3A3A35}
+html[data-theme="dark"] button.on,html[data-theme="dark"] .btn.pri{
+  background:#D97757;border-color:#D97757;color:#1F1E1D}
+html[data-theme="dark"] input,html[data-theme="dark"] select{
+  background:#30302E;border-color:#4A4A42;color:#FAF9F5}
+html[data-theme="dark"] .scroll::-webkit-scrollbar-thumb{background:#4A4A42}
+html[data-theme="dark"] ::selection{background:#D97757;color:#1F1E1D}
 html[data-theme="dark"] .jb-err{color:#E2816D}
 """
 
@@ -1139,7 +1157,7 @@ def build():
     kpi = [
         ("資料日期", reg.get("date") or b.get("as_of") or "—", "#e8eef8"),
         ("SPY / QQQ / IWM", " ".join(light(lx.get(k, "—")) for k in ("SPY", "QQQ", "IWM")), "#9fd4ff"),
-        ("站上 50MA", pct(bt.get("above50")), "#4ade80"),
+        ("站上 50MA", pct(bt.get("above50")), "#7DBE8A"),
         ("站上 200MA", pct(bt.get("above200")), "#4ade80"),
         ("新高 / 新低", f'{num(bt.get("new_highs"),0)} / {num(bt.get("new_lows"),0)}', "#9fd4ff"),
         ("VIX", f'{light(reg.get("vix_light","—"))}', "#e8eef8"),
