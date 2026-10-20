@@ -1048,6 +1048,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "外部數據源（NEL 等）", "external.html"),
 
     ("_grp", "方法"),
+    ("_link", None, "Model Book", "modelbook.html"),
     ("_link", None, "方法分類", "method.html"),
     ("_link", None, "成長週期", "cycle.html"),
 
@@ -1784,6 +1785,15 @@ def build():
         log(f'✓ edgeimprove.html ({len(_eb)//1024} KB)')
     except Exception as _e20:
         log(f'⚠ Edge 頁失敗：{type(_e20).__name__}: {_e20}')
+
+    # ── Model Book（Desmond 2026-10-20：Notion KB + 心理學分析）──
+    try:
+        import modelbook_page as _mb
+        _mt, _mbb = _mb.build()
+        pages["modelbook"] = (_mt, _mbb, base)
+        log(f'✓ modelbook.html ({len(_mbb)//1024} KB)')
+    except Exception as _e21:
+        log(f'⚠ Model Book 頁失敗：{type(_e21).__name__}: {_e21}')
 
     # ── 數據健康後台（Desmond 2026-10-20：唔想有假更新）──
     try:

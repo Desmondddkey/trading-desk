@@ -1,0 +1,685 @@
+<!doctype html><html lang="zh-Hant" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Model Book · 交易台</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#070b16;color:#e8eef8;
+ font-family:"Segoe UI","Microsoft JhengHei",system-ui,-apple-system,"Noto Sans TC",sans-serif;
+ -webkit-text-size-adjust:100%}
+a{color:#7cc4ff}
+.wrap{max-width:1420px;margin:0 auto;padding:0 14px 60px}
+header.top{position:sticky;top:0;z-index:50;background:#080d1aee;border-bottom:1px solid #1c2740;
+ backdrop-filter:blur(9px);margin:0 -14px 18px;padding:10px 14px 0}
+h1{font-size:19px;margin:0 0 2px;letter-spacing:.4px}
+.crumb{color:#6e80a0;font-size:11.5px;margin:0 0 9px}
+/* 導覽：桌面要 wrap，唔可以靠橫向 scroll ——
+   ★ 2026-10-13 修（Desmond 用 Control Glass 睇到「方法分類」被切一半）：
+   原本只有 overflow-x:auto，冇 flex-wrap → 默認 nowrap →
+   14 個 link 需要 1433px 但容器 1213px → 最後 1-2 個被切斷，
+   而 Chrome 隱藏 scrollbar → 完全冇提示。
+   縮 padding/font 都補唔到 220px 差額（實測只夠縮 ~170px）→ 一定要 wrap。
+   手機（≤768px）維持 nowrap + scroll（拇指滑動係自然嘅）。 */
+nav{display:flex;flex-wrap:wrap;gap:4px;padding-bottom:2px}
+nav a,nav span.tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;
+ padding:7px 11px 8px;border-radius:9px;font-size:13px;color:#9fb0cc;
+ text-decoration:none;border:1px solid transparent;white-space:nowrap}
+nav a:hover{background:#121c31;color:#e8eef8}
+nav a.on{background:#0f1729;border-color:#1e2a44;color:#e8eef8;font-weight:700}
+nav span.off{opacity:.45}
+.card{background:#0f1729;border:1px solid #1e2a44;border-radius:11px;margin:0 0 15px;
+ box-shadow:0 2px 14px rgba(0,0,0,.32)}
+.card h2{font-size:15.5px;margin:0;padding:11px 14px;border-bottom:1px solid #1e2a44;
+ background:#0d1424;border-radius:11px 11px 0 0;display:flex;justify-content:space-between;
+ align-items:center;gap:10px}
+.card h2 small{font-weight:400;color:#7f90ad;font-size:11.5px}
+.card .body{padding:12px 14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+@media(max-width:1080px){.grid2,.grid3{grid-template-columns:1fr}}
+/* ── Item 9：手機版（空間節省）── */
+@media(max-width:700px){
+  body{padding:9px 8px;font-size:12.5px}
+  .card{border-radius:9px;margin-bottom:10px}
+  .card>h2{font-size:13px;padding:9px 11px;gap:5px}
+  .card>h2 small{display:none}
+  .card>.body{padding:0}
+  .scroll{max-height:none;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{font-size:11px;min-width:0}
+  th,td{padding:4px 5px;white-space:nowrap}
+  th{font-size:10px;letter-spacing:0}
+  /* 第一欄黏住左邊，橫向捲都睇得到代號 */
+  th:first-child,td:first-child{position:sticky;left:0;z-index:2;
+    background:#0f1729;box-shadow:1px 0 0 #1e2a44}
+  html[data-theme="light"] th:first-child,
+  html[data-theme="light"] td:first-child{background:#fff}
+  .tk{font-size:11.5px}
+  .rsmini,.spark{display:none}     /* 迷你圖喺手機太細，索性收起省位 */
+  .kpi{min-width:74px;padding:6px 9px}
+  .kpi .v{font-size:15px}
+  .kpis{gap:6px;margin-bottom:9px}
+  nav.gnav,nav{overflow-x:auto;flex-wrap:nowrap;
+    -webkit-overflow-scrolling:touch;padding-bottom:4px}
+  nav.gnav a,nav a{white-space:nowrap;flex:0 0 auto}
+  .note{font-size:10.5px;line-height:1.6}
+  .chartwall{grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:6px}
+  footer{margin-top:12px;font-size:10.5px}
+}
+@media(max-width:420px){
+  body{padding:6px 5px;font-size:12px}
+  th,td{padding:3px 4px}
+  .kpi{min-width:62px}
+}
+.kpis{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 14px}
+.kpi{background:#0f1729;border:1px solid #1e2a44;border-radius:9px;padding:8px 12px;min-width:96px}
+.kpi .k{font-size:10.5px;color:#7f90ad;letter-spacing:.5px}
+.kpi .v{font-size:17px;font-weight:700;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{padding:5px 7px;text-align:right;border-bottom:1px solid #16203a}
+th{color:#8296b4;font-weight:600;font-size:11px;background:#0d1424;position:sticky;top:0}
+td.l,th.l{text-align:left}
+tr:hover td{background:#131c30}
+.tk{font-weight:700;color:#cfe4ff}
+.tv{color:#cfe4ff;text-decoration:none;border-bottom:1px dotted #4a90d9;font-weight:700}
+.tv:hover{color:#4ade80;border-color:#4ade80}
+.tv .tvs{opacity:0;font-size:10px;margin-left:3px}
+.tv:hover .tvs{opacity:1}
+.pos{color:#4ade80}.neg{color:#f87171}.dim{color:#7f90ad}
+.badge{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10.5px;font-weight:700}
+.bar{height:8px;border-radius:4px;display:inline-block;vertical-align:middle;background:#22c55e}
+.bar.neg{background:#ef4444}
+.note{color:#7f90ad;font-size:11.5px;margin-top:9px;line-height:1.65}
+.warn{background:#3a2410;border:1px solid #a0620f;color:#fbc06a;border-radius:9px;
+ padding:9px 12px;font-size:12.5px;margin:0 0 13px;line-height:1.6}
+.ok{background:#0f2a1a;border:1px solid #2c7a4b;color:#7fe0a3;border-radius:9px;
+ padding:9px 12px;font-size:12.5px;margin:0 0 13px}
+.filters{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 11px;align-items:center}
+input[type=search],select{background:#16203a;color:#e8eef8;border:1px solid #2a3a5c;
+ border-radius:7px;padding:6px 10px;font-size:13px;font-family:inherit}
+button{background:#16203a;color:#c7d4ea;border:1px solid #2a3a5c;border-radius:7px;
+ padding:6px 11px;font-size:12.5px;cursor:pointer;font-family:inherit}
+button:hover{background:#1d2a49}
+button.on{background:#2b6cb0;border-color:#4a90d9;color:#fff;font-weight:700}
+.scroll{max-height:70vh;overflow:auto}
+footer{color:#5f708c;font-size:11.5px;margin-top:22px;line-height:1.7}
+code{background:#16203a;padding:1px 5px;border-radius:4px;font-size:11.5px}
+.todo{background:#141d33;border:1px dashed #35507e;border-radius:10px;padding:14px;color:#9fb0cc;
+ font-size:13px;line-height:1.75}
+.chartwall{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:9px}
+.cand{border:1px solid #1e2a44;border-radius:8px;padding:6px 4px 5px;text-align:center;background:#0d1424;display:block;text-decoration:none;color:inherit}
+.cand .tk{font-size:11.5px;font-weight:700;color:#cfe4ff;margin-top:3px}
+.cand .mini{min-height:66px;display:flex;align-items:center;justify-content:center}
+.cand:hover{border-color:#4a90d9}
+.tk.hl{color:#22c55e;text-shadow:0 0 10px rgba(34,197,94,.4)}
+tr.buyrow td{background:rgba(34,197,94,.07)}
+.controls{display:flex;gap:6px;align-items:center;margin-left:auto;flex:0 0 auto}
+.controls button{border-radius:7px;padding:5px 10px;font-size:12px}
+
+/* ── 淺色主題（默認）── */
+html[data-theme="light"] body{background:#f6f8fb;color:#1a2433}
+html[data-theme="light"] a{color:#2563eb}
+html[data-theme="light"] header.top{background:#ffffffee;border-bottom:1px solid #e3e8f0}
+html[data-theme="light"] .crumb{color:#64748b}
+html[data-theme="light"] nav a{color:#64748b}
+html[data-theme="light"] nav a:hover{background:#eef2f8;color:#111827}
+html[data-theme="light"] nav a.on{background:#ffffff;border-color:#dbe2ec;color:#111827}
+html[data-theme="light"] .card{background:#ffffff;border-color:#e3e8f0;box-shadow:0 1px 6px rgba(15,23,42,.06)}
+html[data-theme="light"] .card h2{background:#f1f5f9;border-color:#e3e8f0;color:#111827}
+html[data-theme="light"] .card h2 small{color:#64748b}
+html[data-theme="light"] .kpi{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] .kpi .k{color:#64748b}
+html[data-theme="light"] .kpi .v{color:#111827}
+html[data-theme="light"] .bar-nav{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] select,html[data-theme="light"] input[type=search]{background:#ffffff;color:#1a2433;border-color:#d0d7e2}
+html[data-theme="light"] button{background:#ffffff;color:#334155;border-color:#d0d7e2}
+html[data-theme="light"] button:hover{background:#f1f5f9}
+html[data-theme="light"] button.on{background:#2563eb;border-color:#2563eb;color:#fff}
+html[data-theme="light"] th{color:#64748b;background:#f1f5f9}
+html[data-theme="light"] td{border-color:#eef2f8}
+html[data-theme="light"] tr:hover td{background:#f6f9fc}
+html[data-theme="light"] .tk{color:#0b63ce}
+html[data-theme="light"] .tk.hl{color:#16a34a;text-shadow:none}
+html[data-theme="light"] .tv{color:#0b63ce;border-color:#93c5fd}
+html[data-theme="light"] .tv:hover{color:#16a34a;border-color:#16a34a}
+html[data-theme="light"] tr.buyrow td{background:rgba(34,197,94,.06)}
+html[data-theme="light"] .dim{color:#94a3b8}
+html[data-theme="light"] .note{color:#64748b}
+html[data-theme="light"] footer{color:#64748b}
+html[data-theme="light"] code{background:#eef2f8}
+html[data-theme="light"] .todo{background:#f6f8fb;border-color:#cbd5e1;color:#475569}
+html[data-theme="light"] .cand{background:#ffffff;border-color:#e3e8f0}
+html[data-theme="light"] .cand .tk{color:#0b63ce}
+html[data-theme="light"] .sitenav{background:#ffffffee;border-color:#e3e8f0}
+html[data-theme="light"] .sitenav a{color:#64748b}
+html[data-theme="light"] .sitenav a:hover{background:#eef2f8;color:#111827}
+html[data-theme="light"] .sitenav a.on{background:#2563eb;color:#fff}
+
+/* ═══ 左側導航（Desmond 2026-10-19：所有頁面選擇 bar 放左邊，方便手機） ═══ */
+#sb{position:fixed;left:0;top:0;bottom:0;width:236px;z-index:9000;
+  overflow-y:auto;overflow-x:hidden;padding:14px 10px 20px;
+  background:#0b1220;border-right:1px solid #1e2a44;
+  display:flex;flex-direction:column;gap:2px;
+  transition:transform .22s ease}
+html[data-theme="light"] #sb{background:#ffffff;border-right:1px solid #e3e8f0}
+/* ★ 2026-10-20 Desmond：LOG BOOK 貼側欄最底（唔屬任何分組） */
+#sb .sbbtm{margin-top:auto;padding-top:10px;
+  border-top:1px solid rgba(128,128,128,.22)}
+#sb .brand{font-size:14px;font-weight:700;letter-spacing:.04em;
+  padding:6px 10px 12px;display:flex;align-items:baseline;gap:7px;
+  color:inherit;text-decoration:none;flex-wrap:wrap}
+#sb .bld{font-size:10px;font-weight:600;letter-spacing:0;opacity:.42;
+  font-family:ui-monospace,monospace;margin-left:auto}
+#sb .gw{margin:0}
+#sb .grp{font-size:13.5px;font-weight:800;letter-spacing:.01em;
+  text-transform:none;opacity:1;padding:11px 11px 7px;cursor:pointer;
+  list-style:none;display:flex;align-items:center;gap:7px;
+  user-select:none;color:inherit}
+#sb .grp::-webkit-details-marker{display:none}
+#sb .grp::before{content:"▸";font-size:10px;opacity:.55;
+  transition:transform .15s;display:inline-block}
+#sb .gw[open]>.grp::before{transform:rotate(90deg)}
+#sb .grp:hover{color:#e8eef8}
+html[data-theme="light"] #sb .grp:hover{color:#111827}
+#sb .gl{padding:0 0 4px}
+#sb a{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px;
+  font-size:13.5px;text-decoration:none;color:#9fb0cc;line-height:1.25}
+#sb a:hover{background:#121c31;color:#e8eef8}
+#sb a.on{background:#1d4ed8;color:#fff;font-weight:700}
+html[data-theme="light"] #sb a{color:#4a5568}
+html[data-theme="light"] #sb a:hover{background:#eef2f8;color:#111827}
+html[data-theme="light"] #sb a.on{background:#2563eb;color:#fff}
+#sb a span.i{flex:0 0 18px;text-align:center;font-size:14px}
+#sb .spacer{flex:1 1 auto;min-height:14px}
+#sb button{margin:8px 6px 0;padding:8px;border-radius:8px;border:1px solid #2a3346;
+  background:#121c31;color:#e8eef8;font-size:12.5px;cursor:pointer;font-family:inherit}
+/* ★ 深淺色按鈕：標題下面、細粒、左對齊（Desmond 2026-10-19） */
+#sb #themebtn{margin:0 10px 12px;padding:6px 10px;border-radius:7px;
+  font-size:11.5px;align-self:flex-start;background:transparent;
+  border:1px solid #2a3346;color:#8fa0bd;letter-spacing:.02em}
+#sb #themebtn:hover{background:#121c31;color:#e8eef8}
+html[data-theme="light"] #sb #themebtn{background:transparent;
+  border-color:#dbe2ec;color:#64748b}
+html[data-theme="light"] #sb #themebtn:hover{background:#f3f6fa;color:#1a2433}
+html[data-theme="light"] #sb button{background:#f3f6fa;border-color:#dbe2ec;color:#1a2433}
+
+/* ★ 2026-10-19 側欄收合（Desmond：左邊加個小球可以縮個欄） */
+#sbtoggle{position:fixed;left:236px;top:14px;z-index:9100;
+  width:26px;height:26px;border-radius:50%;border:1px solid #4b5563;
+  background:#0f1729;color:#9fb0cc;font-size:11px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:left .22s ease,background .15s;font-family:inherit;padding:0}
+#sbtoggle:hover{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
+html[data-theme="light"] #sbtoggle{background:#fff;border-color:#cbd5e1;
+  color:#64748b}
+html[data-theme="light"] #sbtoggle:hover{background:#2563eb;color:#fff}
+#sb.collapsed{width:62px}
+#sb.collapsed .brand{font-size:0;padding:10px 0;text-align:center}
+#sb.collapsed .brand::before{content:"📈";font-size:18px}
+#sb.collapsed #themebtn{display:none}
+#sb.collapsed .grp{font-size:0;padding:8px 0;border-top:1px solid #1e2a44;
+  margin:4px 8px}
+#sb.collapsed a{justify-content:center;padding:9px 0}
+#sb.collapsed a .lbl{display:none}
+#sb.collapsed a .ab{display:block!important}
+#sb a .ab{display:none!important;font-size:11px;font-weight:700;letter-spacing:.02em}
+/* ★ 修（2026-10-19）：#sbtoggle 係 #sb 嘅兄弟節點，唔係後代，
+   `#sb.collapsed #sbtoggle` 永遠 match 唔到 → 改用 body class */
+body.sb-collapsed #sbtoggle{left:62px}
+
+#navtoggle{display:none;position:fixed;left:10px;top:10px;z-index:9100;
+  width:42px;height:42px;border-radius:11px;border:1px solid #2a3346;
+  background:#0b1220ee;color:#e8eef8;font-size:19px;cursor:pointer;
+  align-items:center;justify-content:center;line-height:1}
+html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;color:#1a2433}
+#navoverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:8999}
+#navoverlay.show{display:block}
+/* 桌面：內容右移 */
+@media(min-width:901px){
+  body{padding-left:236px}
+  /* desk.html 自己嘅頂部 nav 隱藏（已由 sidebar 取代） */
+  nav.sitenav{display:none!important}
+}
+/* 手機：sidebar 變 drawer */
+@media(max-width:900px){
+  #sb{transform:translateX(-100%);box-shadow:4px 0 24px rgba(0,0,0,.4);
+      padding-top:56px}
+  #sb.open{transform:translateX(0)}
+  #navtoggle{display:flex}
+  body{padding-left:0}
+  header.top{padding-top:56px}
+  /* ★ 2026-10-19 Desmond：「小圓球可以跟住左邊隱藏時一齊收入」
+     drawer 關閉時圓球一齊滑出畫面，唔會浮喺中間。 */
+  #sbtoggle{left:0;top:14px;
+    transform:translateX(-58px);opacity:0;pointer-events:none;
+    transition:transform .22s ease,opacity .18s ease}
+  body.drawer-open #sbtoggle{
+    transform:translateX(202px);opacity:1;pointer-events:auto}
+  body.drawer-open.sb-collapsed #sbtoggle{transform:translateX(28px)}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ★ 2026-10-19 Desmond：「深色版我想風格改成 CLAUDE 既風格顏色」
+   Claude（Anthropic）深色配色：
+     頁面底 #1F1E1D｜卡片 #262624｜浮起 #30302E｜邊框 #3E3E38
+     主文字 #FAF9F5（奶白）｜次文字 #B7B5A9｜弱 #8B8A82
+     強調 #D97757（赤陶橙）｜綠 #7DBE8A｜紅 #E2816D
+   ★ 只覆寫深色（light 模式由上方 html[data-theme="light"] 控制）
+   ══════════════════════════════════════════════════════════════ */
+html[data-theme="dark"] body{background:#1F1E1D;color:#FAF9F5}
+html[data-theme="dark"] a{color:#D97757}
+html[data-theme="dark"] header.top{background:#262624E6;
+  border-bottom:1px solid #3E3E38}
+html[data-theme="dark"] .crumb{color:#8B8A82}
+html[data-theme="dark"] .card{background:#262624;border-color:#3E3E38;
+  box-shadow:0 1px 3px rgba(0,0,0,.35)}
+html[data-theme="dark"] .card h2{background:#30302E;border-color:#3E3E38;
+  color:#FAF9F5}
+html[data-theme="dark"] .card h2 small{color:#B7B5A9}
+html[data-theme="dark"] .kpi{background:#262624;border-color:#3E3E38}
+html[data-theme="dark"] .kpi .k{color:#8B8A82}
+html[data-theme="dark"] th{background:#30302E;color:#B7B5A9;
+  border-color:#3E3E38}
+html[data-theme="dark"] td{border-color:#33332F}
+html[data-theme="dark"] tr:hover td{background:#2C2C29}
+html[data-theme="dark"] .tk{color:#FAF9F5}
+html[data-theme="dark"] .dim{color:#8B8A82}
+html[data-theme="dark"] .note{color:#B7B5A9}
+html[data-theme="dark"] .up{color:#7DBE8A}
+html[data-theme="dark"] .dn{color:#E2816D}
+html[data-theme="dark"] .buyrow td{background:rgba(217,119,87,.10)}
+html[data-theme="dark"] .hl{color:#D97757}
+html[data-theme="dark"] code{background:#30302E;color:#E8C4B0}
+/* 側欄 */
+html[data-theme="dark"] #sb{background:#262624;
+  border-right:1px solid #3E3E38;box-shadow:1px 0 0 #3E3E38}
+html[data-theme="dark"] #sb .brand{color:#FAF9F5}
+html[data-theme="dark"] #sb .grp{color:#8B8A82;border-top-color:#38382F}
+html[data-theme="dark"] #sb a{color:#B7B5A9}
+html[data-theme="dark"] #sb a:hover{background:#30302E;color:#FAF9F5}
+html[data-theme="dark"] #sb a.on{background:#3A2E28;color:#F0A882;
+  border-left:2px solid #D97757}
+html[data-theme="dark"] #sbtoggle{background:#30302E;border-color:#4A4A42;
+  color:#B7B5A9}
+html[data-theme="dark"] #sbtoggle:hover{background:#D97757;color:#1F1E1D;
+  border-color:#D97757}
+html[data-theme="dark"] #navtoggle{background:#262624EE;
+  border-color:#3E3E38;color:#FAF9F5}
+html[data-theme="dark"] #themebtn{background:#30302E;color:#B7B5A9}
+/* 按鈕 / 分頁 */
+html[data-theme="dark"] nav a{color:#B7B5A9}
+html[data-theme="dark"] nav a:hover{background:#30302E;color:#FAF9F5}
+html[data-theme="dark"] nav a.on{background:#3A2E28;border-color:#D97757;
+  color:#F0A882}
+/* 統計數字仍用色碼但調暖 */
+html[data-theme="dark"] .jb-ok,.html[data-theme="dark"] .kn-ok{color:#7DBE8A}
+html[data-theme="dark"] .pos{color:#7DBE8A}
+html[data-theme="dark"] .neg{color:#E2816D}
+html[data-theme="dark"] .bar{background:#7DBE8A}
+html[data-theme="dark"] .tk.hl{color:#E8A07E;
+  text-shadow:0 0 10px rgba(217,119,87,.35)}
+html[data-theme="dark"] .tv:hover{color:#D97757;border-color:#D97757}
+html[data-theme="dark"] .up,html[data-theme="dark"] .g{color:#7DBE8A}
+html[data-theme="dark"] .dn,html[data-theme="dark"] .r{color:#E2816D}
+html[data-theme="dark"] .mark{background:#D97757;color:#1F1E1D}
+html[data-theme="dark"] button,html[data-theme="dark"] .btn{
+  background:#30302E;border-color:#4A4A42;color:#FAF9F5}
+html[data-theme="dark"] button:hover{background:#3A3A35}
+html[data-theme="dark"] button.on,html[data-theme="dark"] .btn.pri{
+  background:#D97757;border-color:#D97757;color:#1F1E1D}
+html[data-theme="dark"] input,html[data-theme="dark"] select{
+  background:#30302E;border-color:#4A4A42;color:#FAF9F5}
+html[data-theme="dark"] .scroll::-webkit-scrollbar-thumb{background:#4A4A42}
+html[data-theme="dark"] ::selection{background:#D97757;color:#1F1E1D}
+html[data-theme="dark"] .jb-err{color:#E2816D}
+/* ══════════════════════════════════════════════════════════════
+   ★ 2026-10-19 Desmond：「3, 4」
+   ③ 赤陶橙用得更重（標題、按鈕、選中項全部橙）
+   ④ 淺色版也改成 Claude 淺色
+   Claude 淺色：底 #FAF9F5｜卡片 #FFFFFF｜邊框 #E3E1DA
+                主字 #1F1E1D｜次字 #6B6A63｜強調 #D97757
+   ══════════════════════════════════════════════════════════════ */
+/* ── ③ 深色：橙加得更重 ── */
+html[data-theme="dark"] .card h2{
+  color:#F0A882;border-bottom-color:#4A3A32}
+html[data-theme="dark"] .card h2 small{color:#B7B5A9}
+html[data-theme="dark"] .kpi .v{color:#FAF9F5}
+html[data-theme="dark"] #sb a.on{background:#3A2E28;color:#F0A882;
+  border-left:3px solid #D97757;font-weight:700}
+html[data-theme="dark"] #sb .brand{color:#F0A882}
+html[data-theme="dark"] nav a.on{background:#3A2E28;border-color:#D97757;
+  color:#F0A882;font-weight:700}
+html[data-theme="dark"] .tk.hl{color:#D97757}
+html[data-theme="dark"] .hl{color:#D97757;font-weight:800}
+html[data-theme="dark"] .jb-group>summary{color:#F0A882}
+html[data-theme="dark"] .jb-card{border-color:#3E3E38}
+html[data-theme="dark"] .jb-chip{border-color:#4A4A42;color:#B7B5A9}
+html[data-theme="dark"] .seg button.on,
+html[data-theme="dark"] .c-seg button.on{
+  background:#D97757!important;border-color:#D97757!important;
+  color:#1F1E1D!important;font-weight:800}
+html[data-theme="dark"] .badge,html[data-theme="dark"] .pill{
+  background:#3A2E28;border-color:#D97757;color:#F0A882}
+
+/* ── ④ 淺色版改成 Claude 淺色 ── */
+html[data-theme="light"] body{background:#FAF9F5;color:#1F1E1D}
+html[data-theme="light"] a{color:#C4633F}
+html[data-theme="light"] header.top{background:#FAF9F5EE;
+  border-bottom:1px solid #E3E1DA}
+html[data-theme="light"] .crumb{color:#6B6A63}
+html[data-theme="light"] .card{background:#FFFFFF;border-color:#E3E1DA;
+  box-shadow:0 1px 3px rgba(31,30,29,.06)}
+html[data-theme="light"] .card h2{background:#F4F2ED;
+  border-color:#E3E1DA;color:#1F1E1D}
+html[data-theme="light"] .card h2 small{color:#6B6A63}
+html[data-theme="light"] .kpi{background:#FFFFFF;border-color:#E3E1DA}
+html[data-theme="light"] .kpi .k{color:#6B6A63}
+html[data-theme="light"] th{background:#F4F2ED;color:#6B6A63;
+  border-color:#E3E1DA}
+html[data-theme="light"] td{border-color:#EFEDE7}
+html[data-theme="light"] tr:hover td{background:#FAF8F4}
+html[data-theme="light"] .tk{color:#1F1E1D}
+html[data-theme="light"] .dim{color:#8E8C84}
+html[data-theme="light"] .note{color:#6B6A63}
+html[data-theme="light"] .pos,html[data-theme="light"] .up{color:#2E7D4F}
+html[data-theme="light"] .neg,html[data-theme="light"] .dn{color:#C0402C}
+html[data-theme="light"] .bar{background:#D97757}
+html[data-theme="light"] .tk.hl{color:#D97757;text-shadow:none}
+html[data-theme="light"] .hl{color:#C4633F;font-weight:800}
+html[data-theme="light"] .buyrow td{background:rgba(217,119,87,.07)}
+html[data-theme="light"] code{background:#F4F2ED;color:#8A4A32}
+html[data-theme="light"] #sb{background:#F4F2ED;border-right:1px solid #E3E1DA}
+html[data-theme="light"] #sb .brand{color:#C4633F}
+html[data-theme="light"] #sb .grp{color:#8E8C84;border-top-color:#E3E1DA}
+html[data-theme="light"] #sb a{color:#4A4842}
+html[data-theme="light"] #sb a:hover{background:#EAE7E0;color:#1F1E1D}
+html[data-theme="light"] #sb a.on{background:#F7E9E3;color:#C4633F;
+  border-left:3px solid #D97757;font-weight:700}
+html[data-theme="light"] #sbtoggle{background:#FFFFFF;border-color:#DAD9D4;
+  color:#6B6A63}
+html[data-theme="light"] #sbtoggle:hover{background:#D97757;color:#fff;
+  border-color:#D97757}
+html[data-theme="light"] nav a{color:#6B6A63}
+html[data-theme="light"] nav a:hover{background:#F4F2ED;color:#1F1E1D}
+html[data-theme="light"] nav a.on{background:#F7E9E3;border-color:#D97757;
+  color:#C4633F;font-weight:700}
+html[data-theme="light"] button,html[data-theme="light"] .btn{
+  background:#FFFFFF;border-color:#DAD9D4;color:#1F1E1D}
+html[data-theme="light"] button:hover{background:#F4F2ED}
+html[data-theme="light"] button.on,html[data-theme="light"] .btn.pri,
+html[data-theme="light"] .seg button.on{
+  background:#D97757!important;border-color:#D97757!important;
+  color:#FFFFFF!important;font-weight:800}
+html[data-theme="light"] .jb-group>summary{color:#C4633F}
+html[data-theme="light"] .jb-card{border-color:#E3E1DA;
+  background:#FFFFFF}
+
+
+#tvpop{display:none;position:fixed;z-index:9999;width:440px;
+  background:#0b1120;border:1px solid #2a3a5c;border-radius:11px;
+  box-shadow:0 14px 40px rgba(0,0,0,.6);overflow:hidden}
+#tvpopbar{display:flex;align-items:center;gap:8px;padding:6px 9px;
+  background:#111a2e;border-bottom:1px solid #1e2a44;font-size:12px}
+#tvpopsym{font-weight:700;color:#9fd4ff;flex:1 1 auto}
+#tvpopbar a{color:#7fd4a8;text-decoration:none;font-size:11.5px}
+#tvpopbar a:hover{text-decoration:underline}
+#tvpopclose{background:none;border:none;color:#7f90ad;cursor:pointer;
+  font-size:14px;padding:0 3px;font-family:inherit}
+#tvpopclose:hover{color:#fff}
+#tvpopchart{height:340px;background:#0b1120}
+#tvpopnote{font-size:11px;color:#8fa3c8;padding:0 9px 6px;min-height:0}
+@media(max-width:700px){#tvpop{display:none!important}}
+</style></head><body>
+<script>
+/* ★ 自動更新：用返原來網址，頁面發現有新 build 就自己 reload 一次
+   唔會迴圈：sessionStorage 記住已 reload 過嘅版本 */
+(function(){
+  var BV="2026-10-20 20:10";
+  try{
+    if(sessionStorage.getItem('hv')===BV) return;
+  }catch(e){}
+  fetch('version.json?t='+Date.now(),{cache:'no-store'})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(d){
+      if(!d||!d.v||d.v===BV) return;
+      try{sessionStorage.setItem('hv',d.v);}catch(e){}
+      var u=new URL(location.href);
+      u.searchParams.set('v',d.v.replace(/\D/g,''));
+      location.replace(u.toString());
+    })
+    .catch(function(){});
+})();
+</script>
+<button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button><div id="navoverlay"></div><button id="sbtoggle" title="收合側欄">&lsaquo;</button><aside id="sb"><a class="brand" href="index.html">HI! Desmond<span class="bld">10-20 20:11</span></a><button id="themebtn">🌙 深色</button><a href="jobboard.html" data-pin="1"><span class="i"></span><span class="lbl">廚房看板</span></a><a href="datahealth.html" data-pin="1"><span class="i"></span><span class="lbl">DATABASE</span></a><details class="gw"><summary class="grp">市場</summary><div class="gl"><a href="regime_mri.html"><span class="ab">MA</span><span class="lbl">MARKET REGIME</span></a><a href="index.html"><span class="ab">市場</span><span class="lbl">市場簡報</span></a><a href="sectors.html"><span class="ab">Se</span><span class="lbl">Sectors</span></a><a href="themes.html"><span class="ab">Th</span><span class="lbl">Themes</span></a><a href="breadth.html"><span class="ab">Br</span><span class="lbl">Breadth</span></a></div></details><details class="gw"><summary class="grp">選股</summary><div class="gl"><a href="alerts.html"><span class="ab">Al</span><span class="lbl">Alert</span></a><a href="setups.html"><span class="ab">Se</span><span class="lbl">Setups（The Plan）</span></a><a href="yoyo_ball.html"><span class="ab">YO</span><span class="lbl">YOYO Ball</span></a><a href="dailyscan.html"><span class="ab">Da</span><span class="lbl">Daily Scan</span></a><a href="leadermap.html"><span class="ab">RS</span><span class="lbl">RS Leader 位置圖</span></a><a href="atrxrisk.html"><span class="ab">AT</span><span class="lbl">ATRX 風險</span></a><a href="earnings.html"><span class="ab">財報</span><span class="lbl">財報日曆</span></a><a href="leaders.html"><span class="ab">領導</span><span class="lbl">領導股</span></a><a href="cm.html"><span class="ab">1C</span><span class="lbl">1CM 回調</span></a><a href="week.html"><span class="ab">最強</span><span class="lbl">最強 1 週</span></a><a href="rsboard.html"><span class="ab">RS</span><span class="lbl">RS 板</span></a><a href="regime.html"><span class="ab">Se</span><span class="lbl">Setup 矩陣</span></a></div></details><details class="gw"><summary class="grp">成績</summary><div class="gl"><a href="edgeimprove.html"><span class="ab">Ed</span><span class="lbl">Edge Improving</span></a><a href="positioning.html"><span class="ab">Po</span><span class="lbl">Positioning</span></a><a href="review.html"><span class="ab">Re</span><span class="lbl">Review</span></a><a href="calculator.html"><span class="ab">倉位</span><span class="lbl">倉位計算機</span></a></div></details><details class="gw"><summary class="grp">外部數據</summary><div class="gl"><a href="rocketstock.html"><span class="ab">Ro</span><span class="lbl">RocketStock</span></a><a href="livefeeds.html"><span class="ab">外部</span><span class="lbl">外部即時數據</span></a><a href="mm.html"><span class="ab">Ma</span><span class="lbl">Market Monitor</span></a><a href="bee50.html"><span class="ab">St</span><span class="lbl">Stockbee 50</span></a><a href="ndx.html"><span class="ab">納指</span><span class="lbl">納指權重股</span></a><a href="jeffsun.html"><span class="ab">Je</span><span class="lbl">Jeff Sun Mom.</span></a><a href="external.html"><span class="ab">外部</span><span class="lbl">外部數據源（NEL 等）</span></a></div></details><details class="gw" open><summary class="grp">方法</summary><div class="gl"><a href="modelbook.html" class="on"><span class="ab">Mo</span><span class="lbl">Model Book</span></a><a href="method.html"><span class="ab">方法</span><span class="lbl">方法分類</span></a><a href="cycle.html"><span class="ab">成長</span><span class="lbl">成長週期</span></a></div></details><details class="gw"><summary class="grp">PLAYBOOK</summary><div class="gl"><a href="https://jfsrev.substack.com/p/my-trading-tools-process-routine" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Jeff Sun 工具/流程</span></a><a href="https://traderslab.gitbook.io/primetrading" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">PrimeTrading 手冊</span></a><a href="https://qullamaggie.net/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Qullamaggie</span></a><a href="https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">QM 3 個 setups</span></a><a href="https://qullamaggie.net/alex-desjardinss-method/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Alex Desjardins 方法</span></a></div></details><div class="sbbtm"><a href="logbook.html" data-bottom="1"><span class="ab">LO</span><span class="lbl">LOG BOOK</span></a></div></aside>
+<div class="wrap">
+<header class="top">
+ <div style="display:flex;align-items:flex-start;gap:10px">
+  <div style="flex:1 1 auto">
+   <h1><span>HI! Desmond</span></h1>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-10-20 20:10</code></p>
+  </div>
+ </div>
+</header>
+<style>
+.mb-g{margin:0 0 14px}
+.mb-g h3{font-size:13px;font-weight:800;margin:14px 0 7px;
+  color:#c2410c;letter-spacing:.02em}
+.mb-l{display:flex;gap:8px;align-items:baseline;padding:5px 0;
+  border-bottom:1px solid rgba(128,128,128,.11);font-size:12.5px}
+.mb-l a{text-decoration:none;font-weight:600}
+.mb-l a:hover{text-decoration:underline}
+.mb-l .n{margin-left:auto;font-size:10.5px;opacity:.45;
+  font-family:ui-monospace;white-space:nowrap}
+.mb-psy{border:1px solid rgba(217,119,87,.4);background:rgba(217,119,87,.06);
+  border-radius:12px;padding:13px 15px;margin:0 0 14px;font-size:12.5px;
+  line-height:1.9}
+.mb-psy b{color:#c2410c}
+.mb-q{border-radius:11px;padding:11px 14px;margin:0 0 9px;
+  border:1px solid rgba(128,128,128,.24);background:rgba(128,128,128,.04);
+  font-size:12.5px;line-height:1.85}
+.mb-q .k{font-weight:800;font-size:12px;color:#64748b;
+  text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+@media(max-width:700px){.mb-l{flex-wrap:wrap}.mb-l .n{margin-left:0}}
+</style><h2>Model Book <small>Notion 知識庫</small></h2><p class="crumb">53 頁｜由 Notion 快取讀取（唔會上網）｜點標題開原頁</p><div class="mb-psy">🧠 <b>市場行為同心理學分析</b><br>下面係由 Model Book 內文抽出嘅行為主題。每一個主題都對應你實盤嘅一個決策點 —— <b>唔係理論，係你每日會撞到嘅情況。</b></div><div class="mb-q"><div class="k">止蝕與紀律　<span style="opacity:.5">（216 次提及）</span></div><a href="https://app.notion.com/p/Edge-2dd1ab8501ba80ca8bf6e480d33678aa" target="_blank" rel="noopener">世界頂級交易員的交易優勢 (Edge) 完全</a>｜<a href="https://app.notion.com/p/6-2ea1ab8501ba80c8866fe76a69cdfede" target="_blank" rel="noopener">第6章深度解釋</a>｜<a href="https://app.notion.com/p/Jeff-Sun-2cc1ab8501ba807ca2dbfe8e6b9d23e4" target="_blank" rel="noopener">Jeff Sun 交易系統 - 深度學習與實</a></div><div class="mb-q"><div class="k">市場敘事　<span style="opacity:.5">（57 次提及）</span></div><a href="https://app.notion.com/p/2025-32-17-2f81ab8501ba80749f08d97297e16fda" target="_blank" rel="noopener">從2025年賽事前辨識32位大贏家的17個重</a>｜<a href="https://app.notion.com/p/A-2e71ab8501ba80b4b853c51f9038ff42" target="_blank" rel="noopener">基本面+敘事+主題+技術面，才能做出A+最佳</a>｜<a href="https://app.notion.com/p/SMCI-2f51ab8501ba800b9815c6d806a15ef2" target="_blank" rel="noopener">SMCI</a></div><div class="mb-q"><div class="k">耐心與等待　<span style="opacity:.5">（53 次提及）</span></div><a href="https://app.notion.com/p/Choppy-Market-Dan-Zanger-Extreme-Defense-2f61ab8501ba80ef9a2ac70ef3018be2" target="_blank" rel="noopener">「震盪市（Choppy Market）」或「</a>｜<a href="https://app.notion.com/p/2025-32-17-2f81ab8501ba80749f08d97297e16fda" target="_blank" rel="noopener">從2025年賽事前辨識32位大贏家的17個重</a>｜<a href="https://app.notion.com/p/SMCI-2f51ab8501ba800b9815c6d806a15ef2" target="_blank" rel="noopener">SMCI</a></div><div class="mb-q"><div class="k">恐慌與貪婪　<span style="opacity:.5">（50 次提及）</span></div><a href="https://app.notion.com/p/2021-2025-2e51ab8501ba8056913af48d69e4b0e5" target="_blank" rel="noopener">2021-2025歷史：升勢與跌勢的關鍵催化</a>｜<a href="https://app.notion.com/p/Edge-2dd1ab8501ba80ca8bf6e480d33678aa" target="_blank" rel="noopener">世界頂級交易員的交易優勢 (Edge) 完全</a>｜<a href="https://app.notion.com/p/2026-Market-Forecast-Larry-Williams-2d51ab8501ba805198aaef091878992b" target="_blank" rel="noopener">2026 Market Forecast L</a></div><div class="mb-q"><div class="k">做空邏輯　<span style="opacity:.5">（44 次提及）</span></div><a href="https://app.notion.com/p/Short-set-up-28b1ab8501ba8067a634dde6c289475c" target="_blank" rel="noopener">Short set up </a>｜<a href="https://app.notion.com/p/2025-32-17-2f81ab8501ba80749f08d97297e16fda" target="_blank" rel="noopener">從2025年賽事前辨識32位大贏家的17個重</a>｜<a href="https://app.notion.com/p/X-51-3f51ab8501ba8108af3bf3eeaaabd9e2" target="_blank" rel="noopener">X 交易員影響者名單（51 位）</a></div><div class="mb-q"><div class="k">回調與支撐心理　<span style="opacity:.5">（39 次提及）</span></div><a href="https://app.notion.com/p/Choppy-Market-Dan-Zanger-Extreme-Defense-2f61ab8501ba80ef9a2ac70ef3018be2" target="_blank" rel="noopener">「震盪市（Choppy Market）」或「</a>｜<a href="https://app.notion.com/p/2021-2025-2e51ab8501ba8056913af48d69e4b0e5" target="_blank" rel="noopener">2021-2025歷史：升勢與跌勢的關鍵催化</a>｜<a href="https://app.notion.com/p/2025-32-17-2f81ab8501ba80749f08d97297e16fda" target="_blank" rel="noopener">從2025年賽事前辨識32位大贏家的17個重</a></div><div class="card"><h2>行為對照 <small>理論 vs 你嘅實盤</small></h2><div class="body"><div style="font-size:12.5px;line-height:1.95"><b>① 「耐心與等待」</b> 理論：冇 setup 就現金。<br>　你嘅實盤：每日平均 <b>16.2 單</b>；做 <b>20+ 單</b> 嘅日子每單 <b>−$23</b>（n=557）。<br>　→ <span style="color:#dc2626;font-weight:700">做得越多，每單越差。</span><br><br><b>② 「恐慌與貪婪」</b> 理論：極端情緒係轉折點。<br>　你嘅實盤：睇漲單（多數喺情緒高位入）每單 <b>−$18</b>（n=1,103，勝率 30%）。<br>　→ <span style="color:#dc2626;font-weight:700">情緒高位做多 = 最差嘅組合。</span><br><br><b>③ 「止蝕與紀律」</b> 理論：止蝕係入場費。<br>　你嘅實盤：<b>30 分鐘內平倉</b> 每單 <b>−$33</b>（n=601）；<b>持倉 1–5 日</b> 每單 <b>+$45</b>（n=153，勝率 54%）。<br>　→ <span style="color:#16a34a;font-weight:700">持倉越長越好 —— 同「止蝕要快」唔矛盾，係「止蝕快、贏單慢」。</span><br><br><b>④ 「做空邏輯」</b> 理論：跌市做空。<br>　你嘅實盤：看跌每單 <b>+$25</b>；看漲 <b>−$18</b>。<br>　→ <span style="color:#16a34a;font-weight:700">GMI 1/6 RED 時，做空係唯一正期望。</span></div></div></div><div class="card"><h2>覺察問題 <small>唔係叫你做多啲，係叫你停一停</small></h2><div class="body"><div style="font-size:13px;font-weight:800;margin:0 0 8px;color:#c2410c">📅 每日收市前問自己</div><div style="font-size:12.5px;line-height:2">① 今日我有冇因為「唔想空手」而入場？<br>② 今日最快嗰單持倉幾多分鐘？少過 30 分鐘 = 手勢唔係交易。<br>③ 今日我有冇做同 GMI 方向相反嘅單？<br></div><div style="font-size:13px;font-weight:800;margin:16px 0 8px;color:#c2410c">📆 每週問自己</div><div style="font-size:12.5px;line-height:2">① 本週最好嗰單，我持倉幾多日？最差嗰單呢？<br>② 本週我有冇重複做同一隻蝕錢股？<br>③ 如果本週只做 3 單（最好嗰 3 個 setup），結果會點？<br></div></div></div><div class="card"><h2>Model Book 目錄 <small>53 頁</small></h2><div class="body mb-g"><h3>（根）</h3><div class="mb-l"><a href="https://app.notion.com/p/Model-book-2d61ab8501ba8067aeebc2b39ae2a391" target="_blank" rel="noopener">Model book</a><span class="n">1,636 字</span></div><h3>1</h3><div class="mb-l"><a href="https://app.notion.com/p/1-2026-2f91ab8501ba803aa69edad0635dc7b0" target="_blank" rel="noopener">2026</a><span class="n">539 字</span></div><h3>2021-2025歷史：升勢與跌勢的關鍵催化劑</h3><div class="mb-l"><a href="https://app.notion.com/p/2021-2025-2e51ab8501ba8056913af48d69e4b0e5" target="_blank" rel="noopener">2021-2025歷史：升勢與跌勢的關鍵催化劑</a><span class="n">9,102 字</span></div><h3>2024</h3><div class="mb-l"><a href="https://app.notion.com/p/2024-2fd1ab8501ba808f90f4e7763fd69e90" target="_blank" rel="noopener">2024</a><span class="n">350 字</span></div><h3>2026 Market Forecast Larry Williams</h3><div class="mb-l"><a href="https://app.notion.com/p/2026-Market-Forecast-Larry-Williams-2d51ab8501ba805198aaef091878992b" target="_blank" rel="noopener">2026 Market Forecast Larry Williams</a><span class="n">3,430 字</span></div><h3>2026年2月超跌反彈</h3><div class="mb-l"><a href="https://app.notion.com/p/2026-2-3001ab8501ba80b59701ce04e912cdbc" target="_blank" rel="noopener">2026年2月超跌反彈</a><span class="n">0 字</span></div><h3>2026年美國股市展望：四季度機遇與挑戰、流動性與版塊分析</h3><div class="mb-l"><a href="https://app.notion.com/p/2026-2e51ab8501ba804fb8a6fd7bcf0a4d84" target="_blank" rel="noopener">2026年美國股市展望：四季度機遇與挑戰、流動性與版塊分析</a><span class="n">8,743 字</span></div><h3>2028 AI危機</h3><div class="mb-l"><a href="https://app.notion.com/p/2028-AI-3101ab8501ba80c4b2d6ca09ecd219ce" target="_blank" rel="noopener">2028 AI危機</a><span class="n">55 字</span></div><h3>25-26年儲存芯片:MU , SNDK ,WDC ,STX</h3><div class="mb-l"><a href="https://app.notion.com/p/25-26-MU-SNDK-WDC-STX-2ea1ab8501ba80b685e7f2101b6c4509" target="_blank" rel="noopener">25-26年儲存芯片:MU , SNDK ,WDC ,STX</a><span class="n">90 字</span></div><h3>50</h3><div class="mb-l"><a href="https://app.notion.com/p/50-80-2d81ab8501ba80aa970ff71c01a7b494" target="_blank" rel="noopener">80法則</a><span class="n">56 字</span></div><h3>Crwv</h3><div class="mb-l"><a href="https://app.notion.com/p/Crwv-2fe1ab8501ba803d873cebca1e554d07" target="_blank" rel="noopener">Crwv</a><span class="n">26 字</span></div><h3>Each Year best profmer</h3><div class="mb-l"><a href="https://app.notion.com/p/Each-Year-best-profmer-2fc1ab8501ba800681fdd04385f0b3c2" target="_blank" rel="noopener">Each Year best profmer</a><span class="n">29 字</span></div><div class="mb-l"><a href="https://app.notion.com/p/2018-2fc1ab8501ba80a5b2dee3072d7803fe" target="_blank" rel="noopener">2018</a><span class="n">19 字</span></div><div class="mb-l">　<a href="https://app.notion.com/p/TRLY-IPO-BASE-2fc1ab8501ba8005932dd366d51c20a2" target="_blank" rel="noopener">TRLY IPO BASE</a><span class="n">23 字</span></div><div class="mb-l"><a href="https://app.notion.com/p/2025-2fc1ab8501ba80629828ec9fb605b65f" target="_blank" rel="noopener">2025</a><span class="n">38 字</span></div><div class="mb-l">　<a href="https://app.notion.com/p/SMCI-2f51ab8501ba800b9815c6d806a15ef2" target="_blank" rel="noopener">SMCI</a><span class="n">6,906 字</span></div><div class="mb-l">　<a href="https://app.notion.com/p/2025-32-17-2f81ab8501ba80749f08d97297e16fda" target="_blank" rel="noopener">從2025年賽事前辨識32位大贏家的17個重點</a><span class="n">5,513 字</span></div><div class="mb-l">　　<a href="https://app.notion.com/p/PART1-2f81ab8501ba80b2bafee6122a818645" target="_blank" rel="noopener">PART1</a><span class="n">3,588 字</span></div><div class="mb-l"><a href="https://app.notion.com/p/2026-2fe1ab8501ba809d886dc60fced4b8e0" target="_blank" rel="noopener">2026</a><span class="n">13 字</span></div><div class="mb-l">　<a href="https://app.notion.com/p/BTC-Feb-2fe1ab8501ba8020a970f28dc147444b" target="_blank" rel="noopener">BTC Feb</a><span class="n">17 字</span></div><h3>HISTORY</h3><div class="mb-l"><a href="https://app.notion.com/p/HISTORY-3781ab8501ba80c89447e3c20e339d51" target="_blank" rel="noopener">HISTORY</a><span class="n">8 字</span></div><h3>How to trade mu</h3><div class="mb-l"><a href="https://app.notion.com/p/How-to-trade-mu-2f11ab8501ba801389c9ecedfd2105e4" target="_blank" rel="noopener">How to trade mu</a><span class="n">0 字</span></div><h3>Leo</h3><div class="mb-l"><a href="https://app.notion.com/p/Leo-2dd1ab8501ba805bbcb2e7dd8d7d9c44" target="_blank" rel="noopener">Leo</a><span class="n">4,533 字</span></div><h3>Market Watching</h3><div class="mb-l"><a href="https://app.notion.com/p/Market-Watching-3061ab8501ba80dba441e8ea58393dbf" target="_blank" rel="noopener">Market Watching</a><span class="n">59 字</span></div><h3>Must read</h3><div class="mb-l"><a href="https://app.notion.com/p/Must-read-3091ab8501ba81bf9820c375aa3b8bbc" target="_blank" rel="noopener">Must read</a><span class="n">55 字</span></div><h3>Nick Schmidt</h3><div class="mb-l"><a href="https://app.notion.com/p/Nick-Schmidt-2dd1ab8501ba80dfb043eeefca73ed53" target="_blank" rel="noopener">Nick Schmidt</a><span class="n">4,182 字</span></div><h3>QM 耐性 等待的美學</h3><div class="mb-l"><a href="https://app.notion.com/p/QM-2d81ab8501ba803b9cabd64892d10877" target="_blank" rel="noopener">QM 耐性 等待的美學</a><span class="n">688 字</span></div><h3>Qullamaggie 在 Darvas 上發現了大贏家的秘訣</h3><div class="mb-l"><a href="https://app.notion.com/p/Qullamaggie-Darvas-2e71ab8501ba804f8895e2c889b339d9" target="_blank" rel="noopener">Qullamaggie 在 Darvas 上發現了大贏家的秘訣</a><span class="n">139 字</span></div><h3>SNDK Leader Positison trade Setup</h3><div class="mb-l"><a href="https://app.notion.com/p/SNDK-Leader-Positison-trade-Setup-2e21ab8501ba8065a027dff29e6aa3af" target="_blank" rel="noopener">SNDK Leader Positison trade Setup</a><span class="n">1,345 字</span></div><h3>Swing Trading Concpet</h3><div class="mb-l"><a href="https://app.notion.com/p/Swing-Trading-Concpet-2e11ab8501ba80b1891ee1a0b657db33" target="_blank" rel="noopener">Swing Trading Concpet</a><span class="n">24 字</span></div><div class="mb-l"><a href="https://app.notion.com/p/Follow-Through-Day-2e11ab8501ba807287a2fde938a1e2c9" target="_blank" rel="noopener">Follow Through Day</a><span class="n">1,022 字</span></div><h3>Vix</h3><div class="mb-l"><a href="https://app.notion.com/p/Vix-2d81ab8501ba80d98b3fd379689b1172" target="_blank" rel="noopener">Vix</a><span class="n">387 字</span></div><h3>Work flow</h3><div class="mb-l"><a href="https://app.notion.com/p/Work-flow-2d61ab8501ba805eb15fc8bafdca019a" target="_blank" rel="noopener">Work flow</a><span class="n">8 字</span></div><h3>「Why Qullamaggie Looks at ADR% First And How I Use It? Before Qullamaggie checks the setup, sector etc. he checks one basic number: ADR%. Because if a stock cannot move, nothing else matters. The cleanest setup in the world is useless if the stock is dead. What is ADR%? ADR% https:</h3><div class="mb-l">　　　<a href="https://app.notion.com/p/Why-Qullamaggie-Looks-at-ADR-First-And-How-I-Use-It-Before-Qullamaggie-checks-the-setup-sector-et-34e1ab8501ba81899222e1bfdcd612f6" target="_blank" rel="noopener">X</a><span class="n">52 字</span></div><h3>「震盪市（Choppy Market）」或「橫盤整理」中，Dan Zanger 的核心策略是 「極度防禦（Extreme Defense）」。</h3><div class="mb-l"><a href="https://app.notion.com/p/Choppy-Market-Dan-Zanger-Extreme-Defense-2f61ab8501ba80ef9a2ac70ef3018be2" target="_blank" rel="noopener">「震盪市（Choppy Market）」或「橫盤整理」中，Dan Zanger 的核心策略是 「極度防禦（Extreme Defense）」。</a><span class="n">1,487 字</span></div><h3>世界頂級交易員的交易優勢 (Edge) 完全指南</h3><div class="mb-l"><a href="https://app.notion.com/p/Edge-2dd1ab8501ba80ca8bf6e480d33678aa" target="_blank" rel="noopener">世界頂級交易員的交易優勢 (Edge) 完全指南</a><span class="n">5,143 字</span></div><h3>什麼是「鎖門集會」2026－6</h3><div class="mb-l"><a href="https://app.notion.com/p/2026-6-3781ab8501ba809d96c8e4f4e1f487e8" target="_blank" rel="noopener">什麼是「鎖門集會」2026－6</a><span class="n">1,539 字</span></div><h3>價格行為</h3><div class="mb-l"><a href="https://app.notion.com/p/2fe1ab8501ba803e9359e7f10f777075" target="_blank" rel="noopener">價格行為</a><span class="n">0 字</span></div><h3>基本面+敘事+主題+技術面，才能做出A+最佳交易</h3><div class="mb-l"><a href="https://app.notion.com/p/A-2e71ab8501ba80b4b853c51f9038ff42" target="_blank" rel="noopener">基本面+敘事+主題+技術面，才能做出A+最佳交易</a><span class="n">153 字</span></div><h3>复盘一下做空半导体的逻辑，以及对下周一韩国的一点看法</h3><div class="mb-l"><a href="https://app.notion.com/p/3781ab8501ba804ab62dc7dfdbf2db87" target="_blank" rel="noopener">复盘一下做空半导体的逻辑，以及对下周一韩国的一点看法</a><span class="n">1,432 字</span></div><h3>如果你想從中尋找“道理”，那麼現在的市場就像一個謎題。</h3><div class="mb-l"><a href="https://app.notion.com/p/3101ab8501ba80dc9784eee9216247ef" target="_blank" rel="noopener">如果你想從中尋找“道理”，那麼現在的市場就像一個謎題。</a><span class="n">692 字</span></div><h3>如果我這輩子只能換一個“裝備”，那一定是這個。</h3><div class="mb-l"><a href="https://app.notion.com/p/2d81ab8501ba8027ac82e79625059dcd" target="_blank" rel="noopener">如果我這輩子只能換一個“裝備”，那一定是這個。</a><span class="n">1,395 字</span></div><h3>存儲芯片：</h3><div class="mb-l"><a href="https://app.notion.com/p/2ec1ab8501ba80adbe1eed40fc2ac366" target="_blank" rel="noopener">存儲芯片：</a><span class="n">454 字</span></div><h3>市場流動性</h3><div class="mb-l"><a href="https://app.notion.com/p/3011ab8501ba80b89abdf145bbb79e5b" target="_blank" rel="noopener">市場流動性</a><span class="n">485 字</span></div><h3>情境意識</h3><div class="mb-l"><a href="https://app.notion.com/p/2d71ab8501ba80258578d06cfcf41669" target="_blank" rel="noopener">情境意識</a><span class="n">1,129 字</span></div><h3>新手和有志成為市場投機者的人認為魔力在於交易識別。</h3><div class="mb-l"><a href="https://app.notion.com/p/3781ab8501ba804fbb4ee8cdec6a1e1c" target="_blank" rel="noopener">新手和有志成為市場投機者的人認為魔力在於交易識別。</a><span class="n">355 字</span></div><h3>為什麼不做空</h3><div class="mb-l"><a href="https://app.notion.com/p/2fd1ab8501ba80dc8454c2ff0c1dfbd6" target="_blank" rel="noopener">為什麼不做空</a><span class="n">504 字</span></div><h3>當市場長期給不了多少錢時，你會怎麼做？</h3><div class="mb-l"><a href="https://app.notion.com/p/2dd1ab8501ba8090820bfeaaa79a0929" target="_blank" rel="noopener">當市場長期給不了多少錢時，你會怎麼做？</a><span class="n">550 字</span></div><h3>股市見頂信號</h3><div class="mb-l"><a href="https://app.notion.com/p/2db1ab8501ba80c3b6e4f2cb9e86ff24" target="_blank" rel="noopener">股市見頂信號</a><span class="n">399 字</span></div><h3>超跌反應</h3><div class="mb-l"><a href="https://app.notion.com/p/3001ab8501ba80a3b1f3c42c06ae48fc" target="_blank" rel="noopener">超跌反應</a><span class="n">35 字</span></div><h3>關於回調買進的兩種觀點：</h3><div class="mb-l"><a href="https://app.notion.com/p/30b1ab8501ba80568b1dc4295abd4265" target="_blank" rel="noopener">關於回調買進的兩種觀點：</a><span class="n">66 字</span></div><h3>零售業正因美國就業人數下調超過100萬而感到恐慌。</h3><div class="mb-l"><a href="https://app.notion.com/p/100-3091ab8501ba80a985a6c6ca7d726a16" target="_blank" rel="noopener">零售業正因美國就業人數下調超過100萬而感到恐慌。</a><span class="n">1,247 字</span></div><h3>點搵</h3><div class="mb-l"><a href="https://app.notion.com/p/Hold-2e21ab8501ba80a987e5cccc04c13465" target="_blank" rel="noopener">Hold 嬴家股</a><span class="n">395 字</span></div></div></div><div class="note" style="margin-top:14px;font-size:11.5px;line-height:1.85"><b>數據來源</b>：Notion KB 快取（104 頁），只讀，唔會上網。<br><b>主題歸類</b>：用關鍵詞掃內文，命中 ≥3 次才顯示。唔係人手逐篇標註，所以可能漏。<br><b>實盤數字</b>：由 fills_clean.csv FIFO 配對（1,316 個 round-trip），同 Edge Improving 頁同一個來源。</div>
+
+<footer>
+ 所有資料唯讀、研究用途，<b>非買入指令</b>。入場要另行符合 ORH + RVOL 規則；倉位由
+ <code>daily_plan.stop_plan()</code> 決定。<br>
+ 產生器 <code>trading-os-web/build_site.py</code>｜掃描 <code>scan_market.py</code>
+ ｜交易台 <code>trading-os-lab/dashboard.py</code>
+</footer>
+</div>
+<script>var D={"_generated":"2026-10-20 20:10"};
+function q(s,r){return (r||document).querySelector(s);}
+function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function fin(v){return v!==null&&v!==undefined&&v!==''&&isFinite(Number(v));}
+function fmt(v,d){d=(d===undefined?1:d);return fin(v)?Number(v).toLocaleString(undefined,{maximumFractionDigits:d}):'—';}
+function pct(v,d){return fin(v)?(v>0?'+':'')+fmt(v,d)+'%':'—';}
+function sgn(v,d){return fin(v)?(v>0?'+':'')+fmt(v,d):'—';}
+function num(v,d){return fin(v)?fmt(v,d):'—';}
+function money(v){if(!fin(v))return '—';return v>=1e9?'$'+fmt(v/1e9,1)+'B':v>=1e6?'$'+fmt(v/1e6,1)+'M':v>=1e3?'$'+fmt(v/1e3,0)+'K':'$'+fmt(v,0);}
+function cls(v){return fin(v)?(v>0?'pos':(v<0?'neg':'')):'';}
+function spark(vals,w,h){
+  if(!vals||vals.length<2)return '';
+  w=w||90;h=h||22;
+  var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rg=(mx-mn)||1;
+  var pts=vals.map(function(v,i){return [i/(vals.length-1)*w, h-(v-mn)/rg*h];});
+  var d=pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');
+  return '<svg width="'+w+'" height="'+h+'" style="vertical-align:middle"><path d="'+d+
+    '" fill="none" stroke="'+(vals[vals.length-1]>=vals[0]?'#4ade80':'#f87171')+'" stroke-width="1.6"/></svg>';
+}
+function bar(v,mx,neg){
+  if(!fin(v))return '';
+  var w=Math.max(2,Math.min(60,Math.abs(v)/(mx||1)*60));
+  return '<span class="bar'+(neg?' neg':'')+'" style="width:'+w.toFixed(0)+'px;opacity:.8"></span>';
+}
+function tone(v){return v>0?'pos':(v<0?'neg':'dim');}
+
+document.addEventListener('DOMContentLoaded',function(){ if(window.PAGE) PAGE(); });</script>
+<script>
+(function(){
+  function store(k,f){try{return JSON.parse(localStorage.getItem('desk-'+k))??f;}catch(e){return f;}}
+  function save(k,v){try{localStorage.setItem('desk-'+k,JSON.stringify(v));}catch(e){}}
+  // ★ 2026-10-11 Desmond：「移除英文版選項」→ 永久 zh-Hant，冇 LANG 切換。
+  var THEME=store('theme','light');
+  function apply(){
+    document.documentElement.setAttribute('data-theme',THEME);
+    var tb=document.getElementById('themebtn');
+    if(tb) tb.textContent = THEME==='light'?'🌙 深色':'☀️ 淺色';
+  }
+  function boot(){
+    var tb=document.getElementById('themebtn');
+    if(tb) tb.addEventListener('click',function(){THEME=THEME==='light'?'dark':'light';save('theme',THEME);apply();});
+    apply();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>
+<script>
+(function(){
+  var sb=document.getElementById('sb'), tg=document.getElementById('sbtoggle');
+  if(!sb||!tg) return;
+  var KEY='desk-sb-collapsed';
+  function apply(c){
+    sb.classList.toggle('collapsed', c);
+    document.body.classList.toggle('sb-collapsed', c);
+    tg.innerHTML = c ? '&rsaquo;' : '&lsaquo;';
+    tg.title = c ? '展開側欄' : '收合側欄';
+    try{localStorage.setItem(KEY, c?'1':'0');}catch(e){}
+  }
+  tg.addEventListener('click', function(){ apply(!sb.classList.contains('collapsed')); });
+  var st='0';
+  try{st=localStorage.getItem(KEY)||'0';}catch(e){}
+  apply(st==='1');
+})();
+
+
+(function(){
+  var sb=document.getElementById('sb'), tg=document.getElementById('navtoggle'),
+      ov=document.getElementById('navoverlay');
+  if(!sb||!tg) return;
+  function open(){sb.classList.add('open');
+    document.body.classList.add('drawer-open');
+    if(ov)ov.classList.add('show');
+    tg.setAttribute('aria-expanded','true');}
+  function close(){sb.classList.remove('open');
+    document.body.classList.remove('drawer-open');
+    if(ov)ov.classList.remove('show');
+    tg.setAttribute('aria-expanded','false');}
+  tg.addEventListener('click',function(e){e.stopPropagation();
+    sb.classList.contains('open')?close():open();});
+  if(ov) ov.addEventListener('click',close);
+  sb.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){ if(window.innerWidth<=900) close(); });
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+})();
+</script>
+<script>
+(function(){
+  var box=null, timer=null, cur=null, tvLoaded=false, tvFailed=false, syncing=false;
+
+  function ensureBox(){
+    if(box) return box;
+    box=document.createElement('div');
+    box.id='tvpop';
+    box.innerHTML='<div id="tvpopbar"><span id="tvpopsym"></span>'
+      +'<a id="tvpopopen" target="_blank" rel="noopener">開 TV ↗</a>'
+      +'<button id="tvpopclose" type="button" title="關閉">&#10005;</button></div>'
+      +'<div id="tvpopchart"></div><div id="tvpopnote"></div>';
+    document.body.appendChild(box);
+    box.querySelector('#tvpopclose').addEventListener('click',hide);
+    return box;
+  }
+  function hide(){ clearTimeout(timer); if(box) box.style.display='none'; }
+
+  function loadTV(cb){
+    if(tvLoaded) return cb();
+    if(tvFailed){
+      say('\u26a0 TradingView widget \u8f09\u5514\u5230\uff08\u7db2\u7d61\uff0f\u88ab\u906e\uff09\u2014\u2014 \u9ede\u300c\u958b TV \u2197\u300d\u76f4\u63a5\u53bb\u7db2\u7ad9');
+      return;
+    }
+    var s=document.createElement('script');
+    s.src='https://s3.tradingview.com/tv.js';
+    s.async=true;
+    s.onload=function(){ tvLoaded=true; cb(); };
+    s.onerror=function(){ tvFailed=true;
+      say('\u26a0 TradingView widget \u8f09\u5514\u5230\uff08\u7db2\u7d61\uff0f\u88ab\u906e\uff09\u2014\u2014 \u9ede\u300c\u958b TV \u2197\u300d\u76f4\u63a5\u53bb\u7db2\u7ad9'); };
+    document.head.appendChild(s);
+  }
+  function say(t){ var n=document.getElementById('tvpopnote'); if(n) n.textContent=t||''; }
+
+  function show(el){
+    var sym=el.getAttribute('data-sym');
+    if(!sym) return;
+    var b=ensureBox();
+    b.querySelector('#tvpopsym').textContent=sym;
+    b.querySelector('#tvpopopen').href=el.href||('#');
+    if(cur!==sym){
+      cur=sym;
+      b.querySelector('#tvpopchart').innerHTML='';
+      say('\u8f09\u5165\u4e2d\u2026');
+      loadTV(function(){
+        var host=b.querySelector('#tvpopchart');
+        host.innerHTML='<div id="tvwbox" style="height:340px"></div>';
+        try{
+          /* global TradingView */
+          new TradingView.widget({
+            container_id:'tvwbox', symbol:sym, interval:'D',
+            theme:'dark', style:'1', locale:'zh_TW',
+            hide_side_toolbar:true, hide_top_toolbar:false,
+            allow_symbol_change:false, save_image:false,
+            withdateranges:false, details:false,
+            studies:['Volume@tv-basicstudies'],
+            width:'100%', height:340, autosize:false
+          });
+          setTimeout(function(){ say(''); }, 1100);
+        }catch(e){ say('\u26a0 widget \u8d77\u5514\u5230\uff1a'+e.message); }
+      });
+    }
+    b.style.display='block';
+    place(el);
+  }
+
+  function place(el){
+    if(!box) return;
+    var r=el.getBoundingClientRect(), w=box.offsetWidth||440, h=box.offsetHeight||400;
+    var left=r.right+14, top=r.top-6;
+    if(left+w>window.innerWidth-10) left=Math.max(8, r.left-w-14);
+    if(top+h>window.innerHeight-10) top=Math.max(8, window.innerHeight-h-10);
+    if(top<8) top=8;
+    box.style.left=left+'px'; box.style.top=top+'px';
+  }
+  function near(el){
+    return el.closest && el.closest('a.tv');
+  }
+
+  document.addEventListener('mouseover',function(e){
+    var a=near(e.target);
+    if(!a) return;
+    var sym=a.getAttribute('data-sym');
+    if(sym && sym===cur && box && box.style.display==='block'){ clearTimeout(timer); return; }
+    clearTimeout(timer);
+    timer=setTimeout(function(){ show(a); }, 400);      /* 400ms：掃過唔會連彈 */
+  }, true);
+
+  document.addEventListener('mouseout',function(e){
+    var a=near(e.target);
+    if(!a) return;
+    clearTimeout(timer);
+    setTimeout(function(){
+      if(syncing) return;
+      if(box && box.style.display==='block' && box.matches(':hover')) return;
+      hide();
+    }, 260);
+  }, true);
+
+  document.addEventListener('mouseenter',function(){ syncing=true; }, true);
+  document.addEventListener('mouseleave',function(){ syncing=false; }, true);
+  window.addEventListener('scroll',function(){
+    if(box && box.style.display==='block') hide();
+  }, {passive:true});
+  window.addEventListener('keydown',function(e){ if(e.key==='Escape') hide(); });
+})();
+</script>
+</body></html>
