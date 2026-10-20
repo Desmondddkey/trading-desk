@@ -1042,6 +1042,7 @@ SIDEBAR_LINKS = [
 
     ("_grp", "外部數據"),
     ("_link", None, "RocketStock", "rocketstock.html"),
+    ("_link", None, "Market Pulse", "levelup.html"),
     ("_link", None, "外部即時數據", "livefeeds.html"),
     ("_link", None, "Market Monitor", "mm.html"),
     ("_link", None, "Stockbee 50", "bee50.html"),
@@ -1796,6 +1797,15 @@ def build():
         log(f'✓ modelbook.html ({len(_mbb)//1024} KB)')
     except Exception as _e21:
         log(f'⚠ Model Book 頁失敗：{type(_e21).__name__}: {_e21}')
+
+    # ── Market Pulse（Desmond 2026-10-20：加外部數據 leveluptools）──
+    try:
+        import levelup as _lu
+        _lut, _lub = _lu.build()
+        pages["levelup"] = (_lut, _lub, base)
+        log(f'✓ levelup.html ({len(_lub)//1024} KB)')
+    except Exception as _e24:
+        log(f'⚠ Market Pulse 頁失敗：{type(_e24).__name__}: {_e24}')
 
     # ── RS Before Price（Desmond 2026-10-20：1ChartMaster 訊號）──
     try:
