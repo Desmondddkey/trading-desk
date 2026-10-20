@@ -1021,6 +1021,7 @@ SIDEBAR_LINKS = [
     ("_grp", "選股"),
     ("_link", None, "Alert", "alerts.html"),
     ("_link", None, "Setups（The Plan）", "setups.html"),
+    ("_link", None, "YOYO Ball", "yoyo_ball.html"),
     ("_link", None, "Daily Scan", "dailyscan.html"),
     ("_link", None, "RS Leader 位置圖", "leadermap.html"),
     ("_link", None, "財報日曆", "earnings.html"),
@@ -1754,6 +1755,15 @@ def build():
         log(f"✓ earnings.html ({len(_b2)//1024} KB)")
     except Exception as _e8:                                 # noqa: BLE001
         log(f"⚠ 財報日曆失敗：{type(_e8).__name__}: {_e8}")
+
+    # ── YOYO Ball（Desmond 2026-10-20：先證明盈利才出 alert）──
+    try:
+        import yoyo_page as _yp
+        _yt, _yb = _yp.build()
+        pages["yoyo_ball"] = (_yt, _yb, base)
+        log(f'✓ yoyo_ball.html ({len(_yb)//1024} KB)')
+    except Exception as _e17:
+        log(f'⚠ YOYO 頁失敗：{type(_e17).__name__}: {_e17}')
 
     # ── 數據健康後台（Desmond 2026-10-20：唔想有假更新）──
     try:
