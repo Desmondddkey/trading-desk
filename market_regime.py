@@ -150,6 +150,84 @@ def _tv_mmtw(ttl_min=10):
             return None, 0, None
 
 
+def _tv_mmfi(ttl_min=15):
+    """自算 MMFI ≈ % of NYSE+NASDAQ+AMEX 普通股 above 50MA。
+
+    Desmond 2026-10-20：MARKET REGIME 頁 MMTW 下面加 MMFI。
+
+    ★ 為何要自算：MMFI 係 TradingView 自家 index（INDEX:MMFI），
+      冇公開 API 讀數值，只有 widget 顯示 →
+      所以用 screener 自己數，同時用 widget 顯示官方圖。
+
+    ★ 校準（2026-10-20 實測，官方 28.64%）：
+        NYSE only           36.57%  （差 +7.9pp ✗）
+        NYSE+NASDAQ+AMEX    29.76%  （差 +1.1pp ✓）
+        全美股（含 OTC）      30.01%  （差 +1.4pp）
+      → 用 NYSE+NASDAQ+AMEX，剔走 OTC 仙股。
+
+    → (pct, n_total, asof_str) 或 (None, 0, None)
+    """
+    import time
+    os.makedirs(CACHE, exist_ok=True)
+    p = os.path.join(CACHE, "mmfi.json")
+    if os.path.exists(p):
+        try:
+            d = json.load(io.open(p, encoding="utf-8"))
+            if time.time() - d.get("ts", 0) < ttl_min * 60:
+                return d.get("pct"), d.get("n", 0), d.get("asof")
+        except (OSError, ValueError):
+            pass
+    try:
+        from tradingview_screener import Query
+        q = (Query().set_markets("america")
+             .select("name", "exchange", "close", "SMA50")
+             .limit(8000))
+        _c, df = q.get_scanner_data()
+        d = df.dropna(subset=["close", "SMA50"])
+        d = d[d["exchange"].isin(["NYSE", "NASDAQ", "AMEX"])]
+        n = len(d)
+        if not n:
+            raise ValueError("no rows")
+        pct = float((d["close"] > d["SMA50"]).sum()) / n * 100.0
+        rec = dict(pct=round(pct, 2), n=n, ts=time.time(),
+                   asof=dt.date.today().isoformat())
+        io.open(p, "w", encoding="utf-8").write(
+            json.dumps(rec, ensure_ascii=False))
+        return rec["pct"], n, rec["asof"]
+    except Exception:                                        # noqa: BLE001
+        try:
+            d = json.load(io.open(p, encoding="utf-8"))
+            return d.get("pct"), d.get("n", 0), d.get("asof")
+        except (OSError, ValueError):
+            return None, 0, None
+
+
+def _mmfi_label(v):
+    """MMFI 分區（來源：@ohiain 2026-10-20 帖）。
+
+    ≥70 Broad strength — 橡皮筋拉緊，easy money 通常已賺
+    ~50 Neutral + mixed — 睇領導股
+    20-30 Weak + oversold — 壓力釋放但唔代表即刻升
+    """
+    if v is None:
+        return ("N/A", "#94a3b8", "")
+    if v >= 70:
+        return ("Broad strength", "#16a34a",
+                "大部分股票喺 50MA 上｜健康，但橡皮筋拉緊 —— easy money 通常已賺")
+    if v >= 55:
+        return ("Healthy", "#22c55e", "多數股票參與中期趨勢")
+    if v >= 45:
+        return ("Neutral + mixed", "#f59e0b",
+                "約一半市場參與｜睇領導股同相對強度")
+    if v >= 30:
+        return ("Weakening", "#ea580c", "參與度下降｜提高選股門檻")
+    if v >= 20:
+        return ("Weak + oversold", "#dc2626",
+                "大部分股票喺 50MA 下｜壓力已釋放，但唔代表即刻升")
+    return ("Extreme oversold", "#991b1b",
+            "極度超賣｜歷史洗盤區，但可以更超賣")
+
+
 def compute():
     try:
         d, asof = _yf(["SPY", "RSP", "^VIX"])
@@ -181,6 +259,8 @@ def compute():
     # ② 寬度 20（真正 % above 20MA = MMTW 定義，TV screener）
     br = _breadth() or {}
     tv_pct, tv_n, tv_asof = _tv_mmtw()
+    mmfi_pct, mmfi_n, mmfi_asof = _tv_mmfi()
+    _mmfi_pct, _mmfi_n, _mmfi_asof = mmfi_pct, mmfi_n, mmfi_asof
     mmtw = tv_pct if tv_pct is not None else br.get("pct40ma")
     breadthRaw = (10.0 if mmtw is None
                   else max(0.0, min(20.0, (mmtw - 20.0) / 60.0 * 20.0)))
@@ -375,6 +455,7 @@ def compute():
         mri=mriR, asof=str(asof), state=state, state_col=scol,
         pos=posText, pos_pct=posPct, diff=diff, opp=opp, delta=delta,
         mmtw=mmtw, mmtw_rising=mmtwRising, oversold=oversold,
+        mmfi=_mmfi_pct, mmfi_n=_mmfi_n, mmfi_asof=_mmfi_asof,
         delta_txt=("昨日資料建立中" if delta is None else
                    f"較昨日 +{delta:.0f}" if delta > 0 else
                    f"較昨日 {delta:.0f}" if delta < 0 else "較昨日持平"),
@@ -515,6 +596,71 @@ def build():
         + ("↑ 改善" if r.get("mmtw_rising") else "↓ 惡化" if bv else "")
         + ("｜超賣區" if r.get("oversold") else "")
         + '</div></div>')
+
+    # ★ MMFI（Desmond 2026-10-20：MMTW 下面加 MMFI）
+    # 來源：@ohiain —— % of NYSE stocks above their 50-day MA
+    mv = r.get("mmfi")
+    mv = float(mv) if mv is not None else None
+    mlab, mcol, mdesc = _mmfi_label(mv)
+    mfill = max(0, min(10, round(mv / 10))) if mv is not None else 0
+    mbar = "█" * mfill + "░" * (10 - mfill)
+    parts.append(
+        '<div class="mr-big" style="margin-top:10px">'
+        '<div><div class="lab">MMFI（% above 50MA）'
+        '<span style="opacity:.5;font-weight:400"> · 中期趨勢參與度</span>'
+        '</div>'
+        f'<div class="val" id="mr-mmfi" style="color:{mcol}">'
+        f'{f"{mv:.1f}%" if mv is not None else "N/A"}</div></div>'
+        f'<div class="mr-bar10" style="color:{mcol}">{mbar}</div>'
+        f'<div style="font-size:12px;opacity:.78;margin-top:2px">'
+        f'<b style="color:{mcol}">{mlab}</b>'
+        + (f'　·　{mdesc}' if mdesc else '')
+        + '</div></div>')
+
+    # ★ MMFI TradingView 圖（官方 INDEX:MMFI）
+    parts.append(
+        '<div class="card" style="padding:0;overflow:hidden;margin-top:10px">'
+        '<div style="padding:9px 14px;background:rgba(128,128,128,.08);'
+        'display:flex;align-items:center;gap:9px;flex-wrap:wrap">'
+        '<b style="font-size:13px">MMFI 圖</b>'
+        '<span style="font-size:11.5px;opacity:.6">'
+        '% NYSE stocks above 50MA</span>'
+        '<span style="margin-left:auto;font-size:11px;opacity:.55">'
+        '紅線 70 ｜ 中線 50 ｜ 綠線 30</span></div>'
+        '<iframe src="https://s.tradingview.com/widgetembed/?'
+        'symbol=INDEX%3AMMFI&interval=D&hidesidetoolbar=1&symboledit=0&'
+        'saveimage=0&toolbarbg=rgba(0,0,0,0)&studies=[]&theme=dark&style=1&'
+        'timezone=America%2FNew_York&withdateranges=1&hide_side_toolbar=1&'
+        'allow_symbol_change=0&details=0&hotlist=0&calendar=0" '
+        'style="width:100%;height:320px;border:0;display:block" '
+        'allowfullscreen loading="lazy" '
+        'referrerpolicy="no-referrer-when-downgrade"></iframe></div>')
+
+    # MMFI 點用（原文分區）
+    parts.append(
+        '<div class="card" style="margin-top:10px"><div style="padding:11px 14px">'
+        '<div style="font-size:12.5px;font-weight:800;margin-bottom:7px">'
+        'MMFI 點用（@ohiain 原文分區）</div>'
+        '<div style="font-size:12px;line-height:1.95">'
+        '<b style="color:#16a34a">70–80%+ 　Broad strength</b><br>'
+        '　大部分股票喺 50MA 上。健康，但橡皮筋拉緊 —— '
+        '動能可以持續，但大市嘅 easy money 通常已賺。<br>'
+        '<b style="color:#f59e0b">約 50% 　Neutral + mixed</b><br>'
+        '　大約一半市場參與。單獨唔太有用 —— '
+        '要睇領導股同相對強度。<br>'
+        '<b style="color:#dc2626">20–30% 以下 　Weak + oversold</b><br>'
+        '　大部分股票喺 50MA 下。市場受壓。'
+        '呢啲讀數通常出現喺洗盤或中期趨勢轉向下時。'
+        '唔保證見底，但話你知參與度薄、做多條件差。<br>'
+        '<b>電梯比喻</b>：70-80% = 好多人已經上咗電梯，越嚟越滿；'
+        '跌到 20-30% = 大部分人落咗，電梯空。'
+        '空唔代表即刻會上，但壓力已釋放。</div>'
+        f'<div style="font-size:11px;opacity:.55;margin-top:9px">'
+        f'自算讀數 {f"{mv:.2f}%" if mv is not None else "N/A"}'
+        f'（NYSE+NASDAQ+AMEX 普通股，n={r.get("mmfi_n") or 0}）'
+        f'　｜　官方 INDEX:MMFI 見上面圖'
+        f'　｜　as of {r.get("mmfi_asof") or "—"}</div>'
+        '</div></div>')
 
     # ★ TradingView 圖表（Desmond 要求保留）
     parts.append(

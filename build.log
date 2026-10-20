@@ -1,18 +1,20 @@
-  圖表快取命中（422 隻，至 2026-10-19）
-  圖表快取命中（422 隻，至 2026-10-19）
-  圖表快取命中（422 隻，至 2026-10-19）
+  yfinance 下載 48 隻 OHLC…
+  下載完成：48 隻，最後 2026-10-20
+  yfinance 下載 422 隻 OHLC…
+  下載完成：422 隻，最後 2026-10-20
+  圖表快取命中（422 隻，至 2026-10-20）
 ✓ RS 迷你圖：421/421 隻有數據｜統計：420 隻
 ✓ external.html (3 KB)
 ✓ earnings.html (157 KB)
 ✓ yoyo_ball.html (3 KB)
 ✓ edgeimprove.html (7 KB)
 ✓ modelbook.html (16 KB)
-✓ rsbeforeprice.html (4 KB)
+✓ rsbeforeprice.html (6 KB)
 ✓ thinkinr.html (103 KB)
 ✓ datahealth.html（即時 8／過期 2／缺失 1）
 ✓ alerts.html (260 筆)
 ✓ logbook.html (128 條)
-✓ regime_mri.html (7 KB)
+✓ regime_mri.html (9 KB)
 ✓ rocketstock.html (14 KB)
 ✓ livefeeds.html (5 KB)
 ✓ dailyscan.html (36 KB)
@@ -20,7 +22,8 @@
 ✓ leadermap.html (419 KB)
 ✓ sectors.html (10 KB)
 ✓ atrxrisk.html (178 KB)
-✓ jobboard.html (162 KB, 63 jobs)
+✓ jobboard.html (159 KB, 63 jobs)
+  yfinance 下載 83 隻 ETF…
 ✓ desk.html ← dashboard_2026-10-20.html（已加網站導航）
 ✓ briefing.html (69 KB)
 ✓ leaders.html (1609 KB)
@@ -38,18 +41,18 @@
 ✓ yoyo_ball.html (43 KB)
 ✓ edgeimprove.html (48 KB)
 ✓ modelbook.html (58 KB)
-✓ rsbeforeprice.html (44 KB)
+✓ rsbeforeprice.html (47 KB)
 ✓ thinkinr.html (154 KB)
 ✓ datahealth.html (44 KB)
 ✓ alerts.html (95 KB)
 ✓ logbook.html (195 KB)
-✓ regime_mri.html (46 KB)
+✓ regime_mri.html (49 KB)
 ✓ rocketstock.html (54 KB)
 ✓ livefeeds.html (46 KB)
 ✓ dailyscan.html (77 KB)
 ✓ leadermap.html (468 KB)
 ✓ atrxrisk.html (228 KB)
-✓ jobboard.html (230 KB)
+✓ jobboard.html (228 KB)
 ✓ mm.html (68 KB)
 ✓ bee50.html (54 KB)
 ✓ ndx.html (79 KB)
@@ -59,4 +62,4 @@
 ✓ setups.html (58 KB)
 ✓ regime.html (44 KB)
 ✓ index.html（＝簡報）
-✓ version.json  2026-10-20 23:49
+✓ version.json  2026-10-21 00:08

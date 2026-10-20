@@ -7,11 +7,11 @@
  "pos_pct": 25,
  "diff": "CHOP",
  "opp": "風險：價升但內部轉弱，停止加倉",
- "delta": 9,
+ "delta": null,
  "mmtw": 41.99,
  "mmtw_rising": false,
  "oversold": false,
- "delta_txt": "較昨日 +9",
+ "delta_txt": "昨日資料建立中",
  "rows": [
   {
    "n": 1,
@@ -63,5 +63,5 @@
    "d": "10 月 +0.8%｜中性"
   }
  ],
- "updated": "00:00"
+ "updated": "00:05"
 }
