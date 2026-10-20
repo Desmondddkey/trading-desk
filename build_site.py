@@ -1033,6 +1033,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "Setup 矩陣", "regime.html"),
 
     ("_grp", "成績"),
+    ("_link", None, "Think in R", "thinkinr.html"),
     ("_link", None, "Edge Improving", "edgeimprove.html"),
     ("_link", None, "Positioning", "positioning.html"),
     ("_link", None, "Review", "review.html"),
@@ -1794,6 +1795,15 @@ def build():
         log(f'✓ modelbook.html ({len(_mbb)//1024} KB)')
     except Exception as _e21:
         log(f'⚠ Model Book 頁失敗：{type(_e21).__name__}: {_e21}')
+
+    # ── Think in R（Desmond 2026-10-20：4R 格仔牆）──
+    try:
+        import thinkinr_page as _tr
+        _tt, _tb = _tr.build()
+        pages["thinkinr"] = (_tt, _tb, base)
+        log(f'✓ thinkinr.html ({len(_tb)//1024} KB)')
+    except Exception as _e22:
+        log(f'⚠ Think in R 頁失敗：{type(_e22).__name__}: {_e22}')
 
     # ── 數據健康後台（Desmond 2026-10-20：唔想有假更新）──
     try:
