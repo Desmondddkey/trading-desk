@@ -1035,6 +1035,7 @@ SIDEBAR_LINKS = [
 
     ("_grp", "成績"),
     ("_link", None, "Think in R", "thinkinr.html"),
+    ("_link", None, "Backtest", "backtest.html"),
     ("_link", None, "Edge Improving", "edgeimprove.html"),
     ("_link", None, "Positioning", "positioning.html"),
     ("_link", None, "Review", "review.html"),
@@ -1797,6 +1798,15 @@ def build():
         log(f'✓ modelbook.html ({len(_mbb)//1024} KB)')
     except Exception as _e21:
         log(f'⚠ Model Book 頁失敗：{type(_e21).__name__}: {_e21}')
+
+    # ── Backtest（Desmond 2026-10-21：淨係出位置無回測好無用）──
+    try:
+        import backtest_page as _bt
+        _btt, _btb = _bt.build()
+        pages["backtest"] = (_btt, _btb, base)
+        log(f'✓ backtest.html ({len(_btb)//1024} KB)')
+    except Exception as _e25:
+        log(f'⚠ Backtest 頁失敗：{type(_e25).__name__}: {_e25}')
 
     # ── Market Pulse（Desmond 2026-10-20：加外部數據 leveluptools）──
     try:
