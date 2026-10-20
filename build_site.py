@@ -1036,6 +1036,7 @@ SIDEBAR_LINKS = [
     ("_grp", "成績"),
     ("_link", None, "Think in R", "thinkinr.html"),
     ("_link", None, "Backtest", "backtest.html"),
+    ("_link", None, "系統審計", "audit.html"),
     ("_link", None, "Edge Improving", "edgeimprove.html"),
     ("_link", None, "Positioning", "positioning.html"),
     ("_link", None, "Review", "review.html"),
@@ -1798,6 +1799,15 @@ def build():
         log(f'✓ modelbook.html ({len(_mbb)//1024} KB)')
     except Exception as _e21:
         log(f'⚠ Model Book 頁失敗：{type(_e21).__name__}: {_e21}')
+
+    # ── 系統審計（Desmond 2026-10-21：我淨係要見到你賺幾多錢）──
+    try:
+        import audit_page as _au
+        _aut, _aub = _au.build()
+        pages["audit"] = (_aut, _aub, base)
+        log(f'✓ audit.html ({len(_aub)//1024} KB)')
+    except Exception as _e26:
+        log(f'⚠ 系統審計頁失敗：{type(_e26).__name__}: {_e26}')
 
     # ── Backtest（Desmond 2026-10-21：淨係出位置無回測好無用）──
     try:
