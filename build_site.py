@@ -1024,8 +1024,8 @@ SIDEBAR_LINKS = [
     ("_link", None, "YOYO Ball", "yoyo_ball.html"),
     ("_link", None, "Daily Scan", "dailyscan.html"),
     ("_link", None, "RS Leader 位置圖", "leadermap.html"),
+    ("_link", None, "ATRX 風險", "atrxrisk.html"),
     ("_link", None, "財報日曆", "earnings.html"),
-    ("_link", None, "機會（總表）", "desk.html"),
     ("_link", None, "領導股", "leaders.html"),
     ("_link", None, "1CM 回調", "cm.html"),
     ("_link", None, "最強 1 週", "week.html"),
@@ -1764,6 +1764,21 @@ def build():
         log(f"✓ earnings.html ({len(_b2)//1024} KB)")
     except Exception as _e8:                                 # noqa: BLE001
         log(f"⚠ 財報日曆失敗：{type(_e8).__name__}: {_e8}")
+
+    # ── ★ 2026-10-20 拆分「機會」頁 → 三個獨立頁 ──
+    try:
+        _dp = json.load(io.open(os.path.join(HERE, "cache", "desk_parts.json"),
+                                encoding="utf-8"))
+        _st = _dp.get("styles") or ""
+        _parts = _dp.get("parts") or {}
+        for _k, _lbl in (("leadermap", "RS Leader 位置圖"),
+                         ("sectors", "Sectors · 行業輪動"),
+                         ("atrxrisk", "ATRX 風險")):
+            if _k in _parts:
+                pages[_k] = (_lbl, f"{_st}" + _parts[_k], base)
+                log(f"✓ {_k}.html ({len(_parts[_k])//1024} KB)")
+    except Exception as _e19:
+        log(f"⚠ 拆分頁失敗：{type(_e19).__name__}: {_e19}")
 
     # ── YOYO Ball（Desmond 2026-10-20：先證明盈利才出 alert）──
     try:
