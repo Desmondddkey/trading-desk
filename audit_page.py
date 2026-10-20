@@ -99,12 +99,14 @@ def build():
     # 距離 USIC
     g = s.get("gap_to_usic_monthly")
     if g is not None:
+        mp = s.get("monthly_pct")
+        mp_txt = f"{mp:+.2f}%" if mp is not None else "—"
         L.append(f'<div class="au-card red">'
                  f'🏆 <b>距離 USIC 冠軍（月化 8.23%）</b>：'
-                 f'你月化 <b>{s["monthly_pct"]:+.2f}%</b>，'
+                 f'你月化 <b>{mp_txt}</b>，'
                  f'差 <b>{g:.2f} 個百分點</b>。<br>'
                  f'最低合格線（月化 5%）：'
-                 f'{"已達到" if (s["monthly_pct"] or -99) >= 5 else "未達到"}。</div>')
+                 f'{"已達到" if (mp or -99) >= 5 else "未達到"}。</div>')
 
     # 化繁為簡
     keep = d.get("keep") or []
@@ -166,15 +168,19 @@ def build():
         kc = ("pos" if (x.get("kelly") or 0) > 0 else
               "neg" if (x.get("kelly") or 0) < 0 else "")
         ec = "pos" if (x.get("ev") or 0) > 0 else "neg"
+        ev_t = f'{x["ev"]:+.2f}R' if x.get("ev") is not None else "—"
+        wr_t = f'{x["wr"]:.1f}%' if x.get("wr") is not None else "—"
+        po_t = f'{x["payoff"]:.2f}' if x.get("payoff") is not None else "—"
+        ke_t = f'{x["kelly"]:+.2f}' if x.get("kelly") is not None else "—"
         L.append(
             f'<tr>'
             f'<td data-l="Job"><b>{j}</b></td>'
             f'<td data-l="出場">{EXIT_LABEL.get(k, k)}</td>'
             f'<td data-l="n">{x.get("n")}</td>'
-            f'<td data-l="EV" class="{ec}">{x.get("ev"):+.2f}R</td>'
-            f'<td data-l="勝率">{x.get("wr"):.1f}%</td>'
-            f'<td data-l="贏輸比">{x.get("payoff"):.2f}</td>'
-            f'<td data-l="Kelly" class="{kc}">{x.get("kelly"):+.2f}</td>'
+            f'<td data-l="EV" class="{ec}">{ev_t}</td>'
+            f'<td data-l="勝率">{wr_t}</td>'
+            f'<td data-l="贏輸比">{po_t}</td>'
+            f'<td data-l="Kelly" class="{kc}">{ke_t}</td>'
             f'</tr>')
     L.append("</tbody></table></div></div></div>")
 
