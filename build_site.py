@@ -1455,7 +1455,16 @@ def build():
         '｜嵌入失敗時請直接開原 Sheet</div>'
         '</div></div>')
 
+    # ★ 2026-10-20 Desmond：Wishing Wealth GMI（Dr. Wish）外部數據
+    try:
+        import wishingwealth as _ww
+        _gmi_card = _ww.card_html()
+    except Exception as _e18:
+        _gmi_card = (f'<div class="warn">Wishing Wealth 讀唔到：'
+                     f'{type(_e18).__name__}</div>')
+
     brief_body = f"""
+{_gmi_card}
 {_themes}
 {note}
 {_gc_card}
