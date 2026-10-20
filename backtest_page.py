@@ -90,7 +90,7 @@ def build():
 
     good = [r for r in rows if r[2]["verdict"] == "有 edge"]
     bad = [r for r in rows
-           if r[2]["n"] >= 20 and r[2]["ev"] < 0 and r[2]["kind"] != "stop"]
+           if r[2]["n"] >= 20 and r[2]["ev"] < 0 and r[1] != "stop"]
 
     L.append('<div class="bt-k">')
     for v, lab, col in (
