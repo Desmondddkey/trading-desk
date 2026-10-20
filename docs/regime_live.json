@@ -1,14 +1,14 @@
 {
  "mri": 50,
  "asof": "2026-10-20",
- "state": "觀察／低風險",
+ "state": "修復轉強",
  "state_col": "",
- "pos": "10%｜只觀察或極小倉",
- "pos_pct": 10,
+ "pos": "50%｜分批建立持倉",
+ "pos_pct": 50,
  "diff": "CHOP",
  "opp": "觀察：等待 breadth 或結構確認",
  "delta": null,
- "mmtw": 39.64,
+ "mmtw": 41.7,
  "mmtw_rising": false,
  "oversold": false,
  "delta_txt": "昨日資料建立中",
@@ -24,8 +24,8 @@
    "n": 2,
    "name": "MMTW 寬度",
    "w": 20,
-   "s": 6.5,
-   "d": "39.6%"
+   "s": 7.2,
+   "d": "41.7%"
   },
   {
    "n": 3,
@@ -63,5 +63,5 @@
    "d": "10 月 +0.8%｜中性"
   }
  ],
- "updated": "22:30"
+ "updated": "22:45"
 }
