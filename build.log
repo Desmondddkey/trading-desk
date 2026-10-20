@@ -7,7 +7,7 @@
 ✓ yoyo_ball.html (3 KB)
 ✓ edgeimprove.html (7 KB)
 ✓ modelbook.html (16 KB)
-⚠ 系統審計頁失敗：TypeError: unsupported format string passed to NoneType.__format__
+✓ audit.html (7 KB)
 ✓ backtest.html (8 KB)
 ✓ levelup.html (2 KB)
 ✓ rsbeforeprice.html (6 KB)
@@ -41,6 +41,7 @@
 ✓ yoyo_ball.html (44 KB)
 ✓ edgeimprove.html (48 KB)
 ✓ modelbook.html (58 KB)
+✓ audit.html (47 KB)
 ✓ backtest.html (49 KB)
 ✓ levelup.html (42 KB)
 ✓ rsbeforeprice.html (47 KB)
@@ -64,4 +65,4 @@
 ✓ setups.html (58 KB)
 ✓ regime.html (44 KB)
 ✓ index.html（＝簡報）
-✓ version.json  2026-10-21 07:53
+✓ version.json  2026-10-21 07:54

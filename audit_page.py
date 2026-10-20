@@ -133,15 +133,19 @@ def build():
               "neg" if (v["annual_pct"] or 0) < 0 else "")
         kc = ("pos" if (v["kelly"] or 0) > 0 else
               "neg" if (v["kelly"] or 0) < 0 else "")
+        pnl_t = f'${v["pnl"]:+,.0f}'
+        ret_t = f'{v["ret_pct"]:+.2f}%'
+        ann_t = (f'{v["annual_pct"]:+.0f}%'
+                 if v["annual_pct"] is not None else "—")
+        kel_t = (f'{v["kelly"]:+.2f}'
+                 if v["kelly"] is not None else "—")
         L.append(
             f'<tr>'
             f'<td data-l="Job"><b>{j}</b></td>'
-            f'<td data-l="錢" class="{pc}">${v["pnl"]:+,.0f}</td>'
-            f'<td data-l="報酬" class="{pc}">{v["ret_pct"]:+.2f}%</td>'
-            f'<td data-l="年化" class="{ac}">'
-            f'{v["annual_pct"]:+.0f}%</td>'
-            f'<td data-l="Kelly" class="{kc}">'
-            f'{v["kelly"]:+.2f}</td>'
+            f'<td data-l="錢" class="{pc}">{pnl_t}</td>'
+            f'<td data-l="報酬" class="{pc}">{ret_t}</td>'
+            f'<td data-l="年化" class="{ac}">{ann_t}</td>'
+            f'<td data-l="Kelly" class="{kc}">{kel_t}</td>'
             f'<td data-l="最佳出場">{EXIT_LABEL.get(v.get("best_exit"), "—")}'
             f'</td>'
             f'<td data-l="判決"><span class="au-v v-{v["vclass"]}">'
