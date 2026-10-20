@@ -1025,6 +1025,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "Daily Scan", "dailyscan.html"),
     ("_link", None, "RS Leader 位置圖", "leadermap.html"),
     ("_link", None, "ATRX 風險", "atrxrisk.html"),
+    ("_link", None, "RS Before Price", "rsbeforeprice.html"),
     ("_link", None, "財報日曆", "earnings.html"),
     ("_link", None, "領導股", "leaders.html"),
     ("_link", None, "1CM 回調", "cm.html"),
@@ -1795,6 +1796,15 @@ def build():
         log(f'✓ modelbook.html ({len(_mbb)//1024} KB)')
     except Exception as _e21:
         log(f'⚠ Model Book 頁失敗：{type(_e21).__name__}: {_e21}')
+
+    # ── RS Before Price（Desmond 2026-10-20：1ChartMaster 訊號）──
+    try:
+        import rs_before_price as _rb
+        _rbt, _rbb = _rb.build()
+        pages["rsbeforeprice"] = (_rbt, _rbb, base)
+        log(f'✓ rsbeforeprice.html ({len(_rbb)//1024} KB)')
+    except Exception as _e23:
+        log(f'⚠ RS Before Price 頁失敗：{type(_e23).__name__}: {_e23}')
 
     # ── Think in R（Desmond 2026-10-20：4R 格仔牆）──
     try:
