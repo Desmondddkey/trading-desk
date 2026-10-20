@@ -1033,6 +1033,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "Setup 矩陣", "regime.html"),
 
     ("_grp", "成績"),
+    ("_link", None, "Edge Improving", "edgeimprove.html"),
     ("_link", None, "Positioning", "positioning.html"),
     ("_link", None, "Review", "review.html"),
     ("_link", None, "倉位計算機", "calculator.html"),
@@ -1788,6 +1789,15 @@ def build():
         log(f'✓ yoyo_ball.html ({len(_yb)//1024} KB)')
     except Exception as _e17:
         log(f'⚠ YOYO 頁失敗：{type(_e17).__name__}: {_e17}')
+
+    # ── Edge Improving（Desmond 2026-10-20：針對實盤做強弱分析）──
+    try:
+        import edge_page as _ep
+        _et, _eb = _ep.build()
+        pages["edgeimprove"] = (_et, _eb, base)
+        log(f'✓ edgeimprove.html ({len(_eb)//1024} KB)')
+    except Exception as _e20:
+        log(f'⚠ Edge 頁失敗：{type(_e20).__name__}: {_e20}')
 
     # ── 數據健康後台（Desmond 2026-10-20：唔想有假更新）──
     try:
