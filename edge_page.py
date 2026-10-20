@@ -338,6 +338,10 @@ def build():
         L.append('</tbody></table></div></div>')
 
     # ── 強處摘要 ──
+    # ★ 2026-10-20 修：唔可以盲目將「最低 EV」當弱點
+    #   行為類維度（每日單數 / 持股次數）嘅「低組」可能係細樣本假象，
+    #   講「停止做 1-3 單」係荒謬。所以只喺意思清楚嘅維度出建議。
+    ACTIONABLE = {"② 方向 × 工具", "⑥ 睇升 vs 睇跌", "① 持倉時間"}
     strengths.sort(key=lambda x: -x[2]["ev"])
     weaknesses.sort(key=lambda x: x[2]["ev"])
     if strengths:
@@ -347,17 +351,18 @@ def build():
                  f'n={top[2]["n"]}｜每單 <b>${top[2]["ev"]:,.0f}</b>｜'
                  f'勝率 {top[2]["win_rate"]*100:.0f}%｜'
                  f'贏輸比 {top[2]["payoff"]:.2f}:1<br>'
-                 f'<b>行動：加大比重。</b>呢個係你嘅 edge，唔應該同其他嘢平分倉位。'
-                 '</div>')
-    if weaknesses:
-        bot = weaknesses[0]
+                 f'<b>行動：加大比重。</b>呢個係你嘅 edge，'
+                 f'唔應該同其他嘢平分倉位。</div>')
+    act_w = [w for w in weaknesses if w[0] in ACTIONABLE]
+    if act_w:
+        bot = act_w[0]
         L.append(f'<div class="eh-hero eh-w">🩸 <b>最傷嘅一項</b>：'
                  f'{bot[0]} → <b>{bot[1]}</b><br>'
                  f'n={bot[2]["n"]}｜每單 <b>${bot[2]["ev"]:,.0f}</b>｜'
                  f'勝率 {bot[2]["win_rate"]*100:.0f}%｜'
                  f'總共蝕 <b>${bot[2]["total"]:,.0f}</b><br>'
-                 f'<b>行動：直接停止。</b>呢個分組冇 edge，做幾多次都係蝕。'
-                 '</div>')
+                 f'<b>行動：直接停止。</b>呢個分組冇 edge，'
+                 f'做幾多次都係蝕。</div>')
 
     # ── 每日 / 每週 改善清單 ──
     bear = [t for t in trips if t["bias"] == "BEAR"]
