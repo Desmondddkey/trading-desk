@@ -153,6 +153,28 @@ def build():
             f'</tr>')
     L.append("</tbody></table></div></div></div>")
 
+    # ★ 2026-10-21 Desmond：「要建立優化曲線 確保資金增長同優化成正比」
+    #   顯示配置迭代曲線圖（Kelly → 資金）
+    try:
+        _png_src = r"C:\Users\rain0\trading-os\output\opt_curve.png"
+        _web = r"C:\Users\rain0\trading-os-web\docs"
+        if os.path.exists(_png_src):
+            import shutil
+            shutil.copy2(_png_src, os.path.join(_web, "opt_curve.png"))
+            L.append(
+                '<div class="card"><h2>優化曲線 '
+                '<small>Kelly → 資金</small></h2><div class="body">'
+                '<div style="font-size:12.5px;line-height:1.9;'
+                'margin-bottom:10px">'
+                '<b>左圖</b>　每一步優化（按 Kelly 由低到高排）→ Kelly 點變<br>'
+                '<b>右圖</b>　Kelly vs 資金報酬 % —— '
+                '<b>斜率正 = 優化真係帶動賺錢</b></div>'
+                '<img src="opt_curve.png" alt="優化曲線" '
+                'style="width:100%;border-radius:10px;display:block">'
+                '</div></div>')
+    except Exception:                                        # noqa: BLE001
+        pass
+
     # 出場規則 Kelly 對比（化繁為簡核心）
     L.append('<div class="card"><h2>出場規則 Kelly 對比 '
              '<small>邊個出場最賺錢</small></h2><div class="body">'
