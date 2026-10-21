@@ -8,11 +8,11 @@
  "diff": "CHOP",
  "opp": "風險：價升但內部轉弱，停止加倉",
  "delta": null,
- "mmtw": 42.33,
+ "mmtw": 42.34,
  "mmtw_rising": false,
  "oversold": false,
- "mmfi": 29.84,
- "mmfi_n": 5104,
+ "mmfi": 31.14,
+ "mmfi_n": 5106,
  "mmfi_asof": "2026-10-21",
  "delta_txt": "昨日資料建立中",
  "rows": [
@@ -66,5 +66,5 @@
    "d": "10 月 +0.8%｜中性"
   }
  ],
- "updated": "21:45"
+ "updated": "22:00"
 }
