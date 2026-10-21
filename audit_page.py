@@ -153,6 +153,49 @@ def build():
             f'</tr>')
     L.append("</tbody></table></div></div></div>")
 
+    # ★ 2026-10-21 Desmond：「恆常每日盤前執行 要自檢+優化」
+    try:
+        _cp = os.path.join(r"C:\Users\rain0\trading-os\output",
+                           "active_config.json")
+        if os.path.exists(_cp):
+            with io.open(_cp, encoding="utf-8") as f:
+                _c = json.load(f)
+            _jobs = _c.get("jobs") or {}
+            if _jobs:
+                _rows = []
+                for _j, _v in _jobs.items():
+                    _cu, _be = _v.get("current", {}), _v.get("best", {})
+                    _act = _v.get("action")
+                    _icon = {"CHANGE": "🔧 已自動優化",
+                             "SUGGEST": "💡 待批（冇止蝕）",
+                             "KEEP": "✅ 已最佳"}.get(_act, _act)
+                    _cls = {"CHANGE": "up", "SUGGEST": "warn",
+                            "KEEP": "neutral"}.get(_act, "neutral")
+                    _rows.append(
+                        f'<tr><td><b>{_j}</b></td>'
+                        f'<td>{_cu.get("mode")}+{_cu.get("days")}日</td>'
+                        f'<td class="{_cls}">{_cu.get("kelly"):+.2f}</td>'
+                        f'<td>{_be.get("mode")}+{_be.get("days")}日</td>'
+                        f'<td class="up">{_be.get("kelly"):+.2f}</td>'
+                        f'<td>{_v.get("delta"):+.2f}</td>'
+                        f'<td class="{_cls}">{_icon}</td></tr>')
+                L.append(
+                    '<div class="card"><h2>每日自檢 + 自動優化 '
+                    f'<small>{_c.get("date","")}</small></h2><div class="body">'
+                    '<div style="font-size:12.5px;line-height:1.9;'
+                    'margin-bottom:10px">'
+                    '每日盤前自動掃 9 個配置（js3 × 6 個持倉日數 ＋ '
+                    'hold × 3）。<br>'
+                    '<b>改善 ≥ +0.05 且 n ≥ 20</b> → 自動換配置。<br>'
+                    '<b>冇止蝕嘅配置</b> → 只建議，唔自動換'
+                    '（Jeff Sun 3-stop 係硬規則）。</div>'
+                    '<table><thead><tr><th>Job</th><th>現行</th>'
+                    '<th>Kelly</th><th>最佳</th><th>Kelly</th>'
+                    '<th>改善</th><th>動作</th></tr></thead><tbody>'
+                    + "".join(_rows) + '</tbody></table></div></div>')
+    except Exception:                                        # noqa: BLE001
+        pass
+
     # ★ 2026-10-21 Desmond：「要建立優化曲線 確保資金增長同優化成正比」
     #   顯示配置迭代曲線圖（Kelly → 資金）
     try:
