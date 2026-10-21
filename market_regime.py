@@ -617,6 +617,22 @@ def build():
         + (f'　·　{mdesc}' if mdesc else '')
         + '</div></div>')
 
+    # ★ 2026-10-21 Desmond：「我想佢可以自動表示到我宜家當日身處既階段」
+    #   Stan Weinstein 四階段（Basing / Advancing / Topping / Declining）
+    #   ★ 用 30 週 MA（150 日）+ 4 週斜率，機械判定，唔靠感覺。
+    try:
+        import sys as _sys2
+        _TO = r"C:\Users\rain0\trading-os"
+        if _TO not in _sys2.path:
+            _sys2.path.insert(0, _TO)
+        import weinstein_stage as _ws
+        parts.append(_ws.card_html())
+    except Exception as _ew:                                 # noqa: BLE001
+        parts.append(
+            '<div class="card"><h2>📊 Weinstein 四階段</h2>'
+            f'<div class="body"><div class="warn">讀唔到：'
+            f'{type(_ew).__name__}: {_ew}</div></div></div>')
+
     # ★ MMFI TradingView 圖（官方 INDEX:MMFI）
     parts.append(
         '<div class="card" style="padding:0;overflow:hidden;margin-top:10px">'
