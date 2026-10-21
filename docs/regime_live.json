@@ -8,7 +8,7 @@
  "diff": "CHOP",
  "opp": "風險：價升但內部轉弱，停止加倉",
  "delta": null,
- "mmtw": 41.38,
+ "mmtw": 41.22,
  "mmtw_rising": false,
  "oversold": false,
  "mmfi": 31.18,
@@ -28,7 +28,7 @@
    "name": "MMTW 寬度",
    "w": 20,
    "s": 7.1,
-   "d": "41.4%"
+   "d": "41.2%"
   },
   {
    "n": 3,
@@ -66,5 +66,5 @@
    "d": "10 月 +0.8%｜中性"
   }
  ],
- "updated": "01:30"
+ "updated": "01:45"
 }
