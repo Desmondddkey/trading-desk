@@ -108,40 +108,20 @@ def score_theme(tk_list, df, bench="SPY"):
 
 
 def themes_page(ohlc):
-    """要 OHLC（同一個池就夠）。ohlc=None → DATA_UNAVAILABLE。"""
-    if ohlc is None:
-        return _unavail("Themes", "冇 OHLC 快取")
-    res = {}
-    for name, mem in THEMES.items():
-        s = score_theme(mem, ohlc)
-        if s:
-            res[name] = s
-    if not res:
-        return _unavail("Themes", "冇一個主題夠數據（每組要 ≥3 隻 × 70 日）")
-    ranked = sorted(res.items(), key=lambda kv: -kv[1]["score"])
-    rows = []
-    for name, s in ranked:
-        mem = "、".join(f"{m['ticker']}({m['pctile']:.0f})"
-                        for m in s["members"][:6])
-        rows.append(
-            f'<tr><td class="l"><b>{_e(name)}</b></td>'
-            f'<td><b>{s["score"]:.1f}</b></td>'
-            f'<td>{s["median_pct"]:.1f}</td><td>{s["top_pct"]:.1f}</td>'
-            f'<td>{s["n"]}</td><td class="l dim">{_e(mem)}</td></tr>')
-    top3 = ranked[:3]
-    head = ('<tr><th class="l">主題</th><th>主題分</th><th>成員中位百分位</th>'
-            '<th>最強成員百分位</th><th>成員數</th><th class="l">成員（百分位）</th></tr>')
-    return (f'<div class="card"><h2>🧩 Themes · 主題強度 '
-            f'<small>NEL 原文公式：70%×中位 + 30%×最強</small></h2>'
-            f'<div class="body"><div class="note">'
-            f'「百分位」＝ 成員 3 個月超額回報（相對 SPY）嘅組內排名 0–100。'
-            f'<b>主題分 = 0.7 × 成員中位 + 0.3 × 最強成員</b>——'
-            f'即係「整體有幾強」佔七成、「有冇一隻爆」佔三成。'
-            f'呢條係 NEL 原文公式，唔係我哋自己調嘅。</div>'
-            f'<div class="scroll"><table><thead>{head}</thead>'
-            f'<tbody>{"".join(rows)}</tbody></table></div>'
-            f'<div class="note">最強三個主題：{"、".join(n for n, _ in top3)}</div>'
-            f'</div></div>')
+    """★ 2026-10-21 Desmond：「可以移除theme 本身既內容 直接用呢個」
+
+    原本呢頁用 NEL 公式（0.7×中位 + 0.3×最強）自算主題強度，
+    但佢同 Sectors 嘅行業輪動圖**講同一件事**，而輪動圖有：
+      ① 段階判定（新興／加速／成熟／再現／轉弱／落後）
+      ② 輪動分 0–100（z-score 加權）
+      ③ 週變化（排名升降）
+      ④ 寬度（闊／窄）
+      ⑤ 三個實用面板（轉強／觀察／轉弱）
+    兩張表同一個問題 → 其中一張一定係噪音。
+    所以 Themes 直接委派 sectors_page()，保證兩頁永不同源分歧。
+    """
+    return sectors_page(ohlc).replace(
+        "🏭 Sectors · 行業輪動", "🧩 Themes · 行業輪動")
 
 
 # ══════════════════════════ ② Sectors ══════════════════════════
