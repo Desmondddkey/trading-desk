@@ -123,32 +123,37 @@ METHODS = [
 
 CARD_CSS = """
 <style>
-.vt-hero{background:linear-gradient(135deg,#1e293b,#0f172a);
-  border:1px solid rgba(148,163,184,.25);border-radius:14px;
-  padding:18px 18px 14px;margin-bottom:14px}
-.vt-hero h2{margin:0 0 6px;font-size:17px;color:#e2e8f0}
-.vt-hero p{margin:0;font-size:12.5px;line-height:1.85;color:#94a3b8}
-.vt-card{background:rgba(148,163,184,.06);border:1px solid rgba(148,163,184,.18);
-  border-radius:12px;padding:14px 15px;margin-bottom:12px}
-.vt-card h3{margin:0 0 10px;font-size:15px;color:#e2e8f0;
+/* ★ 2026-10-22 修：原本用死深色主題色（#e2e8f0 / #94a3b8），
+   但網站有淺色主題（body{background:#f6f8fb;color:#1a2433}）
+   → 淺灰字喺白底幾乎睇唔到。改為全部用 inherit + opacity，
+     等文字永遠跟住當前主題嘅前景色。 */
+.vt-hero{border:1px solid rgba(128,140,170,.28);
+  border-radius:14px;padding:18px 18px 14px;margin-bottom:14px;
+  background:rgba(128,140,170,.07)}
+.vt-hero h2{margin:0 0 6px;font-size:17px;color:inherit}
+.vt-hero p{margin:0;font-size:12.5px;line-height:1.85;
+  color:inherit;opacity:.78}
+.vt-card{border:1px solid rgba(128,140,170,.22);
+  border-radius:12px;padding:14px 15px;margin-bottom:12px;
+  background:rgba(128,140,170,.05)}
+.vt-card h3{margin:0 0 10px;font-size:15px;color:inherit;
   display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .vt-n{background:#2563eb;color:#fff;border-radius:6px;padding:1px 7px;
   font-size:12px;font-weight:700}
-.vt-q{background:rgba(37,99,235,.10);border-left:3px solid #2563eb;
+.vt-q{background:rgba(37,99,235,.13);border-left:3px solid #2563eb;
   padding:9px 12px;border-radius:6px;font-size:12.5px;line-height:1.9;
-  color:#cbd5e1;margin-bottom:10px}
+  color:inherit;opacity:.92;margin-bottom:10px}
 .vt-row{display:flex;gap:8px;font-size:12.5px;line-height:1.8;
-  padding:5px 0;border-top:1px dashed rgba(148,163,184,.18);
-  flex-wrap:wrap}
-.vt-k{color:#94a3b8;min-width:74px;flex:0 0 74px;font-weight:600}
-.vt-v{flex:1;min-width:180px;color:#e2e8f0}
-.vt-ok{color:#22c55e;font-weight:700}
-.vt-check{background:rgba(34,197,94,.10);border:1px solid rgba(34,197,94,.3);
+  padding:6px 0;border-top:1px dashed rgba(128,140,170,.28);
+  flex-wrap:wrap;color:inherit}
+.vt-k{min-width:74px;flex:0 0 74px;font-weight:700;opacity:.62}
+.vt-v{flex:1;min-width:180px;color:inherit}
+.vt-check{background:rgba(34,197,94,.14);border:1px solid rgba(34,197,94,.42);
   border-radius:8px;padding:9px 12px;margin-top:9px;font-size:12.5px;
-  line-height:1.85;color:#bbf7d0}
+  line-height:1.85;color:inherit}
 .vt-code{font-family:ui-monospace,Consolas,monospace;font-size:11.5px;
-  background:rgba(148,163,184,.14);padding:1px 6px;border-radius:4px;
-  color:#93c5fd}
+  background:rgba(128,140,170,.20);padding:1px 6px;border-radius:4px;
+  color:inherit}
 @media(max-width:700px){
   .vt-k{flex:0 0 100%;min-width:0}
   .vt-v{flex:0 0 100%;min-width:0}
@@ -196,7 +201,8 @@ def build():
         '網站搵到。佢哋係永恆嘅。<br>'
         '<a href="https://vantharp.com/tharps-thoughts-weekly-newsletter-archive/" '
         'target="_blank" rel="noopener" '
-        'style="color:#93c5fd">vantharp.com → Tharp\'s Thoughts 週刊存檔 ↗</a>'
+        'style="color:#2563eb;font-weight:600">vantharp.com → '
+        "Tharp's Thoughts 週刊存檔 ↗</a>"
         '</p></div>')
 
     return ("Van K. Tharp 五法", CARD_CSS + hero + "".join(cards) + tail)
