@@ -71,6 +71,7 @@ TABS = [
     ("rsboard", "", "RS 板", None),
     ("method", "", "方法分類", None),
     ("vantharp", "", "Van Tharp 五法", None),
+    ("optledger", "", "優化帳本", None),
     ("cycle", "", "成長週期", None),
     ("setups", "", "Setups", None),
     ("regime", "", "Setup×Regime", None),
@@ -1057,6 +1058,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "Model Book", "modelbook.html"),
     ("_link", None, "方法分類", "method.html"),
     ("_link", None, "Van Tharp 五法", "vantharp.html"),
+    ("_link", None, "優化帳本", "optledger.html"),
     ("_link", None, "成長週期", "cycle.html"),
 
     ("_grp", "PLAYBOOK"),
@@ -1727,6 +1729,17 @@ def build():
  <th>ATRX</th><th>位置</th><th class="l">觸發條件</th><th class="l">失效條件</th>
  <th class="l">理由</th></tr></thead>
  <tbody>{mrows or '<tr><td colspan=7 class="dim">冇 Layer2 快照</td></tr>'}</tbody></table></div></div></div>""", base)
+
+    # ── 優化帳本（2026-10-22 Desmond：「我想用錢同你既優化做掛勾」）──
+    try:
+        import optledger_page as _ol
+        _ol_title, _ol_body = _ol.build()
+        pages["optledger"] = (_ol_title, _ol_body, base)
+    except Exception as _eol:                                # noqa: BLE001
+        pages["optledger"] = (
+            "優化帳本",
+            f'<div class="card"><div class="body"><div class="warn">'
+            f'讀唔到：{type(_eol).__name__}: {_eol}</div></div></div>', base)
 
     # ── Van K. Tharp 五法（2026-10-22 Desmond 貼文）──
     #   每條都接到現有模組，並寫明「做唔做到」+「每次問自己咩」。
