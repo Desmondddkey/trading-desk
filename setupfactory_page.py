@@ -419,11 +419,19 @@ REVIEW_STEPS = [
 
 
 def _lab_block():
-    """互動式 Strategy Lab：4 步，用 radio + CSS 切換（無 JS 依賴）"""
+    """互動式 Strategy Lab：4 步，純 CSS 切換（無 JS）
+
+    ★ 2026-10-22 修：第一版 radio 藏喺 <label> 內，
+      CSS `#sfstep1:checked ~ .sf-panes` 用唔到
+      （radio 同 .sf-panes 唔係兄弟）→ 撳完標籤變色但冇內容。
+      改為：radio 直接做 .sf-tabs 嘅子元素，label 用 for= 關聯。
+    """
+    radios = "".join(
+        f'<input type="radio" name="sfstep" id="sfstep{n}"'
+        f'{" checked" if n == "1" else ""}>'
+        for n, _, _, _ in LAB_STEPS)
     btns = "".join(
-        f'<label class="sf-lab-btn"><input type="radio" name="sfstep" '
-        f'id="sfstep{n}"{" checked" if n == "1" else ""}>'
-        f'<span>{n} · {t}</span></label>'
+        f'<label class="sf-lab-btn" for="sfstep{n}">{n} · {t}</label>'
         for n, t, _, _ in LAB_STEPS)
     panes = "".join(
         f'<div class="sf-pane sf-p{n}">'
@@ -433,13 +441,16 @@ def _lab_block():
         for n, t, d, m in LAB_STEPS)
     css = """
 <style>
-.sf-lab-btn{display:inline-block;margin:0 6px 6px 0;cursor:pointer}
-.sf-lab-btn input{display:none}
-.sf-lab-btn span{display:inline-block;padding:6px 11px;border-radius:7px;
-  font-size:12px;font-weight:700;border:1px solid rgba(128,140,170,.35);
+.sf-tabs > input{display:none}
+.sf-lab-btn{display:inline-block;margin:0 6px 6px 0;cursor:pointer;
+  padding:6px 11px;border-radius:7px;font-size:12px;font-weight:700;
+  border:1px solid rgba(128,140,170,.35);
   background:rgba(128,140,170,.10);color:inherit}
-.sf-lab-btn input:checked + span{background:#2563eb;color:#fff;
-  border-color:#2563eb}
+#sfstep1:checked ~ .sf-labbtns label[for="sfstep1"],
+#sfstep2:checked ~ .sf-labbtns label[for="sfstep2"],
+#sfstep3:checked ~ .sf-labbtns label[for="sfstep3"],
+#sfstep4:checked ~ .sf-labbtns label[for="sfstep4"]{
+  background:#2563eb;color:#fff;border-color:#2563eb}
 .sf-pane{display:none;border:1px solid rgba(128,140,170,.22);
   border-radius:9px;padding:11px 13px;margin-top:9px;
   background:rgba(128,140,170,.05)}
@@ -455,7 +466,9 @@ def _lab_block():
             '逐步睇一個 setup 點發生</h2><div class="body">'
             '<div class="note">揀一步睇該階段要睇咩。'
             '對應原文「選擇一種形態，逐步查看環境、等待、觸發和失效」。</div>'
-            + btns + '<div class="sf-panes">' + panes + '</div>'
+            '<div class="sf-tabs">' + radios
+            + '<div class="sf-labbtns">' + btns + '</div>'
+            '<div class="sf-panes">' + panes + '</div></div>'
             '<div class="note">所有價格為示意，'
             '唔係歷史回測。觸發點同失效位置用嚟說明思路，'
             '唔代表作者固定交易參數。</div></div></div>')
