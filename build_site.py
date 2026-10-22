@@ -1013,6 +1013,8 @@ SIDEBAR_LINKS = [
     # 2026-10-19 方案 C：5 個分組；廚房看板獨立最頂；PLAYBOOK 最底
     ("_pinned", "", "廚房看板", "jobboard.html"),
     ("_pinned", "", "DATABASE", "datahealth.html"),
+    # ★ 2026-10-23 Desmond：「MODEL BOOK 搬到左邊欄外 唔放方法入面」
+    ("_pinned", "", "MODEL BOOK", "modelbook.html"),
 
     ("_grp", "市場"),
     ("_link", None, "MARKET REGIME", "regime_mri.html"),
@@ -1045,18 +1047,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "Review", "review.html"),
     ("_link", None, "倉位計算機", "calculator.html"),
 
-    ("_grp", "外部數據"),
-    ("_link", None, "RocketStock", "rocketstock.html"),
-    ("_link", None, "Market Pulse", "levelup.html"),
-    ("_link", None, "外部即時數據", "livefeeds.html"),
-    ("_link", None, "Market Monitor", "mm.html"),
-    ("_link", None, "Stockbee 50", "bee50.html"),
-    ("_link", None, "納指權重股", "ndx.html"),
-    ("_link", None, "Jeff Sun Mom.", "jeffsun.html"),
-    ("_link", None, "外部數據源（NEL 等）", "external.html"),
-
     ("_grp", "方法"),
-    ("_link", None, "Model Book", "modelbook.html"),
     ("_link", None, "方法分類", "method.html"),
     ("_link", None, "Van Tharp 五法", "vantharp.html"),
     ("_link", None, "優化帳本", "optledger.html"),
@@ -1069,6 +1060,18 @@ SIDEBAR_LINKS = [
     ("_ext", "", "Qullamaggie", "https://qullamaggie.net/"),
     ("_ext", "", "QM 3 個 setups", "https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/"),
     ("_ext", "", "Alex Desjardins 方法", "https://qullamaggie.net/alex-desjardinss-method/"),
+
+    # ★ 2026-10-23 Desmond：「外部數據放到 PLAYBOOK 下一行」
+    ("_grp", "外部數據"),
+    ("_link", None, "RocketStock", "rocketstock.html"),
+    ("_link", None, "Market Pulse", "levelup.html"),
+    ("_link", None, "外部即時數據", "livefeeds.html"),
+    ("_link", None, "Market Monitor", "mm.html"),
+    ("_link", None, "Stockbee 50", "bee50.html"),
+    ("_link", None, "納指權重股", "ndx.html"),
+    ("_link", None, "Jeff Sun Mom.", "jeffsun.html"),
+    ("_link", None, "外部數據源（NEL 等）", "external.html"),
+
     # ★ 2026-10-20 Desmond：LOG BOOK 貼側欄最底，唔屬於任何分組
     ("_bottom", "", "LOG BOOK", "logbook.html"),
 ]
