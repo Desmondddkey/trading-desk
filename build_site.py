@@ -70,6 +70,7 @@ TABS = [
     ("review", "", "Review", None),
     ("rsboard", "", "RS 板", None),
     ("method", "", "方法分類", None),
+    ("vantharp", "", "Van Tharp 五法", None),
     ("cycle", "", "成長週期", None),
     ("setups", "", "Setups", None),
     ("regime", "", "Setup×Regime", None),
@@ -1055,6 +1056,7 @@ SIDEBAR_LINKS = [
     ("_grp", "方法"),
     ("_link", None, "Model Book", "modelbook.html"),
     ("_link", None, "方法分類", "method.html"),
+    ("_link", None, "Van Tharp 五法", "vantharp.html"),
     ("_link", None, "成長週期", "cycle.html"),
 
     ("_grp", "PLAYBOOK"),
@@ -1725,6 +1727,18 @@ def build():
  <th>ATRX</th><th>位置</th><th class="l">觸發條件</th><th class="l">失效條件</th>
  <th class="l">理由</th></tr></thead>
  <tbody>{mrows or '<tr><td colspan=7 class="dim">冇 Layer2 快照</td></tr>'}</tbody></table></div></div></div>""", base)
+
+    # ── Van K. Tharp 五法（2026-10-22 Desmond 貼文）──
+    #   每條都接到現有模組，並寫明「做唔做到」+「每次問自己咩」。
+    try:
+        import vantharp_page as _vt
+        _vt_title, _vt_body = _vt.build()
+        pages["vantharp"] = (_vt_title, _vt_body, base)
+    except Exception as _evt:                                # noqa: BLE001
+        pages["vantharp"] = (
+            "Van K. Tharp 五法",
+            f'<div class="card"><div class="body"><div class="warn">'
+            f'讀唔到：{type(_evt).__name__}: {_evt}</div></div></div>', base)
 
     # ── Item 1：NEL 五頁蒸餾（Themes／Sectors／Breadth／Positioning／Review）──
     # ★ 每頁用 nel_pages.py 嘅唯一實作，呢度只負責寫入 pages dict。
