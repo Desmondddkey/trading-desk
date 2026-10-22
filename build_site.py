@@ -1832,9 +1832,18 @@ def build():
         log(f'⚠ Edge 頁失敗：{type(_e20).__name__}: {_e20}')
 
     # ── Model Book（Desmond 2026-10-20：Notion KB + 心理學分析）──
+    #    ＋ 2026-10-22 加入量化案例庫（mb_page.py，2,377 個真實案例）
     try:
         import modelbook_page as _mb
         _mt, _mbb = _mb.build()
+        try:
+            import mb_page as _mbq
+            _lib = _mbq.block()
+            if _lib:
+                _mbb = _mbb + _lib
+                log("✓ modelbook 加量化案例庫")
+        except Exception as _e22:
+            log(f"⚠ 案例庫區塊失敗：{type(_e22).__name__}: {_e22}")
         pages["modelbook"] = (_mt, _mbb, base)
         log(f'✓ modelbook.html ({len(_mbb)//1024} KB)')
     except Exception as _e21:
