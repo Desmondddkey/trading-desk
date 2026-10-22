@@ -72,6 +72,7 @@ TABS = [
     ("method", "", "方法分類", None),
     ("vantharp", "", "Van Tharp 五法", None),
     ("optledger", "", "優化帳本", None),
+    ("setupfactory", "", "Setup Factory", None),
     ("cycle", "", "成長週期", None),
     ("setups", "", "Setups", None),
     ("regime", "", "Setup×Regime", None),
@@ -1059,6 +1060,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "方法分類", "method.html"),
     ("_link", None, "Van Tharp 五法", "vantharp.html"),
     ("_link", None, "優化帳本", "optledger.html"),
+    ("_link", None, "Setup Factory", "setupfactory.html"),
     ("_link", None, "成長週期", "cycle.html"),
 
     ("_grp", "PLAYBOOK"),
@@ -1729,6 +1731,17 @@ def build():
  <th>ATRX</th><th>位置</th><th class="l">觸發條件</th><th class="l">失效條件</th>
  <th class="l">理由</th></tr></thead>
  <tbody>{mrows or '<tr><td colspan=7 class="dim">冇 Layer2 快照</td></tr>'}</tbody></table></div></div></div>""", base)
+
+    # ── Setup Factory（2026-10-22 Desmond：1ChartMaster 蒸餾）──
+    try:
+        import setupfactory_page as _sf
+        _sf_title, _sf_body = _sf.build()
+        pages["setupfactory"] = (_sf_title, _sf_body, base)
+    except Exception as _esf:                                # noqa: BLE001
+        pages["setupfactory"] = (
+            "Setup Factory",
+            f'<div class="card"><div class="body"><div class="warn">'
+            f'讀唔到：{type(_esf).__name__}: {_esf}</div></div></div>', base)
 
     # ── 優化帳本（2026-10-22 Desmond：「我想用錢同你既優化做掛勾」）──
     try:
