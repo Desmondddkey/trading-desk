@@ -210,7 +210,7 @@ def _mmfi_label(v):
     20-30 Weak + oversold — 壓力釋放但唔代表即刻升
     """
     if v is None:
-        return ("N/A", "#94a3b8", "")
+        return ("N/A", "#64748b", "")
     if v >= 70:
         return ("Broad strength", "#16a34a",
                 "大部分股票喺 50MA 上｜健康，但橡皮筋拉緊 —— easy money 通常已賺")
