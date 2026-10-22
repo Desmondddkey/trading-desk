@@ -387,6 +387,93 @@ CSS = """
 """
 
 
+LAB_STEPS = [
+    ("1", "環境", "先從 RS 候選清單出發，確認佢此前有強勢、"
+     "大週期上存在可解釋嘅支撐。",
+     "下跌段 + 支撐位置"),
+    ("2", "等待", "等回落到支撐，然後觀察有冇收縮、量縮、"
+     "波幅一級比一級細。未觸發前唔做嘢。",
+     "SQUAT / VCP 區"),
+    ("3", "觸發", "出現一根乾淨 30 分鐘陽線並收完；"
+     "下一根越過該陽線高點 → 買入觸發。",
+     "陽線 + 突破線"),
+    ("4", "失效", "初始止損放喺同一根陽線低點下方。"
+     "跌穿 = 呢次反轉失效，即刻走，唔等收市。",
+     "止損紅線"),
+]
+
+REVIEW_STEPS = [
+    ("01", "先寫環境",
+     "市場同板塊有冇配合？點解呢隻股值得關注？",
+     "對應系統：market_regime + sector rotation"),
+    ("02", "再畫結構",
+     "標記關鍵價位、回撤、收緊同可能嘅失效位置。",
+     "對應系統：daily_plan 卡（pivot / 止蝕 / 觸發）"),
+    ("03", "區分計劃與執行",
+     "當時只係觀察，還是已經入場？邊啲條件真正發生咗？",
+     "對應系統：ahead_tree（入場前寫死 10 步樹）"),
+    ("04", "記錄反例",
+     "失敗、止損、冇觸發嘅形態，同成功案例一樣有價值。",
+     "對應系統：chase_audit / stop_counterfactual"),
+]
+
+
+def _lab_block():
+    """互動式 Strategy Lab：4 步，用 radio + CSS 切換（無 JS 依賴）"""
+    btns = "".join(
+        f'<label class="sf-lab-btn"><input type="radio" name="sfstep" '
+        f'id="sfstep{n}"{" checked" if n == "1" else ""}>'
+        f'<span>{n} · {t}</span></label>'
+        for n, t, _, _ in LAB_STEPS)
+    panes = "".join(
+        f'<div class="sf-pane sf-p{n}">'
+        f'<div class="sf-paneT">{n} / {t}</div>'
+        f'<div class="sf-paneD">{d}</div>'
+        f'<div class="sf-paneM dim">圖上重點：{m}</div></div>'
+        for n, t, d, m in LAB_STEPS)
+    css = """
+<style>
+.sf-lab-btn{display:inline-block;margin:0 6px 6px 0;cursor:pointer}
+.sf-lab-btn input{display:none}
+.sf-lab-btn span{display:inline-block;padding:6px 11px;border-radius:7px;
+  font-size:12px;font-weight:700;border:1px solid rgba(128,140,170,.35);
+  background:rgba(128,140,170,.10);color:inherit}
+.sf-lab-btn input:checked + span{background:#2563eb;color:#fff;
+  border-color:#2563eb}
+.sf-pane{display:none;border:1px solid rgba(128,140,170,.22);
+  border-radius:9px;padding:11px 13px;margin-top:9px;
+  background:rgba(128,140,170,.05)}
+.sf-paneT{font-size:13px;font-weight:800;margin-bottom:6px}
+.sf-paneD{font-size:12.5px;line-height:1.85}
+.sf-paneM{font-size:11.5px;margin-top:7px}
+#sfstep1:checked ~ .sf-panes .sf-p1,
+#sfstep2:checked ~ .sf-panes .sf-p2,
+#sfstep3:checked ~ .sf-panes .sf-p3,
+#sfstep4:checked ~ .sf-panes .sf-p4{display:block}
+</style>"""
+    return (css + '<div class="card"><h2>🧪 Strategy Lab —— '
+            '逐步睇一個 setup 點發生</h2><div class="body">'
+            '<div class="note">揀一步睇該階段要睇咩。'
+            '對應原文「選擇一種形態，逐步查看環境、等待、觸發和失效」。</div>'
+            + btns + '<div class="sf-panes">' + panes + '</div>'
+            '<div class="note">所有價格為示意，'
+            '唔係歷史回測。觸發點同失效位置用嚟說明思路，'
+            '唔代表作者固定交易參數。</div></div></div>')
+
+
+def _review_block():
+    rows = "".join(
+        f'<div class="sf-r"><span class="sf-k">{n}</span>'
+        f'<span class="sf-v"><b>{t}</b><br>{d}'
+        f'<br><span class="dim">{s}</span></span></div>'
+        for n, t, d, s in REVIEW_STEPS)
+    return ('<div class="card"><h2>🔄 由觀察到複盤 '
+            '<small>由本站整理，唔係作者原文系統</small></h2>'
+            '<div class="body"><div class="note">'
+            '一套學習用嘅複盤順序：幫你記錄條件，'
+            '唔係宣稱一套交易系統。</div>' + rows + '</div></div>')
+
+
 def build():
     hero = (
         '<div class="sf-hero">'
@@ -431,7 +518,8 @@ def build():
 
     bnds = "".join(f'<div>· {x}</div>' for x in BOUNDARIES)
 
-    return ("Setup Factory", CSS + hero + "".join(cards) + (
+    return ("Setup Factory", CSS + hero + "".join(cards)
+            + _lab_block() + _review_block() + (
         '<div class="card"><h2>🧪 九個真實案例 '
         '<small>計劃 / 觀察 / 成交 / 結果 要分開辨認</small></h2>'
         '<div class="body"><div class="scroll"><table><thead><tr>'
