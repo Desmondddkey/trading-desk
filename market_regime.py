@@ -658,6 +658,15 @@ def build():
         f'<span style="width:{mw}%;background:{mcol}"></span></div>'
         '</div>')
 
+    # ★ 2026-10-23 群組 RS 新高家數（Jeff Sun 情境意識量化）
+    try:
+        import group_rs_page as _grs
+        _gc = _grs.card()
+        if _gc:
+            parts.append(_gc)
+    except Exception as _e20:                             # noqa: BLE001
+        pass
+
     # ★ 2026-10-21 Desmond：「我想佢可以自動表示到我宜家當日身處既階段」
     #   Stan Weinstein 四階段（Basing / Advancing / Topping / Declining）
     #   ★ 用 30 週 MA（150 日）+ 4 週斜率，機械判定，唔靠感覺。
