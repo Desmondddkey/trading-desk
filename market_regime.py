@@ -202,6 +202,38 @@ def _tv_mmfi(ttl_min=15):
             return None, 0, None
 
 
+def _mmtw_label(v, rising=None):
+    """MMTW 分區（來源：Jeff Sun —— $MMTW = % of Stocks Above 20-MA，
+    短線廣度振盪，評估指數嘅內在強弱）。
+
+    ≥75 Broad strength — 大部分股票企 20MA 上，健康但可能延伸過度
+    55-75 Healthy — 多數股票參與短線趨勢
+    40-55 Neutral + mixed — 約一半參與，睇領導股
+    25-40 Weak — 參與下降，提高選股門檻
+    10-25 Oversold — 壓力已釋放，但唔代表即刻升
+    <10 Extreme oversold — 歷史洗盤區，可以更超賣
+    """
+    trend = "｜改善中" if rising is True else ("｜惡化中" if rising is False else "")
+    if v is None:
+        return ("N/A", "#64748b", "")
+    if v >= 75:
+        return ("Broad strength", "#16a34a",
+                f"大部分股票企 20MA 上｜內在強度健康，但可能延伸過度{trend}")
+    if v >= 55:
+        return ("Healthy", "#22c55e", f"多數股票參與短線趨勢{trend}")
+    if v >= 40:
+        return ("Neutral + mixed", "#f59e0b",
+                f"約一半市場參與｜睇領導股同相對強度{trend}")
+    if v >= 25:
+        return ("Weak", "#ea580c",
+                f"參與度下降｜提高選股門檻，收細倉位{trend}")
+    if v >= 10:
+        return ("Oversold", "#dc2626",
+                f"大部分股票喺 20MA 下｜壓力已釋放，但唔代表即刻升{trend}")
+    return ("Extreme oversold", "#991b1b",
+            f"歷史洗盤區｜可以更超賣，唔好急住撈{trend}")
+
+
 def _mmfi_label(v):
     """MMFI 分區（來源：@ohiain 2026-10-20 帖）。
 
@@ -582,20 +614,21 @@ def build():
 
     # ① 寬度（預設最顯眼）
     bv = r.get("mmtw")
-    bcol = ("#16a34a" if bv and bv >= 55 else
-            "#f59e0b" if bv and bv >= 40 else "#dc2626")
+    blab, bcol, bdesc = _mmtw_label(bv, r.get("mmtw_rising"))
     bw = max(0, min(100, float(bv))) if bv is not None else 0
     parts.append(
         '<div class="mr-big" style="flex-direction:column;'
         'align-items:stretch;gap:10px">'
         '<div style="display:flex;justify-content:space-between;'
         'align-items:baseline;gap:12px">'
-        '<div><div class="lab">MMTW 寬度（% above 20MA）</div>'
+        '<div><div class="lab">MMTW 寬度（% above 20MA）'
+        '<span style="opacity:.5;font-weight:400"> · 短線廣度振盪</span>'
+        '</div>'
         f'<div class="val" id="mr-breadth" style="color:{bcol}">'
         f'{f"{bv:.1f}%" if bv is not None else "N/A"}</div></div>'
-        f'<div style="font-size:12px;opacity:.72;text-align:right">'
-        + ("↑ 改善" if r.get("mmtw_rising") else "↓ 惡化" if bv else "")
-        + ("｜超賣區" if r.get("oversold") else "")
+        f'<div style="font-size:12px;opacity:.78;text-align:right">'
+        f'<b style="color:{bcol}">{blab}</b>'
+        + (f'　·　{bdesc}' if bdesc else '')
         + '</div></div>'
         f'<div class="mr-bar" style="max-width:100%">'
         f'<span style="width:{bw}%;background:{bcol}"></span></div>'
