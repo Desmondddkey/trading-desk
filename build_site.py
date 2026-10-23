@@ -1020,8 +1020,8 @@ SIDEBAR_LINKS = [
     ("_link", None, "MARKET REGIME", "regime_mri.html"),
     ("_link", None, "市場簡報", "index.html"),
     ("_link", None, "Sectors", "sectors.html"),
-    ("_link", None, "Themes", "themes.html"),
     ("_link", None, "Breadth", "breadth.html"),
+    ("_link", None, "Market Monitor", "mm.html"),
 
     ("_grp", "選股"),
     ("_link", None, "Alert", "alerts.html"),
@@ -1061,16 +1061,10 @@ SIDEBAR_LINKS = [
     ("_ext", "", "QM 3 個 setups", "https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/"),
     ("_ext", "", "Alex Desjardins 方法", "https://qullamaggie.net/alex-desjardinss-method/"),
 
-    # ★ 2026-10-23 Desmond：「外部數據放到 PLAYBOOK 下一行」
+    # ★ 2026-10-23 Desmond：「外部數據放到 PLAYBOOK 下一行」+ 合併 8→2
     ("_grp", "外部數據"),
-    ("_link", None, "RocketStock", "rocketstock.html"),
+    ("_link", None, "外部數據源", "external.html"),
     ("_link", None, "Market Pulse", "levelup.html"),
-    ("_link", None, "外部即時數據", "livefeeds.html"),
-    ("_link", None, "Market Monitor", "mm.html"),
-    ("_link", None, "Stockbee 50", "bee50.html"),
-    ("_link", None, "納指權重股", "ndx.html"),
-    ("_link", None, "Jeff Sun Mom.", "jeffsun.html"),
-    ("_link", None, "外部數據源（NEL 等）", "external.html"),
 
     # ★ 2026-10-20 Desmond：LOG BOOK 貼側欄最底，唔屬於任何分組
     ("_bottom", "", "LOG BOOK", "logbook.html"),
@@ -1775,7 +1769,6 @@ def build():
     try:
         _ohlc_df = _np._ohlc()
         for _key, _title, _fn in (
-                ("themes", "Themes", lambda: _np.themes_page(_ohlc_df)),
                 ("sectors", "Sectors", lambda: _np.sectors_page(_ohlc_df)),
                 ("breadth", "Breadth", _np.breadth_page),
                 ("positioning", "Positioning", _np.positioning_page),
@@ -2186,23 +2179,8 @@ def build():
         _h.append('</div></div>')
         pages["regime"] = ("Setup × Regime", "".join(_h), base)
 
-    # ── 交易台（我原本嘅 dashboard）──
-    src_desk = os.path.join(LAB, "output", f"dashboard_{datetime.date.today().isoformat()}.html")
-    if not os.path.exists(src_desk):
-        cands = sorted(glob.glob(os.path.join(LAB, "output", "dashboard_*.html")))
-        src_desk = cands[-1] if cands else None
-    if src_desk:
-        with io.open(src_desk, encoding="utf-8") as f:
-            desk_html = f.read()
-        desk_html = inject_nav(desk_html)
-        # ★ 2026-10-20 統一：全站 h1 一律 HI! Desmond，
-        #   頁面身份（機會）降級為副標，唔再搶 h1
-        desk_html = desk_html.replace("<title>交易台", "<title>機會")
-        with io.open(os.path.join(SITE, "desk.html"), "w", encoding="utf-8") as f:
-            f.write(desk_html)
-        log(f"✓ desk.html ← {os.path.basename(src_desk)}（已加網站導航）")
-    else:
-        log("⚠ 搵唔到 dashboard HTML —— desk 分頁會係空")
+    # ── ★ 2026-10-23 移除 desk.html（舊「機會」頁，已由 split_desk → leadermap/sectors/atrxrisk 取代）──
+    #    dashboard 內容仍然經 split_desk.py → desk_parts.json → 三頁獨立展示，唔再出 desk.html
 
     for key, (title, body, payload) in pages.items():
         p = os.path.join(SITE, f"{key}.html")
