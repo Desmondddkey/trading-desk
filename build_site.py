@@ -1954,23 +1954,7 @@ def build():
     except Exception as _e13:                                # noqa: BLE001
         log(f"⚠ MARKET REGIME 失敗：{type(_e13).__name__}: {_e13}")
 
-    # ── RocketStock 公開 API（Desmond 2026-10-19）──
-    try:
-        import rocketstock as _rsk
-        _rt, _rb = _rsk.build()
-        pages["rocketstock"] = (_rt, _rb, base)
-        log(f"✓ rocketstock.html ({len(_rb)//1024} KB)")
-    except Exception as _e12:                                # noqa: BLE001
-        log(f"⚠ RocketStock 失敗：{type(_e12).__name__}: {_e12}")
-
-    # ── 外部即時數據（Desmond 2026-10-19：LST + TradersLab iframe）──
-    try:
-        import livefeeds as _lf
-        _lt, _lb = _lf.build()
-        pages["livefeeds"] = (_lt, _lb, base)
-        log(f"✓ livefeeds.html ({len(_lb)//1024} KB)")
-    except Exception as _e11:                                # noqa: BLE001
-        log(f"⚠ 外部即時數據失敗：{type(_e11).__name__}: {_e11}")
+    # ── ★ 2026-10-23 移除 rocketstock / livefeeds（外部數據合併入 external.html）──
 
     # ── Daily Scan（Desmond 2026-10-19：L1 + L2）──
     try:
