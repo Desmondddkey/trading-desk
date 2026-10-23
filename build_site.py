@@ -1028,6 +1028,8 @@ SIDEBAR_LINKS = [
     ("_link", None, "Setups（The Plan）", "setups.html"),
     ("_link", None, "YOYO Ball", "yoyo_ball.html"),
     ("_link", None, "Daily Scan", "dailyscan.html"),
+    # ★ 2026-10-24 Desmond：「網站建立 RS daily scan 放係 Daily scan 下面」
+    ("_link", None, "RS Daily Scan", "rsscan.html"),
     ("_link", None, "RS Leader 位置圖", "leadermap.html"),
     ("_link", None, "ATRX 風險", "atrxrisk.html"),
     ("_link", None, "RS Before Price", "rsbeforeprice.html"),
@@ -1964,6 +1966,15 @@ def build():
         log(f"✓ dailyscan.html ({len(_bd)//1024} KB)")
     except Exception as _e10:                                # noqa: BLE001
         log(f"⚠ Daily Scan 失敗：{type(_e10).__name__}: {_e10}")
+
+    # ── ★ 2026-10-24 RS Daily Scan（放喺 Daily Scan 下面）──
+    try:
+        import rs_scan as _rss
+        _rt, _rb = _rss.build()
+        pages["rsscan"] = (_rt, _rb, base)
+        log(f"✓ rsscan.html ({len(_rb)//1024} KB)")
+    except Exception as _e14:                                # noqa: BLE001
+        log(f"⚠ RS Daily Scan 失敗：{type(_e14).__name__}: {_e14}")
 
     # ── RS Leader 位置圖（Desmond 2026-10-19：加日期選取器）──
     try:
