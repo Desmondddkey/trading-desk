@@ -113,6 +113,16 @@ def _pct(v, d=1):
         return "—"
 
 
+def _atr_band(ext_f):
+    """ATR 帶 mini SVG：顯示 EXT 喺 [0,4] 範圍嘅位置"""
+    if ext_f is None:
+        return '<svg width="40" height="10" viewBox="0 0 40 10"><rect x="0" y="3" width="40" height="4" fill="rgba(128,128,128,.2)" rx="2"/></svg>'
+    pct = max(0, min(1, ext_f / 4.0))
+    x = int(pct * 36) + 2
+    c = "#f97316" if ext_f > 4 else "#7c3aed"
+    return f'<svg width="40" height="10" viewBox="0 0 40 10"><rect x="0" y="3" width="40" height="4" fill="rgba(128,128,128,.2)" rx="2"/><rect x="{x}" y="1" width="6" height="8" fill="{c}" rx="3"/></svg>'
+
+
 # ══════════════════════════════════════════════════════════════
 def load_l1():
     """My_Scans xlsx → (dict[scan] = [ticker], asof)。"""
@@ -341,30 +351,6 @@ function dsFilter(mode,btn){
     r.style.display=ok?'':'none';
   });
 }
-// ★ 排序選擇器（Desmond 2026-10-23）：預設 DAYON → EXT → RVOL → ATR%
-function dsSortSel(mode){
-  var tb=document.getElementById('dsbody');
-  if(!tb) return;
-  var rows=Array.from(tb.querySelectorAll('tr'));
-  function n(tr,i){var v=parseFloat(tr.children[i].dataset.v);return isNaN(v)?null:v;}
-  // 欄位：0=來源 1=代號 2=DAYON 3=EXT 4=RVOL 5=ATR% 6=距52高 7=財報
-  var cmp={
-    def:function(a,b){
-      var d=(n(b,2)||0)-(n(a,2)||0); if(d) return d;
-      var e=(n(a,3)===null?99:n(a,3))-(n(b,3)===null?99:n(b,3)); if(e) return e;
-      var r=(n(b,4)||-1)-(n(a,4)||-1); if(r) return r;
-      return (n(b,5)||-1)-(n(a,5)||-1);
-    },
-    dayon:function(a,b){return (n(b,2)||0)-(n(a,2)||0);},
-    ext:function(a,b){return (n(a,3)===null?99:n(a,3))-(n(b,3)===null?99:n(b,3));},
-    rvol:function(a,b){return (n(b,4)||-1)-(n(a,4)||-1);},
-    atr:function(a,b){return (n(b,5)||-1)-(n(a,5)||-1);},
-    dist:function(a,b){return (n(a,6)===null?999:n(a,6))-(n(b,6)===null?999:n(b,6));},
-    src:function(a,b){return (a.children[0].textContent||'').localeCompare(b.children[0].textContent||'');}
-  };
-  rows.sort(cmp[mode]||cmp.def);
-  rows.forEach(function(r){tb.appendChild(r);});
-}
 """
 
 
@@ -478,15 +464,25 @@ def build():
                      f'FOCUS</button>')
         parts.append('</div>')
 
-        # ★ 2026-10-23 Desmond：移除下拉選單，改 Excel 式三角（點欄頭切換升降序）
-        #   排序邏輯喺 dsSort()，預設次序由 server 端寫死（DAYON → EXT → RVOL → ATR%）
-
-        parts.append('<div class="ds-wrap card" style="padding:0"><table class="ds-tbl">'
-                     '<thead><tr>'
-                     '<th class="l">來源</th><th class="l">代號 / 行業</th>'
-                     '<th>DAY ON</th><th>EXT</th><th>RVOL(50D)</th><th>ATR%</th>'
-                     '<th>距 52 高</th><th>財報</th>'
-                     '</tr></thead><tbody id="dsbody">')
+        # ★ 2026-10-23 Desmond：欄頭 clickable（Excel 三角）+ 新增 ATR 帶欄
+        _cols = [
+            ('來源', 0), ('代號/行業', 1), ('DAY ON', 2), ('EXT', 3),
+            ('RVOL(50D)', 4), ('ATR 帶', None), ('ATR%', 5),
+            ('距 52 高', 6), ('財報', 7),
+        ]
+        th_parts = []
+        for label, col in _cols:
+            if col is None:
+                th_parts.append(f'<th>ATR 帶</th>')
+            else:
+                th_parts.append(
+                    f'<th class="l sortable" onclick="dsSort(this,{col})" data-dir="">'
+                    f'{label}<span class="arr">▼</span></th>')
+        parts.append(
+            '<div class="ds-wrap card" style="padding:0"><table class="ds-tbl">'
+            '<thead><tr>'
+            + "".join(th_parts)
+            + '</tr></thead><tbody id="dsbody">')
 
         # ★ 排序：DAYON(desc) > EXT(asc) > RVOL(desc) > ATR%(desc)（Desmond 2026-10-23）
         def k(r):
@@ -542,6 +538,7 @@ def build():
                 f'<td data-v="{_f(ext_f,2)}" class="{"ds-ext" if (ext_f or 0)>4 else ""}">'
                 f'{_f(ext_f,2)}</td>'
                 f'<td data-v="{_f(rvol,2)}" class="{rvol_cls}">{rvol_s}</td>'
+                f'<td>{_atr_band(ext_f)}</td>'
                 f'<td data-v="{_f(m.get("atr_pct"),2)}">{_f(m.get("atr_pct"),1)}%</td>'
                 f'<td data-v="{_f(dist,0)}">{dist_s}</td>'
                 f'<td>{_esc(es_s)}</td>'
