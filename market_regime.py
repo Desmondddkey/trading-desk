@@ -582,40 +582,48 @@ def build():
 
     # ① 寬度（預設最顯眼）
     bv = r.get("mmtw")
-    filled = max(0, min(10, round(bv / 10))) if bv is not None else 0
-    bar = "█" * filled + "░" * (10 - filled)
     bcol = ("#16a34a" if bv and bv >= 55 else
             "#f59e0b" if bv and bv >= 40 else "#dc2626")
+    bw = max(0, min(100, float(bv))) if bv is not None else 0
     parts.append(
-        '<div class="mr-big">'
+        '<div class="mr-big" style="flex-direction:column;'
+        'align-items:stretch;gap:10px">'
+        '<div style="display:flex;justify-content:space-between;'
+        'align-items:baseline;gap:12px">'
         '<div><div class="lab">MMTW 寬度（% above 20MA）</div>'
         f'<div class="val" id="mr-breadth" style="color:{bcol}">'
         f'{f"{bv:.1f}%" if bv is not None else "N/A"}</div></div>'
-        f'<div class="mr-bar10" style="color:{bcol}">{bar}</div>'
-        f'<div style="font-size:12px;opacity:.72">'
+        f'<div style="font-size:12px;opacity:.72;text-align:right">'
         + ("↑ 改善" if r.get("mmtw_rising") else "↓ 惡化" if bv else "")
         + ("｜超賣區" if r.get("oversold") else "")
-        + '</div></div>')
+        + '</div></div>'
+        f'<div class="mr-bar" style="max-width:100%">'
+        f'<span style="width:{bw}%;background:{bcol}"></span></div>'
+        '</div>')
 
     # ★ MMFI（Desmond 2026-10-20：MMTW 下面加 MMFI）
     # 來源：@ohiain —— % of NYSE stocks above their 50-day MA
     mv = r.get("mmfi")
     mv = float(mv) if mv is not None else None
     mlab, mcol, mdesc = _mmfi_label(mv)
-    mfill = max(0, min(10, round(mv / 10))) if mv is not None else 0
-    mbar = "█" * mfill + "░" * (10 - mfill)
+    mw = max(0, min(100, mv)) if mv is not None else 0
     parts.append(
-        '<div class="mr-big" style="margin-top:10px">'
+        '<div class="mr-big" style="margin-top:10px;'
+        'flex-direction:column;align-items:stretch;gap:10px">'
+        '<div style="display:flex;justify-content:space-between;'
+        'align-items:baseline;gap:12px">'
         '<div><div class="lab">MMFI（% above 50MA）'
         '<span style="opacity:.5;font-weight:400"> · 中期趨勢參與度</span>'
         '</div>'
         f'<div class="val" id="mr-mmfi" style="color:{mcol}">'
         f'{f"{mv:.1f}%" if mv is not None else "N/A"}</div></div>'
-        f'<div class="mr-bar10" style="color:{mcol}">{mbar}</div>'
-        f'<div style="font-size:12px;opacity:.78;margin-top:2px">'
+        f'<div style="font-size:12px;opacity:.78;text-align:right">'
         f'<b style="color:{mcol}">{mlab}</b>'
         + (f'　·　{mdesc}' if mdesc else '')
-        + '</div></div>')
+        + '</div></div>'
+        f'<div class="mr-bar" style="max-width:100%">'
+        f'<span style="width:{mw}%;background:{mcol}"></span></div>'
+        '</div>')
 
     # ★ 2026-10-21 Desmond：「我想佢可以自動表示到我宜家當日身處既階段」
     #   Stan Weinstein 四階段（Basing / Advancing / Topping / Declining）

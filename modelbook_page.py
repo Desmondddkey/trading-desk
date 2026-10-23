@@ -204,11 +204,18 @@ def build():
              '③ 如果本週只做 3 單（最好嗰 3 個 setup），結果會點？<br>'
              '</div></div></div>')
 
-    # ── Model Book 目錄 ──
+    # ── Model Book 目錄（去重：同標題只出一次，連 Notion）──
     L.append('<div class="card"><h2>Model Book 目錄 '
              f'<small>{len(pages)} 頁</small></h2><div class="body mb-g">')
     last_grp = None
+    seen_titles = set()
     for p in pages:
+        # 去重：同一個標題（唔理深度）只顯示第一次（最接近根嗰個）
+        key = p["title"].strip().lower()
+        if key in seen_titles:
+            continue
+        seen_titles.add(key)
+
         grp = p["path"].split("/")[1].strip() if p["depth"] >= 1 else "（根）"
         if grp != last_grp:
             L.append(f'<h3>{grp}</h3>')
