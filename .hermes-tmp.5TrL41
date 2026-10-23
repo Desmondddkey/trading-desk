@@ -1,0 +1,546 @@
+# -*- coding: utf-8 -*-
+"""dailyscan.py — Daily Scan 頁（Desmond 2026-10-19）
+
+★ 需求：「jeff sun daily scan layer 1+2 呢個JOB內容要加埋落選股到 開一個叫 Daily scan」
+   L1 = 12 個 scan 嘅 ticker 清單（來自 My_Scans_*.xlsx）
+   L2 = 圖表隊列表格（來自 layer2_*.json）+ 新增 EXT / ATR% / RVOL(50D) / DAY ON
+
+★ 資料源（全部本機，唔上網，唔用 pickle）：
+   L1: output/My_Scans_YYYYMMDD.xlsx  （jeffsun_scan.py 產出，12 個 sheet + All_Scans）
+   L2: output/layer2_YYYYMMDD_HHMM.json（focus_list / stalk_list）
+   OHLC: output/ohlc_latest.json       （含 volume，用嚟算 ATR% / RVOL）
+   DAY ON: edge_book/dailyscan_history.json（我哋自己累積，記錄每隻股連續在名單幾日）
+
+★ 欄位定義（寫死）：
+   EXT      = atr_ext_50ma（＝ATRX＝(close−SMA50)/ATR14）
+   ATR%     = ATR14 / close × 100
+   RVOL(50D)= 當日成交量 / 過去 50 日平均成交量
+   DAY ON   = 連續在 L1/L2 名單嘅日數（新上榜 = 1）
+
+★ 沉默合約：冇資料 = DATA_UNAVAILABLE，唔准扮有。
+"""
+import datetime as dt
+import glob
+import html as _h
+import io
+import json
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+TO = r"C:\Users\rain0\trading-os"
+OUT = os.path.join(TO, "output")
+BOOK = os.path.join(TO, "edge_book")
+
+SCAN_ORDER = [
+    "Mom_1W_Small", "Mom_1W_Large", "Mom_1M_Small", "Mom_1M_Large",
+    "Mom_3M_Small", "Mom_3M_Large", "Mom_6M_Small", "Mom_6M_Large",
+    "1_Fundamental_Growth", "3_Post_Earnings_Cont_Base",
+    "4_Strongest_Stock_JK", "5_Strongest_Stock_10B_Rev_30_JK",
+    "Daily_Tightness_Swing",
+]
+
+# ★ 2026-10-20 Desmond：滑鼠移過去顯示方格（同 ALERT 卡一樣）
+SCAN_DESC = {
+    "Mom_1W_Small": dict(full="Momentum 1-Week · Small Cap",
+                         zh="1 週動能（小市值）",
+                         how="過去 5 個交易日升幅最大嘅小型股。用嚟捉短線起步。"),
+    "Mom_1W_Large": dict(full="Momentum 1-Week · Large Cap",
+                         zh="1 週動能（大市值）",
+                         how="過去 5 個交易日升幅最大嘅大型股。大票郁得慢但穩。"),
+    "Mom_1M_Small": dict(full="Momentum 1-Month · Small Cap",
+                         zh="1 月動能（小市值）",
+                         how="過去 21 個交易日升幅最大嘅小型股。捉月度趨勢。"),
+    "Mom_1M_Large": dict(full="Momentum 1-Month · Large Cap",
+                         zh="1 月動能（大市值）",
+                         how="過去 21 個交易日升幅最大嘅大型股。"),
+    "Mom_3M_Small": dict(full="Momentum 3-Month · Small Cap",
+                         zh="3 月動能（小市值）",
+                         how="過去 63 個交易日升幅最大。較長線嘅趨勢確認。"),
+    "Mom_3M_Large": dict(full="Momentum 3-Month · Large Cap",
+                         zh="3 月動能（大市值）",
+                         how="過去 63 個交易日升幅最大嘅大型股。"),
+    "Mom_6M_Small": dict(full="Momentum 6-Month · Small Cap",
+                         zh="6 月動能（小市值）",
+                         how="過去 126 個交易日。捉中期領先股，噪音最少。"),
+    "Mom_6M_Large": dict(full="Momentum 6-Month · Large Cap",
+                         zh="6 月動能（大市值）",
+                         how="過去 126 個交易日升幅最大嘅大型股。"),
+    "1_Fundamental_Growth": dict(
+        full="Fundamental Growth Screen",
+        zh="基本面成長",
+        how="盈利／營收成長達標嘅股票。Jeff Sun：基本面係「為什麼要升」嘅理由。"),
+    "3_Post_Earnings_Cont_Base": dict(
+        full="Post-Earnings Continuation Base",
+        zh="財報後延續整理",
+        how="財報大漲之後橫行整理（唔跌返去），等佢再突破。"
+            "典型 O'Neil / Minervini 形態。"),
+    "4_Strongest_Stock_JK": dict(
+        full="Strongest Stock (JK)",
+        zh="最強股票（JK 版）",
+        how="JK 篩選條件下最強嘅股票清單。"),
+    "5_Strongest_Stock_10B_Rev_30_JK": dict(
+        full="Strongest + Revenue >$10B / Growth 30% (JK)",
+        zh="最強 ＋ 營收 100 億以上、成長 30%",
+        how="市值夠大、營收成長 ≥30% 嘅最強股票。過濾走細價股。"),
+    "Daily_Tightness_Swing": dict(
+        full="Daily Tightness Swing",
+        zh="日線收窄（波段）",
+        how="日線波幅持續收窄（ATR 壓縮）—— 收窄之後通常爆邊。"
+            "配合 ATRX ≤4 入場。"),
+}
+
+
+def _sinfo(k):
+    return SCAN_DESC.get(k) or dict(full=k, zh=k, how="—")
+
+
+def _esc(v):
+    return _h.escape(str(v)) if v is not None else ""
+
+
+def _f(v, d=2):
+    try:
+        return f"{float(v):,.{d}f}"
+    except (TypeError, ValueError):
+        return "—"
+
+
+def _pct(v, d=1):
+    try:
+        return f"{float(v):+.{d}f}%"
+    except (TypeError, ValueError):
+        return "—"
+
+
+# ══════════════════════════════════════════════════════════════
+def load_l1():
+    """My_Scans xlsx → (dict[scan] = [ticker], asof)。"""
+    fs = sorted(glob.glob(os.path.join(OUT, "My_Scans_*.xlsx")))
+    if not fs:
+        return None, None
+    f = fs[-1]
+    asof = os.path.basename(f).replace("My_Scans_", "").replace(".xlsx", "")
+    try:
+        import openpyxl
+        wb = openpyxl.load_workbook(f, read_only=True, data_only=True)
+    except Exception:                                        # noqa: BLE001
+        return None, asof
+    scans = {}
+
+    def _read_sheet(ws, i_scan, i_tk):
+        first = True
+        for r in ws.iter_rows(values_only=True):
+            if not r or len(r) <= max(i_scan, i_tk):
+                continue
+            if first:            # ★ 跳過表頭，唔可以當數據
+                first = False
+                continue
+            sc, tk = r[i_scan], r[i_tk]
+            if not sc or not tk:
+                continue
+            sc = str(sc).strip()
+            if sc in ("Source_Scan", "", "None"):
+                continue
+            tk = str(tk).split(":")[-1].strip().upper()
+            if not tk or tk in ("TICKER", "None"):
+                continue
+            scans.setdefault(sc, []).append(tk)
+
+    # ★ 2026-10-19：Momentum scan（Mom_1W/1M/3M/6M × Small/Large）唔喺
+    #   All_Scans sheet，佢哋喺獨立 `Momentum` sheet。要兩個都讀。
+    if "All_Scans" in wb.sheetnames:
+        ws = wb["All_Scans"]
+        rows = ws.iter_rows(values_only=True)
+        hdr = list(next(rows, None) or ())
+        try:
+            i_scan = hdr.index("Source_Scan")
+            i_tk = hdr.index("ticker")
+        except ValueError:
+            i_scan = i_tk = -1
+        if i_scan >= 0:
+            _read_sheet(ws, i_scan, i_tk)
+
+    if "Momentum" in wb.sheetnames:
+        ws = wb["Momentum"]
+        rows = ws.iter_rows(values_only=True)
+        hdr = list(next(rows, None) or ())
+        try:
+            i_scan = hdr.index("Source_Scan")
+            i_tk = hdr.index("ticker")
+        except ValueError:
+            i_scan = i_tk = -1
+        if i_scan >= 0:
+            _read_sheet(ws, i_scan, i_tk)
+
+    wb.close()
+    for k in scans:
+        scans[k] = sorted(set(scans[k]))
+    return scans, asof
+
+
+def load_l2():
+    fs = sorted(glob.glob(os.path.join(OUT, "layer2_*.json")))
+    if not fs:
+        return None, None
+    f = fs[-1]
+    try:
+        d = json.load(io.open(f, encoding="utf-8"))
+    except (OSError, ValueError):
+        return None, os.path.basename(f)
+    rows = []
+    for src in ("focus_list", "stalk_list"):
+        for r in d.get(src) or []:
+            x = dict(r)
+            x["_src"] = src.replace("_list", "").upper()
+            rows.append(x)
+    return rows, os.path.basename(f)
+
+
+def load_ohlc():
+    p = os.path.join(OUT, "ohlc_latest.json")
+    try:
+        d = json.load(io.open(p, encoding="utf-8"))
+        return d.get("data") or {}, d.get("asof")
+    except (OSError, ValueError):
+        return {}, None
+
+
+def compute_metrics(ohlc):
+    """→ dict[ticker] = {atr, atr_pct, rvol50, close}。"""
+    out = {}
+    for t, rec in ohlc.items():
+        bars = rec.get("bars") or []
+        if len(bars) < 55:
+            continue
+        closes = [b[3] for b in bars]
+        highs = [b[1] for b in bars]
+        lows = [b[2] for b in bars]
+        vols = [b[4] if len(b) > 4 else 0 for b in bars]
+        trs = [highs[i] - lows[i] for i in range(len(bars))]
+        atr = sum(trs[-14:]) / 14
+        close = closes[-1]
+        v50 = (sum(vols[-50:]) / 50) if len(vols) >= 50 else 0
+        rvol = (vols[-1] / v50) if v50 else None
+        out[t.upper()] = dict(atr=atr,
+                              atr_pct=(atr / close * 100) if close else 0,
+                              rvol50=rvol, close=close)
+    return out
+
+
+def update_day_on(tickers):
+    """記錄每隻股連續在名單幾日。→ dict[ticker] = n。"""
+    p = os.path.join(BOOK, "dailyscan_history.json")
+    today = dt.date.today().isoformat()
+    hist = {}
+    try:
+        hist = json.load(io.open(p, encoding="utf-8"))
+    except (OSError, ValueError):
+        hist = {}
+    rec = hist.get("tickers") or {}
+    newrec = {}
+    for t in tickers:
+        old = rec.get(t) or {}
+        last = old.get("last")
+        n = int(old.get("n") or 0)
+        if last == today:
+            newrec[t] = {"n": n, "last": last}
+        else:
+            newrec[t] = {"n": n + 1, "last": today}
+    io.open(p, "w", encoding="utf-8").write(json.dumps(
+        {"updated": today, "tickers": newrec}, ensure_ascii=False, indent=1))
+    return {t: v["n"] for t, v in newrec.items()}
+
+
+# ══════════════════════════════════════════════════════════════
+CSS = """
+.ds-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 4px}
+.ds-l1{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:10px;margin:0 0 16px}
+.ds-sc{border:1px solid rgba(128,128,128,.26);border-radius:11px;
+  padding:10px 12px;background:rgba(128,128,128,.035)}
+.ds-sc .nm{font-weight:700;font-size:12.5px;display:flex;align-items:center;gap:7px}
+.ds-sc .n{margin-left:auto;font-size:11px;opacity:.6;font-weight:400}
+.ds-tk{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.ds-tk a{font-size:11.5px;padding:2px 7px;border-radius:6px;
+  border:1px solid rgba(128,128,128,.32);text-decoration:none;color:inherit;
+  font-family:ui-monospace,monospace}
+.ds-tk a:hover{background:rgba(128,128,128,.18)}
+.ds-empty{font-size:11.5px;opacity:.45;margin-top:6px;font-style:italic}
+.ds-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.ds-tbl th{text-align:right;font-size:10.5px;letter-spacing:.04em;
+  text-transform:uppercase;opacity:.6;padding:6px 7px;border-bottom:1px solid rgba(128,128,128,.25);
+  white-space:nowrap}
+.ds-tbl td{text-align:right;padding:6px 7px;border-bottom:1px solid rgba(128,128,128,.1);
+  white-space:nowrap}
+.ds-tbl td.l,.ds-tbl th.l{text-align:left}
+.ds-tbl tr:hover{background:rgba(128,128,128,.07)}
+.ds-sym-buy{color:#15803d;font-weight:800}
+[data-theme="dark"] .ds-sym-buy{color:#7ce0a8}
+.ds-ext{color:#dc2626;font-weight:700}
+.ds-ok{color:#16a34a}
+.ds-tag{font-size:9.5px;padding:1px 6px;border-radius:999px;
+  border:1px solid rgba(128,128,128,.35);font-weight:700}
+/* ★ 2026-10-20 scan 卡 hover 方格 */
+.ds-hasTip{position:relative}
+.ds-tip{display:none;position:absolute;z-index:60;left:0;top:calc(100% + 5px);
+  width:min(320px,84vw);padding:11px 13px;border-radius:11px;
+  background:#1b1b19;border:1px solid #4A4A42;
+  box-shadow:0 10px 26px rgba(0,0,0,.5);font-size:11.5px;line-height:1.6;
+  color:#F0EDE8;text-align:left;white-space:normal;word-break:break-word}
+html[data-theme="light"] .ds-tip{background:#FFFFFF;border-color:#DAD9D4;
+  color:#1F1E1D;box-shadow:0 10px 26px rgba(0,0,0,.14)}
+.ds-hasTip:hover .ds-tip,.ds-hasTip:focus-within .ds-tip{display:block}
+.ds-tip>b{font-size:12.5px;font-weight:800;display:block}
+.ds-tipzh{font-size:11px;opacity:.72;margin-bottom:6px}
+.ds-tiprow{font-size:11.5px}
+@media(hover:none){.ds-hasTip:active .ds-tip{display:block}}
+.ds-f{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.ds-f button{padding:6px 12px;border-radius:999px;font-size:12px;
+  border:1px solid rgba(128,128,128,.34);background:rgba(128,128,128,.07);
+  color:inherit;cursor:pointer;font-family:inherit}
+.ds-f button.on{background:#2563eb;border-color:#2563eb;color:#fff}
+.ds-wrap{overflow-x:auto}
+"""
+
+JS = """
+function dsSort(btn, col){
+  var tb=document.getElementById('dsbody');
+  var rows=Array.from(tb.querySelectorAll('tr'));
+  var dir = btn.dataset.dir==='desc'?'asc':'desc';
+  btn.dataset.dir=dir;
+  document.querySelectorAll('.ds-f button').forEach(b=>{if(b!==btn)b.dataset.dir='';});
+  var idx=parseInt(col,10);
+  rows.sort(function(a,b){
+    var x=a.children[idx].dataset.v, y=b.children[idx].dataset.v;
+    var nx=parseFloat(x), ny=parseFloat(y);
+    var vx=isNaN(nx)?x:nx, vy=isNaN(ny)?y:ny;
+    if(dir==='asc') return vx>vy?1:vx<vy?-1:0;
+    return vx<vy?1:vx>vy?-1:0;
+  });
+  rows.forEach(r=>tb.appendChild(r));
+}
+function dsFilter(mode,btn){
+  document.querySelectorAll('.ds-f button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('#dsbody tr').forEach(r=>{
+    var ok = mode==='all' ? true
+      : mode==='buy' ? r.dataset.buy==='1'
+      : mode==='ext' ? r.dataset.state==='EXTENDED'
+      : mode==='focus' ? r.dataset.src==='FOCUS'
+      : true;
+    r.style.display=ok?'':'none';
+  });
+}
+// ★ 排序選擇器（Desmond 2026-10-23）：預設 DAYON → EXT → RVOL → ATR%
+function dsSortSel(mode){
+  var tb=document.getElementById('dsbody');
+  if(!tb) return;
+  var rows=Array.from(tb.querySelectorAll('tr'));
+  function n(tr,i){var v=parseFloat(tr.children[i].dataset.v);return isNaN(v)?null:v;}
+  // 欄位：0=來源 1=代號 2=DAYON 3=EXT 4=RVOL 5=ATR% 6=距52高 7=財報
+  var cmp={
+    def:function(a,b){
+      var d=(n(b,2)||0)-(n(a,2)||0); if(d) return d;
+      var e=(n(a,3)===null?99:n(a,3))-(n(b,3)===null?99:n(b,3)); if(e) return e;
+      var r=(n(b,4)||-1)-(n(a,4)||-1); if(r) return r;
+      return (n(b,5)||-1)-(n(a,5)||-1);
+    },
+    dayon:function(a,b){return (n(b,2)||0)-(n(a,2)||0);},
+    ext:function(a,b){return (n(a,3)===null?99:n(a,3))-(n(b,3)===null?99:n(b,3));},
+    rvol:function(a,b){return (n(b,4)||-1)-(n(a,4)||-1);},
+    atr:function(a,b){return (n(b,5)||-1)-(n(a,5)||-1);},
+    dist:function(a,b){return (n(a,6)===null?999:n(a,6))-(n(b,6)===null?999:n(b,6));},
+    src:function(a,b){return (a.children[0].textContent||'').localeCompare(b.children[0].textContent||'');}
+  };
+  rows.sort(cmp[mode]||cmp.def);
+  rows.forEach(function(r){tb.appendChild(r);});
+}
+"""
+
+
+def build():
+    scans, l1_asof = load_l1()
+    l2rows, l2_src = load_l2()
+    ohlc, ohlc_asof = load_ohlc()
+    metrics = compute_metrics(ohlc)
+
+    parts = [f'<style>{CSS}</style><script>{JS}</script>']
+    parts.append('<h2>Daily Scan <small>L1 掃描 + L2 圖表隊列</small></h2>')
+    parts.append(
+        f'<p class="crumb">L1 <code>{_esc(l1_asof or "—")}</code>｜'
+        f'L2 <code>{_esc(l2_src or "—")}</code>｜'
+        f'價格 <code>{_esc(ohlc_asof or "—")}</code>｜'
+        '唯讀研究用途｜<b>非買入指令</b></p>')
+
+    # ── L1 ──
+    if scans:
+        all_tk = sorted({t for v in scans.values() for t in v})
+        parts.append(f'<div class="ds-h"><h3 style="margin:0">L1</h3>'
+                     f'<span style="font-size:12.5px;opacity:.7">'
+                     f'{len(all_tk)} tickers｜{len(scans)} 個 scan</span></div>')
+        parts.append('<div class="ds-l1">')
+        ordered = [s for s in SCAN_ORDER if s in scans]
+        ordered += [s for s in scans if s not in SCAN_ORDER]
+        for sc in ordered:
+            tks = scans[sc]
+            if not tks:
+                continue
+            kind = ("Small" if "Small" in sc else
+                    "Large" if "Large" in sc else "")
+            parts.append(f'<div class="ds-sc ds-hasTip">'
+                         f'<div class="nm">{_esc(sc)}'
+                         f'{f" <span class=ds-tag>{kind}</span>" if kind else ""}'
+                         f'<span class="n">{len(tks)}</span></div>'
+                         '<div class="ds-tk">')
+            for t in tks:
+                parts.append(f'<a href="https://www.tradingview.com/chart/?symbol={_esc(t)}"'
+                             f' target="_blank" rel="noopener">{_esc(t)}</a>')
+            _d = _sinfo(sc)
+            parts.append(
+                '</div>'
+                f'<div class="ds-tip"><b>{_esc(_d["full"])}</b>'
+                f'<div class="ds-tipzh">{_esc(_d["zh"])}</div>'
+                f'<div class="ds-tiprow">{_esc(_d["how"])}</div></div>'
+                '</div>')
+        empty = [s for s in SCAN_ORDER if s not in scans]
+        if empty:
+            parts.append('<div class="ds-sc"><div class="nm">空 scan'
+                         f'<span class="n">{len(empty)}</span></div>'
+                         f'<div class="ds-empty">{", ".join(empty)}</div></div>')
+        parts.append('</div>')
+
+    # ── L2 ──
+    if l2rows:
+        tk_all = [r.get("ticker") for r in l2rows if r.get("ticker")]
+        dayon = update_day_on(tk_all)
+
+        n_buy = sum(1 for r in l2rows
+                    if (r.get("atr_ext_50ma") or 0) <= 4
+                    and (r.get("atr_ext_50ma") or 0) >= 0)
+        n_ext = sum(1 for r in l2rows if (r.get("atr_ext_50ma") or 0) > 4)
+
+        parts.append('<div class="ds-h" style="margin-top:18px">'
+                     f'<h3 style="margin:0">L2 圖表隊列</h3>'
+                     f'<span style="font-size:12.5px;opacity:.7">'
+                     f'{len(l2rows)} 隻｜買入區 {n_buy}｜EXT&gt;4 {n_ext}</span></div>')
+
+        parts.append('<div class="ds-f">')
+        parts.append('<button class="on" onclick="dsFilter(\'all\',this)">'
+                     f'全部 {len(l2rows)}</button>')
+        parts.append('<button onclick="dsFilter(\'buy\',this)">'
+                     f'買入區 {n_buy}</button>')
+        parts.append('<button onclick="dsFilter(\'ext\',this)">'
+                     f'延伸 {n_ext}</button>')
+        parts.append('<button onclick="dsFilter(\'focus\',this)">'
+                     f'FOCUS</button>')
+        parts.append('</div>')
+
+        # ★ 排序選擇器（Desmond 2026-10-23）：預設 DAYON → EXT → RVOL → ATR%
+        parts.append(
+            '<div style="margin:0 0 10px;display:flex;gap:8px;align-items:center;'
+            'flex-wrap:wrap"><label style="font-size:12px;opacity:.75">排序</label>'
+            '<select id="dssel" onchange="dsSortSel(this.value)" '
+            'style="padding:6px 10px;border-radius:8px;font-size:12.5px;'
+            'border:1px solid rgba(128,128,128,.34);background:rgba(128,128,128,.07);'
+            'color:inherit;font-family:inherit;cursor:pointer">'
+            '<option value="def">預設 DAYON → EXT → RVOL → ATR%</option>'
+            '<option value="dayon">DAY ON ↓（在名單越耐越前）</option>'
+            '<option value="ext">EXT ↑（越貼 50MA 越前）</option>'
+            '<option value="rvol">RVOL ↓（爆量優先）</option>'
+            '<option value="atr">ATR% ↓（波幅大優先）</option>'
+            '<option value="dist">距 52 高 ↑（越近新高越前）</option>'
+            '<option value="src">來源（FOCUS 優先）</option>'
+            '</select></div>')
+
+        parts.append('<div class="ds-wrap card" style="padding:0"><table class="ds-tbl">'
+                     '<thead><tr>'
+                     '<th class="l">來源</th><th class="l">代號</th>'
+                     '<th>DAY ON</th><th>EXT</th><th>RVOL(50D)</th><th>ATR%</th>'
+                     '<th>距 52 高</th><th>財報</th>'
+                     '</tr></thead><tbody id="dsbody">')
+
+        # ★ 排序：DAYON(desc) > EXT(asc) > RVOL(desc) > ATR%(desc)（Desmond 2026-10-23）
+        def k(r):
+            _t = (r.get("ticker") or "").upper()
+            _m = metrics.get(_t) or {}
+            ext = r.get("atr_ext_50ma")
+            ext = ext if isinstance(ext, (int, float)) else 99
+            rvol = _m.get("rvol50")
+            rvol = rvol if isinstance(rvol, (int, float)) else -1
+            atrp = _m.get("atr_pct")
+            atrp = atrp if isinstance(atrp, (int, float)) else -1
+            return (-dayon.get(r.get("ticker") or "", 0), ext, -rvol, -atrp)
+        for r in sorted(l2rows, key=k):
+            t = r.get("ticker") or ""
+            m = metrics.get(t.upper()) or {}
+            ext = r.get("atr_ext_50ma")
+            ext_f = ext if isinstance(ext, (int, float)) else None
+            inbox = ext_f is not None and 0 <= ext_f <= 4
+            state = ("EXTENDED" if (ext_f or 0) > 4 else
+                     "BELOW" if (ext_f or 0) < 0 else
+                     "BUY" if inbox else "NA")
+            rvol = m.get("rvol50")
+            rvol_s = f"{rvol:.2f}x" if rvol is not None else "—"
+            rvol_cls = ("ds-ext" if (rvol or 0) >= 2 else
+                        "ds-ok" if (rvol or 0) >= 1.2 else "")
+            dist = r.get("near_52w_high_pct")
+            dist_s = (f"{dist:.0f}%" if isinstance(dist, (int, float)) else "—")
+            es = r.get("earnings_status") or ""
+            dtE = r.get("days_to_earnings")
+            # ★ Desmond 2026-10-23：唔好打「OK」，只 SHOW 日子（例如 14D）
+            if isinstance(dtE, int):
+                es_s = f"{dtE}D"
+            elif es and es not in ("OK", "—", ""):
+                es_s = es
+            else:
+                es_s = "—"
+            watch = (r.get("watch_price") or "").replace("trigger: ", "")
+            inval = (r.get("invalidation") or "").replace("invalidation: ", "")
+
+            parts.append(
+                f'<tr '
+                f'data-buy="{1 if inbox else 0}" data-state="{state}" '
+                f'data-src="{_esc(r.get("_src",""))}">'
+                f'<td class="l"><b class="{"ds-sym-buy" if inbox else ""}">{_esc(t)}</b></td>'
+                f'<td class="l"><span class="ds-tag">{_esc(r.get("_src",""))}</span></td>'
+                f'<td data-v="{_f(r.get("close"),2)}">{_f(r.get("close"))}</td>'
+                f'<td data-v="{_f(ext_f,2)}" class="{"ds-ext" if (ext_f or 0)>4 else ""}">'
+                f'{_f(ext_f,2)}</td>'
+                f'<td data-v="{_f(m.get("atr_pct"),2)}">{_f(m.get("atr_pct"),1)}%</td>'
+                f'<td data-v="{_f(rvol,2)}" class="{rvol_cls}">{rvol_s}</td>'
+                f'<td data-v="{dayon.get(t,0)}">{dayon.get(t,0)}</td>'
+                f'<td data-v="{_f(dist,0)}">{dist_s}</td>'
+                f'<td>{_esc(es_s)}</td>'
+                '</tr>')
+        parts.append('</tbody></table></div>')
+
+        parts.append('<div style="font-size:12px;line-height:1.9;opacity:.8;'
+                     'margin-top:10px">'
+                     '<b>欄位定義</b>（全部寫死，唔准臨時改）<br>'
+                     '<b>EXT</b> = ATRX =（收市 − SMA50）／ATR14，硬刪門檻 4.0（EDGE-009）<br>'
+                     '<b>ATR%</b> = ATR14／收市 ×100 —— 決定止蝕闊度<br>'
+                     '<b>RVOL(50D)</b> = 當日量／過去 50 日平均量。≥2x 紅字＝爆量<br>'
+                     '<b>DAY ON</b> = 連續在名單幾日（新上榜 = 1）<br>'
+                     '點欄名可以排序。'
+                     '</div>')
+
+    if not scans and not l2rows:
+        parts.append('<div style="padding:20px;opacity:.6">⛔ DATA_UNAVAILABLE：'
+                     '搵唔到 My_Scans_*.xlsx 或 layer2_*.json。'
+                     '★ Missing ≠ Zero。</div>')
+
+    return ("Daily Scan", "".join(parts))
+
+
+def main():
+    sys.stdout.reconfigure(encoding="utf-8")
+    t, b = build()
+    out = os.path.join(HERE, "dailyscan_body.html")
+    io.open(out, "w", encoding="utf-8").write(b)
+    print(f"✓ dailyscan body {len(b):,} 字 → {out}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

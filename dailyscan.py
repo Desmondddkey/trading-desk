@@ -332,6 +332,30 @@ function dsFilter(mode,btn){
     r.style.display=ok?'':'none';
   });
 }
+// ★ 排序選擇器（Desmond 2026-10-23）：預設 DAYON → EXT → RVOL → ATR%
+function dsSortSel(mode){
+  var tb=document.getElementById('dsbody');
+  if(!tb) return;
+  var rows=Array.from(tb.querySelectorAll('tr'));
+  function n(tr,i){var v=parseFloat(tr.children[i].dataset.v);return isNaN(v)?null:v;}
+  // 欄位：0=來源 1=代號 2=DAYON 3=EXT 4=RVOL 5=ATR% 6=距52高 7=財報
+  var cmp={
+    def:function(a,b){
+      var d=(n(b,2)||0)-(n(a,2)||0); if(d) return d;
+      var e=(n(a,3)===null?99:n(a,3))-(n(b,3)===null?99:n(b,3)); if(e) return e;
+      var r=(n(b,4)||-1)-(n(a,4)||-1); if(r) return r;
+      return (n(b,5)||-1)-(n(a,5)||-1);
+    },
+    dayon:function(a,b){return (n(b,2)||0)-(n(a,2)||0);},
+    ext:function(a,b){return (n(a,3)===null?99:n(a,3))-(n(b,3)===null?99:n(b,3));},
+    rvol:function(a,b){return (n(b,4)||-1)-(n(a,4)||-1);},
+    atr:function(a,b){return (n(b,5)||-1)-(n(a,5)||-1);},
+    dist:function(a,b){return (n(a,6)===null?999:n(a,6))-(n(b,6)===null?999:n(b,6));},
+    src:function(a,b){return (a.children[0].textContent||'').localeCompare(b.children[0].textContent||'');}
+  };
+  rows.sort(cmp[mode]||cmp.def);
+  rows.forEach(function(r){tb.appendChild(r);});
+}
 """
 
 
@@ -340,6 +364,24 @@ def build():
     l2rows, l2_src = load_l2()
     ohlc, ohlc_asof = load_ohlc()
     metrics = compute_metrics(ohlc)
+
+    # ★ 2026-10-23 hover 迷你 K 線（Desmond：「滑鼠移到個股可以出現股價圖」）
+    #   重用 charts.py（純 Python SVG，唔靠 CDN），失敗就靜靜降級（冇圖但有 link）
+    _mini = {}
+    try:
+        import charts as _charts
+        _all = []
+        if scans:
+            _all += [t for v in scans.values() for t in v]
+        if l2rows:
+            _all += [r.get("ticker") for r in l2rows if r.get("ticker")]
+        _all = sorted({t for t in _all if t})
+        if _all:
+            for _tk, _svg, _adr in _charts.build_grid(_all, max_cells=250):
+                if _svg:
+                    _mini[_tk] = _svg
+    except Exception:                                        # noqa: BLE001
+        _mini = {}
 
     parts = [f'<style>{CSS}</style><script>{JS}</script>']
     parts.append('<h2>Daily Scan <small>L1 掃描 + L2 圖表隊列</small></h2>')
@@ -371,7 +413,8 @@ def build():
                          '<div class="ds-tk">')
             for t in tks:
                 parts.append(f'<a href="https://www.tradingview.com/chart/?symbol={_esc(t)}"'
-                             f' target="_blank" rel="noopener">{_esc(t)}</a>')
+                             f' target="_blank" rel="noopener" data-sym="{_esc(t)}">'
+                             f'{_esc(t)}</a>')
             _d = _sinfo(sc)
             parts.append(
                 '</div>'
@@ -412,19 +455,41 @@ def build():
                      f'FOCUS</button>')
         parts.append('</div>')
 
+        # ★ 排序選擇器（Desmond 2026-10-23）：預設 DAYON → EXT → RVOL → ATR%
+        parts.append(
+            '<div style="margin:0 0 10px;display:flex;gap:8px;align-items:center;'
+            'flex-wrap:wrap"><label style="font-size:12px;opacity:.75">排序</label>'
+            '<select id="dssel" onchange="dsSortSel(this.value)" '
+            'style="padding:6px 10px;border-radius:8px;font-size:12.5px;'
+            'border:1px solid rgba(128,128,128,.34);background:rgba(128,128,128,.07);'
+            'color:inherit;font-family:inherit;cursor:pointer">'
+            '<option value="def">預設 DAYON → EXT → RVOL → ATR%</option>'
+            '<option value="dayon">DAY ON ↓（在名單越耐越前）</option>'
+            '<option value="ext">EXT ↑（越貼 50MA 越前）</option>'
+            '<option value="rvol">RVOL ↓（爆量優先）</option>'
+            '<option value="atr">ATR% ↓（波幅大優先）</option>'
+            '<option value="dist">距 52 高 ↑（越近新高越前）</option>'
+            '<option value="src">來源（FOCUS 優先）</option>'
+            '</select></div>')
+
         parts.append('<div class="ds-wrap card" style="padding:0"><table class="ds-tbl">'
                      '<thead><tr>'
-                     '<th class="l">代號</th><th class="l">來源</th>'
-                     '<th>收市</th><th>EXT</th><th>ATR%</th><th>RVOL(50D)</th>'
-                     '<th>DAY ON</th><th>距 52 高</th><th>財報</th>'
+                     '<th class="l">來源</th><th class="l">代號</th>'
+                     '<th>DAY ON</th><th>EXT</th><th>RVOL(50D)</th><th>ATR%</th>'
+                     '<th>距 52 高</th><th>財報</th>'
                      '</tr></thead><tbody id="dsbody">')
 
-        # 排序：買入區優先，再按 EXT 細至大
+        # ★ 排序：DAYON(desc) > EXT(asc) > RVOL(desc) > ATR%(desc)（Desmond 2026-10-23）
         def k(r):
+            _t = (r.get("ticker") or "").upper()
+            _m = metrics.get(_t) or {}
             ext = r.get("atr_ext_50ma")
             ext = ext if isinstance(ext, (int, float)) else 99
-            inbox = 1 if 0 <= ext <= 4 else 0
-            return (-inbox, ext)
+            rvol = _m.get("rvol50")
+            rvol = rvol if isinstance(rvol, (int, float)) else -1
+            atrp = _m.get("atr_pct")
+            atrp = atrp if isinstance(atrp, (int, float)) else -1
+            return (-dayon.get(r.get("ticker") or "", 0), ext, -rvol, -atrp)
         for r in sorted(l2rows, key=k):
             t = r.get("ticker") or ""
             m = metrics.get(t.upper()) or {}
@@ -440,9 +505,15 @@ def build():
                         "ds-ok" if (rvol or 0) >= 1.2 else "")
             dist = r.get("near_52w_high_pct")
             dist_s = (f"{dist:.0f}%" if isinstance(dist, (int, float)) else "—")
-            es = r.get("earnings_status") or "—"
+            es = r.get("earnings_status") or ""
             dtE = r.get("days_to_earnings")
-            es_s = f"{es}" + (f" ({dtE}d)" if isinstance(dtE, int) else "")
+            # ★ Desmond 2026-10-23：唔好打「OK」，只 SHOW 日子（例如 14D）
+            if isinstance(dtE, int):
+                es_s = f"{dtE}D"
+            elif es and es not in ("OK", "—", ""):
+                es_s = es
+            else:
+                es_s = "—"
             watch = (r.get("watch_price") or "").replace("trigger: ", "")
             inval = (r.get("invalidation") or "").replace("invalidation: ", "")
 
@@ -450,14 +521,16 @@ def build():
                 f'<tr '
                 f'data-buy="{1 if inbox else 0}" data-state="{state}" '
                 f'data-src="{_esc(r.get("_src",""))}">'
-                f'<td class="l"><b class="{"ds-sym-buy" if inbox else ""}">{_esc(t)}</b></td>'
                 f'<td class="l"><span class="ds-tag">{_esc(r.get("_src",""))}</span></td>'
-                f'<td data-v="{_f(r.get("close"),2)}">{_f(r.get("close"))}</td>'
+                f'<td class="l"><a class="ds-syma" '
+                f'href="https://www.tradingview.com/chart/?symbol={_esc(t)}" '
+                f'target="_blank" rel="noopener" data-sym="{_esc(t)}">'
+                f'<b class="{"ds-sym-buy" if inbox else ""}">{_esc(t)}</b></a></td>'
+                f'<td data-v="{dayon.get(t,0)}">{dayon.get(t,0)}</td>'
                 f'<td data-v="{_f(ext_f,2)}" class="{"ds-ext" if (ext_f or 0)>4 else ""}">'
                 f'{_f(ext_f,2)}</td>'
-                f'<td data-v="{_f(m.get("atr_pct"),2)}">{_f(m.get("atr_pct"),1)}%</td>'
                 f'<td data-v="{_f(rvol,2)}" class="{rvol_cls}">{rvol_s}</td>'
-                f'<td data-v="{dayon.get(t,0)}">{dayon.get(t,0)}</td>'
+                f'<td data-v="{_f(m.get("atr_pct"),2)}">{_f(m.get("atr_pct"),1)}%</td>'
                 f'<td data-v="{_f(dist,0)}">{dist_s}</td>'
                 f'<td>{_esc(es_s)}</td>'
                 '</tr>')
