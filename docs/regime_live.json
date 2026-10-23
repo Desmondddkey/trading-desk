@@ -1,5 +1,5 @@
 {
- "mri": 42,
+ "mri": 41,
  "asof": "2026-10-23",
  "state": "觀察／低風險",
  "state_col": "",
@@ -8,7 +8,7 @@
  "diff": "CHOP",
  "opp": "觀察：等待 breadth 或結構確認",
  "delta": null,
- "mmtw": 44.22,
+ "mmtw": 41.56,
  "mmtw_rising": false,
  "oversold": false,
  "mmfi": 34.55,
@@ -27,8 +27,8 @@
    "n": 2,
    "name": "MMTW 寬度",
    "w": 20,
-   "s": 8.1,
-   "d": "44.2%"
+   "s": 7.2,
+   "d": "41.6%"
   },
   {
    "n": 3,
@@ -66,5 +66,5 @@
    "d": "10 月 +0.8%｜中性"
   }
  ],
- "updated": "21:40"
+ "updated": "21:55"
 }
