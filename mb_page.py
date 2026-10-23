@@ -256,6 +256,16 @@ def block():
                '每週睇一次最新案例，刪走已經認得出係平庸嘅設置。</p>')
     out.append('</div>')
 
+    # ★ 升幅時間集中度（TraderGoku 深入研究，Desmond 2026-10-23）
+    try:
+        import mb_burst_page as _bb
+        _bh = _bb.block()
+        if _bh:
+            out.append(_bh)
+    except Exception as e:                               # noqa: BLE001
+        out.append(f'<div class="card"><p>⚠️ 集中度區塊失敗：'
+                   f'{type(e).__name__}</p></div>')
+
     # ★ Top 250 US Gainers（Desmond 2026-10-23 提供 new.xlsx）
     try:
         import mb_top250_page as _t2
