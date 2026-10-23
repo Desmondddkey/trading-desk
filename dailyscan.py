@@ -281,6 +281,15 @@ CSS = """
 .ds-ok{color:#16a34a}
 .ds-tag{font-size:9.5px;padding:1px 6px;border-radius:999px;
   border:1px solid rgba(128,128,128,.35);font-weight:700}
+/* ★ 2026-10-23 FOCUS 改橙色 */
+.ds-tag.src-FOCUS{background:#f97316;border-color:#f97316;color:#fff}
+/* ★ 2026-10-23 Excel 式可排序欄頭 */
+.ds-tbl th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
+.ds-tbl th.sortable:hover{opacity:.95;color:#f97316}
+.ds-tbl th .arr{display:inline-block;margin-left:3px;font-size:8px;
+  opacity:.45;transition:transform .12s}
+.ds-tbl th[data-dir="asc"] .arr{transform:rotate(180deg);opacity:1;color:#f97316}
+.ds-tbl th[data-dir="desc"] .arr{opacity:1;color:#f97316}
 /* ★ 2026-10-20 scan 卡 hover 方格 */
 .ds-hasTip{position:relative}
 .ds-tip{display:none;position:absolute;z-index:60;left:0;top:calc(100% + 5px);
@@ -469,22 +478,8 @@ def build():
                      f'FOCUS</button>')
         parts.append('</div>')
 
-        # ★ 排序選擇器（Desmond 2026-10-23）：預設 DAYON → EXT → RVOL → ATR%
-        parts.append(
-            '<div style="margin:0 0 10px;display:flex;gap:8px;align-items:center;'
-            'flex-wrap:wrap"><label style="font-size:12px;opacity:.75">排序</label>'
-            '<select id="dssel" onchange="dsSortSel(this.value)" '
-            'style="padding:6px 10px;border-radius:8px;font-size:12.5px;'
-            'border:1px solid rgba(128,128,128,.34);background:rgba(128,128,128,.07);'
-            'color:inherit;font-family:inherit;cursor:pointer">'
-            '<option value="def">預設 DAYON → EXT → RVOL → ATR%</option>'
-            '<option value="dayon">DAY ON ↓（在名單越耐越前）</option>'
-            '<option value="ext">EXT ↑（越貼 50MA 越前）</option>'
-            '<option value="rvol">RVOL ↓（爆量優先）</option>'
-            '<option value="atr">ATR% ↓（波幅大優先）</option>'
-            '<option value="dist">距 52 高 ↑（越近新高越前）</option>'
-            '<option value="src">來源（FOCUS 優先）</option>'
-            '</select></div>')
+        # ★ 2026-10-23 Desmond：移除下拉選單，改 Excel 式三角（點欄頭切換升降序）
+        #   排序邏輯喺 dsSort()，預設次序由 server 端寫死（DAYON → EXT → RVOL → ATR%）
 
         parts.append('<div class="ds-wrap card" style="padding:0"><table class="ds-tbl">'
                      '<thead><tr>'
