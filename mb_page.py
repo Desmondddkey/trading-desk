@@ -65,12 +65,26 @@ CHECK_TML = [
 
 
 def load():
+    """讀最新【日期命名】嘅案例檔
+
+    ★ 2026-10-23 修：原本揀資料夾最後一個 .json，
+      但 top250.json 排喺 2026-10-23.json 之後（'t' > '2'）
+      → 揀錯檔 → KeyError: 'cases' → 整頁統計消失。
+      修法：只接受檔名以數字開頭（日期格式）＋ 真係有 cases key。
+    """
     if not os.path.isdir(CASES):
         return None
-    fs = sorted(f for f in os.listdir(CASES) if f.endswith(".json"))
-    if not fs:
-        return None
-    return json.load(io.open(os.path.join(CASES, fs[-1]), encoding="utf-8"))
+    fs = sorted(f for f in os.listdir(CASES)
+                if f.endswith(".json") and f[0].isdigit())
+    for f in reversed(fs):
+        p = os.path.join(CASES, f)
+        try:
+            d = json.load(io.open(p, encoding="utf-8"))
+        except Exception:                                # noqa: BLE001
+            continue
+        if isinstance(d, dict) and d.get("cases"):
+            return d
+    return None
 
 
 def stats_of(cases, pat):
@@ -241,6 +255,14 @@ def block():
                '而且有統計。但【紀律】仍然要人手：'
                '每週睇一次最新案例，刪走已經認得出係平庸嘅設置。</p>')
     out.append('</div>')
+
+    # ★ Top 250 US Gainers（Desmond 2026-10-23 提供 new.xlsx）
+    try:
+        import mb_top250_page as _t2
+        out.append(_t2.block())
+    except Exception as e:                               # noqa: BLE001
+        out.append(f'<div class="card"><p>⚠️ Top 250 區塊失敗：'
+                   f'{type(e).__name__}</p></div>')
     return "".join(out)
 
 
