@@ -328,14 +328,26 @@ def _scatter(rows, hist=None):
                 f"{py(max(SC_YMIN, min(SC_YMAX, y))):.1f}"
                 for x, y, _d in pts)
             col = "#f97316" if tk in cur_box else "rgba(148,163,184,.5)"
-            out.append(f'<g><title>{_esc(tk)} 軌跡（{len(pts)} 日）</title>'
+            x0, y0, d0 = pts[0]
+            sx = px(max(SC_XMIN, min(SC_XMAX, x0)))
+            sy = py(max(SC_YMIN, min(SC_YMAX, y0)))
+            out.append(f'<g><title>{_esc(tk)} 軌跡（{len(pts)} 日，'
+                       f'{_esc(d0)} → {_esc(pts[-1][2])}）</title>'
                        f'<polyline points="{coords}" fill="none" stroke="{col}" '
                        'stroke-width="1.3" stroke-opacity=".55" '
-                       'stroke-linejoin="round"/></g>')
+                       'stroke-linejoin="round"/>'
+                       f'<polygon points="{sx:.1f},{sy - 5:.1f} {sx - 4:.1f},'
+                       f'{sy + 4:.1f} {sx + 4:.1f},{sy + 4:.1f}" fill="{col}" '
+                       'fill-opacity=".85"/></g>')
+            if tk in cur_box:
+                out.append(f'<text x="{sx - 6:.1f}" y="{sy + 14:.1f}" '
+                           'font-size="8.5" fill="currentColor" opacity=".55" '
+                           f'text-anchor="end">{_esc(str(d0)[5:])}</text>')
             drawn += 1
         out.append(f'<text x="{SC_PADL + 4}" y="{SC_PADT + 12}" font-size="10" '
                    'fill="currentColor" opacity=".6">'
-                   f'虛線 = 過去 {min(len(hist), 6)} 個交易日軌跡</text>')
+                   f'虛線軌跡 = 過去 {min(len(hist), 6)} 個交易日'
+                   '｜▲ 起點、● 今日</text>')
 
     # 點
     labelled = []
@@ -407,8 +419,10 @@ def _weakness():
         rec = r.get("reclaim")
         pct = r.get("pct")
         pct_cls = "rs-pos" if (pct or 0) > 0 else "rs-neg"
+        _st = int(r.get("streak") or 1)
+        _hl = ' style="background:rgba(220,38,38,.13)"' if _st >= 4 else ""
         h.append(
-            f'<tr>'
+            f'<tr{_hl}>'
             f'<td class="l"><span class="rs-tk">{_esc(r.get("t"))}</span></td>'
             f'<td>{_f(r.get("last"), 2)}</td>'
             f'<td class="{pct_cls}">{_f(pct, 1, True)}%</td>'
@@ -420,10 +434,11 @@ def _weakness():
                 f'{_f(r.get(f"d{m}"), 1, True)}%</td>'
                 if r.get(f"d{m}") is not None else '<td class="dim">—</td>'
                 for m in (15, 30, 60))
-            + f'<td>{int(r.get("streak") or 1)}×</td>'
-            f'<td class="l">{"✅ 已回升" if rec else "⏳ 未回升"}</td>'
-            f'<td>{_f(r.get("rvol"), 1) + "x" if r.get("rvol") else "—"}</td>'
-            '</tr>')
+            + (f'<td style="color:#dc2626;font-weight:800">{_st}×</td>'
+               if _st >= 4 else f'<td>{_st}×</td>')
+            + f'<td class="l">{"✅ 已回升" if rec else "⏳ 未回升"}</td>'
+            + f'<td>{_f(r.get("rvol"), 1) + "x" if r.get("rvol") else "—"}</td>'
+            + '</tr>')
     h.append('</tbody></table></div>')
     h.append('<div class="rs-note" style="padding:8px 12px 12px">'
              '回氣 ATR = 由開市／前收較高者跌到今日低位嘅深度。'
