@@ -383,6 +383,20 @@ def build():
     except Exception:                                        # noqa: BLE001
         _mini = {}
 
+    # ★ 2026-10-23 「代號 / 行業」兩行式（跟領導股頁 stdcols 格式）
+    _ind = {}
+    try:
+        _msp = os.path.join(HERE, "data", "market_scan.json")
+        if os.path.exists(_msp):
+            _ms = json.load(io.open(_msp, encoding="utf-8"))
+            for _r in (_ms.get("nel") or []):
+                _s = _r.get("symbol")
+                if _s:
+                    _ind[_s.upper()] = (_r.get("industry")
+                                        or _r.get("sector") or "")
+    except Exception:                                        # noqa: BLE001
+        _ind = {}
+
     parts = [f'<style>{CSS}</style><script>{JS}</script>']
     parts.append('<h2>Daily Scan <small>L1 掃描 + L2 圖表隊列</small></h2>')
     parts.append(
@@ -474,7 +488,7 @@ def build():
 
         parts.append('<div class="ds-wrap card" style="padding:0"><table class="ds-tbl">'
                      '<thead><tr>'
-                     '<th class="l">來源</th><th class="l">代號</th>'
+                     '<th class="l">來源</th><th class="l">代號 / 行業</th>'
                      '<th>DAY ON</th><th>EXT</th><th>RVOL(50D)</th><th>ATR%</th>'
                      '<th>距 52 高</th><th>財報</th>'
                      '</tr></thead><tbody id="dsbody">')
@@ -522,10 +536,13 @@ def build():
                 f'data-buy="{1 if inbox else 0}" data-state="{state}" '
                 f'data-src="{_esc(r.get("_src",""))}">'
                 f'<td class="l"><span class="ds-tag">{_esc(r.get("_src",""))}</span></td>'
-                f'<td class="l"><a class="ds-syma" '
+                f'<td class="l"><span class="tk">'
+                f'<a class="ds-syma" '
                 f'href="https://www.tradingview.com/chart/?symbol={_esc(t)}" '
                 f'target="_blank" rel="noopener" data-sym="{_esc(t)}">'
-                f'<b class="{"ds-sym-buy" if inbox else ""}">{_esc(t)}</b></a></td>'
+                f'<b class="{"ds-sym-buy" if inbox else ""}">{_esc(t)}</b></a></span>'
+                f'<div class="dim" style="font-size:10.5px">'
+                f'{_esc(_ind.get(t.upper(), ""))}</div></td>'
                 f'<td data-v="{dayon.get(t,0)}">{dayon.get(t,0)}</td>'
                 f'<td data-v="{_f(ext_f,2)}" class="{"ds-ext" if (ext_f or 0)>4 else ""}">'
                 f'{_f(ext_f,2)}</td>'
@@ -550,6 +567,66 @@ def build():
         parts.append('<div style="padding:20px;opacity:.6">⛔ DATA_UNAVAILABLE：'
                      '搵唔到 My_Scans_*.xlsx 或 layer2_*.json。'
                      '★ Missing ≠ Zero。</div>')
+
+    # ★ 2026-10-23 hover 迷你 K 線（Desmond：滑鼠移到個股彈股價圖，click 去 TradingView）
+    if _mini:
+        _mc = ['<div id="dsminis" style="display:none">']
+        for _mtk, _msvg in _mini.items():
+            _mc.append(f'<div data-sym="{_esc(_mtk)}">{_msvg}</div>')
+        _mc.append('</div>')
+        _mc.append("""<style>
+#dsmini{display:none;position:fixed;z-index:9999;width:250px;
+  background:#0b1120;border:1px solid #2a3a5c;border-radius:10px;
+  box-shadow:0 14px 36px rgba(0,0,0,.62);overflow:hidden}
+#dsminibar{display:flex;align-items:center;gap:8px;padding:6px 9px;
+  background:#111a2e;border-bottom:1px solid #1e2a44;font-size:12px}
+#dsminisym{flex:1 1 auto;color:#9fd4ff;font-weight:700}
+#dsminibar a{color:#7fd4a8;text-decoration:none;font-size:11px}
+#dsminichart{padding:6px;background:#0b1120}
+#dsminichart svg{width:100%;height:auto;display:block}
+@media(max-width:700px){#dsmini{display:none!important}}
+</style>
+<script>
+(function(){
+  var pop=null,timer=null;
+  function ensure(){
+    if(pop)return pop;
+    pop=document.createElement('div');pop.id='dsmini';
+    pop.innerHTML='<div id="dsminibar"><b id="dsminisym"></b>'+
+      '<a id="dsminitv" target="_blank" rel="noopener">TradingView \u2197</a></div>'+
+      '<div id="dsminichart"></div>';
+    document.body.appendChild(pop);return pop;
+  }
+  function show(a){
+    var sym=a.getAttribute('data-sym');if(!sym)return;
+    var src=document.querySelector('#dsminis div[data-sym="'+sym+'"]');
+    if(!src)return;var p=ensure();
+    document.getElementById('dsminisym').textContent=sym;
+    document.getElementById('dsminitv').href=
+      'https://www.tradingview.com/chart/?symbol='+encodeURIComponent(sym);
+    document.getElementById('dsminichart').innerHTML=src.innerHTML;
+    var r=a.getBoundingClientRect();p.style.display='block';
+    var top=r.bottom+6,left=r.left;
+    if(left+p.offsetWidth>window.innerWidth-8)
+      left=window.innerWidth-p.offsetWidth-8;
+    if(top+p.offsetHeight>window.innerHeight-8)
+      top=r.top-p.offsetHeight-6;
+    p.style.top=top+'px';p.style.left=Math.max(6,left)+'px';
+  }
+  function hide(){clearTimeout(timer);if(pop)pop.style.display='none';}
+  document.addEventListener('mouseover',function(e){
+    var a=e.target.closest('[data-sym]');
+    if(!a||a.closest('#dsminis'))return;
+    clearTimeout(timer);timer=setTimeout(function(){show(a);},160);
+  });
+  document.addEventListener('mouseout',function(e){
+    var a=e.target.closest('[data-sym]');if(!a)return;
+    setTimeout(function(){if(pop&&!pop.matches(':hover'))hide();},240);
+  });
+  document.addEventListener('scroll',hide,{passive:true});
+})();
+</script>""")
+        parts.extend(_mc)
 
     return ("Daily Scan", "".join(parts))
 
