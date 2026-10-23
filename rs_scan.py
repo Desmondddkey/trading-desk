@@ -29,6 +29,122 @@ def _latest(pattern):
     return fs[-1] if fs else None
 
 
+# ── 散點軌跡歷史（Desmond 2026-10-24：「睇同一隻股一星期點移動」）──
+HIST_PATH = os.path.join(DATA, "rs_xy_history.jsonl")
+
+
+def _hist_read():
+    out = []
+    if not os.path.exists(HIST_PATH):
+        return out
+    try:
+        with io.open(HIST_PATH, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    out.append(json.loads(line))
+                except Exception:                             # noqa: BLE001
+                    continue
+    except Exception:                                         # noqa: BLE001
+        return []
+    return out
+
+
+def _hist_append(as_of, rows):
+    """今日（as_of）未記錄就 append 一次；回傳全部歷史"""
+    hist = _hist_read()
+    if any(h.get("date") == as_of for h in hist):
+        return hist
+    pts = []
+    for r in rows:
+        try:
+            x = float(r.get("x"))
+            y = float(r.get("y"))
+        except (TypeError, ValueError):
+            continue
+        if x != x or y != y:          # NaN
+            continue
+        pts.append(dict(t=r.get("ticker"), x=round(x, 3), y=round(y, 3),
+                        box=bool(r.get("in_buy_box"))))
+    rec = dict(date=as_of, pts=pts)
+    try:
+        with io.open(HIST_PATH, "a", encoding="utf-8") as f:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    except Exception as e:                                    # noqa: BLE001
+        print(f"hist write: {type(e).__name__}")
+        return hist
+    hist.append(rec)
+    return hist
+
+
+
+def _hist_backfill(rows, as_of, hist):
+    """歷史上唔夠點時，用日線價自己算 X/Y（同一個定義），補回最近 6 個交易日。
+
+    ★ 定義必須同 rs_select 一致：
+        X = (close - EMA21) / ATR14
+        Y = (close - SMA50) / ATR14
+    """
+    if len(hist) >= 2 or not rows:
+        return hist
+    tick = [r.get("ticker") for r in rows if r.get("ticker")]
+    if not tick:
+        return hist
+    try:
+        import yfinance as yf
+        import pandas as pd
+        d = yf.download(tick, period="8mo", interval="1d", progress=False,
+                        auto_adjust=False, group_by="ticker", threads=True)
+    except Exception as e:                                    # noqa: BLE001
+        print(f"backfill: {type(e).__name__}")
+        return hist
+
+    # 每日聚合
+    per_date = {}
+    for t in tick:
+        try:
+            x = d[t] if isinstance(d.columns, pd.MultiIndex) else d
+            x = x.dropna(subset=["Close"])
+            if len(x) < 60:
+                continue
+            c, h, l = (x["Close"].astype(float), x["High"].astype(float),
+                       x["Low"].astype(float))
+            tr = pd.concat([h - l, (h - c.shift()).abs(),
+                            (l - c.shift()).abs()], axis=1).max(axis=1)
+            atr = tr.rolling(14).mean()
+            ema21 = c.ewm(span=21).mean()
+            sma50 = c.rolling(50).mean()
+            df = pd.DataFrame({"c": c, "atr": atr, "e21": ema21,
+                               "s50": sma50}).dropna()
+            for dt, rr in df.tail(6).iterrows():
+                key = str(dt.date())
+                per_date.setdefault(key, []).append(dict(
+                    t=t, x=round(float((rr["c"] - rr["e21"]) / rr["atr"]), 3),
+                    y=round(float((rr["c"] - rr["s50"]) / rr["atr"]), 3),
+                    box=False))
+        except Exception:                                     # noqa: BLE001
+            continue
+
+    have = {h.get("date") for h in hist}
+    added = 0
+    try:
+        with io.open(HIST_PATH, "a", encoding="utf-8") as f:
+            for key in sorted(per_date):
+                if key in have:
+                    continue
+                rec = dict(date=key, pts=per_date[key], backfilled=True)
+                f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+                hist.append(rec)
+                added += 1
+    except Exception as e:                                    # noqa: BLE001
+        print(f"backfill write: {type(e).__name__}")
+    if added:
+        hist.sort(key=lambda h: h.get("date") or "")
+    return hist
+
+
 def _esc(v):
     return _h.escape(str(v)) if v is not None else ""
 
@@ -138,7 +254,7 @@ SC_XMIN, SC_XMAX = -0.5, 2.5      # X = 距 21EMA（ATR）
 SC_YMIN, SC_YMAX = -1.0, 5.0      # Y = 距 50MA（ATR）= ATRX
 
 
-def _scatter(rows):
+def _scatter(rows, hist=None):
     """SVG 散點：X=距21EMA、Y=距50MA。買入區（X 0-1、Y 0-4）highlight。"""
     W, H = SC_W, SC_H
     pw = W - SC_PADL - SC_PADR
@@ -187,6 +303,40 @@ def _scatter(rows):
                'fill="currentColor" opacity=".75" text-anchor="middle" '
                f'transform="rotate(-90 12 {SC_PADT + ph / 2:.1f})">'
                'Y = 距 50MA（ATR）</text>')
+    # ── 軌跡：過去幾個交易日同一隻股點移動（虛線）──
+    hist = hist or []
+    if len(hist) >= 2:
+        trail = {}
+        for h in hist[-6:]:
+            for p in h.get("pts") or []:
+                try:
+                    trail.setdefault(p["t"], []).append(
+                        (p["x"], p["y"], h.get("date")))
+                except Exception:                             # noqa: BLE001
+                    continue
+        cur_box = {r.get("ticker") for r in rows if r.get("in_buy_box")}
+        drawn = 0
+        for tk, pts in trail.items():
+            if len(pts) < 2:
+                continue
+            if tk not in cur_box and len(pts) < 3:
+                continue
+            if drawn >= 18:
+                break
+            coords = " ".join(
+                f"{px(max(SC_XMIN, min(SC_XMAX, x))):.1f},"
+                f"{py(max(SC_YMIN, min(SC_YMAX, y))):.1f}"
+                for x, y, _d in pts)
+            col = "#f97316" if tk in cur_box else "rgba(148,163,184,.5)"
+            out.append(f'<g><title>{_esc(tk)} 軌跡（{len(pts)} 日）</title>'
+                       f'<polyline points="{coords}" fill="none" stroke="{col}" '
+                       'stroke-width="1.3" stroke-opacity=".55" '
+                       'stroke-linejoin="round"/></g>')
+            drawn += 1
+        out.append(f'<text x="{SC_PADL + 4}" y="{SC_PADT + 12}" font-size="10" '
+                   'fill="currentColor" opacity=".6">'
+                   f'虛線 = 過去 {min(len(hist), 6)} 個交易日軌跡</text>')
+
     # 點
     labelled = []
     for r in rows:
@@ -227,7 +377,7 @@ def _weakness():
             sys.path.insert(0, r"C:/Users/rain0/trading-os")
         import rsw_radar as _rw
         pool = _rw.build_pool()
-        rows = _rw.scan(pool)
+        rows = _rw.scan_live(pool)
     except Exception as e:                                    # noqa: BLE001
         return ('<div class="card" style="padding:12px">'
                 '<div style="font-size:13px;font-weight:800;margin-bottom:6px">'
@@ -251,6 +401,7 @@ def _weakness():
          '<div class="rs-wrap"><table class="rs-tbl"><thead><tr>'
          '<th class="l">代號</th><th>現價</th><th>日內 %</th>'
          '<th>回氣 ATR</th><th>距低 ATR</th><th>低位</th>'
+         '<th>15m</th><th>30m</th><th>60m</th><th>連續</th>'
          '<th>回升</th><th>RVOL</th></tr></thead><tbody>']
     for r in rows:
         rec = r.get("reclaim")
@@ -264,6 +415,12 @@ def _weakness():
             f'<td>{_f(r.get("drop_atr"), 2)}</td>'
             f'<td>{_f(r.get("risk_atr"), 2)}</td>'
             f'<td>{_f(r.get("low"), 2)}</td>'
+            + "".join(
+                f'<td class="{"rs-pos" if (r.get(f"d{m}") or 0) > 0 else "rs-neg"}">'
+                f'{_f(r.get(f"d{m}"), 1, True)}%</td>'
+                if r.get(f"d{m}") is not None else '<td class="dim">—</td>'
+                for m in (15, 30, 60))
+            + f'<td>{int(r.get("streak") or 1)}×</td>'
             f'<td class="l">{"✅ 已回升" if rec else "⏳ 未回升"}</td>'
             f'<td>{_f(r.get("rvol"), 1) + "x" if r.get("rvol") else "—"}</td>'
             '</tr>')
@@ -304,7 +461,8 @@ def build():
         f'<span>距52高 ≥{_esc(gates.get("min_dist52w"))}%</span>'
         '</div>')
 
-    parts.append(_scatter(rows))
+    _hist = _hist_backfill(rows, as_of, _hist_append(as_of, rows))
+    parts.append(_scatter(rows, _hist))
 
     parts.append('<div class="rs-f">'
                  '<button class="on" onclick="rsFilter(\'all\',this)">'
