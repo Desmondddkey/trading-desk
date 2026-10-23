@@ -131,6 +131,150 @@ COLS = [
 ]
 
 
+# ── X/Y 散點圖（Desmond 2026-10-24：「加 X/Y 散點圖喺頁頂」）──────────
+SC_W, SC_H = 720, 300
+SC_PADL, SC_PADR, SC_PADT, SC_PADB = 46, 14, 14, 30
+SC_XMIN, SC_XMAX = -0.5, 2.5      # X = 距 21EMA（ATR）
+SC_YMIN, SC_YMAX = -1.0, 5.0      # Y = 距 50MA（ATR）= ATRX
+
+
+def _scatter(rows):
+    """SVG 散點：X=距21EMA、Y=距50MA。買入區（X 0-1、Y 0-4）highlight。"""
+    W, H = SC_W, SC_H
+    pw = W - SC_PADL - SC_PADR
+    ph = H - SC_PADT - SC_PADB
+
+    def px(x):
+        return SC_PADL + (x - SC_XMIN) / (SC_XMAX - SC_XMIN) * pw
+
+    def py(y):
+        return SC_PADT + ph - (y - SC_YMIN) / (SC_YMAX - SC_YMIN) * ph
+
+    out = [f'<svg viewBox="0 0 {W} {H}" width="100%" '
+           'style="max-width:100%;height:auto;display:block">']
+    # 買入區
+    out.append(f'<rect x="{px(0):.1f}" y="{py(4):.1f}" '
+               f'width="{(px(1) - px(0)):.1f}" height="{(py(0) - py(4)):.1f}" '
+               'fill="rgba(34,197,94,.13)" stroke="rgba(34,197,94,.5)" '
+               'stroke-dasharray="4 3" rx="3"/>')
+    out.append(f'<text x="{px(0.5):.1f}" y="{py(4) - 5:.1f}" font-size="10" '
+               'fill="#22c55e" text-anchor="middle">買入區 X 0–1 / Y 0–4</text>')
+    # 格線
+    for gx in (0, 0.5, 1.0, 1.5, 2.0):
+        out.append(f'<line x1="{px(gx):.1f}" y1="{SC_PADT}" x2="{px(gx):.1f}" '
+                   f'y2="{SC_PADT + ph}" stroke="rgba(128,128,128,.16)"/>')
+        out.append(f'<text x="{px(gx):.1f}" y="{SC_PADT + ph + 15}" '
+                   'font-size="10" fill="currentColor" opacity=".55" '
+                   f'text-anchor="middle">{gx:g}</text>')
+    for gy in (0, 1, 2, 3, 4):
+        out.append(f'<line x1="{SC_PADL}" y1="{py(gy):.1f}" '
+                   f'x2="{SC_PADL + pw}" y2="{py(gy):.1f}" '
+                   'stroke="rgba(128,128,128,.16)"/>')
+        out.append(f'<text x="{SC_PADL - 7}" y="{py(gy) + 3.5:.1f}" font-size="10" '
+                   'fill="currentColor" opacity=".55" '
+                   f'text-anchor="end">{gy:g}</text>')
+    # Y=4 過度延伸線
+    out.append(f'<line x1="{SC_PADL}" y1="{py(4):.1f}" x2="{SC_PADL + pw}" '
+               f'y2="{py(4):.1f}" stroke="#dc2626" stroke-width="1.2" '
+               'stroke-dasharray="6 4" opacity=".8"/>')
+    out.append(f'<text x="{SC_PADL + pw - 2}" y="{py(4) - 5:.1f}" font-size="10" '
+               'fill="#dc2626" text-anchor="end">ATRX 4 = 過度延伸（硬刪）</text>')
+    # 軸標題
+    out.append(f'<text x="{SC_PADL + pw / 2:.1f}" y="{H - 3}" font-size="11" '
+               'fill="currentColor" opacity=".75" text-anchor="middle">'
+               'X = 距 21EMA（ATR 單位）</text>')
+    out.append(f'<text x="12" y="{SC_PADT + ph / 2:.1f}" font-size="11" '
+               'fill="currentColor" opacity=".75" text-anchor="middle" '
+               f'transform="rotate(-90 12 {SC_PADT + ph / 2:.1f})">'
+               'Y = 距 50MA（ATR）</text>')
+    # 點
+    labelled = []
+    for r in rows:
+        try:
+            x = float(r.get("x"))
+            y = float(r.get("y"))
+        except (TypeError, ValueError):
+            continue
+        if not (-1e9 < x < 1e9 and -1e9 < y < 1e9):
+            continue
+        cx = px(max(SC_XMIN, min(SC_XMAX, x)))
+        cy = py(max(SC_YMIN, min(SC_YMAX, y)))
+        box = bool(r.get("in_buy_box"))
+        col = "#f97316" if box else "rgba(148,163,184,.75)"
+        rad = 5.2 if box else 3.6
+        tip = (f'{r.get("ticker")}｜X {x:.2f}｜Y {y:.2f}'
+               f'｜ADR {r.get("adr") or "—"}%')
+        out.append(f'<g><title>{_esc(tip)}</title>'
+                   f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{rad}" fill="{col}" '
+                   'fill-opacity=".92"/></g>')
+        if box:
+            labelled.append((cx, cy, r.get("ticker")))
+    for cx, cy, tk in labelled:
+        out.append(f'<text x="{cx + 7:.1f}" y="{cy - 5:.1f}" font-size="9.5" '
+                   f'fill="currentColor" opacity=".9">{_esc(tk)}</text>')
+    out.append('</svg>')
+    return ('<div class="card" style="padding:10px 12px 6px">'
+            '<div style="font-size:11.5px;opacity:.7;margin:0 0 4px">'
+            f'RS 位置圖（{len(rows)} 隻｜橙 = 買入區 {len(labelled)} 隻）</div>'
+            + "".join(out) + '</div>')
+
+
+# ── RS 弱勢雷達區塊（rsw_radar，watch-only，唔推 Telegram）──────────
+def _weakness():
+    try:
+        import sys
+        if r"C:/Users/rain0/trading-os" not in sys.path:
+            sys.path.insert(0, r"C:/Users/rain0/trading-os")
+        import rsw_radar as _rw
+        pool = _rw.build_pool()
+        rows = _rw.scan(pool)
+    except Exception as e:                                    # noqa: BLE001
+        return ('<div class="card" style="padding:12px">'
+                '<div style="font-size:13px;font-weight:800;margin-bottom:6px">'
+                'RS 弱勢雷達</div>'
+                f'<div class="dim">DATA_UNAVAILABLE（{_esc(type(e).__name__)}）</div>'
+                '</div>')
+    if not rows:
+        return ('<div class="card" style="padding:12px">'
+                '<div style="font-size:13px;font-weight:800;margin-bottom:6px">'
+                'RS 弱勢雷達</div><div class="dim">今日冇領導股出現弱勢回氣。</div>'
+                '</div>')
+    rows = rows[:14]
+    day = rows[0].get("day") or ""
+    h = ['<div class="card" style="padding:0">',
+         '<div style="padding:10px 12px 6px;display:flex;gap:10px;'
+         'align-items:baseline;flex-wrap:wrap">',
+         '<b style="font-size:13px">RS 弱勢雷達</b>',
+         f'<span style="font-size:11px;opacity:.62">{_esc(day)}｜'
+         f'池 {len(pool)} 隻｜命中 {len(rows)}｜WATCH-ONLY，唔係入場訊號</span>',
+         '</div>',
+         '<div class="rs-wrap"><table class="rs-tbl"><thead><tr>'
+         '<th class="l">代號</th><th>現價</th><th>日內 %</th>'
+         '<th>回氣 ATR</th><th>距低 ATR</th><th>低位</th>'
+         '<th>回升</th><th>RVOL</th></tr></thead><tbody>']
+    for r in rows:
+        rec = r.get("reclaim")
+        pct = r.get("pct")
+        pct_cls = "rs-pos" if (pct or 0) > 0 else "rs-neg"
+        h.append(
+            f'<tr>'
+            f'<td class="l"><span class="rs-tk">{_esc(r.get("t"))}</span></td>'
+            f'<td>{_f(r.get("last"), 2)}</td>'
+            f'<td class="{pct_cls}">{_f(pct, 1, True)}%</td>'
+            f'<td>{_f(r.get("drop_atr"), 2)}</td>'
+            f'<td>{_f(r.get("risk_atr"), 2)}</td>'
+            f'<td>{_f(r.get("low"), 2)}</td>'
+            f'<td class="l">{"✅ 已回升" if rec else "⏳ 未回升"}</td>'
+            f'<td>{_f(r.get("rvol"), 1) + "x" if r.get("rvol") else "—"}</td>'
+            '</tr>')
+    h.append('</tbody></table></div>')
+    h.append('<div class="rs-note" style="padding:8px 12px 12px">'
+             '回氣 ATR = 由開市／前收較高者跌到今日低位嘅深度。'
+             '回測（n=257）機械化呢個規則 = −0.032R、t=−0.40 → 冇統計 edge，'
+             '所以只列監察，唔出股數。</div></div>')
+    return "".join(h)
+
+
 def build():
     p = _latest("rs_select_*.json")
     if not p:
@@ -159,6 +303,8 @@ def build():
         f'<span>ATRX ≤{_esc(gates.get("max_atrx"))}</span>'
         f'<span>距52高 ≥{_esc(gates.get("min_dist52w"))}%</span>'
         '</div>')
+
+    parts.append(_scatter(rows))
 
     parts.append('<div class="rs-f">'
                  '<button class="on" onclick="rsFilter(\'all\',this)">'
@@ -221,6 +367,11 @@ def build():
             f'<td class="l">{status}</td></tr>')
 
     parts.append('</tbody></table></div>')
+
+    # ── RS 弱勢雷達（watch-only，唔推 Telegram）──
+    parts.append('<div style="height:14px"></div>')
+    parts.append(_weakness())
+
     parts.append(
         '<div class="rs-note">'
         'X = 距 21EMA（ATR 單位）；Y = 距 50MA（= ATRX，>4 紅字代表過度延伸）。'
