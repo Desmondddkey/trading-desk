@@ -81,6 +81,33 @@ def rclass(r):
     return "r-m2"
 
 
+def _ym(ts):
+    """entry_date → YYYY-MM"""
+    s = str(ts or "")[:7]
+    return s if len(s) == 7 and s[4] == "-" else "未知"
+
+
+def _iso_week(ts):
+    """entry_date → ISO 週（YYYY-Www）"""
+    import datetime
+    s = str(ts or "")[:10]
+    try:
+        d = datetime.date.fromisoformat(s)
+        y, w, _ = d.isocalendar()
+        return f"{y}-W{w:02d}"
+    except Exception:                                    # noqa: BLE001
+        return "未知"
+
+
+def _rows(trips, keyfn, sort_desc=True):
+    """按 key 分組，回 [(key, [trips])] 按時間排"""
+    g = {}
+    for t in trips:
+        g.setdefault(keyfn(t["entry_date"]), []).append(t)
+    keys = sorted(g, reverse=sort_desc)
+    return [(k, g[k]) for k in keys]
+
+
 def build():
     try:
         E, trips, fills = fsig()
@@ -119,6 +146,39 @@ def build():
         L.append(f'<div><div class="n"{c}>{v}</div>'
                  f'<div class="l">{lab}</div></div>')
     L.append("</div>")
+
+    # ── 每月表現（一行一月，Desmond 2026-10-23：「每月每週一行一行」）──
+    L.append('<div class="card"><h2>每月表現 <small>一行一月，睇趨勢唔係睇單</small></h2>'
+             '<div class="body"><table class="eh-t"><thead><tr>'
+             '<th>月份</th><th>單數</th><th>總 R</th><th>平均 R</th>'
+             '<th>勝率</th><th>4R+</th><th>止蝕</th></tr></thead><tbody>')
+    for k, rows in _rows(trips, _ym):
+        _sr = sum(t["R"] for t in rows)
+        _w = len([t for t in rows if t["R"] > 0])
+        _n4 = len([t for t in rows if t["R"] >= 4])
+        _nl = len([t for t in rows if t["R"] <= 0])
+        _col = "pos" if _sr > 0 else "neg"
+        L.append(f'<tr><td><b>{k}</b></td><td>{len(rows)}</td>'
+                 f'<td class="{_col}">{_sr:+.1f}R</td>'
+                 f'<td class="{_col}">{_sr/len(rows):+.2f}R</td>'
+                 f'<td>{_w/len(rows)*100:.0f}%</td>'
+                 f'<td>{_n4}</td><td>{_nl}</td></tr>')
+    L.append('</tbody></table></div></div>')
+
+    # ── 每週表現（近 20 週，一行一週）──
+    L.append('<div class="card"><h2>每週表現 <small>近 20 週，一行一週</small></h2>'
+             '<div class="body"><table class="eh-t"><thead><tr>'
+             '<th>週</th><th>單數</th><th>總 R</th><th>平均 R</th>'
+             '<th>勝率</th></tr></thead><tbody>')
+    for k, rows in _rows(trips, _iso_week)[:20]:
+        _sr = sum(t["R"] for t in rows)
+        _w = len([t for t in rows if t["R"] > 0])
+        _col = "pos" if _sr > 0 else "neg"
+        L.append(f'<tr><td><b>{k}</b></td><td>{len(rows)}</td>'
+                 f'<td class="{_col}">{_sr:+.1f}R</td>'
+                 f'<td class="{_col}">{_sr/len(rows):+.2f}R</td>'
+                 f'<td>{_w/len(rows)*100:.0f}%</td></tr>')
+    L.append('</tbody></table></div></div>')
 
     # 圖例
     L.append('<div class="r-lg">'

@@ -1473,7 +1473,33 @@ def build():
         _gmi_card = (f'<div class="warn">Wishing Wealth 讀唔到：'
                      f'{type(_e18).__name__}</div>')
 
+    # ★ pulse 模式：最頂「The Read」+「明日要睇咩」（Desmond 2026-10-23 參考 levelup.net/pulse）
+    _above50 = bt.get("above50")
+    _strength = ("強" if _fin(_above50) and _above50 >= 60 else
+                 "中性" if _fin(_above50) and _above50 >= 40 else
+                 "弱" if _fin(_above50) else "—")
+    _lead_txt = (reg.get("lead") or {}).get("text") or "—"
+    _read = (f"大市<strong style=\"color:#7DBE8A\">{_strength}</strong>"
+             f"（{pct(_above50)} 企 50MA 上、"
+             f"{pct(bt.get('above200'))} 企 200MA 上）。"
+             f"領導：{esc(_lead_txt)}。{esc(reg.get('vix_note') or '')}")
+    _watch = [
+        (esc(reg.get("core_question") or "今日冇核心問題"), "核心問題"),
+        (esc(reg.get("breadth_note") or b.get("status") or "—"), "廣度"),
+        (f"新高 {num(bt.get('new_highs'), 0)} / 新低 {num(bt.get('new_lows'), 0)}"
+         f"｜{esc(_lead_txt)}", "要睇"),
+    ]
+    _pulse = (
+        '<div class="card" style="border-left:4px solid #7DBE8A">'
+        '<h2>📖 The Read <small>今日一句話</small></h2>'
+        f'<div class="body" style="font-size:14.5px;line-height:1.8">{_read}</div></div>'
+        '<div class="card"><h2>👀 明日要睇咩</h2><div class="body">'
+        + "".join(f'<div style="margin:7px 0;font-size:13.5px">'
+                  f'<b>{l}</b>　·　{t}</div>' for t, l in _watch)
+        + '</div></div>')
+
     brief_body = f"""
+{_pulse}
 {_gmi_card}
 {_themes}
 {note}
