@@ -11,7 +11,7 @@
  "mmtw": 44.14,
  "mmtw_rising": false,
  "oversold": false,
- "mmfi": 34.52,
+ "mmfi": 34.6,
  "mmfi_n": 5107,
  "mmfi_asof": "2026-10-23",
  "delta_txt": "昨日資料建立中",
@@ -49,7 +49,7 @@
    "name": "VIX 風險",
    "w": 10,
    "s": 7.0,
-   "d": "19.1｜HOLD 持倉觀察"
+   "d": "19.0｜HOLD 持倉觀察"
   },
   {
    "n": 6,
@@ -66,5 +66,5 @@
    "d": "10 月 +0.8%｜中性"
   }
  ],
- "updated": "04:25"
+ "updated": "05:55"
 }
