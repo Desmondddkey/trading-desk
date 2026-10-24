@@ -76,7 +76,9 @@ CSS = """
 .pf-note{font-size:11.5px;opacity:.62;margin-top:6px;line-height:1.7}
 .pf-cands{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
 .pf-cand{font-size:11.5px;padding:2px 8px;border-radius:6px;
-  border:1px solid rgba(128,128,128,.3);font-weight:700}
+  border:1px solid rgba(128,128,128,.3);font-weight:700;
+  text-decoration:none;cursor:pointer;display:inline-block}
+a.pf-cand:hover{filter:brightness(1.12)}
 .pf-cand.buy{background:#f97316;border-color:#f97316;color:#fff}
 .pf-bar{height:9px;border-radius:999px;background:rgba(128,128,128,.2);
   overflow:hidden;margin:4px 0 0;width:100%;max-width:420px}
@@ -360,7 +362,11 @@ def build():
     if box:
         P.append('<div class="pf-cands">')
         for r in box[:14]:
-            P.append(f'<span class="pf-cand buy">{_esc(r.get("ticker"))}</span>')
+            _tk = _esc(r.get("ticker"))
+            # ★ 2026-10-24 Desmond：hover 出 TV 預覽，左鍵入 TradingView
+            P.append(f'<a class="pf-cand buy" data-sym="{_tk}" '
+                     f'href="https://www.tradingview.com/chart/?symbol={_tk}" '
+                     f'target="_blank" rel="noopener">{_tk}</a>')
         P.append('</div>')
         P.append('<div class="pf-note">來源：RS Daily Scan（6 閘：價／成交額／ADR／'
                  'ATRX／距 52 高／財報黑名單）</div>')

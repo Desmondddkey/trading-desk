@@ -775,6 +775,9 @@ html[data-theme="light"] #sb{background:#ffffff;border-right:1px solid #e3e8f0}
 #sb .grp:hover{color:#e8eef8}
 html[data-theme="light"] #sb .grp:hover{color:#111827}
 #sb .gl{padding:0 0 4px}
+/* pinned 可展開分組（MODEL BOOK）*/
+#sb .pinfold>.grp{padding:9px 11px;font-size:13.5px}
+#sb .pinfold{margin:2px 0}
 #sb a{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px;
   font-size:13.5px;text-decoration:none;color:#9fb0cc;line-height:1.25}
 #sb a:hover{background:#121c31;color:#e8eef8}
@@ -1016,7 +1019,11 @@ SIDEBAR_LINKS = [
     ("_pinned", "", "⚡ 每日流程", "process.html"),
     ("_pinned", "", "DATABASE", "datahealth.html"),
     # ★ 2026-10-23 Desmond：「MODEL BOOK 搬到左邊欄外 唔放方法入面」
-    ("_pinned", "", "MODEL BOOK", "modelbook.html"),
+    ("_fold", "📚", "MODEL BOOK", "modelbook.html", [
+        ("概覽", "modelbook.html"),
+        ("Top 250 US Gainers", "mb_top250.html"),
+        ("量化案例庫", "modelbook.html#cases"),
+    ]),
 
     ("_grp", "市場"),
     ("_link", None, "MARKET REGIME", "regime_mri.html"),
@@ -1145,6 +1152,20 @@ def sidebar_html(active=""):
                     f'class="ext-link"><span class="i">{icon}</span>'
                     f'<span class="lbl">{label}</span></a>')
             (cur[1] if cur else head).append(html)
+        elif kind == "_fold":
+            # ★ 2026-10-24 Desmond：「MODEL BOOK 左邊禁一下 → 下面出下選分頁」
+            #   pinned 位置嘅可展開分組：<details> 一撳就開，子項就係分頁。
+            _, icon, label, href, kids = row
+            is_open = any(h == active for _l, h in kids) if active else False
+            gl = "".join(
+                '<a href="%s"%s><span class="ab">%s</span>'
+                '<span class="lbl">%s</span></a>'
+                % (h, ' class="on"' if h == active else "",
+                   esc(l[:2]), esc(l))
+                for l, h in kids)
+            head.append(f'<details class="gw pinfold"{" open" if is_open else ""}>'
+                        f'<summary class="grp">{icon} {esc(label)}</summary>'
+                        f'<div class="gl">{gl}</div></details>')
         elif kind == "_pinned":
             _, icon, label, href = row
             on = ' class="on"' if href == active else ""
@@ -1966,6 +1987,9 @@ def build():
                 log("✓ modelbook 加量化案例庫")
         except Exception as _e22:
             log(f"⚠ 案例庫區塊失敗：{type(_e22).__name__}: {_e22}")
+        # ★ 2026-10-24 加 anchor：側欄 MODEL BOOK → 量化案例庫
+        _mbb = _mbb.replace('<h3>📚 Model Book — 量化案例庫</h3>',
+                            '<h3 id="cases">📚 Model Book — 量化案例庫</h3>')
         pages["modelbook"] = (_mt, _mbb, base)
         log(f'✓ modelbook.html ({len(_mbb)//1024} KB)')
     except Exception as _e21:
@@ -2082,6 +2106,15 @@ def build():
         log(f"✓ process.html ({len(_pb)//1024} KB)")
     except Exception as _e15:                                # noqa: BLE001
         log(f"⚠ 每日流程失敗：{type(_e15).__name__}: {_e15}")
+
+    # ── ★ 2026-10-24 Top 250 US Gainers（MODEL BOOK 子分頁）──
+    try:
+        import mb_top250_page as _t2
+        _t2h = _t2.block()
+        pages["mb_top250"] = ("Top 250 US Gainers", _t2h, base)
+        log(f'✓ mb_top250.html ({len(_t2h)//1024} KB)')
+    except Exception as _e16:                                # noqa: BLE001
+        log(f"⚠ Top 250 失敗：{type(_e16).__name__}: {_e16}")
 
     # ── RS Leader 位置圖（Desmond 2026-10-19：加日期選取器）──
     try:
