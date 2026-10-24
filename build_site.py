@@ -492,6 +492,8 @@ def load_methods():
 # ═══════════════════════ CSS / JS ═══════════════════════
 CSS = """
 *{box-sizing:border-box}
+html{background:#070b16}
+html[data-theme="light"]{background:#ffffff}
 body{margin:0;background:#070b16;color:#e8eef8;
  font-family:"Segoe UI","Microsoft JhengHei",system-ui,-apple-system,"Noto Sans TC",sans-serif;
  -webkit-text-size-adjust:100%}
@@ -1273,6 +1275,13 @@ def page(active, title, body, payload, extra_head=""):
     return f"""<!doctype html><html lang="zh-Hant" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title} · 交易台</title>
+<script>/* ★ 2026-10-24 修「閃白」：喺 CSS 之前先套用已存主題，
+   否則 dark 用戶會先見到 light 一幀（FOUC）。key = desk-theme（JSON 字串）。*/
+(function(){{try{{
+  var v=localStorage.getItem('desk-theme');
+  if(v){{try{{v=JSON.parse(v);}}catch(e){{}}
+    if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v);}}
+}}catch(e){{}}}})();</script>
 <style>{CSS}{SIDEBAR_CSS}{tvhover.TVHOVER_CSS}</style>{extra_head}</head><body>
 <script>
 /* ★ 自動更新：用返原來網址，頁面發現有新 build 就自己 reload 一次

@@ -49,15 +49,15 @@ CSS = """
 .rt-card h3{margin:0 0 4px;font-size:14px;font-weight:800;
   display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .rt-card h3 small{font-weight:400;font-size:11px;opacity:.6}
-.rt-tbl{width:100%;border-collapse:collapse;font-size:12px;
+.rt-tbl{width:100%;max-width:860px;border-collapse:collapse;font-size:12px;
   table-layout:fixed;font-variant-numeric:tabular-nums}
 .rt-tbl th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.04em;
   padding:4px 5px;opacity:.6;border-bottom:1px solid rgba(128,128,128,.3);
   white-space:nowrap}
 .rt-tbl td{padding:3px 5px;border-bottom:1px solid rgba(128,128,128,.1);
-  text-align:left;vertical-align:middle;line-height:1.25}
+  text-align:left;vertical-align:middle;line-height:1.25;overflow:hidden}
 .rt-tbl tr:hover td{background:rgba(249,115,22,.055)}
-.rt-tbl col.c-stage{width:74px}
+.rt-tbl col.c-stage{width:64px}
 .rt-tbl col.c-etf{width:54px}
 .rt-tbl col.c-name{width:auto}
 .rt-tbl col.c-score{width:42px}
@@ -75,9 +75,10 @@ CSS = """
 .rt-flat{opacity:.55}
 html[data-theme="dark"] .rt-pos{color:#7ce0a8}
 html[data-theme="dark"] .rt-neg{color:#ff8f8f}
-.rt-stage{font-size:10px;font-weight:800;padding:1px 5px;border-radius:999px;
+.rt-stage{font-size:10px;font-weight:800;padding:1px 4px;border-radius:999px;
   border:1px solid currentColor;display:inline-block;white-space:nowrap;
-  line-height:1.5}
+  line-height:1.45;max-width:100%;overflow:hidden;text-overflow:ellipsis;
+  vertical-align:middle}
 .rt-bar{display:inline-block;width:40px;height:6px;border-radius:3px;
   background:rgba(128,128,128,.16);vertical-align:middle;margin-left:5px;
   position:relative;overflow:hidden}
@@ -118,12 +119,22 @@ def _bar(v, mx, lo=-1):
             'background:%s"></i></span>' % (w / 2, col))
 
 
+STAGE_TAG = {
+    "①": "① 反轉", "②": "② 楔爆", "③": "③ 回10",
+    "④": "④ 突破", "⑤": "⑤ 力盡", "⑥": "⑥ 楔跌",
+}
+
+
 def _stage_badge(st):
+    """★ kell 嘅 short 其實等於全名（「④ Base 'n Break」），
+    直接塞入 74px 欄會壓過隔籬欄 → 呢度壓成 3 個字。"""
     if not st:
         return '<span class="rt-stage rt-flat">—</span>'
-    short = st.get("short") or st.get("stage") or "—"
+    full = st.get("stage") or st.get("short") or ""
     col = st.get("color") or "#94a3b8"
-    return f'<span class="rt-stage" style="color:{col}">{_esc(short)}</span>'
+    tag = STAGE_TAG.get((full or " ")[0], (full or "—")[:3])
+    return (f'<span class="rt-stage" style="color:{col}" '
+            f'title="{_esc(full)}">{_esc(tag)}</span>')
 
 
 def _table(rows, stages, title=None, max_rows=None):
