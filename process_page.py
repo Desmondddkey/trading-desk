@@ -23,6 +23,7 @@ Jeff Sun 嘅流程 = 一個決策漏斗，唔係一堆 page：
   sim_ledger/fleet/champion/equity.csv 錢
 """
 import csv
+import datetime
 import glob
 import html as _h
 import io
@@ -77,6 +78,16 @@ CSS = """
 .pf-cand{font-size:11.5px;padding:2px 8px;border-radius:6px;
   border:1px solid rgba(128,128,128,.3);font-weight:700}
 .pf-cand.buy{background:#f97316;border-color:#f97316;color:#fff}
+.pf-bar{height:9px;border-radius:999px;background:rgba(128,128,128,.2);
+  overflow:hidden;margin:4px 0 0;width:100%;max-width:420px}
+.pf-bar>span{display:block;height:100%;border-radius:999px;transition:width .2s}
+.pf-brow{display:grid;grid-template-columns:104px 64px 1fr 130px;
+  gap:8px;align-items:center;padding:5px 0;font-size:12.5px}
+.pf-brow .nm{font-weight:700;opacity:.9}
+.pf-brow .vv{font-variant-numeric:tabular-nums;font-weight:800;text-align:right}
+.pf-brow .nt{font-size:11px;opacity:.6;text-align:right}
+@media(max-width:640px){.pf-brow{grid-template-columns:86px 56px 1fr;
+  grid-template-areas:"nm vv bar" "nm vv nt"}.pf-brow .nt{grid-area:nt;text-align:left}}
 """
 
 
@@ -119,7 +130,8 @@ def _breadth():
         return {}
     try:
         d = json.load(io.open(p, encoding="utf-8"))
-        return dict(adl=(d.get("adl") or {}).get("value"),
+        return dict(asof=(d.get("as_of") or "")[:10],
+                    adl=(d.get("adl") or {}).get("value"),
                     nnnl=(d.get("nnnl") or {}).get("value"),
                     pct40=d.get("pct40ma"),
                     lsr=d.get("ls_ratio_proxy"),
@@ -182,6 +194,48 @@ def _champion():
     return nav, day
 
 
+
+# ── 廣度 bar + 更新時間（Desmond 2026-10-24：「加返條 BAR + MMTW/MMFI」）──
+def _regime_live():
+    """讀 docs/regime_live.json（market_regime 產物）—— 唔自己再算"""
+    p = os.path.join(HERE, "docs", "regime_live.json")
+    if not os.path.exists(p):
+        return {}
+    try:
+        return json.load(io.open(p, encoding="utf-8"))
+    except Exception:                                         # noqa: BLE001
+        return {}
+
+
+def _bar(pct, color="#f59e0b"):
+    pct = max(0.0, min(100.0, float(pct or 0)))
+    return ('<div class="pf-bar"><span style="width:%.1f%%;background:%s">'
+            '</span></div>' % (pct, color))
+
+
+def _tone(v, lo=40, hi=60):
+    try:
+        x = float(v)
+    except (TypeError, ValueError):
+        return "#9ca3af", "—"
+    if x >= hi:
+        return "#22c55e", "強"
+    if x >= lo:
+        return "#f59e0b", "中性"
+    return "#ef4444", "弱"
+
+
+def _next_update():
+    """site-auto-rebuild = 08:50 + 23:50 HKT"""
+    now = datetime.datetime.now()
+    slots = [now.replace(hour=8, minute=50, second=0, microsecond=0),
+             now.replace(hour=23, minute=50, second=0, microsecond=0)]
+    for s in slots:
+        if s > now:
+            return s
+    return slots[0] + datetime.timedelta(days=1)
+
+
 def build():
     card = _parse_card(_newest("daily_plan_card_*.txt"))
     b = _breadth()
@@ -198,9 +252,15 @@ def build():
     ready = (total_l >= 4 and red <= 2 and not veto)
 
     P = [f"<style>{CSS}</style>"]
+    _now = datetime.datetime.now()
+    _nxt = _next_update()
     P.append('<div class="pf-h"><h2>⚡ 每日流程</h2>'
              f'<span class="pf-sub">Jeff Sun 決策漏斗｜卡片 {_esc(card["day"])}'
              f'｜{total_l} 燈中 {red} 紅</span></div>')
+    P.append(f'<div style="font-size:11.5px;opacity:.66;margin:0 0 6px">'
+             f'🕒 頁面生成 {_now:%Y-%m-%d %H:%M}（HKT）｜'
+             f'資料截止 卡片 {_esc(card["day"])}／廣度 {_esc(b.get("asof") or b.get("as_of") or "—")}｜'
+             f'下次自動更新 {_nxt:%m-%d %H:%M}</div>')
     P.append('<div style="font-size:12.5px;opacity:.75;margin:2px 0 6px">'
              '順序 = 環境 → 廣度 → 板塊 → 候選 → 計劃 → 9:30 ready。'
              '<b>5 燈唔過，後面唔使睇。</b></div>')
@@ -218,16 +278,66 @@ def build():
         P.append('<div class="dim">讀唔到每日卡</div>')
     P.append('</div>')
 
-    # ── ② 廣度 ──
+    # ── ② 廣度（bar + MMTW/MMFI）──
+    rl = _regime_live()
     P.append('<div class="pf-step"><h3>② 廣度 '
              f'<small>{_esc(b.get("regime") or "—")}｜'
              f'{_esc(b.get("posture") or "—")}</small></h3>')
-    P.append(f'<div class="pf-row"><b>ADL</b>{_num(b.get("adl"))}'
-             f'<span style="opacity:.6">（+100 牛 / 0 中性 / −100 熊）</span></div>')
-    P.append(f'<div class="pf-row"><b>NNNL</b>{_num(b.get("nnnl"))}'
-             f'<span style="opacity:.6">（新高−新低，10 日均）</span></div>')
-    P.append(f'<div class="pf-row"><b>% 企 40MA</b>{_num(b.get("pct40"))}%</div>')
-    P.append(f'<div class="pf-row"><b>LS ratio</b>{_num(b.get("lsr"), 2)}</div>')
+
+    def brow(name, val, pct, note, col):
+        P.append(f'<div class="pf-brow"><span class="nm">{name}</span>'
+                 f'<span class="vv" style="color:{col}">{val}</span>'
+                 f'{_bar(pct, col)}<span class="nt">{note}</span></div>')
+
+    mmtw = rl.get("mmtw")
+    mmfi = rl.get("mmfi")
+    if mmtw is not None:
+        c1, t1 = _tone(mmtw)
+        brow("MMTW", f"{mmtw:.1f}%", mmtw,
+             f"企 20MA｜{t1}" + ("" if rl.get("mmtw_rising") else "·跌"), c1)
+    if mmfi is not None:
+        c2, t2 = _tone(mmfi)
+        brow("MMFI", f"{mmfi:.1f}%", mmfi,
+             f"企 50MA｜{t2}（提高門檻）" if mmfi < 40 else f"企 50MA｜{t2}", c2)
+    if b.get("pct40") is not None:
+        c3, t3 = _tone(b.get("pct40"))
+        brow("% 企 40MA", f"{_num(b.get('pct40'))}%", b.get("pct40"), t3, c3)
+    if b.get("adl") is not None:
+        try:
+            av = float(b.get("adl"))
+        except (TypeError, ValueError):
+            av = 0
+        # −200 … +200 → 0…100%
+        brow("ADL", _num(av), (av + 200) / 400 * 100,
+             "牛 >+100｜熊 <−100", "#22c55e" if av >= 100 else
+             ("#f59e0b" if av >= 0 else "#ef4444"))
+    if b.get("nnnl") is not None:
+        try:
+            nv = float(b.get("nnnl"))
+        except (TypeError, ValueError):
+            nv = 0
+        brow("NNNL", _num(nv), (nv + 100) / 200 * 100,
+             "新高−新低（10 日）", "#22c55e" if nv > 0 else "#ef4444")
+    if b.get("lsr") is not None:
+        try:
+            lv = float(b.get("lsr"))
+        except (TypeError, ValueError):
+            lv = 0
+        brow("LS ratio", _num(lv, 2), min(100, lv / 3 * 100),
+             "升/跌股比例", "#22c55e" if lv >= 1.5 else
+             ("#f59e0b" if lv >= 1 else "#ef4444"))
+    if rl.get("mri") is not None:
+        try:
+            mv = float(rl.get("mri"))
+        except (TypeError, ValueError):
+            mv = 0
+        c4, _t = _tone(mv, 40, 70)
+        brow("MRI 0–100", f"{mv:.0f}",
+             mv, _esc(rl.get("state") or ""), c4)
+    P.append('<div class="pf-note">MMTW/MMFI 來源：'
+             + _esc(rl.get("asof") or "—")
+             + f'｜更新 {_esc(rl.get("updated") or "—")}'
+             '（Market Regime 頁同一個源，唔會兩把尺）</div>')
     P.append('</div>')
 
     # ── ③ 板塊 ──
