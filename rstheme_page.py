@@ -92,7 +92,7 @@ html[data-theme="dark"] .rt-neg{color:#ff8f8f}
   border:1px solid currentColor;display:inline-block;white-space:nowrap;
   line-height:1.45;max-width:100%;overflow:hidden;text-overflow:ellipsis;
   vertical-align:middle}
-.rt-bar{display:inline-block;width:26px;height:6px;border-radius:3px;
+.rt-bar{display:block;width:100%;height:3px;margin-top:2px;border-radius:2px;
   background:rgba(128,128,128,.16);vertical-align:middle;margin-left:5px;
   position:relative;overflow:hidden}
 .rt-bar>i{position:absolute;top:0;bottom:0;border-radius:3px;display:block}
@@ -247,16 +247,16 @@ def _spark(vals):
 COLS = [
     ("score",  "RS",      "c-rs",     "rt-num",     78),
     ("etf",    "代號",     "c-etf",    "rt-etf c2",  54),
-    ("name",   "名稱",     "c-name",   "rt-name c3", 150),
+    ("name",   "名稱",     "c-name",   "rt-name c3", 138),
     ("spark",  "走勢",     "c-spark",  "",           52),
-    ("r1w",    "1 週",     "c-p1w",    "",           56),
-    ("r1m",    "1 個月",   "c-p1m",    "",           58),
-    ("r3m",    "3 個月",   "c-p3m",    "",           58),
+    ("r1w",    "1 週",     "c-p1w",    "",           62),
+    ("r1m",    "1 個月",   "c-p1m",    "",           62),
+    ("r3m",    "3 個月",   "c-p3m",    "",           62),
     ("thrust", "推力",     "c-thrust", "rt-num",     44),
     ("ex1m",   "1月超額",  "c-ex1m",   "",           58),
     ("off52w", "距52高",   "c-off52",  "",           52),
     ("atrx",   "EXT",      "c-band",   "",           64),
-    ("stage",  "階段",     "c-stage",  "c1",         92),
+    ("stage",  "階段",     "c-stage",  "c1",        112),
 ]
 
 
