@@ -1061,6 +1061,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "Edge Improving", "edgeimprove.html"),
     ("_link", None, "Positioning", "positioning.html"),
     ("_link", None, "Review", "review.html"),
+    ("_link", None, "覆盤（R／期望值）", "review2.html"),
     ("_link", None, "倉位計算機", "calculator.html"),
 
     ("_grp", "方法"),
@@ -1940,9 +1941,14 @@ def build():
                 ("sectors", "Sectors", lambda: _np.sectors_page(_ohlc_df)),
                 ("breadth", "Breadth", _np.breadth_page),
                 ("positioning", "Positioning", _np.positioning_page),
-                ("review", "Review", _np.review_page)):
+                ("review", "Review", _np.review_page),
+                ("review2", "覆盤", None)):
             try:
-                pages[_key] = (_title, _fn(), base)
+                if _key == "review2":
+                    import review_page as _rv
+                    pages[_key] = _rv.build() + (base,)
+                else:
+                    pages[_key] = (_title, _fn(), base)
             except Exception as _e2:                         # noqa: BLE001
                 log(f"⚠ {_title} 頁失敗：{type(_e2).__name__}")
                 pages[_key] = (_title, _np._unavail(_title, str(_e2)), base)
