@@ -565,7 +565,7 @@ nav span.off{opacity:.45}
 .kpi .k{font-size:10.5px;color:#7f90ad;letter-spacing:.5px}
 .kpi .v{font-size:17px;font-weight:700;margin-top:2px}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
-th,td{padding:5px 7px;text-align:right;border-bottom:1px solid #16203a}
+th,td{padding:5px 7px;text-align:left;border-bottom:1px solid #16203a}
 th{color:#8296b4;font-weight:600;font-size:11px;background:#0d1424;position:sticky;top:0}
 td.l,th.l{text-align:left}
 tr:hover td{background:#131c30}
@@ -1016,16 +1016,10 @@ html[data-theme="light"] .jb-card{border-color:#E3E1DA;
 
 SIDEBAR_LINKS = [
     # 2026-10-19 方案 C：5 個分組；廚房看板獨立最頂；PLAYBOOK 最底
-    ("_pinned", "", "廚房看板", "jobboard.html"),
-    # ★ 2026-10-24 Desmond：「好似 Jeff 咁每日一個流程 → 9:30 ready」
+    # ★ 2026-10-24 Desmond：「每日流程放最頂」
     ("_pinned", "", "每日流程", "process.html"),
+    ("_pinned", "", "廚房看板", "jobboard.html"),
     ("_pinned", "", "DATABASE", "datahealth.html"),
-    # ★ 2026-10-23 Desmond：「MODEL BOOK 搬到左邊欄外 唔放方法入面」
-    ("_fold", "📚", "MODEL BOOK", "modelbook.html", [
-        ("概覽", "modelbook.html"),
-        ("Top 250 US Gainers", "mb_top250.html"),
-        ("量化案例庫", "modelbook.html#cases"),
-    ]),
 
     ("_grp", "市場"),
     ("_link", None, "MARKET REGIME", "regime_mri.html"),
@@ -1081,6 +1075,13 @@ SIDEBAR_LINKS = [
     ("_ext", "", "Qullamaggie", "https://qullamaggie.net/"),
     ("_ext", "", "QM 3 個 setups", "https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/"),
     ("_ext", "", "Alex Desjardins 方法", "https://qullamaggie.net/alex-desjardinss-method/"),
+
+    # ★ 2026-10-24 Desmond：「MODEL BOOK 放返係 PLAYBOOK 下面」
+    ("_fold", "📚", "MODEL BOOK", "modelbook.html", [
+        ("概覽", "modelbook.html"),
+        ("Top 250 US Gainers", "mb_top250.html"),
+        ("量化案例庫", "modelbook.html#cases"),
+    ]),
 
     # ★ 2026-10-23 Desmond：「外部數據放到 PLAYBOOK 下一行」+ 合併 8→2
     ("_grp", "外部數據"),
@@ -1172,9 +1173,12 @@ def sidebar_html(active=""):
                 % (h, ' class="on"' if h == active else "",
                    esc(l[:2]), esc(l))
                 for l, h in kids)
-            head.append(f'<details class="gw pinfold"{" open" if is_open else ""}>'
-                        f'<summary class="grp">{icon} {esc(label)}</summary>'
-                        f'<div class="gl">{gl}</div></details>')
+            fold_html = (f'<details class="gw pinfold"{" open" if is_open else ""}>'
+                         f'<summary class="grp">{icon} {esc(label)}</summary>'
+                         f'<div class="gl">{gl}</div></details>')
+            # ★ 2026-10-24：_fold 唔再永遠擺最頂 ——
+            #   喺分組入面就擺喺該分組（跟 SIDEBAR_LINKS 位置），否則擺 head。
+            (cur[1] if cur else head).append(fold_html)
         elif kind == "_pinned":
             _, icon, label, href = row
             on = ' class="on"' if href == active else ""

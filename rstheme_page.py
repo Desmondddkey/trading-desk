@@ -47,10 +47,8 @@ CSS = """
 /* ── 卡片頭（參考 Sectors 頁「行業輪動」排板，Desmond 2026-10-24）── */
 .rt-shead{display:flex;align-items:center;gap:11px;padding:2px 0 9px;
   border-bottom:1px solid rgba(128,128,128,.22);margin-bottom:6px;flex-wrap:wrap}
-.rt-ico{background:#2563eb;border-radius:9px;width:32px;height:32px;
-  display:flex;align-items:center;justify-content:center;font-size:16px;
-  flex:0 0 32px;line-height:1}
 .rt-shead .ttl{font-size:18px;font-weight:800;line-height:1.15}
+.rt-grade{font-variant-numeric:tabular-nums;font-size:12.5px;letter-spacing:.3px}
 .rt-shead .sub{font-size:11.5px;opacity:.62;margin-top:2px}
 .rt-shead .meta{margin-left:auto;font-size:11.5px;opacity:.72;text-align:right}
 .rt-sub{font-size:11.5px;opacity:.62}
@@ -266,7 +264,45 @@ COLS = [
     ("off52w", "距52高",   "c-off52",  "",           52),
     ("atrx",   "EXT",      "c-band",   "",           64),
     ("stage",  "階段",     "c-stage",  "c1",        112),
+    ("grade",  "評分",     "c-grade",  "",           58),
 ]
+
+
+# ── SETUP 評分（2026-10-24 Desmond：「欠缺 SETUP 評分 最高質量為 A+」）──
+#   只用 RS THEME 現有欄位計分，唔引入新數據、唔移除任何舊欄位。
+def grade_of(r):
+    """回 (級別, 分數)。A+ = 最高質量。"""
+    pts, hard = 0, False
+    sc = r.get("score")
+    if sc is not None:
+        pts += 3 if sc >= 95 else (2 if sc >= 90 else (1 if sc >= 80 else 0))
+    x = r.get("atrx")
+    if x is not None:
+        if 0 <= x <= 2:
+            pts += 3          # 綠區核心＝最佳入場區
+        elif 2 < x <= 4:
+            pts += 2          # 綠區邊緣
+        elif x > 5:
+            hard = True       # 過度延伸
+    off = r.get("off52w")
+    if off is not None:
+        pts += 2 if off >= -3 else (1 if off >= -10 else 0)
+    ex = r.get("ex1m")
+    if ex is not None:
+        pts += 2 if ex >= 10 else (1 if ex > 0 else 0)
+    th = r.get("thrust")
+    if th is not None and th >= 70:
+        pts += 1
+    # 滿分 11：RS 3 + EXT 3 + 距52高 2 + 1月超額 2 + 推力 1
+    if hard:
+        return "D", pts
+    if pts >= 10:
+        return "A+", pts
+    if pts >= 8:
+        return "A", pts
+    if pts >= 6:
+        return "B", pts
+    return "C", pts
 
 
 def _sv(v):
@@ -282,6 +318,12 @@ def _sv(v):
 def _cell(key, r, stages, mx, cls):
     tk = r.get("etf") or ""
     nm = r.get("name") or ""
+    if key == "grade":
+        g, pts = grade_of(r)
+        col = {"A+": "#a855f7", "A": "#22c55e", "B": "#f59e0b",
+               "C": "#94a3b8", "D": "#ef4444"}.get(g, "#94a3b8")
+        return (f'<td class="rt-grade" data-l="評分" data-v="{pts}">'
+                f'<b style="color:{col}">{g}</b></td>')
     if key == "score":
         sc = r.get("score")
         return (f'<td class="rt-num" data-l="RS" data-v="{_sv(sc)}">'
@@ -381,7 +423,6 @@ def _table(rows, stages, title=None, max_rows=None, sub=None,
         _sub = sub or f"{len(rows)} 隻"
         out.append(
             '<div class="rt-shead">'
-            f'<span class="rt-ico">{icon}</span>'
             f'<div><div class="ttl">{title}</div>'
             f'<div class="sub">{_sub}</div></div>'
             f'<div class="meta">{meta}</div>'

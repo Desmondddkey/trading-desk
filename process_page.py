@@ -352,11 +352,55 @@ def _ext_phase():
     P.append('</div>')
 
     # 表：按階段順序，再按 RS 降序
+    # ── SETUP 評分（2026-10-24 Desmond：「欠缺 SETUP 評分 最高質量為 A+」）──
+    #   只用現有欄位計分，唔引入新數據。原則：冇 A+ = 0 單，唔硬做。
+    def _grade(r):
+        pts, hard = 0, False
+        x = r.get("atrx")
+        if x is not None:
+            if 0 <= x <= 2:
+                pts += 3          # 貼近 50MA＝最佳入場區
+            elif 2 < x <= 4:
+                pts += 1          # 可接受
+            elif x > 7:
+                hard = True       # 極端延伸，結構性否定
+        rs = r.get("rs_rating") or 0
+        pts += 3 if rs >= 95 else (2 if rs >= 90 else (1 if rs >= 80 else 0))
+        if r.get("alpha") and not r.get("lead_weak"):
+            pts += 2              # α 穩健
+        t = (r.get("t_state") or "").upper()
+        if t.startswith("CONFIRMED"):
+            pts += 2
+        elif t.startswith("FAILED"):
+            hard = True
+        elif t.startswith("T"):
+            pts += 1
+        ph = (r.get("phase") or "").upper()
+        if ph.startswith("GREEN"):
+            pts += 1
+        elif ph.startswith("EXPANSION"):
+            hard = True
+        elif ph.startswith("NO NEW RISK"):
+            pts -= 1
+        if (r.get("launch") or "").upper() in ("BUILD", "NH"):
+            pts += 1
+        if r.get("nh_age") is not None and r["nh_age"] <= 3:
+            pts += 1
+        if hard:
+            return "D", pts
+        if pts >= 12:
+            return "A+", pts
+        if pts >= 9:
+            return "A", pts
+        if pts >= 6:
+            return "B", pts
+        return "C", pts
+
     rows = sorted(rows, key=lambda r: (
         PHASE_ORDER.index(r["phase"]) if r.get("phase") in PHASE_ORDER else 9,
         -(r.get("rs_rating") or 0)))
     P.append('<table class="ex-tbl"><thead><tr>'
-             '<th>代號</th><th>階段</th><th>EXT</th><th>RS</th>'
+             '<th>代號</th><th>評分</th><th>階段</th><th>EXT</th><th>RS</th>'
              '<th>α</th><th>Launch</th><th>NH</th><th>T</th>'
              '</tr></thead><tbody>')
     for r in rows:
