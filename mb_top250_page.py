@@ -152,15 +152,14 @@ def block():
                     f'<em>+{x["gain"]:,.0f}%</em></a>')
             out.append('</div>')
         out.append('<table class="t2tb"><tr><th>#</th><th>股票</th>'
-                   '<th>公司</th><th>Sector</th><th>升幅</th></tr>')
+                   '<th>Sector</th><th>升幅</th></tr>')
         for x in rows[:40]:
             mk = " hit" if x["ticker"] in hit_set else ""
             nw = " 🆕" if x.get("new") else ""
             out.append(
                 f'<tr><td>{x["rank"]}</td>'
                 f'<td class="{mk}">{x["ticker"]}{nw}</td>'
-                f'<td class="nm">{x["company"][:34]}</td>'
-                f'<td class="nm">{x["sector"][:16]}</td>'
+                f'<td class="nm">{x["sector"][:20] or "—"}</td>'
                 f'<td class="g">+{x["gain"]:,.0f}%</td></tr>')
         out.append("</table>")
         if len(rows) > 40:
