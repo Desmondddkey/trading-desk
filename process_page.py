@@ -86,6 +86,9 @@ a.pf-cand:hover{filter:brightness(1.12)}
 .pf-brow{display:grid;grid-template-columns:104px 64px 1fr 130px;
   gap:8px;align-items:center;padding:5px 0;font-size:12.5px}
 .pf-brow .nm{font-weight:700;opacity:.9}
+.pf-tvsym{color:inherit;text-decoration:none;cursor:pointer;
+  border-bottom:1px dotted rgba(128,128,128,.55)}
+.pf-tvsym:hover{color:#f97316;border-bottom-color:#f97316}
 .pf-brow .vv{font-variant-numeric:tabular-nums;font-weight:800;text-align:right}
 .pf-brow .nt{font-size:11px;opacity:.6;text-align:right}
 @media(max-width:640px){.pf-brow{grid-template-columns:86px 56px 1fr;
@@ -286,8 +289,15 @@ def build():
              f'<small>{_esc(b.get("regime") or "—")}｜'
              f'{_esc(b.get("posture") or "—")}</small></h3>')
 
-    def brow(name, val, pct, note, col):
-        P.append(f'<div class="pf-brow"><span class="nm">{name}</span>'
+    def brow(name, val, pct, note, col, sym=None):
+        # ★ 2026-10-24 Desmond：MMTW / MMFI 名上面 hover 都彈 TV
+        if sym:
+            nm = (f'<a class="pf-tvsym tv" data-sym="{sym}" '
+                  f'href="https://www.tradingview.com/chart/?symbol={sym}" '
+                  f'target="_blank" rel="noopener">{name}</a>')
+        else:
+            nm = name
+        P.append(f'<div class="pf-brow"><span class="nm">{nm}</span>'
                  f'<span class="vv" style="color:{col}">{val}</span>'
                  f'{_bar(pct, col)}<span class="nt">{note}</span></div>')
 
@@ -296,11 +306,13 @@ def build():
     if mmtw is not None:
         c1, t1 = _tone(mmtw)
         brow("MMTW", f"{mmtw:.1f}%", mmtw,
-             f"企 20MA｜{t1}" + ("" if rl.get("mmtw_rising") else "·跌"), c1)
+             f"企 20MA｜{t1}" + ("" if rl.get("mmtw_rising") else "·跌"),
+             c1, sym="MMTW")
     if mmfi is not None:
         c2, t2 = _tone(mmfi)
         brow("MMFI", f"{mmfi:.1f}%", mmfi,
-             f"企 50MA｜{t2}（提高門檻）" if mmfi < 40 else f"企 50MA｜{t2}", c2)
+             f"企 50MA｜{t2}（提高門檻）" if mmfi < 40 else f"企 50MA｜{t2}",
+             c2, sym="MMFI")
     if b.get("pct40") is not None:
         c3, t3 = _tone(b.get("pct40"))
         brow("% 企 40MA", f"{_num(b.get('pct40'))}%", b.get("pct40"), t3, c3)
