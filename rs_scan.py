@@ -270,17 +270,14 @@ def grade_of(r):
     d52 = r.get("dist52w")
     if d52 is not None:
         pts += 2 if d52 >= -5 else (1 if d52 >= -12 else 0)
-    ex = r.get("ex1m")
-    if ex is not None:
-        pts += 2 if ex >= 5 else (1 if ex > 0 else 0)
-    adr = r.get("adr")
-    if adr is not None and adr >= 5:
-        pts += 1
-    if pts >= 9:
+    rv = r.get("rvol")
+    if rv is not None:
+        pts += 2 if rv >= 2 else (1 if rv >= 1.2 else 0)
+    if pts >= 8:
         return "A+", pts
-    if pts >= 7:
+    if pts >= 6:
         return "A", pts
-    if pts >= 5:
+    if pts >= 4:
         return "B", pts
     return "C", pts
 
@@ -301,7 +298,7 @@ COLS = [
 
 
 # ── X/Y 散點圖（Desmond 2026-10-24：「加 X/Y 散點圖喺頁頂」）──────────
-SC_W, SC_H = 720, 300
+SC_W, SC_H = 720, 340
 SC_PADL, SC_PADR, SC_PADT, SC_PADB = 46, 14, 14, 30
 SC_XMIN, SC_XMAX = -0.5, 2.5      # X = 距 21EMA（ATR）
 SC_YMIN, SC_YMAX = -1.0, 5.0      # Y = 距 50MA（ATR）= ATRX
@@ -370,37 +367,22 @@ def _scatter(rows, hist=None):
         cur_box = {r.get("ticker") for r in rows if r.get("in_buy_box")}
         drawn = 0
         for tk, pts in trail.items():
-            if len(pts) < 2:
+            # 只畫買入區嗰幾隻：全畫 = 一版亂線，冇人睇得出邊條打邊條
+            if tk not in cur_box or len(pts) < 2:
                 continue
-            if tk not in cur_box and len(pts) < 3:
-                continue
-            if drawn >= 18:
+            if drawn >= 12:
                 break
             coords = " ".join(
                 f"{px(max(SC_XMIN, min(SC_XMAX, x))):.1f},"
                 f"{py(max(SC_YMIN, min(SC_YMAX, y))):.1f}"
                 for x, y, _d in pts)
-            col = "#f97316" if tk in cur_box else "rgba(148,163,184,.5)"
-            x0, y0, d0 = pts[0]
-            sx = px(max(SC_XMIN, min(SC_XMAX, x0)))
-            sy = py(max(SC_YMIN, min(SC_YMAX, y0)))
-            out.append(f'<g><title>{_esc(tk)} 軌跡（{len(pts)} 日，'
-                       f'{_esc(d0)} → {_esc(pts[-1][2])}）</title>'
-                       f'<polyline points="{coords}" fill="none" stroke="{col}" '
-                       'stroke-width="1.3" stroke-opacity=".55" '
-                       'stroke-linejoin="round"/>'
-                       f'<polygon points="{sx:.1f},{sy - 5:.1f} {sx - 4:.1f},'
-                       f'{sy + 4:.1f} {sx + 4:.1f},{sy + 4:.1f}" fill="{col}" '
-                       'fill-opacity=".85"/></g>')
-            if tk in cur_box:
-                out.append(f'<text x="{sx - 6:.1f}" y="{sy + 14:.1f}" '
-                           'font-size="8.5" fill="currentColor" opacity=".55" '
-                           f'text-anchor="end">{_esc(str(d0)[5:])}</text>')
+            out.append(f'<polyline points="{coords}" fill="none" '
+                       'stroke="#f97316" stroke-width="1" stroke-opacity=".3" '
+                       'stroke-linejoin="round"/>')
             drawn += 1
         out.append(f'<text x="{SC_PADL + 4}" y="{SC_PADT + 12}" font-size="10" '
-                   'fill="currentColor" opacity=".6">'
-                   f'虛線軌跡 = 過去 {min(len(hist), 6)} 個交易日'
-                   '｜▲ 起點、● 今日</text>')
+                   'fill="currentColor" opacity=".55">'
+                   '幼線 = 買入區股票過去走勢方向</text>')
 
     # 點
     labelled = []
@@ -424,15 +406,22 @@ def _scatter(rows, hist=None):
                    'fill-opacity=".92"/></g>')
         if box:
             labelled.append((cx, cy, r.get("ticker")))
-    for cx, cy, tk in labelled:
-        out.append(f'<text x="{cx + 7:.1f}" y="{cy - 5:.1f}" font-size="9.5" '
-                   f'fill="currentColor" opacity=".9">{_esc(tk)}</text>')
+    used = []
+    for cx, cy, tk in sorted(labelled, key=lambda z: (z[1], z[0])):
+        dy = 0
+        for _cx, _cy in used:                     # 防重疊：撞到就向下推
+            if abs(cx - _cx) < 34 and abs((cy + dy) - _cy) < 11:
+                dy += 12
+        used.append((cx, cy + dy))
+        out.append(f'<text x="{cx + 7:.1f}" y="{cy + dy - 5:.1f}" font-size="10" '
+                   f'font-weight="700" fill="currentColor" opacity=".92">'
+                   f'{_esc(tk)}</text>')
     out.append('</svg>')
     out.append(
         '<div class="rs-xnote">'
         '<b>點睇：</b>'
         '綠框＝買入區（X 0–1、Y 0–4）；橙點＝今日喺框內，灰點＝未入框；'
-        '淺色軌跡＝過去 6 個交易日移動方向（▲ 起點、● 今日）；'
+        '幼橙線＝買入區股票過去 6 日嘅移動方向；'
         '紅虛線＝ATRX 4，越過即過度延伸（硬刪）。'
         '<br>最有做功課價值＝<b>橙點 ＋ 軌跡向上（由左下走入框）</b>；'
         '右上角灰點＝已升盡、風險最高。'
@@ -649,7 +638,7 @@ def build(snap=None):
         '<div class="rs-note">'
         'X＝距 21EMA｜Y＝距 50MA（ATRX）｜EXT＝ATRX 帶（綠區 0–4）。'
         '評分 A+→D：Y 0–2 得 3 分、X 0–1 得 2、距52高 ≥−5% 得 2、'
-        'EX 1M ≥5 得 2、ADR ≥5% 得 1；Y>4 直接 D。'
+        'RVOL ≥2x 得 2；Y>4 直接 D。'
         '<br>呢頁係資格清單，唔係買入訊號。</div>')
     return ("RS Daily Scan", "".join(parts))
 
