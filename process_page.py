@@ -550,7 +550,10 @@ def build():
         _a = _am.get(_r.get("ticker")) or {}
         _g = _ex_grade(_a)[0] if _a else "—"
         _nh = _a.get("nh_age")
-        if _g in ("A+", "A", "B") and (_nh is None or _nh <= 10):
+        # 突破需要新鮮 NH（≤10 日）；回調買入（X ≤0.5，貼 21EMA）唔需要
+        _x = _r.get("x")
+        _nh_ok = (_nh is None) or (_nh <= 10) or (_x is not None and _x <= 0.5)
+        if _g in ("A+", "A", "B") and _nh_ok:
             _box_ok.append(_r)
     _v1 = ("NO-GO" if (veto or red >= 4) else
            "WATCH" if red >= 2 else "GO")
@@ -725,7 +728,7 @@ def build():
     # ── ④ 候選 ──
     P.append('<div class="pf-step"><h3>④ 候選 '
              f'<small>合格 {len(_box_ok)}／買入區 {_esc(n_box)} 隻'
-             '（評分 B+ 且 NH ≤10 日）</small></h3>')
+             '（評分 B+ 且〈NH ≤10 日 或 貼 21EMA〉）</small></h3>')
     _drop = [r for r in (box or []) if r not in _box_ok]
     if _drop:
         P.append('<div class="pf-note">已剔除 '
