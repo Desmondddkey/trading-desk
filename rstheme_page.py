@@ -125,6 +125,12 @@ html[data-theme="dark"] .rt-neg{color:#ff8f8f}
    字級維持 12.5px，唔會縮到睇唔到，亦都唔需要橫向 scroll。*/
 @media(max-width:900px){
   .rt-bar{display:none}
+  /* 摺疊：預設只顯示 # / RS / 代號 / 名稱；撳名稱展開全部 */
+  .rt-tbl tr:not(.rt-open) td[data-l]:not([data-l="RS"]):not([data-l="#"]){display:none}
+  .rt-tbl td.c3{cursor:pointer;text-decoration:underline dotted rgba(128,128,128,.5)}
+  .rt-tbl tr::after{content:"▸ 撳名稱展開";font-size:10px;opacity:.42;
+    display:block;margin-top:1px}
+  .rt-tbl tr.rt-open::after{content:"▾ 撳名稱收起"}
   .rt-st-full{display:none}
   .rt-st-abbr{display:inline}
   .rt-tbl{max-width:none;table-layout:auto;font-size:12.5px}
@@ -411,6 +417,13 @@ function rtSort(th){
   });
   rows.forEach(function(r){ tb.appendChild(r); });
 }
+/* 手機摺疊／展開（撳名）*/
+document.addEventListener('click', function(e){
+  var td = e.target.closest && e.target.closest('.rt-name');
+  if(!td) return;
+  var tr = td.closest('tr');
+  if(tr) tr.classList.toggle('rt-open');
+});
 </script>
 """
 
@@ -476,7 +489,7 @@ def build():
 
     # ① 階段 × 表現：全部 ETF 按「分」排序（截 25 行）
     merged = sorted((rb["index"] + rb["group"] + rb["sector"]),
-                    key=lambda r: -(r.get("score") or -1))
+                    key=lambda r: (-grade_of(r)[1], -(r.get("score") or -1)))
     # ★ 2026-10-24：同一隻 ETF 可以同時屬「群組」同「板塊」（例：XOP 出現兩次）
     #   → 合併表按 ticker 去重，保留分數最高嗰行；名跟中文（sector 名優先）
     def _cjk(s):
@@ -504,20 +517,21 @@ def build():
 
     # ★ 2026-10-24 Desmond：① INDEX 排第一　② 每個分類都用 RS 降序
     def _by_rs(rows):
-        return sorted(rows, key=lambda r: -(r.get("score") or -1))
+        """★ 2026-10-24 Desmond：排名改按評分（A+ 最前），同分再按 RS 降序。"""
+        return sorted(rows, key=lambda r: (-grade_of(r)[1], -(r.get("score") or -1)))
 
     _asof = _esc(rb["as_of"])
 
     # ① 指數 Index（排第一）
     P.append('<div class="card rt-card">')
     P.append(_table(_by_rs(rb["index"]), stages, "指數 Index", icon="📈",
-                    sub=f"按 RS 排序｜{len(rb['index'])} 隻", meta=f"資料至 {_asof}"))
+                    sub=f"按評分（A+→D）排序｜{len(rb['index'])} 隻", meta=f"資料至 {_asof}"))
     P.append('</div>')
 
     # ② 階段 × 表現（合併、去重）
     P.append('<div class="card rt-card">')
     P.append(_table(merged, stages, "階段 × 表現", max_rows=25,
-                    sub=f"按 RS 排序｜{len(merged)} 隻｜撳欄頭可切換升／降序",
+                    sub=f"按評分（A+→D）排序｜{len(merged)} 隻｜撳欄頭可切換升／降序",
                     icon="🎯", meta=f"資料至 {_asof}"))
     P.append('<div class="rt-note">'
              '<b>RS</b>＝透明加權百分位（1個月 50%／3個月 30%／1週 20%），後面色條跟數值；'
@@ -531,7 +545,7 @@ def build():
                              ("板塊 Sector", rb["sector"], "🏭")):
         P.append('<div class="card rt-card">'
                  + _table(_by_rs(rows), stages, title, icon=ico,
-                          sub=f"按 RS 排序｜{len(rows)} 隻", meta=f"資料至 {_asof}")
+                          sub=f"按評分（A+→D）排序｜{len(rows)} 隻", meta=f"資料至 {_asof}")
                  + '</div>')
 
     P.append('<div class="rt-note">'
