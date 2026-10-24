@@ -90,6 +90,10 @@ CSS = """
 .rt-name{font-size:11.5px;opacity:.72;overflow:hidden;
   text-overflow:ellipsis;white-space:nowrap}
 .rt-num{font-weight:700}
+.rt-sbar{display:block;width:100%;height:3px;border-radius:2px;
+  background:rgba(128,128,128,.22);margin-top:3px;overflow:hidden}
+.rt-sbar>i{display:block;height:100%;border-radius:2px}
+.rt-rank{opacity:.5;font-variant-numeric:tabular-nums;font-size:11px}
 .rt-pos{color:#15803d}
 .rt-neg{color:#dc2626}
 .rt-flat{opacity:.55}
@@ -252,6 +256,7 @@ def _spark(vals):
 #   ⑤ 預設按 RS 排　⑥ 欄頭可撳（Excel 三角）排序
 #    key, 表頭, <col> class, 額外 td class, 寬度
 COLS = [
+    ("rank",   "#",       "c-rank",   "rt-rank",    34),
     ("score",  "RS",      "c-rs",     "rt-num",     78),
     ("etf",    "代號",     "c-etf",    "rt-etf c2",  54),
     ("name",   "名稱",     "c-name",   "rt-name c3", 138),
@@ -315,9 +320,11 @@ def _sv(v):
         return str(v)
 
 
-def _cell(key, r, stages, mx, cls):
+def _cell(key, r, stages, mx, cls, idx=0):
     tk = r.get("etf") or ""
     nm = r.get("name") or ""
+    if key == "rank":
+        return f'<td class="rt-rank" data-l="#" data-v="{idx}">{idx}</td>'
     if key == "grade":
         g, pts = grade_of(r)
         col = {"A+": "#a855f7", "A": "#22c55e", "B": "#f59e0b",
@@ -326,9 +333,18 @@ def _cell(key, r, stages, mx, cls):
                 f'<b style="color:{col}">{g}</b></td>')
     if key == "score":
         sc = r.get("score")
+        try:
+            v = float(sc)
+        except (TypeError, ValueError):
+            v = None
+        col = ("#22c55e" if v is not None and v >= 80 else
+               "#f59e0b" if v is not None and v >= 50 else "#ef4444")
+        barw = 0 if v is None else max(0, min(100, v))
         return (f'<td class="rt-num" data-l="RS" data-v="{_sv(sc)}">'
-                f'{_esc(sc) if sc is not None else "—"}%'
-                f'{_rsbar(sc)}</td>')
+                f'<b style="color:{col}">'
+                f'{_esc(sc) if sc is not None else "—"}%</b>'
+                f'<span class="rt-sbar"><i style="width:{barw:.0f}%;'
+                f'background:{col}"></i></span></td>')
     if key == "etf":
         return (f'<td class="rt-etf c2" data-v="{_esc(tk)}">'
                 f'<a class="tv" data-sym="{_esc(tk)}" '
@@ -435,9 +451,9 @@ def _table(rows, stages, title=None, max_rows=None, sub=None,
         f'<th class="sortable" onclick="rtSort(this)">{h}</th>'
         for _k, h, _c, _t, _w in COLS))
     out.append('<th></th></tr></thead><tbody>')
-    for r in shown:
+    for i, r in enumerate(shown, 1):
         out.append("<tr>" + "".join(
-            _cell(k, r, stages, mx, cls) for k, _h, _c, _t, _w in COLS)
+            _cell(k, r, stages, mx, cls, i) for k, _h, _c, _t, _w in COLS)
             + "<td></td></tr>")
     out.append('</tbody></table>')
     return "".join(out)
