@@ -59,9 +59,9 @@ TABS = [
     ("dailyscan", "", "Daily Scan", None),
     ("desk", "", "機會", "desk.html"),
     ("briefing", "", "市場簡報", None),
-    ("leaders", "", "領導股", None),
-    ("cm", "", "1CM 回調", None),
-    ("week", "", "最強 1 週", None),
+    ("leaders", "", "RS Leader", None),
+    ("cm", "", "RS Pullback", None),
+    ("week", "", "Weekly MM", None),
     ("themes", "", "Themes", None),
     ("sectors", "", "Sectors", None),
     ("breadth", "", "Breadth", None),
@@ -734,9 +734,9 @@ DESK_THEME_JS = """
 SITENAV_LINKS = [
     ("desk.html", "🖥", "機會", True),
     ("index.html", "📋", "市場簡報", False),
-    ("leaders.html", "🚀", "領導股", False),
-    ("cm.html", "🎯", "1CM 回調", False),
-    ("week.html", "⚡", "最強 1 週", False),
+    ("leaders.html", "🚀", "RS Leader", False),
+    ("cm.html", "🎯", "RS Pullback", False),
+    ("week.html", "⚡", "Weekly MM", False),
     ("themes.html", "🧩", "Themes", False),
     ("sectors.html", "🏭", "Sectors", False),
     ("breadth.html", "🌊", "Breadth", False),
@@ -1039,15 +1039,15 @@ SIDEBAR_LINKS = [
     #   RS Before Price > 1CM 回調 (RS Pullback) > 最強 1 週 (Weekly MM)
     ("_grp", "選股"),
     ("_link", None, "Daily Scan", "dailyscan.html"),
-    ("_link", None, "Alert（Set up alert）", "alerts.html"),
-    ("_link", None, "領導股（RS leader）", "leaders.html"),
+    ("_link", None, "Setup Alert", "alerts.html"),
+    ("_link", None, "RS Leader", "leaders.html"),
     ("_link", None, "RS Before Price", "rsbeforeprice.html"),
-    ("_link", None, "1CM 回調（RS Pullback）", "cm.html"),
-    ("_link", None, "最強 1 週（Weekly MM）", "week.html"),
+    ("_link", None, "RS Pullback", "cm.html"),
+    ("_link", None, "Weekly MM", "week.html"),
     # ── 其餘（維持原本相對次序）──
     ("_link", None, "RS Leader 位置圖", "leadermap.html"),
     ("_link", None, "RS Daily Scan", "rsscan.html"),
-    ("_link", None, "Setups（The Plan）", "setups.html"),
+    ("_link", None, "The Plan", "setups.html"),
     ("_link", None, "財報日曆", "earnings.html"),
     ("_link", None, "ATRX 風險", "atrxrisk.html"),
     ("_link", None, "YOYO Ball", "yoyo_ball.html"),
@@ -1761,7 +1761,7 @@ def build():
 <div class="card"><h2>領導股按行業 <small>{len(byind)} 個行業</small></h2>
  <div class="body"><table><thead><tr><th class="l">行業</th><th>NEL 隻數</th><th class="l">成員</th></tr></thead>
  <tbody>{ind_html or '<tr><td colspan=3 class="dim">—</td></tr>'}</tbody></table></div></div>"""
-        pages["leaders"] = ("領導股",
+        pages["leaders"] = ("RS Leader",
                             (f"<style>{_kell.KELL_CSS}</style>" if _kell else "") + leaders_body,
                             base | {"scan": scan})
         # ── 1CM 回調（1chartmaster RS Leader Pullback Buy）──
@@ -1836,7 +1836,7 @@ def build():
  <div class="body"><div class="scroll"><table><thead>{cmhead}</thead>
  <tbody>{"".join(cmrow(r) for r in rest) or '<tr><td colspan=8 class="dim">—</td></tr>'}</tbody>
  </table></div></div></div>"""
-            pages["cm"] = ("1CM 回調", cm_body, base | {"cm": cmres})
+            pages["cm"] = ("RS Pullback", cm_body, base | {"cm": cmres})
         # ── 最強 1 週 ──（Item 2：統一欄位）—
         wk = scan.get("week") or []
         std_ctx = {
@@ -1853,7 +1853,7 @@ def build():
         wk_keys = ["rank", "name", "rsd", "rsw",
                    "1w", "1m", "3m", "6m", "1y",
                    "ext", "adr", "dvol", "off52", "kell", "cm"]
-        pages["week"] = ("最強 1 週", f"""
+        pages["week"] = ("Weekly MM", f"""
 <div class="card"><h2>本週最強嘅流動性股 <small>流動池 {len(scan["universe"])} 隻之中，按 1 週表現排</small></h2>
  <div class="body"><div class="note">「流動性」＝成交額 &gt; ${th["min_dollar_vol"]//10**6}M 且
  ADR &gt; {th["min_adr"]}% 且 10 日平均量 &gt; {th["min_avg_vol"]//1000}K。呢個係<b>全市場</b>掃描，
@@ -2284,7 +2284,7 @@ def build():
             '<b>欄位定義同領導股頁一致</b>（統一規格）。'
             '⚠ 「虛線＝最舊收市／實線＝用得最多／綠方格＝最早落帶」呢三個視覺係你原創規則，'
             '要你講一句先砌得準 —— 而家呢條帶係淨位置，冇嗰三樣。</div></div></div>')
-        pages["setups"] = ("Setups", setups_body, base)
+        pages["setups"] = ("The Plan", setups_body, base)
 
     # ── ★ Setup × Regime 矩陣（Desmond 2026-10-15 要求）──
     _rg = None

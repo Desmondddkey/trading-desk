@@ -404,7 +404,7 @@ def build():
     n_orh = sum(1 for r in rows if r["kind"] == "orh")
     n_fire = sum(1 for r in rows if r["status"] == "FIRED")
     parts = [f"<style>{CSS}</style><script>{JS}</script>",
-             '<h2>ALERT <small>所有警報分類</small></h2>',
+             '<h2>Setup Alert <small>所有警報分類</small></h2>',
              f'<p class="al-note">共 <b>{len(rows)}</b> 筆 — '
              f'setup 警報 <b>{n_setup}</b>｜ORH 警報 <b>{n_orh}</b>'
              f'｜真正 fire <b>{n_fire}</b>。'
@@ -417,7 +417,7 @@ def build():
              _cards(rows),
              '<div class="al-h">📋 完整清單<small>最新在上</small></div>',
              _table(rows)]
-    return ("ALERTS", "".join(parts))
+    return ("Setup Alert", "".join(parts))
 
 
 if __name__ == "__main__":
