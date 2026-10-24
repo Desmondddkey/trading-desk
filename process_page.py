@@ -364,7 +364,8 @@ def build():
         for r in box[:14]:
             _tk = _esc(r.get("ticker"))
             # ★ 2026-10-24 Desmond：hover 出 TV 預覽，左鍵入 TradingView
-            P.append(f'<a class="pf-cand buy" data-sym="{_tk}" '
+            # ★ JS 只認 a.tv（closest('a.tv')）—— 冇 tv class 就唔會彈
+            P.append(f'<a class="pf-cand buy tv" data-sym="{_tk}" '
                      f'href="https://www.tradingview.com/chart/?symbol={_tk}" '
                      f'target="_blank" rel="noopener">{_tk}</a>')
         P.append('</div>')
