@@ -1018,6 +1018,7 @@ SIDEBAR_LINKS = [
     # 2026-10-19 方案 C：5 個分組；廚房看板獨立最頂；PLAYBOOK 最底
     # ★ 2026-10-24 Desmond：「每日流程放最頂」
     ("_pinned", "", "每日流程", "process.html"),
+    ("_pinned", "", "收工標準", "finish.html"),
     ("_pinned", "", "廚房看板", "jobboard.html"),
     ("_pinned", "", "DATABASE", "datahealth.html"),
 
@@ -2134,6 +2135,15 @@ def build():
         log(f"✓ rsscan 快照頁 {min(10, len(_rss._all_snaps()))} 個")
     except Exception as _e14:                                # noqa: BLE001
         log(f"⚠ RS Daily Scan 失敗：{type(_e14).__name__}: {_e14}")
+
+    # ── ★ 2026-10-24 收工標準（Definition of Done，機器自動檢查）──
+    try:
+        import finish_line as _fl
+        _ft, _fb = _fl.build()
+        pages["finish"] = (_ft, _fb, base)
+        log("✓ finish.html（收工標準）")
+    except Exception as _efl:                            # noqa: BLE001
+        log(f"⚠ 收工標準失敗：{type(_efl).__name__}: {_efl}")
 
     # ── ★ 2026-10-24 每日流程（Jeff Sun 決策漏斗）──
     try:
