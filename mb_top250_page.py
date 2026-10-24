@@ -53,6 +53,12 @@ CSS = """
 .t2tb .g{color:#15803d;font-weight:700;text-align:right}
 .t2tb .hit:after{content:"★";color:#c2410c;margin-left:4px}
 .t2more{font-size:11.5px;opacity:.6;margin:8px 0 0}
+.t2new{display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+  margin:0 0 10px;font-size:11px}
+.t2new b{font-size:11.5px;color:#16a34a;margin-right:2px}
+.t2chip{padding:3px 9px;border-radius:20px;text-decoration:none;
+  border:1px solid rgba(22,163,74,.45);color:#16a34a;font-family:ui-monospace}
+.t2chip em{font-style:normal;opacity:.7;font-weight:400}
 @media(max-width:700px){
   .t2tb{font-size:10.5px}
   .t2tb th,.t2tb td{padding:4px 4px}
@@ -61,8 +67,12 @@ CSS = """
 }
 """
 
-TAB_KEY = {"1Y Top 250": "1y", "3Y Top 250": "3y", "5Y Top 250": "5y"}
-TAB_LBL = {"1Y Top 250": "1 年", "3Y Top 250": "3 年", "5Y Top 250": "5 年"}
+# ★ 2026-10-24 Desmond：加 1 週／1 個月，每週自動更新
+SHEETS = ["1W Top 250", "1M Top 250", "1Y Top 250", "3Y Top 250", "5Y Top 250"]
+TAB_KEY = {"1W Top 250": "1w", "1M Top 250": "1m", "1Y Top 250": "1y",
+           "3Y Top 250": "3y", "5Y Top 250": "5y"}
+TAB_LBL = {"1W Top 250": "1 週", "1M Top 250": "1 個月", "1Y Top 250": "1 年",
+           "3Y Top 250": "3 年", "5Y Top 250": "5 年"}
 
 
 def _case_tickers():
@@ -90,27 +100,26 @@ def block():
     hit_set = _case_tickers()
 
     out = [f"<style>{CSS}</style>", '<div class="card">']
-    out.append("<h3>🏆 Top 250 US Gainers（1Y / 3Y / 5Y）</h3>")
+    meta = d.get("meta") or {}
+    asof = meta.get("as_of") or "?"
+    out.append("<h3>🏆 Top 250 US Gainers（1週 / 1個月 / 1年 / 3年 / 5年）</h3>")
     out.append(
-        '<div class="t2w">'
-        '<b>⚠️ 數據截止 2026-06-03</b>（距今約 4.7 個月）—— '
-        '呢度係<b>歷史回顧</b>，唔係今日選股名單。<br>'
-        '但仍然有價值：Clement Ang 原文「歷史唔會重複，但會押韻」——'
-        '呢 750 隻就係上一次押韻嘅完整名單，'
-        '用嚟做形態研究、對照你嘅 model book。<br>'
-        '<b>★ 標記</b> = 呢隻股喺我哋 2,377 個案例庫入面出現過'
-        '（即係我哋嘅 detector 有捉到）。'
+        '<div class="t2w" style="border-left-color:#16a34a;background:rgba(22,163,74,.08)">'
+        f'<b>✅ 每週自動更新</b>｜資料至 <b>{asof}</b>｜'
+        f'宇宙 {meta.get("universe_n", "?")} 隻（market_scan ＋ 舊名單）<br>'
+        '<b>🆕</b> = 今次先入榜（比上一週）；<b>★</b> = 出現喺我哋案例庫。<br>'
+        '回報＝adj close 價格回報，未扣息。'
         '</div>')
 
     # tabs
     out.append('<div class="t2tabs">')
-    for i, sheet in enumerate(("1Y Top 250", "3Y Top 250", "5Y Top 250")):
+    for i, sheet in enumerate(SHEETS):
         on = " on" if i == 0 else ""
         out.append(f'<button class="t2b{on}" data-t2="{TAB_KEY[sheet]}">'
                    f'{TAB_LBL[sheet]}</button>')
     out.append("</div>")
 
-    for i, sheet in enumerate(("1Y Top 250", "3Y Top 250", "5Y Top 250")):
+    for i, sheet in enumerate(SHEETS):
         v = d.get(sheet)
         if not v:
             continue
@@ -129,13 +138,27 @@ def block():
         out.append(f'<p class="t2more">{len(rows)} 隻｜'
                    f'其中 {n_hit} 隻（{n_hit/len(rows)*100:.0f}%）'
                    f'出現喺我哋案例庫</p>')
+        # 🆕 新增（vs 上一週）— 最多 10 隻
+        fresh = [x for x in rows if x.get("new")][:10]
+        if fresh:
+            out.append('<div class="t2new"><b>🆕 新增 '
+                       f'{sum(1 for x in rows if x.get("new"))} 隻</b>'
+                       '（頭 10，按升幅排）')
+            for x in fresh:
+                out.append(
+                    f'<a class="tv t2chip" data-sym="{x["ticker"]}" '
+                    f'href="https://www.tradingview.com/chart/?symbol={x["ticker"]}" '
+                    f'target="_blank" rel="noopener">{x["ticker"]} '
+                    f'<em>+{x["gain"]:,.0f}%</em></a>')
+            out.append('</div>')
         out.append('<table class="t2tb"><tr><th>#</th><th>股票</th>'
                    '<th>公司</th><th>Sector</th><th>升幅</th></tr>')
         for x in rows[:40]:
             mk = " hit" if x["ticker"] in hit_set else ""
+            nw = " 🆕" if x.get("new") else ""
             out.append(
                 f'<tr><td>{x["rank"]}</td>'
-                f'<td class="{mk}">{x["ticker"]}</td>'
+                f'<td class="{mk}">{x["ticker"]}{nw}</td>'
                 f'<td class="nm">{x["company"][:34]}</td>'
                 f'<td class="nm">{x["sector"][:16]}</td>'
                 f'<td class="g">+{x["gain"]:,.0f}%</td></tr>')
