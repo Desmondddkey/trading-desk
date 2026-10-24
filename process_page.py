@@ -61,6 +61,19 @@ CSS = """
 .pf-step.ok{border-left-color:#22c55e}
 .pf-step.warn{border-left-color:#f59e0b}
 .pf-step.bad{border-left-color:#ef4444}
+.ex-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;
+  background:rgba(128,128,128,.15);margin:6px 0 5px}
+.ex-bar>i{display:block;height:100%}
+.ex-legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;opacity:.8;margin-bottom:8px}
+.ex-legend em{font-style:normal;font-weight:800}
+.ex-tbl{width:100%;border-collapse:collapse;font-size:12px;
+  font-variant-numeric:tabular-nums}
+.ex-tbl th{text-align:left;font-size:10px;font-weight:700;opacity:.55;
+  padding:4px;border-bottom:1px solid rgba(128,128,128,.3)}
+.ex-tbl td{padding:3px 4px;border-bottom:1px solid rgba(128,128,128,.1)}
+.ex-tbl tr:hover td{background:rgba(249,115,22,.05)}
+@media(max-width:700px){.ex-tbl th:nth-child(6),.ex-tbl td:nth-child(6),
+  .ex-tbl th:nth-child(7),.ex-tbl td:nth-child(7){display:none}}
 .pf-step h3{margin:0 0 6px;font-size:14.5px;display:flex;gap:8px;
   align-items:baseline;flex-wrap:wrap}
 .pf-step h3 small{font-weight:400;font-size:11px;opacity:.6}
@@ -261,6 +274,101 @@ def _next_update():
     return slots[0] + datetime.timedelta(days=1)
 
 
+# ── EXT 階段分析（RS Alpha v9.0 日線部分）────────────────────────────
+RS_ALPHA = r"C:/Users/rain0/trading-os/output/rs_alpha_latest.json"
+PHASE_ORDER = ["EXPANSION 7+", "NO NEW RISK 4-7", "GREEN 0-4",
+               "RESET -2/0", "RESET -4/-2", "DEEP <-4"]
+PHASE_COL = {"EXPANSION 7+": "#ef4444", "NO NEW RISK 4-7": "#f97316",
+             "GREEN 0-4": "#22c55e", "RESET -2/0": "#38bdf8",
+             "RESET -4/-2": "#6366f1", "DEEP <-4": "#94a3b8"}
+
+
+def _ext_phase():
+    import io
+    import json
+    import os
+    if not os.path.exists(RS_ALPHA):
+        return ('<div class="pf-step"><h3>🧪 EXT 階段（RS Alpha v9）</h3>'
+                '<div class="pf-dim">DATA_UNAVAILABLE — 未跑 rs_alpha.py</div></div>')
+    try:
+        d = json.load(io.open(RS_ALPHA, encoding="utf-8"))
+    except Exception as e:                                     # noqa: BLE001
+        return (f'<div class="pf-step"><h3>🧪 EXT 階段（RS Alpha v9）</h3>'
+                f'<div class="pf-dim">讀唔到：{type(e).__name__}</div></div>')
+
+    rows = d.get("rows") or []
+    if not rows:
+        return ('<div class="pf-step"><h3>🧪 EXT 階段（RS Alpha v9）</h3>'
+                '<div class="pf-dim">今日冇數據</div></div>')
+
+    cnt = {k: 0 for k in PHASE_ORDER}
+    for r in rows:
+        cnt[r.get("phase")] = cnt.get(r.get("phase"), 0) + 1
+    tot = sum(cnt.values()) or 1
+
+    P = ['<div class="pf-step"><h3>🧪 EXT 階段（RS Alpha v9）'
+         f'<small>{len(rows)} 隻｜資料 {_esc(d.get("as_of"))}｜'
+         'EXT＝距 50MA 嘅 ATR 倍數</small></h3>']
+
+    # 階段分佈條
+    P.append('<div class="ex-bar">')
+    for k in PHASE_ORDER:
+        if not cnt.get(k):
+            continue
+        w = cnt[k] / tot * 100
+        P.append(f'<i style="width:{w:.1f}%;background:{PHASE_COL[k]}" '
+                 f'title="{k} {cnt[k]} 隻"></i>')
+    P.append('</div><div class="ex-legend">')
+    P.append("".join(
+        f'<span><b style="color:{PHASE_COL[k]}">■</b> {k} <em>{cnt[k]}</em></span>'
+        for k in PHASE_ORDER if cnt.get(k)))
+    P.append('</div>')
+
+    # 表：按階段順序，再按 RS 降序
+    rows = sorted(rows, key=lambda r: (
+        PHASE_ORDER.index(r["phase"]) if r.get("phase") in PHASE_ORDER else 9,
+        -(r.get("rs_rating") or 0)))
+    P.append('<table class="ex-tbl"><thead><tr>'
+             '<th>代號</th><th>階段</th><th>EXT</th><th>RS</th>'
+             '<th>α</th><th>Launch</th><th>NH</th><th>T</th>'
+             '</tr></thead><tbody>')
+    for r in rows:
+        ph = r.get("phase")
+        col = PHASE_COL.get(ph, "#94a3b8")
+        tk = r.get("sym") or ""
+        alpha = r.get("alpha")
+        a_txt = ("穩健" if alpha and not r.get("lead_weak")
+                 else ("轉弱" if alpha else "未確認"))
+        a_col = ("#22c55e" if alpha and not r.get("lead_weak")
+                 else ("#f59e0b" if alpha else "#94a3b8"))
+        t = r.get("t_state") or "WAIT"
+        t_col = ("#22c55e" if t.startswith("CONFIRMED") else
+                 "#ef4444" if t.startswith("FAILED") else
+                 "#38bdf8" if t.startswith("T") else "#94a3b8")
+        P.append(
+            '<tr>'
+            f'<td><a class="tv" data-sym="{_esc(tk)}" '
+            f'href="https://www.tradingview.com/chart/?symbol={_esc(tk)}" '
+            f'target="_blank" rel="noopener">{_esc(tk)}</a></td>'
+            f'<td style="color:{col};font-weight:700">{_esc(ph)}</td>'
+            f'<td>{_num(r.get("atrx"), 2)}</td>'
+            f'<td>{_esc(r.get("rs_rating"))}</td>'
+            f'<td style="color:{a_col}">{a_txt}</td>'
+            f'<td>{_esc(r.get("launch"))}</td>'
+            f'<td>{_esc(r.get("nh_age")) if r.get("nh_age") is not None else "—"}</td>'
+            f'<td style="color:{t_col}">{_esc(t)}</td>'
+            '</tr>')
+    P.append('</tbody></table>')
+    P.append('<div class="pf-dim" style="margin-top:6px">'
+             '階段：<b>GREEN 0-4</b>＝可新增風險區｜<b>NO NEW RISK 4-7</b>＝持有唔加｜'
+             '<b>EXPANSION 7+</b>＝極端延伸｜<b>RESET</b>＝回氣區｜'
+             '<b>DEEP</b>＝跌穿 4 ATR。'
+             '<br>⚠ 5 分鐘 intraday 觸發／Margin 資格／TV alert 係 TradingView 專有，'
+             '網站只計日線部分。</div>')
+    P.append('</div>')
+    return "".join(P)
+
+
 def build():
     card = _parse_card(_newest("daily_plan_card_*.txt"))
     b = _breadth()
@@ -279,7 +387,7 @@ def build():
     P = [f"<style>{CSS}</style>"]
     _now = datetime.datetime.now()
     _nxt = _next_update()
-    P.append('<div class="pf-h"><h2>⚡ 每日流程</h2>'
+    P.append('<div class="pf-h"><h2>每日流程</h2>'
              f'<span class="pf-sub">Jeff Sun 決策漏斗｜卡片 {_esc(card["day"])}'
              f'｜{total_l} 燈中 {red} 紅</span></div>')
     P.append(f'<div style="font-size:11.5px;opacity:.66;margin:0 0 6px">'
@@ -454,6 +562,7 @@ def build():
     P.append('</div>')
 
     # ── ⑤ 計劃 ──
+    P.append(_ext_phase())
     P.append('<div class="pf-step"><h3>⑤ 計劃（pivot／止蝕／倉位）</h3>')
     if veto:
         P.append(f'<div class="pf-verdict" style="color:#ef4444">'

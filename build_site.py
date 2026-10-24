@@ -1018,7 +1018,7 @@ SIDEBAR_LINKS = [
     # 2026-10-19 方案 C：5 個分組；廚房看板獨立最頂；PLAYBOOK 最底
     ("_pinned", "", "廚房看板", "jobboard.html"),
     # ★ 2026-10-24 Desmond：「好似 Jeff 咁每日一個流程 → 9:30 ready」
-    ("_pinned", "", "⚡ 每日流程", "process.html"),
+    ("_pinned", "", "每日流程", "process.html"),
     ("_pinned", "", "DATABASE", "datahealth.html"),
     # ★ 2026-10-23 Desmond：「MODEL BOOK 搬到左邊欄外 唔放方法入面」
     ("_fold", "📚", "MODEL BOOK", "modelbook.html", [
