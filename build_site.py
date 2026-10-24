@@ -1311,6 +1311,100 @@ THEME_LANG_JS = """
 """
 
 
+def _champion_card():
+    """Champion 組合 hero（Desmond 2026-10-24）：每日 top-3 模擬資金曲線。
+
+    數據：sim_ledger/fleet/champion/（equity.csv + trades.jsonl）
+         ＋ output/today_six.json（今日 3 條 / 0 單）
+    """
+    import csv as _csv
+    led = r"C:/Users/rain0/trading-os/sim_ledger/fleet/champion"
+    eq = os.path.join(led, "equity.csv")
+    tr = os.path.join(led, "trades.jsonl")
+    nav, nav_date = None, ""
+    if os.path.exists(eq):
+        try:
+            with io.open(eq, encoding="utf-8") as f:
+                rows = list(_csv.DictReader(f))
+            if rows:
+                nav = float(rows[-1].get("equity") or 0)
+                nav_date = rows[-1].get("date") or ""
+        except Exception:                                     # noqa: BLE001
+            pass
+    rs = []
+    if os.path.exists(tr):
+        for line in io.open(tr, encoding="utf-8"):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                v = json.loads(line).get("r")
+                if v is not None:
+                    rs.append(float(v))
+            except Exception:                                 # noqa: BLE001
+                continue
+    n = len(rs)
+    wins = [x for x in rs if x > 0]
+    losses = [x for x in rs if x < 0]
+    wr = (len(wins) / n * 100) if n else 0
+    avg_w = (sum(wins) / len(wins)) if wins else 0
+    avg_l = (sum(losses) / len(losses)) if losses else 0
+    payoff = (avg_w / abs(avg_l)) if avg_l else float("inf")
+    tot_r = sum(rs)
+    ret = ((nav / 100000 - 1) * 100) if nav else 0.0
+    ret_cls = "#7DBE8A" if ret >= 0 else "#E88A8A"
+
+    ts = r"C:/Users/rain0/trading-os/output/today_six.json"
+    today, veto = [], ""
+    if os.path.exists(ts):
+        try:
+            d = json.load(io.open(ts, encoding="utf-8"))
+            regime = d.get("regime")
+            cap = d.get("trade_cap")
+            if regime == "BEAR" or cap == 0:
+                veto = f"regime={regime}／cap={cap} → 0 單（坐定定）"
+            else:
+                picks = sorted(d.get("picks") or [],
+                               key=lambda p: (p.get("dist_pivot_atr") or 99))
+                for p in picks[:3]:
+                    today.append((p.get("ticker"), p.get("close"),
+                                  p.get("pivot"), p.get("rs_1m")))
+        except Exception:                                     # noqa: BLE001
+            pass
+
+    payoff_s = "∞" if payoff == float("inf") else f"{payoff:.2f}"
+    h = ['<div class="card" style="border-left:4px solid #E8A33D">'
+         '<div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">'
+         '<h2 style="margin:0">🏆 Champion 組合 <small>每日 top-3｜paper</small></h2>'
+         f'<span style="font-size:12px;opacity:.65">數據截至 {esc(nav_date)}</span>'
+         '</div>']
+    if nav:
+        h.append(f'<div style="font-size:26px;font-weight:800;color:{ret_cls}">'
+                 f'${nav:,.0f}　<span style="font-size:15px">{ret:+.2f}%</span></div>')
+        h.append('<div style="font-size:12.5px;opacity:.8;margin:2px 0 8px">'
+                 f'{n} 單｜勝率 {wr:.0f}%｜贏輸比 {payoff_s}｜總 {tot_r:+.2f}R'
+                 '｜起始 $100,000（paper）</div>')
+    else:
+        h.append('<div class="dim">Champion 帳本未結算</div>')
+    h.append('<div style="margin:4px 0 2px;font-size:12px;opacity:.7">今日 3 條</div>')
+    if veto:
+        h.append(f'<div style="color:#E8A33D;font-weight:700">🛑 {esc(veto)}</div>')
+    elif today:
+        for t, c, piv, r1 in today:
+            h.append(f'<div style="margin:3px 0;font-size:13px">'
+                     f'<b>{esc(t)}</b>　收 {esc(c)}｜pivot {esc(piv)}'
+                     f'（RS 1M {esc(r1) if r1 is not None else "—"}%）</div>')
+    else:
+        h.append('<div class="dim">今日冇 today_six.json</div>')
+    h.append('<img src="fleet_equity.png" alt="資金曲線" '
+             'style="width:100%;max-width:100%;border-radius:8px;margin-top:8px;'
+             'border:1px solid rgba(128,128,128,.25)">')
+    h.append('<div style="margin-top:8px;font-size:11.5px;opacity:.6">'
+             '出場階梯 = 2R 減 33% → ATRX8 減 33% → 拖 10EMA 全清（SOUL §4.3）。'
+             '熊市 0 單，唔硬做。</div></div>')
+    return "".join(h)
+
+
 def build():
     os.makedirs(SITE, exist_ok=True)
     os.makedirs(os.path.join(SITE, "assets"), exist_ok=True)
@@ -1501,6 +1595,7 @@ def build():
         + '</div></div>')
 
     brief_body = f"""
+{_champion_card()}
 {_pulse}
 {_gmi_card}
 {_themes}
