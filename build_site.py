@@ -2150,8 +2150,20 @@ def build():
                          ("sectors", "Sectors · 行業輪動"),
                          ("atrxrisk", "ATRX 風險")):
             if _k in _parts:
-                pages[_k] = (_lbl, f"{_st}" + _parts[_k], base)
-                log(f"✓ {_k}.html ({len(_parts[_k])//1024} KB)")
+                _body = f"{_st}" + _parts[_k]
+                if _k == "sectors":
+                    # ★ 2026-10-24 Desmond：群組 RS 新高搬入「主題 → Sectors」
+                    try:
+                        import group_rs_page as _grs
+                        _gc = _grs.card()
+                        if _gc:
+                            _body += ('<div style="margin-top:18px"></div>'
+                                      '<div class="card" style="padding:0">'
+                                      + _gc + '</div>')
+                    except Exception as _eg:              # noqa: BLE001
+                        log(f"⚠ 群組 RS 注入失敗：{type(_eg).__name__}")
+                pages[_k] = (_lbl, _body, base)
+                log(f"✓ {_k}.html ({len(_body)//1024} KB)")
     except Exception as _e19:
         log(f"⚠ 拆分頁失敗：{type(_e19).__name__}: {_e19}")
 

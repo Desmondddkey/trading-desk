@@ -658,14 +658,9 @@ def build():
         f'<span style="width:{mw}%;background:{mcol}"></span></div>'
         '</div>')
 
-    # ★ 2026-10-23 群組 RS 新高家數（Jeff Sun 情境意識量化）
-    try:
-        import group_rs_page as _grs
-        _gc = _grs.card()
-        if _gc:
-            parts.append(_gc)
-    except Exception as _e20:                             # noqa: BLE001
-        pass
+    # ★ 2026-10-24 Desmond：「將群組 RS 新高搬入主題 → Sectors」
+    #   → 呢個區塊已經搬去 sectors.html（build_site 組裝時注入），
+    #      Market Regime 保持只講「市場狀態」，唔再重複。
 
     # ★ 2026-10-21 Desmond：「我想佢可以自動表示到我宜家當日身處既階段」
     #   Stan Weinstein 四階段（Basing / Advancing / Topping / Declining）
