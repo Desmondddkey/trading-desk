@@ -1028,9 +1028,13 @@ SIDEBAR_LINKS = [
     ("_grp", "市場"),
     ("_link", None, "MARKET REGIME", "regime_mri.html"),
     ("_link", None, "市場簡報", "index.html"),
-    ("_link", None, "Sectors", "sectors.html"),
     ("_link", None, "Breadth", "breadth.html"),
     ("_link", None, "Market Monitor", "mm.html"),
+
+    # ★ 2026-10-24 Desmond：「加多個主題 放市場下面；RS板改名 RS THEME」
+    ("_grp", "主題"),
+    ("_link", None, "RS THEME", "rsboard.html"),
+    ("_link", None, "Sectors", "sectors.html"),
 
     # ★ 2026-10-24 Jeff Sun 決策漏斗：環境→個股→計劃→觸發→風險→edge 庫
     #   原則：計劃先於觸發（pivot/stop/size 寫好先准 Alert）；只做 A+
@@ -1047,7 +1051,6 @@ SIDEBAR_LINKS = [
     ("_link", None, "1CM 回調", "cm.html"),
     ("_link", None, "YOYO Ball", "yoyo_ball.html"),
     ("_link", None, "最強 1 週", "week.html"),
-    ("_link", None, "RS 板", "rsboard.html"),
     ("_link", None, "Setup 矩陣", "regime.html"),
 
     ("_grp", "成績"),
