@@ -26,6 +26,7 @@ RS 欄    RS-D, RS-W      ← 比率迷你圖（比率 = 股價 ÷ SPY，50 bar�
 ```
 唔同頁可以**少幾欄**（例如 method 冇 X/Y），但**同一欄嘅定義同格式必須完全一樣**。
 """
+import re
 import html
 import re as _html
 

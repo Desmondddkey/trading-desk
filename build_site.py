@@ -2123,6 +2123,15 @@ def build():
         _rt, _rb = _rss.build()
         pages["rsscan"] = (_rt, _rb, base)
         log(f"✓ rsscan.html ({len(_rb)//1024} KB)")
+        # ★ 2026-10-24：每日快照各出一頁，令「上一日／下一日」真係跳得
+        for _snap in _rss._all_snaps()[-10:]:
+            _d = os.path.basename(_snap)[10:20]
+            try:
+                _t2, _b2 = _rss.build(snap=_snap)
+                pages[f"rsscan_{_d}"] = (_t2, _b2, base)
+            except Exception as _e2:                        # noqa: BLE001
+                log(f"⚠ rsscan {_d} 失敗：{type(_e2).__name__}")
+        log(f"✓ rsscan 快照頁 {min(10, len(_rss._all_snaps()))} 個")
     except Exception as _e14:                                # noqa: BLE001
         log(f"⚠ RS Daily Scan 失敗：{type(_e14).__name__}: {_e14}")
 

@@ -167,12 +167,23 @@ CSS = """
   cursor:pointer}
 .rs-f button.on{background:#f97316;border-color:#f97316;color:#fff;font-weight:700}
 .rs-wrap{overflow-x:auto}
+.rs-nav{display:flex;gap:8px;align-items:center;margin:0 0 12px;flex-wrap:wrap}
+.rs-nav-b{padding:6px 12px;border-radius:9px;font-size:12px;font-weight:700;
+  border:1px solid rgba(128,128,128,.35);text-decoration:none;color:inherit}
+.rs-nav-b:hover{border-color:#f97316;color:#f97316}
+.rs-nav-b.off{opacity:.3;pointer-events:none}
+.rs-nav-s{padding:6px 10px;border-radius:9px;font-size:12px;font-family:inherit;
+  background:transparent;color:inherit;border:1px solid rgba(128,128,128,.35)}
+.rs-nav-d{font-size:12px;font-weight:800;opacity:.75;margin-left:2px}
 .rs-tbl{width:100%;border-collapse:collapse;font-size:12px;
   font-variant-numeric:tabular-nums}
 .rs-tbl th{position:sticky;top:0;background:var(--card,#1b1b19);text-align:right;
   padding:8px 7px;font-size:10.5px;font-weight:700;letter-spacing:.03em;
   border-bottom:1px solid rgba(128,128,128,.3);white-space:nowrap;opacity:.8}
 .rs-tbl th.l,.rs-tbl td.l{text-align:left}
+.rs-tbl th:first-child,.rs-tbl td:first-child{padding-left:14px;
+  min-width:104px;white-space:nowrap}
+.rs-dot{margin-right:7px;vertical-align:middle}
 .rs-tbl th.sortable{cursor:pointer;user-select:none}
 .rs-tbl th.sortable:hover{color:#f97316;opacity:1}
 .rs-tbl th .arr{display:inline-block;margin-left:3px;font-size:8px;opacity:.4}
@@ -489,14 +500,51 @@ def _weakness():
     return "".join(h)
 
 
-def build():
-    p = _latest("rs_select_*.json")
+def _all_snaps():
+    """全部 rs_select_<date>.json，舊→新。"""
+    import glob
+    fs = sorted(glob.glob(os.path.join(DATA, "rs_select_????-??-??.json")))
+    return fs
+
+
+def _nav(cur_date):
+    """上一日／日期下拉／下一日（Desmond 2026-10-24）。"""
+    snaps = _all_snaps()
+    dates = [os.path.basename(f)[10:20] for f in snaps]
+    if cur_date not in dates:
+        return ""
+    i = dates.index(cur_date)
+    prev_d = dates[i - 1] if i > 0 else None
+    next_d = dates[i + 1] if i + 1 < len(dates) else None
+
+    def btn(d, label):
+        if not d:
+            return f'<span class="rs-nav-b off">{label}</span>'
+        return (f'<a class="rs-nav-b" href="rsscan_{d}.html">{label}</a>')
+
+    opts = "".join(
+        f'<option value="rsscan_{x}.html"{" selected" if x == cur_date else ""}>'
+        f'{x}</option>' for x in reversed(dates))
+    return ('<div class="rs-nav">'
+            + btn(prev_d, "◀ 上一日")
+            + f'<select class="rs-nav-s" onchange="location.href=this.value">{opts}</select>'
+            + btn(next_d, "下一日 ▶")
+            + f'<span class="rs-nav-d">{cur_date}</span>'
+            + '</div>')
+
+
+def build(snap=None):
+    p = snap or _latest("rs_select_*.json")
     if not p:
         return ("RS Daily Scan",
                 f'<style>{CSS}</style><div class="rs-h"><h2>RS Daily Scan</h2></div>'
                 '<div class="dim">DATA_UNAVAILABLE（冇 rs_select_*.json）</div>')
     d = json.load(io.open(p, encoding="utf-8"))
     rows = d.get("rows") or []
+    # ★ 2026-10-24 Desmond：全部優先顯示買入區（綠／橙），再按評分分數
+    rows = sorted(rows, key=lambda r: (
+        0 if r.get("in_buy_box") else 1, -grade_of(r)[1],
+        (r.get("y") if r.get("y") is not None else 99)))
     as_of = (d.get("as_of") or "")[:10]
     gates = d.get("gates") or {}
     n_univ = d.get("n_universe")
@@ -506,6 +554,7 @@ def build():
     parts = [f"<style>{CSS}</style><script>{JS}</script>"]
     parts.append('<div class="rs-h"><h2>RS Daily Scan</h2>'
                  f'<span class="rs-sub">{_esc(as_of)}｜rs-select-v1.1</span></div>')
+    parts.append(_nav(as_of))
     parts.append(
         '<div class="rs-meta">'
         f'<span>宇宙 <b>{_esc(n_univ)}</b></span>'
