@@ -167,6 +167,8 @@ CSS = """
   cursor:pointer}
 .rs-f button.on{background:#f97316;border-color:#f97316;color:#fff;font-weight:700}
 .rs-wrap{overflow-x:auto}
+.rs-xnote{font-size:11.5px;line-height:1.7;opacity:.78;margin:6px 2px 0;
+  text-align:left}
 .rs-nav{display:flex;gap:8px;align-items:center;margin:0 0 12px;flex-wrap:wrap}
 .rs-nav-b{padding:6px 12px;border-radius:9px;font-size:12px;font-weight:700;
   border:1px solid rgba(128,128,128,.35);text-decoration:none;color:inherit}
@@ -287,8 +289,6 @@ COLS = [
     ("代號", "ticker", "l", None),
     ("RS 1M", "r1m", "", 1),
     ("RS 3M", "r3m", "", 1),
-    ("EX 1M", "ex1m", "", 1),
-    ("ADR%", "adr", "", 1),
     ("ATR%", "atr_pct", "", 1),
     ("X 距21EMA", "x", "", 2),
     ("Y 距50MA", "y", "", 2),
@@ -428,6 +428,15 @@ def _scatter(rows, hist=None):
         out.append(f'<text x="{cx + 7:.1f}" y="{cy - 5:.1f}" font-size="9.5" '
                    f'fill="currentColor" opacity=".9">{_esc(tk)}</text>')
     out.append('</svg>')
+    out.append(
+        '<div class="rs-xnote">'
+        '<b>點睇：</b>'
+        '綠框＝買入區（X 0–1、Y 0–4）；橙點＝今日喺框內，灰點＝未入框；'
+        '淺色軌跡＝過去 6 個交易日移動方向（▲ 起點、● 今日）；'
+        '紅虛線＝ATRX 4，越過即過度延伸（硬刪）。'
+        '<br>最有做功課價值＝<b>橙點 ＋ 軌跡向上（由左下走入框）</b>；'
+        '右上角灰點＝已升盡、風險最高。'
+        '</div>')
     return ('<div class="card" style="padding:10px 12px 6px">'
             '<div style="font-size:11.5px;opacity:.7;margin:0 0 4px">'
             f'RS 位置圖（{len(rows)} 隻｜橙 = 買入區 {len(labelled)} 隻）</div>'
@@ -618,8 +627,6 @@ def build(snap=None):
             f'{_f(r.get("r1m"), 1, True)}%</td>'
             f'<td data-v="{_esc(r.get("r3m"))}" class="rs-pos">'
             f'{_f(r.get("r3m"), 1, True)}%</td>'
-            f'<td data-v="{_esc(r.get("ex1m"))}">{_f(r.get("ex1m"), 1, True)}</td>'
-            f'<td data-v="{_esc(r.get("adr"))}">{_f(r.get("adr"), 1)}</td>'
             f'<td data-v="{_esc(r.get("atr_pct"))}">{_f(r.get("atr_pct"), 1)}</td>'
             f'<td data-v="{_esc(r.get("x"))}">{_f(r.get("x"), 2)}</td>'
             f'<td data-v="{_esc(r.get("y"))}" class="'

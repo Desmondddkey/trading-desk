@@ -113,6 +113,27 @@ def _pct(v, d=1):
         return "—"
 
 
+def _gcol(g):
+    return {"A+": "#a855f7", "A": "#22c55e", "B": "#f59e0b",
+            "C": "#94a3b8", "D": "#ef4444"}.get(g, "#94a3b8")
+
+
+def _grade(ext, rvol, dist, atrp):
+    """SETUP 品質 A+ → D（只用呢頁已有數字）。"""
+    if ext is None:
+        return "—", 0
+    if ext > 4:
+        return "D", 0
+    pts = 3 if 0 <= ext <= 2 else 2
+    pts += 2 if (rvol or 0) >= 2 else (1 if (rvol or 0) >= 1.2 else 0)
+    if dist is not None:
+        pts += 2 if dist >= -5 else (1 if dist >= -12 else 0)
+    if atrp and 2 <= atrp <= 8:
+        pts += 1
+    return ("A+" if pts >= 7 else "A" if pts >= 5
+            else "B" if pts >= 3 else "C"), pts
+
+
 def _atr_band(ext_f):
     """ATR 帶 mini SVG：顯示 EXT 喺 [0,4] 範圍嘅位置"""
     if ext_f is None:
@@ -313,18 +334,21 @@ CSS = """
 .ds-tbl th{text-align:right;font-size:10.5px;letter-spacing:.04em;
   text-transform:uppercase;opacity:.6;padding:6px 7px;border-bottom:1px solid rgba(128,128,128,.25);
   white-space:nowrap}
-.ds-tbl td{text-align:right;padding:6px 7px;border-bottom:1px solid rgba(128,128,128,.1);
+.ds-tbl td{text-align:left;padding:6px 7px;border-bottom:1px solid rgba(128,128,128,.1);
   white-space:nowrap}
 .ds-tbl td.l,.ds-tbl th.l{text-align:left}
 .ds-tbl tr:hover{background:rgba(128,128,128,.07)}
-.ds-sym-buy{color:#15803d;font-weight:800}
-[data-theme="dark"] .ds-sym-buy{color:#7ce0a8}
+.ds-syma{color:inherit;text-decoration:none}
+.ds-sym-buy{color:inherit;font-weight:800}
+b{text-decoration:none}
+[data-theme="dark"] .ds-sym-buy{color:inherit}
 .ds-ext{color:#dc2626;font-weight:700}
 .ds-ok{color:#16a34a}
 .ds-tag{font-size:9.5px;padding:1px 6px;border-radius:999px;
   border:1px solid rgba(128,128,128,.35);font-weight:700}
 /* ★ 2026-10-23 FOCUS 改橙色 */
-.ds-tag.src-FOCUS{background:#f97316;border-color:#f97316;color:#fff}
+.ds-tag.src-FOCUS{color:#f97316;border-color:rgba(249,115,22,.55);
+  background:transparent}
 /* ★ 2026-10-23 Excel 式可排序欄頭 */
 .ds-tbl th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
 .ds-tbl th.sortable:hover{opacity:.95;color:#f97316}
@@ -537,14 +561,14 @@ def build(day=None):
 
         # ★ 2026-10-23 Desmond：欄頭 clickable（Excel 三角）+ 新增 ATR 帶欄
         _cols = [
-            ('來源', 0), ('代號/行業', 1), ('DAY ON', 2), ('EXT', 3),
+            ('來源', 0), ('代號/行業', 1), ('EXT', 3),
             ('RVOL(50D)', 4), ('ATR 帶', None), ('ATR%', 5),
-            ('距 52 高', 6), ('財報', 7),
+            ('距 52 高', 6), ('評分', None), ('財報', 7), ('DAY ON', 2),
         ]
         th_parts = []
         for label, col in _cols:
             if col is None:
-                th_parts.append(f'<th>ATR 帶</th>')
+                th_parts.append(f'<th>{label}</th>')
             else:
                 th_parts.append(
                     f'<th class="l sortable" onclick="dsSort(this,{col})" data-dir="">'
@@ -605,14 +629,17 @@ def build(day=None):
                 f'<b class="{"ds-sym-buy" if inbox else ""}">{_esc(t)}</b></a></span>'
                 f'<div class="dim" style="font-size:10.5px">'
                 f'{_esc(_ind.get(t.upper(), ""))}</div></td>'
-                f'<td data-v="{dayon.get(t,0)}">{dayon.get(t,0)}</td>'
                 f'<td data-v="{_f(ext_f,2)}" class="{"ds-ext" if (ext_f or 0)>4 else ""}">'
                 f'{_f(ext_f,2)}</td>'
                 f'<td data-v="{_f(rvol,2)}" class="{rvol_cls}">{rvol_s}</td>'
                 f'<td>{_atr_band(ext_f)}</td>'
                 f'<td data-v="{_f(m.get("atr_pct"),2)}">{_f(m.get("atr_pct"),1)}%</td>'
                 f'<td data-v="{_f(dist,0)}">{dist_s}</td>'
+                f'<td data-v="{_grade(ext_f, rvol, dist, m.get("atr_pct"))[1]}">'
+                f'<b style="color:{_gcol(_grade(ext_f, rvol, dist, m.get("atr_pct"))[0])}">'
+                f'{_grade(ext_f, rvol, dist, m.get("atr_pct"))[0]}</b></td>'
                 f'<td>{_esc(es_s)}</td>'
+                f'<td data-v="{dayon.get(t,0)}">{dayon.get(t,0)}</td>'
                 '</tr>')
         parts.append('</tbody></table></div>')
 
