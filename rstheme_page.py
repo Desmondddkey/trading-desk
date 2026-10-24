@@ -229,10 +229,69 @@ def _spark(vals):
             f'stroke="{col}" stroke-width="1.2"/></svg>')
 
 
+# ── 欄位順序（Desmond 2026-10-24：「RS 放最前、名稱後面放走勢、階段放到最後」）
+#    key, 表頭, <col> class, 額外 td class, 寬度
+COLS = [
+    ("score",  "RS",      "c-rs",     "rt-num",  46),
+    ("pct",    "1M RS",   "c-rs1m",   "rt-num",  78),
+    ("etf",    "代號",     "c-etf",    "rt-etf c2", 54),
+    ("name",   "名稱",     "c-name",   "rt-name c3", 150),
+    ("spark",  "走勢",     "c-spark",  "",        52),
+    ("r1w",    "1 週",     "c-p1w",    "",        64),
+    ("r1m",    "1 個月",   "c-p1m",    "",        68),
+    ("r3m",    "3 個月",   "c-p3m",    "",        68),
+    ("thrust", "推力",     "c-thrust", "rt-num",  50),
+    ("ex1m",   "1月超額",  "c-ex1m",   "",        64),
+    ("off52w", "距52高",   "c-off52",  "",        60),
+    ("atrx",   "ATR 帶",   "c-band",   "",        74),
+    ("stage",  "階段",     "c-stage",  "c1",      104),
+]
+
+
+def _cell(key, r, stages, mx, cls):
+    tk = r.get("etf") or ""
+    nm = r.get("name") or ""
+    if key == "score":
+        v = r.get("score")
+        return ('<td class="rt-num" data-l="RS">'
+                f'{_esc(v) if v is not None else "—"}</td>')
+    if key == "pct":
+        return (f'<td class="rt-num" data-l="1M RS">{_esc(r.get("pct"))}%'
+                f'{_rsbar(r.get("pct"))}</td>')
+    if key == "etf":
+        return (f'<td class="rt-etf c2"><a class="tv" data-sym="{_esc(tk)}" '
+                f'href="https://www.tradingview.com/chart/?symbol={_esc(tk)}" '
+                f'target="_blank" rel="noopener">{_esc(tk)}</a>'
+                f'<span class="rt-nm2">{_esc(nm)}</span></td>')
+    if key == "name":
+        return (f'<td class="rt-name c3" title="{_esc(nm)}">{_esc(nm)}</td>')
+    if key == "spark":
+        return f'<td data-l="走勢">{_spark(r.get("spark"))}</td>'
+    if key in ("r1w", "r1m", "r3m"):
+        lab = {"r1w": "1週", "r1m": "1月", "r3m": "3月"}[key]
+        return (f'<td class="{cls(r.get(key))}" data-l="{lab}">'
+                f'{_f(r.get(key))}{_bar(r.get(key), mx[key])}</td>')
+    if key == "thrust":
+        return f'<td class="rt-num" data-l="推力">{_esc(r.get("thrust"))}</td>'
+    if key == "ex1m":
+        return (f'<td class="{cls(r.get("ex1m"))}" data-l="超額">'
+                f'{_f(r.get("ex1m"))}</td>')
+    if key == "off52w":
+        return (f'<td class="{cls(r.get("off52w"))}" data-l="距高">'
+                f'{_f(r.get("off52w"))}</td>')
+    if key == "atrx":
+        return (f'<td data-l="ATR帶" title="ATRX {_esc(r.get("atrx"))}">'
+                f'{_band(r.get("atrx"))}</td>')
+    if key == "stage":
+        return (f'<td class="c1" data-l="階段">'
+                f'{_stage_badge(stages.get(tk))}</td>')
+    return "<td></td>"
+
+
 def _table(rows, stages, title=None, max_rows=None):
-    """★ 2026-10-24 修：Desmond「我叫你加新野，唔係連舊野都鏟走埋」
-    → 新舊並存：階段/分/1週/1個月/3個月（新）＋
-      推力率/1月超額/走勢/RS%/距52高（原本，全部保留）。"""
+    """★ 2026-10-24 Desmond 定案欄序（13 欄）：
+    RS｜1M RS｜代號｜名稱｜走勢｜1週｜1個月｜3個月｜推力｜1月超額｜距52高｜ATR帶｜階段
+    「加新野唔准鏟舊野」—— 舊欄位全部保留，只係搬位。"""
     if not rows:
         return ""
     shown = rows[:max_rows] if max_rows else rows
@@ -251,53 +310,18 @@ def _table(rows, stages, title=None, max_rows=None):
     out = []
     if title:
         out.append(f'<h3>{title} <small>{len(rows)} 隻</small></h3>')
-    out.append('<table class="rt-tbl"><colgroup>'
-               '<col class="c-rs1m">'
-               '<col class="c-stage"><col class="c-etf"><col class="c-name">'
-               '<col class="c-score"><col class="c-p1w"><col class="c-p1m">'
-               '<col class="c-p3m"><col class="c-thrust"><col class="c-ex1m">'
-               '<col class="c-spark"><col class="c-off52"><col class="c-band">'
-               '<col class="c-fill">'
-               '</colgroup><thead><tr>'
-               '<th>1M RS</th><th>階段</th><th>代號</th><th>名稱</th><th>RS</th>'
-               '<th>1 週</th><th>1 個月</th><th>3 個月</th>'
-               '<th>推力</th><th>1月超額</th><th>走勢</th>'
-               '<th>距52高</th><th>ATR 帶</th><th></th>'
-               '</tr></thead><tbody>')
+    out.append('<table class="rt-tbl"><colgroup>')
+    for _k, _h, colcls, _td, w in COLS:
+        out.append(f'<col class="{colcls}" style="width:{w}px">')
+    out.append('<col class="c-fill"></colgroup><thead><tr>')
+    out.append("".join(f"<th>{h}</th>" for _k, h, _c, _t, _w in COLS))
+    out.append('<th></th></tr></thead><tbody>')
     for r in shown:
-        tk = r.get("etf") or ""
-        nm = r.get("name") or ""
-        out.append(
-            '<tr>'
-            f'<td class="rt-num" data-l="1M RS">{_esc(r.get("pct"))}%'
-            f'{_rsbar(r.get("pct"))}</td>'
-            f'<td class="c1">{_stage_badge(stages.get(tk))}</td>'
-            f'<td class="c2 rt-etf"><a class="tv" data-sym="{_esc(tk)}" '
-            f'href="https://www.tradingview.com/chart/?symbol={_esc(tk)}" '
-            f'target="_blank" rel="noopener">{_esc(tk)}</a>'
-            f'<span class="rt-nm2">{_esc(nm)}</span></td>'
-            f'<td class="c3 rt-name" title="{_esc(nm)}">{_esc(nm)}</td>'
-            f'<td class="rt-num" data-l="RS">'
-            f'{_esc(r.get("score")) if r.get("score") is not None else "—"}</td>'
-            f'<td class="{cls(r.get("r1w"))}" data-l="1週">'
-            f'{_f(r.get("r1w"))}{_bar(r.get("r1w"), mx["r1w"])}</td>'
-            f'<td class="{cls(r.get("r1m"))}" data-l="1月">'
-            f'{_f(r.get("r1m"))}{_bar(r.get("r1m"), mx["r1m"])}</td>'
-            f'<td class="{cls(r.get("r3m"))}" data-l="3月">'
-            f'{_f(r.get("r3m"))}{_bar(r.get("r3m"), mx["r3m"])}</td>'
-            f'<td class="rt-num" data-l="推力">{_esc(r.get("thrust"))}</td>'
-            f'<td class="{cls(r.get("ex1m"))}" data-l="超額">'
-            f'{_f(r.get("ex1m"))}</td>'
-            f'<td data-l="走勢">{_spark(r.get("spark"))}</td>'
-            f'<td class="{cls(r.get("off52w"))}" data-l="距高">'
-            f'{_f(r.get("off52w"))}</td>'
-            f'<td data-l="ATR帶" title="ATRX {_esc(r.get("atrx"))}">'
-            f'{_band(r.get("atrx"))}</td>'
-            '<td></td>'
-            '</tr>')
+        out.append("<tr>" + "".join(
+            _cell(k, r, stages, mx, cls) for k, _h, _c, _t, _w in COLS)
+            + "<td></td></tr>")
     out.append('</tbody></table>')
     return "".join(out)
-
 
 def build():
     import extras
@@ -344,15 +368,14 @@ def build():
 
     P.append('<div class="rt-note">'
              '<b>1M RS</b>＝1 個月超額回報（ETF − SPY）喺本表嘅百分位（0–100），'
-             '同 RS Leader 頁同一個做法 —— 最左一欄，一眼睇邊個行業/群組喺最強的一成。'
+             '同 RS Leader 頁同一個做法 —— 放喺 RS 隔籬，一眼睇邊個最強一成。'
              '<br><b>1 週</b>＝5 個交易日；<b>1 個月</b>＝21 日；<b>3 個月</b>＝63 日，'
              '全部價格回報（未扣息）。bar 以 0 為中線：綠＝正、紅＝負。'
              '<br><b>推力</b>＝30 日內 21 日回報贏 SPY 嘅日數比例（0–100，我嘅定義）。'
              '<b>1月超額</b>＝1 個月回報 − SPY 1 個月。'
              '<b>走勢</b>＝每日超額回報迷你線（綠＝領先、紅＝落後）。'
              '<b>距52高</b>＝距 52 週高（%）。'
-             '<br>手機（≤760px）會收起「名稱」同「走勢」兩欄，名稱改喺代號下面一行；'
-             '其餘數字全部保留。</div>')
+             '<br>手機（≤900px）改成卡片式：每隻一行標籤＋數字，13 個欄位全部保留，唔會縮字。</div>')
     return ("RS THEME", "".join(P))
 
 
