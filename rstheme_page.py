@@ -92,10 +92,20 @@ html[data-theme="dark"] .rt-neg{color:#ff8f8f}
   border:1px solid currentColor;display:inline-block;white-space:nowrap;
   line-height:1.45;max-width:100%;overflow:hidden;text-overflow:ellipsis;
   vertical-align:middle}
-.rt-bar{display:inline-block;width:40px;height:6px;border-radius:3px;
+.rt-bar{display:inline-block;width:26px;height:6px;border-radius:3px;
   background:rgba(128,128,128,.16);vertical-align:middle;margin-left:5px;
   position:relative;overflow:hidden}
 .rt-bar>i{position:absolute;top:0;bottom:0;border-radius:3px;display:block}
+/* 走位防護：所有格強制收窄，唔准頂出隔籬欄 */
+.rt-tbl td{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rt-h3{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rt-warn{overflow-wrap:anywhere}
+/* Excel 式三角排序 */
+.rt-tbl th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
+.rt-tbl th.sortable:hover{color:#f97316}
+.rt-tbl th.sortable::after{content:"▾";font-size:8px;opacity:.22;margin-left:2px}
+.rt-tbl th.sortable.asc::after{content:"▴";opacity:.9}
+.rt-tbl th.sortable.desc::after{content:"▾";opacity:.9}
 .rt-note{font-size:11px;opacity:.6;line-height:1.65;margin-top:8px}
 .rt-warn{font-size:11.5px;line-height:1.6;padding:7px 10px;border-radius:8px;
   background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);
@@ -229,68 +239,117 @@ def _spark(vals):
             f'stroke="{col}" stroke-width="1.2"/></svg>')
 
 
-# ── 欄位順序（Desmond 2026-10-24：「RS 放最前、名稱後面放走勢、階段放到最後」）
+# ── 欄位（Desmond 2026-10-24 定案）
+#   ① 只用一個 RS（唔再開 1M RS），但保留「%」同 bar
+#   ② 走勢跟喺名稱後面　③ 階段放最後　④ ATR 帶 改名 EXT
+#   ⑤ 預設按 RS 排　⑥ 欄頭可撳（Excel 三角）排序
 #    key, 表頭, <col> class, 額外 td class, 寬度
 COLS = [
-    ("score",  "RS",      "c-rs",     "rt-num",  46),
-    ("pct",    "1M RS",   "c-rs1m",   "rt-num",  78),
-    ("etf",    "代號",     "c-etf",    "rt-etf c2", 54),
+    ("score",  "RS",      "c-rs",     "rt-num",     78),
+    ("etf",    "代號",     "c-etf",    "rt-etf c2",  54),
     ("name",   "名稱",     "c-name",   "rt-name c3", 150),
-    ("spark",  "走勢",     "c-spark",  "",        52),
-    ("r1w",    "1 週",     "c-p1w",    "",        64),
-    ("r1m",    "1 個月",   "c-p1m",    "",        68),
-    ("r3m",    "3 個月",   "c-p3m",    "",        68),
-    ("thrust", "推力",     "c-thrust", "rt-num",  50),
-    ("ex1m",   "1月超額",  "c-ex1m",   "",        64),
-    ("off52w", "距52高",   "c-off52",  "",        60),
-    ("atrx",   "ATR 帶",   "c-band",   "",        74),
-    ("stage",  "階段",     "c-stage",  "c1",      104),
+    ("spark",  "走勢",     "c-spark",  "",           52),
+    ("r1w",    "1 週",     "c-p1w",    "",           56),
+    ("r1m",    "1 個月",   "c-p1m",    "",           58),
+    ("r3m",    "3 個月",   "c-p3m",    "",           58),
+    ("thrust", "推力",     "c-thrust", "rt-num",     44),
+    ("ex1m",   "1月超額",  "c-ex1m",   "",           58),
+    ("off52w", "距52高",   "c-off52",  "",           52),
+    ("atrx",   "EXT",      "c-band",   "",           64),
+    ("stage",  "階段",     "c-stage",  "c1",         92),
 ]
+
+
+def _sv(v):
+    """排序用原始值（JS 用 parseFloat；非數字用字串）。"""
+    if v is None:
+        return ""
+    try:
+        return f"{float(v):.4f}"
+    except (TypeError, ValueError):
+        return str(v)
 
 
 def _cell(key, r, stages, mx, cls):
     tk = r.get("etf") or ""
     nm = r.get("name") or ""
     if key == "score":
-        v = r.get("score")
-        return ('<td class="rt-num" data-l="RS">'
-                f'{_esc(v) if v is not None else "—"}</td>')
-    if key == "pct":
-        return (f'<td class="rt-num" data-l="1M RS">{_esc(r.get("pct"))}%'
-                f'{_rsbar(r.get("pct"))}</td>')
+        sc = r.get("score")
+        return (f'<td class="rt-num" data-l="RS" data-v="{_sv(sc)}">'
+                f'{_esc(sc) if sc is not None else "—"}%'
+                f'{_rsbar(sc)}</td>')
     if key == "etf":
-        return (f'<td class="rt-etf c2"><a class="tv" data-sym="{_esc(tk)}" '
+        return (f'<td class="rt-etf c2" data-v="{_esc(tk)}">'
+                f'<a class="tv" data-sym="{_esc(tk)}" '
                 f'href="https://www.tradingview.com/chart/?symbol={_esc(tk)}" '
                 f'target="_blank" rel="noopener">{_esc(tk)}</a>'
                 f'<span class="rt-nm2">{_esc(nm)}</span></td>')
     if key == "name":
-        return (f'<td class="rt-name c3" title="{_esc(nm)}">{_esc(nm)}</td>')
+        st = stages.get(tk) or {}
+        return (f'<td class="rt-name c3" data-v="{_esc(nm)}" '
+                f'title="{_esc(nm)}">{_esc(nm)}</td>')
     if key == "spark":
-        return f'<td data-l="走勢">{_spark(r.get("spark"))}</td>'
+        sp = r.get("spark") or []
+        last = sp[-1] if sp else ""
+        return f'<td data-l="走勢" data-v="{_sv(last)}">{_spark(sp)}</td>'
     if key in ("r1w", "r1m", "r3m"):
         lab = {"r1w": "1週", "r1m": "1月", "r3m": "3月"}[key]
-        return (f'<td class="{cls(r.get(key))}" data-l="{lab}">'
+        return (f'<td class="{cls(r.get(key))}" data-l="{lab}" '
+                f'data-v="{_sv(r.get(key))}">'
                 f'{_f(r.get(key))}{_bar(r.get(key), mx[key])}</td>')
     if key == "thrust":
-        return f'<td class="rt-num" data-l="推力">{_esc(r.get("thrust"))}</td>'
+        return (f'<td class="rt-num" data-l="推力" data-v="{_sv(r.get("thrust"))}">'
+                f'{_esc(r.get("thrust"))}</td>')
     if key == "ex1m":
-        return (f'<td class="{cls(r.get("ex1m"))}" data-l="超額">'
-                f'{_f(r.get("ex1m"))}</td>')
+        return (f'<td class="{cls(r.get("ex1m"))}" data-l="超額" '
+                f'data-v="{_sv(r.get("ex1m"))}">{_f(r.get("ex1m"))}</td>')
     if key == "off52w":
-        return (f'<td class="{cls(r.get("off52w"))}" data-l="距高">'
-                f'{_f(r.get("off52w"))}</td>')
+        return (f'<td class="{cls(r.get("off52w"))}" data-l="距高" '
+                f'data-v="{_sv(r.get("off52w"))}">{_f(r.get("off52w"))}</td>')
     if key == "atrx":
-        return (f'<td data-l="ATR帶" title="ATRX {_esc(r.get("atrx"))}">'
+        return (f'<td data-l="EXT" data-v="{_sv(r.get("atrx"))}" '
+                f'title="ATRX {_esc(r.get("atrx"))}">'
                 f'{_band(r.get("atrx"))}</td>')
     if key == "stage":
-        return (f'<td class="c1" data-l="階段">'
+        st = stages.get(tk) or {}
+        num = (st.get("stage") or st.get("short") or " ")[:1]
+        return (f'<td class="c1" data-l="階段" data-v="{_esc(num)}">'
                 f'{_stage_badge(stages.get(tk))}</td>')
     return "<td></td>"
 
 
+SORT_JS = """
+<script>
+/* Excel 式三角排序：撳欄頭切換 升序／降序（Desmond 2026-10-24 要求） */
+function rtSort(th){
+  var tbl = th.closest('table');
+  var tb  = tbl.tBodies[0];
+  var idx = [].indexOf.call(th.parentNode.children, th);
+  var desc = th.getAttribute('data-dir') !== 'desc';
+  [].forEach.call(th.parentNode.children, function(h){
+    if (h !== th){ h.removeAttribute('data-dir'); h.classList.remove('asc','desc'); }
+  });
+  th.setAttribute('data-dir', desc ? 'desc' : 'asc');
+  th.classList.toggle('desc', desc); th.classList.toggle('asc', !desc);
+  var rows = [].slice.call(tb.rows);
+  rows.sort(function(a, b){
+    var ca = a.cells[idx], cb = b.cells[idx];
+    if (!ca || !cb) return 0;
+    var x = ca.getAttribute('data-v'), y = cb.getAttribute('data-v');
+    var nx = parseFloat(x), ny = parseFloat(y);
+    var r;
+    if (!isNaN(nx) && !isNaN(ny)) r = nx - ny;
+    else r = (x || '') < (y || '') ? -1 : ((x || '') > (y || '') ? 1 : 0);
+    return desc ? -r : r;
+  });
+  rows.forEach(function(r){ tb.appendChild(r); });
+}
+</script>
+"""
+
+
 def _table(rows, stages, title=None, max_rows=None):
-    """★ 2026-10-24 Desmond 定案欄序（13 欄）：
-    RS｜1M RS｜代號｜名稱｜走勢｜1週｜1個月｜3個月｜推力｜1月超額｜距52高｜ATR帶｜階段
+    """欄序：RS｜代號｜名稱｜走勢｜1週｜1個月｜3個月｜推力｜1月超額｜距52高｜EXT｜階段
     「加新野唔准鏟舊野」—— 舊欄位全部保留，只係搬位。"""
     if not rows:
         return ""
@@ -309,12 +368,14 @@ def _table(rows, stages, title=None, max_rows=None):
 
     out = []
     if title:
-        out.append(f'<h3>{title} <small>{len(rows)} 隻</small></h3>')
+        out.append(f'<h3 class="rt-h3">{title} <small>{len(rows)} 隻</small></h3>')
     out.append('<table class="rt-tbl"><colgroup>')
     for _k, _h, colcls, _td, w in COLS:
         out.append(f'<col class="{colcls}" style="width:{w}px">')
     out.append('<col class="c-fill"></colgroup><thead><tr>')
-    out.append("".join(f"<th>{h}</th>" for _k, h, _c, _t, _w in COLS))
+    out.append("".join(
+        f'<th class="sortable" onclick="rtSort(this)">{h}</th>'
+        for _k, h, _c, _t, _w in COLS))
     out.append('<th></th></tr></thead><tbody>')
     for r in shown:
         out.append("<tr>" + "".join(
@@ -355,7 +416,7 @@ def build():
     P.append('<div class="card rt-card">')
     P.append(_table(merged, stages, "階段 × 表現（按 RS 排序）", max_rows=25))
     P.append('<div class="rt-note">'
-             '<b>RS</b>＝透明加權百分位（1個月 50%／3個月 30%／1週 20%），'
+             '<b>RS</b>＝透明加權百分位（1個月 50%／3個月 30%／1週 20%），後面色條跟數值；'
              '即係「喺呢張表嘅排名」，唔係黑箱。'
              '<b>階段</b>用 <code>kell.stages()</code>，同領導股頁同一把尺。'
              '代號可 hover 睇 TV 圖。</div>')
@@ -367,15 +428,15 @@ def build():
         P.append(f'<div class="card rt-card">{_table(rows, stages, title)}</div>')
 
     P.append('<div class="rt-note">'
-             '<b>1M RS</b>＝1 個月超額回報（ETF − SPY）喺本表嘅百分位（0–100），'
-             '同 RS Leader 頁同一個做法 —— 放喺 RS 隔籬，一眼睇邊個最強一成。'
-             '<br><b>1 週</b>＝5 個交易日；<b>1 個月</b>＝21 日；<b>3 個月</b>＝63 日，'
+             '<b>1 週</b>＝5 個交易日；<b>1 個月</b>＝21 日；<b>3 個月</b>＝63 日，'
              '全部價格回報（未扣息）。bar 以 0 為中線：綠＝正、紅＝負。'
              '<br><b>推力</b>＝30 日內 21 日回報贏 SPY 嘅日數比例（0–100，我嘅定義）。'
              '<b>1月超額</b>＝1 個月回報 − SPY 1 個月。'
              '<b>走勢</b>＝每日超額回報迷你線（綠＝領先、紅＝落後）。'
              '<b>距52高</b>＝距 52 週高（%）。'
+             '<b>EXT</b>＝距 50MA 延伸（ATRX，−3…+5，綠區 0–4 買入區，>4 過度延伸）。'
              '<br>手機（≤900px）改成卡片式：每隻一行標籤＋數字，13 個欄位全部保留，唔會縮字。</div>')
+    P.append(SORT_JS)
     return ("RS THEME", "".join(P))
 
 
