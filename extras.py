@@ -102,6 +102,16 @@ def _metrics(df, pairs):
             continue
         if len(c) < 70:
             continue
+        # ★ 2026-10-24 Desmond：「加埋 ATR 帶」→ 要有 ATR14 同 50MA
+        _fr = df[tk].dropna(subset=["Close"])
+        _h, _l = _fr["High"], _fr["Low"]
+        _tr = pd.concat([_h - _l, (_h - c.shift()).abs(),
+                         (_l - c.shift()).abs()], axis=1).max(axis=1)
+        _atr14 = float(_tr.rolling(14).mean().iloc[-1])
+        _sma50 = (float(c.rolling(50).mean().iloc[-1])
+                  if len(c) >= 50 else None)
+        _atrx = (((float(c.iloc[-1]) - _sma50) / _atr14)
+                 if (_sma50 and _atr14 > 0) else None)
         r1 = c / c.shift(21) - 1
         s1 = spy / spy.shift(21) - 1
         # ★ 2026-10-13 修 bug：r1（ETF）同 s1（SPY）嘅 index 唔一定一樣
@@ -131,6 +141,9 @@ def _metrics(df, pairs):
                      "r1m": round(r1m, 1), "r1d": round(r1d, 2),
                      "r1w": None if r1w is None else round(r1w, 1),
                      "r3m": None if r3m is None else round(r3m, 1),
+                     "atr14": round(_atr14, 3) if _atr14 else None,
+                     "sma50": None if _sma50 is None else round(_sma50, 2),
+                     "atrx": None if _atrx is None else round(_atrx, 2),
                      "off52w": round((float(c.iloc[-1]) / hh - 1) * 100, 1) if hh else None,
                      "spark": spark})
     if not rows:

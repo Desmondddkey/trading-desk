@@ -49,7 +49,7 @@ CSS = """
 .rt-card h3{margin:0 0 4px;font-size:14px;font-weight:800;
   display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .rt-card h3 small{font-weight:400;font-size:11px;opacity:.6}
-.rt-tbl{width:100%;max-width:1040px;border-collapse:collapse;font-size:12.5px;
+.rt-tbl{width:100%;max-width:1140px;border-collapse:collapse;font-size:12.5px;
   table-layout:fixed;font-variant-numeric:tabular-nums}
 .rt-tbl th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.04em;
   padding:4px 5px;opacity:.6;border-bottom:1px solid rgba(128,128,128,.3);
@@ -57,6 +57,12 @@ CSS = """
 .rt-tbl td{padding:3px 5px;border-bottom:1px solid rgba(128,128,128,.1);
   text-align:left;vertical-align:middle;line-height:1.25;overflow:hidden}
 .rt-tbl tr:hover td{background:rgba(249,115,22,.055)}
+.rt-tbl col.c-rs1m{width:76px}
+.rt-tbl col.c-band{width:72px}
+.rt-rsbar{display:inline-block;width:34px;height:6px;border-radius:3px;
+  background:rgba(128,128,128,.18);vertical-align:middle;margin-left:4px;
+  overflow:hidden}
+.rt-rsbar>i{display:block;height:100%;border-radius:3px}
 .rt-tbl col.c-stage{width:104px}
 .rt-tbl col.c-etf{width:54px}
 .rt-tbl col.c-name{width:150px}
@@ -161,6 +167,48 @@ def _stage_badge(st):
             '</span>')
 
 
+def _band(atrx):
+    """ATR 帶（−3 … +5 ATR）。定義同 build_site.band_svg 一致：
+    灰線＝0（50MA）、綠區＝0…+4（買入區）、紅虛線＝+4（過度延伸）、點＝現時 ATRX。
+    ★ 2026-10-24 Desmond：「加埋 ATR 帶」。"""
+    try:
+        v = float(atrx)
+    except (TypeError, ValueError):
+        return ""
+    lo, hi, w, h = -3.0, 5.0, 64, 12
+
+    def px(x):
+        return (max(lo, min(hi, x)) - lo) / (hi - lo) * w
+
+    col = ("#f97316" if v > 4 else
+           ("#22c55e" if v >= 0 else "#ef4444"))
+    return (
+        f'<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
+        'style="display:block;overflow:visible">'
+        f'<rect x="0" y="4" width="{w}" height="4" rx="2" '
+        'fill="rgba(128,128,128,.18)"/>'
+        f'<rect x="{px(0):.1f}" y="4" width="{px(4) - px(0):.1f}" height="4" '
+        'fill="rgba(34,197,94,.35)"/>'
+        f'<line x1="{px(4):.1f}" y1="1" x2="{px(4):.1f}" y2="11" '
+        'stroke="#ef4444" stroke-width="1" stroke-dasharray="2 2"/>'
+        f'<line x1="{px(0):.1f}" y1="1" x2="{px(0):.1f}" y2="11" '
+        'stroke="rgba(200,200,200,.8)" stroke-width="1.2"/>'
+        f'<circle cx="{px(v):.1f}" cy="6" r="2.6" fill="{col}"/>'
+        '</svg>')
+
+
+def _rsbar(v):
+    """1M RS（0–100 百分位）迷你 bar — 跟 RS Leader 頁做法：數值＋長度。"""
+    try:
+        x = float(v)
+    except (TypeError, ValueError):
+        return ""
+    w = max(0.0, min(100.0, x))
+    col = "#22c55e" if x >= 80 else ("#f59e0b" if x >= 50 else "#ef4444")
+    return ('<span class="rt-rsbar"><i style="width:%.0f%%;background:%s">'
+            '</i></span>' % (w, col))
+
+
 def _spark(vals):
     """30 日超額回報迷你線（原本 RS 板嗰條「走勢」，唔准刪）。"""
     try:
@@ -204,22 +252,25 @@ def _table(rows, stages, title=None, max_rows=None):
     if title:
         out.append(f'<h3>{title} <small>{len(rows)} 隻</small></h3>')
     out.append('<table class="rt-tbl"><colgroup>'
+               '<col class="c-rs1m">'
                '<col class="c-stage"><col class="c-etf"><col class="c-name">'
                '<col class="c-score"><col class="c-p1w"><col class="c-p1m">'
                '<col class="c-p3m"><col class="c-thrust"><col class="c-ex1m">'
-               '<col class="c-spark"><col class="c-off52">'
+               '<col class="c-spark"><col class="c-off52"><col class="c-band">'
                '<col class="c-fill">'
                '</colgroup><thead><tr>'
-               '<th>階段</th><th>代號</th><th>名稱</th><th>RS</th>'
+               '<th>1M RS</th><th>階段</th><th>代號</th><th>名稱</th><th>RS</th>'
                '<th>1 週</th><th>1 個月</th><th>3 個月</th>'
                '<th>推力</th><th>1月超額</th><th>走勢</th>'
-               '<th>距52高</th><th></th>'
+               '<th>距52高</th><th>ATR 帶</th><th></th>'
                '</tr></thead><tbody>')
     for r in shown:
         tk = r.get("etf") or ""
         nm = r.get("name") or ""
         out.append(
             '<tr>'
+            f'<td class="rt-num" data-l="1M RS">{_esc(r.get("pct"))}%'
+            f'{_rsbar(r.get("pct"))}</td>'
             f'<td class="c1">{_stage_badge(stages.get(tk))}</td>'
             f'<td class="c2 rt-etf"><a class="tv" data-sym="{_esc(tk)}" '
             f'href="https://www.tradingview.com/chart/?symbol={_esc(tk)}" '
@@ -240,6 +291,8 @@ def _table(rows, stages, title=None, max_rows=None):
             f'<td data-l="走勢">{_spark(r.get("spark"))}</td>'
             f'<td class="{cls(r.get("off52w"))}" data-l="距高">'
             f'{_f(r.get("off52w"))}</td>'
+            f'<td data-l="ATR帶" title="ATRX {_esc(r.get("atrx"))}">'
+            f'{_band(r.get("atrx"))}</td>'
             '<td></td>'
             '</tr>')
     out.append('</tbody></table>')
@@ -290,7 +343,9 @@ def build():
         P.append(f'<div class="card rt-card">{_table(rows, stages, title)}</div>')
 
     P.append('<div class="rt-note">'
-             '<b>1 週</b>＝5 個交易日；<b>1 個月</b>＝21 日；<b>3 個月</b>＝63 日，'
+             '<b>1M RS</b>＝1 個月超額回報（ETF − SPY）喺本表嘅百分位（0–100），'
+             '同 RS Leader 頁同一個做法 —— 最左一欄，一眼睇邊個行業/群組喺最強的一成。'
+             '<br><b>1 週</b>＝5 個交易日；<b>1 個月</b>＝21 日；<b>3 個月</b>＝63 日，'
              '全部價格回報（未扣息）。bar 以 0 為中線：綠＝正、紅＝負。'
              '<br><b>推力</b>＝30 日內 21 日回報贏 SPY 嘅日數比例（0–100，我嘅定義）。'
              '<b>1月超額</b>＝1 個月回報 − SPY 1 個月。'
