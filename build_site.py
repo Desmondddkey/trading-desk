@@ -1049,8 +1049,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "RS Leader 位置圖", "leadermap.html"),
     ("_link", None, "RS Daily Scan", "rsscan.html"),
     ("_link", None, "The Plan", "setups.html"),
-    ("_link", None, "財報日曆", "earnings.html"),
-    ("_link", None, "ATRX 風險", "atrxrisk.html"),
+    ("_ext", None, "財報（Finviz）", "https://finviz.com/calendar/earnings/season-preview?view=list&sort=marketCap"),
     ("_link", None, "YOYO Ball", "yoyo_ball.html"),
     ("_link", None, "Setup 矩陣", "regime.html"),
 
@@ -1975,10 +1974,10 @@ def build():
 
     # ── 財報日曆（Desmond 2026-10-19）──
     try:
-        import earnings_page as _ep
+        import earnings_page as _ep   # noqa: F401  (2026-10-25：內容移走，改用 Finviz)
         _t2, _b2 = _ep.build()
-        pages["earnings"] = (_t2, _b2, base)
-        log(f"✓ earnings.html ({len(_b2)//1024} KB)")
+        # pages["earnings"] 已停用（Desmond 2026-10-25：改用 Finviz 財報日曆）
+        log("· earnings.html 已停用（改用 Finviz）")
     except Exception as _e8:                                 # noqa: BLE001
         log(f"⚠ 財報日曆失敗：{type(_e8).__name__}: {_e8}")
 
@@ -2186,7 +2185,7 @@ def build():
         _parts = _dp.get("parts") or {}
         for _k, _lbl in (("leadermap", "RS Leader 位置圖"),
                          ("sectors", "Sectors · 行業輪動"),
-                         ("atrxrisk", "ATRX 風險")):
+                         ) :  # 2026-10-25 Desmond：移除 ATRX 風險頁
             if _k in _parts:
                 _body = f"{_st}" + _parts[_k]
                 if _k == "sectors":
