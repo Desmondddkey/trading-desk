@@ -445,10 +445,23 @@ def build():
     P.append('<div class="rt-warn">⚠ 「推力率」係<b>我嘅定義</b>（Jeff Sun 原文未取得）：'
              '最近 30 個交易日之中，ETF 嘅 21 日回報贏 SPY 嘅比例。唔會扮係佢嘅數。</div>')
 
+    # ★ 2026-10-24 Desmond：① INDEX 排第一　② 每個分類都用 RS 降序
+    def _by_rs(rows):
+        return sorted(rows, key=lambda r: -(r.get("score") or -1))
+
+    _asof = _esc(rb["as_of"])
+
+    # ① 指數 Index（排第一）
+    P.append('<div class="card rt-card">')
+    P.append(_table(_by_rs(rb["index"]), stages, "指數 Index", icon="📈",
+                    sub=f"按 RS 排序｜{len(rb['index'])} 隻", meta=f"資料至 {_asof}"))
+    P.append('</div>')
+
+    # ② 階段 × 表現（合併、去重）
     P.append('<div class="card rt-card">')
     P.append(_table(merged, stages, "階段 × 表現", max_rows=25,
-           sub=f"按 RS 排序｜{len(merged)} 隻｜撳欄頭可切換升／降序",
-           icon="🎯", meta=f"資料至 {_esc(rb['as_of'])}"))
+                    sub=f"按 RS 排序｜{len(merged)} 隻｜撳欄頭可切換升／降序",
+                    icon="🎯", meta=f"資料至 {_asof}"))
     P.append('<div class="rt-note">'
              '<b>RS</b>＝透明加權百分位（1個月 50%／3個月 30%／1週 20%），後面色條跟數值；'
              '即係「喺呢張表嘅排名」，唔係黑箱。'
@@ -456,10 +469,13 @@ def build():
              '代號可 hover 睇 TV 圖。</div>')
     P.append('</div>')
 
-    for title, rows, ico in (("指數 Index", rb["index"], "📈"),
-                             ("群組 Group", rb["group"], "🧩"),
+    # ③ 群組　④ 板塊
+    for title, rows, ico in (("群組 Group", rb["group"], "🧩"),
                              ("板塊 Sector", rb["sector"], "🏭")):
-        P.append(f'<div class="card rt-card">{_table(rows, stages, title, icon=ico)}</div>')
+        P.append('<div class="card rt-card">'
+                 + _table(_by_rs(rows), stages, title, icon=ico,
+                          sub=f"按 RS 排序｜{len(rows)} 隻", meta=f"資料至 {_asof}")
+                 + '</div>')
 
     P.append('<div class="rt-note">'
              '<b>1 週</b>＝5 個交易日；<b>1 個月</b>＝21 日；<b>3 個月</b>＝63 日，'
