@@ -85,6 +85,18 @@ a.pf-cand:hover{filter:brightness(1.12)}
 .pf-bar>span{display:block;height:100%;border-radius:999px;transition:width .2s}
 .pf-bar>i{position:absolute;top:-3px;bottom:-3px;width:2px;
   background:rgba(215,215,215,.85);border-radius:1px;transform:translateX(-1px)}
+.pf-big{margin:12px 0 14px}
+.pf-big .top{display:flex;justify-content:space-between;gap:14px;
+  align-items:baseline;flex-wrap:wrap}
+.pf-big .lab{font-size:10.5px;letter-spacing:.06em;font-weight:700;opacity:.66}
+.pf-big .zn{font-size:12px;font-weight:800}
+.pf-big .num{font-size:34px;font-weight:800;line-height:1.05;margin:2px 0 4px}
+.pf-big .bar{height:10px;border-radius:999px;background:rgba(128,128,128,.18);
+  position:relative;width:100%}
+.pf-big .bar>span{display:block;height:100%;border-radius:999px}
+.pf-big .desc{font-size:11px;opacity:.62;margin-top:5px;line-height:1.5}
+.pf-sub2{margin:14px 0 4px;font-size:11px;letter-spacing:.05em;
+  text-transform:uppercase;opacity:.5;font-weight:700}
 .pf-brow{display:grid;grid-template-columns:92px 60px minmax(150px,300px) 1fr;
   gap:12px;align-items:center;padding:6px 0;font-size:12.5px}
 .pf-brow .nm{font-weight:700;opacity:.92}
@@ -330,12 +342,45 @@ def build():
                  % (nm, col, val, _bar(p, col, mid), col, tag,
                     ("　·　" + note) if note else ""))
 
+    # ── 大卡：MMTW / MMFI（同 Market Regime 同一把尺，唔自己寫第二套）──
+    try:
+        import market_regime as _mr
+        _mmtw_lab, _mmfi_lab = _mr._mmtw_label, _mr._mmfi_label
+    except Exception:                                         # noqa: BLE001
+        _mmtw_lab = _mmfi_lab = None
+
+    def big(name, sub, val, pct, zone, col, desc, sym=None):
+        nm = name
+        if sym:
+            nm = ('<a class="pf-tvsym tv" data-sym="%s" '
+                  'href="https://www.tradingview.com/chart/?symbol=%s" '
+                  'target="_blank" rel="noopener">%s</a>' % (sym, sym, name))
+        P.append('<div class="pf-big"><div class="top">'
+                 '<span class="lab">%s <span style="opacity:.75">%s</span></span>'
+                 '<span class="zn" style="color:%s">%s</span></div>'
+                 '<div class="num" style="color:%s">%s</div>'
+                 '<div class="bar"><span style="width:%.1f%%;background:%s"></span>'
+                 '</div><div class="desc">%s</div></div>'
+                 % (nm, sub, col, zone, col, val,
+                    max(0.0, min(100.0, float(pct))), col, desc))
+
     if rl.get("mmtw") is not None:
-        brow("MMTW", "%.1f%%" % float(rl["mmtw"]), rl["mmtw"], 50,
-             "50 以上＝多數股企 20MA 上", sym="MMTW")
+        _v = float(rl["mmtw"])
+        if _mmtw_lab:
+            z, c, d = _mmtw_lab(_v, rl.get("mmtw_rising"))
+        else:
+            c, z, d = "#f59e0b", "—", ""
+        big("MMTW 寬度", "（% ABOVE 20MA）· 短線廣度振盪",
+            "%.1f%%" % _v, _v, z, c, d, sym="MMTW")
     if rl.get("mmfi") is not None:
-        brow("MMFI", "%.1f%%" % float(rl["mmfi"]), rl["mmfi"], 50,
-             "50 以上＝多數股企 50MA 上", sym="MMFI")
+        _v = float(rl["mmfi"])
+        if _mmfi_lab:
+            z, c, d = _mmfi_lab(_v)
+        else:
+            c, z, d = "#f59e0b", "—", ""
+        big("MMFI", "（% ABOVE 50MA）· 中期趨勢參與度",
+            "%.1f%%" % _v, _v, z, c, d, sym="MMFI")
+    P.append('<div class="pf-sub2">其他廣度</div>')
     if b.get("pct40") is not None:
         brow("% 企 40MA", "%s%%" % _num(b.get("pct40")), b.get("pct40"), 50,
              "中期參與度")
@@ -358,8 +403,10 @@ def build():
             lv = float(b.get("lsr"))
         except (TypeError, ValueError):
             lv = 0
-        brow("LS ratio", _num(lv, 2), min(100, lv / 3 * 100), 33.3,
-             "1.0 以上偏多（升／跌股）")
+        # LS ratio：0–2.5 映射（≥2.5:1 已經極強），中線 1.0 → 40%
+        brow("LS ratio", "%s : 1" % _num(lv, 2),
+             min(100, lv / 2.5 * 100), 40,
+             "1.0 以上偏多（升股 ÷ 跌股）")
     if rl.get("mri") is not None:
         try:
             mv = float(rl.get("mri"))
