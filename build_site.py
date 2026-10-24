@@ -1012,6 +1012,8 @@ html[data-theme="light"] .jb-card{border-color:#E3E1DA;
 SIDEBAR_LINKS = [
     # 2026-10-19 方案 C：5 個分組；廚房看板獨立最頂；PLAYBOOK 最底
     ("_pinned", "", "廚房看板", "jobboard.html"),
+    # ★ 2026-10-24 Desmond：「好似 Jeff 咁每日一個流程 → 9:30 ready」
+    ("_pinned", "", "⚡ 每日流程", "process.html"),
     ("_pinned", "", "DATABASE", "datahealth.html"),
     # ★ 2026-10-23 Desmond：「MODEL BOOK 搬到左邊欄外 唔放方法入面」
     ("_pinned", "", "MODEL BOOK", "modelbook.html"),
@@ -2071,6 +2073,15 @@ def build():
         log(f"✓ rsscan.html ({len(_rb)//1024} KB)")
     except Exception as _e14:                                # noqa: BLE001
         log(f"⚠ RS Daily Scan 失敗：{type(_e14).__name__}: {_e14}")
+
+    # ── ★ 2026-10-24 每日流程（Jeff Sun 決策漏斗）──
+    try:
+        import process_page as _pf
+        _pt, _pb = _pf.build()
+        pages["process"] = (_pt, _pb, base)
+        log(f"✓ process.html ({len(_pb)//1024} KB)")
+    except Exception as _e15:                                # noqa: BLE001
+        log(f"⚠ 每日流程失敗：{type(_e15).__name__}: {_e15}")
 
     # ── RS Leader 位置圖（Desmond 2026-10-19：加日期選取器）──
     try:
