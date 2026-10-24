@@ -2161,7 +2161,13 @@ def build():
             if _k in _parts:
                 _body = f"{_st}" + _parts[_k]
                 if _k == "sectors":
-                    # ★ 2026-10-24 Desmond：群組 RS 新高搬入「主題 → Sectors」
+                    # ★ 2026-10-24 Desmond：「行業輪動放 Sector 最頂（重點最高）」
+                    try:
+                        import rotation_block as _rot
+                        _body = _rot.build() + _body
+                    except Exception as _er:              # noqa: BLE001
+                        log(f"⚠ 輪動區塊失敗：{type(_er).__name__}: {_er}")
+                    # ★ 2026-10-24 Desmond：群組 RS 新高搬入「主題 → Sectors"
                     try:
                         import group_rs_page as _grs
                         _gc = _grs.card()
