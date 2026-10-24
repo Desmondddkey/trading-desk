@@ -420,6 +420,21 @@ def build():
     # ① 階段 × 表現：全部 ETF 按「分」排序（截 25 行）
     merged = sorted((rb["index"] + rb["group"] + rb["sector"]),
                     key=lambda r: -(r.get("score") or -1))
+    # ★ 2026-10-24：同一隻 ETF 可以同時屬「群組」同「板塊」（例：XOP 出現兩次）
+    #   → 合併表按 ticker 去重，保留分數最高嗰行；名跟中文（sector 名優先）
+    def _cjk(s):
+        return any("\u4e00" <= ch <= "\u9fff" for ch in (s or ""))
+
+    _seen, _ded = {}, []
+    for r in merged:
+        tk = r.get("etf")
+        if tk in _seen:
+            if not _cjk(_seen[tk].get("name")) and _cjk(r.get("name")):
+                _seen[tk]["name"] = r.get("name")
+            continue
+        _seen[tk] = r
+        _ded.append(r)
+    merged = _ded
     for r in merged:
         r["_sec"] = ""
 
