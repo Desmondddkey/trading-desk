@@ -49,7 +49,7 @@ CSS = """
 .rt-card h3{margin:0 0 4px;font-size:14px;font-weight:800;
   display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .rt-card h3 small{font-weight:400;font-size:11px;opacity:.6}
-.rt-tbl{width:100%;max-width:1040px;border-collapse:collapse;font-size:12px;
+.rt-tbl{width:100%;max-width:1040px;border-collapse:collapse;font-size:12.5px;
   table-layout:fixed;font-variant-numeric:tabular-nums}
 .rt-tbl th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.04em;
   padding:4px 5px;opacity:.6;border-bottom:1px solid rgba(128,128,128,.3);
@@ -68,7 +68,6 @@ CSS = """
 .rt-tbl col.c-thrust{width:50px}
 .rt-tbl col.c-ex1m{width:62px}
 .rt-tbl col.c-spark{width:52px}
-.rt-tbl col.c-pct{width:44px}
 .rt-tbl col.c-off52{width:56px}
 .rt-nm2{display:none}
 .rt-st-abbr{display:none}
@@ -95,40 +94,25 @@ html[data-theme="dark"] .rt-neg{color:#ff8f8f}
 .rt-warn{font-size:11.5px;line-height:1.6;padding:7px 10px;border-radius:8px;
   background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);
   margin:0 0 8px}
-@media(max-width:760px){
+/* ★ 2026-10-24 修：唔再「縮字」—— 窄螢幕改用卡片式（每隻股 2 行 + 標籤），
+   字級維持 12.5px，唔會縮到睇唔到，亦都唔需要橫向 scroll。*/
+@media(max-width:900px){
   .rt-bar{display:none}
   .rt-st-full{display:none}
   .rt-st-abbr{display:inline}
-  .rt-tbl col.c-stage{width:46px}
-  /* 12 欄太闊 → 手機隱藏「走勢」同「名稱」兩欄；名稱改喺代號下面一行顯示 */
-  .rt-tbl th:nth-child(10),.rt-tbl td:nth-child(10),
-  .rt-tbl th:nth-child(3),.rt-tbl td:nth-child(3){display:none}
-  .rt-nm2{display:block;font-size:9.5px;opacity:.6;font-weight:400;
-    max-width:88px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .rt-tbl{font-size:11px}
-  .rt-tbl th,.rt-tbl td{padding:3px 3px}
-  .rt-tbl col.c-stage{width:58px}
-  .rt-tbl col.c-etf{width:46px}
-  .rt-tbl col.c-score{width:34px}
-  .rt-tbl col.c-p1w{width:60px}
-  .rt-tbl col.c-p1m{width:64px}
-  .rt-tbl col.c-p3m{width:64px}
-  .rt-stage{font-size:9px;padding:0 4px}
-}
-@media(max-width:480px){
-  /* 手機最窄：8 欄，全部數字都睇到（只收起 推力／RS%）*/
-  .rt-tbl{font-size:10px}
-  .rt-tbl th:nth-child(8),.rt-tbl td:nth-child(8),
-  .rt-tbl th:nth-child(11),.rt-tbl td:nth-child(11){display:none}
-  .rt-tbl col.c-stage{width:44px}
-  .rt-tbl col.c-etf{width:42px}
-  .rt-tbl col.c-score{width:28px}
-  .rt-tbl col.c-p1w{width:48px}
-  .rt-tbl col.c-p1m{width:52px}
-  .rt-tbl col.c-p3m{width:52px}
-  .rt-tbl col.c-ex1m{width:46px}
-  .rt-tbl col.c-off52{width:42px}
-  .rt-tbl th,.rt-tbl td{padding:2px}
+  .rt-tbl{max-width:none;table-layout:auto;font-size:12.5px}
+  .rt-tbl colgroup,.rt-tbl thead{display:none}
+  .rt-tbl,.rt-tbl tbody,.rt-tbl tr,.rt-tbl td{display:block;width:auto}
+  .rt-tbl tr{padding:7px 2px;border-bottom:1px solid rgba(128,128,128,.16)}
+  .rt-tbl td{border:0;padding:1px 0;display:inline-block;
+    margin:0 12px 2px 0;font-size:12.5px}
+  .rt-tbl td[data-l]::before{content:attr(data-l) " ";font-size:10.5px;
+    opacity:.5;margin-right:2px}
+  .rt-tbl td.c1,.rt-tbl td.c2{margin-right:8px}
+  .rt-tbl td.c3{display:block;font-size:12px;opacity:.7;margin:1px 0 3px}
+  .rt-tbl td:last-child{display:none}
+  .rt-nm2{display:none}
+  .rt-stage{font-size:10.5px;padding:1px 5px}
 }
 """
 
@@ -223,38 +207,39 @@ def _table(rows, stages, title=None, max_rows=None):
                '<col class="c-stage"><col class="c-etf"><col class="c-name">'
                '<col class="c-score"><col class="c-p1w"><col class="c-p1m">'
                '<col class="c-p3m"><col class="c-thrust"><col class="c-ex1m">'
-               '<col class="c-spark"><col class="c-pct"><col class="c-off52">'
+               '<col class="c-spark"><col class="c-off52">'
                '<col class="c-fill">'
                '</colgroup><thead><tr>'
                '<th>階段</th><th>代號</th><th>名稱</th><th>RS</th>'
                '<th>1 週</th><th>1 個月</th><th>3 個月</th>'
                '<th>推力</th><th>1月超額</th><th>走勢</th>'
-               '<th>RS%</th><th>距52高</th><th></th>'
+               '<th>距52高</th><th></th>'
                '</tr></thead><tbody>')
     for r in shown:
         tk = r.get("etf") or ""
         nm = r.get("name") or ""
         out.append(
             '<tr>'
-            f'<td>{_stage_badge(stages.get(tk))}</td>'
-            f'<td class="rt-etf"><a class="tv" data-sym="{_esc(tk)}" '
+            f'<td class="c1">{_stage_badge(stages.get(tk))}</td>'
+            f'<td class="c2 rt-etf"><a class="tv" data-sym="{_esc(tk)}" '
             f'href="https://www.tradingview.com/chart/?symbol={_esc(tk)}" '
             f'target="_blank" rel="noopener">{_esc(tk)}</a>'
             f'<span class="rt-nm2">{_esc(nm)}</span></td>'
-            f'<td class="rt-name" title="{_esc(nm)}">{_esc(nm)}</td>'
-            f'<td class="rt-num">'
+            f'<td class="c3 rt-name" title="{_esc(nm)}">{_esc(nm)}</td>'
+            f'<td class="rt-num" data-l="RS">'
             f'{_esc(r.get("score")) if r.get("score") is not None else "—"}</td>'
-            f'<td class="{cls(r.get("r1w"))}">{_f(r.get("r1w"))}'
-            f'{_bar(r.get("r1w"), mx["r1w"])}</td>'
-            f'<td class="{cls(r.get("r1m"))}">{_f(r.get("r1m"))}'
-            f'{_bar(r.get("r1m"), mx["r1m"])}</td>'
-            f'<td class="{cls(r.get("r3m"))}">{_f(r.get("r3m"))}'
-            f'{_bar(r.get("r3m"), mx["r3m"])}</td>'
-            f'<td class="rt-num">{_esc(r.get("thrust"))}</td>'
-            f'<td class="{cls(r.get("ex1m"))}">{_f(r.get("ex1m"))}</td>'
-            f'<td>{_spark(r.get("spark"))}</td>'
-            f'<td class="rt-num">{_esc(r.get("pct"))}</td>'
-            f'<td class="{cls(r.get("off52w"))}">{_f(r.get("off52w"))}</td>'
+            f'<td class="{cls(r.get("r1w"))}" data-l="1週">'
+            f'{_f(r.get("r1w"))}{_bar(r.get("r1w"), mx["r1w"])}</td>'
+            f'<td class="{cls(r.get("r1m"))}" data-l="1月">'
+            f'{_f(r.get("r1m"))}{_bar(r.get("r1m"), mx["r1m"])}</td>'
+            f'<td class="{cls(r.get("r3m"))}" data-l="3月">'
+            f'{_f(r.get("r3m"))}{_bar(r.get("r3m"), mx["r3m"])}</td>'
+            f'<td class="rt-num" data-l="推力">{_esc(r.get("thrust"))}</td>'
+            f'<td class="{cls(r.get("ex1m"))}" data-l="超額">'
+            f'{_f(r.get("ex1m"))}</td>'
+            f'<td data-l="走勢">{_spark(r.get("spark"))}</td>'
+            f'<td class="{cls(r.get("off52w"))}" data-l="距高">'
+            f'{_f(r.get("off52w"))}</td>'
             '<td></td>'
             '</tr>')
     out.append('</tbody></table>')
@@ -310,7 +295,6 @@ def build():
              '<br><b>推力</b>＝30 日內 21 日回報贏 SPY 嘅日數比例（0–100，我嘅定義）。'
              '<b>1月超額</b>＝1 個月回報 − SPY 1 個月。'
              '<b>走勢</b>＝每日超額回報迷你線（綠＝領先、紅＝落後）。'
-             '<b>RS%</b>＝1 月超額喺本表嘅百分位。'
              '<b>距52高</b>＝距 52 週高（%）。'
              '<br>手機（≤760px）會收起「名稱」同「走勢」兩欄，名稱改喺代號下面一行；'
              '其餘數字全部保留。</div>')
