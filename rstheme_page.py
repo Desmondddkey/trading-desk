@@ -44,6 +44,15 @@ def _f(v, d=1, plus=True):
 CSS = """
 .rt-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 2px}
 .rt-h h2{margin:0;font-size:19px}
+/* ── 卡片頭（參考 Sectors 頁「行業輪動」排板，Desmond 2026-10-24）── */
+.rt-shead{display:flex;align-items:center;gap:11px;padding:2px 0 9px;
+  border-bottom:1px solid rgba(128,128,128,.22);margin-bottom:6px;flex-wrap:wrap}
+.rt-ico{background:#2563eb;border-radius:9px;width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+  flex:0 0 32px;line-height:1}
+.rt-shead .ttl{font-size:18px;font-weight:800;line-height:1.15}
+.rt-shead .sub{font-size:11.5px;opacity:.62;margin-top:2px}
+.rt-shead .meta{margin-left:auto;font-size:11.5px;opacity:.72;text-align:right}
 .rt-sub{font-size:11.5px;opacity:.62}
 .rt-card{margin:10px 0}
 .rt-card h3{margin:0 0 4px;font-size:14px;font-weight:800;
@@ -348,7 +357,8 @@ function rtSort(th){
 """
 
 
-def _table(rows, stages, title=None, max_rows=None):
+def _table(rows, stages, title=None, max_rows=None, sub=None,
+           icon="🎯", meta=""):
     """欄序：RS｜代號｜名稱｜走勢｜1週｜1個月｜3個月｜推力｜1月超額｜距52高｜EXT｜階段
     「加新野唔准鏟舊野」—— 舊欄位全部保留，只係搬位。"""
     if not rows:
@@ -368,7 +378,14 @@ def _table(rows, stages, title=None, max_rows=None):
 
     out = []
     if title:
-        out.append(f'<h3 class="rt-h3">{title} <small>{len(rows)} 隻</small></h3>')
+        _sub = sub or f"{len(rows)} 隻"
+        out.append(
+            '<div class="rt-shead">'
+            f'<span class="rt-ico">{icon}</span>'
+            f'<div><div class="ttl">{title}</div>'
+            f'<div class="sub">{_sub}</div></div>'
+            f'<div class="meta">{meta}</div>'
+            '</div>')
     out.append('<table class="rt-tbl"><colgroup>')
     for _k, _h, colcls, _td, w in COLS:
         out.append(f'<col class="{colcls}" style="width:{w}px">')
@@ -414,7 +431,9 @@ def build():
              '最近 30 個交易日之中，ETF 嘅 21 日回報贏 SPY 嘅比例。唔會扮係佢嘅數。</div>')
 
     P.append('<div class="card rt-card">')
-    P.append(_table(merged, stages, "階段 × 表現（按 RS 排序）", max_rows=25))
+    P.append(_table(merged, stages, "階段 × 表現", max_rows=25,
+           sub=f"按 RS 排序｜{len(merged)} 隻｜撳欄頭可切換升／降序",
+           icon="🎯", meta=f"資料至 {_esc(rb['as_of'])}"))
     P.append('<div class="rt-note">'
              '<b>RS</b>＝透明加權百分位（1個月 50%／3個月 30%／1週 20%），後面色條跟數值；'
              '即係「喺呢張表嘅排名」，唔係黑箱。'
@@ -422,10 +441,10 @@ def build():
              '代號可 hover 睇 TV 圖。</div>')
     P.append('</div>')
 
-    for title, rows in (("指數 Index", rb["index"]),
-                        ("群組 Group", rb["group"]),
-                        ("板塊 Sector", rb["sector"])):
-        P.append(f'<div class="card rt-card">{_table(rows, stages, title)}</div>')
+    for title, rows, ico in (("指數 Index", rb["index"], "📈"),
+                             ("群組 Group", rb["group"], "🧩"),
+                             ("板塊 Sector", rb["sector"], "🏭")):
+        P.append(f'<div class="card rt-card">{_table(rows, stages, title, icon=ico)}</div>')
 
     P.append('<div class="rt-note">'
              '<b>1 週</b>＝5 個交易日；<b>1 個月</b>＝21 日；<b>3 個月</b>＝63 日，'
