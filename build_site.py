@@ -2093,6 +2093,14 @@ def build():
         _td, _bd = _ds.build()
         pages["dailyscan"] = (_td, _bd, base)
         log(f"✓ dailyscan.html ({len(_bd)//1024} KB)")
+        # ★ 2026-10-24 歷史快照（日期選擇器用）：最近 6 個交易日
+        try:
+            for _d in _ds.available_days()[1:5]:
+                _th, _bh = _ds.build(_d)
+                pages[f"dailyscan_{_d}"] = (_th, _bh, base)
+                log(f"✓ dailyscan_{_d}.html ({len(_bh)//1024} KB)")
+        except Exception as _eh:                            # noqa: BLE001
+            log(f"⚠ 歷史 Daily Scan 失敗：{type(_eh).__name__}: {_eh}")
     except Exception as _e10:                                # noqa: BLE001
         log(f"⚠ Daily Scan 失敗：{type(_e10).__name__}: {_e10}")
 

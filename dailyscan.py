@@ -189,8 +189,25 @@ def load_l1():
     return scans, asof
 
 
-def load_l2():
-    fs = sorted(glob.glob(os.path.join(OUT, "layer2_*.json")))
+def available_days():
+    """由 layer2_* 檔名抽出可用日期（新→舊）。"""
+    import re
+    days = set()
+    for p in glob.glob(os.path.join(OUT, "layer2_*.json")):
+        m = re.search(r"layer2_(\d{8})_", os.path.basename(p))
+        if m:
+            s = m.group(1)
+            days.add(f"{s[:4]}-{s[4:6]}-{s[6:]}")
+    return sorted(days, reverse=True)
+
+
+def load_l2(day=None):
+    """day=YYYY-MM-DD → 揀嗰日最新一份；唔指定 → 最新。"""
+    if day:
+        pat = os.path.join(OUT, "layer2_%s_*.json" % day.replace("-", ""))
+        fs = sorted(glob.glob(pat))
+    else:
+        fs = sorted(glob.glob(os.path.join(OUT, "layer2_*.json")))
     if not fs:
         return None, None
     f = fs[-1]
@@ -238,8 +255,11 @@ def compute_metrics(ohlc):
     return out
 
 
-def update_day_on(tickers):
-    """記錄每隻股連續在名單幾日。→ dict[ticker] = n。"""
+def update_day_on(tickers, read_only=False):
+    """記錄每隻股連續在名單幾日。→ dict[ticker] = n。
+
+    ★ read_only=True：只讀唔寫（歷史日期頁面用，唔准改 state）。
+    """
     p = os.path.join(BOOK, "dailyscan_history.json")
     today = dt.date.today().isoformat()
     hist = {}
@@ -257,13 +277,25 @@ def update_day_on(tickers):
             newrec[t] = {"n": n, "last": last}
         else:
             newrec[t] = {"n": n + 1, "last": today}
-    io.open(p, "w", encoding="utf-8").write(json.dumps(
-        {"updated": today, "tickers": newrec}, ensure_ascii=False, indent=1))
+    if not read_only:
+        io.open(p, "w", encoding="utf-8").write(json.dumps(
+            {"updated": today, "tickers": newrec}, ensure_ascii=False, indent=1))
     return {t: v["n"] for t, v in newrec.items()}
 
 
 # ══════════════════════════════════════════════════════════════
 CSS = """
+.ds-dbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0 10px}
+.ds-dbtn{font-size:12px;padding:5px 10px;border-radius:8px;font-weight:700;
+  border:1px solid rgba(128,128,128,.35);text-decoration:none;color:inherit}
+.ds-dbtn:hover{border-color:#f97316;color:#f97316}
+.ds-dbtn.off{opacity:.32;pointer-events:none}
+.ds-dsel{font:inherit;font-size:12.5px;padding:5px 8px;border-radius:8px;
+  border:1px solid rgba(128,128,128,.35);background:transparent;color:inherit}
+.ds-dn{font-size:11.5px;opacity:.62;font-weight:800}
+.ds-histwarn{font-size:11.5px;line-height:1.6;padding:7px 10px;border-radius:8px;
+  background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);
+  margin:0 0 10px}
 .ds-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 4px}
 .ds-l1{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
   gap:10px;margin:0 0 16px}
@@ -354,9 +386,14 @@ function dsFilter(mode,btn){
 """
 
 
-def build():
+def build(day=None):
+    """day=YYYY-MM-DD 建該日快照（歷史頁）；None = 最新。"""
     scans, l1_asof = load_l1()
-    l2rows, l2_src = load_l2()
+    if day:
+        _dd = available_days()
+        if _dd and day != _dd[0]:
+            scans = {}          # L1 只保留最新（歷史 L1 冇逐日存檔，唔准扮）
+    l2rows, l2_src = load_l2(day)
     ohlc, ohlc_asof = load_ohlc()
     metrics = compute_metrics(ohlc)
 
@@ -394,6 +431,38 @@ def build():
 
     parts = [f'<style>{CSS}</style><script>{JS}</script>']
     parts.append('<h2>Daily Scan <small>L1 掃描 + L2 圖表隊列</small></h2>')
+
+    # ★ 2026-10-24 Desmond：「返個選擇日期既按鈕／列表／上一日／下一日，
+    #   比我 track record」→ 每一步都係獨立快照頁 dailyscan_<date>.html
+    _days = available_days()
+    if _days:
+        _cur = day if (day in _days) else _days[0]
+        _i = _days.index(_cur)
+        _prev = _days[_i + 1] if _i + 1 < len(_days) else None   # 更舊
+        _next = _days[_i - 1] if _i > 0 else None                # 更新
+        _is_latest_day = (_cur == _days[0])
+
+        def _href(d):
+            return "dailyscan.html" if d == _days[0] else f"dailyscan_{d}.html"
+
+        _opts = "".join(
+            '<option value="%s"%s>%s</option>'
+            % (_href(d), " selected" if d == _cur else "", d)
+            for d in _days[:40])
+        _left = (f'<a class="ds-dbtn" href="{_href(_prev)}">◀ 上一日</a>'
+                 if _prev else '<span class="ds-dbtn off">◀ 上一日</span>')
+        _right = (f'<a class="ds-dbtn" href="{_href(_next)}">下一日 ▶</a>'
+                  if _next else '<span class="ds-dbtn off">下一日 ▶</span>')
+        parts.append('<div class="ds-dbar">' + _left
+                     + '<select class="ds-dsel" onchange="location.href=this.value">'
+                     + _opts + '</select>' + _right
+                     + f'<span class="ds-dn">{_cur}'
+                     + ('' if _is_latest_day else '（歷史）') + '</span></div>')
+        if not _is_latest_day:
+            parts.append(
+                '<div class="ds-histwarn">⚠ 歷史快照：<b>名單</b>係 %s 當日嘅 L2；'
+                '但 RVOL／ATR%% 用<b>最新</b> OHLC 計（原始日線冇逐日存檔），'
+                '所以呢兩欄唔可以當當日數。L1 只保留最新一日。</div>' % _cur)
     parts.append(
         f'<p class="crumb">L1 <code>{_esc(l1_asof or "—")}</code>｜'
         f'L2 <code>{_esc(l2_src or "—")}</code>｜'
@@ -441,7 +510,9 @@ def build():
     # ── L2 ──
     if l2rows:
         tk_all = [r.get("ticker") for r in l2rows if r.get("ticker")]
-        dayon = update_day_on(tk_all)
+        _days = available_days()
+        _is_latest = (not day) or (not _days) or (day == _days[0])
+        dayon = update_day_on(tk_all, read_only=not _is_latest)
 
         n_buy = sum(1 for r in l2rows
                     if (r.get("atr_ext_50ma") or 0) <= 4
