@@ -291,6 +291,30 @@ PHASE_COL = {"EXPANSION 7+": "#ef4444", "NO NEW RISK 4-7": "#f97316",
              "RESET -4/-2": "#6366f1", "DEEP <-4": "#94a3b8"}
 
 
+def _ex_grade(r):
+    """EXT 階段表嘅 SETUP 評分（A+ 最高）。只用表內已有數字。"""
+    x = r.get("atrx")
+    if x is None:
+        return "—", 0
+    if x > 4:
+        return "D", 0
+    pts = 3 if 0 <= x <= 2 else 2
+    rs = r.get("rs_rating")
+    if rs is not None:
+        pts += 3 if rs >= 95 else (2 if rs >= 90 else (1 if rs >= 80 else 0))
+    if str(r.get("launch") or "").startswith("READY"):
+        pts += 1
+    if r.get("alpha") and not r.get("lead_weak"):
+        pts += 1
+    return ("A+" if pts >= 7 else "A" if pts >= 5
+            else "B" if pts >= 3 else "C"), pts
+
+
+def _gcol(g):
+    return {"A+": "#a855f7", "A": "#22c55e", "B": "#f59e0b",
+            "C": "#94a3b8", "D": "#ef4444"}.get(g, "#94a3b8")
+
+
 def _ext_phase():
     import io
     import json
@@ -421,6 +445,8 @@ def _ext_phase():
             f'<td><a class="tv" data-sym="{_esc(tk)}" '
             f'href="https://www.tradingview.com/chart/?symbol={_esc(tk)}" '
             f'target="_blank" rel="noopener">{_esc(tk)}</a></td>'
+            f'<td><b style="color:{_gcol(_ex_grade(r)[0])}">'
+            f'{_ex_grade(r)[0]}</b></td>'
             f'<td style="color:{col};font-weight:700">{_esc(ph)}</td>'
             f'<td>{_num(r.get("atrx"), 2)}</td>'
             f'<td>{_esc(r.get("rs_rating"))}</td>'
