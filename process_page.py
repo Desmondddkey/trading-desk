@@ -61,6 +61,14 @@ CSS = """
 .pf-step.ok{border-left-color:#22c55e}
 .pf-step.warn{border-left-color:#f59e0b}
 .pf-step.bad{border-left-color:#ef4444}
+.ex-idx{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 9px}
+.ex-card{border:1px solid rgba(128,128,128,.3);border-radius:9px;padding:7px 9px;
+  background:rgba(128,128,128,.05)}
+.ex-card .tk{font-size:13px;font-weight:800;letter-spacing:.02em}
+.ex-card .ph{font-size:11.5px;font-weight:700;margin:1px 0 3px}
+.ex-card .row{font-size:11px;opacity:.82}
+.ex-card .row b{font-weight:800}
+@media(max-width:700px){.ex-idx{grid-template-columns:1fr}}
 .ex-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;
   background:rgba(128,128,128,.15);margin:6px 0 5px}
 .ex-bar>i{display:block;height:100%}
@@ -308,7 +316,26 @@ def _ext_phase():
 
     P = ['<div class="pf-step"><h3>🧪 EXT 階段（RS Alpha v9）'
          f'<small>{len(rows)} 隻｜資料 {_esc(d.get("as_of"))}｜'
-         'EXT＝距 50MA 嘅 ATR 倍數</small></h3>']
+         'EXT＝距 50MA 嘅 ATR 倍數｜大盤 SPY／QQQ／IWM 用同一把尺</small></h3>']
+
+    # ── 大盤指數（SPY / QQQ / IWM）同一套 EXT 階段 ──
+    idx = d.get("indices") or []
+    if idx:
+        P.append('<div class="ex-idx">')
+        for r in idx:
+            col = PHASE_COL.get(r.get("phase"), "#94a3b8")
+            tk = r.get("sym") or ""
+            P.append(
+                f'<div class="ex-card" style="border-color:{col}66">'
+                f'<div class="tk"><a class="tv" data-sym="{_esc(tk)}" '
+                f'href="https://www.tradingview.com/chart/?symbol={_esc(tk)}" '
+                f'target="_blank" rel="noopener">{_esc(tk)}</a></div>'
+                f'<div class="ph" style="color:{col}">{_esc(r.get("phase"))}</div>'
+                f'<div class="row">EXT <b>{_num(r.get("atrx"), 2)}</b>'
+                f'　距MA {_num(r.get("ma_dist"), 2)}%'
+                f'　ATR% {_num(r.get("atr_pct"), 2)}</div>'
+                '</div>')
+        P.append('</div>')
 
     # 階段分佈條
     P.append('<div class="ex-bar">')
