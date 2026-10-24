@@ -61,6 +61,12 @@ CSS = """
 .pf-step.ok{border-left-color:#22c55e}
 .pf-step.warn{border-left-color:#f59e0b}
 .pf-step.bad{border-left-color:#ef4444}
+.pf-dec{width:100%;border-collapse:collapse;font-size:12.5px;text-align:left}
+.pf-dec td{padding:4px 6px;border-bottom:1px solid rgba(128,128,128,.12);
+  text-align:left}
+.pf-dec td:first-child{width:74px;font-weight:700;opacity:.8;white-space:nowrap}
+.pf-dec td:nth-child(2){width:64px}
+.pf-dec .why{opacity:.7;font-size:11.5px}
 .ex-idx{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 9px}
 .ex-card{border:1px solid rgba(128,128,128,.3);border-radius:9px;padding:7px 9px;
   background:rgba(128,128,128,.05)}
@@ -291,6 +297,46 @@ PHASE_COL = {"EXPANSION 7+": "#ef4444", "NO NEW RISK 4-7": "#f97316",
              "RESET -4/-2": "#6366f1", "DEEP <-4": "#94a3b8"}
 
 
+
+def _alpha_map():
+    import io, json, os
+    if not os.path.exists(RS_ALPHA):
+        return {}
+    try:
+        d = json.load(io.open(RS_ALPHA, encoding="utf-8"))
+    except Exception:                                          # noqa: BLE001
+        return {}
+    return {r.get("sym"): r for r in (d.get("rows") or [])}
+
+
+def _streak():
+    """Champion 帳本尾段連續蝕幾多單（漸進式持倉：連蝕 3 停手）。"""
+    import io, json, os
+    p = r"C:/Users/rain0/trading-os/sim_ledger/fleet/champion/trades.jsonl"
+    if not os.path.exists(p):
+        return None
+    rs = []
+    for ln in io.open(p, encoding="utf-8"):
+        try:
+            j = json.loads(ln)
+            rs.append(float(j.get("r") or 0))
+        except Exception:                                      # noqa: BLE001
+            continue
+    n = 0
+    for r in reversed(rs):
+        if r < 0:
+            n += 1
+        else:
+            break
+    return n
+
+
+def _chip(v):
+    col = {"GO": "#22c55e", "WATCH": "#f59e0b", "NO-GO": "#ef4444"}.get(v, "#94a3b8")
+    return (f'<span style="color:{col};font-weight:800;white-space:nowrap">'
+            f'{v}</span>')
+
+
 def _ex_grade(r):
     """EXT 階段表嘅 SETUP 評分（A+ 最高）。只用表內已有數字。"""
     x = r.get("atrx")
@@ -497,6 +543,41 @@ def build():
 
     # ── ① 市場 ──
     st = "bad" if red >= 3 else ("warn" if red >= 1 else "ok")
+    # ── ★ 2026-10-24 改1：七步判決表（3 分鐘睇完，唔使腦內連七個判斷）──
+    _am = _alpha_map()
+    _box_ok = []
+    for _r in (box or []):
+        _a = _am.get(_r.get("ticker")) or {}
+        _g = _ex_grade(_a)[0] if _a else "—"
+        _nh = _a.get("nh_age")
+        if _g in ("A+", "A", "B") and (_nh is None or _nh <= 10):
+            _box_ok.append(_r)
+    _v1 = ("NO-GO" if (veto or red >= 4) else
+           "WATCH" if red >= 2 else "GO")
+    _v2 = ("NO-GO" if (b.get("regime") or "").upper().startswith("BEAR")
+           else "WATCH" if (b.get("posture") or "").upper().find("FLAT") >= 0
+           else "GO")
+    _v3 = ("GO" if (g.get("trend") or "").find("擴") >= 0 else "WATCH")
+    _v4 = "GO" if _box_ok else "NO-GO"
+    _v5 = "NO-GO" if veto else ("GO" if _box_ok else "WATCH")
+    _v6 = "GO" if ready else "NO-GO"
+    _rows = [
+        ("① 環境", _v1, (f"{red}/{total_l} 紅" if total_l else "冇數據")
+         + ("｜環境否決 cap=0" if veto else "")),
+        ("② 廣度", _v2, f"{_esc(b.get('regime') or '—')}｜{_esc(b.get('posture') or '—')}"),
+        ("③ 板塊", _v3, f"創新高 {_esc(g.get('n_new'))}/{_esc(g.get('total'))}"
+                       f"｜{_esc(g.get('trend'))}"),
+        ("④ 候選", _v4, f"合格 {len(_box_ok)}／買入區 {len(box or [])}"),
+        ("⑤ 計劃", _v5, "0 單" if veto else f"{len(_box_ok)} 隻可掛單"),
+        ("⑥ READY", _v6, "可以落場" if ready else "唔需要盯盤"),
+    ]
+    P.append('<div class="pf-step"><h3>⚡ 七步判決</h3>'
+             '<table class="pf-dec"><tbody>')
+    for _n, _v, _why in _rows:
+        P.append(f'<tr><td>{_n}</td><td>{_chip(_v)}</td>'
+                 f'<td class="why">{_why}</td></tr>')
+    P.append('</tbody></table></div>')
+
     P.append(f'<div class="pf-step {st}"><h3>① 市場環境 '
              f'<small>5 燈｜{red}/{total_l} 紅</small></h3>')
     for L in card["lights"]:
@@ -513,6 +594,8 @@ def build():
     P.append('<div class="pf-step"><h3>② 廣度 '
              f'<small>{_esc(b.get("regime") or "—")}｜'
              f'{_esc(b.get("posture") or "—")}</small></h3>')
+
+    _bl = []
 
     def brow(name, val, pct, mid=50.0, note="", sym=None):
         """一行廣度指標。
@@ -540,12 +623,9 @@ def build():
                   'target="_blank" rel="noopener">%s</a>' % (sym, sym, name))
         else:
             nm = name
-        P.append('<div class="pf-brow"><span class="nm">%s</span>'
-                 '<span class="vv" style="color:%s">%s</span>'
-                 '<span class="bw">%s</span>'
-                 '<span class="nt"><b style="color:%s">%s</b>%s</span></div>'
-                 % (nm, col, val, _bar(p, col, mid), col, tag,
-                    ("　·　" + note) if note else ""))
+        _bl.append("%s %s <b style=\"color:%s\">%s</b>"
+                   % (name, val, col, tag.replace("▲ ", "").replace("▼ ", "")
+                      .replace("— ", "")))
 
     # ── 大卡：MMTW / MMFI（同 Market Regime 同一把尺，唔自己寫第二套）──
     try:
@@ -619,6 +699,9 @@ def build():
             mv = 0
         brow("MRI 0–100", "%.0f" % mv, mv, 50,
              _esc(rl.get("state") or ""))
+    if _bl:
+        P.append('<div class="pf-note">其他廣度（結構性、滯後）：'
+                 + "　·　".join(_bl) + '</div>')
     P.append('<div class="pf-note">MMTW/MMFI 來源：'
              + _esc(rl.get("asof") or "—")
              + f'｜更新 {_esc(rl.get("updated") or "—")}'
@@ -641,10 +724,17 @@ def build():
 
     # ── ④ 候選 ──
     P.append('<div class="pf-step"><h3>④ 候選 '
-             f'<small>買入區 {_esc(n_box)} 隻</small></h3>')
-    if box:
+             f'<small>合格 {len(_box_ok)}／買入區 {_esc(n_box)} 隻'
+             '（評分 B+ 且 NH ≤10 日）</small></h3>')
+    _drop = [r for r in (box or []) if r not in _box_ok]
+    if _drop:
+        P.append('<div class="pf-note">已剔除 '
+                 f'{len(_drop)} 隻（評分 C/D 或 NH 太舊）：'
+                 + _esc("、".join((r.get("ticker") or "") for r in _drop[:10]))
+                 + '</div>')
+    if _box_ok:
         P.append('<div class="pf-cands">')
-        for r in box[:14]:
+        for r in _box_ok[:14]:
             _tk = _esc(r.get("ticker"))
             # ★ 2026-10-24 Desmond：hover 出 TV 預覽，左鍵入 TradingView
             # ★ JS 只認 a.tv（closest('a.tv')）—— 冇 tv class 就唔會彈
@@ -695,15 +785,19 @@ def build():
                  '唔需要盯盤。等下一次流程重跑（市場狀態改變）再判斷。</div>'
                  '</div>')
 
-    # ── ⑦ 錢 ──
+    # ── ⑦ 錢（只留 NAV + 連蝕；曲線喺首頁）──
+    _st = _streak()
+    _sk = (f'<div class="pf-note">連蝕 {_st} 單'
+           + ("（≥3 停手，SOUL §4.4）" if (_st or 0) >= 3 else "")
+           + f'｜數據截至 {_esc(nav_day)}</div>') if _st is not None else ""
     if nav:
         ret = (nav / 100000 - 1) * 100
         cls = "#22c55e" if ret >= 0 else "#ef4444"
         P.append('<div class="pf-step"><h3>⑦ 錢（Champion 組合）</h3>'
                  f'<div class="pf-verdict" style="color:{cls}">'
                  f'${nav:,.0f}　{ret:+.2f}%</div>'
-                 f'<div class="pf-note">數據截至 {_esc(nav_day)}｜'
-                 '完整曲線見首頁。熊市 0 單，曲線企定 = 唔蝕。</div></div>')
+                 + _sk)
+    P.append('</div>')
 
     P.append('<div class="pf-note">★ 整個流程嘅目的：開市前用 3 分鐘知道'
              '「做／唔做、做邊隻、止蝕喺邊」。唔需要即場判斷。</div>')
