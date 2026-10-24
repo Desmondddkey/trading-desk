@@ -1038,19 +1038,23 @@ SIDEBAR_LINKS = [
 
     # ★ 2026-10-24 Jeff Sun 決策漏斗：環境→個股→計劃→觸發→風險→edge 庫
     #   原則：計劃先於觸發（pivot/stop/size 寫好先准 Alert）；只做 A+
+    # ★ 2026-10-24 Desmond 指定排位：
+    #   Daily Scan > Alert (Set up alert) > 領導股 (RS leader) >
+    #   RS Before Price > 1CM 回調 (RS Pullback) > 最強 1 週 (Weekly MM)
     ("_grp", "選股"),
+    ("_link", None, "Daily Scan", "dailyscan.html"),
+    ("_link", None, "Alert（Set up alert）", "alerts.html"),
+    ("_link", None, "領導股（RS leader）", "leaders.html"),
+    ("_link", None, "RS Before Price", "rsbeforeprice.html"),
+    ("_link", None, "1CM 回調（RS Pullback）", "cm.html"),
+    ("_link", None, "最強 1 週（Weekly MM）", "week.html"),
+    # ── 其餘（維持原本相對次序）──
     ("_link", None, "RS Leader 位置圖", "leadermap.html"),
     ("_link", None, "RS Daily Scan", "rsscan.html"),
-    ("_link", None, "Daily Scan", "dailyscan.html"),
     ("_link", None, "Setups（The Plan）", "setups.html"),
-    ("_link", None, "Alert", "alerts.html"),
     ("_link", None, "財報日曆", "earnings.html"),
     ("_link", None, "ATRX 風險", "atrxrisk.html"),
-    ("_link", None, "領導股", "leaders.html"),
-    ("_link", None, "RS Before Price", "rsbeforeprice.html"),
-    ("_link", None, "1CM 回調", "cm.html"),
     ("_link", None, "YOYO Ball", "yoyo_ball.html"),
-    ("_link", None, "最強 1 週", "week.html"),
     ("_link", None, "Setup 矩陣", "regime.html"),
 
     ("_grp", "成績"),
