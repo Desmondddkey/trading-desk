@@ -231,9 +231,49 @@ function rsSort(btn, idx){
 }
 """
 
+try:                                    # ATR 帶用 RS THEME 同一把尺（單一來源）
+    from rstheme_page import _band
+except Exception:                                    # noqa: BLE001
+    def _band(_v):
+        return ""
+
+
+def _gcol(g):
+    return {"A+": "#a855f7", "A": "#22c55e", "B": "#f59e0b",
+            "C": "#94a3b8", "D": "#ef4444"}.get(g, "#94a3b8")
+
+
+def grade_of(r):
+    """SETUP 品質 A+ → D（只用呢頁已有數字，唔引入新數據）。"""
+    y = r.get("y")
+    if y is None:
+        return "—", 0
+    if y > 4:
+        return "D", 0                    # 過度延伸直接 D
+    pts = 3 if 0 <= y <= 2 else 2
+    x = r.get("x")
+    if x is not None:
+        pts += 2 if 0 <= x <= 1 else (1 if 1 < x <= 1.5 else 0)
+    d52 = r.get("dist52w")
+    if d52 is not None:
+        pts += 2 if d52 >= -5 else (1 if d52 >= -12 else 0)
+    ex = r.get("ex1m")
+    if ex is not None:
+        pts += 2 if ex >= 5 else (1 if ex > 0 else 0)
+    adr = r.get("adr")
+    if adr is not None and adr >= 5:
+        pts += 1
+    if pts >= 9:
+        return "A+", pts
+    if pts >= 7:
+        return "A", pts
+    if pts >= 5:
+        return "B", pts
+    return "C", pts
+
+
 COLS = [
     ("代號", "ticker", "l", None),
-    ("收市", "close", "", 2),
     ("RS 1M", "r1m", "", 1),
     ("RS 3M", "r3m", "", 1),
     ("EX 1M", "ex1m", "", 1),
@@ -241,7 +281,9 @@ COLS = [
     ("ATR%", "atr_pct", "", 1),
     ("X 距21EMA", "x", "", 2),
     ("Y 距50MA", "y", "", 2),
+    ("EXT", "y", "", 2),
     ("距 52 高", "dist52w", "", 1),
+    ("評分", "grade", "", None),
     ("財報", "days_to_earn", "", 0),
     ("狀態", None, "l", None),
 ]
@@ -520,11 +562,9 @@ def build():
             f'data-bucket="{_esc(r.get("bucket") or "")}">'
             f'<td class="l"><span class="rs-dot {"rs-in" if in_box else "rs-out"}">'
             f'</span><span class="rs-tk"><a href="https://www.tradingview.com/chart/'
-            f'?symbol={_esc(t)}" target="_blank" rel="noopener">{_esc(t)}</a></span>'
-            + (f'<div class="dim" style="font-size:10px">{_esc(tip[:90])}</div>'
-               if tip else "")
-            + '</td>'
-            f'<td data-v="{_esc(r.get("close"))}">{_f(r.get("close"), 2)}</td>'
+            f'?symbol={_esc(t)}" target="_blank" rel="noopener" '
+            f'title="{_esc(tip)}">{_esc(t)}</a></span>'
+            f'</td>'
             f'<td data-v="{_esc(r.get("r1m"))}" class="rs-pos">'
             f'{_f(r.get("r1m"), 1, True)}%</td>'
             f'<td data-v="{_esc(r.get("r3m"))}" class="rs-pos">'
@@ -536,6 +576,10 @@ def build():
             f'<td data-v="{_esc(r.get("y"))}" class="'
             f'{"rs-neg" if (r.get("y") or 0) > 4 else ""}">{_f(r.get("y"), 2)}</td>'
             f'<td data-v="{_esc(r.get("dist52w"))}">{_f(r.get("dist52w"), 1)}%</td>'
+            f'<td data-v="{_esc(r.get("y"))}" title="ATRX {_f(r.get("y"), 2)}">'
+            f'{_band(r.get("y"))}</td>'
+            f'<td class="rs-grade" data-v="{_esc(grade_of(r)[1])}">'
+            f'<b style="color:{_gcol(grade_of(r)[0])}">{_esc(grade_of(r)[0])}</b></td>'
             f'<td data-v="{_esc(dte)}">{dte_s}</td>'
             f'<td class="l">{status}</td></tr>')
 
@@ -547,10 +591,10 @@ def build():
 
     parts.append(
         '<div class="rs-note">'
-        'X = 距 21EMA（ATR 單位）；Y = 距 50MA（= ATRX，>4 紅字代表過度延伸）。'
-        '買入區 = 同時符合 6 個條件（價、成交額、ADR、ATRX、距 52 高、財報黑名單）。'
-        '<br>★ 呢頁係「今日邊隻有資格」嘅清單，唔係買入訊號；'
-        '實際入場價／止蝕／股數睇 Daily Scan 同盤前卡。</div>')
+        'X＝距 21EMA｜Y＝距 50MA（ATRX）｜EXT＝ATRX 帶（綠區 0–4）。'
+        '評分 A+→D：Y 0–2 得 3 分、X 0–1 得 2、距52高 ≥−5% 得 2、'
+        'EX 1M ≥5 得 2、ADR ≥5% 得 1；Y>4 直接 D。'
+        '<br>呢頁係資格清單，唔係買入訊號。</div>')
     return ("RS Daily Scan", "".join(parts))
 
 
