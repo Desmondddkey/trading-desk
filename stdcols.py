@@ -83,7 +83,7 @@ STD_HEADS = [
     ("3m",       "3月"),
     ("6m",       "6月"),
     ("1y",       "1年"),
-    ("ext",      "延伸"),
+    ("ext",      "EXT"),
     ("adr",      "ADR%"),
     ("dvol",     "成交額"),
     ("off52",    "距52週高"),
@@ -156,9 +156,15 @@ def cell(key, r, ctx):
         return (f'<td class="{cls}" title="{esc(raw or "")}">'
                 f'{px:,.2f}</td>')
     if key in ("rsd", "rsw"):
+        # ★ 2026-10-24 修走位：rs_col() 一次回兩格（RS-D＋RS-W），
+        #   以前 key 有 rsd+rsw 就變四格 → 成行右移兩格（1週/1月 顯示成圖表）。
         col = ctx.get("rs_col")
         rs = (ctx.get("rs_map") or {}).get(r.get("symbol") or r.get("ticker"), {})
-        return col(rs) if col else "<td>—</td>"
+        if not col:
+            return "<td>—</td>"
+        cells = re.findall(r"<td>.*?</td>", col(rs), re.S)
+        i = 0 if key == "rsd" else 1
+        return cells[i] if len(cells) > i else "<td>—</td>"
     if key in ("1w", "1m", "3m", "6m", "1y"):
         p = r.get("perf") or {}
         v = p.get(key) if isinstance(p, dict) else r.get(key)
@@ -169,6 +175,8 @@ def cell(key, r, ctx):
         return f"<td>{pct(r.get('adr'), 1)}</td>"
     if key == "dvol":
         return f"<td>{money(r.get('dvol'))}</td>"
+    if key == "rvol":
+        return f"<td>{num(r.get('rvol'), 1)}x</td>"
     if key == "off52":
         return f'<td class="{tone(r.get("off52w"), invert=True)}">{pct(r.get("off52w"), 1)}</td>'
     if key == "x":

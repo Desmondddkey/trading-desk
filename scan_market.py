@@ -45,7 +45,8 @@ TOP_FRAC = 0.05
 MAX_EXTENSION = 4.0
 
 FIELDS = ["name", "close", "industry", "sector", "market_cap_basic",
-          "average_volume_10d_calc", "Perf.W", "Perf.1M", "Perf.3M", "Perf.6M",
+          "average_volume_10d_calc", "volume",
+          "Perf.W", "Perf.1M", "Perf.3M", "Perf.6M",
           "Perf.Y", "SMA50", "ADRP", "ATRP", "price_52_week_high"]
 PERF_KEYS = [("1m", "Perf.1M"), ("3m", "Perf.3M"), ("6m", "Perf.6M"), ("1y", "Perf.Y")]
 
@@ -92,6 +93,8 @@ def build(df):
         if not close or not adv or not adr or not atrp or not sma50:
             continue
         dvol = close * adv
+        vol = num(r.get("volume"))
+        rvol = round(vol / adv, 1) if (vol and adv) else None
         ext = (close - sma50) / (sma50 * atrp / 100.0) if atrp > 0 else None
         perf = {k: num(r.get(f)) for k, f in PERF_KEYS}
         perf["1w"] = num(r.get("Perf.W"))
@@ -99,6 +102,7 @@ def build(df):
             "symbol": tk, "close": round(close, 2), "industry": ind,
             "sector": str(r.get("sector") or ""), "adr": round(adr, 2),
             "atrp": round(atrp, 2), "adv": round(adv, 0), "dvol": round(dvol, 0),
+            "rvol": rvol,
             "mcap": num(r.get("market_cap_basic")),
             "extension": round(ext, 2) if ext is not None else None,
             "perf": {k: (round(v, 1) if v is not None else None) for k, v in perf.items()},

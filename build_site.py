@@ -1852,7 +1852,7 @@ def build():
         #   欄位同「領導股」完全一致，一個都唔少
         wk_keys = ["rank", "name", "rsd", "rsw",
                    "1w", "1m", "3m", "6m", "1y",
-                   "ext", "adr", "dvol", "off52", "kell", "cm"]
+                   "ext", "adr", "rvol", "off52", "kell", "cm"]
         pages["week"] = ("Weekly MM", f"""
 <div class="card"><h2>本週最強嘅流動性股 <small>流動池 {len(scan["universe"])} 隻之中，按 1 週表現排</small></h2>
  <div class="body"><div class="note">「流動性」＝成交額 &gt; ${th["min_dollar_vol"]//10**6}M 且
