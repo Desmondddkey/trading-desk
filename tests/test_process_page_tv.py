@@ -56,6 +56,21 @@ def test_every_chip_has_href():
             f"chip 缺 TradingView 連結: {c}"
 
 
+def test_mmtw_mmfi_have_tv_symbols():
+    """MMTW / MMFI 名必須可 hover 彈 TV（2026-10-24 Desmond）"""
+    body = _body()
+    for sym in ("MMTW", "MMFI"):
+        assert f'data-sym="{sym}"' in body, f"{sym} 冇 TV data-sym"
+        assert 'pf-tvsym tv' in body, "冇 pf-tvsym tv class"
+
+
+def test_breadth_bars_have_midline():
+    """每條廣度 bar 必須有中線（牛熊分界）"""
+    body = _body()
+    assert body.count("<i style=") >= 5, "廣度 bar 缺中線（偏多/偏空睇唔到）"
+    assert "偏多" in body and "偏空" in body, "缺 偏多／偏空 標籤"
+
+
 if __name__ == "__main__":
     fails = 0
     for name, fn in sorted(globals().items()):

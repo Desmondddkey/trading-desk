@@ -80,19 +80,24 @@ CSS = """
   text-decoration:none;cursor:pointer;display:inline-block}
 a.pf-cand:hover{filter:brightness(1.12)}
 .pf-cand.buy{background:#f97316;border-color:#f97316;color:#fff}
-.pf-bar{height:9px;border-radius:999px;background:rgba(128,128,128,.2);
-  overflow:hidden;margin:4px 0 0;width:100%;max-width:420px}
+.pf-bar{height:9px;border-radius:999px;background:rgba(128,128,128,.18);
+  position:relative;width:100%;max-width:280px}
 .pf-bar>span{display:block;height:100%;border-radius:999px;transition:width .2s}
-.pf-brow{display:grid;grid-template-columns:104px 64px 1fr 130px;
-  gap:8px;align-items:center;padding:5px 0;font-size:12.5px}
-.pf-brow .nm{font-weight:700;opacity:.9}
+.pf-bar>i{position:absolute;top:-3px;bottom:-3px;width:2px;
+  background:rgba(215,215,215,.85);border-radius:1px;transform:translateX(-1px)}
+.pf-brow{display:grid;grid-template-columns:92px 60px minmax(150px,300px) 1fr;
+  gap:12px;align-items:center;padding:6px 0;font-size:12.5px}
+.pf-brow .nm{font-weight:700;opacity:.92}
 .pf-tvsym{color:inherit;text-decoration:none;cursor:pointer;
   border-bottom:1px dotted rgba(128,128,128,.55)}
 .pf-tvsym:hover{color:#f97316;border-bottom-color:#f97316}
 .pf-brow .vv{font-variant-numeric:tabular-nums;font-weight:800;text-align:right}
-.pf-brow .nt{font-size:11px;opacity:.6;text-align:right}
-@media(max-width:640px){.pf-brow{grid-template-columns:86px 56px 1fr;
-  grid-template-areas:"nm vv bar" "nm vv nt"}.pf-brow .nt{grid-area:nt;text-align:left}}
+.pf-brow .bw{display:flex;justify-content:center}
+.pf-brow .nt{font-size:11px;opacity:.72;line-height:1.4;white-space:normal}
+@media(max-width:720px){
+  .pf-brow{grid-template-columns:84px 54px 1fr;grid-template-areas:"nm vv bw" "nt nt nt"}
+  .pf-brow .nt{grid-area:nt;margin-top:2px}
+}
 """
 
 
@@ -212,10 +217,13 @@ def _regime_live():
         return {}
 
 
-def _bar(pct, color="#f59e0b"):
+def _bar(pct, color="#f59e0b", mid=None):
+    """橫向 bar；mid = 中線（牛熊分界）。有中線你先一眼睇到偏多定偏空。"""
     pct = max(0.0, min(100.0, float(pct or 0)))
+    tick = ("" if mid is None
+            else '<i style="left:%.1f%%"></i>' % max(0.0, min(100.0, float(mid))))
     return ('<div class="pf-bar"><span style="width:%.1f%%;background:%s">'
-            '</span></div>' % (pct, color))
+            '</span>%s</div>' % (pct, color, tick))
 
 
 def _tone(v, lo=40, hi=60):
@@ -289,65 +297,76 @@ def build():
              f'<small>{_esc(b.get("regime") or "—")}｜'
              f'{_esc(b.get("posture") or "—")}</small></h3>')
 
-    def brow(name, val, pct, note, col, sym=None):
-        # ★ 2026-10-24 Desmond：MMTW / MMFI 名上面 hover 都彈 TV
+    def brow(name, val, pct, mid=50.0, note="", sym=None):
+        """一行廣度指標。
+
+        ★ 2026-10-24 Desmond：「係支 BAR 中間個條線，咁我就知佢 bearish 定 bullish」
+          → 每個指標都有中線（mid）＝牛熊分界；顏色同標籤全部由「偏離中線」決定，
+            唔再靠我自己寫嘅含糊描述。
+        """
+        try:
+            p = float(pct)
+        except (TypeError, ValueError):
+            p = 0.0
+        p = max(0.0, min(100.0, p))
+        mid = float(mid)
+        d = p - mid
+        if d > 4:
+            tag, col = "▲ 偏多", "#22c55e"
+        elif d < -4:
+            tag, col = "▼ 偏空", "#ef4444"
+        else:
+            tag, col = "— 中性", "#f59e0b"
         if sym:
-            nm = (f'<a class="pf-tvsym tv" data-sym="{sym}" '
-                  f'href="https://www.tradingview.com/chart/?symbol={sym}" '
-                  f'target="_blank" rel="noopener">{name}</a>')
+            nm = ('<a class="pf-tvsym tv" data-sym="%s" '
+                  'href="https://www.tradingview.com/chart/?symbol=%s" '
+                  'target="_blank" rel="noopener">%s</a>' % (sym, sym, name))
         else:
             nm = name
-        P.append(f'<div class="pf-brow"><span class="nm">{nm}</span>'
-                 f'<span class="vv" style="color:{col}">{val}</span>'
-                 f'{_bar(pct, col)}<span class="nt">{note}</span></div>')
+        P.append('<div class="pf-brow"><span class="nm">%s</span>'
+                 '<span class="vv" style="color:%s">%s</span>'
+                 '<span class="bw">%s</span>'
+                 '<span class="nt"><b style="color:%s">%s</b>%s</span></div>'
+                 % (nm, col, val, _bar(p, col, mid), col, tag,
+                    ("　·　" + note) if note else ""))
 
-    mmtw = rl.get("mmtw")
-    mmfi = rl.get("mmfi")
-    if mmtw is not None:
-        c1, t1 = _tone(mmtw)
-        brow("MMTW", f"{mmtw:.1f}%", mmtw,
-             f"企 20MA｜{t1}" + ("" if rl.get("mmtw_rising") else "·跌"),
-             c1, sym="MMTW")
-    if mmfi is not None:
-        c2, t2 = _tone(mmfi)
-        brow("MMFI", f"{mmfi:.1f}%", mmfi,
-             f"企 50MA｜{t2}（提高門檻）" if mmfi < 40 else f"企 50MA｜{t2}",
-             c2, sym="MMFI")
+    if rl.get("mmtw") is not None:
+        brow("MMTW", "%.1f%%" % float(rl["mmtw"]), rl["mmtw"], 50,
+             "50 以上＝多數股企 20MA 上", sym="MMTW")
+    if rl.get("mmfi") is not None:
+        brow("MMFI", "%.1f%%" % float(rl["mmfi"]), rl["mmfi"], 50,
+             "50 以上＝多數股企 50MA 上", sym="MMFI")
     if b.get("pct40") is not None:
-        c3, t3 = _tone(b.get("pct40"))
-        brow("% 企 40MA", f"{_num(b.get('pct40'))}%", b.get("pct40"), t3, c3)
+        brow("% 企 40MA", "%s%%" % _num(b.get("pct40")), b.get("pct40"), 50,
+             "中期參與度")
     if b.get("adl") is not None:
         try:
             av = float(b.get("adl"))
         except (TypeError, ValueError):
             av = 0
-        # −200 … +200 → 0…100%
-        brow("ADL", _num(av), (av + 200) / 400 * 100,
-             "牛 >+100｜熊 <−100", "#22c55e" if av >= 100 else
-             ("#f59e0b" if av >= 0 else "#ef4444"))
+        brow("ADL", _num(av), (av + 200) / 400 * 100, 50,
+             "0 以上偏多（升跌線，−200…+200）")
     if b.get("nnnl") is not None:
         try:
             nv = float(b.get("nnnl"))
         except (TypeError, ValueError):
             nv = 0
-        brow("NNNL", _num(nv), (nv + 100) / 200 * 100,
-             "新高−新低（10 日）", "#22c55e" if nv > 0 else "#ef4444")
+        brow("NNNL", _num(nv), (nv + 100) / 200 * 100, 50,
+             "0 以上偏多（新高−新低）")
     if b.get("lsr") is not None:
         try:
             lv = float(b.get("lsr"))
         except (TypeError, ValueError):
             lv = 0
-        brow("LS ratio", _num(lv, 2), min(100, lv / 3 * 100),
-             "升/跌股比例", "#22c55e" if lv >= 1.5 else
-             ("#f59e0b" if lv >= 1 else "#ef4444"))
+        brow("LS ratio", _num(lv, 2), min(100, lv / 3 * 100), 33.3,
+             "1.0 以上偏多（升／跌股）")
     if rl.get("mri") is not None:
         try:
             mv = float(rl.get("mri"))
         except (TypeError, ValueError):
             mv = 0
-        c4, _t = _tone(mv, 40, 70)
-        brow("MRI 0–100", f"{mv:.0f}",
-             mv, _esc(rl.get("state") or ""), c4)
+        brow("MRI 0–100", "%.0f" % mv, mv, 50,
+             _esc(rl.get("state") or ""))
     P.append('<div class="pf-note">MMTW/MMFI 來源：'
              + _esc(rl.get("asof") or "—")
              + f'｜更新 {_esc(rl.get("updated") or "—")}'
