@@ -2184,28 +2184,14 @@ def build():
     except Exception as _e5:                                 # noqa: BLE001
         log(f"⚠ 外部數據源整體失敗：{type(_e5).__name__}: {_e5}")
 
-    # ── RS 板（跟圖片 2/4：指數／群組／板塊三個表）──
-    rsb_full = extras.rsboard_full()
-    if rsb_full:
-        head = ('<table><thead><tr><th>#</th><th class="l">ETF / 名稱</th>'
-                '<th>推力率</th><th class="l">1月超額走勢（30日）</th>'
-                '<th class="l">1月超額</th><th>RS 百分位</th><th>距52週高</th></tr></thead><tbody>')
-
-        def one(title, rows):
-            return (f'<div class="card"><h2>{title} <small>{len(rows)} 隻</small></h2>'
-                    f'<div class="body"><div class="scroll">{head}{rs_table(rows)}'
-                    f'</tbody></table></div></div></div>')
-
-        rs_body = ("<div class=\"warn\">⚠ RS 推力率係<b>我嘅定義</b>（Jeff Sun 原文未取得）："
-                   "最近 30 個交易日之中，ETF 嘅 21 日回報贏 SPY 嘅比例。唔會扮係佢嘅數。</div>"
-                   + one("指數 Index", rsb_full["index"])
-                   + one("群組 Group", rsb_full["group"])
-                   + one("板塊 Sector", rsb_full["sector"])
-                   + f'<div class="note">推力率＝30 日內 21 日回報贏 SPY 嘅日數比例（0–100）。'
-                     f'走勢＝每日超額回報迷你線（綠＝領先、紅＝落後）。'
-                     f'RS 百分位＝1 月超額喺本表嘅排名。'
-                     f'資料至 <b>{esc(rsb_full["as_of"])}</b>，SPY 1 月 {pct(rsb_full["spy1m"],1)}。</div>')
-        pages["rsboard"] = ("RS 板", rs_body, base)
+    # ── RS THEME（2026-10-24 大改：階段/分/1週/1個月/3個月、左對齊、緊湊、無橫向 scroll）──
+    try:
+        import rstheme_page as _rt
+        _rtt, _rtb = _rt.build()
+        pages["rsboard"] = (_rtt, _rtb, base)
+        log(f'✓ rsboard.html（RS THEME）{len(_rtb)//1024} KB')
+    except Exception as _e17:                                # noqa: BLE001
+        log(f"⚠ RS THEME 失敗：{type(_e17).__name__}: {_e17}")
 
     # ── 成長週期（跟圖片 6：IWF/IWD 風險閘）──
     gc = extras.growth_cycle()

@@ -117,6 +117,11 @@ def _metrics(df, pairs):
         tail = min(30, len(r1a) - 1)
         thrust = float((r1a.iloc[-tail:] > s1a.iloc[-tail:]).mean() * 100)
         r1m = float(c.iloc[-1] / c.iloc[-22] - 1) * 100
+        # ★ 2026-10-24 Desmond：「增加 1 週 / 3 個月」
+        r1w = (float(c.iloc[-1] / c.iloc[-6] - 1) * 100
+               if len(c) >= 6 else None)
+        r3m = (float(c.iloc[-1] / c.iloc[-64] - 1) * 100
+               if len(c) >= 64 else None)
         r1d = float(c.iloc[-1] / c.iloc[-2] - 1) * 100
         hh = float(c.tail(252).max())
         spark = [round(float(v), 1) for v in (r1a - s1a).tail(30).tolist()
@@ -124,6 +129,8 @@ def _metrics(df, pairs):
         rows.append({"etf": tk, "name": name,
                      "thrust": round(thrust, 0), "ex1m": round(r1m - spy1m, 1),
                      "r1m": round(r1m, 1), "r1d": round(r1d, 2),
+                     "r1w": None if r1w is None else round(r1w, 1),
+                     "r3m": None if r3m is None else round(r3m, 1),
                      "off52w": round((float(c.iloc[-1]) / hh - 1) * 100, 1) if hh else None,
                      "spark": spark})
     if not rows:
@@ -131,6 +138,29 @@ def _metrics(df, pairs):
     ex = sorted(r["ex1m"] for r in rows)
     for r in rows:
         r["pct"] = round(sum(1 for v in ex if v <= r["ex1m"]) / len(ex) * 100)
+
+    # ★ 分（0–100）＝ 透明加權百分位：1M 50% / 3M 30% / 1W 20%
+    #   唔用黑箱指標 —— 每一分都係「喺呢張表嘅排名」。
+    def _rank(key):
+        vals = [r[key] for r in rows if r.get(key) is not None]
+        vals.sort()
+        out = {}
+        for r in rows:
+            v = r.get(key)
+            if v is None:
+                out[id(r)] = None
+            else:
+                out[id(r)] = sum(1 for x in vals if x <= v) / len(vals) * 100
+        return out
+    _r1w, _r1m, _r3m = _rank("r1w"), _rank("r1m"), _rank("r3m")
+    for r in rows:
+        parts, wts = [], []
+        for d, w in ((_r1w, 0.2), (_r1m, 0.5), (_r3m, 0.3)):
+            v = d.get(id(r))
+            if v is not None:
+                parts.append(v * w)
+                wts.append(w)
+        r["score"] = (round(sum(parts) / sum(wts)) if wts else None)
     rows.sort(key=lambda r: (-r["thrust"], -r["ex1m"]))
     return rows
 
