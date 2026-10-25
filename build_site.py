@@ -1294,7 +1294,7 @@ def page(active, title, body, payload, extra_head=""):
   if(v){{try{{v=JSON.parse(v);}}catch(e){{}}
     if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v);}}
 }}catch(e){{}}}})();</script>
-<style>{CSS}{SIDEBAR_CSS}{tvhover.TVHOVER_CSS}</style>{extra_head}</head><body>
+<link rel="stylesheet" href="site.css?v={BUILD_TS}">{extra_head}</head><body>
 <script>
 /* ★ 自動更新：用返原來網址，頁面發現有新 build 就自己 reload 一次
    唔會迴圈：sessionStorage 記住已 reload 過嘅版本 */
@@ -2412,6 +2412,14 @@ def build():
 
     # ── ★ 2026-10-23 移除 desk.html（舊「機會」頁，已由 split_desk → leadermap/sectors/atrxrisk 取代）──
     #    dashboard 內容仍然經 split_desk.py → desk_parts.json → 三頁獨立展示，唔再出 desk.html
+
+    # ── ★ 2026-10-25 Desmond：「叫你排版好慢」→ 樣式抽出 site.css
+    #    之後改 docs/site.css 再 refresh 就見到，唔需要等 build。
+    #    （下次 build 會覆蓋 → 滿意就打返入 generator）
+    _css = CSS + SIDEBAR_CSS + tvhover.TVHOVER_CSS
+    with io.open(os.path.join(SITE, "site.css"), "w", encoding="utf-8") as _f:
+        _f.write(_css)
+    log(f"✓ site.css ({len(_css)//1024} KB)")
 
     for key, (title, body, payload) in pages.items():
         p = os.path.join(SITE, f"{key}.html")
