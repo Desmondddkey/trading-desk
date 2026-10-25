@@ -49,6 +49,17 @@ CSS = """
 """
 
 
+def _irs():
+    fs = sorted(glob.glob(r"C:/Users/rain0/trading-os-web/output/industry_rs_20*.json"))
+    if not fs:
+        return {}
+    try:
+        d = json.load(io.open(fs[-1], encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return {str(r.get("industry") or "").lower(): r for r in (d.get("rows") or [])}
+
+
 def build():
     d = _load(SRC, {})
     rows = d.get("rows") or []
@@ -58,6 +69,7 @@ def build():
     if not rows:
         return ("沙灘球反應", "<p>DATA_UNAVAILABLE — 未跑 beachball.py</p>")
 
+    grs = _irs()
     top = max(r["ball"] for r in rows) or 1
     out = [f'<style>{CSS}</style>',
            '<div class="card"><h2 style="margin:0 0 6px">沙灘球反應</h2>',
@@ -73,6 +85,7 @@ def build():
            '<table class="bb-tbl"><thead><tr>',
            '<th>#</th><th>代號</th><th class="n">沙灘球分</th>'
            '<th class="n">逆市上升</th><th class="n">NHBP</th>',
+           '<th class="n">GROUP RS</th>',
            '<th class="n">20 日相對 SPY</th><th class="n">收市</th>',
            '</tr></thead><tbody>']
 
@@ -90,6 +103,12 @@ def build():
             f'<div class="bb-bar"><i style="width:{w:.0f}%"></i></div></td>'
             f'<td class="n">{r["down_up"]}</td>'
             f'<td class="n">{r["nhbp"]}</td>'
+            + (lambda _g: (f'<td class="n" style="color:#22c55e"><b>{_g["rs"]:.0f}</b>'
+                           + (f' <span style="font-size:10.5px">'
+                              f'{_g["delta"]:+.0f}</span>'
+                              if isinstance(_g.get("delta"), (int, float)) else '')
+                           + '</td>') if _g else '<td class="n" style="opacity:.35">—</td>')(
+                grs.get((ind.get(t.upper(), "") or "").lower()))
             f'<td class="n" style="color:{rc}">{rel if rel is not None else "—"}%</td>'
             f'<td class="n">{r.get("last")}</td></tr>')
 
