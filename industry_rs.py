@@ -157,10 +157,10 @@ def main():
               ensure_ascii=False, indent=0)
     log(f"✓ {dst}｜{len(rows)} 個行業｜基準 {payload['base']}")
     top = rows[:5]
-    log("  最強：" + "、".join(f"{r['industry']}({r['rs']:.0f}"
-                              f"{'+' if (r['delta'] or 0) > 0 else ''}"
-                              f"{r['delta'] if r['delta'] is not None else '—'})"
-                              for r in top))
+    log("  最強：" + "、".join(
+        f"{r['industry']}(RS {r['rs']:.0f}｜Δ"
+        f"{('%+.0f' % r['delta']) if r['delta'] is not None else '—'})"
+        for r in top))
     return 0
 
 
