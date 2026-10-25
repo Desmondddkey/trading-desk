@@ -521,6 +521,20 @@ def build(day=None):
     except Exception:                                        # noqa: BLE001
         _ind = {}
 
+    # ★ 2026-10-25：TradingView 分類優先（同 industry_rs 同一把尺，GROUP 才對得上）
+    try:
+        _tvp = os.path.join(HERE, "data", "tv_meta.json")
+        if os.path.exists(_tvp):
+            _tvm = json.load(io.open(_tvp, encoding="utf-8"))
+            for _k, _v in _tvm.items():
+                _ku = str(_k).upper()
+                if _v.get("industry"):
+                    _ind[_ku] = _v["industry"]
+                if _v.get("sector"):
+                    _SEC[_ku] = _v["sector"]
+    except Exception:                                        # noqa: BLE001
+        pass
+
     # ★ 2026-10-25：market_scan 冇嘅，用 ticker_industry.json 補（唔准再大量「未分類」）
     try:
         _tip = os.path.join(HERE, "data", "ticker_industry.json")

@@ -42,13 +42,27 @@ def _med(xs):
     return xs[k] if len(xs) % 2 else (xs[k - 1] + xs[k]) / 2.0
 
 
+TV_META = os.path.join(HERE, "data", "tv_meta.json")
+
+
+def _tv_rows():
+    """tv_meta.json → 同 market_scan 一樣形狀嘅 rows（同一把尺）"""
+    try:
+        d = json.load(io.open(TV_META, encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    return [{"ticker": k, "sector": v.get("sector") or "",
+             "industry": v.get("industry") or "", "perf": v.get("perf") or {}}
+            for k, v in d.items()]
+
+
 def _aggs(path, key="industry"):
     """回傳 {group: {n, med1m, med1w, med3m}}（key = industry 或 sector）"""
     try:
         d = json.load(io.open(path, encoding="utf-8"))
     except (OSError, ValueError):
         return {}
-    rows = d.get("universe") or []
+    rows = list(d.get("universe") or []) + _tv_rows()
     buckets = {}
     for r in rows:
         ind = (r.get(key) or "").strip()
