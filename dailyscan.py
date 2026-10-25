@@ -270,9 +270,15 @@ def compute_metrics(ohlc):
         close = closes[-1]
         v50 = (sum(vols[-50:]) / 50) if len(vols) >= 50 else 0
         rvol = (vols[-1] / v50) if v50 else None
+        # EMA21（同 RS Daily Scan 同一條線：X = (收市 − EMA21)/ATR）
+        k = 2 / 22.0
+        ema21 = closes[0]
+        for c_ in closes[1:]:
+            ema21 = c_ * k + ema21 * (1 - k)
         out[t.upper()] = dict(atr=atr,
                               atr_pct=(atr / close * 100) if close else 0,
-                              rvol50=rvol, close=close)
+                              rvol50=rvol, close=close,
+                              x=((close - ema21) / atr) if atr else None)
     return out
 
 
@@ -558,6 +564,33 @@ def build(day=None):
         parts.append('<button onclick="dsFilter(\'focus\',this)">'
                      f'FOCUS</button>')
         parts.append('</div>')
+
+        # ── X/Y 位置圖（同 RS Daily Scan 同一把尺，Desmond 2026-10-25）──
+        try:
+            import rs_scan as _rss
+            _sc = []
+            for _r in l2rows:
+                _t = (_r.get("ticker") or "").upper()
+                _m = metrics.get(_t) or {}
+                _x = _m.get("x")
+                _y = _r.get("atr_ext_50ma")
+                if _x is None or _y is None:
+                    continue
+                try:
+                    _x, _y = float(_x), float(_y)
+                except (TypeError, ValueError):
+                    continue
+                _sc.append(dict(ticker=_t, x=_x, y=_y,
+                                adr=_m.get("atr_pct"),
+                                in_buy_box=(0 <= _x <= 1 and 0 <= _y <= 4)))
+            if _sc:
+                parts.append(_rss._scatter(_sc))
+                parts.append(f'<div class="ds-note" style="margin:-6px 0 10px">'
+                             f'X/Y 位置圖：{len(_sc)} 隻有齊 X/Y｜'
+                             f'買入區 {sum(1 for r in _sc if r["in_buy_box"])} 隻'
+                             '</div>')
+        except Exception as _e:                              # noqa: BLE001
+            parts.append(f'<div class="dim">位置圖失敗：{type(_e).__name__}</div>')
 
         # ★ 2026-10-23 Desmond：欄頭 clickable（Excel 三角）+ 新增 ATR 帶欄
         _cols = [
