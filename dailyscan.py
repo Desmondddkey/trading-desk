@@ -282,7 +282,10 @@ def compute_metrics(ohlc):
     return out
 
 
-def update_day_on(tickers, read_only=False):
+PREV_SRC = {}
+
+
+def update_day_on(tickers, read_only=False, src_map=None):
     """記錄每隻股連續在名單幾日。→ dict[ticker] = n。
 
     ★ read_only=True：只讀唔寫（歷史日期頁面用，唔准改 state）。
@@ -300,10 +303,12 @@ def update_day_on(tickers, read_only=False):
         old = rec.get(t) or {}
         last = old.get("last")
         n = int(old.get("n") or 0)
+        PREV_SRC[t] = old.get("src")
+        _src = (src_map or {}).get(t)
         if last == today:
-            newrec[t] = {"n": n, "last": last}
+            newrec[t] = {"n": n, "last": last, "src": _src}
         else:
-            newrec[t] = {"n": n + 1, "last": today}
+            newrec[t] = {"n": n + 1, "last": today, "src": _src}
     if not read_only:
         io.open(p, "w", encoding="utf-8").write(json.dumps(
             {"updated": today, "tickers": newrec}, ensure_ascii=False, indent=1))
@@ -320,6 +325,8 @@ CSS = """
 .ds-dsel{font:inherit;font-size:12.5px;padding:5px 8px;border-radius:8px;
   border:1px solid rgba(128,128,128,.35);background:transparent;color:inherit}
 .ds-dn{font-size:11.5px;opacity:.62;font-weight:800}
+.ds-sub{font-size:17px;font-weight:800;margin:14px 0 6px;opacity:.85}
+.ds-sub b{color:#f97316}
 .ds-histwarn{font-size:11.5px;line-height:1.6;padding:7px 10px;border-radius:8px;
   background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);
   margin:0 0 10px}
@@ -542,7 +549,8 @@ def build(day=None):
         tk_all = [r.get("ticker") for r in l2rows if r.get("ticker")]
         _days = available_days()
         _is_latest = (not day) or (not _days) or (day == _days[0])
-        dayon = update_day_on(tk_all, read_only=not _is_latest)
+        _srcmap = {r.get("ticker"): r.get("_src") for r in l2rows if r.get("ticker")}
+        dayon = update_day_on(tk_all, read_only=not _is_latest, src_map=_srcmap)
 
         n_buy = sum(1 for r in l2rows
                     if (r.get("atr_ext_50ma") or 0) <= 4
@@ -593,10 +601,11 @@ def build(day=None):
             parts.append(f'<div class="dim">位置圖失敗：{type(_e).__name__}</div>')
 
         # ★ 2026-10-23 Desmond：欄頭 clickable（Excel 三角）+ 新增 ATR 帶欄
+        # 索引 = 實際 <td> 次序：來源0 代號1 EXT2 RVOL3 ATR帶4 ATR%5 距52高6 評分7 財報8 DAYON9
         _cols = [
-            ('來源', 0), ('代號/行業', 1), ('EXT', 3),
-            ('RVOL(50D)', 4), ('ATR 帶', None), ('ATR%', 5),
-            ('距 52 高', 6), ('評分', None), ('財報', 7), ('DAY ON', 2),
+            ('來源', 0), ('代號/行業', 1), ('EXT', 2),
+            ('RVOL(50D)', 3), ('ATR 帶', None), ('ATR%', 5),
+            ('距 52 高', 6), ('評分', 7), ('財報', 8), ('DAY ON', 9),
         ]
         th_parts = []
         for label, col in _cols:
@@ -606,11 +615,8 @@ def build(day=None):
                 th_parts.append(
                     f'<th class="l sortable" onclick="dsSort(this,{col})" data-dir="">'
                     f'{label}<span class="arr">▼</span></th>')
-        parts.append(
-            '<div class="ds-wrap card" style="padding:0"><table class="ds-tbl">'
-            '<thead><tr>'
-            + "".join(th_parts)
-            + '</tr></thead><tbody id="dsbody">')
+        _thead = "".join(th_parts)
+        _rows_by = {}
 
         # ★ 排序：DAYON(desc) > EXT(asc) > RVOL(desc) > ATR%(desc)（Desmond 2026-10-23）
         def k(r):
@@ -620,9 +626,11 @@ def build(day=None):
             ext = ext if isinstance(ext, (int, float)) else 99
             rvol = _m.get("rvol50")
             rvol = rvol if isinstance(rvol, (int, float)) else -1
-            atrp = _m.get("atr_pct")
-            atrp = atrp if isinstance(atrp, (int, float)) else -1
-            return (-dayon.get(r.get("ticker") or "", 0), ext, -rvol, -atrp)
+            # ★ 2026-10-25 Desmond：默認按評分（A+ 最前）
+            _g = _grade(ext if isinstance(ext, (int, float)) else None,
+                        rvol if isinstance(rvol, (int, float)) else None,
+                        r.get("near_52w_high_pct"), _m.get("atr_pct"))[1]
+            return (-_g, -dayon.get(r.get("ticker") or "", 0), ext, -rvol)
         for r in sorted(l2rows, key=k):
             t = r.get("ticker") or ""
             m = metrics.get(t.upper()) or {}
@@ -650,11 +658,16 @@ def build(day=None):
             watch = (r.get("watch_price") or "").replace("trigger: ", "")
             inval = (r.get("invalidation") or "").replace("invalidation: ", "")
 
-            parts.append(
+            _rows_by.setdefault((r.get("_src") or "").upper(), []).append(
                 f'<tr '
                 f'data-buy="{1 if inbox else 0}" data-state="{state}" '
                 f'data-src="{_esc(r.get("_src",""))}">'
-                f'<td class="l"><span class="ds-tag">{_esc(r.get("_src",""))}</span></td>'
+                f'<td class="l"><span class="ds-tag">{_esc(r.get("_src",""))}</span>'
+                + ('<span title="由 STALK 升級" style="color:#22c55e;font-weight:800;'
+                   'margin-left:3px">&#8593;</span>'
+                   if (r.get("_src") == "FOCUS"
+                       and PREV_SRC.get(r.get("ticker")) == "STALK") else '')
+                + '</td>'
                 f'<td class="l"><span class="tk">'
                 f'<a class="ds-syma" '
                 f'href="https://www.tradingview.com/chart/?symbol={_esc(t)}" '
@@ -674,7 +687,21 @@ def build(day=None):
                 f'<td>{_esc(es_s)}</td>'
                 f'<td data-v="{dayon.get(t,0)}">{dayon.get(t,0)}</td>'
                 '</tr>')
-        parts.append('</tbody></table></div>')
+        for _lbl, _keys, _id in (("FOCUS", ["FOCUS"], "dsbody-f"),
+                                 ("STALK", ["STALK"], "dsbody-s"),
+                                 ("未分類", [""], "dsbody-o")):
+            _rs = []
+            for _k2 in _keys:
+                _rs += _rows_by.get(_k2, [])
+            if not _rs:
+                continue
+            if _lbl != "未分類":
+                parts.append(f'<div class="ds-sub">{_lbl} <b>{len(_rs)}</b></div>')
+            parts.append('<div class="ds-wrap card" style="padding:0">'
+                         '<table class="ds-tbl"><thead><tr>' + _thead
+                         + '</tr></thead><tbody id="' + _id + '">')
+            parts.extend(_rs)
+            parts.append('</tbody></table></div>')
 
         parts.append('<div style="font-size:11.5px;line-height:1.9;opacity:.8;'
                      'margin-top:10px">'

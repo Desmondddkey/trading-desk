@@ -401,9 +401,11 @@ def _scatter(rows, hist=None):
         rad = 5.2 if box else 3.6
         tip = (f'{r.get("ticker")}｜X {x:.2f}｜Y {y:.2f}'
                f'｜ADR {r.get("adr") or "—"}%')
-        out.append(f'<g><title>{_esc(tip)}</title>'
+        _url = f"https://www.tradingview.com/chart/?symbol={_esc(r.get('ticker'))}"
+        out.append(f'<a href="{_url}" target="_blank" rel="noopener">'
+                   f'<title>{_esc(tip)}</title>'
                    f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{rad}" fill="{col}" '
-                   'fill-opacity=".92"/></g>')
+                   'fill-opacity=".92" style="cursor:pointer"/></a>')
         if box:
             labelled.append((cx, cy, r.get("ticker")))
     used = []
@@ -413,9 +415,12 @@ def _scatter(rows, hist=None):
             if abs(cx - _cx) < 34 and abs((cy + dy) - _cy) < 11:
                 dy += 12
         used.append((cx, cy + dy))
-        out.append(f'<text x="{cx + 7:.1f}" y="{cy + dy - 5:.1f}" font-size="10" '
-                   f'font-weight="700" fill="currentColor" opacity=".92">'
-                   f'{_esc(tk)}</text>')
+        out.append(f'<a href="https://www.tradingview.com/chart/?symbol={_esc(tk)}" '
+                   'target="_blank" rel="noopener">'
+                   f'<text x="{cx + 7:.1f}" y="{cy + dy - 5:.1f}" font-size="10" '
+                   f'font-weight="700" fill="currentColor" opacity=".92" '
+                   'style="cursor:pointer">'
+                   f'{_esc(tk)}</text></a>')
     out.append('</svg>')
     out.append(
         '<div class="rs-xnote">'
