@@ -490,6 +490,18 @@ def build(day=None):
     except Exception:                                        # noqa: BLE001
         _ind = {}
 
+    # ★ 2026-10-25：market_scan 冇嘅，用 ticker_industry.json 補（唔准再大量「未分類」）
+    try:
+        _tip = os.path.join(HERE, "data", "ticker_industry.json")
+        if os.path.exists(_tip):
+            _ti = json.load(io.open(_tip, encoding="utf-8"))
+            for _k, _v in _ti.items():
+                _ku = str(_k).upper()
+                if not _ind.get(_ku):
+                    _ind[_ku] = (_v.get("industry") or _v.get("sector") or "")
+    except Exception:                                        # noqa: BLE001
+        pass
+
     parts = [f'<style>{CSS}</style><script>{JS}</script>']
     parts.append('<h2>Daily Scan <small>L1 掃描 + L2 圖表隊列</small></h2>')
 

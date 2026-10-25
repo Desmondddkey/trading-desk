@@ -435,15 +435,16 @@ def _scatter(rows, hist=None):
     out.append(
         '<div class="rs-xnote">'
         '<b>點睇：</b>'
-        '綠框＝買入區（X 0–1、Y 0–4）；點色＝評分：<b style="color:#22c55e">A+</b><b style="color:#f97316">A</b><b style="color:#3b82f6">B</b><b style="color:#ef4444">C</b>；白邊＝今日喺框內；
-        '幼橙線＝買入區股票過去 6 日嘅移動方向；'
-        '紅虛線＝ATRX 4，越過即過度延伸（硬刪）。'
-        '<br>最有做功課價值＝<b>橙點 ＋ 軌跡向上（由左下走入框）</b>；'
-        '右上角灰點＝已升盡、風險最高。'
+        '綠框＝買入區（X 0–1、Y 0–4）；點色＝評分：'
+        '<b style="color:#22c55e">A+</b> <b style="color:#f97316">A</b> '
+        '<b style="color:#3b82f6">B</b> <b style="color:#ef4444">C</b>；'
+        '白邊＝今日喺框內；幼橙線＝買入區股票過去 6 日移動方向；'
+        '紅虛線＝ATRX 4（越過即過度延伸）。'
+        '<br>最有做功課價值＝<b>框內＋軌跡向上（由左下走入框）</b>。'
         '</div>')
     return ('<div class="card" style="padding:10px 12px 6px">'
             '<div style="font-size:11.5px;opacity:.7;margin:0 0 4px">'
-            f'RS 位置圖（{len(rows)} 隻｜橙 = 買入區 {len(labelled)} 隻）</div>'
+            f'RS 位置圖（{len(rows)} 隻｜框內 {len(labelled)} 隻）</div>'
             + "".join(out) + '</div>')
 
 
