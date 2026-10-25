@@ -1055,6 +1055,7 @@ SIDEBAR_LINKS = [
     # ── 其餘（維持原本相對次序）──
     ("_link", None, "RS Leader 位置圖", "leadermap.html"),
     ("_link", None, "RS Daily Scan", "rsscan.html"),
+    ("_link", None, "沙灘球反應", "beachball.html"),
     ("_link", None, "The Plan", "setups.html"),
     ("_ext", None, "財報（Finviz）", "https://finviz.com/calendar/earnings/season-preview?view=list&sort=marketCap"),
     ("_link", None, "YOYO Ball", "yoyo_ball.html"),
@@ -2141,6 +2142,13 @@ def build():
     try:
         import rs_scan as _rss
         _rt, _rb = _rss.build()
+        try:
+            import beachball_page as _bb
+            _bt, _bbody = _bb.build()
+            pages["beachball"] = (_bt, _bbody, base)
+            log(f"✓ beachball.html ({len(_bbody)//1024} KB)")
+        except Exception as _eb:                          # noqa: BLE001
+            log(f"⚠ beachball 失敗：{type(_eb).__name__}: {_eb}")
         pages["rsscan"] = (_rt, _rb, base)
         log(f"✓ rsscan.html ({len(_rb)//1024} KB)")
         # ★ 2026-10-24：每日快照各出一頁，令「上一日／下一日」真係跳得

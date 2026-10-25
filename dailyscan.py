@@ -134,6 +134,27 @@ def _grade(ext, rvol, dist, atrp):
             else "B" if pts >= 3 else "C"), pts
 
 
+def _grp_cell(ind):
+    """GROUP = 該行業 RS（0–100）＋ 5 日變化箭嘴"""
+    g = _irs.get((ind or "").lower())
+    if not g or g.get("rs") is None:
+        return '<span style="opacity:.35">—</span>'
+    rs = g["rs"]
+    d = g.get("delta")
+    _c = ("#22c55e" if rs >= 80 else "#f97316" if rs >= 50
+          else "#94a3b8")
+    arrow = ""
+    if isinstance(d, (int, float)):
+        if d >= 5:
+            arrow = f' <span style="color:#22c55e">▲{d:.0f}</span>'
+        elif d <= -5:
+            arrow = f' <span style="color:#ef4444">▼{abs(d):.0f}</span>'
+        else:
+            arrow = f' <span style="opacity:.45">{d:+.0f}</span>'
+    return (f'<b style="color:{_c}" title="{_esc(ind)}｜成員 {g.get("n")} 隻｜'
+            f'1M 中位 {g.get("med1m")}%｜5 日變化 {d}">{rs:.0f}</b>{arrow}')
+
+
 def _chg(t, ext, pts):
     """CHANGE：由「射程外」轉好 → 提醒。
        🟢 回歸 = 上次 EXT>4（過度延伸），今日返到 ≤4
@@ -348,6 +369,7 @@ CSS = """
 .ds-dsel{font:inherit;font-size:12.5px;padding:5px 8px;border-radius:8px;
   border:1px solid rgba(128,128,128,.35);background:transparent;color:inherit}
 .ds-dn{font-size:11.5px;opacity:.62;font-weight:800}
+.ds-grp{white-space:nowrap;font-variant-numeric:tabular-nums}
 .ds-sub{font-size:17px;font-weight:800;margin:14px 0 6px;opacity:.85}
 .ds-sub b{color:#f97316}
 .ds-histwarn{font-size:11.5px;line-height:1.6;padding:7px 10px;border-radius:8px;
@@ -501,6 +523,18 @@ def build(day=None):
                     _ind[_ku] = (_v.get("industry") or _v.get("sector") or "")
     except Exception:                                        # noqa: BLE001
         pass
+
+    # ★ 2026-10-25：全部行業 RS 分數 + 5 日變化（解決「有冇 group move」）
+    _irs = {}
+    try:
+        import glob as _g2
+        _f2 = sorted(_g2.glob(os.path.join(HERE, "output", "industry_rs_20*.json")))
+        if _f2:
+            _d2 = json.load(io.open(_f2[-1], encoding="utf-8"))
+            for _r2 in (_d2.get("rows") or []):
+                _irs[str(_r2.get("industry") or "").lower()] = _r2
+    except Exception:                                        # noqa: BLE001
+        _irs = {}
 
     # ★ 2026-10-25：行業屬「群組 RS 前列」就標 🔥（group move 提示）
     _hot = {}
@@ -667,10 +701,11 @@ def build(day=None):
             parts.append(f'<div class="dim">位置圖失敗：{type(_e).__name__}</div>')
 
         # ★ 2026-10-23 Desmond：欄頭 clickable（Excel 三角）+ 新增 ATR 帶欄
-        # 索引 = 實際 <td> 次序：Stock0 EXT(+帶)1 RVOL2 ATR%3 距52高4 評分5 CHANGE6 財報7 DAYON8
+        # 索引 = 實際 <td> 次序：Stock0 GROUP1 EXT2 RVOL3 ATR%4 距52高5 評分6 CHANGE7 財報8 DAYON9
         _cols = [
-            ('Stock', 0), ('EXT', 1), ('RVOL(50D)', 2), ('ATR%', 3),
-            ('距 52 高', 4), ('評分', 5), ('CHANGE', 6), ('財報', 7), ('DAY ON', 8),
+            ('Stock', 0), ('GROUP', 1), ('EXT', 2), ('RVOL(50D)', 3),
+            ('ATR%', 4), ('距 52 高', 5), ('評分', 6), ('CHANGE', 7),
+            ('財報', 8), ('DAY ON', 9),
         ]
         th_parts = []
         for label, col in _cols:
@@ -749,6 +784,7 @@ def build(day=None):
                    if (r.get("_src") == "FOCUS"
                        and PREV_SRC.get(r.get("ticker")) == "STALK") else '')
                 + '</div></td>'
+                f'<td class="l ds-grp">{_grp_cell(_ind.get(t.upper(), ""))}</td>'
                 f'<td data-v="{_f(ext_f,2)}" class="{"ds-ext" if (ext_f or 0)>4 else ""}">'
                 f'<span style="display:inline-flex;align-items:center;gap:6px">'
                 f'<b style="min-width:34px">{_f(ext_f,2)}</b>'
