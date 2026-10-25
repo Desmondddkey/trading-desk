@@ -1427,7 +1427,9 @@ def _champion_card():
     payoff_s = "∞" if payoff == float("inf") else f"{payoff:.2f}"
     h = ['<div class="card" style="border-left:4px solid #E8A33D">'
          '<div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">'
-         '<h2 style="margin:0">🏆 Champion 組合 <small>每日 top-3｜paper</small></h2>'
+         '<h2 style="margin:0;padding:0;background:transparent;border:0;'
+         'font-size:20px">Champion 組合 '
+         '<small style="font-size:12.5px;font-weight:400">每日 top-3｜paper</small></h2>'
          f'<span style="font-size:11.5px;opacity:.65">數據截至 {esc(nav_date)}</span>'
          '</div>']
     if nav:
