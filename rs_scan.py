@@ -167,8 +167,8 @@ CSS = """
   cursor:pointer}
 .rs-f button.on{background:#f97316;border-color:#f97316;color:#fff;font-weight:700}
 .rs-wrap{overflow-x:auto}
-.rs-xnote{font-size:11.5px;line-height:1.7;opacity:.78;margin:6px 2px 0;
-  text-align:left}
+.rs-xnote{font-size:9.5px;line-height:1.55;opacity:.7;margin:5px 2px 0;
+  text-align:left;max-width:760px}
 .rs-nav{display:flex;gap:8px;align-items:center;margin:0 0 12px;flex-wrap:wrap}
 .rs-nav-b{padding:6px 12px;border-radius:8px;font-size:11.5px;font-weight:700;
   border:1px solid rgba(128,128,128,.35);text-decoration:none;color:inherit}
@@ -397,15 +397,25 @@ def _scatter(rows, hist=None):
         cx = px(max(SC_XMIN, min(SC_XMAX, x)))
         cy = py(max(SC_YMIN, min(SC_YMAX, y)))
         box = bool(r.get("in_buy_box"))
-        col = "#f97316" if box else "rgba(148,163,184,.75)"
-        rad = 5.2 if box else 3.6
+        # ★ 2026-10-25 Desmond：點色 = 評分（A+ 綠／A 橙／B 藍／C 紅）
+        _g = r.get("grade")
+        if _g is None:
+            try:
+                _g = grade_of(r)[0]
+            except Exception:                                  # noqa: BLE001
+                _g = "—"
+        col = {"A+": "#22c55e", "A": "#f97316", "B": "#3b82f6",
+               "C": "#ef4444", "D": "#7f1d1d"}.get(_g, "rgba(148,163,184,.75)")
+        rad = 5.4 if box else 3.6
         tip = (f'{r.get("ticker")}｜X {x:.2f}｜Y {y:.2f}'
                f'｜ADR {r.get("adr") or "—"}%')
         _url = f"https://www.tradingview.com/chart/?symbol={_esc(r.get('ticker'))}"
         out.append(f'<a href="{_url}" target="_blank" rel="noopener">'
                    f'<title>{_esc(tip)}</title>'
                    f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{rad}" fill="{col}" '
-                   'fill-opacity=".92" style="cursor:pointer"/></a>')
+                   'fill-opacity=".95"'
+                   + (' stroke="#fff" stroke-width="1.2"' if box else "")
+                   + ' style="cursor:pointer"/></a>')
         if box:
             labelled.append((cx, cy, r.get("ticker")))
     used = []
@@ -425,7 +435,7 @@ def _scatter(rows, hist=None):
     out.append(
         '<div class="rs-xnote">'
         '<b>點睇：</b>'
-        '綠框＝買入區（X 0–1、Y 0–4）；橙點＝今日喺框內，灰點＝未入框；'
+        '綠框＝買入區（X 0–1、Y 0–4）；點色＝評分：<b style="color:#22c55e">A+</b><b style="color:#f97316">A</b><b style="color:#3b82f6">B</b><b style="color:#ef4444">C</b>；白邊＝今日喺框內；
         '幼橙線＝買入區股票過去 6 日嘅移動方向；'
         '紅虛線＝ATRX 4，越過即過度延伸（硬刪）。'
         '<br>最有做功課價值＝<b>橙點 ＋ 軌跡向上（由左下走入框）</b>；'

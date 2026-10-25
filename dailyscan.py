@@ -626,6 +626,11 @@ def build(day=None):
                     continue
                 _sc.append(dict(ticker=_t, x=_x, y=_y,
                                 adr=_m.get("atr_pct"),
+                                dist52w=_r.get("near_52w_high_pct"),
+                                rvol=_m.get("rvol50"),
+                                grade=_grade(_y, _m.get("rvol50"),
+                                             _r.get("near_52w_high_pct"),
+                                             _m.get("atr_pct"))[0],
                                 in_buy_box=(0 <= _x <= 1 and 0 <= _y <= 4)))
             if _sc:
                 parts.append(_rss._scatter(_sc))
