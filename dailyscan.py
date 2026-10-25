@@ -134,9 +134,13 @@ def _grade(ext, rvol, dist, atrp):
             else "B" if pts >= 3 else "C"), pts
 
 
-def _grp_cell(ind):
-    """GROUP = 該行業 RS（0–100）＋ 5 日變化箭嘴"""
+def _grp_cell(ind, sec=None):
+    """GROUP = 該行業 RS（0–100）＋ 5 日變化箭嘴；行業冇就用 sector。"""
     g = _IRS.get((ind or "").lower())
+    lvl = "行業"
+    if not g:
+        g = _IRS_SEC.get((sec or "").lower())
+        lvl = "板塊"
     if not g or g.get("rs") is None:
         return '<span style="opacity:.35">—</span>'
     rs = g["rs"]
@@ -151,8 +155,9 @@ def _grp_cell(ind):
             arrow = f' <span style="color:#ef4444">▼{abs(d):.0f}</span>'
         else:
             arrow = f' <span style="opacity:.45">{d:+.0f}</span>'
-    return (f'<b style="color:{_c}" title="{_esc(ind)}｜成員 {g.get("n")} 隻｜'
-            f'1M 中位 {g.get("med1m")}%｜5 日變化 {d}">{rs:.0f}</b>{arrow}')
+    return (f'<b style="color:{_c}" title="{lvl}：{_esc(ind or sec)}｜'
+            f'成員 {g.get("n")} 隻｜1M 中位 {g.get("med1m")}%｜'
+            f'5 日變化 {d}">{rs:.0f}</b>{arrow}')
 
 
 def _chg(t, ext, pts):
@@ -321,6 +326,8 @@ PREV_SRC = {}
 PREV_EXT = {}
 PREV_GRADE = {}
 _IRS = {}
+_IRS_SEC = {}
+_SEC = {}
 
 
 def update_day_on(tickers, read_only=False, src_map=None,
@@ -522,6 +529,8 @@ def build(day=None):
                 _ku = str(_k).upper()
                 if not _ind.get(_ku):
                     _ind[_ku] = (_v.get("industry") or _v.get("sector") or "")
+                if not _SEC.get(_ku):
+                    _SEC[_ku] = _v.get("sector") or ""
     except Exception:                                        # noqa: BLE001
         pass
 
@@ -535,6 +544,8 @@ def build(day=None):
             _d2 = json.load(io.open(_f2[-1], encoding="utf-8"))
             for _r2 in (_d2.get("rows") or []):
                 _irs[str(_r2.get("industry") or "").lower()] = _r2
+            for _r3 in (_d2.get("sectors") or []):
+                _IRS_SEC[str(_r3.get("industry") or "").lower()] = _r3
     except Exception:                                        # noqa: BLE001
         _irs = {}
     _IRS = _irs
@@ -787,7 +798,7 @@ def build(day=None):
                    if (r.get("_src") == "FOCUS"
                        and PREV_SRC.get(r.get("ticker")) == "STALK") else '')
                 + '</div></td>'
-                f'<td class="l ds-grp">{_grp_cell(_ind.get(t.upper(), ""))}</td>'
+                f'<td class="l ds-grp">{_grp_cell(_ind.get(t.upper(), ""), _SEC.get(t.upper(), ""))}</td>'
                 f'<td data-v="{_f(ext_f,2)}" class="{"ds-ext" if (ext_f or 0)>4 else ""}">'
                 f'<span style="display:inline-flex;align-items:center;gap:6px">'
                 f'<b style="min-width:34px">{_f(ext_f,2)}</b>'

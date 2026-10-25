@@ -12,7 +12,8 @@
 "delta": 33.3,
 "med1m": 10.5,
 "med1w": -0.8,
-"med3m": 31.6
+"med3m": 31.6,
+"level": "industry"
 },
 {
 "industry": "Miscellaneous Commercial Services",
@@ -22,7 +23,8 @@
 "delta": 0.1,
 "med1m": 10.4,
 "med1w": -2.5,
-"med3m": 3.8
+"med3m": 3.8,
+"level": "industry"
 },
 {
 "industry": "Restaurants",
@@ -32,7 +34,8 @@
 "delta": -5.9,
 "med1m": 7.949999999999999,
 "med1w": -8.95,
-"med3m": -6.15
+"med3m": -6.15,
+"level": "industry"
 },
 {
 "industry": "Food: Specialty/Candy",
@@ -42,7 +45,8 @@
 "delta": null,
 "med1m": 4.1,
 "med1w": -2.4,
-"med3m": -19.7
+"med3m": -19.7,
+"level": "industry"
 },
 {
 "industry": "Apparel/Footwear Retail",
@@ -52,7 +56,8 @@
 "delta": null,
 "med1m": 3.7,
 "med1w": -2.3,
-"med3m": 1.8
+"med3m": 1.8,
+"level": "industry"
 },
 {
 "industry": "Packaged Software",
@@ -62,7 +67,8 @@
 "delta": 0.5,
 "med1m": 2.95,
 "med1w": 1.3,
-"med3m": 34.35
+"med3m": 34.35,
+"level": "industry"
 },
 {
 "industry": "Managed Health Care",
@@ -72,7 +78,8 @@
 "delta": -5.5,
 "med1m": 2.0,
 "med1w": -2.5,
-"med3m": 5.5
+"med3m": 5.5,
+"level": "industry"
 },
 {
 "industry": "Specialty Stores",
@@ -82,7 +89,8 @@
 "delta": 0.6,
 "med1m": 1.7,
 "med1w": -0.1,
-"med3m": -4.4
+"med3m": -4.4,
+"level": "industry"
 },
 {
 "industry": "Oil Refining/Marketing",
@@ -92,7 +100,8 @@
 "delta": -17.4,
 "med1m": 0.4,
 "med1w": -8.8,
-"med3m": 15.3
+"med3m": 15.3,
+"level": "industry"
 },
 {
 "industry": "Medical Specialties",
@@ -102,7 +111,8 @@
 "delta": -2.3,
 "med1m": -0.1,
 "med1w": 2.0,
-"med3m": 12.6
+"med3m": 12.6,
+"level": "industry"
 },
 {
 "industry": "Internet Software/Services",
@@ -112,7 +122,8 @@
 "delta": -2.1,
 "med1m": -2.9,
 "med1w": -3.5,
-"med3m": -3.1
+"med3m": -3.1,
+"level": "industry"
 },
 {
 "industry": "Electric Utilities",
@@ -122,7 +133,8 @@
 "delta": -23.3,
 "med1m": -3.2,
 "med1w": -8.1,
-"med3m": -16.9
+"med3m": -16.9,
+"level": "industry"
 },
 {
 "industry": "Medical/Nursing Services",
@@ -132,7 +144,8 @@
 "delta": 1.1,
 "med1m": -7.95,
 "med1w": -3.0999999999999996,
-"med3m": -14.450000000000001
+"med3m": -14.450000000000001,
+"level": "industry"
 },
 {
 "industry": "Information Technology Services",
@@ -142,7 +155,8 @@
 "delta": -20.0,
 "med1m": -8.3,
 "med1w": -2.7,
-"med3m": 1.7
+"med3m": 1.7,
+"level": "industry"
 },
 {
 "industry": "Pharmaceuticals: Major",
@@ -152,7 +166,8 @@
 "delta": 13.3,
 "med1m": -9.2,
 "med1w": -1.05,
-"med3m": -5.95
+"med3m": -5.95,
+"level": "industry"
 },
 {
 "industry": "Finance/Rental/Leasing",
@@ -162,7 +177,8 @@
 "delta": 16.5,
 "med1m": -9.9,
 "med1w": -3.9,
-"med3m": -15.9
+"med3m": -15.9,
+"level": "industry"
 },
 {
 "industry": "Wholesale Distributors",
@@ -172,7 +188,8 @@
 "delta": null,
 "med1m": -11.7,
 "med1w": -6.3,
-"med3m": -3.2
+"med3m": -3.2,
+"level": "industry"
 },
 {
 "industry": "Electronic Equipment/Instruments",
@@ -182,7 +199,8 @@
 "delta": 1.5,
 "med1m": -11.8,
 "med1w": -5.0,
-"med3m": -20.9
+"med3m": -20.9,
+"level": "industry"
 },
 {
 "industry": "Airlines",
@@ -192,7 +210,8 @@
 "delta": null,
 "med1m": -14.0,
 "med1w": -3.4,
-"med3m": -15.9
+"med3m": -15.9,
+"level": "industry"
 },
 {
 "industry": "Investment Banks/Brokers",
@@ -202,7 +221,8 @@
 "delta": -7.4,
 "med1m": -16.9,
 "med1w": -7.4,
-"med3m": -13.5
+"med3m": -13.5,
+"level": "industry"
 },
 {
 "industry": "Aerospace & Defense",
@@ -212,7 +232,8 @@
 "delta": 26.0,
 "med1m": -17.8,
 "med1w": -4.1,
-"med3m": -22.2
+"med3m": -22.2,
+"level": "industry"
 },
 {
 "industry": "Telecommunications Equipment",
@@ -222,7 +243,8 @@
 "delta": 17.0,
 "med1m": -18.3,
 "med1w": -1.4,
-"med3m": -20.3
+"med3m": -20.3,
+"level": "industry"
 },
 {
 "industry": "Semiconductors",
@@ -232,7 +254,8 @@
 "delta": -34.4,
 "med1m": -18.5,
 "med1w": -7.0,
-"med3m": -18.8
+"med3m": -18.8,
+"level": "industry"
 },
 {
 "industry": "Electrical Products",
@@ -242,7 +265,8 @@
 "delta": 14.2,
 "med1m": -20.1,
 "med1w": -9.0,
-"med3m": -27.5
+"med3m": -27.5,
+"level": "industry"
 },
 {
 "industry": "Financial Conglomerates",
@@ -252,7 +276,8 @@
 "delta": -31.2,
 "med1m": -20.5,
 "med1w": 0.0,
-"med3m": 33.8
+"med3m": 33.8,
+"level": "industry"
 },
 {
 "industry": "Engineering & Construction",
@@ -262,7 +287,8 @@
 "delta": -28.0,
 "med1m": -20.8,
 "med1w": -12.4,
-"med3m": -31.6
+"med3m": -31.6,
+"level": "industry"
 },
 {
 "industry": "Oilfield Services/Equipment",
@@ -272,7 +298,8 @@
 "delta": 17.4,
 "med1m": -22.85,
 "med1w": -8.6,
-"med3m": -30.049999999999997
+"med3m": -30.049999999999997,
+"level": "industry"
 },
 {
 "industry": "Electronic Production Equipment",
@@ -282,7 +309,8 @@
 "delta": -9.7,
 "med1m": -23.4,
 "med1w": -8.9,
-"med3m": -28.4
+"med3m": -28.4,
+"level": "industry"
 },
 {
 "industry": "Industrial Machinery",
@@ -292,7 +320,8 @@
 "delta": -18.8,
 "med1m": -24.5,
 "med1w": -10.4,
-"med3m": -33.8
+"med3m": -33.8,
+"level": "industry"
 },
 {
 "industry": "Other Metals/Minerals",
@@ -302,7 +331,8 @@
 "delta": 5.6,
 "med1m": -24.6,
 "med1w": -11.4,
-"med3m": -21.6
+"med3m": -21.6,
+"level": "industry"
 },
 {
 "industry": "Precious Metals",
@@ -312,7 +342,8 @@
 "delta": -0.3,
 "med1m": -24.7,
 "med1w": -10.2,
-"med3m": -1.7
+"med3m": -1.7,
+"level": "industry"
 },
 {
 "industry": "Electronic Components",
@@ -322,7 +353,8 @@
 "delta": -33.6,
 "med1m": -24.9,
 "med1w": -14.75,
-"med3m": -22.25
+"med3m": -22.25,
+"level": "industry"
 },
 {
 "industry": "Computer Peripherals",
@@ -332,7 +364,8 @@
 "delta": -21.4,
 "med1m": -28.25,
 "med1w": -6.75,
-"med3m": -10.549999999999999
+"med3m": -10.549999999999999,
+"level": "industry"
 },
 {
 "industry": "Computer Processing Hardware",
@@ -342,7 +375,8 @@
 "delta": -0.1,
 "med1m": -31.8,
 "med1w": -4.5,
-"med3m": -8.3
+"med3m": -8.3,
+"level": "industry"
 },
 {
 "industry": "Data Processing Services",
@@ -352,7 +386,219 @@
 "delta": 0.0,
 "med1m": -41.9,
 "med1w": -13.1,
-"med3m": -41.9
+"med3m": -41.9,
+"level": "industry"
+}
+],
+"sectors": [
+{
+"industry": "Consumer Non-Durables",
+"n": 5,
+"rs": 100.0,
+"rs_5d_ago": 94.1,
+"delta": 5.9,
+"med1m": 6.6,
+"med1w": 0.0,
+"med3m": -19.7,
+"level": "sector"
+},
+{
+"industry": "Retail Trade",
+"n": 11,
+"rs": 94.4,
+"rs_5d_ago": 100.0,
+"delta": -5.6,
+"med1m": 3.7,
+"med1w": -0.6,
+"med3m": 1.8,
+"level": "sector"
+},
+{
+"industry": "Health Services",
+"n": 7,
+"rs": 88.9,
+"rs_5d_ago": 82.4,
+"delta": 6.5,
+"med1m": 1.8,
+"med1w": -2.5,
+"med3m": -11.8,
+"level": "sector"
+},
+{
+"industry": "Transportation",
+"n": 9,
+"rs": 83.3,
+"rs_5d_ago": 58.8,
+"delta": 24.5,
+"med1m": 1.7,
+"med1w": -1.3,
+"med3m": 21.3,
+"level": "sector"
+},
+{
+"industry": "Energy Minerals",
+"n": 8,
+"rs": 77.8,
+"rs_5d_ago": 70.6,
+"delta": 7.2,
+"med1m": -1.45,
+"med1w": -7.75,
+"med3m": 15.100000000000001,
+"level": "sector"
+},
+{
+"industry": "Utilities",
+"n": 6,
+"rs": 72.2,
+"rs_5d_ago": 88.2,
+"delta": -16.0,
+"med1m": -3.3,
+"med1w": -7.949999999999999,
+"med3m": -24.15,
+"level": "sector"
+},
+{
+"industry": "Technology Services",
+"n": 93,
+"rs": 66.7,
+"rs_5d_ago": 64.7,
+"delta": 2.0,
+"med1m": -3.3,
+"med1w": -0.5,
+"med3m": 17.2,
+"level": "sector"
+},
+{
+"industry": "Commercial Services",
+"n": 13,
+"rs": 61.1,
+"rs_5d_ago": 76.5,
+"delta": -15.4,
+"med1m": -4.0,
+"med1w": -2.5,
+"med3m": -4.0,
+"level": "sector"
+},
+{
+"industry": "Process Industries",
+"n": 3,
+"rs": 55.6,
+"rs_5d_ago": 11.8,
+"delta": 43.8,
+"med1m": -4.6,
+"med1w": -6.0,
+"med3m": -13.7,
+"level": "sector"
+},
+{
+"industry": "Consumer Durables",
+"n": 4,
+"rs": 50.0,
+"rs_5d_ago": 17.6,
+"delta": 32.4,
+"med1m": -6.5,
+"med1w": 3.75,
+"med3m": -13.399999999999999,
+"level": "sector"
+},
+{
+"industry": "Health Technology",
+"n": 45,
+"rs": 44.4,
+"rs_5d_ago": 52.9,
+"delta": -8.5,
+"med1m": -6.8,
+"med1w": 1.1,
+"med3m": -2.3,
+"level": "sector"
+},
+{
+"industry": "Consumer Services",
+"n": 15,
+"rs": 38.9,
+"rs_5d_ago": 23.5,
+"delta": 15.4,
+"med1m": -8.9,
+"med1w": -7.2,
+"med3m": -15.2,
+"level": "sector"
+},
+{
+"industry": "Finance",
+"n": 30,
+"rs": 33.3,
+"rs_5d_ago": 41.2,
+"delta": -7.9,
+"med1m": -9.2,
+"med1w": -1.05,
+"med3m": -11.399999999999999,
+"level": "sector"
+},
+{
+"industry": "Distribution Services",
+"n": 3,
+"rs": 27.8,
+"rs_5d_ago": null,
+"delta": null,
+"med1m": -11.7,
+"med1w": -6.3,
+"med3m": -3.2,
+"level": "sector"
+},
+{
+"industry": "Industrial Services",
+"n": 22,
+"rs": 22.2,
+"rs_5d_ago": 47.1,
+"delta": -24.9,
+"med1m": -18.45,
+"med1w": -11.15,
+"med3m": -29.0,
+"level": "sector"
+},
+{
+"industry": "Producer Manufacturing",
+"n": 35,
+"rs": 16.7,
+"rs_5d_ago": 29.4,
+"delta": -12.7,
+"med1m": -21.1,
+"med1w": -10.1,
+"med3m": -32.2,
+"level": "sector"
+},
+{
+"industry": "Communications",
+"n": 5,
+"rs": 11.1,
+"rs_5d_ago": 5.9,
+"delta": 5.2,
+"med1m": -21.3,
+"med1w": -2.4,
+"med3m": -22.5,
+"level": "sector"
+},
+{
+"industry": "Electronic Technology",
+"n": 94,
+"rs": 5.6,
+"rs_5d_ago": 35.3,
+"delta": -29.7,
+"med1m": -21.4,
+"med1w": -6.45,
+"med3m": -20.25,
+"level": "sector"
+},
+{
+"industry": "Non-Energy Minerals",
+"n": 22,
+"rs": 0.0,
+"rs_5d_ago": 0.0,
+"delta": 0.0,
+"med1m": -24.4,
+"med1w": -10.05,
+"med3m": -11.350000000000001,
+"level": "sector"
 }
 ]
 }

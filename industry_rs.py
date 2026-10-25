@@ -42,8 +42,8 @@ def _med(xs):
     return xs[k] if len(xs) % 2 else (xs[k - 1] + xs[k]) / 2.0
 
 
-def _aggs(path):
-    """回傳 {industry: {n, med1m, med1w, med3m}}"""
+def _aggs(path, key="industry"):
+    """回傳 {group: {n, med1m, med1w, med3m}}（key = industry 或 sector）"""
     try:
         d = json.load(io.open(path, encoding="utf-8"))
     except (OSError, ValueError):
@@ -51,7 +51,7 @@ def _aggs(path):
     rows = d.get("universe") or []
     buckets = {}
     for r in rows:
-        ind = (r.get("industry") or "").strip()
+        ind = (r.get(key) or "").strip()
         if not ind:
             continue
         p = r.get("perf") or {}
@@ -90,16 +90,19 @@ def main():
     if not os.path.exists(latest) or os.path.getmtime(latest) < os.path.getmtime(files[-1]):
         latest = files[-1]
 
-    today = _aggs(latest)
-    if not today:
+    today = _aggs(latest, "industry")
+    today_sec = _aggs(latest, "sector")
+    if not today and not today_sec:
         log("✗ 今日冇行業資料")
         return 1
     pct_now = _percentile(today)
+    pct_now_sec = _percentile(today_sec)
 
     # 5 個交易日前
     hist = [f for f in files if os.path.abspath(f) != os.path.abspath(latest)]
     old = hist[-5] if len(hist) >= 5 else (hist[0] if hist else None)
-    pct_old = _percentile(_aggs(old)) if old else {}
+    pct_old = _percentile(_aggs(old, "industry")) if old else {}
+    pct_old_sec = _percentile(_aggs(old, "sector")) if old else {}
 
     rows = []
     for ind, v in today.items():
@@ -112,6 +115,19 @@ def main():
             "med1m": v["med1m"], "med1w": v["med1w"], "med3m": v["med3m"],
         })
     rows.sort(key=lambda r: -(r["rs"] or 0))
+    sec_rows = []
+    for ind, v in today_sec.items():
+        rs = pct_now_sec.get(ind)
+        r5 = pct_old_sec.get(ind)
+        sec_rows.append({
+            "industry": ind, "n": v["n"], "rs": rs, "rs_5d_ago": r5,
+            "delta": round(rs - r5, 1) if (rs is not None and r5 is not None) else None,
+            "med1m": v["med1m"], "med1w": v["med1w"], "med3m": v["med3m"],
+            "level": "sector",
+        })
+    sec_rows.sort(key=lambda r: -(r["rs"] or 0))
+    for r in rows:
+        r["level"] = "industry"
 
     os.makedirs(OUT, exist_ok=True)
     payload = {
@@ -120,6 +136,7 @@ def main():
         "base": os.path.basename(old) if old else None,
         "n_industries": len(rows),
         "rows": rows,
+        "sectors": sec_rows,
     }
     dst = os.path.join(OUT, f"industry_rs_{payload['date']}.json")
     json.dump(payload, io.open(dst, "w", encoding="utf-8"),
