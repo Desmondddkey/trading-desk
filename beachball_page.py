@@ -63,8 +63,12 @@ def _irs():
 def build():
     d = _load(SRC, {})
     rows = d.get("rows") or []
+    # TradingView 分類優先（同 industry_rs 同一把尺），yfinance 只做後備
     ind = {str(k).upper(): (v.get("industry") or v.get("sector") or "")
            for k, v in _load(IND, {}).items()}
+    for _k, _v in _load(os.path.join(HERE, "data", "tv_meta.json"), {}).items():
+        if _v.get("industry"):
+            ind[str(_k).upper()] = _v["industry"]
 
     if not rows:
         return ("沙灘球反應", "<p>DATA_UNAVAILABLE — 未跑 beachball.py</p>")
