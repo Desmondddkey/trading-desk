@@ -502,6 +502,19 @@ def build(day=None):
     except Exception:                                        # noqa: BLE001
         pass
 
+    # ★ 2026-10-25：行業屬「群組 RS 前列」就標 🔥（group move 提示）
+    _hot = {}
+    try:
+        import glob as _g
+        _gf = sorted(_g.glob(os.path.join(
+            r"C:/Users/rain0/trading-os/output", "group_rs_20*.json")))
+        if _gf:
+            _gj = json.load(io.open(_gf[-1], encoding="utf-8"))
+            for _r in (_gj.get("rows") or []):
+                _hot[str(_r.get("group") or "").lower()] = _r
+    except Exception:                                        # noqa: BLE001
+        _hot = {}
+
     parts = [f'<style>{CSS}</style><script>{JS}</script>']
     parts.append('<h2>Daily Scan <small>L1 掃描 + L2 圖表隊列</small></h2>')
 
@@ -726,7 +739,11 @@ def build(day=None):
                 f'target="_blank" rel="noopener" data-sym="{_esc(t)}">'
                 f'<b class="{"ds-sym-buy" if inbox else ""}">{_esc(t)}</b></a></span>'
                 f'<div class="dim" style="font-size:10.5px">'
-                f'{_esc(_ind.get(t.upper(), "未分類"))}'
+                + (lambda _i: _esc(_i) + (
+                    (' <span title="群組 RS %.3f%s" style="color:#f97316">🔥</span>'
+                     % (_hot[_i.lower()].get("rs") or 0,
+                        " · 創新高" if _hot[_i.lower()].get("new_high") else ""))
+                    if _i and _i.lower() in _hot else ''))(_ind.get(t.upper(), "未分類"))
                 + ('<span title="由 STALK 升級入 FOCUS" style="color:#22c55e;'
                    'font-weight:800"> &#8593;</span>'
                    if (r.get("_src") == "FOCUS"
