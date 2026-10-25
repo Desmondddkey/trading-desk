@@ -559,8 +559,15 @@ nav span.off{opacity:.45}
   th,td{padding:3px 4px}
   .kpi{min-width:62px}
 }
-.kpis{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 14px}
-.kpi{background:#0f1729;border:1px solid #1e2a44;border-radius:9px;padding:8px 12px;min-width:96px}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:0 0 14px;
+  border:1px solid #1e2a44;border-radius:10px;overflow:hidden;background:#0f1729}
+html[data-theme="light"] .kpis{border-color:#e3e8f0;background:#fff}
+.kpi{background:transparent;border:0;border-left:1px solid #1e2a44;
+  border-radius:0;padding:10px 14px;min-width:112px;flex:1 1 0}
+.kpi:first-child{border-left:0}
+html[data-theme="light"] .kpi{border-left-color:#e3e8f0}
+.kpi .k{font-size:11.5px;opacity:.62;margin-bottom:3px}
+.kpi .v{font-size:24px;font-weight:600;line-height:1.15}
 .kpi .k{font-size:10.5px;color:#7f90ad;letter-spacing:.5px}
 .kpi .v{font-size:17px;font-weight:700;margin-top:2px}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
@@ -1426,9 +1433,14 @@ def _champion_card():
     if nav:
         h.append(f'<div style="font-size:26px;font-weight:800;color:{ret_cls}">'
                  f'${nav:,.0f}　<span style="font-size:15px">{ret:+.2f}%</span></div>')
-        h.append('<div style="font-size:12.5px;opacity:.8;margin:2px 0 8px">'
-                 f'{n} 單｜勝率 {wr:.0f}%｜贏輸比 {payoff_s}｜總 {tot_r:+.2f}R'
-                 '｜起始 $100,000（paper）</div>')
+        h.append('<div class="kpis" style="margin:8px 0 10px">')
+        for _l, _v, _c in (("單數", f"{n}", ""),
+                           ("勝率", f"{wr:.0f}%", ""),
+                           ("贏輸比", f"{payoff_s}", ""),
+                           ("總 R", f"{tot_r:+.2f}", ret_cls)):
+            h.append(f'<div class="kpi"><div class="k">{_l}</div>'
+                     f'<div class="v" style="color:{_c}">{_v}</div></div>')
+        h.append('</div>')
     else:
         h.append('<div class="dim">Champion 帳本未結算</div>')
     h.append('<div style="margin:4px 0 2px;font-size:12px;opacity:.7">今日 3 條</div>')
