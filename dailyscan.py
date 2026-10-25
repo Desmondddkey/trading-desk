@@ -134,6 +134,20 @@ def _grade(ext, rvol, dist, atrp):
             else "B" if pts >= 3 else "C"), pts
 
 
+def _chg(t, ext, pts):
+    """CHANGE：由「射程外」轉好 → 提醒。
+       🟢 回歸 = 上次 EXT>4（過度延伸），今日返到 ≤4
+       ↑ 升級 = 上次評分 ≤3（B 或以下），今日 ≥5（A 或以上）
+    """
+    pe = PREV_EXT.get(t)
+    pg = PREV_GRADE.get(t)
+    if pe is not None and pe > 4 and ext is not None and ext <= 4:
+        return '<span style="color:#22c55e;font-weight:800">🟢 回歸</span>'
+    if pg is not None and pg <= 3 and pts >= 5:
+        return '<span style="color:#22c55e;font-weight:800">↑ 升級</span>'
+    return '<span style="opacity:.35">—</span>'
+
+
 def _atr_band(ext_f):
     """ATR 帶 mini SVG：顯示 EXT 喺 [0,4] 範圍嘅位置"""
     if ext_f is None:
@@ -283,9 +297,12 @@ def compute_metrics(ohlc):
 
 
 PREV_SRC = {}
+PREV_EXT = {}
+PREV_GRADE = {}
 
 
-def update_day_on(tickers, read_only=False, src_map=None):
+def update_day_on(tickers, read_only=False, src_map=None,
+                  ext_map=None, grade_map=None):
     """記錄每隻股連續在名單幾日。→ dict[ticker] = n。
 
     ★ read_only=True：只讀唔寫（歷史日期頁面用，唔准改 state）。
@@ -304,11 +321,17 @@ def update_day_on(tickers, read_only=False, src_map=None):
         last = old.get("last")
         n = int(old.get("n") or 0)
         PREV_SRC[t] = old.get("src")
+        PREV_EXT[t] = old.get("ext")
+        PREV_GRADE[t] = old.get("pts")
         _src = (src_map or {}).get(t)
+        _ext = (ext_map or {}).get(t)
+        _pts = (grade_map or {}).get(t)
         if last == today:
-            newrec[t] = {"n": n, "last": last, "src": _src}
+            newrec[t] = {"n": n, "last": last, "src": _src,
+                         "ext": _ext, "pts": _pts}
         else:
-            newrec[t] = {"n": n + 1, "last": today, "src": _src}
+            newrec[t] = {"n": n + 1, "last": today, "src": _src,
+                         "ext": _ext, "pts": _pts}
     if not read_only:
         io.open(p, "w", encoding="utf-8").write(json.dumps(
             {"updated": today, "tickers": newrec}, ensure_ascii=False, indent=1))
@@ -458,11 +481,12 @@ def build(day=None):
         _msp = os.path.join(HERE, "data", "market_scan.json")
         if os.path.exists(_msp):
             _ms = json.load(io.open(_msp, encoding="utf-8"))
-            for _r in (_ms.get("nel") or []):
-                _s = _r.get("symbol")
-                if _s:
-                    _ind[_s.upper()] = (_r.get("industry")
-                                        or _r.get("sector") or "")
+            for _key in ("nel", "momentum", "universe"):
+                for _r in (_ms.get(_key) or []):
+                    _s = _r.get("symbol") or _r.get("ticker")
+                    if _s and (_r.get("industry") or _r.get("sector")):
+                        _ind[_s.upper()] = (_r.get("industry")
+                                            or _r.get("sector") or "")
     except Exception:                                        # noqa: BLE001
         _ind = {}
 
@@ -550,7 +574,19 @@ def build(day=None):
         _days = available_days()
         _is_latest = (not day) or (not _days) or (day == _days[0])
         _srcmap = {r.get("ticker"): r.get("_src") for r in l2rows if r.get("ticker")}
-        dayon = update_day_on(tk_all, read_only=not _is_latest, src_map=_srcmap)
+        _extmap, _gmap = {}, {}
+        for _r in l2rows:
+            _tk2 = _r.get("ticker")
+            if not _tk2:
+                continue
+            _e = _r.get("atr_ext_50ma")
+            _mm = metrics.get(_tk2.upper()) or {}
+            _extmap[_tk2] = _e if isinstance(_e, (int, float)) else None
+            _gmap[_tk2] = _grade(_extmap[_tk2], _mm.get("rvol50"),
+                                 _r.get("near_52w_high_pct"),
+                                 _mm.get("atr_pct"))[1]
+        dayon = update_day_on(tk_all, read_only=not _is_latest, src_map=_srcmap,
+                              ext_map=_extmap, grade_map=_gmap)
 
         n_buy = sum(1 for r in l2rows
                     if (r.get("atr_ext_50ma") or 0) <= 4
@@ -601,19 +637,24 @@ def build(day=None):
             parts.append(f'<div class="dim">位置圖失敗：{type(_e).__name__}</div>')
 
         # ★ 2026-10-23 Desmond：欄頭 clickable（Excel 三角）+ 新增 ATR 帶欄
-        # 索引 = 實際 <td> 次序：來源0 代號1 EXT2 RVOL3 ATR帶4 ATR%5 距52高6 評分7 財報8 DAYON9
+        # 索引 = 實際 <td> 次序：Stock0 EXT(+帶)1 RVOL2 ATR%3 距52高4 評分5 CHANGE6 財報7 DAYON8
         _cols = [
-            ('來源', 0), ('代號/行業', 1), ('EXT', 2),
-            ('RVOL(50D)', 3), ('ATR 帶', None), ('ATR%', 5),
-            ('距 52 高', 6), ('評分', 7), ('財報', 8), ('DAY ON', 9),
+            ('Stock', 0), ('EXT', 1), ('RVOL(50D)', 2), ('ATR%', 3),
+            ('距 52 高', 4), ('評分', 5), ('CHANGE', 6), ('財報', 7), ('DAY ON', 8),
         ]
         th_parts = []
         for label, col in _cols:
             if col is None:
                 th_parts.append(f'<th>{label}</th>')
             else:
+                _tip = (' title="評分＝EXT 0–2 得 3 分｜0–4 得 2 分；'
+                        'RVOL ≥2x 得 2 分、≥1.2x 得 1 分；'
+                        '距52高 ≥−5% 得 2 分、≥−12% 得 1 分；'
+                        'ATR% 2–8 得 1 分。滿分 8：A+ ≥7、A ≥5、B ≥3；EXT>4 直接 D"'
+                        if label == '評分' else '')
                 th_parts.append(
-                    f'<th class="l sortable" onclick="dsSort(this,{col})" data-dir="">'
+                    f'<th class="l sortable" onclick="dsSort(this,{col})" '
+                    f'data-dir=""{_tip}>'
                     f'{label}<span class="arr">▼</span></th>')
         _thead = "".join(th_parts)
         _rows_by = {}
@@ -662,28 +703,29 @@ def build(day=None):
                 f'<tr '
                 f'data-buy="{1 if inbox else 0}" data-state="{state}" '
                 f'data-src="{_esc(r.get("_src",""))}">'
-                f'<td class="l"><span class="ds-tag">{_esc(r.get("_src",""))}</span>'
-                + ('<span title="由 STALK 升級" style="color:#22c55e;font-weight:800;'
-                   'margin-left:3px">&#8593;</span>'
-                   if (r.get("_src") == "FOCUS"
-                       and PREV_SRC.get(r.get("ticker")) == "STALK") else '')
-                + '</td>'
                 f'<td class="l"><span class="tk">'
                 f'<a class="ds-syma" '
                 f'href="https://www.tradingview.com/chart/?symbol={_esc(t)}" '
                 f'target="_blank" rel="noopener" data-sym="{_esc(t)}">'
                 f'<b class="{"ds-sym-buy" if inbox else ""}">{_esc(t)}</b></a></span>'
                 f'<div class="dim" style="font-size:10.5px">'
-                f'{_esc(_ind.get(t.upper(), ""))}</div></td>'
+                f'{_esc(_ind.get(t.upper(), "未分類"))}'
+                + ('<span title="由 STALK 升級入 FOCUS" style="color:#22c55e;'
+                   'font-weight:800"> &#8593;</span>'
+                   if (r.get("_src") == "FOCUS"
+                       and PREV_SRC.get(r.get("ticker")) == "STALK") else '')
+                + '</div></td>'
                 f'<td data-v="{_f(ext_f,2)}" class="{"ds-ext" if (ext_f or 0)>4 else ""}">'
-                f'{_f(ext_f,2)}</td>'
+                f'<span style="display:inline-flex;align-items:center;gap:6px">'
+                f'<b style="min-width:34px">{_f(ext_f,2)}</b>'
+                f'{_atr_band(ext_f)}</span></td>'
                 f'<td data-v="{_f(rvol,2)}" class="{rvol_cls}">{rvol_s}</td>'
-                f'<td>{_atr_band(ext_f)}</td>'
                 f'<td data-v="{_f(m.get("atr_pct"),2)}">{_f(m.get("atr_pct"),1)}%</td>'
                 f'<td data-v="{_f(dist,0)}">{dist_s}</td>'
                 f'<td data-v="{_grade(ext_f, rvol, dist, m.get("atr_pct"))[1]}">'
                 f'<b style="color:{_gcol(_grade(ext_f, rvol, dist, m.get("atr_pct"))[0])}">'
                 f'{_grade(ext_f, rvol, dist, m.get("atr_pct"))[0]}</b></td>'
+                f'<td>{_chg(t, ext_f, _grade(ext_f, rvol, dist, m.get("atr_pct"))[1])}</td>'
                 f'<td>{_esc(es_s)}</td>'
                 f'<td data-v="{dayon.get(t,0)}">{dayon.get(t,0)}</td>'
                 '</tr>')
@@ -709,7 +751,7 @@ def build(day=None):
                      '<b>EXT</b> = ATRX =（收市 − SMA50）／ATR14，硬刪門檻 4.0（EDGE-009）<br>'
                      '<b>ATR%</b> = ATR14／收市 ×100 —— 決定止蝕闊度<br>'
                      '<b>RVOL(50D)</b> = 當日量／過去 50 日平均量。≥2x 紅字＝爆量<br>'
-                     '<b>DAY ON</b> = 連續在名單幾日（新上榜 = 1）<br>'
+                     '<b>DAY ON</b> = 連續在名單幾日（新上榜 = 1）<br><b>STALK 升級</b> = 前一日屬 STALK，今日入 FOCUS → Stock 旁顯示 ↑；連續 3 日 FOCUS 後標記自動消失<br><b>CHANGE</b> = 由射程外轉好：🟢 回歸（上次 EXT&gt;4、今日 ≤4）／↑ 升級（上次評分 ≤B、今日 ≥A）；其餘顯示 —<br><b>評分</b> = EXT 0–2 得 3 分、0–4 得 2 分｜RVOL ≥2x 得 2、≥1.2x 得 1｜距52高 ≥−5% 得 2、≥−12% 得 1｜ATR% 2–8 得 1；滿分 8（A+ ≥7、A ≥5、B ≥3），EXT&gt;4 直接 D<br>'
                      '點欄名可以排序。'
                      '</div>')
 
