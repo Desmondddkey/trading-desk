@@ -517,6 +517,7 @@ def build(day=None):
                     if _s and (_r.get("industry") or _r.get("sector")):
                         _ind[_s.upper()] = (_r.get("industry")
                                             or _r.get("sector") or "")
+                        _SEC[_s.upper()] = _r.get("sector") or ""
     except Exception:                                        # noqa: BLE001
         _ind = {}
 
