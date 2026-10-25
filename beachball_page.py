@@ -94,6 +94,17 @@ def build():
         rel = r.get("rel20")
         rc = "#22c55e" if (rel or 0) > 0 else "#ef4444"
         w = 100.0 * r["ball"] / top
+
+        _g = grs.get((ind.get(t.upper(), "") or "").lower())
+        if _g and isinstance(_g.get("rs"), (int, float)):
+            _d = _g.get("delta")
+            _dtxt = (f' <span style="font-size:10.5px;opacity:.8">{_d:+.0f}</span>'
+                     if isinstance(_d, (int, float)) else "")
+            gcell = (f'<td class="n" style="color:#22c55e"><b>{_g["rs"]:.0f}</b>'
+                     f'{_dtxt}</td>')
+        else:
+            gcell = '<td class="n" style="opacity:.35">—</td>'
+
         out.append(
             f'<tr><td style="opacity:.45">{i}</td>'
             f'<td><a class="bb-tk" href="https://www.tradingview.com/chart/?symbol={_esc(t)}"'
@@ -103,13 +114,8 @@ def build():
             f'<div class="bb-bar"><i style="width:{w:.0f}%"></i></div></td>'
             f'<td class="n">{r["down_up"]}</td>'
             f'<td class="n">{r["nhbp"]}</td>'
-            + (lambda _g: (f'<td class="n" style="color:#22c55e"><b>{_g["rs"]:.0f}</b>'
-                           + (f' <span style="font-size:10.5px">'
-                              f'{_g["delta"]:+.0f}</span>'
-                              if isinstance(_g.get("delta"), (int, float)) else '')
-                           + '</td>') if _g else '<td class="n" style="opacity:.35">—</td>')(
-                grs.get((ind.get(t.upper(), "") or "").lower()))
-            f'<td class="n" style="color:{rc}">{rel if rel is not None else "—"}%</td>'
+            + gcell
+            + f'<td class="n" style="color:{rc}">{rel if rel is not None else "—"}%</td>'
             f'<td class="n">{r.get("last")}</td></tr>')
 
     out.append('</tbody></table></div>')
