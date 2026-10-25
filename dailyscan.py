@@ -136,7 +136,7 @@ def _grade(ext, rvol, dist, atrp):
 
 def _grp_cell(ind):
     """GROUP = 該行業 RS（0–100）＋ 5 日變化箭嘴"""
-    g = _irs.get((ind or "").lower())
+    g = _IRS.get((ind or "").lower())
     if not g or g.get("rs") is None:
         return '<span style="opacity:.35">—</span>'
     rs = g["rs"]
@@ -320,6 +320,7 @@ def compute_metrics(ohlc):
 PREV_SRC = {}
 PREV_EXT = {}
 PREV_GRADE = {}
+_IRS = {}
 
 
 def update_day_on(tickers, read_only=False, src_map=None,
@@ -525,6 +526,7 @@ def build(day=None):
         pass
 
     # ★ 2026-10-25：全部行業 RS 分數 + 5 日變化（解決「有冇 group move」）
+    global _IRS
     _irs = {}
     try:
         import glob as _g2
@@ -535,6 +537,7 @@ def build(day=None):
                 _irs[str(_r2.get("industry") or "").lower()] = _r2
     except Exception:                                        # noqa: BLE001
         _irs = {}
+    _IRS = _irs
 
     # ★ 2026-10-25：行業屬「群組 RS 前列」就標 🔥（group move 提示）
     _hot = {}

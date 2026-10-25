@@ -149,11 +149,33 @@ def compute(df):
     return out
 
 
+def _ensure_bench(df):
+    """charts_ohlc.pkl 冇 SPY（由 charts 模組產生）→ 自己補一隻落去。"""
+    if BENCH in {c[0] for c in df.columns}:
+        return df
+    try:
+        import pandas as pd
+        import yfinance as yf
+        spy = yf.download(BENCH, period="2y", interval="1d",
+                          auto_adjust=True, progress=False)
+        if hasattr(spy.columns, "nlevels") and spy.columns.nlevels > 1:
+            spy.columns = spy.columns.get_level_values(0)
+        if "Close" not in spy.columns:
+            return df
+        add = spy[["Open", "High", "Low", "Close"]].copy()
+        add.columns = pd.MultiIndex.from_product([[BENCH], list(add.columns)])
+        add = add.reindex(df.index).ffill()
+        return pd.concat([df, add], axis=1)
+    except Exception:                                        # noqa: BLE001
+        return df
+
+
 def build():
     df = load()
     if df is None:
         return ("RS Before Price",
                 '<div class="warn">⛔ 讀唔到 charts_ohlc.pkl</div>')
+    df = _ensure_bench(df)
     rows = compute(df)
     last = df.index[-1]
     n_all = len({c[0] for c in df.columns})
