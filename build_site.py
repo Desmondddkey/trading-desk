@@ -517,8 +517,7 @@ nav a,nav span.tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;
 nav a:hover{background:#121c31;color:#e8eef8}
 nav a.on{background:#0f1729;border-color:#1e2a44;color:#e8eef8;font-weight:700}
 nav span.off{opacity:.45}
-.card{background:#0f1729;border:1px solid #1e2a44;border-radius:11px;margin:0 0 15px;
- box-shadow:0 2px 14px rgba(0,0,0,.32)}
+.card{background:#0f1729;border:1px solid #1e2a44;border-radius:10px;margin:0 0 16px}
 .card h2{font-size:15.5px;margin:0;padding:11px 14px;border-bottom:1px solid #1e2a44;
  background:#0d1424;border-radius:11px 11px 0 0;display:flex;justify-content:space-between;
  align-items:center;gap:10px}
@@ -592,6 +591,7 @@ button:hover{background:#1d2a49}
 button.on{background:#2b6cb0;border-color:#4a90d9;color:#fff;font-weight:700}
 .scroll{max-height:70vh;overflow:auto}
 footer{color:#5f708c;font-size:11.5px;margin-top:22px;line-height:1.7}
+table,.kpi,.num,td{font-variant-numeric:tabular-nums}
 code{background:#16203a;padding:1px 5px;border-radius:4px;font-size:11.5px}
 .todo{background:#141d33;border:1px dashed #35507e;border-radius:10px;padding:14px;color:#9fb0cc;
  font-size:13px;line-height:1.75}
@@ -613,7 +613,7 @@ html[data-theme="light"] .crumb{color:#64748b}
 html[data-theme="light"] nav a{color:#64748b}
 html[data-theme="light"] nav a:hover{background:#eef2f8;color:#111827}
 html[data-theme="light"] nav a.on{background:#ffffff;border-color:#dbe2ec;color:#111827}
-html[data-theme="light"] .card{background:#ffffff;border-color:#e3e8f0;box-shadow:0 1px 6px rgba(15,23,42,.06)}
+html[data-theme="light"] .card{background:#ffffff;border-color:#e3e8f0;box-shadow:none}
 html[data-theme="light"] .card h2{background:#f1f5f9;border-color:#e3e8f0;color:#111827}
 html[data-theme="light"] .card h2 small{color:#64748b}
 html[data-theme="light"] .kpi{background:#ffffff;border-color:#e3e8f0}
@@ -692,7 +692,7 @@ DESK_LIGHT_CSS = """
 html[data-theme="light"] body{background:#f6f8fb;color:#1a2433}
 html[data-theme="light"] .sub{color:#64748b}
 html[data-theme="light"] h1,html[data-theme="light"] h2,html[data-theme="light"] h3{color:#111827}
-html[data-theme="light"] .card{background:#ffffff;border-color:#e3e8f0;box-shadow:0 1px 6px rgba(15,23,42,.06)}
+html[data-theme="light"] .card{background:#ffffff;border-color:#e3e8f0;box-shadow:none}
 html[data-theme="light"] .card h2{background:#f1f5f9;border-color:#e3e8f0;color:#111827}
 html[data-theme="light"] .kpi{background:#ffffff;border-color:#e3e8f0}
 html[data-theme="light"] .kpi .k{color:#64748b}
