@@ -1308,7 +1308,12 @@ def page(active, title, body, payload, extra_head=""):
     .then(function(r){{return r.ok?r.json():null;}})
     .then(function(d){{
       if(!d||!d.v||d.v===BV) return;
-      try{{sessionStorage.setItem('hv',d.v);}}catch(e){{}}
+      /* ★ 2026-10-25 修「無限 reload」：如果今次 session 已經為呢個版本 reload 過，
+         就唔好再 reload。舊檔（BV 落後）以前會同 version.json 永遠唔相等 → 無限迴圈。*/
+      try{{
+        if(sessionStorage.getItem('hv')===d.v) return;
+        sessionStorage.setItem('hv',d.v);
+      }}catch(e){{}}
       var u=new URL(location.href);
       u.searchParams.set('v',d.v.replace(/\\D/g,''));
       location.replace(u.toString());

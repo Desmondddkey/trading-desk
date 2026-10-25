@@ -78,15 +78,23 @@ def load():
         return None
 
 
+def _close(df, t):
+    """兼容兩種 yfinance 欄位次序：('SPY','Close') 同 ('Close','SPY')。"""
+    for key in ((t, "Close"), ("Close", t)):
+        if key in df.columns:
+            return df[key]
+    raise KeyError(t)
+
+
 def compute(df):
     import numpy as np
-    bench = df[(BENCH, "Close")].astype(float)
+    bench = _close(df, BENCH).astype(float)
     out = []
     for t in sorted({c[0] for c in df.columns}):
         if t == BENCH:
             continue
         try:
-            px = df[(t, "Close")].astype(float).dropna().reindex(bench.index).dropna()
+            px = _close(df, t).astype(float).dropna().reindex(bench.index).dropna()
             if len(px) < 120:
                 continue
             rs = (px / bench.reindex(px.index)).dropna()
