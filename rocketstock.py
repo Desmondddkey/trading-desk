@@ -102,11 +102,11 @@ def _fetch(key, path):
 CSS = """
 .rs-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));
   gap:11px;margin:0 0 16px}
-.rs-kpi{padding:13px 15px;border-radius:11px;
+.rs-kpi{padding:13px 15px;border-radius:10px;
   border:1px solid rgba(128,128,128,.26);background:rgba(128,128,128,.045)}
 .rs-kpi .k{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
   opacity:.6}
-.rs-kpi .v{font-size:22px;font-weight:800;margin-top:3px}
+.rs-kpi .v{font-size:20px;font-weight:800;margin-top:3px}
 .rs-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
 .rs-tbl th{text-align:right;font-size:10.5px;letter-spacing:.04em;
   text-transform:uppercase;opacity:.6;padding:6px 8px;
@@ -151,7 +151,7 @@ def build():
             parts.append(
                 '<div>'
                 f'<div style="display:flex;gap:8px;align-items:baseline">'
-                f'<b style="font-size:15px">{_esc(p.get("symbol"))}</b>'
+                f'<b style="font-size:14px">{_esc(p.get("symbol"))}</b>'
                 f'<span class="rs-pill">RS {_esc(p.get("rs"))}</span>'
                 f'<span style="margin-left:auto" class="{_tone(p.get("chg"))}">'
                 f'{_pct(p.get("chg"))}</span></div>'
@@ -159,7 +159,7 @@ def build():
                 f'{_esc(p.get("theme"))}｜{_esc(p.get("sector"))}</div>'
                 f'<div style="opacity:.85;font-size:11.5px;margin-top:4px">'
                 f'1月 {_pct(p.get("roc_1m"))}｜3月 {_pct(p.get("roc_3m"))}</div>'
-                f'<div style="opacity:.62;font-size:11px;margin-top:5px;'
+                f'<div style="opacity:.62;font-size:10.5px;margin-top:5px;'
                 f'line-height:1.55">{_esc(p.get("reason"))}</div>'
                 '</div>')
         parts.append('</div></div></div>')
@@ -223,7 +223,7 @@ def build():
                     f'<div class="v" style="color:'
                     f'{"#16a34a" if (wr or 0) >= 50 else "#dc2626"}">'
                     f'{_num(wr, 1)}%</div>'
-                    f'<div style="font-size:11px;opacity:.62;margin-top:2px">'
+                    f'<div style="font-size:10.5px;opacity:.62;margin-top:2px">'
                     f'{_esc(w.get("win"))} 贏 / {_esc(w.get("loss"))} 輸'
                     f'（{_esc(w.get("total"))} 單）</div></div>')
             parts.append('</div>')
@@ -284,7 +284,7 @@ def build():
                      f'{", ".join(fails)} —— Missing ≠ Zero。</div></div>')
 
     parts.append(
-        '<div class="note" style="font-size:12px;line-height:1.8">'
+        '<div class="note" style="font-size:11.5px;line-height:1.8">'
         '<b>★ 為什麼唔直接嵌入原站？</b> '
         'rocketstock.app 回 <code>X-Frame-Options: SAMEORIGIN</code> 同 '
         '<code>CSP frame-ancestors &quot;self&quot;</code>，'

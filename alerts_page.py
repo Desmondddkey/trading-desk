@@ -155,25 +155,25 @@ STATUS_ZH = {
 
 CSS = """
 .al-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
-  margin:0 0 6px;font-size:15px;font-weight:800}
+  margin:0 0 6px;font-size:14px;font-weight:800}
 .al-h small{font-size:11.5px;font-weight:600;opacity:.55}
-.al-note{font-size:12px;opacity:.72;margin:0 0 14px;line-height:1.6}
+.al-note{font-size:11.5px;opacity:.72;margin:0 0 14px;line-height:1.6}
 .al-grid{display:grid;gap:11px;grid-template-columns:repeat(auto-fit,
   minmax(260px,1fr));margin:0 0 22px}
-.al-card{border:1px solid rgba(128,128,128,.26);border-radius:12px;
+.al-card{border:1px solid rgba(128,128,128,.26);border-radius:10px;
   padding:12px 14px;background:rgba(128,128,128,.05)}
 .al-top{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;
   margin:0 0 7px}
 .al-name{font-size:14px;font-weight:800}
 .al-cnt{font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;
   border:1px solid currentColor;opacity:.9}
-.al-desc{font-size:11px;opacity:.6;margin:0 0 8px}
+.al-desc{font-size:10.5px;opacity:.6;margin:0 0 8px}
 .al-tk{display:flex;flex-wrap:wrap;gap:5px}
 .al-tk span{font-size:11.5px;font-family:ui-monospace,monospace;
   padding:2px 7px;border-radius:5px;background:rgba(128,128,128,.16);
   font-weight:700}
 .al-tk span b{font-weight:800}
-.al-st{font-size:11px;opacity:.75;margin-top:8px;line-height:1.7}
+.al-st{font-size:10.5px;opacity:.75;margin-top:8px;line-height:1.7}
 .al-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
 .al-tbl th{text-align:left;font-size:10.5px;letter-spacing:.05em;
   text-transform:uppercase;opacity:.55;padding:6px 8px;font-weight:700;
@@ -189,22 +189,22 @@ CSS = """
 .al-fold[open]>summary::before{content:"▾ "}
 /* ★ 分類標題 */
 .al-cat{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;
-  margin:20px 0 9px;padding:8px 12px;border-radius:9px;
+  margin:20px 0 9px;padding:8px 12px;border-radius:8px;
   background:rgba(217,119,87,.09);border-left:3px solid #d97757}
-.al-catn{font-size:13.5px;font-weight:800;letter-spacing:.03em}
+.al-catn{font-size:14px;font-weight:800;letter-spacing:.03em}
 .al-catd{font-size:11.5px;opacity:.68}
 .al-catc{margin-left:auto;font-size:11.5px;font-weight:700;opacity:.65}
 /* ★ Hover 詳情方格 */
 .al-hasTip{position:relative}
 .al-tip{display:none;position:absolute;z-index:50;left:0;top:calc(100% + 6px);
-  width:min(340px,86vw);padding:12px 14px;border-radius:11px;
-  background:#1b1b19;border:1px solid #4A4A42;box-shadow:0 10px 28px rgba(0,0,0,.5);
-  font-size:12px;line-height:1.65;color:#F0EDE8;text-align:left;
+  width:min(340px,86vw);padding:12px 14px;border-radius:10px;
+  background:#1b1b19;border:1px solid #4A4A42;
+  font-size:11.5px;line-height:1.65;color:#F0EDE8;text-align:left;
   white-space:normal;word-break:break-word}
 html[data-theme="light"] .al-tip{background:#FFFFFF;border-color:#DAD9D4;
-  color:#1F1E1D;box-shadow:0 10px 28px rgba(0,0,0,.14)}
+  color:#1F1E1D;}
 .al-hasTip:hover .al-tip,.al-hasTip:focus-within .al-tip{display:block}
-.al-tip>b{font-size:13px;font-weight:800;display:block;margin-bottom:3px}
+.al-tip>b{font-size:12.5px;font-weight:800;display:block;margin-bottom:3px}
 .al-tipzh{font-size:11.5px;opacity:.75;margin-bottom:7px}
 .al-tipcat{font-size:10px;font-weight:800;padding:1px 7px;border-radius:999px;
   border:1px solid currentColor;margin-left:7px;opacity:.9}
@@ -215,10 +215,10 @@ html[data-theme="light"] .al-tip{background:#FFFFFF;border-color:#DAD9D4;
   margin:0 0 11px;padding:9px 12px;border-radius:10px;
   background:rgba(128,128,128,.07);border:1px solid rgba(128,128,128,.2)}
 .al-dbar label{font-size:12.5px;font-weight:700;opacity:.8}
-.al-dbar select{font-family:inherit;font-size:13px;padding:6px 11px;
+.al-dbar select{font-family:inherit;font-size:12.5px;padding:6px 11px;
   border-radius:8px;border:1px solid rgba(128,128,128,.4);
   background:inherit;color:inherit;cursor:pointer;max-width:60vw}
-.al-cnt2{margin-left:auto;font-size:12px;font-weight:700;opacity:.7}
+.al-cnt2{margin-left:auto;font-size:11.5px;font-weight:700;opacity:.7}
 @media(hover:none){.al-hasTip:active .al-tip{display:block}}
 @media(max-width:700px){
   .al-tbl thead{display:none}
@@ -226,12 +226,12 @@ html[data-theme="light"] .al-tip{background:#FFFFFF;border-color:#DAD9D4;
   .al-tbl tr{padding:8px 0;border-bottom:1px solid rgba(128,128,128,.16)}
   .al-tbl td{display:block;width:auto;border:0;padding:0;
     white-space:normal;text-align:left!important}
-  .al-tbl td:nth-child(1){display:inline;font-size:11px;opacity:.6}
+  .al-tbl td:nth-child(1){display:inline;font-size:10.5px;opacity:.6}
   .al-tbl td:nth-child(2){display:inline;margin-left:7px;font-weight:800}
   .al-tbl td:nth-child(3){display:inline;margin-left:7px;font-size:11.5px}
-  .al-tbl td:nth-child(4){display:inline;margin-left:7px;font-size:11px;
+  .al-tbl td:nth-child(4){display:inline;margin-left:7px;font-size:10.5px;
     opacity:.65}
-  .al-tbl td:nth-child(5){margin-top:2px;font-size:11px;opacity:.75}
+  .al-tbl td:nth-child(5){margin-top:2px;font-size:10.5px;opacity:.75}
 }
 """
 
@@ -328,7 +328,7 @@ def _cards(rows):
                 f'<div class="al-top"><span class="al-name">{d["emoji"]} '
                 f'{_esc(s)}</span>'
                 f'<span class="al-cnt" style="color:#d97757">{len(rs)} 次</span>'
-                f'<span style="font-size:11px;opacity:.55">'
+                f'<span style="font-size:10.5px;opacity:.55">'
                 f'{len(tk)} 隻股</span></div>'
                 f'<div class="al-desc">{_esc(d["full"])}</div>'
                 f'<div class="al-tk">{chips}</div>'

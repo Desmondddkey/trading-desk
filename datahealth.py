@@ -15,10 +15,10 @@ import freshness as F
 
 CSS = """
 .dh-top{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 16px}
-.dh-kpi{flex:1 1 120px;padding:12px 14px;border-radius:12px;
+.dh-kpi{flex:1 1 120px;padding:12px 14px;border-radius:10px;
   border:1px solid rgba(128,128,128,.28);background:rgba(128,128,128,.05)}
 .dh-kpi .n{font-size:26px;font-weight:800;line-height:1.1}
-.dh-kpi .l{font-size:11px;opacity:.6;margin-top:3px}
+.dh-kpi .l{font-size:10.5px;opacity:.6;margin-top:3px}
 .dh-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
 .dh-tbl th{text-align:left;font-size:10.5px;letter-spacing:.05em;
   text-transform:uppercase;opacity:.55;padding:7px 9px;font-weight:700;
@@ -26,26 +26,26 @@ CSS = """
 .dh-tbl td{padding:8px 9px;border-bottom:1px solid rgba(128,128,128,.1);
   text-align:left!important;white-space:normal;word-break:break-word}
 .dh-tbl tr:hover{background:rgba(128,128,128,.06)}
-.fr-b{font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;
+.fr-b{font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px;
   white-space:nowrap;border:1px solid currentColor}
 .fr-fresh{color:#16a34a}
 .fr-stale{color:#ea580c}
 .fr-miss{color:#dc2626}
 .dh-warn{border:1px solid rgba(220,38,38,.45);background:rgba(220,38,38,.08);
-  border-radius:12px;padding:13px 15px;margin:0 0 16px;font-size:12.5px;
+  border-radius:10px;padding:13px 15px;margin:0 0 16px;font-size:12.5px;
   line-height:1.8}
 .dh-warn b{color:#dc2626}
 .dh-ok{border:1px solid rgba(22,163,74,.4);background:rgba(22,163,74,.07);
-  border-radius:12px;padding:13px 15px;margin:0 0 16px;font-size:12.5px}
+  border-radius:10px;padding:13px 15px;margin:0 0 16px;font-size:12.5px}
 @media(max-width:700px){
   .dh-tbl thead{display:none}
   .dh-tbl,.dh-tbl tbody,.dh-tbl tr{display:block;width:100%}
   .dh-tbl tr{padding:10px 0;border-bottom:1px solid rgba(128,128,128,.16)}
   .dh-tbl td{display:block;border:0;padding:1px 0}
-  .dh-tbl td:nth-child(1){font-size:13px;font-weight:800}
+  .dh-tbl td:nth-child(1){font-size:12.5px;font-weight:800}
   .dh-tbl td:nth-child(2){display:inline;margin-top:4px}
-  .dh-tbl td:nth-child(3){display:inline;margin-left:8px;font-size:11px}
-  .dh-tbl td:nth-child(4),.dh-tbl td:nth-child(5){font-size:11px;
+  .dh-tbl td:nth-child(3){display:inline;margin-left:8px;font-size:10.5px}
+  .dh-tbl td:nth-child(4),.dh-tbl td:nth-child(5){font-size:10.5px;
     opacity:.72;margin-top:3px}
 }
 """
@@ -101,7 +101,7 @@ def build():
     parts.append('</tbody></table>')
 
     parts.append(
-        '<div class="note" style="margin-top:16px;font-size:12px;'
+        '<div class="note" style="margin-top:16px;font-size:11.5px;'
         'line-height:1.8">'
         '<b>判定規則（寫死喺 freshness.py，唔可以事後改）</b><br>'
         'FRESH = 檔案存在，而且日齡 ≤ 該源嘅 max_age<br>'

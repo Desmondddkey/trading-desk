@@ -204,11 +204,11 @@ def build():
     S = seg_stats(trips)
     L = ["""<style>
 .eh-k{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 14px}
-.eh-k>div{flex:1 1 108px;padding:11px 13px;border-radius:11px;
+.eh-k>div{flex:1 1 108px;padding:11px 13px;border-radius:10px;
   border:1px solid rgba(128,128,128,.26);background:rgba(128,128,128,.05)}
 .eh-k .n{font-size:20px;font-weight:800;line-height:1.15}
 .eh-k .l{font-size:10.5px;opacity:.6;margin-top:2px}
-.eh-t{width:100%;border-collapse:collapse;font-size:12px;margin:0 0 4px}
+.eh-t{width:100%;border-collapse:collapse;font-size:11.5px;margin:0 0 4px}
 .eh-t th{text-align:left;font-size:10.5px;letter-spacing:.05em;
   text-transform:uppercase;opacity:.55;padding:6px 8px;font-weight:700;
   border-bottom:1px solid rgba(128,128,128,.28)}
@@ -218,8 +218,8 @@ def build():
 .eh-t tr.bad td:first-child{border-left:3px solid #dc2626;padding-left:9px}
 .eh-t tr.mid td:first-child{border-left:3px solid #94a3b8;padding-left:9px}
 .pos{color:#16a34a;font-weight:700}.neg{color:#dc2626;font-weight:700}
-.eh-hero{border-radius:13px;padding:15px 17px;margin:0 0 15px;
-  font-size:13px;line-height:1.9;font-weight:600}
+.eh-hero{border-radius:10px;padding:15px 17px;margin:0 0 15px;
+  font-size:12.5px;line-height:1.9;font-weight:600}
 .eh-s{border:1px solid rgba(22,163,74,.45);background:rgba(22,163,74,.08)}
 .eh-w{border:1px solid rgba(220,38,38,.5);background:rgba(220,38,38,.08)}
 @media(max-width:700px){
@@ -227,7 +227,7 @@ def build():
   .eh-t,.eh-t tbody,.eh-t tr{display:block;width:100%}
   .eh-t tr{padding:8px 0;border-bottom:1px solid rgba(128,128,128,.16)}
   .eh-t td{display:inline;border:0;padding:1px 5px 1px 0;font-size:11.5px}
-  .eh-t td:first-child{display:block;font-weight:800;font-size:13px}
+  .eh-t td:first-child{display:block;font-weight:800;font-size:12.5px}
 }
 </style>"""]
 
@@ -386,7 +386,7 @@ def build():
              '<small>做完即刻可以改嘅行為</small></h2><div class="body">')
 
     # 每日三條
-    L.append('<div style="font-size:13px;font-weight:800;margin:0 0 8px;'
+    L.append('<div style="font-size:12.5px;font-weight:800;margin:0 0 8px;'
              'color:#c2410c">📅 每日（收市後 5 分鐘檢視）</div>')
     daily = []
     if s_bull and s_bull["ev"] < 0 and s_bull["proven"]:
@@ -413,7 +413,7 @@ def build():
              + "<br><br>".join(daily) + '</div>')
 
     # 每週三條
-    L.append('<div style="font-size:13px;font-weight:800;margin:18px 0 8px;'
+    L.append('<div style="font-size:12.5px;font-weight:800;margin:18px 0 8px;'
              'color:#c2410c">📆 每週（週末 15 分鐘檢視）</div>')
     weekly = []
     if s_bear and s_bull:

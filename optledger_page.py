@@ -109,14 +109,14 @@ CSS = """
 .ol-hero p{margin:0;font-size:12.5px;line-height:1.85;
   color:inherit;opacity:.8}
 .ol-big{font-size:26px;font-weight:800;color:#16a34a;margin:6px 0}
-.ol-card{border:1px solid rgba(128,140,170,.22);border-radius:11px;
+.ol-card{border:1px solid rgba(128,140,170,.22);border-radius:10px;
   padding:12px 14px;margin-bottom:10px;background:rgba(128,140,170,.04)}
 .ol-h{display:flex;gap:8px;align-items:center;flex-wrap:wrap;
   margin-bottom:8px;font-size:14px;color:inherit}
 .ol-tag{background:rgba(37,99,235,.18);border:1px solid rgba(37,99,235,.4);
   border-radius:5px;padding:0 6px;font-size:10.5px;font-weight:700}
-.ol-d{margin-left:auto;font-size:11px;opacity:.55}
-.ol-r{display:flex;gap:8px;font-size:12px;line-height:1.75;
+.ol-d{margin-left:auto;font-size:10.5px;opacity:.55}
+.ol-r{display:flex;gap:8px;font-size:11.5px;line-height:1.75;
   padding:4px 0;border-top:1px dashed rgba(128,140,170,.22);
   flex-wrap:wrap;color:inherit}
 .ol-k{flex:0 0 62px;min-width:62px;font-weight:700;opacity:.6}

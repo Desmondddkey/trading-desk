@@ -234,11 +234,11 @@ def legend_html():
 
 
 CM_CSS = """
-.cmchip{display:inline-block;padding:1px 7px;border:1px solid;border-radius:9px;
-  font-size:11px;white-space:nowrap;font-weight:700}
+.cmchip{display:inline-block;padding:1px 7px;border:1px solid;border-radius:8px;
+  font-size:10.5px;white-space:nowrap;font-weight:700}
 .cmchip.dim{border-color:#475569;color:#64748b}
 .cmlegend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:8px 0 4px}
-.cmleg{display:flex;align-items:center;gap:6px;font-size:12px}
+.cmleg{display:flex;align-items:center;gap:6px;font-size:11.5px}
 .cmdot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
 """
 

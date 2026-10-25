@@ -215,8 +215,8 @@ def rs_col(t):
     d = t.get("d") or []; w = t.get("w") or []
     dv = f'{t["d_last"]:.3f}' if t.get("d_last") is not None else "—"
     wv = f'{t["w_last"]:.3f}' if t.get("w_last") is not None else "—"
-    return (f'<td>{rs_svg(d)}<div class="dim" style="font-size:9.5px">{dv}</div></td>'
-            f'<td>{rs_svg(w)}<div class="dim" style="font-size:9.5px">{wv}</div></td>')
+    return (f'<td>{rs_svg(d)}<div class="dim" style="font-size:10px">{dv}</div></td>'
+            f'<td>{rs_svg(w)}<div class="dim" style="font-size:10px">{wv}</div></td>')
 
 
 def grid_html(grid, cell_w=72):
@@ -233,7 +233,7 @@ def grid_html(grid, cell_w=72):
         else:
             cells.append(f'<a class="cand" href="{url}" target="_blank" rel="noopener" '
                          f'title="{t} — 開 TradingView"><div class="mini" '
-                         f'style="color:#5f708c;font-size:11px">—</div>'
+                         f'style="color:#5f708c;font-size:10.5px">—</div>'
                          f'<div class="tk">{t}</div></a>')
     return ('<div class="chartwall">' + "".join(cells) + "</div>")
 

@@ -159,7 +159,7 @@ def _f(v, d=2, plus=False):
 
 CSS = """
 .rs-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 6px}
-.rs-h h2{margin:0;font-size:19px}
+.rs-h h2{margin:0;font-size:20px}
 .rs-sub{font-size:11.5px;opacity:.66}
 .rs-f{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
 .rs-f button{font:inherit;font-size:11.5px;padding:5px 11px;border-radius:999px;
@@ -170,14 +170,14 @@ CSS = """
 .rs-xnote{font-size:11.5px;line-height:1.7;opacity:.78;margin:6px 2px 0;
   text-align:left}
 .rs-nav{display:flex;gap:8px;align-items:center;margin:0 0 12px;flex-wrap:wrap}
-.rs-nav-b{padding:6px 12px;border-radius:9px;font-size:12px;font-weight:700;
+.rs-nav-b{padding:6px 12px;border-radius:8px;font-size:11.5px;font-weight:700;
   border:1px solid rgba(128,128,128,.35);text-decoration:none;color:inherit}
 .rs-nav-b:hover{border-color:#f97316;color:#f97316}
 .rs-nav-b.off{opacity:.3;pointer-events:none}
-.rs-nav-s{padding:6px 10px;border-radius:9px;font-size:12px;font-family:inherit;
+.rs-nav-s{padding:6px 10px;border-radius:8px;font-size:11.5px;font-family:inherit;
   background:transparent;color:inherit;border:1px solid rgba(128,128,128,.35)}
-.rs-nav-d{font-size:12px;font-weight:800;opacity:.75;margin-left:2px}
-.rs-tbl{width:100%;border-collapse:collapse;font-size:12px;
+.rs-nav-d{font-size:11.5px;font-weight:800;opacity:.75;margin-left:2px}
+.rs-tbl{width:100%;border-collapse:collapse;font-size:11.5px;
   font-variant-numeric:tabular-nums}
 .rs-tbl th{position:sticky;top:0;background:var(--card,#1b1b19);text-align:right;
   padding:8px 7px;font-size:10.5px;font-weight:700;letter-spacing:.03em;
@@ -188,7 +188,7 @@ CSS = """
 .rs-dot{margin-right:7px;vertical-align:middle}
 .rs-tbl th.sortable{cursor:pointer;user-select:none}
 .rs-tbl th.sortable:hover{color:#f97316;opacity:1}
-.rs-tbl th .arr{display:inline-block;margin-left:3px;font-size:8px;opacity:.4}
+.rs-tbl th .arr{display:inline-block;margin-left:3px;font-size:10px;opacity:.4}
 .rs-tbl th[data-dir="asc"] .arr{transform:rotate(180deg);opacity:1;color:#f97316}
 .rs-tbl th[data-dir="desc"] .arr{opacity:1;color:#f97316}
 .rs-tbl td{padding:7px;border-bottom:1px solid rgba(128,128,128,.12)}
@@ -202,11 +202,11 @@ CSS = """
 .rs-neg{color:#dc2626;font-weight:700}
 html[data-theme="dark"] .rs-pos{color:#7ce0a8}
 html[data-theme="dark"] .rs-neg{color:#ff8f8f}
-.rs-tag{font-size:9.5px;padding:1px 6px;border-radius:999px;
+.rs-tag{font-size:10px;padding:1px 6px;border-radius:999px;
   border:1px solid rgba(128,128,128,.35);font-weight:700}
 .rs-tag.buy{background:#f97316;border-color:#f97316;color:#fff}
 .rs-tag.fail{border-color:#dc2626;color:#dc2626}
-.rs-note{font-size:11px;opacity:.6;margin-top:10px;line-height:1.7}
+.rs-note{font-size:10.5px;opacity:.6;margin-top:10px;line-height:1.7}
 .rs-meta{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;opacity:.75;
   margin:4px 0 10px}
 .rs-meta b{font-weight:800;opacity:1}
@@ -443,13 +443,13 @@ def _weakness():
         rows = _rw.scan_live(pool)
     except Exception as e:                                    # noqa: BLE001
         return ('<div class="card" style="padding:12px">'
-                '<div style="font-size:13px;font-weight:800;margin-bottom:6px">'
+                '<div style="font-size:12.5px;font-weight:800;margin-bottom:6px">'
                 'RS 弱勢雷達</div>'
                 f'<div class="dim">DATA_UNAVAILABLE（{_esc(type(e).__name__)}）</div>'
                 '</div>')
     if not rows:
         return ('<div class="card" style="padding:12px">'
-                '<div style="font-size:13px;font-weight:800;margin-bottom:6px">'
+                '<div style="font-size:12.5px;font-weight:800;margin-bottom:6px">'
                 'RS 弱勢雷達</div><div class="dim">今日冇領導股出現弱勢回氣。</div>'
                 '</div>')
     rows = rows[:14]
@@ -457,8 +457,8 @@ def _weakness():
     h = ['<div class="card" style="padding:0">',
          '<div style="padding:10px 12px 6px;display:flex;gap:10px;'
          'align-items:baseline;flex-wrap:wrap">',
-         '<b style="font-size:13px">RS 弱勢雷達</b>',
-         f'<span style="font-size:11px;opacity:.62">{_esc(day)}｜'
+         '<b style="font-size:12.5px">RS 弱勢雷達</b>',
+         f'<span style="font-size:10.5px;opacity:.62">{_esc(day)}｜'
          f'池 {len(pool)} 隻｜命中 {len(rows)}｜WATCH-ONLY，唔係入場訊號</span>',
          '</div>',
          '<div class="rs-wrap"><table class="rs-tbl"><thead><tr>'

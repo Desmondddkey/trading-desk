@@ -31,9 +31,9 @@ CSS = """
 .rv-k{background:rgba(128,128,128,.06);border:1px solid rgba(128,128,128,.22);
   border-radius:10px;padding:9px 11px}
 .rv-k .l{font-size:10.5px;opacity:.6}
-.rv-k .v{font-size:21px;font-weight:800;line-height:1.15;margin-top:2px}
+.rv-k .v{font-size:20px;font-weight:800;line-height:1.15;margin-top:2px}
 .rv-k .s{font-size:10.5px;opacity:.55;margin-top:1px}
-.rv-t{width:100%;border-collapse:collapse;font-size:12px;text-align:left}
+.rv-t{width:100%;border-collapse:collapse;font-size:11.5px;text-align:left}
 .rv-t th{text-align:left;font-size:10px;opacity:.55;padding:5px 6px;
   border-bottom:1px solid rgba(128,128,128,.3)}
 .rv-t td{padding:4px 6px;border-bottom:1px solid rgba(128,128,128,.1);text-align:left}
@@ -134,13 +134,13 @@ def build():
                       "#22c55e" if (payoff or 0) >= 4.38 else "#f59e0b"))
         P.append(_kpi("最大連蝕", f"{mx} 單", "≥3 觸發停手", "#f59e0b" if mx >= 3 else ""))
         P.append('</div>')
-        P.append('<div style="font-size:12px;font-weight:700;opacity:.75">R 分佈</div>')
+        P.append('<div style="font-size:11.5px;font-weight:700;opacity:.75">R 分佈</div>')
         P.append(_hist(rs))
         if n < MIN_N:
             P.append(f'<div class="rv-note">⚠ 樣本只有 {n} 單（&lt;{MIN_N}）—— '
                      '以上全部係「觀察」，唔可以當結論。</div>')
         last = tr[-15:][::-1]
-        P.append('<div style="font-size:12px;font-weight:700;opacity:.75;'
+        P.append('<div style="font-size:11.5px;font-weight:700;opacity:.75;'
                  'margin-top:12px">最近 15 單</div>')
         P.append('<table class="rv-t"><thead><tr><th>代號</th><th>R</th>'
                  '<th>持倉日</th></tr></thead><tbody>')
@@ -152,7 +152,7 @@ def build():
 
     au = _audit()
     if au:
-        P.append('<div style="font-size:12px;font-weight:700;opacity:.75;'
+        P.append('<div style="font-size:11.5px;font-weight:700;opacity:.75;'
                  'margin-top:14px">各出場規則（edge_audit.csv）</div>')
         P.append('<table class="rv-t"><thead><tr><th>規則</th><th>n</th>'
                  '<th>平均 R</th></tr></thead><tbody>')

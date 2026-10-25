@@ -41,11 +41,11 @@ PX_MAX = -2.0      # 價距 52 週高最多 -2%
 
 CSS = """
 .rp-k{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 14px}
-.rp-k>div{flex:1 1 105px;padding:11px 13px;border-radius:11px;
+.rp-k>div{flex:1 1 105px;padding:11px 13px;border-radius:10px;
   border:1px solid rgba(128,128,128,.26);background:rgba(128,128,128,.05)}
-.rp-k .n{font-size:21px;font-weight:800;line-height:1.15}
+.rp-k .n{font-size:20px;font-weight:800;line-height:1.15}
 .rp-k .l{font-size:10.5px;opacity:.6;margin-top:2px}
-.rp-lvl{display:inline-block;padding:1px 7px;border-radius:20px;
+.rp-lvl{display:inline-block;padding:1px 7px;border-radius:999px;
   font-size:10px;font-weight:800}
 .lv-a{background:#fef3c7;color:#92400e;border:1px solid #f59e0b}
 .lv-b{background:#fed7aa;color:#9a3412;border:1px solid #fb923c}
@@ -54,9 +54,9 @@ CSS = """
 .rp-t .pos{color:#16a34a;font-weight:700}
 .rp-t .big{color:#b45309;font-weight:800}
 .rp-warn{border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);
-  padding:10px 13px;border-radius:9px;margin:0 0 12px;font-size:12px;
+  padding:10px 13px;border-radius:8px;margin:0 0 12px;font-size:11.5px;
   line-height:1.85}
-.rp-step{border:1px solid rgba(128,128,128,.24);border-radius:11px;
+.rp-step{border:1px solid rgba(128,128,128,.24);border-radius:10px;
   padding:11px 14px;margin:0 0 9px;font-size:12.5px;line-height:1.9}
 .rp-step b{color:#c2410c}
 @media(max-width:700px){

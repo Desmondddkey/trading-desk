@@ -15,7 +15,7 @@ AUD = r"C:\Users\rain0\trading-os\output\system_audit.json"
 
 CSS = """
 .au-hero{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 14px}
-.au-hero>div{flex:1 1 130px;padding:14px 16px;border-radius:12px;
+.au-hero>div{flex:1 1 130px;padding:14px 16px;border-radius:10px;
   border:1px solid rgba(128,128,128,.28);background:rgba(128,128,128,.05)}
 .au-hero .n{font-size:26px;font-weight:800;line-height:1.1;
   font-variant-numeric:tabular-nums}
@@ -26,18 +26,18 @@ CSS = """
   opacity:.65;font-weight:700}
 .au-t .pos{color:#16a34a;font-weight:700}
 .au-t .neg{color:#dc2626;font-weight:700}
-.au-v{display:inline-block;padding:1px 7px;border-radius:20px;
+.au-v{display:inline-block;padding:1px 7px;border-radius:999px;
   font-size:10px;font-weight:800;white-space:nowrap}
 .v-red{background:#fee2e2;color:#991b1b;border:1px solid #ef4444}
 .v-amber{background:#fef3c7;color:#92400e;border:1px solid #f59e0b}
 .v-green{background:#dcfce7;color:#166534;border:1px solid #22c55e}
 .v-gold{background:#fef9c3;color:#854d0e;border:1px solid #eab308}
 .v-grey{background:#e2e8f0;color:#475569;border:1px solid #94a3b8}
-.au-card{border:1px solid rgba(128,128,128,.26);border-radius:12px;
+.au-card{border:1px solid rgba(128,128,128,.26);border-radius:10px;
   padding:12px 15px;margin:0 0 10px;font-size:12.5px;line-height:1.9}
 .au-card.red{border-color:rgba(220,38,38,.4);background:rgba(220,38,38,.06)}
 .au-card.green{border-color:rgba(22,163,74,.4);background:rgba(22,163,74,.06)}
-.au-kpi{font-family:ui-monospace;font-size:12px}
+.au-kpi{font-family:ui-monospace;font-size:11.5px}
 @media(max-width:700px){
   .au-t thead{display:none}
   .au-t tr{display:block;border:1px solid rgba(128,128,128,.25);
@@ -46,7 +46,7 @@ CSS = """
     padding:2px 0;white-space:normal}
   .au-t td::before{content:attr(data-l);opacity:.55;font-weight:600}
   .au-hero>div{flex:1 1 45%;padding:11px 12px}
-  .au-hero .n{font-size:21px}
+  .au-hero .n{font-size:20px}
 }
 """
 

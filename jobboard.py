@@ -180,10 +180,10 @@ def latest_output(job_id):
 CSS = """
 .jb-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
   gap:12px;margin:0 0 18px}
-.jb-stat{padding:14px 16px;border-radius:12px;
+.jb-stat{padding:14px 16px;border-radius:10px;
   border:1px solid rgba(128,128,128,.28);background:rgba(128,128,128,.05)}
 .jb-stat .v{font-size:26px;font-weight:800;line-height:1.1}
-.jb-stat .k{font-size:11px;letter-spacing:.07em;text-transform:uppercase;
+.jb-stat .k{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
   opacity:.62;margin-top:5px}
 .jb-ok{color:#1a7f4b}.jb-err{color:#c0262b}.jb-none{color:#8b8b8b}
 [data-theme="dark"] .jb-ok{color:#7ce0a8}
@@ -197,16 +197,16 @@ CSS = """
   list-style:none;display:flex;align-items:center;gap:9px;
   background:rgba(128,128,128,.07);user-select:none}
 .jb-group>summary::-webkit-details-marker{display:none}
-.jb-group>summary::before{content:"▸";font-size:12px;opacity:.55;
+.jb-group>summary::before{content:"▸";font-size:11.5px;opacity:.55;
   transition:transform .15s}
 .jb-group[open]>summary::before{transform:rotate(90deg)}
 .jb-group>summary:hover{background:rgba(128,128,128,.13)}
 .jb-group>.jb-grid{padding:12px}
-.jb-g-n{margin-left:auto;font-size:12px;opacity:.62;font-weight:400}
-.jb-g-err{font-size:12px;color:#c0262b;font-weight:700}
-.jb-g-none{font-size:12px;opacity:.6;font-weight:400}
+.jb-g-n{margin-left:auto;font-size:11.5px;opacity:.62;font-weight:400}
+.jb-g-err{font-size:11.5px;color:#c0262b;font-weight:700}
+.jb-g-none{font-size:11.5px;opacity:.6;font-weight:400}
 [data-theme="dark"] .jb-g-err{color:#ff9a9d}
-.jb-card{border:1px solid rgba(128,128,128,.26);border-radius:12px;
+.jb-card{border:1px solid rgba(128,128,128,.26);border-radius:10px;
   overflow:hidden;background:rgba(128,128,128,.035)}
 .jb-card.err{border-color:rgba(192,38,43,.5);
   background:rgba(192,38,43,.055)}
@@ -232,25 +232,25 @@ CSS = """
 .jb-purpose{font-size:12.5px;line-height:1.6;margin-top:5px;
   opacity:.9;color:inherit}
 .jb-meta{font-size:11.5px;opacity:.68;margin-top:3px;line-height:1.55}
-.jb-meta code{font-size:11px;padding:1px 5px;border-radius:4px;
+.jb-meta code{font-size:10.5px;padding:1px 5px;border-radius:4px;
   background:rgba(128,128,128,.16)}
 .jb-body{padding:0 14px 14px;display:none}
 .jb-card.open .jb-body{display:block}
 .jb-pre{white-space:pre-wrap;word-break:break-word;font-size:12.5px;
-  line-height:1.65;padding:12px;border-radius:9px;
+  line-height:1.65;padding:12px;border-radius:8px;
   background:rgba(128,128,128,.075);border:1px solid rgba(128,128,128,.18);
   max-height:420px;overflow:auto;font-family:ui-monospace,Menlo,Consolas,monospace}
 .jb-chips{display:flex;gap:5px;flex-wrap:wrap;margin:0 0 9px}
 .jb-chip{font-size:10.5px;padding:2px 7px;border-radius:999px;
   border:1px solid rgba(128,128,128,.34);opacity:.86}
-.jb-empty{opacity:.5;font-size:12px;padding:8px 0}
+.jb-empty{opacity:.5;font-size:11.5px;padding:8px 0}
 .jb-filters{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 16px}
 .jb-filters button{padding:7px 13px;border-radius:999px;font-size:12.5px;
   border:1px solid rgba(128,128,128,.34);background:rgba(128,128,128,.07);
   color:inherit;cursor:pointer;font-family:inherit}
 .jb-filters button.on{background:#2563eb;border-color:#2563eb;color:#fff}
-.jb-sched{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px}
-@media(max-width:700px){.jb-pre{max-height:300px;font-size:12px}}
+.jb-sched{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px}
+@media(max-width:700px){.jb-pre{max-height:300px;font-size:11.5px}}
 """
 
 JS = """
@@ -363,10 +363,10 @@ def build(jobs, execs, incs):
             msg = e[-1][:220] if e else "（冇錯誤訊息）"
             parts.append(
                 f'<div style="padding:9px 0;border-bottom:1px solid '
-                f'rgba(128,128,128,.16);font-size:13px">'
+                f'rgba(128,128,128,.16);font-size:12.5px">'
                 f'<b>{_esc(r["name"])}</b> '
-                f'<code style="font-size:11px">{_esc(r["jid"])}</code><br>'
-                f'<span class="jb-err" style="font-size:12px">'
+                f'<code style="font-size:10.5px">{_esc(r["jid"])}</code><br>'
+                f'<span class="jb-err" style="font-size:11.5px">'
                 f'{_esc(_ago(r["last_at"]))}｜{_esc(msg)}</span></div>')
         parts.append('</div></div>')
 

@@ -134,12 +134,12 @@ CARD_CSS = """
 .vt-hero p{margin:0;font-size:12.5px;line-height:1.85;
   color:inherit;opacity:.78}
 .vt-card{border:1px solid rgba(128,140,170,.22);
-  border-radius:12px;padding:14px 15px;margin-bottom:12px;
+  border-radius:10px;padding:14px 15px;margin-bottom:12px;
   background:rgba(128,140,170,.05)}
-.vt-card h3{margin:0 0 10px;font-size:15px;color:inherit;
+.vt-card h3{margin:0 0 10px;font-size:14px;color:inherit;
   display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .vt-n{background:#2563eb;color:#fff;border-radius:6px;padding:1px 7px;
-  font-size:12px;font-weight:700}
+  font-size:11.5px;font-weight:700}
 .vt-q{background:rgba(37,99,235,.13);border-left:3px solid #2563eb;
   padding:9px 12px;border-radius:6px;font-size:12.5px;line-height:1.9;
   color:inherit;opacity:.92;margin-bottom:10px}

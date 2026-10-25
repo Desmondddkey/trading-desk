@@ -33,7 +33,7 @@ TO = r"C:\Users\rain0\trading-os-web"
 CSS = """
 .r-wrap{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 14px}
 .r-c{width:34px;height:34px;border-radius:6px;display:flex;
-  align-items:center;justify-content:center;font-size:9.5px;
+  align-items:center;justify-content:center;font-size:10px;
   font-weight:800;font-family:ui-monospace;cursor:default;
   border:1px solid rgba(0,0,0,.12);transition:transform .1s}
 .r-c:hover{transform:scale(1.18);z-index:5}
@@ -45,16 +45,16 @@ CSS = """
 .r-m1{background:#fca5a5;color:#7f1d1d}
 .r-m2{background:#dc2626;color:#fff}
 .r-k{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 14px}
-.r-k>div{flex:1 1 100px;padding:11px 13px;border-radius:11px;
+.r-k>div{flex:1 1 100px;padding:11px 13px;border-radius:10px;
   border:1px solid rgba(128,128,128,.26);background:rgba(128,128,128,.05)}
-.r-k .n{font-size:21px;font-weight:800;line-height:1.15}
+.r-k .n{font-size:20px;font-weight:800;line-height:1.15}
 .r-k .l{font-size:10.5px;opacity:.6;margin-top:2px}
 .r-lg{display:flex;gap:12px;flex-wrap:wrap;font-size:11.5px;
   margin:0 0 14px;opacity:.75}
 .r-lg span{display:flex;align-items:center;gap:5px}
 .r-sq{width:14px;height:14px;border-radius:4px;display:inline-block}
 @media(max-width:700px){
-  .r-c{width:30px;height:30px;font-size:8.5px}
+  .r-c{width:30px;height:30px;font-size:10px}
 }
 """
 

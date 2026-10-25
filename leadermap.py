@@ -67,23 +67,23 @@ def copy_images(items):
 
 CSS = """
 .lm-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;
-  margin:0 0 14px;padding:12px 14px;border-radius:12px;
+  margin:0 0 14px;padding:12px 14px;border-radius:10px;
   border:1px solid rgba(128,128,128,.28);background:rgba(128,128,128,.05)}
 .lm-bar label{font-size:12.5px;opacity:.72}
-.lm-bar select{padding:8px 12px;border-radius:9px;font-size:14px;font-weight:600;
+.lm-bar select{padding:8px 12px;border-radius:8px;font-size:14px;font-weight:600;
   border:1px solid rgba(128,128,128,.4);background:rgba(128,128,128,.1);
   color:inherit;font-family:inherit;cursor:pointer}
-.lm-bar .lm-n{margin-left:auto;font-size:12px;opacity:.6}
-.lm-img{width:100%;border-radius:12px;border:1px solid rgba(128,128,128,.28);
+.lm-bar .lm-n{margin-left:auto;font-size:11.5px;opacity:.6}
+.lm-img{width:100%;border-radius:10px;border:1px solid rgba(128,128,128,.28);
   background:#fff;display:block}
 .lm-wrap{overflow-x:auto}
-.lm-legend{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0 0;font-size:13px}
+.lm-legend{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0 0;font-size:12.5px}
 .lm-red{color:#c0262b;font-weight:700}
 .lm-blue{color:#1d4ed8;font-weight:700}
 [data-theme="dark"] .lm-red{color:#ff9a9d}
 [data-theme="dark"] .lm-blue{color:#7caeff}
-.lm-empty{padding:20px;border-radius:12px;border:1px dashed rgba(128,128,128,.4);
-  opacity:.7;font-size:13.5px;line-height:1.8}
+.lm-empty{padding:20px;border-radius:10px;border:1px dashed rgba(128,128,128,.4);
+  opacity:.7;font-size:14px;line-height:1.8}
 .lm-asof{border-radius:10px;padding:10px 14px;font-size:12.5px;
   margin:0 0 12px;line-height:1.65}
 .lm-asof.ok{background:rgba(47,191,113,.12);border:1px solid rgba(47,191,113,.45);

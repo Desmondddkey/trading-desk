@@ -179,46 +179,46 @@ def calc_page():
 @media(max-width:800px){{.calcbox{{grid-template-columns:1fr}}}}
 .calc-panel{{background:rgba(128,128,128,.06);border:1px solid rgba(128,128,128,.32);
   border-radius:14px;padding:18px}}
-.calc-panel h3{{margin:0 0 14px;font-size:15px;letter-spacing:.06em;
+.calc-panel h3{{margin:0 0 14px;font-size:14px;letter-spacing:.06em;
   text-transform:uppercase;opacity:.75}}
 .frow{{margin-bottom:14px}}
-.frow label{{display:block;font-size:12px;letter-spacing:.05em;
+.frow label{{display:block;font-size:11.5px;letter-spacing:.05em;
   text-transform:uppercase;opacity:.7;margin-bottom:6px}}
 .frow input,.frow select{{width:100%;background:rgba(128,128,128,.10);
-  border:1px solid rgba(128,128,128,.38);border-radius:9px;padding:11px 12px;
-  color:inherit;font-size:15px;font-family:inherit}}
+  border:1px solid rgba(128,128,128,.38);border-radius:8px;padding:11px 12px;
+  color:inherit;font-size:14px;font-family:inherit}}
 .frow input:focus,.frow select:focus{{outline:none;border-color:#4c8dff}}
 .seg-risk{{display:grid!important;grid-template-columns:repeat(3,1fr);gap:8px}}
 .seg-risk button{{flex-direction:column;gap:2px;padding:11px 6px;
   line-height:1.25}}
-.seg-risk .rv{{font-size:14.5px;font-weight:800}}
-.seg-risk .rn{{font-size:9.5px;opacity:.62;font-weight:600;letter-spacing:.02em}}
+.seg-risk .rv{{font-size:14px;font-weight:800}}
+.seg-risk .rn{{font-size:10px;opacity:.62;font-weight:600;letter-spacing:.02em}}
 .seg-risk button.on .rn{{opacity:.85}}
 @media(min-width:560px){{.seg-risk{{grid-template-columns:repeat(6,1fr)}}}}
 .seg{{display:flex;gap:8px}}
 .seg button{{flex:1;background:rgba(128,128,128,.10);
   border:1px solid rgba(128,128,128,.38);
-  border-radius:9px;padding:11px;color:inherit;font-size:14px;
+  border-radius:8px;padding:11px;color:inherit;font-size:14px;
   cursor:pointer;font-family:inherit}}
 .seg button.on{{background:#2fbf71;border-color:#2fbf71;color:#04140b;font-weight:700}}
 .seg button.on.sell{{background:#e5484d;border-color:#e5484d;color:#fff}}
 .res-item{{margin-bottom:16px}}
-.res-item .k{{font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+.res-item .k{{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
   opacity:.65;margin-bottom:4px}}
-.res-item .v{{font-size:19px;font-weight:700;color:inherit}}
-.res-item .v small{{font-size:12px;font-weight:400;opacity:.65;margin-left:8px}}
+.res-item .v{{font-size:20px;font-weight:700;color:inherit}}
+.res-item .v small{{font-size:11.5px;font-weight:400;opacity:.65;margin-left:8px}}
 .stop-row{{display:flex;justify-content:space-between;padding:6px 0;
   border-bottom:1px dashed rgba(128,128,128,.28);font-size:14px}}
 .stop-row:last-child{{border-bottom:none}}
 .stop-row .lbl{{opacity:.65}}
-.warnbox{{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:13px;
+.warnbox{{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:12.5px;
   line-height:1.6;display:none}}
 .warnbox.show{{display:block}}
 .warnbox.err{{background:rgba(229,72,77,.14);border:1px solid rgba(229,72,77,.5);
   color:#c0262b}}
 .warnbox.ok{{background:rgba(47,191,113,.12);border:1px solid rgba(47,191,113,.45);
   color:#1a7f4b}}
-.evnote{{font-size:12px;line-height:1.7;opacity:.85;
+.evnote{{font-size:11.5px;line-height:1.7;opacity:.85;
   margin-top:16px;padding:12px;border-radius:10px;
   background:rgba(128,128,128,.06);border:1px solid rgba(128,128,128,.3)}}
 .evnote b{{color:#b8860b}}

@@ -97,7 +97,7 @@ def check_fresh():
 
 CSS = """
 .fl-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 4px}
-.fl-h h2{margin:0;font-size:19px}
+.fl-h h2{margin:0;font-size:20px}
 .fl-sub{font-size:11.5px;opacity:.62}
 .fl-score{font-size:26px;font-weight:800;margin:8px 0 2px}
 .fl-bar{height:10px;border-radius:5px;background:rgba(128,128,128,.2);

@@ -356,12 +356,12 @@ CSS = """
 .sf-flow{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .sf-flow span{background:rgba(37,99,235,.16);border:1px solid rgba(37,99,235,.4);
   border-radius:6px;padding:3px 9px;font-size:11.5px;font-weight:700}
-.sf-card{border:1px solid rgba(128,140,170,.22);border-radius:12px;
+.sf-card{border:1px solid rgba(128,140,170,.22);border-radius:10px;
   padding:13px 14px;margin-bottom:12px;background:rgba(128,140,170,.04)}
 .sf-h{display:flex;gap:8px;align-items:center;flex-wrap:wrap;
-  margin-bottom:9px;font-size:15px;color:inherit}
+  margin-bottom:9px;font-size:14px;color:inherit}
 .sf-n{background:#2563eb;color:#fff;border-radius:6px;padding:1px 7px;
-  font-size:12px;font-weight:700}
+  font-size:11.5px;font-weight:700}
 .sf-one{background:rgba(37,99,235,.10);border-left:3px solid #2563eb;
   padding:9px 12px;border-radius:6px;font-size:12.5px;line-height:1.9;
   margin-bottom:10px;color:inherit}
@@ -443,7 +443,7 @@ def _lab_block():
 <style>
 .sf-tabs > input{display:none}
 .sf-lab-btn{display:inline-block;margin:0 6px 6px 0;cursor:pointer;
-  padding:6px 11px;border-radius:7px;font-size:12px;font-weight:700;
+  padding:6px 11px;border-radius:8px;font-size:11.5px;font-weight:700;
   border:1px solid rgba(128,140,170,.35);
   background:rgba(128,140,170,.10);color:inherit}
 #sfstep1:checked ~ .sf-labbtns label[for="sfstep1"],
@@ -452,9 +452,9 @@ def _lab_block():
 #sfstep4:checked ~ .sf-labbtns label[for="sfstep4"]{
   background:#2563eb;color:#fff;border-color:#2563eb}
 .sf-pane{display:none;border:1px solid rgba(128,140,170,.22);
-  border-radius:9px;padding:11px 13px;margin-top:9px;
+  border-radius:8px;padding:11px 13px;margin-top:9px;
   background:rgba(128,140,170,.05)}
-.sf-paneT{font-size:13px;font-weight:800;margin-bottom:6px}
+.sf-paneT{font-size:12.5px;font-weight:800;margin-bottom:6px}
 .sf-paneD{font-size:12.5px;line-height:1.85}
 .sf-paneM{font-size:11.5px;margin-top:7px}
 #sfstep1:checked ~ .sf-panes .sf-p1,

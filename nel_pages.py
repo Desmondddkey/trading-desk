@@ -217,7 +217,7 @@ def breadth_page():
             f'<div class="kpis"><div class="kpi"><div class="k">制度</div>'
             f'<div class="v" style="color:#9fd4ff">{_e(str(d.get("regime","?")))}</div></div>'
             f'<div class="kpi" style="flex:1 1 auto"><div class="k">姿態</div>'
-            f'<div class="v" style="font-size:12px;line-height:1.5;text-align:left">'
+            f'<div class="v" style="font-size:11.5px;line-height:1.5;text-align:left">'
             f'{_e(post_txt)}</div></div></div>'
             f'<div class="scroll"><table><thead><tr><th class="l">指標</th>'
             f'<th>值</th><th class="l">讀法</th><th class="l">來源／定義</th>'

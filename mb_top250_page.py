@@ -34,13 +34,13 @@ CSS = """
   line-height:1.85;margin:0 0 14px}
 .t2tabs{display:flex;gap:6px;margin:0 0 12px;flex-wrap:wrap}
 .t2tabs button{flex:1;min-width:90px;padding:9px 12px;font-size:12.5px;
-  font-weight:700;border-radius:9px;border:1px solid rgba(128,128,128,.3);
+  font-weight:700;border-radius:8px;border:1px solid rgba(128,128,128,.3);
   background:transparent;cursor:pointer;font-family:inherit}
 .t2tabs button.on{background:#c2410c;border-color:#c2410c;color:#fff}
 .t2pane{display:none}
 .t2pane.on{display:block}
-.t2sec{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;font-size:11px}
-.t2sec span{padding:3px 9px;border-radius:20px;
+.t2sec{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;font-size:10.5px}
+.t2sec span{padding:3px 9px;border-radius:999px;
   border:1px solid rgba(128,128,128,.25);font-family:ui-monospace}
 .t2tb{width:100%;border-collapse:collapse;font-size:11.5px}
 .t2tb th{text-align:left;padding:6px 7px;font-size:10px;
@@ -54,9 +54,9 @@ CSS = """
 .t2tb .hit:after{content:"★";color:#c2410c;margin-left:4px}
 .t2more{font-size:11.5px;opacity:.6;margin:8px 0 0}
 .t2new{display:flex;flex-wrap:wrap;gap:6px;align-items:center;
-  margin:0 0 10px;font-size:11px}
+  margin:0 0 10px;font-size:10.5px}
 .t2new b{font-size:11.5px;color:#16a34a;margin-right:2px}
-.t2chip{padding:3px 9px;border-radius:20px;text-decoration:none;
+.t2chip{padding:3px 9px;border-radius:999px;text-decoration:none;
   border:1px solid rgba(22,163,74,.45);color:#16a34a;font-family:ui-monospace}
 .t2chip em{font-style:normal;opacity:.7;font-weight:400}
 @media(max-width:700px){

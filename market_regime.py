@@ -516,19 +516,19 @@ def compute():
 
 CSS = """
 .mr-big{display:flex;align-items:center;gap:16px;flex-wrap:wrap;
-  padding:15px 17px;border-radius:13px;margin:0 0 13px;
+  padding:15px 17px;border-radius:10px;margin:0 0 13px;
   border:1px solid rgba(128,128,128,.32);background:rgba(128,128,128,.06)}
 .mr-big .lab{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
   opacity:.62;font-weight:700}
-.mr-big .val{font-size:36px;font-weight:800;line-height:1.05}
-.mr-bar10{font-family:ui-monospace,monospace;font-size:16px;
+.mr-big .val{font-size:34px;font-weight:800;line-height:1.05}
+.mr-bar10{font-family:ui-monospace,monospace;font-size:17px;
   letter-spacing:-1.5px}
 .mr-hero{display:flex;align-items:center;gap:18px;flex-wrap:wrap;
-  padding:15px 17px;border-radius:13px;margin:0 0 14px;
+  padding:15px 17px;border-radius:10px;margin:0 0 14px;
   border:1px solid rgba(128,128,128,.3);background:rgba(128,128,128,.045)}
-.mr-num{font-size:40px;font-weight:800;line-height:1}
+.mr-num{font-size:34px;font-weight:800;line-height:1}
 .mr-num small{font-size:14px;opacity:.55;font-weight:600}
-.mr-tag{font-size:12px;font-weight:800;padding:5px 12px;border-radius:999px;
+.mr-tag{font-size:11.5px;font-weight:800;padding:5px 12px;border-radius:999px;
   border:1px solid currentColor}
 .mr-bar{height:9px;border-radius:999px;background:rgba(128,128,128,.2);
   overflow:hidden;margin:7px 0 0;width:100%;max-width:400px}
@@ -550,9 +550,9 @@ CSS = """
   .mr-tbl,.mr-tbl tbody,.mr-tbl tr,.mr-tbl td{display:block;width:100%}
   .mr-tbl tr{padding:9px 0;border-bottom:1px solid rgba(128,128,128,.18)}
   .mr-tbl td{border:0;padding:1px 0;text-align:left!important}
-  .mr-tbl td:nth-child(1){font-size:13px}
-  .mr-tbl td:nth-child(2){display:inline;font-size:15px}
-  .mr-tbl td:nth-child(3){display:inline;font-size:11px;opacity:.55;
+  .mr-tbl td:nth-child(1){font-size:12.5px}
+  .mr-tbl td:nth-child(2){display:inline;font-size:14px}
+  .mr-tbl td:nth-child(3){display:inline;font-size:10.5px;opacity:.55;
     margin-left:4px}
   .mr-tbl td:nth-child(4){display:inline;margin-left:8px}
   .mr-tbl td:nth-child(5){font-size:11.5px;opacity:.8;margin-top:3px;
@@ -626,7 +626,7 @@ def build():
         '</div>'
         f'<div class="val" id="mr-breadth" style="color:{bcol}">'
         f'{f"{bv:.1f}%" if bv is not None else "N/A"}</div></div>'
-        f'<div style="font-size:12px;opacity:.78;text-align:right">'
+        f'<div style="font-size:11.5px;opacity:.78;text-align:right">'
         f'<b style="color:{bcol}">{blab}</b>'
         + (f'　·　{bdesc}' if bdesc else '')
         + '</div></div>'
@@ -650,7 +650,7 @@ def build():
         '</div>'
         f'<div class="val" id="mr-mmfi" style="color:{mcol}">'
         f'{f"{mv:.1f}%" if mv is not None else "N/A"}</div></div>'
-        f'<div style="font-size:12px;opacity:.78;text-align:right">'
+        f'<div style="font-size:11.5px;opacity:.78;text-align:right">'
         f'<b style="color:{mcol}">{mlab}</b>'
         + (f'　·　{mdesc}' if mdesc else '')
         + '</div></div>'
@@ -683,10 +683,10 @@ def build():
         '<div class="card" style="padding:0;overflow:hidden;margin-top:10px">'
         '<div style="padding:9px 14px;background:rgba(128,128,128,.08);'
         'display:flex;align-items:center;gap:9px;flex-wrap:wrap">'
-        '<b style="font-size:13px">MMFI 圖</b>'
+        '<b style="font-size:12.5px">MMFI 圖</b>'
         '<span style="font-size:11.5px;opacity:.6">'
         '% NYSE stocks above 50MA</span>'
-        '<span style="margin-left:auto;font-size:11px;opacity:.55">'
+        '<span style="margin-left:auto;font-size:10.5px;opacity:.55">'
         '紅線 70 ｜ 中線 50 ｜ 綠線 30</span></div>'
         '<iframe src="https://s.tradingview.com/widgetembed/?'
         'symbol=INDEX%3AMMFI&interval=D&hidesidetoolbar=1&symboledit=0&'
@@ -702,7 +702,7 @@ def build():
         '<div class="card" style="margin-top:10px"><div style="padding:11px 14px">'
         '<div style="font-size:12.5px;font-weight:800;margin-bottom:7px">'
         'MMFI 點用（@ohiain 原文分區）</div>'
-        '<div style="font-size:12px;line-height:1.95">'
+        '<div style="font-size:11.5px;line-height:1.95">'
         '<b style="color:#16a34a">70–80%+ 　Broad strength</b><br>'
         '　大部分股票喺 50MA 上。健康，但橡皮筋拉緊 —— '
         '動能可以持續，但大市嘅 easy money 通常已賺。<br>'
@@ -716,7 +716,7 @@ def build():
         '<b>電梯比喻</b>：70-80% = 好多人已經上咗電梯，越嚟越滿；'
         '跌到 20-30% = 大部分人落咗，電梯空。'
         '空唔代表即刻會上，但壓力已釋放。</div>'
-        f'<div style="font-size:11px;opacity:.55;margin-top:9px">'
+        f'<div style="font-size:10.5px;opacity:.55;margin-top:9px">'
         f'自算讀數 {f"{mv:.2f}%" if mv is not None else "N/A"}'
         f'（NYSE+NASDAQ+AMEX 普通股，n={r.get("mmfi_n") or 0}）'
         f'　｜　官方 INDEX:MMFI 見上面圖'
@@ -728,7 +728,7 @@ def build():
         '<div class="card" style="padding:0;overflow:hidden">'
         '<div style="padding:10px 14px;background:rgba(128,128,128,.08);'
         'display:flex;align-items:center;gap:10px;flex-wrap:wrap">'
-        '<b style="font-size:13px">TradingView</b>'
+        '<b style="font-size:12.5px">TradingView</b>'
         '<span style="font-size:11.5px;opacity:.6">SPY 日線</span>'
         '<span style="margin-left:auto;font-size:11.5px">'
         '<a href="https://www.tradingview.com/chart/h6bQ6ADj/" '
@@ -756,9 +756,9 @@ def build():
         f'<div style="font-size:12.5px;opacity:.8;margin-top:8px">'
         f'建議總持倉 <b id="mr-pos">{_esc(r["pos"])}</b>｜'
         f'難度 <b>{_esc(r["diff"])}</b></div>'
-        f'<div style="font-size:12px;opacity:.65;margin-top:5px">'
+        f'<div style="font-size:11.5px;opacity:.65;margin-top:5px">'
         f'{_esc(r["delta_txt"])}｜{_esc(r["opp"])}</div>'
-        f'<div style="font-size:11px;opacity:.42;margin-top:4px">'
+        f'<div style="font-size:10.5px;opacity:.42;margin-top:4px">'
         f'資料 {_esc(r["asof"])}</div>'
         '</div></div>')
 
@@ -780,7 +780,7 @@ def build():
             f'<td class="r mr-wt">{c["w"]}</td>'
             f'<td><span class="mr-mini"><span style="width:{pctv:.0f}%;'
             f'background:{cc}"></span></span></td>'
-            f'<td style="font-size:12px;white-space:normal;'
+            f'<td style="font-size:11.5px;white-space:normal;'
             f'word-break:break-word">{_esc(c["d"])}</td></tr>')
     parts.append('</tbody></table></div></div>')
     return ("MARKET REGIME", "".join(parts))

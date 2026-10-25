@@ -49,15 +49,15 @@ def _cls(v):
 
 CSS = """
 .rot-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 2px}
-.rot-h h2{margin:0;font-size:19px}
+.rot-h h2{margin:0;font-size:20px}
 .rot-sub{font-size:11.5px;opacity:.62}
 .rot-top{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
   gap:10px;margin:10px 0 14px}
-.rot-card{border:1px solid rgba(128,128,128,.28);border-radius:11px;
+.rot-card{border:1px solid rgba(128,128,128,.28);border-radius:10px;
   padding:10px 12px;background:rgba(128,128,128,.04)}
 .rot-card .rk{font-size:10.5px;font-weight:800;opacity:.55;letter-spacing:.06em}
-.rot-card .nm{font-size:14.5px;font-weight:800;margin:2px 0 1px}
-.rot-card .et{font-size:11px;opacity:.6}
+.rot-card .nm{font-size:14px;font-weight:800;margin:2px 0 1px}
+.rot-card .et{font-size:10.5px;opacity:.6}
 .rot-card .sc{font-size:26px;font-weight:800;line-height:1.1;margin-top:4px}
 .rot-card .row{font-size:11.5px;opacity:.8;margin-top:3px}
 .rot-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:6px 0 14px}
@@ -69,7 +69,7 @@ CSS = """
 .rot-pan .it{font-size:11.5px;padding:2px 0;border-bottom:1px solid rgba(128,128,128,.1)}
 .rot-pan .it:last-child{border:0}
 .rot-pan .it b{font-weight:800}
-.rot-tbl{width:100%;border-collapse:collapse;font-size:12px;
+.rot-tbl{width:100%;border-collapse:collapse;font-size:11.5px;
   font-variant-numeric:tabular-nums;table-layout:fixed}
 .rot-tbl th{text-align:left;font-size:10px;font-weight:700;opacity:.6;
   padding:4px 5px;border-bottom:1px solid rgba(128,128,128,.3);white-space:nowrap}
@@ -81,10 +81,10 @@ html[data-theme="dark"] .rot-pos{color:#7ce0a8}
 html[data-theme="dark"] .rot-neg{color:#ff8f8f}
 .rot-stage{font-size:10px;font-weight:800;padding:1px 5px;border-radius:999px;
   border:1px solid currentColor;display:inline-block;white-space:nowrap}
-.rot-note{font-size:11px;opacity:.6;line-height:1.65;margin-top:6px}
+.rot-note{font-size:10.5px;opacity:.6;line-height:1.65;margin-top:6px}
 @media(max-width:820px){
   .rot-3{grid-template-columns:1fr}
-  .rot-tbl{font-size:12px}
+  .rot-tbl{font-size:11.5px}
   .rot-tbl th:nth-child(3),.rot-tbl td:nth-child(3),
   .rot-tbl th:nth-child(9),.rot-tbl td:nth-child(9){display:none}
 }
@@ -141,7 +141,7 @@ def build():
             f'<div class="nm">{_esc(r.get("name"))}</div>'
             f'<div class="et">{_esc(r.get("etf"))}　{_esc(r.get("sector"))}</div>'
             f'<div class="sc">{int(float(r.get("score") or 0))}'
-            '<span style="font-size:11px;opacity:.55"> 分</span></div>'
+            '<span style="font-size:10.5px;opacity:.55"> 分</span></div>'
             f'<div class="row">1M <span class="{_cls(r.get("x1m"))}">'
             f'{_p(r.get("x1m"))}</span>　3M '
             f'<span class="{_cls(r.get("x3m"))}">{_p(r.get("x3m"))}</span></div>'
@@ -165,7 +165,7 @@ def build():
 
     # ③ 全部列表
     P.append('<h3 style="font-size:14px;margin:14px 0 4px">全部行業 '
-             f'<small style="font-weight:400;opacity:.6;font-size:11px">'
+             f'<small style="font-weight:400;opacity:.6;font-size:10.5px">'
              f'{len(rows)} 個｜按輪動分排序</small></h3>')
     P.append('<table class="rot-tbl"><colgroup>'
              '<col style="width:34px"><col style="width:54px">'

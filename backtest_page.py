@@ -25,13 +25,13 @@ CSS = """
 .bt-k{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
 .bt-k>div{flex:1 1 100px;padding:10px 12px;border-radius:10px;
   border:1px solid rgba(128,128,128,.26);background:rgba(128,128,128,.05)}
-.bt-k .n{font-size:19px;font-weight:800;line-height:1.15}
+.bt-k .n{font-size:20px;font-weight:800;line-height:1.15}
 .bt-k .l{font-size:10px;opacity:.6;margin-top:2px}
 .bt-warn{border-left:3px solid #dc2626;background:rgba(220,38,38,.09);
-  padding:10px 13px;border-radius:9px;margin:0 0 12px;font-size:12px;
+  padding:10px 13px;border-radius:8px;margin:0 0 12px;font-size:11.5px;
   line-height:1.85}
 .bt-good{border-left:3px solid #16a34a;background:rgba(22,163,74,.09);
-  padding:10px 13px;border-radius:9px;margin:0 0 12px;font-size:12px;
+  padding:10px 13px;border-radius:8px;margin:0 0 12px;font-size:11.5px;
   line-height:1.85}
 @media(max-width:700px){
   .bt-t thead{display:none}

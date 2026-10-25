@@ -43,11 +43,11 @@ def _f(v, d=1, plus=True):
 
 CSS = """
 .rt-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 2px}
-.rt-h h2{margin:0;font-size:19px}
+.rt-h h2{margin:0;font-size:20px}
 /* ── 卡片頭（參考 Sectors 頁「行業輪動」排板，Desmond 2026-10-24）── */
 .rt-shead{display:flex;align-items:center;gap:11px;padding:2px 0 9px;
   border-bottom:1px solid rgba(128,128,128,.22);margin-bottom:6px;flex-wrap:wrap}
-.rt-shead .ttl{font-size:18px;font-weight:800;line-height:1.15}
+.rt-shead .ttl{font-size:17px;font-weight:800;line-height:1.15}
 .rt-grade{font-variant-numeric:tabular-nums;font-size:12.5px;letter-spacing:.3px}
 .rt-shead .sub{font-size:11.5px;opacity:.62;margin-top:2px}
 .rt-shead .meta{margin-left:auto;font-size:11.5px;opacity:.72;text-align:right}
@@ -55,7 +55,7 @@ CSS = """
 .rt-card{margin:10px 0}
 .rt-card h3{margin:0 0 4px;font-size:14px;font-weight:800;
   display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
-.rt-card h3 small{font-weight:400;font-size:11px;opacity:.6}
+.rt-card h3 small{font-weight:400;font-size:10.5px;opacity:.6}
 .rt-tbl{width:100%;max-width:1140px;border-collapse:collapse;font-size:12.5px;
   table-layout:fixed;font-variant-numeric:tabular-nums}
 .rt-tbl th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.04em;
@@ -84,7 +84,7 @@ CSS = """
 .rt-tbl col.c-off52{width:56px}
 .rt-nm2{display:none}
 .rt-st-abbr{display:none}
-.rt-etf{font-weight:800;font-size:12px;letter-spacing:.01em}
+.rt-etf{font-weight:800;font-size:11.5px;letter-spacing:.01em}
 .rt-etf a{color:inherit;text-decoration:none}
 .rt-etf a:hover{color:#f97316}
 .rt-name{font-size:11.5px;opacity:.72;overflow:hidden;
@@ -93,7 +93,7 @@ CSS = """
 .rt-sbar{display:block;width:100%;height:3px;border-radius:2px;
   background:rgba(128,128,128,.22);margin-top:3px;overflow:hidden}
 .rt-sbar>i{display:block;height:100%;border-radius:2px}
-.rt-rank{opacity:.5;font-variant-numeric:tabular-nums;font-size:11px}
+.rt-rank{opacity:.5;font-variant-numeric:tabular-nums;font-size:10.5px}
 .rt-pos{color:#15803d}
 .rt-neg{color:#dc2626}
 .rt-flat{opacity:.55}
@@ -114,10 +114,10 @@ html[data-theme="dark"] .rt-neg{color:#ff8f8f}
 /* Excel 式三角排序 */
 .rt-tbl th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
 .rt-tbl th.sortable:hover{color:#f97316}
-.rt-tbl th.sortable::after{content:"▾";font-size:8px;opacity:.22;margin-left:2px}
+.rt-tbl th.sortable::after{content:"▾";font-size:10px;opacity:.22;margin-left:2px}
 .rt-tbl th.sortable.asc::after{content:"▴";opacity:.9}
 .rt-tbl th.sortable.desc::after{content:"▾";opacity:.9}
-.rt-note{font-size:11px;opacity:.6;line-height:1.65;margin-top:8px}
+.rt-note{font-size:10.5px;opacity:.6;line-height:1.65;margin-top:8px}
 .rt-warn{font-size:11.5px;line-height:1.6;padding:7px 10px;border-radius:8px;
   background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);
   margin:0 0 8px}
@@ -142,7 +142,7 @@ html[data-theme="dark"] .rt-neg{color:#ff8f8f}
   .rt-tbl td[data-l]::before{content:attr(data-l) " ";font-size:10.5px;
     opacity:.5;margin-right:2px}
   .rt-tbl td.c1,.rt-tbl td.c2{margin-right:8px}
-  .rt-tbl td.c3{display:block;font-size:12px;opacity:.7;margin:1px 0 3px}
+  .rt-tbl td.c3{display:block;font-size:11.5px;opacity:.7;margin:1px 0 3px}
   .rt-tbl td:last-child{display:none}
   .rt-nm2{display:none}
   .rt-stage{font-size:10.5px;padding:1px 5px}

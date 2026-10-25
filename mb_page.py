@@ -116,9 +116,9 @@ CSS = """
 .mbh{font-size:12.5px;line-height:1.85;opacity:.85;max-width:760px}
 .mbg{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
   gap:11px;margin:0 0 16px}
-.mbc{border:1px solid rgba(128,128,128,.2);border-radius:12px;
+.mbc{border:1px solid rgba(128,128,128,.2);border-radius:10px;
   padding:13px 15px;background:rgba(128,128,128,.04)}
-.mbc h4{margin:0 0 4px;font-size:13.5px;font-weight:800}
+.mbc h4{margin:0 0 4px;font-size:14px;font-weight:800}
 .mbc .who{font-size:10.5px;opacity:.55;font-family:ui-monospace;
   margin:0 0 8px}
 .mbc .big{font-size:26px;font-weight:800;line-height:1.1;
@@ -235,7 +235,7 @@ def block():
         v = top_cases(cs, pat, 5)
         if not v:
             continue
-        out.append(f'<p style="font-size:12px;font-weight:700;'
+        out.append(f'<p style="font-size:11.5px;font-weight:700;'
                    f'margin:12px 0 5px">{nm}</p>')
         out.append('<table class="mbtb"><tr><th>股票</th><th>日期</th>'
                    '<th>入場</th><th>止蝕</th><th>風險%</th>'

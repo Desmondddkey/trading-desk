@@ -17,18 +17,18 @@ CSS = """
 .burst{font-size:12.5px;line-height:1.85}
 .burst .quote{border-left:3px solid #c2410c;background:rgba(194,65,12,.07);
   padding:11px 14px;border-radius:0 10px 10px 0;margin:0 0 14px}
-.burst .big{font-size:30px;font-weight:800;font-family:ui-monospace;
+.burst .big{font-size:26px;font-weight:800;font-family:ui-monospace;
   line-height:1.05;color:#c2410c}
-.burst .sub{font-size:11px;opacity:.55;font-family:ui-monospace}
+.burst .sub{font-size:10.5px;opacity:.55;font-family:ui-monospace}
 .burst .cards{display:grid;grid-template-columns:repeat(auto-fit,
   minmax(200px,1fr));gap:10px;margin:0 0 14px}
-.burst .c{border:1px solid rgba(128,128,128,.22);border-radius:12px;
+.burst .c{border:1px solid rgba(128,128,128,.22);border-radius:10px;
   padding:13px 15px;background:rgba(128,128,128,.04)}
-.burst .c b{font-size:13px}
-.burst .c .v{font-size:24px;font-weight:800;font-family:ui-monospace}
+.burst .c b{font-size:12.5px}
+.burst .c .v{font-size:26px;font-weight:800;font-family:ui-monospace}
 .burst .c .v.red{color:#b91c1c}
 .burst .c .v.grn{color:#15803d}
-.burst table{width:100%;border-collapse:collapse;font-size:12px;
+.burst table{width:100%;border-collapse:collapse;font-size:11.5px;
   margin:0 0 14px}
 .burst th{text-align:left;padding:6px 8px;font-size:10px;
   text-transform:uppercase;letter-spacing:.04em;opacity:.55;
@@ -36,12 +36,12 @@ CSS = """
 .burst td{padding:6px 8px;border-bottom:1px solid rgba(128,128,128,.09);
   font-family:ui-monospace}
 .burst .concl{background:rgba(21,128,61,.08);border:1px solid
-  rgba(21,128,61,.3);border-radius:12px;padding:13px 15px;
+  rgba(21,128,61,.3);border-radius:10px;padding:13px 15px;
   font-size:12.5px;line-height:1.9}
 .burst .concl b{color:#15803d}
 @media(max-width:700px){
   .burst .cards{grid-template-columns:1fr 1fr}
-  .burst .big{font-size:24px}
+  .burst .big{font-size:26px}
 }
 """
 

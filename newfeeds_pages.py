@@ -36,12 +36,12 @@ def _tone(v, pos=0, neg=0):
 
 SHEET_CSS = """
 .sheetbox{position:relative;width:100%;height:74vh;min-height:520px;
-  border:1px solid rgba(128,128,128,.3);border-radius:12px;overflow:hidden;
+  border:1px solid rgba(128,128,128,.3);border-radius:10px;overflow:hidden;
   background:#fff;margin:0 0 16px}
 .sheetbox iframe{width:100%;height:100%;border:0;display:block}
 .sheetload{position:absolute;inset:0;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:14px;background:#0d1220;
-  color:#9fb0cc;font-size:13px;z-index:2}
+  color:#9fb0cc;font-size:12.5px;z-index:2}
 [data-theme="light"] .sheetload{background:#f6f8fb;color:#64748b}
 .spin{width:26px;height:26px;border-radius:50%;border:3px solid rgba(128,128,128,.3);
   border-top-color:#2563eb;animation:sp .8s linear infinite}
@@ -144,10 +144,10 @@ def mm_page(d):
             ("升 25%+ (季)", _num(d.get("up25q"), 0), "up"),
             ("跌 25%+ (季)", _num(d.get("down25q"), 0), "dn"),
     ):
-        out.append('<div><div style="font-size:11px;opacity:.65;'
+        out.append('<div><div style="font-size:10.5px;opacity:.65;'
                    'letter-spacing:.06em;text-transform:uppercase">'
                    f'{label}</div>'
-                   f'<div class="{cls}" style="font-size:21px;font-weight:700">'
+                   f'<div class="{cls}" style="font-size:20px;font-weight:700">'
                    f'{val}</div></div>')
     out.append("</div></div></div>")
 
@@ -228,7 +228,7 @@ def bee50_page(d):
                        f'{_esc(t)}" target="_blank" rel="noopener" '
                        'style="display:inline-block;padding:6px 11px;'
                        'border-radius:8px;border:1px solid rgba(128,128,128,.35);'
-                       'font-size:13px;font-weight:600;text-decoration:none">'
+                       'font-size:12.5px;font-weight:600;text-decoration:none">'
                        f'{_esc(t)}</a>')
         out.append("</div></div></details>")
     return "".join(out)
@@ -252,7 +252,7 @@ def jeffsun_page(d):
                    f'（{len(rows)} 隻）</summary>'
                    '<div style="padding:6px 0 14px;overflow-x:auto">'
                    '<table style="width:100%;border-collapse:collapse;'
-                   'font-size:13px">'
+                   'font-size:12.5px">'
                    '<thead><tr><th class="l">代號</th><th class="l">名稱</th>'
                    '<th>RS</th><th>ADR%</th><th>1D</th><th>1W</th><th>1M</th>'
                    '<th>3M</th><th>6M</th><th>12M</th></tr></thead><tbody>')
@@ -275,7 +275,7 @@ def jeffsun_page(d):
         out.append("</tbody></table></div></details>")
 
         out.append('<div class="card"><h2>★ 讀法</h2>'
-                   '<div style="padding:12px 16px;font-size:13px;'
+                   '<div style="padding:12px 16px;font-size:12.5px;'
                    'line-height:1.75">'
                    '① <b>RS 100</b> = 1 個月相對強度最高<br>'
                    '② <b>ADR%</b> = 平均日波幅 → 決定止蝕闊度（ATR）<br>'
@@ -316,11 +316,11 @@ def ndx_page(d):
     for x in rows[:10]:
         cls = "up" if (x.get("chgpct") or 0) > 0 else (
             "dn" if (x.get("chgpct") or 0) < 0 else "")
-        out.append(f'<div><div style="font-size:13px;font-weight:700">'
+        out.append(f'<div><div style="font-size:12.5px;font-weight:700">'
                    f'{_esc(x["sym"])}</div>'
-                   f'<div style="font-size:19px;font-weight:700;'
+                   f'<div style="font-size:20px;font-weight:700;'
                    f'">{x["weight"] or 0:.2f}%</div>'
-                   f'<div class="{cls}" style="font-size:12px">'
+                   f'<div class="{cls}" style="font-size:11.5px">'
                    f'{_pct(x.get("chgpct"), 2)}</div></div>')
     out.append("</div></div></div>")
 
@@ -328,7 +328,7 @@ def ndx_page(d):
     out.append('<div class="card"><h2>全部成分股 '
                '<small>按市值排序</small></h2>'
                '<div style="padding:14px 16px;overflow-x:auto">'
-               '<table style="width:100%;border-collapse:collapse;font-size:13px">'
+               '<table style="width:100%;border-collapse:collapse;font-size:12.5px">'
                '<thead><tr><th class="l">#</th><th class="l">代號</th>'
                '<th class="l">公司</th><th>市值</th><th>權重</th>'
                '<th>現價</th><th>漲跌%</th></tr></thead><tbody>')
@@ -349,7 +349,7 @@ def ndx_page(d):
     out.append("</tbody></table></div></div>")
 
     out.append('<div class="card"><h2>★ 點用</h2>'
-               '<div style="padding:12px 16px;font-size:13px;line-height:1.75">'
+               '<div style="padding:12px 16px;font-size:12.5px;line-height:1.75">'
                '① <b>權重 ≥3%</b> 嘅股（NVDA/AAPL/GOOGL/GOOG/MSFT/AMZN/SPCX）'
                '動 1% ≈ 指數動 0.03–0.11%<br>'
                '② 前 10 大佔 <b>69.5%</b> → 指數走勢基本上係呢 10 隻話事<br>'

@@ -234,11 +234,11 @@ def legend_html():
 
 
 KELL_CSS = """
-.kchip{display:inline-block;padding:1px 7px;border:1px solid;border-radius:9px;
-  font-size:11px;white-space:nowrap;font-weight:600}
+.kchip{display:inline-block;padding:1px 7px;border:1px solid;border-radius:8px;
+  font-size:10.5px;white-space:nowrap;font-weight:600}
 .kchip.dim{border-color:#475569;color:#64748b}
 .klegend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:8px 0 4px}
-.kleg{display:flex;align-items:center;gap:6px;font-size:12px}
+.kleg{display:flex;align-items:center;gap:6px;font-size:11.5px}
 .kdot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
 .haskell{font-weight:800}
 """

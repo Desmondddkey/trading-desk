@@ -23,10 +23,10 @@ Desmond 2026-10-11 Item 8：「hover 彈 TradingView 圖（網絡版 widget，fi
 # ── CSS（注入 <style>）──
 TVHOVER_CSS = """
 #tvpop{display:none;position:fixed;z-index:9999;width:440px;
-  background:#0b1120;border:1px solid #2a3a5c;border-radius:11px;
-  box-shadow:0 14px 40px rgba(0,0,0,.6);overflow:hidden}
+  background:#0b1120;border:1px solid #2a3a5c;border-radius:10px;
+  overflow:hidden}
 #tvpopbar{display:flex;align-items:center;gap:8px;padding:6px 9px;
-  background:#111a2e;border-bottom:1px solid #1e2a44;font-size:12px}
+  background:#111a2e;border-bottom:1px solid #1e2a44;font-size:11.5px}
 #tvpopsym{font-weight:700;color:#9fd4ff;flex:1 1 auto}
 #tvpopbar a{color:#7fd4a8;text-decoration:none;font-size:11.5px}
 #tvpopbar a:hover{text-decoration:underline}
@@ -34,7 +34,7 @@ TVHOVER_CSS = """
   font-size:14px;padding:0 3px;font-family:inherit}
 #tvpopclose:hover{color:#fff}
 #tvpopchart{height:340px;background:#0b1120}
-#tvpopnote{font-size:11px;color:#8fa3c8;padding:0 9px 6px;min-height:0}
+#tvpopnote{font-size:10.5px;color:#8fa3c8;padding:0 9px 6px;min-height:0}
 @media(max-width:700px){#tvpop{display:none!important}}
 """
 

@@ -120,12 +120,12 @@ def card():
     hist = d.get("history") or []
     if hist:
         L.append('<div style="margin:4px 0 6px">' + _spark(hist) + '</div>')
-        L.append('<div style="font-size:11px;opacity:.6;margin-bottom:12px">'
+        L.append('<div style="font-size:10.5px;opacity:.6;margin-bottom:12px">'
                  '藍線＝創新高群組家數（近 90 個交易日）｜'
                  '橙色虛線＝30% 警戒線（上面 = 領導擴闊）</div>')
 
     # 判讀
-    L.append(f'<div style="font-size:13px;line-height:1.75;margin-bottom:14px">'
+    L.append(f'<div style="font-size:12.5px;line-height:1.75;margin-bottom:14px">'
              f'<b style="color:{vcol}">{verdict}</b><br>'
              '<span style="opacity:.8">'
              'Jeff Sun 規則：廣度改善 + 群組創新高家數增加 = 真輪動；'
@@ -155,7 +155,7 @@ def card():
                      f'<td style="text-align:right">{nh}</td></tr>')
         L.append('</tbody></table></div>')
 
-    L.append('<div style="font-size:11px;opacity:.55;margin-top:10px;line-height:1.7">'
+    L.append('<div style="font-size:10.5px;opacity:.55;margin-top:10px;line-height:1.7">'
              '<b>計法</b>：每隻股 21 日回報 → 行業群組平均 → 減基準回報 = 群組 RS。'
              '「新高」＝今日 RS > 過去 20 日最大。<br>'
              '<b>來源</b>：Jeff Sun「情境意識」帖（2026-10-23）——'

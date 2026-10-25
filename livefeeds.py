@@ -72,7 +72,7 @@ FEEDS = [
 
 CSS = """
 .lf-warn{border:1px solid rgba(245,158,11,.5);background:rgba(245,158,11,.08);
-  border-radius:12px;padding:12px 15px;margin:0 0 16px;font-size:13px;
+  border-radius:10px;padding:12px 15px;margin:0 0 16px;font-size:12.5px;
   line-height:1.75}
 .lf-warn b{color:#b45309}
 [data-theme="dark"] .lf-warn b{color:#fbc06a}
@@ -96,11 +96,11 @@ CSS = """
 .lf-nobody{padding:18px 16px;background:rgba(128,128,128,.05)}
 .lf-load{position:absolute;inset:0;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:12px;
-  font-size:13px;opacity:.75;pointer-events:none;text-align:center;padding:20px}
+  font-size:12.5px;opacity:.75;pointer-events:none;text-align:center;padding:20px}
 .lf-spin{width:26px;height:26px;border:3px solid rgba(128,128,128,.3);
   border-top-color:#2563eb;border-radius:50%;animation:lfsp .9s linear infinite}
 @keyframes lfsp{to{transform:rotate(360deg)}}
-.lf-note{font-size:12px;line-height:1.8;opacity:.75;padding:10px 15px;
+.lf-note{font-size:11.5px;line-height:1.8;opacity:.75;padding:10px 15px;
   border-top:1px solid rgba(128,128,128,.16)}
 """
 
@@ -155,7 +155,7 @@ def build():
         if f.get("embed") is False:
             parts.append(
                 '<div class="lf-nobody">'
-                '<div style="font-size:13px;line-height:1.8;opacity:.8">'
+                '<div style="font-size:12.5px;line-height:1.8;opacity:.8">'
                 '原站禁止 iframe 嵌入（<code>X-Frame-Options: SAMEORIGIN</code>'
                 ' ＋ <code>CSP frame-ancestors &quot;self&quot;</code>），'
                 '所以只能用上方「↗ 開原站」喺新視窗睇。</div></div>')
@@ -181,7 +181,7 @@ def build():
         parts.append('</div>')
 
     parts.append(
-        '<div class="note" style="font-size:12px;line-height:1.8">'
+        '<div class="note" style="font-size:11.5px;line-height:1.8">'
         '<b>為什麼唔自己 render？</b> 因為呢兩個源嘅內容係登入後動態產生，'
         '我哋冇帳戶亦冇 API，抄出嚟只會係猜測。'
         'iframe 至少保證你睇到嘅係真嘅原站畫面（或者真嘅登入頁），'

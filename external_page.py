@@ -30,12 +30,12 @@ def _esc(v):
 
 
 CSS = """
-.ext-card{border:1px solid rgba(128,128,128,.28);border-radius:13px;
+.ext-card{border:1px solid rgba(128,128,128,.28);border-radius:10px;
   overflow:hidden;margin:0 0 14px;background:rgba(128,128,128,.035)}
 .ext-hd{display:flex;align-items:center;gap:10px;padding:12px 15px;
   background:rgba(128,128,128,.08);flex-wrap:wrap}
 .ext-hd .t{font-weight:700;font-size:14px}
-.ext-hd .u{font-size:11px;opacity:.6;font-family:ui-monospace,monospace}
+.ext-hd .u{font-size:10.5px;opacity:.6;font-family:ui-monospace,monospace}
 .ext-badge{font-size:10.5px;padding:2px 8px;border-radius:999px;
   border:1px solid rgba(128,128,128,.4)}
 .b-ok{background:rgba(47,191,113,.15);border-color:rgba(47,191,113,.5);
@@ -47,13 +47,13 @@ CSS = """
 .ext-body{padding:0}
 .ext-frame{width:100%;height:80vh;min-height:560px;border:0;display:block;
   background:#fff}
-.ext-note{padding:14px 16px;font-size:13px;line-height:1.8}
+.ext-note{padding:14px 16px;font-size:12.5px;line-height:1.8}
 .ext-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;
-  padding:9px 15px;border-radius:9px;border:1px solid rgba(128,128,128,.4);
+  padding:9px 15px;border-radius:8px;border:1px solid rgba(128,128,128,.4);
   background:rgba(128,128,128,.1);color:inherit;text-decoration:none;
-  font-size:13px;font-weight:600}
+  font-size:12.5px;font-weight:600}
 .ext-btn:hover{background:rgba(128,128,128,.2)}
-.ext-why{font-size:12px;opacity:.72;line-height:1.75;margin-top:8px}
+.ext-why{font-size:11.5px;opacity:.72;line-height:1.75;margin-top:8px}
 @media(max-width:900px){.ext-frame{height:68vh;min-height:420px}}
 """
 
@@ -109,7 +109,7 @@ def build():
 
     # ── ③ 說明 ──
     parts.append('<div class="card"><h2>★ 接入原則</h2><div class="body">'
-                 '<div style="font-size:13px;line-height:1.9">'
+                 '<div style="font-size:12.5px;line-height:1.9">'
                  '① <b>冇 login 牆</b> → 直接 iframe（NEL）<br>'
                  '② <b>有 login 牆</b> → 只提供連結，唔扮嵌入（呢個頁嘅兩個站）<br>'
                  '③ <b>有公開 API / CSV</b> → 我自己 parse（例如 Stockbee MM、Nasdaq 財報）<br><br>'

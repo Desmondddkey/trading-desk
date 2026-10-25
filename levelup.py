@@ -45,20 +45,20 @@ CSS = """
 .lu-k{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
 .lu-k>div{flex:1 1 88px;padding:10px 11px;border-radius:10px;
   border:1px solid rgba(128,128,128,.26);background:rgba(128,128,128,.05)}
-.lu-k .n{font-size:18px;font-weight:800;line-height:1.15}
+.lu-k .n{font-size:17px;font-weight:800;line-height:1.15}
 .lu-k .l{font-size:10px;opacity:.6;margin-top:2px}
-.lu-g{border-radius:12px;padding:12px 14px;margin:0 0 12px;
+.lu-g{border-radius:10px;padding:12px 14px;margin:0 0 12px;
   font-size:12.5px;line-height:1.8}
 .lu-g.on{background:rgba(22,163,74,.10);border:1px solid rgba(22,163,74,.35)}
 .lu-g.mix{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.35)}
 .lu-g.off{background:rgba(220,38,38,.10);border:1px solid rgba(220,38,38,.35)}
 .lu-row{display:flex;justify-content:space-between;padding:4px 0;
-  border-bottom:1px solid rgba(128,128,128,.12);font-size:12px}
+  border-bottom:1px solid rgba(128,128,128,.12);font-size:11.5px}
 .lu-row b{font-weight:700}
 .lu-narr{font-size:12.5px;line-height:1.95}
 .lu-narr b{color:#c2410c}
 @media(max-width:700px){.lu-k>div{flex:1 1 70px;padding:8px 9px}
-  .lu-k .n{font-size:16px}}
+  .lu-k .n{font-size:17px}}
 """
 
 
@@ -191,7 +191,7 @@ def build():
         '<div class="card" style="padding:0;overflow:hidden;margin-top:12px">'
         '<div style="padding:9px 14px;background:rgba(128,128,128,.08);'
         'display:flex;align-items:center;gap:9px;flex-wrap:wrap">'
-        '<b style="font-size:13px">完整 Market Pulse</b>'
+        '<b style="font-size:12.5px">完整 Market Pulse</b>'
         '<span style="font-size:11.5px;opacity:.6">leveluptools.net</span>'
         '<span style="margin-left:auto;font-size:11.5px">'
         '<a href="https://leveluptools.net/pulse/" target="_blank" '

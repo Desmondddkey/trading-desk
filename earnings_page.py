@@ -29,9 +29,9 @@ def _esc(v):
 
 CSS = """
 .er-hit{border:1px solid rgba(192,38,43,.55);background:rgba(192,38,43,.07)}
-.er-day{border:1px solid rgba(128,128,128,.28);border-radius:12px;
+.er-day{border:1px solid rgba(128,128,128,.28);border-radius:10px;
   overflow:hidden;margin:0 0 12px}
-.er-day>h3{margin:0;padding:11px 15px;font-size:13.5px;
+.er-day>h3{margin:0;padding:11px 15px;font-size:14px;
   background:rgba(128,128,128,.09);font-weight:700;
   display:flex;align-items:center;gap:9px}
 .er-day>h3 .n{margin-left:auto;font-size:11.5px;opacity:.6;font-weight:400}
@@ -42,9 +42,9 @@ CSS = """
 .er-list{padding:6px 14px 10px}
 .er-row{display:grid;grid-template-columns:64px 54px 1fr 56px 86px;
   gap:10px;align-items:center;padding:7px 0;
-  border-bottom:1px solid rgba(128,128,128,.12);font-size:13px}
+  border-bottom:1px solid rgba(128,128,128,.12);font-size:12.5px}
 .er-row:last-child{border-bottom:0}
-.er-tk{font-family:ui-monospace,monospace;font-size:13.5px}
+.er-tk{font-family:ui-monospace,monospace;font-size:14px}
 .er-nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   opacity:.85;font-size:12.5px}
 /* ★ 手機：唔橫滑，改成兩行 */
@@ -52,8 +52,8 @@ CSS = """
   .er-row{grid-template-columns:auto auto 1fr auto;row-gap:2px;
     column-gap:8px;padding:8px 0}
   .er-row>.er-nm{grid-column:1/-1;order:9;font-size:11.5px;opacity:.62}
-  .er-mc{font-size:12px}
-  .er-eps{font-size:12px}
+  .er-mc{font-size:11.5px}
+  .er-eps{font-size:11.5px}
 }
 .er-sym{font-weight:700}
 .er-held{color:#c0262b;font-weight:800}
@@ -62,11 +62,11 @@ CSS = """
 [data-theme="dark"] .er-watch{color:#fbc06a}
 .er-mc{opacity:.62;font-size:11.5px}
 .er-eps{opacity:.72;font-size:11.5px}
-.er-alert{border-radius:11px;padding:13px 16px;margin:0 0 14px;font-size:13px;
+.er-alert{border-radius:10px;padding:13px 16px;margin:0 0 14px;font-size:12.5px;
   line-height:1.75}
 .er-alert.bad{background:rgba(192,38,43,.1);border:1px solid rgba(192,38,43,.5)}
 .er-alert.warn{background:rgba(224,168,0,.1);border:1px solid rgba(224,168,0,.5)}
-.er-legend{font-size:12px;line-height:1.9;opacity:.8}
+.er-legend{font-size:11.5px;line-height:1.9;opacity:.8}
 """
 
 

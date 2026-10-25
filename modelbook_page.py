@@ -25,7 +25,7 @@ IDX = os.path.join(KB, "_index.json")
 
 CSS = """
 .mb-g{margin:0 0 14px}
-.mb-g h3{font-size:13px;font-weight:800;margin:14px 0 7px;
+.mb-g h3{font-size:12.5px;font-weight:800;margin:14px 0 7px;
   color:#c2410c;letter-spacing:.02em}
 .mb-l{display:flex;gap:8px;align-items:baseline;padding:5px 0;
   border-bottom:1px solid rgba(128,128,128,.11);font-size:12.5px}
@@ -34,13 +34,13 @@ CSS = """
 .mb-l .n{margin-left:auto;font-size:10.5px;opacity:.45;
   font-family:ui-monospace;white-space:nowrap}
 .mb-psy{border:1px solid rgba(217,119,87,.4);background:rgba(217,119,87,.06);
-  border-radius:12px;padding:13px 15px;margin:0 0 14px;font-size:12.5px;
+  border-radius:10px;padding:13px 15px;margin:0 0 14px;font-size:12.5px;
   line-height:1.9}
 .mb-psy b{color:#c2410c}
-.mb-q{border-radius:11px;padding:11px 14px;margin:0 0 9px;
+.mb-q{border-radius:10px;padding:11px 14px;margin:0 0 9px;
   border:1px solid rgba(128,128,128,.24);background:rgba(128,128,128,.04);
   font-size:12.5px;line-height:1.85}
-.mb-q .k{font-weight:800;font-size:12px;color:#64748b;
+.mb-q .k{font-weight:800;font-size:11.5px;color:#64748b;
   text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
 @media(max-width:700px){.mb-l{flex-wrap:wrap}.mb-l .n{margin-left:0}}
 """
@@ -189,14 +189,14 @@ def build():
     L.append('<div class="card"><h2>覺察問題 '
              '<small>唔係叫你做多啲，係叫你停一停</small></h2>'
              '<div class="body">'
-             '<div style="font-size:13px;font-weight:800;margin:0 0 8px;'
+             '<div style="font-size:12.5px;font-weight:800;margin:0 0 8px;'
              'color:#c2410c">📅 每日收市前問自己</div>'
              '<div style="font-size:12.5px;line-height:2">'
              '① 今日我有冇因為「唔想空手」而入場？<br>'
              '② 今日最快嗰單持倉幾多分鐘？少過 30 分鐘 = 手勢唔係交易。<br>'
              '③ 今日我有冇做同 GMI 方向相反嘅單？<br>'
              '</div>'
-             '<div style="font-size:13px;font-weight:800;margin:16px 0 8px;'
+             '<div style="font-size:12.5px;font-weight:800;margin:16px 0 8px;'
              'color:#c2410c">📆 每週問自己</div>'
              '<div style="font-size:12.5px;line-height:2">'
              '① 本週最好嗰單，我持倉幾多日？最差嗰單呢？<br>'

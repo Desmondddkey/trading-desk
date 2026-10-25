@@ -501,7 +501,7 @@ a{color:#7cc4ff}
 .wrap{max-width:1420px;margin:0 auto;padding:0 14px 60px}
 header.top{position:sticky;top:0;z-index:50;background:#080d1aee;border-bottom:1px solid #1c2740;
  backdrop-filter:blur(9px);margin:0 -14px 18px;padding:10px 14px 0}
-h1{font-size:19px;margin:0 0 2px;letter-spacing:.4px}
+h1{font-size:20px;margin:0 0 2px;letter-spacing:.4px}
 .crumb{color:#6e80a0;font-size:11.5px;margin:0 0 9px}
 /* 導覽：桌面要 wrap，唔可以靠橫向 scroll ——
    ★ 2026-10-13 修（Desmond 用 Control Glass 睇到「方法分類」被切一半）：
@@ -512,14 +512,14 @@ h1{font-size:19px;margin:0 0 2px;letter-spacing:.4px}
    手機（≤768px）維持 nowrap + scroll（拇指滑動係自然嘅）。 */
 nav{display:flex;flex-wrap:wrap;gap:4px;padding-bottom:2px}
 nav a,nav span.tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;
- padding:7px 11px 8px;border-radius:9px;font-size:13px;color:#9fb0cc;
+ padding:7px 11px 8px;border-radius:8px;font-size:12.5px;color:#9fb0cc;
  text-decoration:none;border:1px solid transparent;white-space:nowrap}
 nav a:hover{background:#121c31;color:#e8eef8}
 nav a.on{background:#0f1729;border-color:#1e2a44;color:#e8eef8;font-weight:700}
 nav span.off{opacity:.45}
 .card{background:#0f1729;border:1px solid #1e2a44;border-radius:10px;margin:0 0 16px}
-.card h2{font-size:15.5px;margin:0;padding:11px 14px;border-bottom:1px solid #1e2a44;
- background:#0d1424;border-radius:11px 11px 0 0;display:flex;justify-content:space-between;
+.card h2{font-size:14px;margin:0;padding:11px 14px;border-bottom:1px solid #1e2a44;
+ background:#0d1424;border-radius:10px 11px 0 0;display:flex;justify-content:space-between;
  align-items:center;gap:10px}
 .card h2 small{font-weight:400;color:#7f90ad;font-size:11.5px}
 .card .body{padding:12px 14px}
@@ -529,23 +529,23 @@ nav span.off{opacity:.45}
 /* ── Item 9：手機版（空間節省）── */
 @media(max-width:700px){
   body{padding:9px 8px;font-size:12.5px}
-  .card{border-radius:9px;margin-bottom:10px}
-  .card>h2{font-size:13px;padding:9px 11px;gap:5px}
+  .card{border-radius:8px;margin-bottom:10px}
+  .card>h2{font-size:12.5px;padding:9px 11px;gap:5px}
   .card>h2 small{display:none}
   .card>.body{padding:0}
   .scroll{max-height:none;overflow-x:auto;-webkit-overflow-scrolling:touch}
-  table{font-size:11px;min-width:0}
+  table{font-size:10.5px;min-width:0}
   th,td{padding:4px 5px;white-space:nowrap}
   th{font-size:10px;letter-spacing:0}
   /* 第一欄黏住左邊，橫向捲都睇得到代號 */
   th:first-child,td:first-child{position:sticky;left:0;z-index:2;
-    background:#0f1729;box-shadow:1px 0 0 #1e2a44}
+    background:#0f1729;}
   html[data-theme="light"] th:first-child,
   html[data-theme="light"] td:first-child{background:#fff}
   .tk{font-size:11.5px}
   .rsmini,.spark{display:none}     /* 迷你圖喺手機太細，索性收起省位 */
   .kpi{min-width:74px;padding:6px 9px}
-  .kpi .v{font-size:15px}
+  .kpi .v{font-size:14px}
   .kpis{gap:6px;margin-bottom:9px}
   nav.gnav,nav{overflow-x:auto;flex-wrap:nowrap;
     -webkit-overflow-scrolling:touch;padding-bottom:4px}
@@ -555,7 +555,7 @@ nav span.off{opacity:.45}
   footer{margin-top:12px;font-size:10.5px}
 }
 @media(max-width:420px){
-  body{padding:6px 5px;font-size:12px}
+  body{padding:6px 5px;font-size:11.5px}
   th,td{padding:3px 4px}
   .kpi{min-width:62px}
 }
@@ -567,12 +567,12 @@ html[data-theme="light"] .kpis{border-color:#e3e8f0;background:#fff}
 .kpi:first-child{border-left:0}
 html[data-theme="light"] .kpi{border-left-color:#e3e8f0}
 .kpi .k{font-size:11.5px;opacity:.62;margin-bottom:3px}
-.kpi .v{font-size:24px;font-weight:600;line-height:1.15}
+.kpi .v{font-size:26px;font-weight:600;line-height:1.15}
 .kpi .k{font-size:10.5px;color:#7f90ad;letter-spacing:.5px}
 .kpi .v{font-size:17px;font-weight:700;margin-top:2px}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
 th,td{padding:5px 7px;text-align:left;border-bottom:1px solid #16203a}
-th{color:#8296b4;font-weight:600;font-size:11px;background:#0d1424;position:sticky;top:0}
+th{color:#8296b4;font-weight:600;font-size:10.5px;background:#0d1424;position:sticky;top:0}
 td.l,th.l{text-align:left}
 tr:hover td{background:#131c30}
 .tk{font-weight:700;color:#cfe4ff}
@@ -581,18 +581,18 @@ tr:hover td{background:#131c30}
 .tv .tvs{opacity:0;font-size:10px;margin-left:3px}
 .tv:hover .tvs{opacity:1}
 .pos{color:#4ade80}.neg{color:#f87171}.dim{color:#7f90ad}
-.badge{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10.5px;font-weight:700}
+.badge{display:inline-block;padding:1px 7px;border-radius:999px;font-size:10.5px;font-weight:700}
 .bar{height:8px;border-radius:4px;display:inline-block;vertical-align:middle;background:#22c55e}
 .bar.neg{background:#ef4444}
 .note{color:#7f90ad;font-size:11.5px;margin-top:9px;line-height:1.65}
-.warn{background:#3a2410;border:1px solid #a0620f;color:#fbc06a;border-radius:9px;
+.warn{background:#3a2410;border:1px solid #a0620f;color:#fbc06a;border-radius:8px;
  padding:9px 12px;font-size:12.5px;margin:0 0 13px;line-height:1.6}
-.ok{background:#0f2a1a;border:1px solid #2c7a4b;color:#7fe0a3;border-radius:9px;
+.ok{background:#0f2a1a;border:1px solid #2c7a4b;color:#7fe0a3;border-radius:8px;
  padding:9px 12px;font-size:12.5px;margin:0 0 13px}
 .filters{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 11px;align-items:center}
 input[type=search],select{background:#16203a;color:#e8eef8;border:1px solid #2a3a5c;
- border-radius:7px;padding:6px 10px;font-size:13px;font-family:inherit}
-button{background:#16203a;color:#c7d4ea;border:1px solid #2a3a5c;border-radius:7px;
+ border-radius:8px;padding:6px 10px;font-size:12.5px;font-family:inherit}
+button{background:#16203a;color:#c7d4ea;border:1px solid #2a3a5c;border-radius:8px;
  padding:6px 11px;font-size:12.5px;cursor:pointer;font-family:inherit}
 button:hover{background:#1d2a49}
 button.on{background:#2b6cb0;border-color:#4a90d9;color:#fff;font-weight:700}
@@ -601,7 +601,7 @@ footer{color:#5f708c;font-size:11.5px;margin-top:22px;line-height:1.7}
 table,.kpi,.num,td{font-variant-numeric:tabular-nums}
 code{background:#16203a;padding:1px 5px;border-radius:4px;font-size:11.5px}
 .todo{background:#141d33;border:1px dashed #35507e;border-radius:10px;padding:14px;color:#9fb0cc;
- font-size:13px;line-height:1.75}
+ font-size:12.5px;line-height:1.75}
 .chartwall{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:9px}
 .cand{border:1px solid #1e2a44;border-radius:8px;padding:6px 4px 5px;text-align:center;background:#0d1424;display:block;text-decoration:none;color:inherit}
 .cand .tk{font-size:11.5px;font-weight:700;color:#cfe4ff;margin-top:3px}
@@ -610,7 +610,7 @@ code{background:#16203a;padding:1px 5px;border-radius:4px;font-size:11.5px}
 .tk.hl{color:#22c55e;text-shadow:0 0 10px rgba(34,197,94,.4)}
 tr.buyrow td{background:rgba(34,197,94,.07)}
 .controls{display:flex;gap:6px;align-items:center;margin-left:auto;flex:0 0 auto}
-.controls button{border-radius:7px;padding:5px 10px;font-size:12px}
+.controls button{border-radius:8px;padding:5px 10px;font-size:11.5px}
 
 /* ── 淺色主題（默認）── */
 html[data-theme="light"] body{background:#f6f8fb;color:#1a2433}
@@ -620,7 +620,7 @@ html[data-theme="light"] .crumb{color:#64748b}
 html[data-theme="light"] nav a{color:#64748b}
 html[data-theme="light"] nav a:hover{background:#eef2f8;color:#111827}
 html[data-theme="light"] nav a.on{background:#ffffff;border-color:#dbe2ec;color:#111827}
-html[data-theme="light"] .card{background:#ffffff;border-color:#e3e8f0;box-shadow:none}
+html[data-theme="light"] .card{background:#ffffff;border-color:#e3e8f0;}
 html[data-theme="light"] .card h2{background:#f1f5f9;border-color:#e3e8f0;color:#111827}
 html[data-theme="light"] .card h2 small{color:#64748b}
 html[data-theme="light"] .kpi{background:#ffffff;border-color:#e3e8f0}
@@ -688,10 +688,10 @@ SITENAV_CSS = """
  background:#080d1a;border-bottom:1px solid #1c2740;padding:9px 14px 10px;margin:0;
  font-family:"Segoe UI","Microsoft JhengHei",system-ui,sans-serif}
 .sitenav a{display:inline-flex;align-items:center;gap:5px;padding:7px 12px 8px;
- border-radius:8px;font-size:13px;color:#9fb0cc;text-decoration:none;white-space:nowrap}
+ border-radius:8px;font-size:12.5px;color:#9fb0cc;text-decoration:none;white-space:nowrap}
 .sitenav a:hover{background:#121c31;color:#e8eef8}
 .sitenav a.on{background:#2b6cb0;color:#fff;font-weight:700}
-.sitenav button{margin-left:auto;border-radius:7px;padding:5px 10px;font-size:12px;
+.sitenav button{margin-left:auto;border-radius:8px;padding:5px 10px;font-size:11.5px;
  background:#16203a;color:#c7d4ea;border:1px solid #2a3a5c;cursor:pointer;font-family:inherit}
 """
 
@@ -699,7 +699,7 @@ DESK_LIGHT_CSS = """
 html[data-theme="light"] body{background:#f6f8fb;color:#1a2433}
 html[data-theme="light"] .sub{color:#64748b}
 html[data-theme="light"] h1,html[data-theme="light"] h2,html[data-theme="light"] h3{color:#111827}
-html[data-theme="light"] .card{background:#ffffff;border-color:#e3e8f0;box-shadow:none}
+html[data-theme="light"] .card{background:#ffffff;border-color:#e3e8f0;}
 html[data-theme="light"] .card h2{background:#f1f5f9;border-color:#e3e8f0;color:#111827}
 html[data-theme="light"] .kpi{background:#ffffff;border-color:#e3e8f0}
 html[data-theme="light"] .kpi .k{color:#64748b}
@@ -773,7 +773,7 @@ html[data-theme="light"] #sb{background:#ffffff;border-right:1px solid #e3e8f0}
 #sb .bld{font-size:10px;font-weight:600;letter-spacing:0;opacity:.42;
   font-family:ui-monospace,monospace;margin-left:auto}
 #sb .gw{margin:0}
-#sb .grp{font-size:13.5px;font-weight:800;letter-spacing:.01em;
+#sb .grp{font-size:14px;font-weight:800;letter-spacing:.01em;
   text-transform:none;opacity:1;padding:11px 11px 7px;cursor:pointer;
   list-style:none;display:flex;align-items:center;gap:7px;
   user-select:none;color:inherit}
@@ -785,10 +785,10 @@ html[data-theme="light"] #sb{background:#ffffff;border-right:1px solid #e3e8f0}
 html[data-theme="light"] #sb .grp:hover{color:#111827}
 #sb .gl{padding:0 0 4px}
 /* pinned 可展開分組（MODEL BOOK）*/
-#sb .pinfold>.grp{padding:9px 11px;font-size:13.5px}
+#sb .pinfold>.grp{padding:9px 11px;font-size:14px}
 #sb .pinfold{margin:2px 0}
 #sb a{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px;
-  font-size:13.5px;text-decoration:none;color:#9fb0cc;line-height:1.25}
+  font-size:14px;text-decoration:none;color:#9fb0cc;line-height:1.25}
 #sb a:hover{background:#121c31;color:#e8eef8}
 #sb a.on{background:#1d4ed8;color:#fff;font-weight:700}
 html[data-theme="light"] #sb a{color:#4a5568}
@@ -799,7 +799,7 @@ html[data-theme="light"] #sb a.on{background:#2563eb;color:#fff}
 #sb button{margin:8px 6px 0;padding:8px;border-radius:8px;border:1px solid #2a3346;
   background:#121c31;color:#e8eef8;font-size:12.5px;cursor:pointer;font-family:inherit}
 /* ★ 深淺色按鈕：標題下面、細粒、左對齊（Desmond 2026-10-19） */
-#sb #themebtn{margin:0 10px 12px;padding:6px 10px;border-radius:7px;
+#sb #themebtn{margin:0 10px 12px;padding:6px 10px;border-radius:8px;
   font-size:11.5px;align-self:flex-start;background:transparent;
   border:1px solid #2a3346;color:#8fa0bd;letter-spacing:.02em}
 #sb #themebtn:hover{background:#121c31;color:#e8eef8}
@@ -811,7 +811,7 @@ html[data-theme="light"] #sb button{background:#f3f6fa;border-color:#dbe2ec;colo
 /* ★ 2026-10-19 側欄收合（Desmond：左邊加個小球可以縮個欄） */
 #sbtoggle{position:fixed;left:236px;top:14px;z-index:9100;
   width:26px;height:26px;border-radius:50%;border:1px solid #4b5563;
-  background:#0f1729;color:#9fb0cc;font-size:11px;cursor:pointer;
+  background:#0f1729;color:#9fb0cc;font-size:10.5px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
   transition:left .22s ease,background .15s;font-family:inherit;padding:0}
 #sbtoggle:hover{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
@@ -820,21 +820,21 @@ html[data-theme="light"] #sbtoggle{background:#fff;border-color:#cbd5e1;
 html[data-theme="light"] #sbtoggle:hover{background:#2563eb;color:#fff}
 #sb.collapsed{width:62px}
 #sb.collapsed .brand{font-size:0;padding:10px 0;text-align:center}
-#sb.collapsed .brand::before{content:"📈";font-size:18px}
+#sb.collapsed .brand::before{content:"📈";font-size:17px}
 #sb.collapsed #themebtn{display:none}
 #sb.collapsed .grp{font-size:0;padding:8px 0;border-top:1px solid #1e2a44;
   margin:4px 8px}
 #sb.collapsed a{justify-content:center;padding:9px 0}
 #sb.collapsed a .lbl{display:none}
 #sb.collapsed a .ab{display:block!important}
-#sb a .ab{display:none!important;font-size:11px;font-weight:700;letter-spacing:.02em}
+#sb a .ab{display:none!important;font-size:10.5px;font-weight:700;letter-spacing:.02em}
 /* ★ 修（2026-10-19）：#sbtoggle 係 #sb 嘅兄弟節點，唔係後代，
    `#sb.collapsed #sbtoggle` 永遠 match 唔到 → 改用 body class */
 body.sb-collapsed #sbtoggle{left:62px}
 
 #navtoggle{display:none;position:fixed;left:10px;top:10px;z-index:9100;
-  width:42px;height:42px;border-radius:11px;border:1px solid #2a3346;
-  background:#0b1220ee;color:#e8eef8;font-size:19px;cursor:pointer;
+  width:42px;height:42px;border-radius:10px;border:1px solid #2a3346;
+  background:#0b1220ee;color:#e8eef8;font-size:20px;cursor:pointer;
   align-items:center;justify-content:center;line-height:1}
 html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;color:#1a2433}
 #navoverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:8999}
@@ -847,7 +847,7 @@ html[data-theme="light"] #navtoggle{background:#ffffffee;border-color:#dbe2ec;co
 }
 /* 手機：sidebar 變 drawer */
 @media(max-width:900px){
-  #sb{transform:translateX(-100%);box-shadow:4px 0 24px rgba(0,0,0,.4);
+  #sb{transform:translateX(-100%);
       padding-top:56px}
   #sb.open{transform:translateX(0)}
   #navtoggle{display:flex}
@@ -877,7 +877,7 @@ html[data-theme="dark"] header.top{background:#262624E6;
   border-bottom:1px solid #3E3E38}
 html[data-theme="dark"] .crumb{color:#8B8A82}
 html[data-theme="dark"] .card{background:#262624;border-color:#3E3E38;
-  box-shadow:0 1px 3px rgba(0,0,0,.35)}
+  }
 html[data-theme="dark"] .card h2{background:#30302E;border-color:#3E3E38;
   color:#FAF9F5}
 html[data-theme="dark"] .card h2 small{color:#B7B5A9}
@@ -897,7 +897,7 @@ html[data-theme="dark"] .hl{color:#D97757}
 html[data-theme="dark"] code{background:#30302E;color:#E8C4B0}
 /* 側欄 */
 html[data-theme="dark"] #sb{background:#262624;
-  border-right:1px solid #3E3E38;box-shadow:1px 0 0 #3E3E38}
+  border-right:1px solid #3E3E38;}
 html[data-theme="dark"] #sb .brand{color:#FAF9F5}
 html[data-theme="dark"] #sb .grp{color:#8B8A82;border-top-color:#38382F}
 html[data-theme="dark"] #sb a{color:#B7B5A9}
@@ -973,7 +973,7 @@ html[data-theme="light"] header.top{background:#FAF9F5EE;
   border-bottom:1px solid #E3E1DA}
 html[data-theme="light"] .crumb{color:#6B6A63}
 html[data-theme="light"] .card{background:#FFFFFF;border-color:#E3E1DA;
-  box-shadow:0 1px 3px rgba(31,30,29,.06)}
+  }
 html[data-theme="light"] .card h2{background:#F4F2ED;
   border-color:#E3E1DA;color:#1F1E1D}
 html[data-theme="light"] .card h2 small{color:#6B6A63}
@@ -1428,11 +1428,11 @@ def _champion_card():
     h = ['<div class="card" style="border-left:4px solid #E8A33D">'
          '<div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">'
          '<h2 style="margin:0">🏆 Champion 組合 <small>每日 top-3｜paper</small></h2>'
-         f'<span style="font-size:12px;opacity:.65">數據截至 {esc(nav_date)}</span>'
+         f'<span style="font-size:11.5px;opacity:.65">數據截至 {esc(nav_date)}</span>'
          '</div>']
     if nav:
         h.append(f'<div style="font-size:26px;font-weight:800;color:{ret_cls}">'
-                 f'${nav:,.0f}　<span style="font-size:15px">{ret:+.2f}%</span></div>')
+                 f'${nav:,.0f}　<span style="font-size:14px">{ret:+.2f}%</span></div>')
         h.append('<div class="kpis" style="margin:8px 0 10px">')
         for _l, _v, _c in (("單數", f"{n}", ""),
                            ("勝率", f"{wr:.0f}%", ""),
@@ -1443,12 +1443,12 @@ def _champion_card():
         h.append('</div>')
     else:
         h.append('<div class="dim">Champion 帳本未結算</div>')
-    h.append('<div style="margin:4px 0 2px;font-size:12px;opacity:.7">今日 3 條</div>')
+    h.append('<div style="margin:4px 0 2px;font-size:11.5px;opacity:.7">今日 3 條</div>')
     if veto:
         h.append(f'<div style="color:#E8A33D;font-weight:700">🛑 {esc(veto)}</div>')
     elif today:
         for t, c, piv, r1 in today:
-            h.append(f'<div style="margin:3px 0;font-size:13px">'
+            h.append(f'<div style="margin:3px 0;font-size:12.5px">'
                      f'<b>{esc(t)}</b>　收 {esc(c)}｜pivot {esc(piv)}'
                      f'（RS 1M {esc(r1) if r1 is not None else "—"}%）</div>')
     else:
@@ -1645,9 +1645,9 @@ def build():
     _pulse = (
         '<div class="card" style="border-left:4px solid #7DBE8A">'
         '<h2>📖 The Read <small>今日一句話</small></h2>'
-        f'<div class="body" style="font-size:14.5px;line-height:1.8">{_read}</div></div>'
+        f'<div class="body" style="font-size:14px;line-height:1.8">{_read}</div></div>'
         '<div class="card"><h2>👀 明日要睇咩</h2><div class="body">'
-        + "".join(f'<div style="margin:7px 0;font-size:13.5px">'
+        + "".join(f'<div style="margin:7px 0;font-size:14px">'
                   f'<b>{l}</b>　·　{t}</div>' for t, l in _watch)
         + '</div></div>')
 

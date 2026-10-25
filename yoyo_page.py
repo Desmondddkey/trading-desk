@@ -15,17 +15,17 @@ BT = os.path.join(BASE, "output", "yoyo_ball_backtest.json")
 
 CSS = """
 .yb-hd{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 14px}
-.yb-k{flex:1 1 108px;padding:11px 13px;border-radius:11px;
+.yb-k{flex:1 1 108px;padding:11px 13px;border-radius:10px;
   border:1px solid rgba(128,128,128,.26);background:rgba(128,128,128,.05)}
-.yb-k .n{font-size:21px;font-weight:800;line-height:1.15}
+.yb-k .n{font-size:20px;font-weight:800;line-height:1.15}
 .yb-k .l{font-size:10.5px;opacity:.6;margin-top:2px}
-.yb-gate{border-radius:12px;padding:13px 15px;margin:0 0 15px;
+.yb-gate{border-radius:10px;padding:13px 15px;margin:0 0 15px;
   font-size:12.5px;line-height:1.8;font-weight:600}
 .yb-pass{border:1px solid rgba(22,163,74,.45);background:rgba(22,163,74,.08);color:#16a34a}
 .yb-fail{border:1px solid rgba(220,38,38,.5);background:rgba(220,38,38,.09);color:#dc2626}
 .yb-rule{font-size:12.5px;line-height:1.95}
 .yb-rule b{color:#c2410c}
-.yb-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.yb-tbl{width:100%;border-collapse:collapse;font-size:11.5px}
 .yb-tbl th{text-align:left;font-size:10.5px;letter-spacing:.05em;
   text-transform:uppercase;opacity:.55;padding:7px 8px;font-weight:700;
   border-bottom:1px solid rgba(128,128,128,.28)}
@@ -36,7 +36,7 @@ CSS = """
   .yb-tbl,.yb-tbl tbody,.yb-tbl tr{display:block;width:100%}
   .yb-tbl tr{padding:8px 0;border-bottom:1px solid rgba(128,128,128,.16)}
   .yb-tbl td{display:inline;border:0;padding:1px 4px 1px 0;font-size:11.5px}
-  .yb-tbl td:first-child{display:block;font-weight:800;font-size:13px}
+  .yb-tbl td:first-child{display:block;font-weight:800;font-size:12.5px}
 }
 """
 

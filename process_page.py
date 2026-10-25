@@ -68,19 +68,19 @@ CSS = """
 .pf-dec td:nth-child(2){width:64px}
 .pf-dec .why{opacity:.7;font-size:11.5px}
 .ex-idx{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 9px}
-.ex-card{border:1px solid rgba(128,128,128,.3);border-radius:9px;padding:7px 9px;
+.ex-card{border:1px solid rgba(128,128,128,.3);border-radius:8px;padding:7px 9px;
   background:rgba(128,128,128,.05)}
-.ex-card .tk{font-size:13px;font-weight:800;letter-spacing:.02em}
+.ex-card .tk{font-size:12.5px;font-weight:800;letter-spacing:.02em}
 .ex-card .ph{font-size:11.5px;font-weight:700;margin:1px 0 3px}
-.ex-card .row{font-size:11px;opacity:.82}
+.ex-card .row{font-size:10.5px;opacity:.82}
 .ex-card .row b{font-weight:800}
 @media(max-width:700px){.ex-idx{grid-template-columns:1fr}}
 .ex-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;
   background:rgba(128,128,128,.15);margin:6px 0 5px}
 .ex-bar>i{display:block;height:100%}
-.ex-legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;opacity:.8;margin-bottom:8px}
+.ex-legend{display:flex;flex-wrap:wrap;gap:10px;font-size:10.5px;opacity:.8;margin-bottom:8px}
 .ex-legend em{font-style:normal;font-weight:800}
-.ex-tbl{width:100%;border-collapse:collapse;font-size:12px;
+.ex-tbl{width:100%;border-collapse:collapse;font-size:11.5px;
   font-variant-numeric:tabular-nums}
 .ex-tbl th{text-align:left;font-size:10px;font-weight:700;opacity:.55;
   padding:4px;border-bottom:1px solid rgba(128,128,128,.3)}
@@ -88,11 +88,11 @@ CSS = """
 .ex-tbl tr:hover td{background:rgba(249,115,22,.05)}
 @media(max-width:700px){.ex-tbl th:nth-child(6),.ex-tbl td:nth-child(6),
   .ex-tbl th:nth-child(7),.ex-tbl td:nth-child(7){display:none}}
-.pf-step h3{margin:0 0 6px;font-size:14.5px;display:flex;gap:8px;
+.pf-step h3{margin:0 0 6px;font-size:14px;display:flex;gap:8px;
   align-items:baseline;flex-wrap:wrap}
-.pf-step h3 small{font-weight:400;font-size:11px;opacity:.6}
+.pf-step h3 small{font-weight:400;font-size:10.5px;opacity:.6}
 .pf-row{display:flex;gap:10px;align-items:baseline;padding:3px 0;
-  font-size:13px;flex-wrap:wrap}
+  font-size:12.5px;flex-wrap:wrap}
 .pf-row b{min-width:8.5em;font-weight:700;opacity:.85}
 .pf-tag{font-size:10px;padding:1px 7px;border-radius:999px;font-weight:800}
 .pf-tag.g{background:rgba(34,197,94,.18);color:#22c55e;border:1px solid rgba(34,197,94,.5)}
@@ -116,13 +116,13 @@ a.pf-cand:hover{filter:brightness(1.12)}
 .pf-big .top{display:flex;justify-content:space-between;gap:14px;
   align-items:baseline;flex-wrap:wrap}
 .pf-big .lab{font-size:10.5px;letter-spacing:.06em;font-weight:700;opacity:.66}
-.pf-big .zn{font-size:12px;font-weight:800}
+.pf-big .zn{font-size:11.5px;font-weight:800}
 .pf-big .num{font-size:34px;font-weight:800;line-height:1.05;margin:2px 0 4px}
 .pf-big .bar{height:10px;border-radius:999px;background:rgba(128,128,128,.18);
   position:relative;width:100%}
 .pf-big .bar>span{display:block;height:100%;border-radius:999px}
-.pf-big .desc{font-size:11px;opacity:.62;margin-top:5px;line-height:1.5}
-.pf-sub2{margin:14px 0 4px;font-size:11px;letter-spacing:.05em;
+.pf-big .desc{font-size:10.5px;opacity:.62;margin-top:5px;line-height:1.5}
+.pf-sub2{margin:14px 0 4px;font-size:10.5px;letter-spacing:.05em;
   text-transform:uppercase;opacity:.5;font-weight:700}
 .pf-brow{display:grid;grid-template-columns:92px 60px minmax(150px,300px) 1fr;
   gap:12px;align-items:center;padding:6px 0;font-size:12.5px}
@@ -132,7 +132,7 @@ a.pf-cand:hover{filter:brightness(1.12)}
 .pf-tvsym:hover{color:#f97316;border-bottom-color:#f97316}
 .pf-brow .vv{font-variant-numeric:tabular-nums;font-weight:800;text-align:right}
 .pf-brow .bw{display:flex;justify-content:center}
-.pf-brow .nt{font-size:11px;opacity:.72;line-height:1.4;white-space:normal}
+.pf-brow .nt{font-size:10.5px;opacity:.72;line-height:1.4;white-space:normal}
 @media(max-width:720px){
   .pf-brow{grid-template-columns:84px 54px 1fr;grid-template-areas:"nm vv bw" "nt nt nt"}
   .pf-brow .nt{grid-area:nt;margin-top:2px}

@@ -34,7 +34,7 @@ KIND = {
 CSS = """
 .lb-wrap{margin-top:26px}
 .lb-h{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;
-  margin:0 0 10px;font-size:15px;font-weight:800}
+  margin:0 0 10px;font-size:14px;font-weight:800}
 .lb-h small{font-size:11.5px;font-weight:600;opacity:.55}
 .lb-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
 .lb-tbl th{text-align:left;font-size:10.5px;letter-spacing:.05em;
@@ -43,30 +43,30 @@ CSS = """
 .lb-tbl td{padding:7px 8px;border-bottom:1px solid rgba(128,128,128,.1);
   vertical-align:top;text-align:left!important}
 .lb-tbl tr:hover{background:rgba(128,128,128,.06)}
-.lb-when{font-family:ui-monospace,monospace;font-size:11px;
+.lb-when{font-family:ui-monospace,monospace;font-size:10.5px;
   opacity:.66;white-space:nowrap}
-.lb-k{font-size:11px;font-weight:800;white-space:nowrap}
+.lb-k{font-size:10.5px;font-weight:800;white-space:nowrap}
 .lb-t{font-weight:700}
 .lb-d{font-size:11.5px;opacity:.72;margin-top:2px;
   white-space:normal;word-break:break-word}
-.lb-tbl details summary{font-size:11px;opacity:.6;cursor:pointer;
+.lb-tbl details summary{font-size:10.5px;opacity:.6;cursor:pointer;
   list-style:none}
 .lb-tbl details summary::-webkit-details-marker{display:none}
-.lb-tbl details summary::before{content:"▸ ";font-size:9px}
+.lb-tbl details summary::before{content:"▸ ";font-size:10px}
 .lb-tbl details[open] summary::before{content:"▾ "}
 .lb-more{text-align:center;margin-top:10px}
-.lb-more a{font-size:12px;opacity:.7}
+.lb-more a{font-size:11.5px;opacity:.7}
 @media(max-width:700px){
   .lb-tbl thead{display:none}
   .lb-tbl,.lb-tbl tbody,.lb-tbl tr{display:block;width:100%}
   .lb-tbl tr{padding:10px 0;border-bottom:1px solid rgba(128,128,128,.16)}
   .lb-tbl td{display:block;width:auto;text-align:left!important;
     border:0;padding:0}
-  .lb-tbl td:nth-child(1){display:inline;font-size:11px;margin:0}
+  .lb-tbl td:nth-child(1){display:inline;font-size:10.5px;margin:0}
   .lb-tbl td:nth-child(2){display:inline;margin:0 0 0 8px}
-  .lb-tbl td:nth-child(3){margin-top:5px;font-size:13.5px;line-height:1.4}
+  .lb-tbl td:nth-child(3){margin-top:5px;font-size:14px;line-height:1.4}
   .lb-tbl td:nth-child(4){margin-top:3px}
-  .lb-d{font-size:12px;line-height:1.55}
+  .lb-d{font-size:11.5px;line-height:1.55}
 }
 """
 
@@ -130,7 +130,7 @@ def build(n=60):
                               f'<b>證據：</b>{ev}</div>')
                 if files and files != "[]":
                     dhtml += (f'<div style="margin-top:3px;opacity:.62;'
-                              f'font-size:11px"><b>檔案：</b>{files}</div>')
+                              f'font-size:10.5px"><b>檔案：</b>{files}</div>')
                 dhtml += '</details>'
             dhtml += '</div>'
         parts.append(
@@ -175,7 +175,7 @@ def build_full():
                     dhtml += f'<div style="margin-top:4px">{ev}</div>'
                 if files and files != "[]":
                     dhtml += (f'<div style="margin-top:3px;opacity:.62;'
-                              f'font-size:11px">{files}</div>')
+                              f'font-size:10.5px">{files}</div>')
                 dhtml += '</details>'
             dhtml += '</div>'
         out.append(f'<tr><td class="lb-when">{ts}</td>'

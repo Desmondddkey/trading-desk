@@ -313,7 +313,7 @@ def update_day_on(tickers, read_only=False):
 # ══════════════════════════════════════════════════════════════
 CSS = """
 .ds-dbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0 10px}
-.ds-dbtn{font-size:12px;padding:5px 10px;border-radius:8px;font-weight:700;
+.ds-dbtn{font-size:11.5px;padding:5px 10px;border-radius:8px;font-weight:700;
   border:1px solid rgba(128,128,128,.35);text-decoration:none;color:inherit}
 .ds-dbtn:hover{border-color:#f97316;color:#f97316}
 .ds-dbtn.off{opacity:.32;pointer-events:none}
@@ -326,10 +326,10 @@ CSS = """
 .ds-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 4px}
 .ds-l1{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
   gap:10px;margin:0 0 16px}
-.ds-sc{border:1px solid rgba(128,128,128,.26);border-radius:11px;
+.ds-sc{border:1px solid rgba(128,128,128,.26);border-radius:10px;
   padding:10px 12px;background:rgba(128,128,128,.035)}
 .ds-sc .nm{font-weight:700;font-size:12.5px;display:flex;align-items:center;gap:7px}
-.ds-sc .n{margin-left:auto;font-size:11px;opacity:.6;font-weight:400}
+.ds-sc .n{margin-left:auto;font-size:10.5px;opacity:.6;font-weight:400}
 .ds-tk{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
 .ds-tk a{font-size:11.5px;padding:2px 7px;border-radius:6px;
   border:1px solid rgba(128,128,128,.32);text-decoration:none;color:inherit;
@@ -350,7 +350,7 @@ b{text-decoration:none}
 [data-theme="dark"] .ds-sym-buy{color:inherit}
 .ds-ext{color:#dc2626;font-weight:700}
 .ds-ok{color:#16a34a}
-.ds-tag{font-size:9.5px;padding:1px 6px;border-radius:999px;
+.ds-tag{font-size:10px;padding:1px 6px;border-radius:999px;
   border:1px solid rgba(128,128,128,.35);font-weight:700}
 /* ★ 2026-10-23 FOCUS 改橙色 */
 .ds-tag.src-FOCUS{color:#f97316;border-color:rgba(249,115,22,.55);
@@ -358,26 +358,26 @@ b{text-decoration:none}
 /* ★ 2026-10-23 Excel 式可排序欄頭 */
 .ds-tbl th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
 .ds-tbl th.sortable:hover{opacity:.95;color:#f97316}
-.ds-tbl th .arr{display:inline-block;margin-left:3px;font-size:8px;
+.ds-tbl th .arr{display:inline-block;margin-left:3px;font-size:10px;
   opacity:.45;transition:transform .12s}
 .ds-tbl th[data-dir="asc"] .arr{transform:rotate(180deg);opacity:1;color:#f97316}
 .ds-tbl th[data-dir="desc"] .arr{opacity:1;color:#f97316}
 /* ★ 2026-10-20 scan 卡 hover 方格 */
 .ds-hasTip{position:relative}
 .ds-tip{display:none;position:absolute;z-index:60;left:0;top:calc(100% + 5px);
-  width:min(320px,84vw);padding:11px 13px;border-radius:11px;
+  width:min(320px,84vw);padding:11px 13px;border-radius:10px;
   background:#1b1b19;border:1px solid #4A4A42;
-  box-shadow:0 10px 26px rgba(0,0,0,.5);font-size:11.5px;line-height:1.6;
+  font-size:11.5px;line-height:1.6;
   color:#F0EDE8;text-align:left;white-space:normal;word-break:break-word}
 html[data-theme="light"] .ds-tip{background:#FFFFFF;border-color:#DAD9D4;
-  color:#1F1E1D;box-shadow:0 10px 26px rgba(0,0,0,.14)}
+  color:#1F1E1D;}
 .ds-hasTip:hover .ds-tip,.ds-hasTip:focus-within .ds-tip{display:block}
 .ds-tip>b{font-size:12.5px;font-weight:800;display:block}
-.ds-tipzh{font-size:11px;opacity:.72;margin-bottom:6px}
+.ds-tipzh{font-size:10.5px;opacity:.72;margin-bottom:6px}
 .ds-tiprow{font-size:11.5px}
 @media(hover:none){.ds-hasTip:active .ds-tip{display:block}}
 .ds-f{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
-.ds-f button{padding:6px 12px;border-radius:999px;font-size:12px;
+.ds-f button{padding:6px 12px;border-radius:999px;font-size:11.5px;
   border:1px solid rgba(128,128,128,.34);background:rgba(128,128,128,.07);
   color:inherit;cursor:pointer;font-family:inherit}
 .ds-f button.on{background:#2563eb;border-color:#2563eb;color:#fff}
@@ -676,7 +676,7 @@ def build(day=None):
                 '</tr>')
         parts.append('</tbody></table></div>')
 
-        parts.append('<div style="font-size:12px;line-height:1.9;opacity:.8;'
+        parts.append('<div style="font-size:11.5px;line-height:1.9;opacity:.8;'
                      'margin-top:10px">'
                      '<b>欄位定義</b>（全部寫死，唔准臨時改）<br>'
                      '<b>EXT</b> = ATRX =（收市 − SMA50）／ATR14，硬刪門檻 4.0（EDGE-009）<br>'
@@ -700,11 +700,11 @@ def build(day=None):
         _mc.append("""<style>
 #dsmini{display:none;position:fixed;z-index:9999;width:250px;
   background:#0b1120;border:1px solid #2a3a5c;border-radius:10px;
-  box-shadow:0 14px 36px rgba(0,0,0,.62);overflow:hidden}
+  overflow:hidden}
 #dsminibar{display:flex;align-items:center;gap:8px;padding:6px 9px;
-  background:#111a2e;border-bottom:1px solid #1e2a44;font-size:12px}
+  background:#111a2e;border-bottom:1px solid #1e2a44;font-size:11.5px}
 #dsminisym{flex:1 1 auto;color:#9fd4ff;font-weight:700}
-#dsminibar a{color:#7fd4a8;text-decoration:none;font-size:11px}
+#dsminibar a{color:#7fd4a8;text-decoration:none;font-size:10.5px}
 #dsminichart{padding:6px;background:#0b1120}
 #dsminichart svg{width:100%;height:auto;display:block}
 @media(max-width:700px){#dsmini{display:none!important}}
