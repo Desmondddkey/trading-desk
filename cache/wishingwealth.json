@@ -1,15 +1,15 @@
 {
  "status": "OK",
- "gmi": 1,
+ "gmi": 2,
  "gmi_max": 6,
- "gmi2": 4,
+ "gmi2": 3,
  "gmi2_max": 9,
- "t2108": 41.0,
- "color": null,
- "qqq_day": 6,
+ "t2108": 40.0,
+ "color": "RED",
+ "qqq_day": 7,
  "qqq_dir": "down",
- "title": "Day 6 of $QQQ short term down-trend; I hope you were in cash; Very mixed market, T2108 rises to 41% and there were 164 US yearly highs and 51 ATHs, the most sin",
- "published": "Fri, 23 Oct 2026 00:04:10 +0000",
+ "title": "Day 7 of $QQQ short term down-trend; 36 ATHs, 11 banks and 7 oil &#038; gas. QQQ is sitting on its 30 wk average, see weekly chart. GMI=2 and RED;",
+ "published": "Mon, 26 Oct 2026 00:05:25 +0000",
  "source": "https://wishingwealthblog.com/feed/",
- "_ts": 1792943446.396849
+ "_ts": 1792975864.9036114
 }
