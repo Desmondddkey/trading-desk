@@ -23,6 +23,8 @@ import datetime as dt
 import glob
 import html as _h
 import io
+import pandas as pd
+import time
 import json
 import os
 import sys
@@ -328,6 +330,61 @@ def load_ohlc():
         return {}, None
 
 
+def refresh_ohlc():
+    """★ 2026-10-26：ohlc_latest.json 由 10-16 起冇人更新（死檔）→
+    ATR%／RVOL／TIGHT 全部用舊數。呢個函數自己抓 L2 宇宙 + SPY，
+    寫返同一個格式，令所有指標同一個交易日。"""
+    import glob
+    import yfinance as yf
+    dst = os.path.join(OUT, "ohlc_latest.json")
+    try:
+        if os.path.exists(dst) and (time.time() - os.path.getmtime(dst)) < 12 * 3600:
+            return dst
+    except Exception:                                        # noqa: BLE001
+        pass
+    tks = set()
+    fs = sorted(glob.glob(r"C:/Users/rain0/trading-os/output/layer2_*.json"))
+    if fs:
+        try:
+            d = json.load(io.open(fs[-1], encoding="utf-8"))
+            for r in (d.get("focus_list") or []) + (d.get("stalk_list") or []):
+                t = (r.get("ticker") or "").upper()
+                if t:
+                    tks.add(t)
+        except Exception:                                    # noqa: BLE001
+            pass
+    try:
+        old = json.load(io.open(dst, encoding="utf-8"))
+        tks |= {str(k).upper() for k in (old.get("data") or {})}
+    except Exception:                                        # noqa: BLE001
+        pass
+    tks.add("SPY")
+    if not tks:
+        return dst
+    print(f"  yfinance 下載 {len(tks)} 隻 OHLC（L2 宇宙）…", flush=True)
+    df = yf.download(sorted(tks), period="1y", interval="1d",
+                     auto_adjust=True, progress=False, threads=True)
+    out = {}
+    for t in sorted(tks):
+        try:
+            sub = df.xs(t, axis=1, level=1) if isinstance(df.columns, pd.MultiIndex) else df
+            sub = sub.dropna(subset=["Close"])
+            if len(sub) < 55:
+                continue
+            bars = [[str(ix.date()), round(float(r["Open"]), 4), round(float(r["High"]), 4),
+                     round(float(r["Low"]), 4), round(float(r["Close"]), 4),
+                     int(r["Volume"] or 0)] for ix, r in sub.iterrows()]
+            out[t] = {"bars": bars}
+        except Exception:                                    # noqa: BLE001
+            continue
+    if out:
+        last = max(v["bars"][-1][0] for v in out.values())
+        json.dump({"asof": last, "n": len(out), "data": out},
+                  io.open(dst, "w", encoding="utf-8"))
+        print(f"  完成：{len(out)} 隻，最後 {last}", flush=True)
+    return dst
+
+
 def compute_metrics(ohlc):
     """→ dict[ticker] = {atr, atr_pct, rvol50, close}。"""
     out = {}
@@ -531,6 +588,7 @@ def build(day=None):
         if _dd and day != _dd[0]:
             scans = {}          # L1 只保留最新（歷史 L1 冇逐日存檔，唔准扮）
     l2rows, l2_src = load_l2(day)
+    refresh_ohlc()
     ohlc, ohlc_asof = load_ohlc()
     metrics = compute_metrics(ohlc)
 
