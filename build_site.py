@@ -2148,20 +2148,6 @@ def build():
     try:
         import rs_scan as _rss
         _rt, _rb = _rss.build()
-        try:
-            import beachball_page as _bb
-            _bt, _bbody = _bb.build()
-            try:
-            import fear_gauge_page as _fg
-            _fgt, _fgb = _fg.build()
-            pages["feargauge"] = (_fgt, _fgb, base)
-            log(f"✓ feargauge.html ({len(_fgb)//1024} KB)")
-        except Exception as _ef:                          # noqa: BLE001
-            log(f"⚠ 投降儀表失敗：{type(_ef).__name__}: {_ef}")
-        pages["beachball"] = (_bt, _bbody, base)
-            log(f"✓ beachball.html ({len(_bbody)//1024} KB)")
-        except Exception as _eb:                          # noqa: BLE001
-            log(f"⚠ beachball 失敗：{type(_eb).__name__}: {_eb}")
         pages["rsscan"] = (_rt, _rb, base)
         log(f"✓ rsscan.html ({len(_rb)//1024} KB)")
         # ★ 2026-10-24：每日快照各出一頁，令「上一日／下一日」真係跳得
@@ -2175,6 +2161,24 @@ def build():
         log(f"✓ rsscan 快照頁 {min(10, len(_rss._all_snaps()))} 個")
     except Exception as _e14:                                # noqa: BLE001
         log(f"⚠ RS Daily Scan 失敗：{type(_e14).__name__}: {_e14}")
+
+    # ── 沙灘球反應（2026-10-25）──
+    try:
+        import beachball_page as _bb
+        _bt, _bbody = _bb.build()
+        pages["beachball"] = (_bt, _bbody, base)
+        log(f"✓ beachball.html ({len(_bbody)//1024} KB)")
+    except Exception as _eb:                            # noqa: BLE001
+        log(f"⚠ beachball 失敗：{type(_eb).__name__}: {_eb}")
+
+    # ── 投降／過熱儀表（2026-10-25）──
+    try:
+        import fear_gauge_page as _fg
+        _fgt, _fgb = _fg.build()
+        pages["feargauge"] = (_fgt, _fgb, base)
+        log(f"✓ feargauge.html ({len(_fgb)//1024} KB)")
+    except Exception as _ef:                            # noqa: BLE001
+        log(f"⚠ 投降儀表失敗：{type(_ef).__name__}: {_ef}")
 
     # ── ★ 2026-10-24 收工標準（Definition of Done，機器自動檢查）──
     try:
