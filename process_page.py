@@ -564,9 +564,21 @@ def build():
     _v4 = "GO" if _box_ok else "NO-GO"
     _v5 = "NO-GO" if veto else ("GO" if _box_ok else "WATCH")
     _v6 = "GO" if ready else "NO-GO"
+    # ★ 2026-10-26 Jeff Sun #5：10/20 MA 死叉 ＋ 下降通道 → 唔做突破
+    _six = {}
+    try:
+        _six = json.load(io.open(os.path.join(DATA, "today_six.json"),
+                                 encoding="utf-8"))
+    except Exception:                                        # noqa: BLE001
+        _six = {}
+    _ma_txt = ""
+    if _six.get("ma10"):
+        _ma_txt = (f"｜10MA {_six['ma10']} / 20MA {_six['ma20']}｜"
+                   + ("死叉＋通道向下 ⛔ 唔做突破"
+                      if _six.get("breakout_veto") else "排列 OK"))
     _rows = [
         ("① 環境", _v1, (f"{red}/{total_l} 紅" if total_l else "冇數據")
-         + ("｜環境否決 cap=0" if veto else "")),
+         + ("｜環境否決 cap=0" if veto else "") + _ma_txt),
         ("② 廣度", _v2, f"{_esc(b.get('regime') or '—')}｜{_esc(b.get('posture') or '—')}"),
         ("③ 板塊", _v3, f"創新高 {_esc(g.get('n_new'))}/{_esc(g.get('total'))}"
                        f"｜{_esc(g.get('trend'))}"),
