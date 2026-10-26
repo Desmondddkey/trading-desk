@@ -134,6 +134,40 @@ def _grade(ext, rvol, dist, atrp):
             else "B" if pts >= 3 else "C"), pts
 
 
+def _tight_bar(t):
+    """TIGHT mini bar：fill = tightness（右盡 = 最緊），70 分位置有刻度。"""
+    if t is None:
+        return ('<svg width="42" height="10" viewBox="0 0 42 10">'
+                '<rect x="0" y="3" width="42" height="4" '
+                'fill="rgba(128,128,128,.2)" rx="2"/></svg>')
+    w = max(2.0, 38.0 * min(100.0, max(0.0, t)) / 100.0)
+    c = "#22c55e" if t >= 70 else ("#f97316" if t >= 40 else "#94a3b8")
+    tick = 2.0 + 38.0 * 0.70
+    return (f'<svg width="42" height="10" viewBox="0 0 42 10">'
+            f'<rect x="0" y="3" width="42" height="4" '
+            f'fill="rgba(128,128,128,.2)" rx="2"/>'
+            f'<rect x="2" y="3" width="{w:.1f}" height="4" fill="{c}" rx="2"/>'
+            f'<line x1="{tick:.1f}" y1="1.5" x2="{tick:.1f}" y2="9" '
+            f'stroke="currentColor" stroke-width="1" opacity=".35"/>'
+            f'</svg>')
+
+
+def _tight_cell(m):
+    """TIGHT = 100 × (1 − 箱體ATR/6)；右盡最緊。"""
+    t = m.get("tight")
+    if t is None:
+        return '<span style="opacity:.35">—</span>'
+    box = m.get("box_atr")
+    col = "#22c55e" if t >= 70 else ("#f97316" if t >= 40 else "#94a3b8")
+    lbl = "緊" if t >= 70 else ("中" if t >= 40 else "鬆")
+    tip = (f"箱體 {box} ATR｜10日TR/ATR50 {m.get('tr_ratio')}｜"
+           f"≥70 緊、40–69 中、<40 鬆｜Qullamaggie：突破前要 tight")
+    return (f'<span style="display:inline-flex;align-items:center;gap:5px" title="{tip}">'
+            f'<b style="color:{col};min-width:20px">{t:.0f}</b>'
+            f'{_tight_bar(t)}'
+            f'<span style="opacity:.5;font-size:10.5px">{lbl}</span></span>')
+
+
 def _grp_cell(ind, sec=None):
     """GROUP = 該行業 RS（0–100）＋ 5 日變化箭嘴；行業冇就用 sector。"""
     g = _IRS.get((ind or "").lower())
@@ -315,9 +349,22 @@ def compute_metrics(ohlc):
         ema21 = closes[0]
         for c_ in closes[1:]:
             ema21 = c_ * k + ema21 * (1 - k)
+        # ★ 2026-10-26 Desmond（Qullamaggie / James Muninn）：
+        #   「你要突破之前嘅 tightness，唔係 loose action」
+        #   箱體高度（10日 H−L）÷ ATR50 = 幾多個 ATR。越細越緊。
+        atr50 = (sum(trs[-50:]) / 50) if len(trs) >= 50 else atr
+        box10 = (max(highs[-10:]) - min(lows[-10:])) if len(bars) >= 10 else None
+        box_atr = (box10 / atr50) if (box10 and atr50) else None
+        tr_ratio = ((sum(trs[-10:]) / 10) / atr50) if atr50 else None
+        tight = None
+        if box_atr:
+            tight = round(max(0.0, min(100.0, 100.0 * (1 - box_atr / 6.0))), 1)
         out[t.upper()] = dict(atr=atr,
                               atr_pct=(atr / close * 100) if close else 0,
                               rvol50=rvol, close=close,
+                              box_atr=round(box_atr, 2) if box_atr else None,
+                              tr_ratio=round(tr_ratio, 2) if tr_ratio else None,
+                              tight=tight,
                               x=((close - ema21) / atr) if atr else None)
     return out
 
@@ -730,18 +777,23 @@ def build(day=None):
             parts.append(f'<div class="dim">位置圖失敗：{type(_e).__name__}</div>')
 
         # ★ 2026-10-23 Desmond：欄頭 clickable（Excel 三角）+ 新增 ATR 帶欄
-        # 索引 = 實際 <td> 次序：Stock0 GROUP1 EXT2 RVOL3 ATR%4 距52高5 評分6 CHANGE7 財報8 DAYON9
+        # 索引 = 實際 <td> 次序：Stock0 GROUP1 EXT2 TIGHT3 RVOL4 ATR%5 距52高6 評分7 CHANGE8 財報9 DAYON10
         _cols = [
-            ('Stock', 0), ('GROUP', 1), ('EXT', 2), ('RVOL(50D)', 3),
-            ('ATR%', 4), ('距 52 高', 5), ('評分', 6), ('CHANGE', 7),
-            ('財報', 8), ('DAY ON', 9),
+            ('Stock', 0), ('GROUP', 1), ('EXT', 2), ('TIGHT', 3),
+            ('RVOL(50D)', 4), ('ATR%', 5), ('距 52 高', 6), ('評分', 7),
+            ('CHANGE', 8), ('財報', 9), ('DAY ON', 10),
         ]
         th_parts = []
         for label, col in _cols:
             if col is None:
                 th_parts.append(f'<th>{label}</th>')
             else:
-                _tip = (' title="評分＝EXT 0–2 得 3 分｜0–4 得 2 分；'
+                _tip = (' title="TIGHT = 100 ×（1 − 箱體ATR/6）。'
+                        '箱體 = 最近 10 日最高−最低，除以 ATR50。'
+                        '≥70 緊（突破前收縮）、40–69 中、<40 鬆（Qullamaggie：'
+                        '要突破前 tightness，唔係 loose action）"'
+                        if label == 'TIGHT' else
+                        ' title="評分＝EXT 0–2 得 3 分｜0–4 得 2 分；'
                         'RVOL ≥2x 得 2 分、≥1.2x 得 1 分；'
                         '距52高 ≥−5% 得 2 分、≥−12% 得 1 分；'
                         'ATR% 2–8 得 1 分。滿分 8：A+ ≥7、A ≥5、B ≥3；EXT>4 直接 D"'
@@ -818,6 +870,7 @@ def build(day=None):
                 f'<span style="display:inline-flex;align-items:center;gap:6px">'
                 f'<b style="min-width:34px">{_f(ext_f,2)}</b>'
                 f'{_atr_band(ext_f)}</span></td>'
+                f'<td data-v="{_f(m.get("tight"),1)}">{_tight_cell(m)}</td>'
                 f'<td data-v="{_f(rvol,2)}" class="{rvol_cls}">{rvol_s}</td>'
                 f'<td data-v="{_f(m.get("atr_pct"),2)}">{_f(m.get("atr_pct"),1)}%</td>'
                 f'<td data-v="{_f(dist,0)}">{dist_s}</td>'
@@ -850,7 +903,7 @@ def build(day=None):
                      '<b>EXT</b> = ATRX =（收市 − SMA50）／ATR14，硬刪門檻 4.0（EDGE-009）<br>'
                      '<b>ATR%</b> = ATR14／收市 ×100 —— 決定止蝕闊度<br>'
                      '<b>RVOL(50D)</b> = 當日量／過去 50 日平均量。≥2x 紅字＝爆量<br>'
-                     '<b>DAY ON</b> = 連續在名單幾日（新上榜 = 1）<br><b>STALK 升級</b> = 前一日屬 STALK，今日入 FOCUS → Stock 旁顯示 ↑；連續 3 日 FOCUS 後標記自動消失<br><b>CHANGE</b> = 由射程外轉好：🟢 回歸（上次 EXT&gt;4、今日 ≤4）／↑ 升級（上次評分 ≤B、今日 ≥A）；其餘顯示 —<br><b>評分</b> = EXT 0–2 得 3 分、0–4 得 2 分｜RVOL ≥2x 得 2、≥1.2x 得 1｜距52高 ≥−5% 得 2、≥−12% 得 1｜ATR% 2–8 得 1；滿分 8（A+ ≥7、A ≥5、B ≥3），EXT&gt;4 直接 D<br>'
+                     '<b>DAY ON</b> = 連續在名單幾日（新上榜 = 1）<br><b>STALK 升級</b> = 前一日屬 STALK，今日入 FOCUS → Stock 旁顯示 ↑；連續 3 日 FOCUS 後標記自動消失<br><b>CHANGE</b> = 由射程外轉好：🟢 回歸（上次 EXT&gt;4、今日 ≤4）／↑ 升級（上次評分 ≤B、今日 ≥A）；其餘顯示 —<br><b>TIGHT</b> = 100 ×（1 − 箱體ATR/6），箱體＝10 日（最高−最低）÷ ATR50；≥70 緊、40–69 中、<40 鬆<br><b>評分</b> = EXT 0–2 得 3 分、0–4 得 2 分｜RVOL ≥2x 得 2、≥1.2x 得 1｜距52高 ≥−5% 得 2、≥−12% 得 1｜ATR% 2–8 得 1；滿分 8（A+ ≥7、A ≥5、B ≥3），EXT&gt;4 直接 D<br>'
                      '點欄名可以排序。'
                      '</div>')
 
