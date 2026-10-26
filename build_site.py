@@ -1056,6 +1056,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "RS Leader 位置圖", "leadermap.html"),
     ("_link", None, "RS Daily Scan", "rsscan.html"),
     ("_link", None, "沙灘球反應", "beachball.html"),
+    ("_link", None, "投降儀表", "feargauge.html"),
     ("_link", None, "The Plan", "setups.html"),
     ("_ext", None, "財報（Finviz）", "https://finviz.com/calendar/earnings/season-preview?view=list&sort=marketCap"),
     ("_link", None, "YOYO Ball", "yoyo_ball.html"),
@@ -2150,7 +2151,14 @@ def build():
         try:
             import beachball_page as _bb
             _bt, _bbody = _bb.build()
-            pages["beachball"] = (_bt, _bbody, base)
+            try:
+            import fear_gauge_page as _fg
+            _fgt, _fgb = _fg.build()
+            pages["feargauge"] = (_fgt, _fgb, base)
+            log(f"✓ feargauge.html ({len(_fgb)//1024} KB)")
+        except Exception as _ef:                          # noqa: BLE001
+            log(f"⚠ 投降儀表失敗：{type(_ef).__name__}: {_ef}")
+        pages["beachball"] = (_bt, _bbody, base)
             log(f"✓ beachball.html ({len(_bbody)//1024} KB)")
         except Exception as _eb:                          # noqa: BLE001
             log(f"⚠ beachball 失敗：{type(_eb).__name__}: {_eb}")
