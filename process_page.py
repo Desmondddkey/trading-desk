@@ -565,17 +565,12 @@ def build():
     _v5 = "NO-GO" if veto else ("GO" if _box_ok else "WATCH")
     _v6 = "GO" if ready else "NO-GO"
     # ★ 2026-10-26 Jeff Sun #5：10/20 MA 死叉 ＋ 下降通道 → 唔做突破
-    _six = {}
-    try:
-        _six = json.load(io.open(os.path.join(DATA, "today_six.json"),
-                                 encoding="utf-8"))
-    except Exception:                                        # noqa: BLE001
-        _six = {}
+    _sixd = _six()          # ★ 唔可以用 _six 呢個名，會 shadow 模組函數
     _ma_txt = ""
-    if _six.get("ma10"):
-        _ma_txt = (f"｜10MA {_six['ma10']} / 20MA {_six['ma20']}｜"
+    if _sixd.get("ma10"):
+        _ma_txt = (f"｜10MA {_sixd['ma10']} / 20MA {_sixd['ma20']}｜"
                    + ("死叉＋通道向下 ⛔ 唔做突破"
-                      if _six.get("breakout_veto") else "排列 OK"))
+                      if _sixd.get("breakout_veto") else "排列 OK"))
     _rows = [
         ("① 環境", _v1, (f"{red}/{total_l} 紅" if total_l else "冇數據")
          + ("｜環境否決 cap=0" if veto else "") + _ma_txt),
