@@ -1057,6 +1057,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "RS Daily Scan", "rsscan.html"),
     ("_link", None, "沙灘球反應", "beachball.html"),
     ("_link", None, "投降儀表", "feargauge.html"),
+    ("_link", None, "Tight Range", "tightscan.html"),
     ("_link", None, "The Plan", "setups.html"),
     ("_ext", None, "財報（Finviz）", "https://finviz.com/calendar/earnings/season-preview?view=list&sort=marketCap"),
     ("_link", None, "YOYO Ball", "yoyo_ball.html"),
@@ -2179,6 +2180,15 @@ def build():
         log(f"✓ feargauge.html ({len(_fgb)//1024} KB)")
     except Exception as _ef:                            # noqa: BLE001
         log(f"⚠ 投降儀表失敗：{type(_ef).__name__}: {_ef}")
+
+    # ── Tight Range 全市場掃描（2026-10-27）──
+    try:
+        import tightscan_page as _ts
+        _tst, _tsb = _ts.build()
+        pages["tightscan"] = (_tst, _tsb, base)
+        log(f"✓ tightscan.html ({len(_tsb)//1024} KB)")
+    except Exception as _ets:                           # noqa: BLE001
+        log(f"⚠ Tight Range 失敗：{type(_ets).__name__}: {_ets}")
 
     # ── ★ 2026-10-24 收工標準（Definition of Done，機器自動檢查）──
     try:
