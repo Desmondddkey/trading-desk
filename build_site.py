@@ -1025,6 +1025,12 @@ SIDEBAR_LINKS = [
     ("_pinned", "", "每日流程", "process.html"),
     ("_pinned", "", "收工標準", "finish.html"),
     ("_pinned", "", "廚房看板", "jobboard.html"),
+    # ★ 2026-10-28 Desmond：「MODEL BOOK 唔應該放入 PLAYBOOK」→ 搬返頂層
+    ("_fold", "📚", "MODEL BOOK", "modelbook.html", [
+        ("概覽", "modelbook.html"),
+        ("Top 250 US Gainers", "mb_top250.html"),
+        ("量化案例庫", "modelbook.html#cases"),
+    ]),
     ("_pinned", "", "DATABASE", "datahealth.html"),
 
     ("_grp", "市場"),
@@ -1083,13 +1089,6 @@ SIDEBAR_LINKS = [
     ("_ext", "", "Qullamaggie", "https://qullamaggie.net/"),
     ("_ext", "", "QM 3 個 setups", "https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/"),
     ("_ext", "", "Alex Desjardins 方法", "https://qullamaggie.net/alex-desjardinss-method/"),
-
-    # ★ 2026-10-24 Desmond：「MODEL BOOK 放返係 PLAYBOOK 下面」
-    ("_fold", "📚", "MODEL BOOK", "modelbook.html", [
-        ("概覽", "modelbook.html"),
-        ("Top 250 US Gainers", "mb_top250.html"),
-        ("量化案例庫", "modelbook.html#cases"),
-    ]),
 
     # ★ 2026-10-23 Desmond：「外部數據放到 PLAYBOOK 下一行」+ 合併 8→2
     ("_grp", "外部數據"),
