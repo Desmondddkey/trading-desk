@@ -44,12 +44,17 @@ def log(m):
 def prices(tickers, period="3y", refresh=False):
     import yfinance as yf
     cache = {}
+    # ★ 2026-10-28：快取只用 6 小時，否則永遠停在同一天（同 group_rs / beachball 同一個 bug）
+    _fresh = False
     if os.path.exists(CACHE) and not refresh:
-        try:
-            cache = pickle.load(io.open(CACHE, "rb"))
-        except Exception:                                     # noqa: BLE001
-            cache = {}
-    need = [t for t in tickers if t not in cache]
+        _age_h = (__import__("time").time() - os.path.getmtime(CACHE)) / 3600.0
+        if _age_h < 6:
+            _fresh = True
+            try:
+                cache = pickle.load(io.open(CACHE, "rb"))
+            except Exception:                                # noqa: BLE001
+                cache = {}
+    need = [t for t in tickers if (t not in cache if _fresh else True)]
     if need:
         log(f"  yfinance 下載 {len(need)} 隻…")
         df = yf.download(need, period=period, interval="1d",
