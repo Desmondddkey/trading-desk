@@ -112,13 +112,18 @@ a.pf-cand:hover{filter:brightness(1.12)}
 .pf-bar>span{display:block;height:100%;border-radius:999px;transition:width .2s}
 .pf-bar>i{position:absolute;top:-3px;bottom:-3px;width:2px;
   background:rgba(215,215,215,.85);border-radius:1px;transform:translateX(-1px)}
+.pf-mini{display:inline-block;width:56px;height:5px;border-radius:3px;
+  background:rgba(128,128,128,.18);vertical-align:2px;margin:0 6px}
+.pf-mini i{display:block;height:5px;border-radius:3px}
 .pf-big{margin:12px 0 14px}
 .pf-big .top{display:flex;justify-content:space-between;gap:14px;
   align-items:baseline;flex-wrap:wrap}
 .pf-big .lab{font-size:10.5px;letter-spacing:.06em;font-weight:700;opacity:.66}
 .pf-big .zn{font-size:11.5px;font-weight:800}
 .pf-big .num{font-size:34px;font-weight:800;line-height:1.05;margin:2px 0 4px}
-.pf-big .bar{height:10px;border-radius:999px;background:rgba(128,128,128,.18);
+.pf-big .bar{position:relative;height:10px;border-radius:999px;background:rgba(128,128,128,.16);overflow:hidden;}
+.pf-big .bar span{position:absolute;top:0;bottom:0}
+.pf-big .bar:after{content:'';position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:rgba(148,163,184,.55)}
   position:relative;width:100%}
 .pf-big .bar>span{display:block;height:100%;border-radius:999px}
 .pf-big .desc{font-size:10.5px;opacity:.62;margin-top:5px;line-height:1.5}
@@ -473,6 +478,11 @@ def _ext_phase():
              '<th>代號</th><th>評分</th><th>階段</th><th>EXT</th><th>RS</th>'
              '<th>α</th><th>Launch</th><th>NH</th><th>T</th>'
              '</tr></thead><tbody>')
+    # ★ 2026-10-28 Desmond：EXT 階段只顯示 B 評分以上，且 EXT 0–4
+    rows = [r for r in rows
+            if _ex_grade(r)[0] in ("A+", "A", "B")
+            and isinstance(r.get("atrx"), (int, float))
+            and 0 <= float(r["atrx"]) <= 4]
     for r in rows:
         ph = r.get("phase")
         col = PHASE_COL.get(ph, "#94a3b8")
@@ -577,7 +587,7 @@ def build():
         ("② 廣度", _v2, f"{_esc(b.get('regime') or '—')}｜{_esc(b.get('posture') or '—')}"),
         ("③ 板塊", _v3, f"創新高 {_esc(g.get('n_new'))}/{_esc(g.get('total'))}"
                        f"｜{_esc(g.get('trend'))}"),
-        ("④ 候選", _v4, f"合格 {len(_box_ok)}／買入區 {len(box or [])}"),
+        ("FOCUS LIST", _v4, f"合格 {len(_box_ok)}／買入區 {len(box or [])}"),
         ("⑤ 計劃", _v5, "0 單" if veto else f"{len(_box_ok)} 隻可掛單"),
         ("⑥ READY", _v6, "可以落場" if ready else "唔需要盯盤"),
     ]
@@ -654,10 +664,11 @@ def build():
                  '<span class="lab">%s <span style="opacity:.75">%s</span></span>'
                  '<span class="zn" style="color:%s">%s</span></div>'
                  '<div class="num" style="color:%s">%s</div>'
-                 '<div class="bar"><span style="width:%.1f%%;background:%s"></span>'
-                 '</div><div class="desc">%s</div></div>'
+                 '<div class="bar"><span style="left:%.1f%%;width:%.1f%%;'
+                 'background:%s"></span></div><div class="desc">%s</div></div>'
                  % (nm, sub, col, zone, col, val,
-                    max(0.0, min(100.0, float(pct))), col, desc))
+                    min(50.0, max(0.0, min(100.0, float(pct)))),
+                    abs(max(0.0, min(100.0, float(pct))) - 50.0), col, desc))
 
     if rl.get("mmtw") is not None:
         _v = float(rl["mmtw"])
@@ -719,21 +730,39 @@ def build():
     P.append('</div>')
 
     # ── ③ 板塊 ──
-    P.append('<div class="pf-step"><h3>③ 板塊 RS '
+    P.append('<div class="pf-step"><h3>RS THEME '
              f'<small>創新高 {_esc(g.get("n_new"))}/{_esc(g.get("total"))}'
              f'｜趨勢 {_esc(g.get("trend"))}</small></h3>')
-    rows = sorted(g.get("rows") or [], key=lambda r: -(r.get("rs") or 0))[:5]
-    for r in rows:
+    _grows = sorted(g.get("rows") or [], key=lambda r: -(r.get("rs") or 0))[:5]
+    # RS 用 0–100：優先對 industry_rs 嘅百分位（同行業 RS 表同一把尺）
+    _irs = {}
+    try:
+        import glob as _g3
+        _f3 = sorted(_g3.glob(os.path.join(HERE, "output", "industry_rs_20*.json")))
+        if _f3:
+            _d3 = json.load(io.open(_f3[-1], encoding="utf-8"))
+            _irs = {str(x.get("industry") or "").lower(): x.get("rs")
+                    for x in (_d3.get("rows") or [])}
+    except Exception:                                         # noqa: BLE001
+        _irs = {}
+    for r in _grows:
+        _raw = r.get("rs") or 0
+        _rs100 = _irs.get(str(r.get("group") or "").lower())
+        if _rs100 is None:                    # 冇百分位 → 線性映射 −0.1…+0.4 → 0–100
+            _rs100 = max(0.0, min(100.0, (_raw + 0.10) / 0.50 * 100))
+        _c3 = "#22c55e" if _rs100 >= 80 else ("#f97316" if _rs100 >= 50 else "#94a3b8")
         star = " 🆕" if r.get("new_high") else ""
         P.append(f'<div class="pf-row"><b>{_esc(r.get("group"))}</b>'
-                 f'<span style="opacity:.8">RS {_num(r.get("rs"), 3)}</span>'
-                 f'<span style="opacity:.55">n={_esc(r.get("n"))}</span>{star}</div>')
-    if not rows:
-        P.append('<div class="dim">讀唔到板塊 RS</div>')
+                 f'<span style="color:{_c3};font-weight:700">{_rs100:.0f}</span>'
+                 f'<span class="pf-mini"><i style="width:{min(100.0, _rs100):.0f}%;'
+                 f'background:{_c3}"></i></span>'
+                 f'<span style="opacity:.55">{_esc(r.get("n"))} 隻</span>{star}</div>')
+    if not _grows:
+        P.append('<div class="dim">讀唔到 RS THEME</div>')
     P.append('</div>')
 
     # ── ④ 候選 ──
-    P.append('<div class="pf-step"><h3>④ 候選 '
+    P.append('<div class="pf-step"><h3>FOCUS LIST '
              f'<small>合格 {len(_box_ok)}／買入區 {_esc(n_box)} 隻'
              '（評分 B+ 且〈NH ≤10 日 或 貼 21EMA〉）</small></h3>')
     _drop = [r for r in (box or []) if r not in _box_ok]
