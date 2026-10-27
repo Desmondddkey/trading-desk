@@ -69,7 +69,6 @@ TABS = [
     ("calculator", "", "倉位計算機", None),
     ("review", "", "Review", None),
     ("rsboard", "", "RS 板", None),
-    ("method", "", "方法分類", None),
     ("vantharp", "", "Van Tharp 五法", None),
     ("optledger", "", "優化帳本", None),
     ("setupfactory", "", "Setup Factory", None),
@@ -750,7 +749,6 @@ SITENAV_LINKS = [
     ("positioning.html", "🎯", "Positioning", False),
     ("review.html", "⏪", "Review", False),
     ("rsboard.html", "📊", "RS 板", False),
-    ("method.html", "🧩", "方法分類", False),
     ("cycle.html", "🌀", "成長週期", False),
     ("setups.html", "📐", "Setups", False),
 ]
@@ -1074,7 +1072,6 @@ SIDEBAR_LINKS = [
     ("_link", None, "倉位計算機", "calculator.html"),
 
     ("_grp", "方法"),
-    ("_link", None, "方法分類", "method.html"),
     ("_link", None, "Van Tharp 五法", "vantharp.html"),
     ("_link", None, "優化帳本", "optledger.html"),
     ("_link", None, "Setup Factory", "setupfactory.html"),
@@ -1569,7 +1566,8 @@ def build():
         _sidec = "#22c55e" if _gc["side"] == "on" else "#ef4444"
         _gc_card = (
             '<div class="card"><h2>成長／價值 風險閘 '
-            f'<small>IWF {_gc["iwf"]} ／ IWD {_gc["iwd"]}｜至 {esc(_gc["as_of"])}</small></h2>'
+            f'<small>IWF {_gc["iwf"]} ／ IWD {_gc["iwd"]}'
+             f'｜週線最後完整週 {esc(_gc["as_of"])}</small></h2>'
             '<div class="body">'
             '<div class="kpis" style="margin-bottom:10px">'
             f'<div class="kpi"><div class="k">現時階段</div>'
@@ -1908,16 +1906,8 @@ def build():
                           f'<td class="l">{esc(r.get("watch_price") or "—")}</td>'
                           f'<td class="l">{esc(r.get("invalidation") or "—")}</td>'
                           f'<td class="l dim">{esc(rs)}</td></tr>')
-        pages["method"] = ("方法分類", f"""
-<div class="card"><h2>Layer 2 · 每個方法各自一個清單 <small>{esc((meth or {}).get("src") or "冇快照")}</small></h2>
- <div class="body"><div class="note">Focus ＝ 已經起動、等入場；Stalk ＝ 未起動、放觀察名單。
- 呢度<b>照原樣分組</b>，唔重新判斷，避免我二次演繹。<br>
- <b>ATRX</b> ＝ (收市 − 50SMA) ÷ ATR14（同領導股頁「延伸」<b>係同一個數</b>，只係呢邊要你睇住
- 4 呢條線：<b>&gt;4 ＝ 硬刪</b>、0–4 ＝ 買入區、&lt;0 ＝ 仲喺 50MA 之下）。</div>
- <div class="scroll"><table><thead><tr><th class="l">代號 / 行業</th><th>分數</th>
- <th>ATRX</th><th>位置</th><th class="l">觸發條件</th><th class="l">失效條件</th>
- <th class="l">理由</th></tr></thead>
- <tbody>{mrows or '<tr><td colspan=7 class="dim">冇 Layer2 快照</td></tr>'}</tbody></table></div></div></div>""", base)
+        # ★ 2026-10-28 Desmond：移除「方法分類」頁（連側欄）
+        _ = mrows  # 保留計算但唔輸出
 
     # ── Setup Factory（2026-10-22 Desmond：1ChartMaster 蒸餾）──
     try:
@@ -2321,7 +2311,8 @@ def build():
             f'<div class="kpi"><div class="k">上軌／下軌</div><div class="v">{gc["up"]} / {gc["dn"]}</div></div>'
             '</div>'
             f'<div class="card"><h2>成長／價值 風險閘 '
-            f'<small>IWF {gc["iwf"]} ／ IWD {gc["iwd"]}｜至 {esc(gc["as_of"])}</small></h2>'
+            f'<small>IWF {gc["iwf"]} ／ IWD {gc["iwd"]}'
+             f'｜週線最後完整週 {esc(gc["as_of"])}</small></h2>'
             f'<div class="body">{cycle_svg(gc["series"])}'
             '<div class="note">綠線＝IWF÷IWD 比率（週收市）；灰線＝週高低 EMA10 風險閘；'
             '藍色陰影＝閘帶。收市升穿上軌＝risk-on、跌穿下軌＝risk-off、軌內＝維持上一邊。'
