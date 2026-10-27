@@ -81,6 +81,7 @@ html[data-theme="dark"] .rot-pos{color:#7ce0a8}
 html[data-theme="dark"] .rot-neg{color:#ff8f8f}
 .rot-stage{font-size:10px;font-weight:800;padding:1px 5px;border-radius:999px;
   border:1px solid currentColor;display:inline-block;white-space:nowrap}
+.rot-x{display:inline-block;min-width:46px;font-variant-numeric:tabular-nums}
 .rot-note{font-size:10.5px;opacity:.6;line-height:1.65;margin-top:6px}
 @media(max-width:820px){
   .rot-3{grid-template-columns:1fr}
@@ -106,11 +107,30 @@ def _it(r):
             f'<span style="opacity:.5;font-size:10.5px"> 1M</span></div>')
 
 
+def _xb(x, scale=12.0):
+    """超額回報 mini bar：中線 0，右綠左紅，scale = ±12%"""
+    try:
+        v = float(x)
+    except (TypeError, ValueError):
+        return ""
+    w = min(1.0, abs(v) / scale) * 26.0
+    c = "#22c55e" if v >= 0 else "#ef4444"
+    if v >= 0:
+        rect = f'<rect x="28" y="3" width="{w:.1f}" height="5" fill="{c}" rx="2"/>'
+    else:
+        rect = f'<rect x="{28 - w:.1f}" y="3" width="{w:.1f}" height="5" fill="{c}" rx="2"/>'
+    return (f'<svg width="56" height="11" viewBox="0 0 56 11" '
+            f'style="vertical-align:-1px">'
+            f'<rect x="0" y="3" width="56" height="5" fill="rgba(128,128,128,.14)" rx="2"/>'
+            f'{rect}<line x1="28" y1="1.5" x2="28" y2="9.5" stroke="currentColor" '
+            f'stroke-width="1" opacity=".3"/></svg>')
+
+
 def build():
     if not os.path.exists(DATA):
-        return ('<div class="card"><div class="rot-h"><h2>🔄 行業輪動</h2>'
-                f'<span class="rot-sub">DATA_UNAVAILABLE</span></div>'
-                '<div class="dim">未跑 rotation_map.py（等每日 job 跑一次）</div></div>')
+        return ('<div class="card"><div class="rot-h"><h2>行業 RS</h2>'
+                '<span class="rot-sub">DATA_UNAVAILABLE</span></div>'
+                '<div class="dim">未跑 rotation_map.py</div></div>')
     try:
         d = json.load(io.open(DATA, encoding="utf-8"))
     except Exception as e:                                     # noqa: BLE001
@@ -121,60 +141,19 @@ def build():
     if not rows:
         return '<div class="card"><div class="dim">輪動數據為空</div></div>'
 
-    top = rows[:3]
-    focus = [r for r in rows if r.get("stage") in FOCUS]
-    stalk = [r for r in rows if r.get("stage") in STALK]
-    weak = [r for r in rows if r.get("stage") == "轉弱"]
-
     P = [f"<style>{CSS}</style>"]
-    P.append('<div class="card">')
-    P.append('<div class="rot-h"><h2>🔄 行業輪動</h2>'
+    P.append('<div class="card" style="padding:0 0 8px">')
+    P.append('<div class="rot-h"><h2>行業 RS</h2>'
              f'<span class="rot-sub">數據 {_esc(d.get("date"))}'
-             f'｜{len(rows)} 個行業｜輪動分＝1M 40%／3M 30%／1W 20%／寬度 10%</span></div>')
-
-    # ① 重點（前三強）
-    P.append('<div class="rot-top">')
-    for r in top:
-        P.append(
-            '<div class="rot-card">'
-            f'<div class="rk">重點 #{_esc(r.get("rank"))}</div>'
-            f'<div class="nm">{_esc(r.get("name"))}</div>'
-            f'<div class="et">{_esc(r.get("etf"))}　{_esc(r.get("sector"))}</div>'
-            f'<div class="sc">{int(float(r.get("score") or 0))}'
-            '<span style="font-size:10.5px;opacity:.55"> 分</span></div>'
-            f'<div class="row">1M <span class="{_cls(r.get("x1m"))}">'
-            f'{_p(r.get("x1m"))}</span>　3M '
-            f'<span class="{_cls(r.get("x3m"))}">{_p(r.get("x3m"))}</span></div>'
-            f'<div class="row">{_stage(r.get("stage"))}</div>'
-            '</div>')
-    P.append('</div>')
-
-    # ② 三面板
-    P.append('<div class="rot-3">')
-    for title, sub, items, colr in (
-            ("轉強 Focus", "加速＋成熟", focus, "#22c55e"),
-            ("觀察 Stalk", "再現＋新興", stalk, "#f59e0b"),
-            ("轉弱", "1M 轉負、3M 仍正", weak, "#f97316")):
-        P.append(f'<div class="rot-pan" style="border-color:{colr}55">'
-                 f'<h4 style="color:{colr}">{title}'
-                 f'<small>{sub}｜{len(items)}</small></h4>')
-        P.append("".join(_it(r) for r in items[:6]) or
-                 '<div class="it" style="opacity:.5">（冇）</div>')
-        P.append('</div>')
-    P.append('</div>')
-
-    # ③ 全部列表
-    P.append('<h3 style="font-size:14px;margin:14px 0 4px">全部行業 '
-             f'<small style="font-weight:400;opacity:.6;font-size:10.5px">'
-             f'{len(rows)} 個｜按輪動分排序</small></h3>')
+             f'｜{len(rows)} 個行業</span></div>')
     P.append('<table class="rot-tbl"><colgroup>'
-             '<col style="width:34px"><col style="width:54px">'
-             '<col><col style="width:78px"><col style="width:44px">'
-             '<col style="width:64px"><col style="width:64px">'
-             '<col style="width:64px"><col style="width:44px">'
+             '<col style="width:30px"><col style="width:52px">'
+             '<col><col style="width:86px"><col style="width:40px">'
+             '<col style="width:120px"><col style="width:120px">'
+             '<col style="width:120px"><col style="width:40px">'
              '</colgroup><thead><tr>'
-             '<th>#</th><th>ETF</th><th>名稱</th><th>階段</th><th>分</th>'
-             '<th>1W 超額</th><th>1M 超額</th><th>3M 超額</th><th>寬度</th>'
+             '<th>#</th><th>ETF</th><th>名稱</th><th>PHASE</th><th>RS</th>'
+             '<th>1W</th><th>1M</th><th>3M</th><th>寬</th>'
              '</tr></thead><tbody>')
     for r in rows:
         br = ("寬" if r.get("above20") in (1, True, "1")
@@ -190,20 +169,16 @@ def build():
             f'{_esc(r.get("name"))}</td>'
             f'<td>{_stage(r.get("stage"))}</td>'
             f'<td>{int(float(r.get("score") or 0))}</td>'
-            f'<td class="{_cls(r.get("x1w"))}">{_p(r.get("x1w"))}</td>'
-            f'<td class="{_cls(r.get("x1m"))}">{_p(r.get("x1m"))}</td>'
-            f'<td class="{_cls(r.get("x3m"))}">{_p(r.get("x3m"))}</td>'
+            f'<td><span class="rot-x">{_p(r.get("x1w"))}</span>{_xb(r.get("x1w"))}</td>'
+            f'<td><span class="rot-x">{_p(r.get("x1m"))}</span>{_xb(r.get("x1m"))}</td>'
+            f'<td><span class="rot-x">{_p(r.get("x3m"))}</span>{_xb(r.get("x3m"))}</td>'
             f'<td class="{"rot-pos" if br == "寬" else "rot-flat"}">{br}</td>'
             '</tr>')
     P.append('</tbody></table>')
-
     P.append('<div class="rot-note">'
-             '超額＝行業回報 − SPY 回報（真正反映「資金去邊」）。'
-             '轉強＝加速＋成熟；觀察＝再現＋新興；轉弱＝1M 轉負但 3M 仍正（≥+3%）。'
-             '分組同輪動圖 PNG 完全一致。'
-             f'<br>SPY 1W {_p((d.get("spy") or {}).get("1w"))}｜'
-             f'1M {_p((d.get("spy") or {}).get("1m"))}｜'
-             f'3M {_p((d.get("spy") or {}).get("3m"))}</div>')
+             '數值＝行業回報 − SPY 回報；bar 中線 0，右綠左紅（±12% 滿格）。'
+             'PHASE 沿用原本階段分組。'
+             '</div>')
     P.append('</div>')
     return "".join(P)
 

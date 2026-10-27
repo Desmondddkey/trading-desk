@@ -2233,27 +2233,25 @@ def build():
         _st = _dp.get("styles") or ""
         _parts = _dp.get("parts") or {}
         for _k, _lbl in (("leadermap", "RS Leader 位置圖"),
-                         ("sectors", "Sectors · 行業輪動"),
+                         ("sectors", "Sectors · 行業 RS"),
                          ) :  # 2026-10-25 Desmond：移除 ATRX 風險頁
             if _k in _parts:
                 _body = f"{_st}" + _parts[_k]
                 if _k == "sectors":
-                    # ★ 2026-10-24 Desmond：「行業輪動放 Sector 最頂（重點最高）」
-                    try:
-                        import rotation_block as _rot
-                        _body = _rot.build() + _body
-                    except Exception as _er:              # noqa: BLE001
-                        log(f"⚠ 輪動區塊失敗：{type(_er).__name__}: {_er}")
-                    # ★ 2026-10-24 Desmond：群組 RS 新高搬入「主題 → Sectors"
+                    # ★ 2026-10-27 Desmond：RS GROUP MOVE 放最頂；移除「行業輪動 資金去邊」區塊
+                    _top = ""
                     try:
                         import group_rs_page as _grs
-                        _gc = _grs.card()
-                        if _gc:
-                            _body += ('<div style="margin-top:18px"></div>'
-                                      '<div class="card" style="padding:0">'
-                                      + _gc + '</div>')
+                        _top = _grs.card() or ""
                     except Exception as _eg:              # noqa: BLE001
-                        log(f"⚠ 群組 RS 注入失敗：{type(_eg).__name__}")
+                        log(f"⚠ RS GROUP MOVE 失敗：{type(_eg).__name__}")
+                    _tbl = ""
+                    try:
+                        import rotation_block as _rot
+                        _tbl = _rot.build()
+                    except Exception as _er:              # noqa: BLE001
+                        log(f"⚠ 行業 RS 表失敗：{type(_er).__name__}: {_er}")
+                    _body = f"{_st}" + _top + _tbl + _parts[_k]
                 pages[_k] = (_lbl, _body, base)
                 log(f"✓ {_k}.html ({len(_body)//1024} KB)")
     except Exception as _e19:

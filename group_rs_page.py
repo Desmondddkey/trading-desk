@@ -67,6 +67,37 @@ def _spark(hist, w=320, h=54):
             f'</svg>')
 
 
+def _potential(group, limit=3):
+    """由 Daily Scan（L2 focus/stalk）搵出行業＝呢個群組嘅股。"""
+    import glob
+    if not group:
+        return '<span style="opacity:.3">—</span>'
+    try:
+        ind = {str(k).upper(): (v.get("industry") or "")
+               for k, v in json.load(io.open(
+                   os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                "data", "tv_meta.json"), encoding="utf-8")).items()}
+    except Exception:                                         # noqa: BLE001
+        ind = {}
+    rows = []
+    fs = sorted(glob.glob(r"C:/Users/rain0/trading-os/output/layer2_*.json"))
+    if fs:
+        try:
+            d = json.load(io.open(fs[-1], encoding="utf-8"))
+            rows = (d.get("focus_list") or []) + (d.get("stalk_list") or [])
+        except Exception:                                     # noqa: BLE001
+            rows = []
+    gl = group.strip().lower()
+    hits = [(r.get("ticker") or "").upper() for r in rows
+            if (ind.get((r.get("ticker") or "").upper()) or "").strip().lower() == gl]
+    if not hits:
+        return '<span style="opacity:.3">—</span>'
+    return " ".join(
+        f'<a class="tv" data-sym="{h}" href="https://www.tradingview.com/chart/?symbol={h}" '
+        f'target="_blank" rel="noopener" style="color:#f97316;font-weight:700;'
+        f'text-decoration:none;margin-right:6px">{h}</a>' for h in hits[:limit])
+
+
 def card():
     """回傳 HTML 區塊（冇數據就回空字串，唔會扮有）"""
     d = load()
@@ -94,9 +125,9 @@ def card():
     bot = rows[-5:] if len(rows) > 8 else []
 
     L = ['<div class="card" style="margin-top:14px">']
-    L.append('<h2>🏭 群組 RS 新高 '
-             f'<small>Jeff Sun 情境意識｜{d.get("benchmark", "等權")} 基準'
-             f'｜{d.get("lookback", 21)} 日 RS</small></h2>')
+    L.append('<h2>RS GROUP MOVE '
+             f'<small>{d.get("benchmark", "等權")} 基準'
+             f'｜{d.get("lookback", 21)} 日 RS｜{d.get("date", "")}</small></h2>')
     L.append('<div class="body">')
 
     # KPI
@@ -138,21 +169,25 @@ def card():
                  '<thead><tr><th style="text-align:left">群組</th>'
                  '<th style="text-align:right">21日 RS</th>'
                  '<th style="text-align:right">成員</th>'
-                 '<th style="text-align:right">新高</th></tr></thead><tbody>')
+                 '<th style="text-align:right">新高</th>'
+                 '<th style="text-align:left">Potential Stock</th>'
+                 '</tr></thead><tbody>')
         for r in top + ([{"_sep": True}] if bot else []) + bot:
             if r.get("_sep"):
-                L.append('<tr><td colspan="4" style="padding:4px;'
+                L.append('<tr><td colspan="5" style="padding:4px;'
                          'border-bottom:1px solid rgba(128,128,128,.25);'
                          'font-size:10px;opacity:.5">—— 最弱 ——</td></tr>')
                 continue
             rs = r.get("rs") or 0
             col = "#16a34a" if rs > 0 else "#dc2626"
+            _pot = _potential(r.get("group"))
             nh = ('<span style="color:#f59e0b;font-weight:700">★</span>'
                   if r.get("new_high") else "—")
             L.append(f'<tr><td style="text-align:left">{r.get("group","")}</td>'
                      f'<td style="text-align:right;color:{col}">{rs:+.3f}</td>'
                      f'<td style="text-align:right">{r.get("n",0)}</td>'
-                     f'<td style="text-align:right">{nh}</td></tr>')
+                     f'<td style="text-align:right">{nh}</td>'
+                     f'<td style="text-align:left">{_pot}</td></tr>')
         L.append('</tbody></table></div>')
 
     L.append('<div style="font-size:10.5px;opacity:.55;margin-top:10px;line-height:1.7">'
