@@ -136,6 +136,22 @@ def _grade(ext, rvol, dist, atrp):
             else "B" if pts >= 3 else "C"), pts
 
 
+def _setup_badge(m, ext_f=None):
+    # ID2 = 連續 2 個 inside day；8W = 貼 8 週線（40MA）
+    out = []
+    ins = m.get('inside_days') or 0
+    if ins >= 2:
+        out.append(f'<span title="連續 {ins} 個 inside day" '
+                   f'style="color:#22c55e;font-weight:800">ID{ins}</span>')
+    d40 = m.get('d40')
+    if isinstance(d40, (int, float)) and -3.0 <= d40 <= 3.0:
+        out.append(f'<span title="距 8 週線（40MA）{d40:+.1f}%" '
+                   f'style="color:#f97316;font-weight:800">8W</span>')
+    if ext_f is not None and ext_f > 4:
+        out.append('<span style="opacity:.5">EXT&gt;4</span>')
+    return ' '.join(out) if out else '<span style="opacity:.3">—</span>'
+
+
 def _tight_bar(t):
     """TIGHT mini bar：fill = tightness（右盡 = 最緊），70 分位置有刻度。"""
     if t is None:
@@ -416,7 +432,18 @@ def compute_metrics(ohlc):
         tight = None
         if box_atr:
             tight = round(max(0.0, min(100.0, 100.0 * (1 - box_atr / 6.0))), 1)
+        # 2026-10-26：1ChartMaster 嘅 "double inside days + flagging at highs"
+        _ins = 0
+        for _i in range(len(bars) - 1, 0, -1):
+            if highs[_i] <= highs[_i - 1] and lows[_i] >= lows[_i - 1]:
+                _ins += 1
+            else:
+                break
+        _ma40 = (sum(closes[-40:]) / 40) if len(closes) >= 40 else None
         out[t.upper()] = dict(atr=atr,
+                              inside_days=_ins,
+                              ma40=round(_ma40, 2) if _ma40 else None,
+                              d40=round((close / _ma40 - 1) * 100, 2) if _ma40 else None,
                               atr_pct=(atr / close * 100) if close else 0,
                               rvol50=rvol, close=close,
                               box_atr=round(box_atr, 2) if box_atr else None,
@@ -838,8 +865,8 @@ def build(day=None):
         # 索引 = 實際 <td> 次序：Stock0 GROUP1 EXT2 TIGHT3 RVOL4 ATR%5 距52高6 評分7 CHANGE8 財報9 DAYON10
         _cols = [
             ('Stock', 0), ('GROUP', 1), ('EXT', 2), ('TIGHT', 3),
-            ('RVOL(50D)', 4), ('ATR%', 5), ('距 52 高', 6), ('評分', 7),
-            ('CHANGE', 8), ('財報', 9), ('DAY ON', 10),
+            ('SETUP', 4), ('RVOL(50D)', 5), ('ATR%', 6), ('距 52 高', 7),
+            ('評分', 8), ('CHANGE', 9), ('財報', 10), ('DAY ON', 11),
         ]
         th_parts = []
         for label, col in _cols:
@@ -929,6 +956,7 @@ def build(day=None):
                 f'<b style="min-width:34px">{_f(ext_f,2)}</b>'
                 f'{_atr_band(ext_f)}</span></td>'
                 f'<td data-v="{_f(m.get("tight"),1)}">{_tight_cell(m)}</td>'
+                f'<td data-v="{m.get("inside_days",0)}">{_setup_badge(m, ext_f)}</td>'
                 f'<td data-v="{_f(rvol,2)}" class="{rvol_cls}">{rvol_s}</td>'
                 f'<td data-v="{_f(m.get("atr_pct"),2)}">{_f(m.get("atr_pct"),1)}%</td>'
                 f'<td data-v="{_f(dist,0)}">{dist_s}</td>'
