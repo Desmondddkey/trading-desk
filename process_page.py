@@ -112,6 +112,9 @@ a.pf-cand:hover{filter:brightness(1.12)}
 .pf-bar>span{display:block;height:100%;border-radius:999px;transition:width .2s}
 .pf-bar>i{position:absolute;top:-3px;bottom:-3px;width:2px;
   background:rgba(215,215,215,.85);border-radius:1px;transform:translateX(-1px)}
+.pf-mini2 th.sortable{cursor:pointer;user-select:none}
+.pf-mini2 th.sortable:hover{opacity:.9}
+.pf-mini2 .arr{font-size:8px;opacity:.5;margin-left:3px}
 .pf-mini2 table{width:100%;border-collapse:collapse;font-size:12px}
 .pf-mini2 th{text-align:left;font-size:10px;letter-spacing:.04em;opacity:.55;
   font-weight:800;padding:4px 6px;border-bottom:1px solid rgba(148,163,184,.25);
@@ -349,6 +352,24 @@ def _chip(v):
             f'{v}</span>')
 
 
+PF_SORT_JS = """
+<script>
+function pfSort(th,i){
+  var tb=th.closest('table').tBodies[0];
+  var rows=Array.prototype.slice.call(tb.rows);
+  var dir=th.dataset.dir==='asc'?-1:1;
+  th.dataset.dir=dir===1?'desc':'asc';
+  rows.sort(function(a,b){
+    var x=parseFloat(a.cells[i].dataset.v), y=parseFloat(b.cells[i].dataset.v);
+    if(isNaN(x))x=-1e9; if(isNaN(y))y=-1e9;
+    return (y-x)*dir;
+  });
+  rows.forEach(function(r){tb.appendChild(r);});
+}
+</script>
+"""
+
+
 def _idle_days(last_day):
     """由最後成交日到今日，數工作日（用嚟講「已停手 N 日」，唔好扮停更）。"""
     try:
@@ -414,7 +435,7 @@ def _ext_phase():
         cnt[r.get("phase")] = cnt.get(r.get("phase"), 0) + 1
     tot = sum(cnt.values()) or 1
 
-    P = ['<div class="pf-step"><h3>🧪 EXT 階段（RS Alpha v9）'
+    P = [PF_SORT_JS,'<div class="pf-step"><h3>🧪 EXT 階段（RS Alpha v9）'
          f'<small>{len(rows)} 隻｜資料 {_esc(d.get("as_of"))}｜'
          'EXT＝距 50MA 嘅 ATR 倍數｜大盤 SPY／QQQ／IWM 用同一把尺</small></h3>']
 
@@ -829,9 +850,20 @@ def build():
     if card["risks"]:
         # ★ 2026-10-28 Desmond：「做返列表格式」→ 由逐行文字改成表格
         P.append('<div class="pf-mini2"><table><thead><tr>'
-                 '<th>代號</th><th class="n">入</th><th class="n">止</th>'
-                 '<th class="n">停%</th><th class="n">倉%</th>'
-                 '<th class="n">3:1 目標</th><th class="n">ATRX</th>'
+                 '<th class="sortable" onclick="pfSort(this,0)" data-dir="">代號'
+                 '<span class="arr">▼</span></th>'
+                 '<th class="n sortable" onclick="pfSort(this,1)" data-dir="">入'
+                 '<span class="arr">▼</span></th>'
+                 '<th class="n sortable" onclick="pfSort(this,2)" data-dir="">止'
+                 '<span class="arr">▼</span></th>'
+                 '<th class="n sortable" onclick="pfSort(this,3)" data-dir="">停%'
+                 '<span class="arr">▼</span></th>'
+                 '<th class="n sortable" onclick="pfSort(this,4)" data-dir="">倉%'
+                 '<span class="arr">▼</span></th>'
+                 '<th class="n sortable" onclick="pfSort(this,5)" data-dir="">3:1 目標'
+                 '<span class="arr">▼</span></th>'
+                 '<th class="n sortable" onclick="pfSort(this,6)" data-dir="">ATRX'
+                 '<span class="arr">▼</span></th>'
                  '<th>止蝕基準</th></tr></thead><tbody>')
         for r in card["risks"][:8]:
             pct = (r["stop"] / r["entry"] - 1) * 100 if r["entry"] else 0
@@ -849,12 +881,12 @@ def build():
                      f'<td><a class="tv" data-sym="{_tk}" '
                      f'href="https://www.tradingview.com/chart/?symbol={_tk}" '
                      f'target="_blank" rel="noopener">{_tk}</a></td>'
-                     f'<td class="n">{_num(r["entry"], 2)}</td>'
-                     f'<td class="n">{_num(r["stop"], 2)}</td>'
-                     f'<td class="n">{pct:+.1f}%</td>'
-                     f'<td class="n">{_pos or "—"}{"%" if _pos else ""}</td>'
-                     f'<td class="n">{_tgt or "—"}</td>'
-                     f'<td class="n">{_ax or "—"}</td>'
+                     f'<td class="n" data-v="{r["entry"] or 0}">{_num(r["entry"], 2)}</td>'
+                     f'<td class="n" data-v="{r["stop"] or 0}">{_num(r["stop"], 2)}</td>'
+                     f'<td class="n" data-v="{pct:.3f}">{pct:+.1f}%</td>'
+                     f'<td class="n" data-v="{_pos or 0}">{_pos or "—"}{"%" if _pos else ""}</td>'
+                     f'<td class="n" data-v="{_tgt or 0}">{_tgt or "—"}</td>'
+                     f'<td class="n" data-v="{_ax or 0}">{_ax or "—"}</td>'
                      f'<td>{_base}</td></tr>')
         P.append('</tbody></table></div>')
     elif not veto:
