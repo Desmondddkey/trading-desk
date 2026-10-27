@@ -408,10 +408,20 @@ def compute_metrics(ohlc):
         bars = rec.get("bars") or []
         if len(bars) < 55:
             continue
-        closes = [b[3] for b in bars]
-        highs = [b[1] for b in bars]
-        lows = [b[2] for b in bars]
-        vols = [b[4] if len(b) > 4 else 0 for b in bars]
+        # ★ 2026-10-26 修正：兩種格式並存
+        #   6 欄 = [date, open, high, low, close, volume]（refresh_ohlc 寫嘅）
+        #   5 欄 = [date, high, low, close, volume]（舊 producer）
+        _six = len(bars[-1]) >= 6
+        if _six:
+            highs = [b[2] for b in bars]
+            lows = [b[3] for b in bars]
+            closes = [b[4] for b in bars]
+            vols = [b[5] if len(b) > 5 else 0 for b in bars]
+        else:
+            highs = [b[1] for b in bars]
+            lows = [b[2] for b in bars]
+            closes = [b[3] for b in bars]
+            vols = [b[4] if len(b) > 4 else 0 for b in bars]
         trs = [highs[i] - lows[i] for i in range(len(bars))]
         atr = sum(trs[-14:]) / 14
         close = closes[-1]
