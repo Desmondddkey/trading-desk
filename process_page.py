@@ -112,6 +112,13 @@ a.pf-cand:hover{filter:brightness(1.12)}
 .pf-bar>span{display:block;height:100%;border-radius:999px;transition:width .2s}
 .pf-bar>i{position:absolute;top:-3px;bottom:-3px;width:2px;
   background:rgba(215,215,215,.85);border-radius:1px;transform:translateX(-1px)}
+.pf-mini2 table{width:100%;border-collapse:collapse;font-size:12px}
+.pf-mini2 th{text-align:left;font-size:10px;letter-spacing:.04em;opacity:.55;
+  font-weight:800;padding:4px 6px;border-bottom:1px solid rgba(148,163,184,.25);
+  white-space:nowrap}
+.pf-mini2 td{padding:4px 6px;border-bottom:1px solid rgba(148,163,184,.1);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.pf-mini2 td.n,.pf-mini2 th.n{text-align:right}
 .pf-mini{display:inline-block;width:56px;height:5px;border-radius:3px;
   background:rgba(128,128,128,.18);vertical-align:2px;margin:0 6px}
 .pf-mini i{display:block;height:5px;border-radius:3px}
@@ -340,6 +347,24 @@ def _chip(v):
     col = {"GO": "#22c55e", "WATCH": "#f59e0b", "NO-GO": "#ef4444"}.get(v, "#94a3b8")
     return (f'<span style="color:{col};font-weight:800;white-space:nowrap">'
             f'{v}</span>')
+
+
+def _idle_days(last_day):
+    """由最後成交日到今日，數工作日（用嚟講「已停手 N 日」，唔好扮停更）。"""
+    try:
+        d0 = datetime.date.fromisoformat(str(last_day)[:10])
+    except Exception:                                         # noqa: BLE001
+        return ""
+    d1 = datetime.date.today()
+    n = 0
+    d = d0
+    while d < d1:
+        d += datetime.timedelta(days=1)
+        if d.weekday() < 5:
+            n += 1
+    if n <= 0:
+        return ""
+    return f"（已停手 {n} 個交易日；NAV 每晚更新）"
 
 
 def _ex_grade(r):
@@ -789,18 +814,49 @@ def build():
 
     # ── ⑤ 計劃 ──
     P.append(_ext_phase())
-    P.append('<div class="pf-step"><h3>⑤ 計劃（pivot／止蝕／倉位）</h3>')
+    try:
+        _pm = os.path.getmtime(os.path.join(DATA, "today_six.json"))
+        _pcap = datetime.datetime.fromtimestamp(_pm).strftime("%m-%d %H:%M")
+    except Exception:                                         # noqa: BLE001
+        _pcap = "?"
+    P.append('<div class="pf-step"><h3>⑤ 計劃（pivot／止蝕／倉位）'
+             f'<small>卡片 {_pcap}</small></h3>')
     if veto:
         P.append(f'<div class="pf-verdict" style="color:#ef4444">'
                  f'🛑 環境否決：regime={_esc(regime)}／trade_cap={_esc(cap)} → 0 單</div>')
         P.append('<div class="pf-note">卡片仍然列出候選（觀察用），'
                  '但環境否決期間唔入場。呢個就係「唔硬做」。</div>')
     if card["risks"]:
-        for r in card["risks"][:6]:
+        # ★ 2026-10-28 Desmond：「做返列表格式」→ 由逐行文字改成表格
+        P.append('<div class="pf-mini2"><table><thead><tr>'
+                 '<th>代號</th><th class="n">入</th><th class="n">止</th>'
+                 '<th class="n">停%</th><th class="n">倉%</th>'
+                 '<th class="n">3:1 目標</th><th class="n">ATRX</th>'
+                 '<th>止蝕基準</th></tr></thead><tbody>')
+        for r in card["risks"][:8]:
             pct = (r["stop"] / r["entry"] - 1) * 100 if r["entry"] else 0
-            P.append(f'<div class="pf-row"><b>{_esc(r["sym"])}</b>'
-                     f'入 {_num(r["entry"], 2)}｜止 {_num(r["stop"], 2)}'
-                     f'（{pct:+.1f}%）{_esc(r["rest"])}</div>')
+            rest = r.get("rest") or ""
+            import re as _re
+            def _pick(pat, d=""):
+                m = _re.search(pat, rest)
+                return m.group(1) if m else d
+            _pos = _pick(r"倉\s*([\d.]+)%")
+            _tgt = _pick(r"目標\s*≥?\s*([\d.]+)")
+            _ax = _pick(r"ATRX\s*([\d.]+)")
+            _base = "LOD" if "LOD" in rest else ("3%" if "3%" in rest else "—")
+            _tk = _esc(r["sym"])
+            P.append('<tr>'
+                     f'<td><a class="tv" data-sym="{_tk}" '
+                     f'href="https://www.tradingview.com/chart/?symbol={_tk}" '
+                     f'target="_blank" rel="noopener">{_tk}</a></td>'
+                     f'<td class="n">{_num(r["entry"], 2)}</td>'
+                     f'<td class="n">{_num(r["stop"], 2)}</td>'
+                     f'<td class="n">{pct:+.1f}%</td>'
+                     f'<td class="n">{_pos or "—"}{"%" if _pos else ""}</td>'
+                     f'<td class="n">{_tgt or "—"}</td>'
+                     f'<td class="n">{_ax or "—"}</td>'
+                     f'<td>{_base}</td></tr>')
+        P.append('</tbody></table></div>')
     elif not veto:
         P.append('<div class="dim">今日卡冇風控參數段</div>')
     P.append('</div>')
@@ -828,7 +884,8 @@ def build():
     _st = _streak()
     _sk = (f'<div class="pf-note">連蝕 {_st} 單'
            + ("（≥3 停手，SOUL §4.4）" if (_st or 0) >= 3 else "")
-           + f'｜數據截至 {_esc(nav_day)}</div>') if _st is not None else ""
+           + f'｜最後成交 {_esc(nav_day)}'
+           + _idle_days(nav_day) + '</div>') if _st is not None else ""
     if nav:
         ret = (nav / 100000 - 1) * 100
         cls = "#22c55e" if ret >= 0 else "#ef4444"
