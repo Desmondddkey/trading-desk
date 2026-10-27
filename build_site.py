@@ -2251,7 +2251,9 @@ def build():
                         _tbl = _rot.build()
                     except Exception as _er:              # noqa: BLE001
                         log(f"⚠ 行業 RS 表失敗：{type(_er).__name__}: {_er}")
-                    _body = f"{_st}" + _top + _tbl + _parts[_k]
+                    # ★ 2026-10-27：整段「② 行業輪動 —— 資金去邊」（NEL 版）
+                    #   由 Desmond 指定移除；留返 group card + 我哋自己嘅行業 RS 表
+                    _body = f"{_st}" + _top + _tbl
                 pages[_k] = (_lbl, _body, base)
                 log(f"✓ {_k}.html ({len(_body)//1024} KB)")
     except Exception as _e19:
