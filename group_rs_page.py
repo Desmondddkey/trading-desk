@@ -98,6 +98,36 @@ def _potential(group, limit=3):
         f'text-decoration:none;margin-right:6px">{h}</a>' for h in hits[:limit])
 
 
+GROUPS_ETF = {
+    "Semiconductors": "SMH",
+    "Packaged Software": "IGV",
+    "Information Technology Services": "IGV",
+    "Data Processing Services": "IGV",
+    "Computer Peripherals": "IGV",
+    "Pharmaceuticals: Major": "XPH",
+    "Medical Specialties": "IHI",
+    "Biotechnology": "XBI",
+    "Movies/Entertainment": "PEJ",
+    "Financial Conglomerates": "XLF",
+    "Oil & Gas Production": "XOP",
+    "Integrated Oil": "XLE",
+    "Electric Utilities": "XLU",
+    "Real Estate Investment Trusts": "XLRE",
+    "Aerospace & Defense": "ITA",
+    "Medical/Nursing Services": "IHF",
+    "Hospital/Nursing Management": "IHF",
+    "Restaurants": "PBJ",
+    "Homebuilding": "ITB",
+    "Steel": "SLX",
+    "Gold": "GDX",
+    "Chemicals: Specialty": "XLB",
+    "Regional Banks": "KRE",
+    "Investment Banks/Brokers": "IAI",
+    "Trucking": "IYT",
+    "Marine Shipping": "SEA",
+}
+
+
 def card():
     """回傳 HTML 區塊（冇數據就回空字串，唔會扮有）"""
     d = load()
@@ -121,8 +151,8 @@ def card():
         verdict, vcol = "領導收窄 — 唔好加倉", "#dc2626"
 
     rows = d.get("rows") or []
-    top = rows[:8]
-    bot = rows[-5:] if len(rows) > 8 else []
+    top = rows[:5]          # ★ Desmond 2026-10-28：默認 TOP 5
+    bot = []
 
     L = ['<div class="card" style="margin-top:14px">']
     L.append('<h2>RS GROUP MOVE '
@@ -166,7 +196,9 @@ def card():
     if top:
         L.append('<div style="overflow-x:auto"><table class="eh-t" '
                  'style="width:100%;border-collapse:collapse;font-size:12.5px">'
-                 '<thead><tr><th style="text-align:left">群組</th>'
+                 '<thead><tr><th style="text-align:right">#</th>'
+                 '<th style="text-align:left">ETF</th>'
+                 '<th style="text-align:left">名稱</th>'
                  '<th style="text-align:right">21日 RS</th>'
                  '<th style="text-align:right">成員</th>'
                  '<th style="text-align:right">新高</th>'
@@ -183,7 +215,16 @@ def card():
             _pot = _potential(r.get("group"))
             nh = ('<span style="color:#f59e0b;font-weight:700">★</span>'
                   if r.get("new_high") else "—")
-            L.append(f'<tr><td style="text-align:left">{r.get("group","")}</td>'
+            _etf = GROUPS_ETF.get(r.get("group", ""), "")
+            _etf_cell = (f'<a class="tv" data-sym="{_etf}" '
+                         f'href="https://www.tradingview.com/chart/?symbol={_etf}" '
+                         f'target="_blank" rel="noopener" style="color:#f97316;'
+                         f'font-weight:700;text-decoration:none">{_etf}</a>'
+                         if _etf else '<span style="opacity:.3">—</span>')
+            _ix = (top.index(r) + 1)
+            L.append(f'<tr><td style="text-align:right;opacity:.5">{_ix}</td>'
+                     f'<td style="text-align:left">{_etf_cell}</td>'
+                     f'<td style="text-align:left">{r.get("group","")}</td>'
                      f'<td style="text-align:right;color:{col}">{rs:+.3f}</td>'
                      f'<td style="text-align:right">{r.get("n",0)}</td>'
                      f'<td style="text-align:right">{nh}</td>'

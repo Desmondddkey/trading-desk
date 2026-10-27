@@ -7,14 +7,14 @@
  "pos_pct": 50,
  "diff": "CHOP",
  "opp": "觀察：等待 breadth 或結構確認",
- "delta": 18,
- "mmtw": 45.23,
+ "delta": null,
+ "mmtw": 45.31,
  "mmtw_rising": false,
  "oversold": false,
- "mmfi": 34.89,
+ "mmfi": 35.01,
  "mmfi_n": 5104,
- "mmfi_asof": "2026-10-27",
- "delta_txt": "較昨日 +18",
+ "mmfi_asof": "2026-10-28",
+ "delta_txt": "昨日資料建立中",
  "rows": [
   {
    "n": 1,
@@ -28,7 +28,7 @@
    "name": "MMTW 寬度",
    "w": 20,
    "s": 8.4,
-   "d": "45.2%"
+   "d": "45.3%"
   },
   {
    "n": 3,
@@ -56,7 +56,7 @@
    "name": "RSP vs SPY",
    "w": 10,
    "s": 10.0,
-   "d": "21D +2.99%｜闊·普漲"
+   "d": "21D +2.96%｜闊·普漲"
   },
   {
    "n": 7,
@@ -66,5 +66,5 @@
    "d": "10 月 +0.8%｜中性"
   }
  ],
- "updated": "00:00"
+ "updated": "00:10"
 }
