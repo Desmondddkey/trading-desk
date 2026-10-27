@@ -791,18 +791,25 @@ def build():
                     for x in (_d3.get("rows") or [])}
     except Exception:                                         # noqa: BLE001
         _irs = {}
+    # ★ 2026-10-28 Desmond：「執正齊啲，一前一後，用列表格式」→ 固定欄寬表格
+    P.append('<table class="pf-mini2"><thead><tr>'
+             '<th>名稱</th><th class="n">RS</th><th>強度</th>'
+             '<th class="n">成員</th><th></th></tr></thead><tbody>')
     for r in _grows:
         _raw = r.get("rs") or 0
         _rs100 = _irs.get(str(r.get("group") or "").lower())
         if _rs100 is None:                    # 冇百分位 → 線性映射 −0.1…+0.4 → 0–100
             _rs100 = max(0.0, min(100.0, (_raw + 0.10) / 0.50 * 100))
         _c3 = "#22c55e" if _rs100 >= 80 else ("#f97316" if _rs100 >= 50 else "#94a3b8")
-        star = " 🆕" if r.get("new_high") else ""
-        P.append(f'<div class="pf-row"><b>{_esc(r.get("group"))}</b>'
-                 f'<span style="color:{_c3};font-weight:700">{_rs100:.0f}</span>'
-                 f'<span class="pf-mini"><i style="width:{min(100.0, _rs100):.0f}%;'
-                 f'background:{_c3}"></i></span>'
-                 f'<span style="opacity:.55">{_esc(r.get("n"))} 隻</span>{star}</div>')
+        P.append('<tr>'
+                 f'<td>{_esc(r.get("group"))}</td>'
+                 f'<td class="n" style="color:{_c3};font-weight:700">{_rs100:.0f}</td>'
+                 f'<td><span class="pf-mini" style="width:64px;margin:0">'
+                 f'<i style="width:{min(100.0, _rs100):.0f}%;background:{_c3}"></i>'
+                 f'</span></td>'
+                 f'<td class="n" style="opacity:.6">{_esc(r.get("n"))} 隻</td>'
+                 f'<td>{"🆕" if r.get("new_high") else ""}</td></tr>')
+    P.append('</tbody></table>')
     if not _grows:
         P.append('<div class="dim">讀唔到 RS THEME</div>')
     P.append('</div>')

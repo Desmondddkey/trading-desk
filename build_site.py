@@ -2092,8 +2092,10 @@ def build():
     # ── ALERTS 分類總覽（Desmond 2026-10-19）──
     try:
         import alerts_page as _al
+        import alerts_feed as _af
         _at, _ab = _al.build()
-        pages["alerts"] = (_at, _ab, base)
+        _feed = _af.render_html()          # ★ 所有 job 訊號放最頂
+        pages["alerts"] = (_at, _feed + _ab, base)
         log(f"✓ alerts.html ({_al.load().__len__()} 筆)")
     except Exception as _e15:                                # noqa: BLE001
         log(f"⚠ ALERTS 失敗：{type(_e15).__name__}: {_e15}")
