@@ -896,6 +896,37 @@ def build():
                      f'<td class="n" data-v="{_ax or 0}">{_ax or "—"}</td>'
                      f'<td>{_base}</td></tr>')
         P.append('</tbody></table></div>')
+
+        # ⛽ 油門（Clement Ang 0.2% → 0.5% → 全倉）— 公式用 daily_plan.stop_plan（唯一實作）
+        try:
+            import daily_plan as _dp
+        except Exception:                                     # noqa: BLE001
+            _dp = None
+        if _dp:
+            P.append('<div class="pf-mini2" style="margin-top:8px"><table><thead><tr>'
+                     '<th>油門</th><th class="n">① 探路 0.20%</th>'
+                     '<th class="n">② 加至 0.50%</th><th class="n">③ 全倉上限</th>'
+                     '<th>條件</th></tr></thead><tbody>')
+            for r in card["risks"][:8]:
+                _e, _s0 = r.get("entry"), r.get("stop")
+                if not _e or not _s0:
+                    continue
+                _risk = _e - _s0
+                _risk_frac = _risk / _e if _e else 0
+                if _risk_frac <= 0:
+                    continue
+                _probe = min(100 * _dp.PROBE_RISK_PCT / _risk_frac, _dp.MAX_POS_PCT)
+                _conf = min(100 * _dp.CONFIRM_RISK_PCT / _risk_frac, _dp.MAX_POS_PCT)
+                _tk = _esc(r["sym"])
+                P.append('<tr>'
+                         f'<td>{_tk}</td>'
+                         f'<td class="n">{_probe:.1f}%</td>'
+                         f'<td class="n">{_conf:.1f}%　@{_e + 0.5 * _risk:,.2f}</td>'
+                         f'<td class="n">{_dp.MAX_POS_PCT:.0f}%　@{_e + _risk:,.2f}</td>'
+                         '<td>達價＋止蝕先升 BE；唔准跟時間加</td></tr>')
+            P.append('</tbody></table></div>')
+            P.append('<div class="pf-note">⛽ 第一注 0.20% 係向市場問一個問題；'
+                     '答對才加。時間到唔等於可以加。</div>')
     elif not veto:
         P.append('<div class="dim">今日卡冇風控參數段</div>')
     P.append('</div>')
@@ -941,6 +972,7 @@ def build():
 
 if __name__ == "__main__":
     import sys
+sys.path.insert(0, r"C:/Users/rain0/trading-os")
     sys.stdout.reconfigure(encoding="utf-8")
     t, bd = build()
     print(f"{t} — {len(bd):,} chars")
