@@ -1056,6 +1056,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "RS Daily Scan", "rsscan.html"),
     ("_link", None, "沙灘球反應", "beachball.html"),
     ("_link", None, "投降儀表", "feargauge.html"),
+    ("_link", None, "肥球掃描（J Law）", "fatpitch.html"),
     ("_link", None, "Tight Range", "tightscan.html"),
     ("_link", None, "The Plan", "setups.html"),
     ("_ext", None, "財報（Finviz）", "https://finviz.com/calendar/earnings/season-preview?view=list&sort=marketCap"),
@@ -2184,8 +2185,15 @@ def build():
         _fgt, _fgb = _fg.build()
         pages["feargauge"] = (_fgt, _fgb, base)
         log(f"✓ feargauge.html ({len(_fgb)//1024} KB)")
+    except Exception as _e:                                  # noqa: BLE001
+        log(f"⚠ feargauge：{type(_e).__name__}")
+    try:
+        import fatpitch_page as _fp
+        _fpb = _fp.render_html()
+        pages["fatpitch"] = ("肥球掃描（J Law）", _fpb, base)
+        log(f"✓ fatpitch.html ({len(_fpb)//1024} KB)")
     except Exception as _ef:                            # noqa: BLE001
-        log(f"⚠ 投降儀表失敗：{type(_ef).__name__}: {_ef}")
+        log(f"⚠ 肥球掃描失敗：{type(_ef).__name__}: {_ef}")
 
     # ── Tight Range 全市場掃描（2026-10-27）──
     try:
