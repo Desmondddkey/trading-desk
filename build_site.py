@@ -1798,6 +1798,11 @@ def build():
         if _cm and cmres:
             ranked = sorted(cmres.values(),
                             key=lambda x: (-x["n"], abs(x["sup_dist"] or 99)))
+            # ★ 2026-10-28 Desmond 選 1：貼W10 變硬性過濾（週線 10SMA 進場點）
+            _wgv = [x for x in ranked
+                    if (x.get("w10") or {}).get("label") in ("貼W10", "接近")]
+            _wg_drop = len(ranked) - len(_wgv)
+            ranked = _wgv
             top = [x for x in ranked if x["n"] >= 4]
             rest = [x for x in ranked if x["n"] < 4]
             nel_ind = {r["symbol"]: r.get("industry", "") for r in scan["nel"]}
@@ -1844,6 +1849,11 @@ def build():
  <b>唔係我哋原創</b>。原文：「you track Relative Strength (RS) leaders and buy
  them when they <b>pull back into structural support</b>」。</div>
 <style>{_cm.CM_CSS}</style>
+<div class="warn" style="border-left-color:#22c55e">
+ <b>週線 10SMA 進場閘（已生效）</b>——只列「貼W10」或「接近」嘅股：
+ 距週線 10SMA ≤ ±3% 且 W10 上升。今日過濾走 <b>{_wg_drop}</b> 隻。
+ <span style="opacity:.75">原文：「if things are not at the optimal entry point on the
+ weekly, maybe I shouldn't swing it on the daily.」</span></div>
 <div class="kpis">
  <div class="kpi"><div class="k">A 級以上（≥4/5）</div>
   <div class="v" style="color:#4ade80">{len(top)}</div></div>
@@ -1855,7 +1865,7 @@ def build():
 {_cm.legend_html()}
 <div class="card"><h2>A 級設置 <small>≥4/5 條件｜按條件數再按距支撐排序</small></h2>
  <div class="body"><div class="scroll"><table><thead>{cmhead}</thead>
- <tbody>{"".join(cmrow(r) for r in top) or '<tr><td colspan=8 class="dim">今日冇 A 級設置</td></tr>'}</tbody>
+ <tbody>{"".join(cmrow(r) for r in top) or '<tr><td colspan=8 class="dim">今日冇 A 級設置（週線 10SMA 過濾後）</td></tr>'}</tbody>
  </table></div></div></div>
 <div class="card"><h2>B 級觀察名單 <small>&lt;4/5</small></h2>
  <div class="body"><div class="scroll"><table><thead>{cmhead}</thead>
