@@ -11,8 +11,8 @@
  "mmtw": 46.49,
  "mmtw_rising": false,
  "oversold": false,
- "mmfi": 35.68,
- "mmfi_n": 5107,
+ "mmfi": 35.66,
+ "mmfi_n": 5106,
  "mmfi_asof": "2026-10-28",
  "delta_txt": "昨日資料建立中",
  "rows": [
@@ -66,5 +66,5 @@
    "d": "10 月 +0.8%｜中性"
   }
  ],
- "updated": "21:20"
+ "updated": "21:40"
 }

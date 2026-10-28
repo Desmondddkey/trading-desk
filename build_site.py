@@ -383,6 +383,7 @@ def load_rsboard():
        %Intraday/%1D    = 同上一收市比（呢度用最新兩支）
        %1M / %Off52WH   = 1 個月回報 ／ 距 52 週高
     """
+    import weekly_gate as _wg
     import rotation_map as R
     import pandas as pd
     try:
@@ -1740,7 +1741,9 @@ def build():
                     + f'<td>{pct(r.get("off52w"),1)}</td>'
                     + (f'<td>{_kell.chip(r["symbol"], kstage.get(r["symbol"]))}</td>'
                        if _kell else "")
-                    + f'<td>{_cm.chip(r["symbol"], cmres.get(r["symbol"])) if _cm else "—"}</td>'
+                    + f'<td>{_cm.chip(r["symbol"], cmres.get(r["symbol"])) if _cm else "—"}'
+                    + (_wg.badge((cmres.get(r["symbol"]) or {}).get("w10")) if _cm else '')
+                    + '</td>'
                     + '</tr>')
             return tr
         head = ('<tr><th class="l">代號 / 行業</th><th>RS-D</th><th>RS-W</th>'
@@ -1823,7 +1826,8 @@ def build():
                         f'<td>{money(dv)}</td>'
                         f'<td class="{"pos" if (o52 or 0) > -3 else "neg"}">'
                         f'{pct(o52, 1)}</td>'
-                        f'<td>{_cm.chip(r["ticker"], r)}</td>'
+                        f'<td>{_cm.chip(r["ticker"], r)}'
+                        f'{_wg.badge(r.get("w10"))}</td>'
                         f'{_cm.detail_cells(r)}'
                         f'<td>{num(r["close"], 2)}</td></tr>')
             cmhead = ('<tr><th class="l">代號 / 行業</th>'

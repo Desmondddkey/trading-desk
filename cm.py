@@ -187,6 +187,13 @@ def classify(tickers, ohlc=None, bench="SPY", maxage_days=1):
             "rng5": round(rng5, 2) if rng5 is not None else None,
             "close": round(px, 2),
         }
+        # ★ 2026-10-28 Desmond 貼文：週線 10SMA 進場閘
+        try:
+            from weekly_gate import w10_info
+            _sub = d[tk] if hasattr(d[tk], "columns") else d[tk].to_frame("Close")
+            out[tk]["w10"] = w10_info(_sub)
+        except Exception:                                     # noqa: BLE001
+            out[tk]["w10"] = None
     return out
 
 

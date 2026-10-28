@@ -86,6 +86,9 @@ def _close(df, t):
     raise KeyError(t)
 
 
+from weekly_gate import w10_info, badge as _wg_badge  # noqa: E402
+
+
 def compute(df):
     import numpy as np
     bench = _close(df, BENCH).astype(float)
@@ -138,7 +141,16 @@ def compute(df):
             else:
                 lvl = "C"
 
-            out.append({
+            try:
+
+                _w10 = w10_info(px)
+
+            except Exception:
+
+                _w10 = None
+
+
+            out.append({'_w10': _w10,
                 "t": t, "px": px_now, "px_off": px_off, "lead": -px_off,
                 "d_rs": d_rs, "d_px": d_px, "vr": vr, "adr": adr,
                 "lvl": lvl, "px_hi": px_hi,
@@ -227,7 +239,8 @@ def build():
         lv = {"A": "lv-a", "B": "lv-b", "C": "lv-c"}[r["lvl"]]
         L.append(
             f'<tr><td data-l="#">{i}</td>'
-            f'<td data-l="股票"><b>{r["t"]}</b></td>'
+            f'<td data-l="股票"><b>{r["t"]}</b>'
+            f'{_wg_badge(r.get("_w10"))}</td>'
             f'<td data-l="級"><span class="rp-lvl {lv}">{r["lvl"]}</span></td>'
             f'<td data-l="現價">${r["px"]:,.2f}</td>'
             f'<td data-l="52週高">${r["px_hi"]:,.2f}</td>'
