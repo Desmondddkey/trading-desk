@@ -115,7 +115,10 @@ def main():
         if s is not None and len(s) > 220:
             cols[t] = s
     cdf = pd.DataFrame(cols).sort_index()
-    above = (cdf > cdf.rolling(200).mean()).sum(axis=1) / cdf.notna().sum(axis=1).replace(0, np.nan)
+    # ★ A3 修：200 日熱身期唔可以當「跌穿 200MA」
+    _roll = cdf.rolling(200).mean()
+    _valid = _roll.notna()
+    above = ((cdf > _roll) & _valid).sum(axis=1) / _valid.sum(axis=1).replace(0, np.nan)
     breadth = (above * 100).reindex(spy.index).ffill()
 
     df = pd.DataFrame({"SPY": spy, "QQQ": qqq, "IWM": iwm,

@@ -71,12 +71,16 @@ def fetch(tickers, maxage_days=1):
                     return old
         except Exception:
             old = None
+    # ★ 2026-10-28 修 A2：代號齊唔代表資料新。
+    #   舊邏輯「冇缺就 return old」→ 頁面可以永遠停在 10-09。
+    #   新邏輯：快取過期就全部重抓。
     need = list(tickers)
     if old is not None:
-        have = set(old.columns.get_level_values(0))
-        need = [t for t in tickers if t not in have]
-        if not need:
+        _last = pd.Timestamp(old.index[-1])
+        _age = (pd.Timestamp.now().normalize() - _last.normalize()).days
+        if _age <= maxage_days:
             return old
+        need = list(tickers)          # 過期 → 全抓
     try:
         new = yf.download(need, period="1y", interval="1d", auto_adjust=False,
                           progress=False, group_by="ticker", threads=True)

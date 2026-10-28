@@ -555,6 +555,28 @@ def build(snap=None):
                 '<div class="dim">DATA_UNAVAILABLE（冇 rs_select_*.json）</div>')
     d = json.load(io.open(p, encoding="utf-8"))
     rows = d.get("rows") or []
+
+    # ★ 2026-10-28 修 A8：買入區必須同時過閘。
+    #   之前 in_buy_box 由上游寫死，出現「距 52 週高 −19%～−35% 都標買入區」。
+    #   呢度做最後防線（唔改上游 JSON，只改顯示判定）。
+    def _box_ok(r):
+        try:
+            x = r.get("x"); y = r.get("y")
+            off = r.get("dist52w")
+            if r.get("gate_pass") is False:
+                return False
+            if x is None or y is None:
+                return False
+            if not (0 <= float(x) <= 1 and 0 <= float(y) <= 4):
+                return False
+            if off is not None and float(off) < -12:
+                return False
+            return True
+        except (TypeError, ValueError):
+            return False
+
+    for _r in rows:
+        _r["in_buy_box"] = bool(_r.get("in_buy_box")) and _box_ok(_r)
     # ★ 2026-10-24 Desmond：全部優先顯示買入區（綠／橙），再按評分分數
     rows = sorted(rows, key=lambda r: (
         0 if r.get("in_buy_box") else 1, -grade_of(r)[1],

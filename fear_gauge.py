@@ -71,7 +71,10 @@ def main():
     breadth = np.nan
     if cols:
         cdf = pd.DataFrame(cols).reindex(spy.index)
-        ab = (cdf > cdf.rolling(200).mean()).sum(axis=1) / cdf.notna().sum(axis=1).replace(0, np.nan)
+        # ★ A3 修：熱身期（<200 根）唔計入分母
+        _roll = cdf.rolling(200).mean()
+        _valid = _roll.notna()
+        ab = ((cdf > _roll) & _valid).sum(axis=1) / _valid.sum(axis=1).replace(0, np.nan)
         breadth = float((ab * 100).iloc[-1])
 
     fg_s = fb.cnn_series("fear_and_greed_historical")
@@ -84,14 +87,14 @@ def main():
     vxnv = float(vxn.iloc[-1]) if len(vxn.dropna()) else None
 
     checks = [
-        ("VIX ≥ 30", v >= 30, f"{v:.2f}", "20日 SPY +10.79%／勝 100%"),
-        ("VIX/VIX3M > 1", r > 1.0, f"{r:.2f}", "期限倒掛：+5.69%／71%"),
+        ("VIX ≥ 30", v >= 30, f"{v:.2f}", "20日 +10.79%／勝100%（n=15，事件重疊，不可外推）"),
+        ("VIX/VIX3M > 1", r > 1.0, f"{r:.2f}", "+5.69%／71%（n=48）"),
         ("廣度 < 25%", breadth == breadth and breadth < 25,
-         f"{breadth:.0f}%" if breadth == breadth else "—", "+3.31%／85%"),
+         f"{breadth:.0f}%" if breadth == breadth else "—", "+3.31%／85%（n=213）"),
         ("F&G < 25", fg is not None and fg < 25,
-         f"{fg:.0f}" if fg is not None else "—", "+2.88%／89%"),
+         f"{fg:.0f}" if fg is not None else "—", "+2.88%／89%（n=44）"),
         ("Put/Call ≥ 0.80", pc is not None and pc >= 0.80,
-         f"{pc:.2f}" if pc is not None else "—", "+3.31%／66%"),
+         f"{pc:.2f}" if pc is not None else "—", "+3.31%／66%（n=61）"),
     ]
     score = sum(1 for _, hit, _, _ in checks if hit)
 
