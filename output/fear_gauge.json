@@ -1,46 +1,46 @@
 {
  "date": "2026-10-27",
  "generated": "2026-10-28",
- "score": 0,
- "verdict": "平靜",
- "expectancy": "20日 SPY +1.40%／勝 67.7%",
- "vix": 17.55,
- "vix3m": 19.48,
- "vix_ratio": 0.901,
- "vxn": 24.8,
- "breadth": 39.0,
- "fg": 32.7,
- "pc": 0.788,
+ "score": 1,
+ "verdict": "留意",
+ "expectancy": "+2.97%／77.4%",
+ "vix": 17.52,
+ "vix3m": 19.57,
+ "vix_ratio": 0.895,
+ "vxn": 24.91,
+ "breadth": 40.8,
+ "fg": 33.2,
+ "pc": 0.806,
  "checks": [
   {
    "name": "VIX ≥ 30",
    "hit": false,
-   "value": "17.55",
-   "edge": "20日 SPY +10.79%／勝 100%"
+   "value": "17.52",
+   "edge": "20日 +10.79%／勝100%（n=15，事件重疊，不可外推）"
   },
   {
    "name": "VIX/VIX3M > 1",
    "hit": false,
    "value": "0.90",
-   "edge": "期限倒掛：+5.69%／71%"
+   "edge": "+5.69%／71%（n=48）"
   },
   {
    "name": "廣度 < 25%",
    "hit": false,
-   "value": "39%",
-   "edge": "+3.31%／85%"
+   "value": "41%",
+   "edge": "+3.31%／85%（n=213）"
   },
   {
    "name": "F&G < 25",
    "hit": false,
    "value": "33",
-   "edge": "+2.88%／89%"
+   "edge": "+2.88%／89%（n=44）"
   },
   {
    "name": "Put/Call ≥ 0.80",
-   "hit": false,
-   "value": "0.79",
-   "edge": "+3.31%／66%"
+   "hit": true,
+   "value": "0.81",
+   "edge": "+3.31%／66%（n=61）"
   }
  ],
  "backtest": {
