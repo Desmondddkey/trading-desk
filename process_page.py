@@ -30,6 +30,9 @@ import io
 import json
 import os
 import re
+import sys
+
+sys.path.insert(0, r"C:/Users/rain0/trading-os")
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = r"C:/Users/rain0/trading-os/output"
@@ -972,7 +975,6 @@ def build():
 
 if __name__ == "__main__":
     import sys
-sys.path.insert(0, r"C:/Users/rain0/trading-os")
     sys.stdout.reconfigure(encoding="utf-8")
     t, bd = build()
     print(f"{t} — {len(bd):,} chars")
