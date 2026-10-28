@@ -23,6 +23,7 @@
 ⚠ 資料來源全部唯讀；呢個腳本只寫自己嘅 site/。
 """
 import argparse
+import weekly_gate as _wg  # noqa: E402
 import datetime
 import glob
 import io
@@ -383,7 +384,6 @@ def load_rsboard():
        %Intraday/%1D    = 同上一收市比（呢度用最新兩支）
        %1M / %Off52WH   = 1 個月回報 ／ 距 52 週高
     """
-    import weekly_gate as _wg
     import rotation_map as R
     import pandas as pd
     try:
