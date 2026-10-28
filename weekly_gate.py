@@ -61,10 +61,13 @@ def w10_info(df, tol=3.0):
         w10 = w["Close"].rolling(10).mean()
         if w10.dropna().empty:
             return None
-        cur = float(df["Close"].iloc[-1])
+        _cl = df["Close"].dropna() if isinstance(df, pd.DataFrame) else df.dropna()
+        if len(_cl) == 0:
+            return None
+        cur = float(_cl.iloc[-1])
         base = float(w10.iloc[-1])
         prev = float(w10.iloc[-2])
-        if not base:
+        if not base or cur != cur or base != base:   # nan 保護
             return None
         d_pct = (cur / base - 1) * 100
         rising = bool(base > prev)
