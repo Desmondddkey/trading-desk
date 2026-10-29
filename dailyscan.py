@@ -116,8 +116,9 @@ def _pct(v, d=1):
 
 
 def _gcol(g):
-    return {"A+": "#a855f7", "A": "#22c55e", "B": "#f59e0b",
-            "C": "#94a3b8", "D": "#ef4444"}.get(g, "#94a3b8")
+    # ★ 2026-10-29：同 RS 位置圖散點用同一調色盤（A+ 綠／A 橙／B 藍／C 紅）
+    from grade_colors import col as _gc
+    return _gc(g)
 
 
 def _grade(ext, rvol, dist, atrp):

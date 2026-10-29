@@ -252,8 +252,9 @@ except Exception:                                    # noqa: BLE001
 
 
 def _gcol(g):
-    return {"A+": "#a855f7", "A": "#22c55e", "B": "#f59e0b",
-            "C": "#94a3b8", "D": "#ef4444"}.get(g, "#94a3b8")
+    # ★ 2026-10-29：同散點圖、FOCUS 表共用同一個調色盤
+    from grade_colors import col as _gc
+    return _gc(g)
 
 
 def grade_of(r):
@@ -404,8 +405,8 @@ def _scatter(rows, hist=None):
                 _g = grade_of(r)[0]
             except Exception:                                  # noqa: BLE001
                 _g = "—"
-        col = {"A+": "#22c55e", "A": "#f97316", "B": "#3b82f6",
-               "C": "#ef4444", "D": "#7f1d1d"}.get(_g, "rgba(148,163,184,.75)")
+        from grade_colors import col as _gcol_fn
+        col = _gcol_fn(_g)
         rad = 5.4 if box else 3.6
         tip = (f'{r.get("ticker")}｜X {x:.2f}｜Y {y:.2f}'
                f'｜ADR {r.get("adr") or "—"}%')
