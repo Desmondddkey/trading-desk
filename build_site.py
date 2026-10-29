@@ -1098,6 +1098,7 @@ SIDEBAR_LINKS = [
     # ★ 2026-10-23 Desmond：「外部數據放到 PLAYBOOK 下一行」+ 合併 8→2
     ("_grp", "外部數據"),
     ("_link", None, "外部數據源", "external.html"),
+    ("_link", None, "Martin Luk", "martinluk.html"),
     ("_link", None, "Market Pulse", "levelup.html"),
 
     # ★ 2026-10-20 Desmond：LOG BOOK 貼側欄最底，唔屬於任何分組
@@ -1998,6 +1999,13 @@ def build():
         _t3, _b3 = _xp.build()
         pages["external"] = (_t3, _b3, base)
         log(f"✓ external.html ({len(_b3)//1024} KB)")
+    except Exception as _ex:                                  # noqa: BLE001
+        log(f"⚠ external 頁：{type(_ex).__name__}")
+    try:
+        import martinluk_page as _ml
+        _mt2, _mb2 = _ml.build()
+        pages["martinluk"] = (_mt2, _mb2, base)
+        log(f"✓ martinluk.html ({len(_mb2)//1024} KB)")
     except Exception as _e9:                                 # noqa: BLE001
         log(f"⚠ 外部數據源失敗：{type(_e9).__name__}: {_e9}")
 
