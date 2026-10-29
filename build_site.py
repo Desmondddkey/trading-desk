@@ -1296,7 +1296,7 @@ def page(active, title, body, payload, extra_head=""):
   if(v){{try{{v=JSON.parse(v);}}catch(e){{}}
     if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v);}}
 }}catch(e){{}}}})();</script>
-<link rel="stylesheet" href="site.css?v={BUILD_TS}">{extra_head}</head><body>
+<link rel="stylesheet" href="site.css?v={BUILD_TS}"><script src="sortable.js?v={BUILD_TS}"></script>{extra_head}</head><body>
 <script>
 /* ★ 自動更新：用返原來網址，頁面發現有新 build 就自己 reload 一次
    唔會迴圈：sessionStorage 記住已 reload 過嘅版本 */
@@ -2470,6 +2470,13 @@ def build():
     with io.open(os.path.join(SITE, "site.css"), "w", encoding="utf-8") as _f:
         _f.write(_css)
     log(f"✓ site.css ({len(_css)//1024} KB)")
+    # ★ 2026-10-29 全站排序：一份 sortable.js，所有列表共用
+    try:
+        shutil.copy(os.path.join(HERE, "sortable.js"),
+                    os.path.join(SITE, "sortable.js"))
+        log("✓ sortable.js")
+    except Exception as _es:                                 # noqa: BLE001
+        log(f"⚠ sortable.js：{type(_es).__name__}")
 
     for key, (title, body, payload) in pages.items():
         p = os.path.join(SITE, f"{key}.html")
