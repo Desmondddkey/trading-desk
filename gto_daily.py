@@ -58,12 +58,20 @@ def log(m):
 
 
 def load_px():
-    try:
-        with io.open(PICKLE, "rb") as f:
-            return pickle.load(f)
-    except Exception as e:                                   # noqa: BLE001
-        log(f"✗ 價格 cache 讀唔到：{e}")
-        return {}
+    """合併兩個價格 cache：tight_prices（舊）+ scan_prices（Daily Scan 專用）。"""
+    out = {}
+    for name in ("tight_prices.pkl", "scan_prices.pkl"):
+        p = os.path.join(HERE, "data", name)
+        try:
+            with io.open(p, "rb") as f:
+                d = pickle.load(f)
+            if isinstance(d, dict):
+                out.update({k: v for k, v in d.items() if v})
+        except Exception:                                    # noqa: BLE001
+            continue
+    if not out:
+        log("✗ 價格 cache 讀唔到")
+    return out
 
 
 def snapshots():
@@ -219,12 +227,19 @@ def main():
             for row in (d.get(key) or []):
                 t = row.get("ticker")
                 df = series(px, t)
-                if df is None or day not in df.index:
+                if df is None:
                     continue
-                o = outcomes(df, day)
+                # ★ 快照日日名係 HKT，美股當日未收市 → 對齊「≤ 當日最後交易日」
+                _prior = df.index[df.index <= day]
+                if len(_prior) == 0:
+                    continue
+                dd = _prior[-1]
+                if (day - dd).days > 4:      # 差太遠 = 冇價，跳過
+                    continue
+                o = outcomes(df, dd)
                 if not o:
                     continue
-                ft = features(df, day)
+                ft = features(df, dd)
                 if not ft:
                     continue
                 panel.append({
