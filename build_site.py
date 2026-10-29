@@ -1058,6 +1058,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "投降儀表", "feargauge.html"),
     ("_link", None, "肥球掃描（J Law）", "fatpitch.html"),
     ("_link", None, "GTO 手牌分析", "gto.html"),
+    ("_link", None, "肥波總覽", "wave.html"),
     ("_link", None, "Tight Range", "tightscan.html"),
     ("_link", None, "The Plan", "setups.html"),
     ("_ext", None, "財報（Finviz）", "https://finviz.com/calendar/earnings/season-preview?view=list&sort=marketCap"),
@@ -2200,6 +2201,13 @@ def build():
         _gpb = _gp.render_html()
         pages["gto"] = ("GTO 手牌分析", _gpb, base)
         log(f"✓ gto.html ({len(_gpb)//1024} KB)")
+    except Exception as _ewp:                                # noqa: BLE001
+        log(f"⚠ GTO 頁：{type(_ewp).__name__}")
+    try:
+        import wave_page as _wp
+        _wpb = _wp.render_html()
+        pages["wave"] = ("肥波總覽", _wpb, base)
+        log(f"✓ wave.html ({len(_wpb)//1024} KB)")
     except Exception as _ef:                            # noqa: BLE001
         log(f"⚠ 肥球掃描失敗：{type(_ef).__name__}: {_ef}")
 
