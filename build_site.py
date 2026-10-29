@@ -1025,6 +1025,8 @@ SIDEBAR_LINKS = [
     # ★ 2026-10-24 Desmond：「每日流程放最頂」
     ("_pinned", "", "每日流程", "process.html"),
     ("_pinned", "", "收工標準", "finish.html"),
+    ("_pinned", "", "一脈相承", "howto.html"),
+    ("_pinned", "", "系統地圖", "sysmap.html"),
     ("_pinned", "", "廚房看板", "jobboard.html"),
     ("_pinned", "", "DATABASE", "datahealth.html"),
 
@@ -2008,6 +2010,17 @@ def build():
         _mt2, _mb2 = _ml.build()
         pages["martinluk"] = (_mt2, _mb2, base)
         log(f"✓ martinluk.html ({len(_mb2)//1024} KB)")
+    except Exception as _exm:                                 # noqa: BLE001
+        log(f"⚠ martinluk 頁：{type(_exm).__name__}")
+    try:
+        import system_map_page as _sm
+        _stmt, _smb = _sm.build()
+        pages["sysmap"] = (_stmt, _smb, base)
+        log(f"✓ sysmap.html ({len(_smb)//1024} KB)")
+        import howto_page as _hw
+        _hwt, _hwb = _hw.build()
+        pages["howto"] = (_hwt, _hwb, base)
+        log(f"✓ howto.html ({len(_hwb)//1024} KB)")
     except Exception as _e9:                                 # noqa: BLE001
         log(f"⚠ 外部數據源失敗：{type(_e9).__name__}: {_e9}")
 
