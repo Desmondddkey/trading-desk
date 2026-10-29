@@ -1,5 +1,5 @@
 {
- "mri": 61,
+ "mri": 62,
  "asof": "2026-10-29",
  "state": "修復轉強",
  "state_col": "",
@@ -8,11 +8,11 @@
  "diff": "CHOP",
  "opp": "觀察：等待 breadth 或結構確認",
  "delta": null,
- "mmtw": 48.06,
+ "mmtw": 49.92,
  "mmtw_rising": false,
  "oversold": false,
- "mmfi": 36.96,
- "mmfi_n": 5106,
+ "mmfi": 39.72,
+ "mmfi_n": 5108,
  "mmfi_asof": "2026-10-29",
  "delta_txt": "昨日資料建立中",
  "rows": [
@@ -27,8 +27,8 @@
    "n": 2,
    "name": "MMTW 寬度",
    "w": 20,
-   "s": 9.4,
-   "d": "48.1%"
+   "s": 10.0,
+   "d": "49.9%"
   },
   {
    "n": 3,
@@ -66,5 +66,5 @@
    "d": "10 月 +0.8%｜中性"
   }
  ],
- "updated": "21:00"
+ "updated": "22:00"
 }
