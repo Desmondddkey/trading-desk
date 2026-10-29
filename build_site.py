@@ -1075,18 +1075,20 @@ SIDEBAR_LINKS = [
     ("_link", None, "覆盤（R／期望值）", "review2.html"),
     ("_link", None, "倉位計算機", "calculator.html"),
 
-    ("_grp", "方法"),
-    ("_link", None, "Van Tharp 五法", "vantharp.html"),
-    ("_link", None, "優化帳本", "optledger.html"),
-    ("_link", None, "Setup Factory", "setupfactory.html"),
-    ("_link", None, "成長週期", "cycle.html"),
-
     ("_grp", "PLAYBOOK"),
     ("_ext", "", "Jeff Sun 工具/流程", "https://jfsrev.substack.com/p/my-trading-tools-process-routine"),
     ("_ext", "", "PrimeTrading 手冊", "https://traderslab.gitbook.io/primetrading"),
     ("_ext", "", "Qullamaggie", "https://qullamaggie.net/"),
     ("_ext", "", "QM 3 個 setups", "https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/"),
     ("_ext", "", "Alex Desjardins 方法", "https://qullamaggie.net/alex-desjardinss-method/"),
+
+    # ★ 2026-10-29 Desmond：「將方法既內容全部移入 PLAYBOOK 內」
+    ("_fold", "", "方法", "vantharp.html", [
+        ("Van Tharp 五法", "vantharp.html"),
+        ("優化帳本", "optledger.html"),
+        ("Setup Factory", "setupfactory.html"),
+        ("成長週期", "cycle.html"),
+    ]),
 
     # ★ 2026-10-28 Desmond：MODEL BOOK 放喺 PLAYBOOK 同外部數據中間，唔要 emoji
     ("_fold", "", "MODEL BOOK", "modelbook.html", [
