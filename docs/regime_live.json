@@ -8,7 +8,7 @@
  "diff": "CHOP",
  "opp": "觀察：等待 breadth 或結構確認",
  "delta": null,
- "mmtw": 51.82,
+ "mmtw": 51.76,
  "mmtw_rising": false,
  "oversold": false,
  "mmfi": 41.05,
@@ -49,14 +49,14 @@
    "name": "VIX 風險",
    "w": 10,
    "s": 7.0,
-   "d": "16.4｜HOLD 持倉觀察"
+   "d": "16.3｜HOLD 持倉觀察"
   },
   {
    "n": 6,
    "name": "RSP vs SPY",
    "w": 10,
    "s": 10.0,
-   "d": "21D +4.63%｜闊·普漲"
+   "d": "21D +4.64%｜闊·普漲"
   },
   {
    "n": 7,
@@ -66,5 +66,5 @@
    "d": "10 月 +0.8%｜中性"
   }
  ],
- "updated": "00:20"
+ "updated": "00:25"
 }
