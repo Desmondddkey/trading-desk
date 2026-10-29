@@ -588,20 +588,39 @@ html[data-theme="light"] .ds-tip{background:#FFFFFF;border-color:#DAD9D4;
 
 JS = """
 function dsSort(btn, col){
-  var tb=document.getElementById('dsbody');
-  var rows=Array.from(tb.querySelectorAll('tr'));
-  var dir = btn.dataset.dir==='desc'?'asc':'desc';
-  btn.dataset.dir=dir;
-  document.querySelectorAll('.ds-f button').forEach(b=>{if(b!==btn)b.dataset.dir='';});
-  var idx=parseInt(col,10);
-  rows.sort(function(a,b){
-    var x=a.children[idx].dataset.v, y=b.children[idx].dataset.v;
-    var nx=parseFloat(x), ny=parseFloat(y);
-    var vx=isNaN(nx)?x:nx, vy=isNaN(ny)?y:ny;
-    if(dir==='asc') return vx>vy?1:vx<vy?-1:0;
-    return vx<vy?1:vx>vy?-1:0;
+  // ★ 2026-10-29 修：FOCUS／STALK 拆表之後，#dsbody 已經唔存在，
+  //   舊寫法 querySelectorAll('#dsbody tr') 得 0 行 → 三角係假嘅。
+  //   改為喺「撳落去嘅嗰張表」內排序，逐個 tbody 排。
+  var table = btn.closest('table');
+  if(!table) return;
+  var dir = btn.dataset.dir === 'desc' ? 'asc' : 'desc';
+  table.querySelectorAll('th.sortable').forEach(function(b){
+    if(b !== btn) b.dataset.dir = '';
   });
-  rows.forEach(r=>tb.appendChild(r));
+  btn.dataset.dir = dir;
+  var idx = parseInt(col, 10);
+  table.querySelectorAll('tbody').forEach(function(tb){
+    var rows = Array.from(tb.querySelectorAll('tr'));
+    if(rows.length < 2) return;
+    rows.sort(function(a,b){
+      var ca = a.children[idx], cb = b.children[idx];
+      if(!ca || !cb) return 0;
+      var xa = ca.dataset ? ca.dataset.v : undefined;
+      var xb = cb.dataset ? cb.dataset.v : undefined;
+      if(xa === undefined) xa = ca.textContent.trim();
+      if(xb === undefined) xb = cb.textContent.trim();
+      var na = parseFloat(String(xa).replace(/[^0-9.+-]/g,''));
+      var nb = parseFloat(String(xb).replace(/[^0-9.+-]/g,''));
+      var va = isNaN(na) ? String(xa) : na;
+      var vb = isNaN(nb) ? String(xb) : nb;
+      if(typeof va === 'number' && typeof vb === 'number'){
+        return dir === 'asc' ? va - vb : vb - va;
+      }
+      return dir === 'asc' ? (va > vb ? 1 : va < vb ? -1 : 0)
+                           : (va < vb ? 1 : va > vb ? -1 : 0);
+    });
+    rows.forEach(function(r){ tb.appendChild(r); });
+  });
 }
 function dsFilter(mode,btn){
   document.querySelectorAll('.ds-f button').forEach(b=>b.classList.remove('on'));
