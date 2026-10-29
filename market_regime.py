@@ -710,6 +710,14 @@ def build():
         f'<span style="width:{mw}%;background:{mcol}"></span></div>'
         '</div>')
 
+    # ★ 2026-10-30 Desmond：Market Regime 引入「廣度 × 期望值」dashboard
+    try:
+        import breadth_dash as _bd
+        parts.append(_bd.card_html())
+    except Exception as _ebd:                                 # noqa: BLE001
+        parts.append('<div class="card"><div class="body"><div class="warn">'
+                     f'廣度 dashboard 讀唔到：{type(_ebd).__name__}</div></div></div>')
+
     # ★ 2026-10-24 Desmond：「將群組 RS 新高搬入主題 → Sectors」
     #   → 呢個區塊已經搬去 sectors.html（build_site 組裝時注入），
     #      Market Regime 保持只講「市場狀態」，唔再重複。
