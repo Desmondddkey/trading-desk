@@ -593,20 +593,209 @@ def _esc(v):
     return _h.escape(str(v)) if v is not None else ""
 
 
+def _mri_card(r, mri, col):
+    """MRI 分數卡（Desmond 2026-10-29：搬去頁面最頂）"""
+    out = []
+    out.append(
+        '<div class="mr-hero">'
+        f'<div><div class="mr-num" style="color:{col}">'
+        f'<span id="mr-score">{mri}</span><small> / 100</small></div>'
+        f'<div class="mr-bar"><span style="width:{mri}%;'
+        f'background:{col}"></span></div></div>'
+        '<div style="flex:1;min-width:180px">'
+        f'<div><span class="mr-tag" id="mr-state" style="color:{col}">'
+        f'{_esc(r["state"])}</span></div>'
+        f'<div style="font-size:12.5px;opacity:.8;margin-top:8px">'
+        f'建議總持倉 <b id="mr-pos">{_esc(r["pos"])}</b>｜'
+        f'難度 <b>{_esc(r["diff"])}</b></div>'
+        f'<div style="font-size:11.5px;opacity:.65;margin-top:5px">'
+        f'{_esc(r["delta_txt"])}｜{_esc(r["opp"])}</div>'
+        f'<div style="font-size:10.5px;opacity:.42;margin-top:4px">'
+        f'資料 {_esc(r["asof"])}</div>'
+        '</div></div>')
+
+    return ''.join(out)
+
+
+def _seven_table(r):
+    """七個分項（Desmond 2026-10-29：搬去頁面最頂）"""
+    out = ['<div class="card"><h2>七個分項 '
+           '<small>滿分 = 權重｜照 Pine 原碼</small></h2>'
+           '<div style="padding:10px 14px">'
+           '<table class="mr-tbl"><thead><tr>'
+           '<th>分項</th><th class="r">得分</th><th class="r">權重</th>'
+           '<th style="width:90px"></th><th>判讀</th>'
+           '</tr></thead><tbody>']
+    for c in r["rows"]:
+        pctv = c["s"] / c["w"] * 100 if c["w"] else 0
+        cc = ("#16a34a" if pctv >= 70 else "#f59e0b" if pctv >= 40
+              else "#dc2626")
+        out.append(
+            f'<tr><td><b>{c["n"]}. {_esc(c["name"])}</b></td>'
+            f'<td class="r" style="font-weight:800;color:{cc}">{c["s"]}</td>'
+            f'<td class="r mr-wt">{c["w"]}</td>'
+            f'<td><span class="mr-mini"><span style="width:{pctv:.0f}%;'
+            f'background:{cc}"></span></span></td>'
+            f'<td style="font-size:11.5px;white-space:normal;'
+            f'word-break:break-word">{_esc(c["d"])}</td></tr>')
+    out.append('</tbody></table></div></div>')
+    return ''.join(out)
+
+
 def build():
     r = compute()
     parts = [f"<style>{CSS}</style><script>{JS}</script>"]
+    mri = r["mri"]
+    col = ("#16a34a" if mri >= 65 else "#f59e0b" if mri >= 50 else
+           "#ea580c" if mri >= 35 else "#dc2626")
     parts.append('<h2>MARKET REGIME <small>MRI 0–100</small></h2>')
     parts.append(
         '<p class="crumb">計分公式照 Desmond 嘅 Pine 原碼'
         '（Smart Money Sector Flow v1.9 + MRI）｜'
         'MMTW 由 TradingView screener 實時計算（全美股 % above 20MA）｜'
         '<span id="mr-live" style="opacity:.6">⏳ 等實時資料…</span></p>')
+    # ★ 2026-10-29 Desmond：「呢兩格放去頁面最頂」
+    parts.append(_mri_card(r, mri, col))
+    parts.append(_seven_table(r))
 
     if r.get("err"):
         parts.append('<div class="card"><div class="body" style="color:#e5484d">'
                      f'⛔ DATA_UNAVAILABLE：{_esc(r["err"])}</div></div>')
         return ("MARKET REGIME", "".join(parts))
+
+
+    # ① 寬度（預設最顯眼）
+    bv = r.get("mmtw")
+    blab, bcol, bdesc = _mmtw_label(bv, r.get("mmtw_rising"))
+    bw = max(0, min(100, float(bv))) if bv is not None else 0
+    parts.append(
+        '<div class="mr-big" style="flex-direction:column;'
+        'align-items:stretch;gap:10px">'
+        '<div style="display:flex;justify-content:space-between;'
+        'align-items:baseline;gap:12px">'
+        '<div><div class="lab">MMTW 寬度（% above 20MA）'
+        '<span style="opacity:.5;font-weight:400"> · 短線廣度振盪</span>'
+        '</div>'
+        f'<div class="val" id="mr-breadth" style="color:{bcol}">'
+        f'{f"{bv:.1f}%" if bv is not None else "N/A"}</div></div>'
+        f'<div style="font-size:11.5px;opacity:.78;text-align:right">'
+        f'<b style="color:{bcol}">{blab}</b>'
+        + (f'　·　{bdesc}' if bdesc else '')
+        + '</div></div>'
+        f'<div class="mr-bar" style="max-width:100%">'
+        f'<span style="width:{bw}%;background:{bcol}"></span></div>'
+        '</div>')
+
+    # ★ MMFI（Desmond 2026-10-20：MMTW 下面加 MMFI）
+    # 來源：@ohiain —— % of NYSE stocks above their 50-day MA
+    mv = r.get("mmfi")
+    mv = float(mv) if mv is not None else None
+    mlab, mcol, mdesc = _mmfi_label(mv)
+    mw = max(0, min(100, mv)) if mv is not None else 0
+    parts.append(
+        '<div class="mr-big" style="margin-top:10px;'
+        'flex-direction:column;align-items:stretch;gap:10px">'
+        '<div style="display:flex;justify-content:space-between;'
+        'align-items:baseline;gap:12px">'
+        '<div><div class="lab">MMFI（% above 50MA）'
+        '<span style="opacity:.5;font-weight:400"> · 中期趨勢參與度</span>'
+        '</div>'
+        f'<div class="val" id="mr-mmfi" style="color:{mcol}">'
+        f'{f"{mv:.1f}%" if mv is not None else "N/A"}</div></div>'
+        f'<div style="font-size:11.5px;opacity:.78;text-align:right">'
+        f'<b style="color:{mcol}">{mlab}</b>'
+        + (f'　·　{mdesc}' if mdesc else '')
+        + '</div></div>'
+        f'<div class="mr-bar" style="max-width:100%">'
+        f'<span style="width:{mw}%;background:{mcol}"></span></div>'
+        '</div>')
+
+    # ★ 2026-10-24 Desmond：「將群組 RS 新高搬入主題 → Sectors」
+    #   → 呢個區塊已經搬去 sectors.html（build_site 組裝時注入），
+    #      Market Regime 保持只講「市場狀態」，唔再重複。
+
+    # ★ 2026-10-21 Desmond：「我想佢可以自動表示到我宜家當日身處既階段」
+    #   Stan Weinstein 四階段（Basing / Advancing / Topping / Declining）
+    #   ★ 用 30 週 MA（150 日）+ 4 週斜率，機械判定，唔靠感覺。
+    try:
+        import sys as _sys2
+        _TO = r"C:\Users\rain0\trading-os"
+        if _TO not in _sys2.path:
+            _sys2.path.insert(0, _TO)
+        import weinstein_stage as _ws
+        parts.append(_ws.card_html())
+    except Exception as _ew:                                 # noqa: BLE001
+        parts.append(
+            '<div class="card"><h2>📊 Weinstein 四階段</h2>'
+            f'<div class="body"><div class="warn">讀唔到：'
+            f'{type(_ew).__name__}: {_ew}</div></div></div>')
+
+    # ★ MMFI TradingView 圖（官方 INDEX:MMFI）
+    parts.append(
+        '<div class="card" style="padding:0;overflow:hidden;margin-top:10px">'
+        '<div style="padding:9px 14px;background:rgba(128,128,128,.08);'
+        'display:flex;align-items:center;gap:9px;flex-wrap:wrap">'
+        '<b style="font-size:12.5px">MMFI 圖</b>'
+        '<span style="font-size:11.5px;opacity:.6">'
+        '% NYSE stocks above 50MA</span>'
+        '<span style="margin-left:auto;font-size:10.5px;opacity:.55">'
+        '紅線 70 ｜ 中線 50 ｜ 綠線 30</span></div>'
+        '<iframe src="https://s.tradingview.com/widgetembed/?'
+        'symbol=INDEX%3AMMFI&interval=D&hidesidetoolbar=1&symboledit=0&'
+        'saveimage=0&toolbarbg=rgba(0,0,0,0)&studies=[]&theme=dark&style=1&'
+        'timezone=America%2FNew_York&withdateranges=1&hide_side_toolbar=1&'
+        'allow_symbol_change=0&details=0&hotlist=0&calendar=0" '
+        'style="width:100%;height:320px;border:0;display:block" '
+        'allowfullscreen loading="lazy" '
+        'referrerpolicy="no-referrer-when-downgrade"></iframe></div>')
+
+    # MMFI 點用（原文分區）
+    parts.append(
+        '<div class="card" style="margin-top:10px"><div style="padding:11px 14px">'
+        '<div style="font-size:12.5px;font-weight:800;margin-bottom:7px">'
+        'MMFI 點用（@ohiain 原文分區）</div>'
+        '<div style="font-size:11.5px;line-height:1.95">'
+        '<b style="color:#16a34a">70–80%+ 　Broad strength</b><br>'
+        '　大部分股票喺 50MA 上。健康，但橡皮筋拉緊 —— '
+        '動能可以持續，但大市嘅 easy money 通常已賺。<br>'
+        '<b style="color:#f59e0b">約 50% 　Neutral + mixed</b><br>'
+        '　大約一半市場參與。單獨唔太有用 —— '
+        '要睇領導股同相對強度。<br>'
+        '<b style="color:#dc2626">20–30% 以下 　Weak + oversold</b><br>'
+        '　大部分股票喺 50MA 下。市場受壓。'
+        '呢啲讀數通常出現喺洗盤或中期趨勢轉向下時。'
+        '唔保證見底，但話你知參與度薄、做多條件差。<br>'
+        '<b>電梯比喻</b>：70-80% = 好多人已經上咗電梯，越嚟越滿；'
+        '跌到 20-30% = 大部分人落咗，電梯空。'
+        '空唔代表即刻會上，但壓力已釋放。</div>'
+        f'<div style="font-size:10.5px;opacity:.55;margin-top:9px">'
+        f'自算讀數 {f"{mv:.2f}%" if mv is not None else "N/A"}'
+        f'（NYSE+NASDAQ+AMEX 普通股，n={r.get("mmfi_n") or 0}）'
+        f'　｜　官方 INDEX:MMFI 見上面圖'
+        f'　｜　as of {r.get("mmfi_asof") or "—"}</div>'
+        '</div></div>')
+
+    # ★ TradingView 圖表（Desmond 要求保留）
+    parts.append(
+        '<div class="card" style="padding:0;overflow:hidden">'
+        '<div style="padding:10px 14px;background:rgba(128,128,128,.08);'
+        'display:flex;align-items:center;gap:10px;flex-wrap:wrap">'
+        '<b style="font-size:12.5px">TradingView</b>'
+        '<span style="font-size:11.5px;opacity:.6">SPY 日線</span>'
+        '<span style="margin-left:auto;font-size:11.5px">'
+        '<a href="https://www.tradingview.com/chart/h6bQ6ADj/" '
+        'target="_blank" rel="noopener noreferrer">↗ 你嘅私有 chart</a>'
+        '</span></div>'
+        '<iframe src="https://s.tradingview.com/widgetembed/?'
+        'symbol=AMEX%3ASPY&interval=D&hidesidetoolbar=1&symboledit=0&'
+        'saveimage=0&toolbarbg=rgba(0,0,0,0)&studies=[]&theme=dark&style=1&'
+        'timezone=America%2FNew_York&withdateranges=1&hide_side_toolbar=1&'
+        'allow_symbol_change=0&details=0&hotlist=0&calendar=0" '
+        'style="width:100%;height:460px;border:0;display:block" '
+        'allowfullscreen loading="lazy" '
+        'referrerpolicy="no-referrer-when-downgrade"></iframe></div>')
+
+    return ("MARKET REGIME", "".join(parts))
 
     mri = r["mri"]
     col = ("#16a34a" if mri >= 65 else "#f59e0b" if mri >= 50 else
