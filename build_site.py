@@ -1057,6 +1057,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "沙灘球反應", "beachball.html"),
     ("_link", None, "投降儀表", "feargauge.html"),
     ("_link", None, "肥球掃描（J Law）", "fatpitch.html"),
+    ("_link", None, "GTO 手牌分析", "gto.html"),
     ("_link", None, "Tight Range", "tightscan.html"),
     ("_link", None, "The Plan", "setups.html"),
     ("_ext", None, "財報（Finviz）", "https://finviz.com/calendar/earnings/season-preview?view=list&sort=marketCap"),
@@ -2192,6 +2193,13 @@ def build():
         _fpb = _fp.render_html()
         pages["fatpitch"] = ("肥球掃描（J Law）", _fpb, base)
         log(f"✓ fatpitch.html ({len(_fpb)//1024} KB)")
+    except Exception as _eg:                                 # noqa: BLE001
+        log(f"⚠ fatpitch：{type(_eg).__name__}")
+    try:
+        import gto_page as _gp
+        _gpb = _gp.render_html()
+        pages["gto"] = ("GTO 手牌分析", _gpb, base)
+        log(f"✓ gto.html ({len(_gpb)//1024} KB)")
     except Exception as _ef:                            # noqa: BLE001
         log(f"⚠ 肥球掃描失敗：{type(_ef).__name__}: {_ef}")
 
