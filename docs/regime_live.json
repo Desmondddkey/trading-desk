@@ -8,7 +8,7 @@
  "diff": "CHOP",
  "opp": "觀察：等待 breadth 或結構確認",
  "delta": null,
- "mmtw": 51.27,
+ "mmtw": 51.0,
  "mmtw_rising": false,
  "oversold": false,
  "mmfi": 40.19,
@@ -27,8 +27,8 @@
    "n": 2,
    "name": "MMTW 寬度",
    "w": 20,
-   "s": 10.4,
-   "d": "51.3%"
+   "s": 10.3,
+   "d": "51.0%"
   },
   {
    "n": 3,
@@ -66,5 +66,5 @@
    "d": "10 月 +0.8%｜中性"
   }
  ],
- "updated": "01:30"
+ "updated": "01:45"
 }
