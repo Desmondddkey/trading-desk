@@ -30,6 +30,7 @@ import io
 import json
 import math
 import os
+import re
 import shutil
 import sys
 
@@ -51,6 +52,7 @@ import stdcols as _std  # noqa: E402  （Item 2：統一所有列表欄位）
 import tvhover  # noqa: E402  （Item 8：hover 代號彈 TradingView 圖）
 import nel_pages as _np  # noqa: E402  （Item 1：NEL 五頁蒸餾）
 
+_TS_CSS = ".tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}"
 EN_LABELS = {"regime_mri": "Market Regime", "rocketstock": "RocketStock", "livefeeds": "Live Feeds", "dailyscan": "Daily Scan", "leadermap": "RS Leader Map", "earnings": "Earnings", "external": "External", "desk": "Opportunity", "briefing": "Market Brief", "leaders": "Leaders",
              "week": "Week Strongest", "rsboard": "RS Board", "method": "Methods",
              "cycle": "Growth Cycle", "setups": "Setups",
@@ -1287,6 +1289,40 @@ def i18n_json():
     return json.dumps(d, ensure_ascii=False, separators=(",", ":"))
 
 
+
+# ═══════════════ 2026-10-30 全站排版統一（Desmond：減少視覺疲勞／手機可讀）═══
+_RE_TINY = re.compile(r"font-size:\s*([0-9.]+)px")
+_RE_RULE = re.compile(r"[━─═—]{10,}")
+_RE_TABLE = re.compile(r"(<table\b[^>]*>.*?</table>)", re.S | re.I)
+FONT_MIN = 11.5
+
+
+def _polish(html_text):
+    """四件事，全部喺輸出前一次過做（唔改個別頁模組）：
+       ① 補 meta viewport
+       ② font-size < 11.5px → 11.5px（手機睇唔到嘅字）
+       ③ 長分隔線（≥10 個 ━─═—）→ 移除
+       ④ 每張 <table> 包一層 .tscroll（手機橫向滑動，唔會撐爆版面）
+    """
+    t = html_text
+    if 'name="viewport"' not in t:
+        t = t.replace("<head>", '<head><meta name="viewport" '
+                                'content="width=device-width,initial-scale=1">', 1)
+
+    t = _RE_TINY.sub(lambda m: (f"font-size:{FONT_MIN}px"
+                                if float(m.group(1)) < FONT_MIN else m.group(0)), t)
+    t = _RE_RULE.sub("", t)
+
+    def _wrap(m):
+        before = t[max(0, m.start() - 260):m.start()]
+        if "tscroll" in before or "overflow-x" in before:
+            return m.group(1)
+        return f'<div class="tscroll">{m.group(1)}</div>'
+
+    t = _RE_TABLE.sub(_wrap, t)
+    return t
+
+
 def page(active, title, body, payload, extra_head=""):
     data = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     # ★ LOG BOOK：只喺 logbook.html 自己一頁顯示，其他頁唔加
@@ -2502,7 +2538,7 @@ def build():
     # ── ★ 2026-10-25 Desmond：「叫你排版好慢」→ 樣式抽出 site.css
     #    之後改 docs/site.css 再 refresh 就見到，唔需要等 build。
     #    （下次 build 會覆蓋 → 滿意就打返入 generator）
-    _css = CSS + SIDEBAR_CSS + tvhover.TVHOVER_CSS
+    _css = CSS + SIDEBAR_CSS + tvhover.TVHOVER_CSS + _TS_CSS
     with io.open(os.path.join(SITE, "site.css"), "w", encoding="utf-8") as _f:
         _f.write(_css)
     log(f"✓ site.css ({len(_css)//1024} KB)")
@@ -2517,8 +2553,24 @@ def build():
     for key, (title, body, payload) in pages.items():
         p = os.path.join(SITE, f"{key}.html")
         with io.open(p, "w", encoding="utf-8") as f:
-            f.write(page(key, title, body, payload))
+            f.write(_polish(page(key, title, body, payload)))
         log(f"✓ {os.path.basename(p)} ({os.path.getsize(p)//1024} KB)")
+
+    # ★ 2026-10-30：任何頁（含唔經 pages dict 嘅獨立頁）缺 viewport 就補
+    try:
+        _fixed = 0
+        for _f in glob.glob(os.path.join(SITE, "*.html")):
+            _c = io.open(_f, encoding="utf-8", errors="ignore").read()
+            if 'name="viewport"' in _c or "<head>" not in _c:
+                continue
+            _c = _c.replace("<head>", '<head><meta name="viewport" '
+                                      'content="width=device-width,initial-scale=1">', 1)
+            io.open(_f, "w", encoding="utf-8").write(_c)
+            _fixed += 1
+        if _fixed:
+            log(f"✓ 補 viewport {_fixed} 頁")
+    except Exception as _ev:                                 # noqa: BLE001
+        log(f"⚠ viewport 修補：{type(_ev).__name__}")
 
     # index = 簡報
     shutil.copy2(os.path.join(SITE, "briefing.html"), os.path.join(SITE, "index.html"))

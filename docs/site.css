@@ -436,3 +436,4 @@ html[data-theme="light"] .jb-card{border-color:#E3E1DA;
 #tvpopchart{height:340px;background:#0b1120}
 #tvpopnote{font-size:10.5px;color:#8fa3c8;padding:0 9px 6px;min-height:0}
 @media(max-width:700px){#tvpop{display:none!important}}
+.tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
