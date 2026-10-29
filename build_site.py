@@ -746,7 +746,6 @@ SITENAV_LINKS = [
     ("week.html", "⚡", "Weekly MM", False),
     ("themes.html", "🧩", "Themes", False),
     ("sectors.html", "🏭", "Sectors", False),
-    ("breadth.html", "🌊", "Breadth", False),
     ("positioning.html", "🎯", "Positioning", False),
     ("review.html", "⏪", "Review", False),
     ("rsboard.html", "📊", "RS 板", False),
@@ -1033,7 +1032,6 @@ SIDEBAR_LINKS = [
     ("_grp", "市場"),
     ("_link", None, "MARKET REGIME", "regime_mri.html"),
     ("_link", None, "市場簡報", "index.html"),
-    ("_link", None, "Breadth", "breadth.html"),
     ("_link", None, "Market Monitor", "mm.html"),
 
     # ★ 2026-10-24 Desmond：「加多個主題 放市場下面；RS板改名 RS THEME」
@@ -1972,7 +1970,6 @@ def build():
         _ohlc_df = _np._ohlc()
         for _key, _title, _fn in (
                 ("sectors", "Sectors", lambda: _np.sectors_page(_ohlc_df)),
-                ("breadth", "Breadth", _np.breadth_page),
                 ("positioning", "Positioning", _np.positioning_page),
                 ("review", "Review", _np.review_page),
                 ("review2", "覆盤", None)):

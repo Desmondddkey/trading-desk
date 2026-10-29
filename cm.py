@@ -111,6 +111,18 @@ def grade(n):
     return GRADES[-1][1], GRADES[-1][2], GRADES[-1][3]
 
 
+
+def _ser(df, name):
+    """由可能係 DataFrame（MultiIndex 欄）嘅子表，抽出乾淨 Series。"""
+    try:
+        v = df[name]
+    except Exception:                                        # noqa: BLE001
+        return None
+    if isinstance(v, pd.DataFrame):
+        v = v.iloc[:, 0]
+    return pd.to_numeric(v, errors="coerce").dropna()
+
+
 def classify(tickers, ohlc=None, bench="SPY", maxage_days=1):
     """回傳 {ticker: {...5 個條件 + 分級 + 數字}}。
 
@@ -130,8 +142,8 @@ def classify(tickers, ohlc=None, bench="SPY", maxage_days=1):
         bench = None
     ref1 = ref3 = None
     if bench:
-        b = d[bench].dropna(subset=["Close"])["Close"]
-        if len(b) > 64:
+        b = _ser(d[bench], "Close")
+        if b is not None and len(b) > 64:
             ref1 = float(b.iloc[-1] / b.iloc[-22] - 1) * 100
             ref3 = float(b.iloc[-1] / b.iloc[-64] - 1) * 100
     out = {}
@@ -142,7 +154,12 @@ def classify(tickers, ohlc=None, bench="SPY", maxage_days=1):
             continue
         if len(f) < 60:
             continue
-        c, h, l, v = f["Close"], f["High"], f["Low"], f["Volume"]
+        c = _ser(f, "Close")
+        h = _ser(f, "High")
+        l = _ser(f, "Low")
+        v = _ser(f, "Volume")
+        if c is None or h is None or l is None or v is None:
+            continue
         e8 = c.ewm(span=8, adjust=False).mean()
         e21 = c.ewm(span=21, adjust=False).mean()
         s40 = c.rolling(40).mean()          # 8 週 EMA 嘅日線代理
