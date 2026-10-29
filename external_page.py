@@ -84,6 +84,30 @@ def build():
                  'target="_blank" rel="noopener">↗ 開 screener（新視窗）</a>'
                  '</div></div></div>')
 
+    # ── ①b Martin Luk（2026-10-29 Desmond 指定加入）──
+    parts.append('<div class="ext-card">'
+                 '<div class="ext-hd">'
+                 '<span class="t">🏆 Martin Luk · FAQ / Q&amp;A / Screeners</span>'
+                 '<span class="ext-badge b-ok">✓ 可嵌入</span>'
+                 '<span class="u">martinluk.com</span>'
+                 '</div><div class="ext-body">'
+                 '<iframe class="ext-frame" loading="lazy" '
+                 'src="https://martinluk.com/" '
+                 'title="Martin Luk FAQ"></iframe>'
+                 '<div class="ext-note">'
+                 '★ 2025 USIC 股票組（$20,000+）冠軍 <b>+969.8%</b>｜'
+                 '2024 同組第 6 <b>+283.1%</b>｜2026 至 9 月底 <b>+785.8%</b>。<br>'
+                 '★ 內容：FAQ（螢幕／TradingView 設定、screener 用途、學習期用幾多風險）、'
+                 'Q&amp;A 搜尋、screeners。<br>'
+                 '★ 呢個係 <b>fan page</b>（非官方），佢本人嘅 YouTube／X／Twitch 喺頁內連結。'
+                 '<div class="ext-why">⚠️ 佢嘅 risk-per-trade 同我哋 0.2% 探路／0.5% 確認'
+                 '係兩套框架 —— <b>唔可以互相換算</b>，只可以當參考。</div>'
+                 '<a class="ext-btn" href="https://martinluk.com/faq/index.html" '
+                 'target="_blank" rel="noopener">↗ FAQ（新視窗）</a>　'
+                 '<a class="ext-btn" href="https://martinluk.com/qa/index.html" '
+                 'target="_blank" rel="noopener">↗ Q&amp;A 搜尋</a>'
+                 '</div></div></div>')
+
     # ── ② 需登入 ──
     for icon, name, url, why in [
         ("📊", "LoneStockTrader · Basket Charts",
