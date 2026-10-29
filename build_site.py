@@ -1035,6 +1035,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "MARKET REGIME", "regime_mri.html"),
     ("_link", None, "市場簡報", "index.html"),
     ("_link", None, "Market Monitor", "mm.html"),
+    ("_link", None, "頂部觀察", "topwatch.html"),
 
     # ★ 2026-10-24 Desmond：「加多個主題 放市場下面；RS板改名 RS THEME」
     ("_grp", "主題"),
@@ -2531,6 +2532,14 @@ def build():
                       '—— 樣本不足，唔可以出結論。</div>')
         _h.append('</div></div>')
         pages["regime"] = ("Setup × Regime", "".join(_h), base)
+    # （2026-10-30：原本呢個 try 已被移除，Setup×Regime 區塊用 if 保護，唔再需要 except）
+    try:
+        import topwatch_page as _tw
+        _twt, _twb = _tw.build()
+        pages["topwatch"] = (_twt, _twb, base)
+        log(f"✓ topwatch.html ({len(_twb)//1024} KB)")
+    except Exception as _etw:                                 # noqa: BLE001
+        log(f"⚠ 頂部觀察：{type(_etw).__name__}")
 
     # ── ★ 2026-10-23 移除 desk.html（舊「機會」頁，已由 split_desk → leadermap/sectors/atrxrisk 取代）──
     #    dashboard 內容仍然經 split_desk.py → desk_parts.json → 三頁獨立展示，唔再出 desk.html
