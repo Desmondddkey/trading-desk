@@ -2416,6 +2416,14 @@ def build():
             '六個階段：RISK-OFF → PROBE → RAMP UP → TRIM/HOLD → RELOAD → 回落。'
             '⚠ 模型由你圖片蒸餾，用 <b>IWF/IWD</b>（羅素 1000 成長÷價值）—— 你之前話「你決定」。</div></div></div>')
         pages["cycle"] = ("成長週期", cy_body, base)
+    # ★ 2026-10-30 Desmond：用 growth_cycle.py 第一性原理版覆蓋
+    try:
+        import cycle_page as _cyp
+        _cyt, _cyb = _cyp.build()
+        pages["cycle"] = (_cyt, _cyb, base)
+        log(f"✓ cycle.html（成長週期 v2，{len(_cyb)//1024} KB）")
+    except Exception as _ecy:                                # noqa: BLE001
+        log(f"⚠ 成長週期 v2：{type(_ecy).__name__}")
 
     st = load_setups()
     if st:
