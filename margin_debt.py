@@ -56,7 +56,7 @@ def _finra():
 def _qqq():
     import yfinance as yf
     d = yf.download("QQQ", period="10y", interval="1d", progress=False,
-                    auto_adjust=True)
+                    auto_adjust=False)
     if hasattr(d.columns, "levels"):
         d.columns = [c[0] for c in d.columns]
     return d["Close"].dropna()
@@ -134,12 +134,12 @@ def main() -> int:
         "shrinks": shrinks[-8:],
         "series": [{"ym": d.strftime("%Y-%m"), "debit_tn": round(float(v), 4),
                     "mom_tn": (round(float(mom.loc[d]), 4) if pd.notna(mom.loc[d]) else None)}
-                   for d, v in last12.items()],
+                   for d, v in m.loc["2022-01":].items()],
         "qqq_last": round(float(q.iloc[-1]), 2),
         "qqq_date": str(q.index[-1].date()),
-        "drawdowns": _drawdowns(q)[-6:],
+        "drawdowns": _drawdowns(q),
         "qqq_daily": [{"d": str(d.date()), "c": round(float(v), 2)}
-                      for d, v in q.tail(760).items()],
+                      for d, v in q.loc["2022-01-01":].items()],
         "source": "FINRA Margin Statistics（官方 xlsx，每月中更新）；QQQ = yfinance",
         "rule": "陰影 = QQQ 回撤 ≥7%；收縮事件 = 月度債務跌幅 ≥4%",
     }
