@@ -1296,7 +1296,28 @@ def i18n_json():
 _RE_TINY = re.compile(r"font-size:\s*([0-9.]+)px")
 _RE_RULE = re.compile(r"[━─═—]{10,}")
 _RE_TABLE = re.compile(r"(<table\b[^>]*>.*?</table>)", re.S | re.I)
-FONT_MIN = 11.5
+FONT_MIN = 12.0
+
+
+
+def _impeccable_css(css):
+    """site.css 的低對比／細字／發光修正（impeccable 4.8 規則）。"""
+    _map = {"#8e8c84": "#6a6963", "#c4633f": "#9c4f32", "#a3a39e": "#696966",
+            "#e88a8a": "#8b5252", "#e8a33d": "#8b6124", "#7dbe8a": "#4b7252",
+            "#94a3b8": "#64748b", "#b7b5a9": "#6f6d64", "#d97757": "#b0452a",
+            "#fa8072": "#b0452a"}
+    for _a, _b in _map.items():
+        css = re.sub(re.escape(_a), _b, css, flags=re.I)
+    _txt = {"#f97316": "#c2410c", "#22c55e": "#15803d", "#ef4444": "#b91c1c",
+            "#3b82f6": "#1d4ed8", "#eab308": "#a16207", "#ea580c": "#c2410c",
+            "#16a34a": "#15803d"}
+    for _a, _b in _txt.items():
+        css = re.sub(r"(color:\s*)" + re.escape(_a), r"\1" + _b, css, flags=re.I)
+    css = re.sub(r"font-size:\s*(\d+(?:\.\d+)?)px",
+                 lambda m: f"font-size:{max(float(m.group(1)), 12):g}px"
+                 if float(m.group(1)) < 12 else m.group(0), css)
+    css = re.sub(r"text-shadow:\s*0\s+0[^;}]*;", "", css)
+    return css
 
 
 def _polish(html_text):
@@ -1313,6 +1334,26 @@ def _polish(html_text):
 
     t = _RE_TINY.sub(lambda m: (f"font-size:{FONT_MIN}px"
                                 if float(m.group(1)) < FONT_MIN else m.group(0)), t)
+    # ②b impeccable 規則：UI 功能字 < 11px → 11px
+    def _ui(m):
+        v = float(m.group(1))
+        return f"font-size:{max(v, 11):g}px" if v < 11 else m.group(0)
+    t = re.sub(r"font-size:\s*(\d+(?:\.\d+)?)px", _ui, t)
+    # ②c impeccable：單邊粗邊 + 圓角（AI 卡片特徵）→ 邊收窄到 2px
+    t = re.sub(r"border-left:\s*[34]px", "border-left:2px", t)
+    # ②d impeccable：彩色零位移發光 → 移除
+    t = re.sub(r"text-shadow:\s*0\s+0[^;\"']*;", "", t)
+    # ②e impeccable：低對比文字（light 主題）→ 合格色
+    _CMAP = {"#8e8c84": "#6a6963", "#c4633f": "#9c4f32", "#a3a39e": "#696966",
+             "#e88a8a": "#8b5252", "#e8a33d": "#8b6124", "#7dbe8a": "#4b7252"}
+    for _a, _b in _CMAP.items():
+        t = re.sub(_a, _b, t, flags=re.I)
+    # 文字用調色盤色（唔改 background / fill / stroke）→ 加深到 ≥4.5:1
+    _TXT = {"#f97316": "#c2410c", "#22c55e": "#15803d", "#94a3b8": "#64748b",
+            "#ef4444": "#b91c1c", "#3b82f6": "#1d4ed8", "#eab308": "#a16207",
+            "#ea580c": "#c2410c", "#16a34a": "#15803d"}
+    for _a, _b in _TXT.items():
+        t = re.sub(r"(color:\s*)" + _a, r"\1" + _b, t, flags=re.I)
     t = _RE_RULE.sub("", t)
 
     def _wrap(m):
@@ -2564,6 +2605,7 @@ def build():
     #    之後改 docs/site.css 再 refresh 就見到，唔需要等 build。
     #    （下次 build 會覆蓋 → 滿意就打返入 generator）
     _css = CSS + SIDEBAR_CSS + tvhover.TVHOVER_CSS + _TS_CSS
+    _css = _impeccable_css(_css)
     with io.open(os.path.join(SITE, "site.css"), "w", encoding="utf-8") as _f:
         _f.write(_css)
     log(f"✓ site.css ({len(_css)//1024} KB)")
