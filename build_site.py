@@ -1036,6 +1036,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "市場簡報", "index.html"),
     ("_link", None, "Market Monitor", "mm.html"),
     ("_link", None, "頂部觀察", "topwatch.html"),
+    ("_link", None, "保證金債務", "margin.html"),
 
     # ★ 2026-10-24 Desmond：「加多個主題 放市場下面；RS板改名 RS THEME」
     ("_grp", "主題"),
@@ -2546,6 +2547,13 @@ def build():
         _twt, _twb = _tw.build()
         pages["topwatch"] = (_twt, _twb, base)
         log(f"✓ topwatch.html ({len(_twb)//1024} KB)")
+    except Exception as _etw2:                                # noqa: BLE001
+        log(f"⚠ 頂部觀察：{type(_etw2).__name__}")
+    try:
+        import margin_page as _mg
+        _mgt, _mgb = _mg.build()
+        pages["margin"] = (_mgt, _mgb, base)
+        log(f"✓ margin.html ({len(_mgb)//1024} KB)")
     except Exception as _etw:                                 # noqa: BLE001
         log(f"⚠ 頂部觀察：{type(_etw).__name__}")
 

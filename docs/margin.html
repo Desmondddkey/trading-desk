@@ -1,0 +1,251 @@
+<!doctype html><html lang="zh-Hant" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>保證金債務 · 交易台</title>
+<script>/* ★ 2026-10-24 修「閃白」：喺 CSS 之前先套用已存主題，
+   否則 dark 用戶會先見到 light 一幀（FOUC）。key = desk-theme（JSON 字串）。*/
+(function(){try{
+  var v=localStorage.getItem('desk-theme');
+  if(v){try{v=JSON.parse(v);}catch(e){}
+    if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v);}
+}catch(e){}})();</script>
+<link rel="stylesheet" href="site.css?v=2026-11-01 15:11"><script src="sortable.js?v=2026-11-01 15:11"></script></head><body>
+<script>
+/* ★ 自動更新：用返原來網址，頁面發現有新 build 就自己 reload 一次
+   唔會迴圈：sessionStorage 記住已 reload 過嘅版本 */
+(function(){
+  var BV="2026-11-01 15:11";
+  try{
+    if(sessionStorage.getItem('hv')===BV) return;
+  }catch(e){}
+  fetch('version.json?t='+Date.now(),{cache:'no-store'})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(d){
+      if(!d||!d.v||d.v===BV) return;
+      /* ★ 2026-10-25 修「無限 reload」：如果今次 session 已經為呢個版本 reload 過，
+         就唔好再 reload。舊檔（BV 落後）以前會同 version.json 永遠唔相等 → 無限迴圈。*/
+      try{
+        if(sessionStorage.getItem('hv')===d.v) return;
+        sessionStorage.setItem('hv',d.v);
+      }catch(e){}
+      var u=new URL(location.href);
+      u.searchParams.set('v',d.v.replace(/\D/g,''));
+      location.replace(u.toString());
+    })
+    .catch(function(){});
+})();
+</script>
+<button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button><div id="navoverlay"></div><button id="sbtoggle" title="收合側欄">&lsaquo;</button><aside id="sb"><a class="brand" href="index.html">HI! Desmond<span class="bld">11-01 15:13</span></a><button id="themebtn">🌙 深色</button><a href="process.html" data-pin="1"><span class="i"></span><span class="lbl">每日流程</span></a><a href="finish.html" data-pin="1"><span class="i"></span><span class="lbl">收工標準</span></a><a href="howto.html" data-pin="1"><span class="i"></span><span class="lbl">一脈相承</span></a><a href="sysmap.html" data-pin="1"><span class="i"></span><span class="lbl">系統地圖</span></a><a href="jobboard.html" data-pin="1"><span class="i"></span><span class="lbl">廚房看板</span></a><a href="datahealth.html" data-pin="1"><span class="i"></span><span class="lbl">DATABASE</span></a><details class="gw" open><summary class="grp">市場</summary><div class="gl"><a href="regime_mri.html"><span class="ab">MA</span><span class="lbl">MARKET REGIME</span></a><a href="index.html"><span class="ab">市場</span><span class="lbl">市場簡報</span></a><a href="mm.html"><span class="ab">Ma</span><span class="lbl">Market Monitor</span></a><a href="topwatch.html"><span class="ab">頂部</span><span class="lbl">頂部觀察</span></a><a href="margin.html" class="on"><span class="ab">保證</span><span class="lbl">保證金債務</span></a></div></details><details class="gw"><summary class="grp">主題</summary><div class="gl"><a href="rsboard.html"><span class="ab">RS</span><span class="lbl">RS THEME</span></a><a href="sectors.html"><span class="ab">Se</span><span class="lbl">Sectors</span></a></div></details><details class="gw"><summary class="grp">選股</summary><div class="gl"><a href="dailyscan.html"><span class="ab">Da</span><span class="lbl">Daily Scan</span></a><a href="alerts.html"><span class="ab">Se</span><span class="lbl">Setup Alert</span></a><a href="leaders.html"><span class="ab">RS</span><span class="lbl">RS Leader</span></a><a href="rsbeforeprice.html"><span class="ab">RS</span><span class="lbl">RS Before Price</span></a><a href="cm.html"><span class="ab">RS</span><span class="lbl">RS Pullback</span></a><a href="week.html"><span class="ab">We</span><span class="lbl">Weekly MM</span></a><a href="leadermap.html"><span class="ab">RS</span><span class="lbl">RS Leader 位置圖</span></a><a href="rsscan.html"><span class="ab">RS</span><span class="lbl">RS Daily Scan</span></a><a href="beachball.html"><span class="ab">沙灘</span><span class="lbl">沙灘球反應</span></a><a href="feargauge.html"><span class="ab">投降</span><span class="lbl">投降儀表</span></a><a href="fatpitch.html"><span class="ab">肥球</span><span class="lbl">肥球掃描（J Law）</span></a><a href="gto.html"><span class="ab">GT</span><span class="lbl">GTO 手牌分析</span></a><a href="wave.html"><span class="ab">肥波</span><span class="lbl">肥波總覽</span></a><a href="tightscan.html"><span class="ab">Ti</span><span class="lbl">Tight Range</span></a><a href="setups.html"><span class="ab">Th</span><span class="lbl">The Plan</span></a><a href="https://finviz.com/calendar/earnings/season-preview?view=list&sort=marketCap" target="_blank" rel="noopener" class="ext-link"><span class="i">None</span><span class="lbl">財報（Finviz）</span></a><a href="yoyo_ball.html"><span class="ab">YO</span><span class="lbl">YOYO Ball</span></a><a href="regime.html"><span class="ab">Se</span><span class="lbl">Setup 矩陣</span></a></div></details><details class="gw"><summary class="grp">成績</summary><div class="gl"><a href="thinkinr.html"><span class="ab">Th</span><span class="lbl">Think in R</span></a><a href="backtest.html"><span class="ab">Ba</span><span class="lbl">Backtest</span></a><a href="audit.html"><span class="ab">系統</span><span class="lbl">系統審計</span></a><a href="edgeimprove.html"><span class="ab">Ed</span><span class="lbl">Edge Improving</span></a><a href="positioning.html"><span class="ab">Po</span><span class="lbl">Positioning</span></a><a href="review.html"><span class="ab">Re</span><span class="lbl">Review</span></a><a href="review2.html"><span class="ab">覆盤</span><span class="lbl">覆盤（R／期望值）</span></a><a href="calculator.html"><span class="ab">倉位</span><span class="lbl">倉位計算機</span></a></div></details><details class="gw"><summary class="grp">PLAYBOOK</summary><div class="gl"><a href="https://jfsrev.substack.com/p/my-trading-tools-process-routine" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Jeff Sun 工具/流程</span></a><a href="https://traderslab.gitbook.io/primetrading" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">PrimeTrading 手冊</span></a><a href="https://qullamaggie.net/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Qullamaggie</span></a><a href="https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">QM 3 個 setups</span></a><a href="https://qullamaggie.net/alex-desjardinss-method/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Alex Desjardins 方法</span></a><details class="gw pinfold"><summary class="grp"> 方法</summary><div class="gl"><a href="vantharp.html"><span class="ab">Va</span><span class="lbl">Van Tharp 五法</span></a><a href="optledger.html"><span class="ab">優化</span><span class="lbl">優化帳本</span></a><a href="setupfactory.html"><span class="ab">Se</span><span class="lbl">Setup Factory</span></a><a href="cycle.html"><span class="ab">成長</span><span class="lbl">成長週期</span></a></div></details><details class="gw pinfold"><summary class="grp"> MODEL BOOK</summary><div class="gl"><a href="modelbook.html"><span class="ab">概覽</span><span class="lbl">概覽</span></a><a href="mb_top250.html"><span class="ab">To</span><span class="lbl">Top 250 US Gainers</span></a><a href="modelbook.html#cases"><span class="ab">量化</span><span class="lbl">量化案例庫</span></a></div></details></div></details><details class="gw"><summary class="grp">外部數據</summary><div class="gl"><a href="external.html"><span class="ab">外部</span><span class="lbl">外部數據源</span></a><a href="martinluk.html"><span class="ab">Ma</span><span class="lbl">Martin Luk</span></a><a href="levelup.html"><span class="ab">Ma</span><span class="lbl">Market Pulse</span></a></div></details><div class="sbbtm"><a href="logbook.html" data-bottom="1"><span class="ab">LO</span><span class="lbl">LOG BOOK</span></a></div></aside>
+<div class="wrap">
+<header class="top">
+ <div style="display:flex;align-items:flex-start;gap:10px">
+  <div style="flex:1 1 auto">
+   <h1><span>HI! Desmond</span></h1>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-11-01 15:11</code></p>
+  </div>
+ </div>
+</header>
+<h2>💳 保證金債務 × QQQ <small>槓桿的收縮與回補</small></h2><p class="crumb">資料：FINRA 官方 xlsx（月度，2026-09）｜QQQ 2026-10-30 收 690.49｜每週自動重算（FINRA 每月中更新）</p><div class="pf-mini2"><div class="tscroll"><table><thead><tr><th>保證金債務</th><th class="n">數值</th><th>意義</th></tr></thead><tbody><tr><td>2026-09 餘額</td><td class="n">1.480 萬億</td><td>環比 +1.8%（+26 億）</td></tr><tr><td>歷史高位</td><td class="n">1.502 萬億</td><td>2026-06；現距峰 -1.5%</td></tr><tr><td>本輪回撤</td><td class="n">-5.65%</td><td>2026-06 峰 → 2026-07 底</td></tr><tr><td>回補比例</td><td class="n">74.0%</td><td>未完全回補</td></tr></tbody></table></div></div><h3 style="margin-top:14px">債務 vs QQQ</h3><svg viewBox="0 0 940 380" width="100%" style="min-width:700px;max-width:940px" role="img" aria-labelledby="mg-title"><title id="mg-title">保證金債務與 QQQ</title><rect width="940" height="380" fill="#0f1115"/><rect x="168.5" y="22" width="40.4" height="324" fill="#ef4444" fill-opacity="0.07"/><rect x="249.3" y="22" width="91.6" height="324" fill="#ef4444" fill-opacity="0.07"/><rect x="416.2" y="22" width="93.8" height="324" fill="#ef4444" fill-opacity="0.07"/><rect x="607.1" y="22" width="124.4" height="324" fill="#ef4444" fill-opacity="0.07"/><rect x="767.5" y="22" width="84.0" height="324" fill="#ef4444" fill-opacity="0.07"/><rect x="862.4" y="22" width="19.6" height="324" fill="#ef4444" fill-opacity="0.07"/><polyline points="54.0,337.7 55.1,336.9 56.2,334.3 57.3,341.0 58.4,346.0 59.5,344.8 60.5,341.8 61.6,340.6 62.7,336.0 63.8,331.1 64.9,327.8 66.0,326.7 67.1,324.1 68.2,323.9 69.3,326.0 70.4,319.8 71.5,320.7 72.5,314.5 73.6,314.3 74.7,314.1 75.8,314.0 76.9,310.4 78.0,312.2 79.1,311.0 80.2,311.4 81.3,311.6 82.4,310.9 83.5,311.1 84.5,311.9 85.6,311.0 86.7,313.8 87.8,313.0 88.9,314.7 90.0,310.7 91.1,309.4 92.2,306.8 93.3,304.4 94.4,300.6 95.5,300.9 96.5,299.4 97.6,297.5 98.7,295.9 99.8,300.5 100.9,297.0 102.0,296.5 103.1,294.6 104.2,294.0 105.3,294.1 106.4,295.5 107.5,300.7 108.5,303.9 109.6,305.5 110.7,305.1 111.8,298.9 112.9,298.3 114.0,296.2 115.1,295.6 116.2,295.4 117.3,295.5 118.4,297.2 119.5,292.8 120.5,286.6 121.6,286.2 122.7,284.9 123.8,283.1 124.9,282.7 126.0,284.7 127.1,281.4 128.2,283.5 129.3,289.8 130.4,286.1 131.5,280.7 132.5,281.1 133.6,281.8 134.7,278.5 135.8,277.9 136.9,274.6 138.0,275.9 139.1,281.1 140.2,277.5 141.3,276.6 142.4,279.5 143.5,282.0 144.5,283.3 145.6,273.9 146.7,274.8 147.8,275.0 148.9,274.2 150.0,276.0 151.1,273.2 152.2,268.1 153.3,269.3 154.4,275.4 155.5,273.3 156.5,268.3 157.6,273.1 158.7,274.4 159.8,269.6 160.9,272.2 162.0,273.0 163.1,277.0 164.2,273.9 165.3,273.0 166.4,269.1 167.5,267.5 168.5,267.1 169.6,268.3 170.7,269.4 171.8,268.3 172.9,268.9 174.0,268.2 175.1,271.1 176.2,270.4 177.3,275.5 178.4,271.6 179.5,271.5 180.5,270.3 181.6,273.2 182.7,267.9 183.8,273.3 184.9,278.7 186.0,278.7 187.1,282.7 188.2,284.5 189.3,291.2 190.4,288.0 191.5,283.3 192.5,282.2 193.6,283.7 194.7,278.8 195.8,277.5 196.9,283.6 198.0,286.0 199.1,281.9 200.2,275.4 201.3,271.8 202.4,271.7 203.5,271.9 204.5,271.2 205.6,270.4 206.7,269.6 207.8,267.5 208.9,262.2 210.0,262.9 211.1,263.0 212.2,260.6 213.3,260.0 214.4,260.0 215.5,261.6 216.5,258.3 217.6,257.0 218.7,259.5 219.8,263.2 220.9,263.8 222.0,262.0 223.1,261.1 224.2,254.1 225.3,254.2 226.4,254.5 227.5,253.1 228.5,250.7 229.6,246.1 230.7,244.1 231.8,242.2 232.9,237.8 234.0,237.7 235.1,240.5 236.2,241.5 237.3,245.6 238.4,241.5 239.5,240.8 240.5,239.8 241.6,241.7 242.7,239.6 243.8,235.7 244.9,232.7 246.0,228.8 247.1,227.9 248.2,227.5 249.3,223.6 250.4,232.0 251.5,229.8 252.5,228.8 253.6,228.6 254.7,239.7 255.8,241.4 256.9,244.7 258.0,239.3 259.1,240.6 260.2,253.7 261.3,257.5 262.4,254.0 263.5,253.3 264.5,258.1 265.6,247.8 266.7,256.5 267.8,264.8 268.9,274.9 270.0,271.8 271.1,275.4 272.2,265.3 273.3,263.5 274.4,262.8 275.5,254.3 276.5,254.2 277.6,245.3 278.7,244.8 279.8,240.1 280.9,240.8 282.0,239.1 283.1,245.0 284.2,241.0 285.3,244.6 286.4,243.5 287.5,247.6 288.5,248.1 289.6,243.9 290.7,254.9 291.8,255.8 292.9,255.4 294.0,264.8 295.1,260.4 296.2,257.2 297.3,249.7 298.4,246.2 299.5,244.6 300.5,246.2 301.6,246.0 302.7,247.5 303.8,238.5 304.9,239.2 306.0,238.2 307.1,236.4 308.2,236.1 309.3,233.3 310.4,235.4 311.5,234.4 312.5,239.6 313.6,239.0 314.7,239.3 315.8,235.0 316.9,238.9 318.0,233.5 319.1,230.5 320.2,231.0 321.3,230.4 322.4,227.2 323.5,232.3 324.5,232.2 325.6,232.0 326.7,229.5 327.8,228.8 328.9,228.4 330.0,234.2 331.1,231.2 332.2,228.9 333.3,228.8 334.4,225.2 335.5,228.1 336.5,237.6 337.6,234.9 338.7,236.0 339.8,231.2 340.9,221.1 342.0,215.0 343.1,214.6 344.2,214.8 345.3,215.5 346.4,216.0 347.5,218.7 348.5,227.9 349.6,225.3 350.7,222.7 351.8,222.9 352.9,221.5 354.0,220.9 355.1,220.3 356.2,218.2 357.3,221.3 358.4,217.9 359.5,213.7 360.5,212.5 361.6,207.6 362.7,208.7 363.8,205.2 364.9,208.3 366.0,209.7 367.1,202.6 368.2,205.2 369.3,202.1 370.4,196.3 371.5,198.1 372.5,212.8 373.6,214.5 374.7,211.1 375.8,207.3 376.9,201.9 378.0,202.2 379.1,207.5 380.2,212.8 381.3,216.2 382.4,216.9 383.5,210.6 384.5,206.0 385.6,213.1 386.7,213.1 387.8,219.2 388.9,220.5 390.0,220.8 391.1,212.0 392.2,214.7 393.3,208.1 394.4,205.8 395.5,200.7 396.5,199.8 397.6,202.1 398.7,213.9 399.8,208.1 400.9,208.8 402.0,207.2 403.1,207.7 404.2,210.9 405.3,206.1 406.4,204.3 407.5,202.2 408.5,207.2 409.6,202.4 410.7,203.4 411.8,203.2 412.9,197.4 414.0,195.6 415.1,194.7 416.2,194.6 417.3,196.4 418.4,204.8 419.5,209.6 420.5,214.6 421.6,213.6 422.7,224.5 423.8,218.5 424.9,227.0 426.0,228.1 427.1,223.2 428.2,233.7 429.3,231.0 430.4,245.5 431.5,246.3 432.5,242.3 433.6,248.8 434.7,240.2 435.8,237.8 436.9,244.1 438.0,239.3 439.1,240.5 440.2,239.3 441.3,231.3 442.4,229.1 443.5,236.1 444.5,238.2 445.6,247.8 446.7,247.9 447.8,245.0 448.9,242.3 450.0,261.8 451.1,283.1 452.2,282.4 453.3,288.2 454.4,250.1 455.5,265.2 456.5,258.9 457.6,256.6 458.7,256.2 459.8,266.7 460.9,266.8 462.0,275.2 463.1,266.5 464.2,258.8 465.3,249.1 466.4,245.1 467.5,245.2 468.5,242.8 469.6,242.9 470.7,238.1 471.8,232.7 472.9,234.9 474.0,238.3 475.1,236.9 476.2,233.1 477.3,233.3 478.4,218.2 479.5,212.2 480.5,209.9 481.6,209.5 482.7,207.7 483.8,207.3 484.9,208.7 486.0,214.2 487.1,213.5 488.2,217.1 489.3,208.0 490.4,209.7 491.5,208.9 492.5,209.6 493.6,206.4 494.7,203.3 495.8,202.2 496.9,205.2 498.0,201.3 499.1,200.7 500.2,198.0 501.3,199.4 502.4,198.5 503.5,203.6 504.5,198.0 505.6,202.0 506.7,202.0 507.8,203.7 508.9,199.5 510.0,193.3 511.1,192.3 512.2,188.4 513.3,187.0 514.4,184.3 515.5,187.8 516.5,184.9 517.6,180.8 518.7,184.0 519.8,183.7 520.9,180.8 522.0,181.4 523.1,182.3 524.2,180.8 525.3,180.4 526.4,180.0 527.5,176.5 528.5,176.9 529.6,174.7 530.7,176.9 531.8,175.0 532.9,174.1 534.0,173.0 535.1,171.7 536.2,172.3 537.3,171.8 538.4,174.1 539.5,182.6 540.5,174.8 541.6,177.7 542.7,172.3 543.8,170.8 544.9,166.8 546.0,168.1 547.1,162.6 548.2,162.4 549.3,162.7 550.4,164.6 551.5,164.8 552.5,170.8 553.6,173.4 554.7,175.4 555.8,168.7 556.9,170.0 558.0,168.3 559.1,167.6 560.2,164.8 561.3,169.9 562.4,173.6 563.5,170.2 564.5,166.3 565.6,165.6 566.7,163.5 567.8,162.2 568.9,162.1 570.0,159.5 571.1,157.5 572.2,153.7 573.3,154.1 574.4,155.0 575.5,150.9 576.5,147.8 577.6,145.1 578.7,148.2 579.8,149.8 580.9,151.8 582.0,149.9 583.1,147.8 584.2,146.5 585.3,144.3 586.4,142.4 587.5,144.4 588.5,140.9 589.6,143.4 590.7,138.1 591.8,138.6 592.9,154.8 594.0,145.3 595.1,148.3 596.2,145.1 597.3,146.8 598.4,143.8 599.5,138.0 600.5,138.1 601.6,142.6 602.7,138.7 603.8,133.7 604.9,125.3 606.0,121.6 607.1,119.5 608.2,126.9 609.3,124.6 610.4,122.3 611.5,132.1 612.5,129.0 613.6,137.9 614.7,139.4 615.8,129.0 616.9,130.3 618.0,130.7 619.1,140.4 620.2,140.0 621.3,144.0 622.4,149.6 623.5,146.9 624.5,157.8 625.6,154.4 626.7,142.9 627.8,140.0 628.9,135.9 630.0,132.1 631.1,133.7 632.2,130.0 633.3,128.8 634.4,129.3 635.5,127.3 636.5,128.2 637.6,127.7 638.7,125.7 639.8,127.3 640.9,136.4 642.0,138.8 643.1,137.8 644.2,146.5 645.3,139.8 646.4,133.8 647.5,131.5 648.5,129.3 649.6,127.9 650.7,127.9 651.8,130.2 652.9,131.3 654.0,135.3 655.1,136.2 656.2,132.4 657.3,128.3 658.4,127.8 659.5,130.5 660.5,125.8 661.6,125.4 662.7,126.1 663.8,131.2 664.9,129.5 666.0,129.9 667.1,140.0 668.2,133.8 669.3,130.3 670.4,128.8 671.5,126.7 672.5,122.4 673.6,120.8 674.7,123.7 675.8,129.5 676.9,126.2 678.0,133.6 679.1,141.8 680.2,148.5 681.3,138.8 682.4,135.3 683.5,137.4 684.5,136.2 685.6,145.7 686.7,144.7 687.8,145.2 688.9,141.8 690.0,143.6 691.1,139.5 692.2,145.1 693.3,140.2 694.4,133.4 695.5,139.1 696.5,140.6 697.6,140.0 698.7,145.0 699.8,138.0 700.9,139.4 702.0,146.4 703.1,140.3 704.2,140.3 705.3,140.3 706.4,148.3 707.5,151.0 708.5,145.9 709.6,143.7 710.7,150.1 711.8,151.6 712.9,160.0 714.0,154.8 715.1,157.9 716.2,155.0 717.3,165.7 718.4,174.3 719.5,177.6 720.5,163.1 721.6,157.7 722.7,157.2 723.8,154.5 724.9,154.4 726.0,141.0 727.1,137.8 728.2,137.2 729.3,132.3 730.4,123.7 731.5,117.0 732.5,114.6 733.6,108.2 734.7,109.8 735.8,111.7 736.9,103.4 738.0,106.2 739.1,96.7 740.2,96.4 741.3,101.5 742.4,98.4 743.5,93.7 744.5,88.8 745.6,89.8 746.7,83.1 747.8,72.2 748.9,72.9 750.0,60.4 751.1,58.8 752.2,63.4 753.3,57.7 754.4,53.8 755.5,62.1 756.5,64.5 757.6,67.8 758.7,58.9 759.8,57.9 760.9,55.5 762.0,45.8 763.1,46.4 764.2,41.7 765.3,39.6 766.4,36.2 767.5,33.6 768.5,35.1 769.6,37.8 770.7,65.1 771.8,56.7 772.9,63.0 774.0,73.8 775.1,55.9 776.2,52.6 777.3,35.3 778.4,46.1 779.5,51.7 780.5,37.8 781.6,39.3 782.7,57.9 783.8,60.2 784.9,55.8 786.0,63.4 787.1,49.9 788.2,40.5 789.3,49.1 790.4,58.7 791.5,50.9 792.5,61.2 793.6,59.6 794.7,50.5 795.8,48.8 796.9,59.4 798.0,53.3 799.1,54.8 800.2,63.8 801.3,72.0 802.4,71.4 803.5,61.5 804.5,64.3 805.6,74.6 806.7,80.5 807.8,82.1 808.9,87.2 810.0,97.8 811.1,81.0 812.2,77.6 813.3,68.3 814.4,50.1 815.5,55.1 816.5,57.1 817.6,50.7 818.7,52.4 819.8,54.2 820.9,50.2 822.0,43.8 823.1,44.5 824.2,45.5 825.3,55.0 826.4,56.1 827.5,60.0 828.5,58.1 829.6,63.5 830.7,60.2 831.8,59.7 832.9,52.2 834.0,55.8 835.1,55.5 836.2,62.5 837.3,61.3 838.4,54.8 839.5,53.8 840.5,54.3 841.6,55.9 842.7,61.7 843.8,57.0 844.9,61.3 846.0,64.9 847.1,64.8 848.2,55.4 849.3,51.9 850.4,36.0 851.5,31.4 852.5,36.2 853.6,36.3 854.7,33.6 855.8,39.8 856.9,38.7 858.0,37.3 859.1,35.5 860.2,29.7 861.3,24.7 862.4,22.0 863.5,23.5 864.5,31.3 865.6,28.4 866.7,32.5 867.8,34.4 868.9,45.6 870.0,46.3 871.1,60.3 872.2,53.7 873.3,54.3 874.4,48.5 875.5,64.4 876.5,64.5 877.6,58.5 878.7,51.5 879.8,48.2 880.9,56.0 882.0,75.1" fill="none" stroke="#9aa8bd" stroke-width="1.3"/><polyline points="584.2,346.0 609.3,296.7 630.0,270.3 654.0,260.5 675.8,214.5 696.5,236.7 720.5,264.6 743.5,192.6 765.3,96.6 788.2,22.0 812.2,95.2 835.1,63.7 858.0,41.0" fill="none" stroke="#c2743a" stroke-width="2.2"/><text x="48" y="32" fill="#c2743a" font-size="10.5" text-anchor="end">1.50</text><text x="48" y="346" fill="#c2743a" font-size="10.5" text-anchor="end">1.13</text><text x="934" y="32" fill="#94a3b8" font-size="10.5" text-anchor="end">760</text><text x="934" y="346" fill="#94a3b8" font-size="10.5" text-anchor="end">338</text><text x="54" y="370" fill="#94a3b8" font-size="9.5">2023-10-20</text><text x="882" y="370" fill="#94a3b8" font-size="9.5" text-anchor="end">2026-10-30</text><text x="54" y="16" fill="#c2743a" font-size="10">橙線 = FINRA 保證金債務（月度，萬億）</text><text x="304" y="16" fill="#94a3b8" font-size="10">灰線 = QQQ 收市｜紅影 = 回撤 ≥7%</text></svg><h3 style="margin-top:10px">月度增減（負 = 去槓桿）</h3><svg viewBox="0 0 940 110" width="100%" style="max-width:940px" role="img" aria-label="月度增減"><rect width="940" height="110" fill="#0f1115"/><line x1="20" y1="55.0" x2="920" y2="55.0" stroke="#2a2f3a"/><rect x="30.4" y="29.2" width="48.5" height="25.8" fill="#a3b18a" rx="1.5"/><rect x="99.6" y="32.9" width="48.5" height="22.1" fill="#a3b18a" rx="1.5"/><rect x="168.8" y="43.1" width="48.5" height="11.9" fill="#a3b18a" rx="1.5"/><rect x="238.1" y="50.6" width="48.5" height="4.4" fill="#a3b18a" rx="1.5"/><rect x="307.3" y="34.4" width="48.5" height="20.6" fill="#a3b18a" rx="1.5"/><rect x="376.5" y="55.0" width="48.5" height="10.0" fill="#c0605a" rx="1.5"/><rect x="445.8" y="55.0" width="48.5" height="12.5" fill="#c0605a" rx="1.5"/><rect x="515.0" y="22.8" width="48.5" height="32.2" fill="#a3b18a" rx="1.5"/><rect x="584.2" y="12.0" width="48.5" height="43.0" fill="#a3b18a" rx="1.5"/><rect x="653.5" y="21.6" width="48.5" height="33.4" fill="#a3b18a" rx="1.5"/><rect x="722.7" y="55.0" width="48.5" height="32.8" fill="#c0605a" rx="1.5"/><rect x="791.9" y="40.9" width="48.5" height="14.1" fill="#a3b18a" rx="1.5"/><rect x="861.2" y="44.9" width="48.5" height="10.1" fill="#a3b18a" rx="1.5"/></svg><h3 style="margin-top:14px">歷史收縮事件（月度跌幅 ≥4%）</h3><div class="pf-mini2"><div class="tscroll"><table><thead><tr><th>月份</th><th class="n">跌幅</th><th class="n">水平</th></tr></thead><tbody><tr><td>2022-03</td><td class="n" style="color:#ef4444">-4.26%</td><td class="n">0.800 萬億</td></tr><tr><td>2022-06</td><td class="n" style="color:#ef4444">-9.23%</td><td class="n">0.683 萬億</td></tr><tr><td>2022-12</td><td class="n" style="color:#ef4444">-5.77%</td><td class="n">0.607 萬億</td></tr><tr><td>2023-10</td><td class="n" style="color:#ef4444">-6.69%</td><td class="n">0.635 萬億</td></tr><tr><td>2025-03</td><td class="n" style="color:#ef4444">-4.12%</td><td class="n">0.880 萬億</td></tr><tr><td>2026-07</td><td class="n" style="color:#ef4444">-5.65%</td><td class="n">1.417 萬億</td></tr></tbody></table></div></div><h3 style="margin-top:14px">QQQ 主要回撤（≥7%）</h3><div class="pf-mini2"><div class="tscroll"><table><thead><tr><th>開始</th><th>底部</th><th>收復</th><th class="n">跌幅</th></tr></thead><tbody><tr><td>2024-07-10</td><td>2024-08-07</td><td>2024-11-06</td><td class="n" style="color:#ef4444">-13.56%</td></tr><tr><td>2025-02-19</td><td>2025-04-08</td><td>2025-06-24</td><td class="n" style="color:#ef4444">-22.77%</td></tr><tr><td>2025-10-29</td><td>2026-03-30</td><td>2026-04-15</td><td class="n" style="color:#ef4444">-11.96%</td></tr><tr><td>2026-06-02</td><td>2026-07-29</td><td>2026-09-22</td><td class="n" style="color:#ef4444">-11.22%</td></tr><tr><td>2026-10-06</td><td>2026-10-30</td><td>未收復</td><td class="n" style="color:#ef4444">-9.11%</td></tr></tbody></table></div></div><div class="pf-note">判讀（同原圖一致）：<b>唔可以因為 QQQ 下跌就話槓桿已清</b>。要等 FINRA 下一期債務數據（每月中公布）才知 10 月回調有冇伴隨去槓桿。</div><div class="pf-note">來源與限制：FINRA Margin Statistics（官方 xlsx，每月中更新）；QQQ = yfinance｜陰影 = QQQ 回撤 ≥7%；收縮事件 = 月度債務跌幅 ≥4%｜FINRA 為全市場客戶保證金（非 QQQ 專屬），所以只可以當「整體槓桿」背景，唔可以逐隻股對應。</div>
+
+<footer>
+ 所有資料唯讀、研究用途，<b>非買入指令</b>。入場要另行符合 ORH + RVOL 規則；倉位由
+ <code>daily_plan.stop_plan()</code> 決定。<br>
+ 產生器 <code>trading-os-web/build_site.py</code>｜掃描 <code>scan_market.py</code>
+ ｜交易台 <code>trading-os-lab/dashboard.py</code>
+</footer>
+</div>
+<script>var D={"_generated":"2026-11-01 15:11"};
+function q(s,r){return (r||document).querySelector(s);}
+function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function fin(v){return v!==null&&v!==undefined&&v!==''&&isFinite(Number(v));}
+function fmt(v,d){d=(d===undefined?1:d);return fin(v)?Number(v).toLocaleString(undefined,{maximumFractionDigits:d}):'—';}
+function pct(v,d){return fin(v)?(v>0?'+':'')+fmt(v,d)+'%':'—';}
+function sgn(v,d){return fin(v)?(v>0?'+':'')+fmt(v,d):'—';}
+function num(v,d){return fin(v)?fmt(v,d):'—';}
+function money(v){if(!fin(v))return '—';return v>=1e9?'$'+fmt(v/1e9,1)+'B':v>=1e6?'$'+fmt(v/1e6,1)+'M':v>=1e3?'$'+fmt(v/1e3,0)+'K':'$'+fmt(v,0);}
+function cls(v){return fin(v)?(v>0?'pos':(v<0?'neg':'')):'';}
+function spark(vals,w,h){
+  if(!vals||vals.length<2)return '';
+  w=w||90;h=h||22;
+  var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rg=(mx-mn)||1;
+  var pts=vals.map(function(v,i){return [i/(vals.length-1)*w, h-(v-mn)/rg*h];});
+  var d=pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');
+  return '<svg width="'+w+'" height="'+h+'" style="vertical-align:middle"><path d="'+d+
+    '" fill="none" stroke="'+(vals[vals.length-1]>=vals[0]?'#4ade80':'#f87171')+'" stroke-width="1.6"/></svg>';
+}
+function bar(v,mx,neg){
+  if(!fin(v))return '';
+  var w=Math.max(2,Math.min(60,Math.abs(v)/(mx||1)*60));
+  return '<span class="bar'+(neg?' neg':'')+'" style="width:'+w.toFixed(0)+'px;opacity:.8"></span>';
+}
+function tone(v){return v>0?'pos':(v<0?'neg':'dim');}
+
+document.addEventListener('DOMContentLoaded',function(){ if(window.PAGE) PAGE(); });</script>
+<script>
+(function(){
+  function store(k,f){try{return JSON.parse(localStorage.getItem('desk-'+k))??f;}catch(e){return f;}}
+  function save(k,v){try{localStorage.setItem('desk-'+k,JSON.stringify(v));}catch(e){}}
+  // ★ 2026-10-11 Desmond：「移除英文版選項」→ 永久 zh-Hant，冇 LANG 切換。
+  var THEME=store('theme','light');
+  function apply(){
+    document.documentElement.setAttribute('data-theme',THEME);
+    var tb=document.getElementById('themebtn');
+    if(tb) tb.textContent = THEME==='light'?'🌙 深色':'☀️ 淺色';
+  }
+  function boot(){
+    var tb=document.getElementById('themebtn');
+    if(tb) tb.addEventListener('click',function(){THEME=THEME==='light'?'dark':'light';save('theme',THEME);apply();});
+    apply();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>
+<script>
+(function(){
+  var sb=document.getElementById('sb'), tg=document.getElementById('sbtoggle');
+  if(!sb||!tg) return;
+  var KEY='desk-sb-collapsed';
+  function apply(c){
+    sb.classList.toggle('collapsed', c);
+    document.body.classList.toggle('sb-collapsed', c);
+    tg.innerHTML = c ? '&rsaquo;' : '&lsaquo;';
+    tg.title = c ? '展開側欄' : '收合側欄';
+    try{localStorage.setItem(KEY, c?'1':'0');}catch(e){}
+  }
+  tg.addEventListener('click', function(){ apply(!sb.classList.contains('collapsed')); });
+  var st='0';
+  try{st=localStorage.getItem(KEY)||'0';}catch(e){}
+  apply(st==='1');
+})();
+
+
+(function(){
+  var sb=document.getElementById('sb'), tg=document.getElementById('navtoggle'),
+      ov=document.getElementById('navoverlay');
+  if(!sb||!tg) return;
+  function open(){sb.classList.add('open');
+    document.body.classList.add('drawer-open');
+    if(ov)ov.classList.add('show');
+    tg.setAttribute('aria-expanded','true');}
+  function close(){sb.classList.remove('open');
+    document.body.classList.remove('drawer-open');
+    if(ov)ov.classList.remove('show');
+    tg.setAttribute('aria-expanded','false');}
+  tg.addEventListener('click',function(e){e.stopPropagation();
+    sb.classList.contains('open')?close():open();});
+  if(ov) ov.addEventListener('click',close);
+  sb.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){ if(window.innerWidth<=900) close(); });
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+})();
+</script>
+<script>
+(function(){
+  var box=null, timer=null, cur=null, tvLoaded=false, tvFailed=false, syncing=false;
+
+  function ensureBox(){
+    if(box) return box;
+    box=document.createElement('div');
+    box.id='tvpop';
+    box.innerHTML='<div id="tvpopbar"><span id="tvpopsym"></span>'
+      +'<a id="tvpopopen" target="_blank" rel="noopener">開 TV ↗</a>'
+      +'<button id="tvpopclose" type="button" title="關閉">&#10005;</button></div>'
+      +'<div id="tvpopchart"></div><div id="tvpopnote"></div>';
+    document.body.appendChild(box);
+    box.querySelector('#tvpopclose').addEventListener('click',hide);
+    return box;
+  }
+  function hide(){ clearTimeout(timer); if(box) box.style.display='none'; }
+
+  function loadTV(cb){
+    if(tvLoaded) return cb();
+    if(tvFailed){
+      say('\u26a0 TradingView widget \u8f09\u5514\u5230\uff08\u7db2\u7d61\uff0f\u88ab\u906e\uff09\u2014\u2014 \u9ede\u300c\u958b TV \u2197\u300d\u76f4\u63a5\u53bb\u7db2\u7ad9');
+      return;
+    }
+    var s=document.createElement('script');
+    s.src='https://s3.tradingview.com/tv.js';
+    s.async=true;
+    s.onload=function(){ tvLoaded=true; cb(); };
+    s.onerror=function(){ tvFailed=true;
+      say('\u26a0 TradingView widget \u8f09\u5514\u5230\uff08\u7db2\u7d61\uff0f\u88ab\u906e\uff09\u2014\u2014 \u9ede\u300c\u958b TV \u2197\u300d\u76f4\u63a5\u53bb\u7db2\u7ad9'); };
+    document.head.appendChild(s);
+  }
+  function say(t){ var n=document.getElementById('tvpopnote'); if(n) n.textContent=t||''; }
+
+  function show(el){
+    var sym=el.getAttribute('data-sym');
+    if(!sym) return;
+    var b=ensureBox();
+    b.querySelector('#tvpopsym').textContent=sym;
+    b.querySelector('#tvpopopen').href=el.href||('#');
+    if(cur!==sym){
+      cur=sym;
+      b.querySelector('#tvpopchart').innerHTML='';
+      say('\u8f09\u5165\u4e2d\u2026');
+      loadTV(function(){
+        var host=b.querySelector('#tvpopchart');
+        host.innerHTML='<div id="tvwbox" style="height:340px"></div>';
+        try{
+          /* global TradingView */
+          new TradingView.widget({
+            container_id:'tvwbox', symbol:sym, interval:'D',
+            theme:'dark', style:'1', locale:'zh_TW',
+            hide_side_toolbar:true, hide_top_toolbar:false,
+            allow_symbol_change:false, save_image:false,
+            withdateranges:false, details:false,
+            studies:['Volume@tv-basicstudies'],
+            width:'100%', height:340, autosize:false
+          });
+          setTimeout(function(){ say(''); }, 1100);
+        }catch(e){ say('\u26a0 widget \u8d77\u5514\u5230\uff1a'+e.message); }
+      });
+    }
+    b.style.display='block';
+    place(el);
+  }
+
+  function place(el){
+    if(!box) return;
+    var r=el.getBoundingClientRect(), w=box.offsetWidth||440, h=box.offsetHeight||400;
+    var left=r.right+14, top=r.top-6;
+    if(left+w>window.innerWidth-10) left=Math.max(8, r.left-w-14);
+    if(top+h>window.innerHeight-10) top=Math.max(8, window.innerHeight-h-10);
+    if(top<8) top=8;
+    box.style.left=left+'px'; box.style.top=top+'px';
+  }
+  function near(el){
+    return el.closest && el.closest('a.tv');
+  }
+
+  document.addEventListener('mouseover',function(e){
+    var a=near(e.target);
+    if(!a) return;
+    var sym=a.getAttribute('data-sym');
+    if(sym && sym===cur && box && box.style.display==='block'){ clearTimeout(timer); return; }
+    clearTimeout(timer);
+    timer=setTimeout(function(){ show(a); }, 400);      /* 400ms：掃過唔會連彈 */
+  }, true);
+
+  document.addEventListener('mouseout',function(e){
+    var a=near(e.target);
+    if(!a) return;
+    clearTimeout(timer);
+    setTimeout(function(){
+      if(syncing) return;
+      if(box && box.style.display==='block' && box.matches(':hover')) return;
+      hide();
+    }, 260);
+  }, true);
+
+  document.addEventListener('mouseenter',function(){ syncing=true; }, true);
+  document.addEventListener('mouseleave',function(){ syncing=false; }, true);
+  window.addEventListener('scroll',function(){
+    if(box && box.style.display==='block') hide();
+  }, {passive:true});
+  window.addEventListener('keydown',function(e){ if(e.key==='Escape') hide(); });
+})();
+</script>
+</body></html>
