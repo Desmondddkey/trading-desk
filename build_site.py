@@ -2595,6 +2595,13 @@ def build():
         _mgt, _mgb = _mg.build()
         pages["margin"] = (_mgt, _mgb, base)
         log(f"✓ margin.html ({len(_mgb)//1024} KB)")
+    except Exception as _emg:                                 # noqa: BLE001
+        log(f"⚠ 保證金債務：{type(_emg).__name__}")
+    try:
+        import skills_page as _skp
+        _skt, _skb = _skp.build()
+        pages["skills"] = (_skt, _skb, base)
+        log(f"✓ skills.html ({len(_skb)//1024} KB)")
     except Exception as _etw:                                 # noqa: BLE001
         log(f"⚠ 頂部觀察：{type(_etw).__name__}")
 
