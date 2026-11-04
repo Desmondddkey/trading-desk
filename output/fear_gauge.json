@@ -1,39 +1,39 @@
 {
- "date": "2026-11-03",
- "generated": "2026-11-04",
- "score": 2,
- "verdict": "超跌累積",
- "expectancy": "+5.65%／78.6%",
- "vix": 20.76,
- "vix3m": 21.27,
- "vix_ratio": 0.976,
- "vxn": 30.7,
- "breadth": 40.1,
- "fg": 19.1,
- "pc": 0.828,
+ "date": "2026-11-04",
+ "generated": "2026-11-05",
+ "score": 1,
+ "verdict": "留意",
+ "expectancy": "+2.97%／77.4%",
+ "vix": 16.9,
+ "vix3m": 18.95,
+ "vix_ratio": 0.892,
+ "vxn": 25.48,
+ "breadth": 41.1,
+ "fg": 27.7,
+ "pc": 0.831,
  "checks": [
   {
    "name": "VIX ≥ 30",
    "hit": false,
-   "value": "20.76",
+   "value": "16.90",
    "edge": "20日 +10.79%／勝100%（n=15，事件重疊，不可外推）"
   },
   {
    "name": "VIX/VIX3M > 1",
    "hit": false,
-   "value": "0.98",
+   "value": "0.89",
    "edge": "+5.69%／71%（n=48）"
   },
   {
    "name": "廣度 < 25%",
    "hit": false,
-   "value": "40%",
+   "value": "41%",
    "edge": "+3.31%／85%（n=213）"
   },
   {
    "name": "F&G < 25",
-   "hit": true,
-   "value": "19",
+   "hit": false,
+   "value": "28",
    "edge": "+2.88%／89%（n=44）"
   },
   {
