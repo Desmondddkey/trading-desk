@@ -2602,6 +2602,13 @@ def build():
         _skt, _skb = _skp.build()
         pages["skills"] = (_skt, _skb, base)
         log(f"✓ skills.html ({len(_skb)//1024} KB)")
+    except Exception as _esk:                                 # noqa: BLE001
+        log(f"⚠ 技能庫：{type(_esk).__name__}")
+    try:
+        import luk_page as _lk
+        _lkt, _lkb = _lk.build()
+        pages["lukplaybook"] = (_lkt, _lkb, base)
+        log(f"✓ lukplaybook.html ({len(_lkb)//1024} KB)")
     except Exception as _etw:                                 # noqa: BLE001
         log(f"⚠ 頂部觀察：{type(_etw).__name__}")
 
