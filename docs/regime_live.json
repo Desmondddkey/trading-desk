@@ -8,10 +8,10 @@
  "diff": "CHOP",
  "opp": "潛在機會：可找突破／續升 setup",
  "delta": null,
- "mmtw": 50.62,
+ "mmtw": 50.6,
  "mmtw_rising": false,
  "oversold": false,
- "mmfi": 43.81,
+ "mmfi": 44.01,
  "mmfi_n": 5097,
  "mmfi_asof": "2026-11-05",
  "delta_txt": "昨日資料建立中",
@@ -49,7 +49,7 @@
    "name": "VIX 風險",
    "w": 10,
    "s": 7.0,
-   "d": "16.7｜HOLD 持倉觀察"
+   "d": "16.9｜HOLD 持倉觀察"
   },
   {
    "n": 6,
@@ -66,5 +66,5 @@
    "d": "11 月 +1.3%｜季節順風"
   }
  ],
- "updated": "03:35"
+ "updated": "03:50"
 }
