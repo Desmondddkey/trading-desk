@@ -26,6 +26,26 @@ def _table(head, rows, cls="pf-mini2"):
     return "".join(P)
 
 
+
+ARTICLE = r"C:/Users/rain0/trading-os-web/data/luk_article.md"
+
+
+def _full_article():
+    """原文全文（英文），Markdown → HTML。讀本地副本，唔靠網。"""
+    import io as _io
+    import os as _os
+    try:
+        import markdown as _md
+    except ImportError:
+        return '<div class="dim">UNVERIFIED：markdown 模組未安裝</div>'
+    if not _os.path.exists(ARTICLE):
+        return '<div class="dim">UNVERIFIED：找不到 data/luk_article.md</div>'
+    with _io.open(ARTICLE, encoding="utf-8") as f:
+        txt = f.read()
+    html = _md.markdown(txt, extensions=["tables", "fenced_code", "sane_lists"])
+    return html
+
+
 def build():
     P = ['<h2>🏆 Martin Luk 手冊 <small>USIC #1 · 969.8% 嘅可複製部分</small></h2>']
     P.append('<p class="crumb">來源：James Muninn（記錄 112 場直播、211 小時，重建多日 swing）'
@@ -108,6 +128,24 @@ def build():
              '<li>R 分佈圖：頭 10 單佔全年幾成 R（檢驗我們是否同一模式）</li>'
              '<li>止蝕距離 vs 倉位對照表：同一 0.5% 風險下，1.5% / 2% / 3% 嘅倉位與 R 差異</li>'
              '</ul>')
+    P.append('<h3>十、原文全文（英文，逐字）</h3>')
+    P.append('<div class="pf-note">下面係 Muninn 文章全文，未刪節；'
+             '數字如與上面摘要不同，以原文為準。</div>')
+    P.append('<details class="art"><summary>展開全文（約 19,500 字元）</summary>'
+             f'<div class="artbody">{_full_article()}</div></details>')
+    P.append("""<style>
+.art{border:1px solid #cfc7bb;border-radius:8px;background:#fff;margin:0 0 12px}
+.art>summary{cursor:pointer;padding:10px 14px;font-weight:700;font-size:13px}
+.artbody{padding:4px 16px 16px;border-top:1px solid #e6e0d6;font-size:13px;line-height:1.6}
+.artbody h2{font-size:15px;margin:16px 0 6px}
+.artbody h3{font-size:13.5px;margin:12px 0 4px}
+.artbody table{border-collapse:collapse;width:100%;margin:8px 0;font-size:12.5px}
+.artbody th,.artbody td{border:1px solid #e0d9cc;padding:5px 7px;text-align:left}
+.artbody blockquote{border-left:2px solid #c2410c;margin:8px 0;padding:2px 10px;color:#5b564c}
+.artbody code{background:#f2eee5;padding:1px 4px;border-radius:3px}
+.artbody pre{background:#f6f3ec;padding:8px 10px;border-radius:5px;overflow-x:auto}
+</style>""")
+
     P.append('<div class="pf-note">限制：文章為第三方重建，非 Luk 本人完整交易日誌；'
              '2026 數據截至 10 月；Kinfo 驗證期為過去 12 個月，與文章 2026 數據不同期。</div>')
     return ("Martin Luk 手冊", "".join(P))
