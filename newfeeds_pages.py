@@ -160,8 +160,8 @@ def mm_page(d):
                    '<div style="padding:12px 14px">'
                    '<table style="width:100%;border-collapse:collapse;'
                    'font-size:12.5px;table-layout:fixed">'
-                   '<colgroup><col style="width:74px"><col style="width:52px">'
-                   '<col style="width:52px"><col style="width:60px">'
+                   '<colgroup><col style="width:70px"><col style="width:46px">'
+                   '<col style="width:46px"><col style="width:52px">'
                    '<col></colgroup>'
                    '<thead><tr><th class="l">日期</th><th>升 4%+</th>'
                    '<th>跌 4%+</th><th>升/跌比</th>'
@@ -169,8 +169,9 @@ def mm_page(d):
         for s in series[:40]:
             u = s["up4"] or 0
             dd = s["down4"] or 0
-            wu = max(2, int(u / mx * HALF)) if u else 0
-            wd = max(2, int(dd / mx * HALF)) if dd else 0
+            # ★ 2026-11-04 手機對齊：用百分比，唔用 px —— px 會超出半格，令中間線偏左
+            wu = max(2.0, round(u / mx * 100, 1)) if u else 0
+            wd = max(2.0, round(dd / mx * 100, 1)) if dd else 0
             ratio = (u / dd) if dd else (999 if u else 0)
             if dd == 0 and u == 0:
                 rt_s, rt_c = "—", ""
@@ -185,15 +186,17 @@ def mm_page(d):
                 f'<td class="up">{int(u)}</td>'
                 f'<td class="dn">{int(dd)}</td>'
                 f'<td class="{rt_c}" style="font-weight:700">{rt_s}</td>'
-                '<td><div style="display:flex;align-items:center;'
-                'width:100%;height:11px">'
-                '<div style="flex:1;display:flex;justify-content:flex-end">'
-                f'<span style="height:10px;width:{wu}px;background:#2fbf71;'
+                '<td style="padding:0 4px"><div style="display:flex;'
+                'align-items:center;width:100%;height:13px">'
+                '<div style="flex:1 1 0;min-width:0;display:flex;'
+                'justify-content:flex-end">'
+                f'<span style="height:10px;width:{wu}%;background:#2fbf71;'
                 'border-radius:3px 0 0 3px"></span></div>'
                 '<div style="width:2px;height:15px;background:'
                 'rgba(120,130,150,.75);flex:0 0 auto;border-radius:1px"></div>'
-                '<div style="flex:1;display:flex;justify-content:flex-start">'
-                f'<span style="height:10px;width:{wd}px;background:#e5484d;'
+                '<div style="flex:1 1 0;min-width:0;display:flex;'
+                'justify-content:flex-start">'
+                f'<span style="height:10px;width:{wd}%;background:#e5484d;'
                 'border-radius:0 3px 3px 0"></span></div>'
                 '</div></td></tr>')
         out.append("</tbody></table>"
