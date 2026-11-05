@@ -1,6 +1,6 @@
 {
  "mri": 48,
- "asof": "2026-11-04",
+ "asof": "2026-11-05",
  "state": "觀察／低風險",
  "state_col": "",
  "pos": "10%｜只觀察或極小倉",
@@ -8,11 +8,11 @@
  "diff": "CHOP",
  "opp": "觀察：等待 breadth 或結構確認",
  "delta": null,
- "mmtw": 50.9,
+ "mmtw": 50.86,
  "mmtw_rising": false,
  "oversold": false,
  "mmfi": 44.12,
- "mmfi_n": 5097,
+ "mmfi_n": 5098,
  "mmfi_asof": "2026-11-05",
  "delta_txt": "昨日資料建立中",
  "rows": [
@@ -49,7 +49,7 @@
    "name": "VIX 風險",
    "w": 10,
    "s": 7.0,
-   "d": "16.6｜HOLD 持倉觀察"
+   "d": "16.8｜HOLD 持倉觀察"
   },
   {
    "n": 6,
@@ -66,5 +66,5 @@
    "d": "11 月 +1.3%｜季節順風"
   }
  ],
- "updated": "05:55"
+ "updated": "21:00"
 }

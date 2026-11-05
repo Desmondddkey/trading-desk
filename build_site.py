@@ -1030,6 +1030,7 @@ SIDEBAR_LINKS = [
     ("_pinned", "", "系統地圖", "sysmap.html"),
     ("_pinned", "", "技能庫", "skills.html"),
     ("_pinned", "", "Luk 手冊", "lukplaybook.html"),
+    ("_pinned", "", "Put/Call", "putcall.html"),
     ("_pinned", "", "廚房看板", "jobboard.html"),
     ("_pinned", "", "DATABASE", "datahealth.html"),
 
@@ -2611,6 +2612,13 @@ def build():
         _lkt, _lkb = _lk.build()
         pages["lukplaybook"] = (_lkt, _lkb, base)
         log(f"✓ lukplaybook.html ({len(_lkb)//1024} KB)")
+    except Exception as _elk:                                 # noqa: BLE001
+        log(f"⚠ Luk 手冊：{type(_elk).__name__}")
+    try:
+        import putcall_page as _pcp
+        _pct2, _pcb = _pcp.build()
+        pages["putcall"] = (_pct2, _pcb, base)
+        log(f"✓ putcall.html ({len(_pcb)//1024} KB)")
     except Exception as _etw:                                 # noqa: BLE001
         log(f"⚠ 頂部觀察：{type(_etw).__name__}")
 
