@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import html as _h
+import os
 
 
 def _esc(x):
@@ -27,7 +28,8 @@ def _table(head, rows, cls="pf-mini2"):
 
 
 
-ARTICLE = r"C:/Users/rain0/trading-os-web/data/luk_article.md"
+ARTICLE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                       "content", "luk_article.md")
 
 
 def _full_article():

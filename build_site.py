@@ -1028,6 +1028,8 @@ SIDEBAR_LINKS = [
     ("_pinned", "", "收工標準", "finish.html"),
     ("_pinned", "", "一脈相承", "howto.html"),
     ("_pinned", "", "系統地圖", "sysmap.html"),
+    ("_pinned", "", "技能庫", "skills.html"),
+    ("_pinned", "", "Luk 手冊", "lukplaybook.html"),
     ("_pinned", "", "廚房看板", "jobboard.html"),
     ("_pinned", "", "DATABASE", "datahealth.html"),
 

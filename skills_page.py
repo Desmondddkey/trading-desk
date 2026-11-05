@@ -15,7 +15,7 @@ ROOTS = [
     (r"C:/Users/rain0/AppData/Local/hermes/skills", "Hermes"),
     (r"C:/Users/rain0/AppData/Local/omh/skills", "OMH"),
 ]
-MAX_BODY = 6000
+MAX_BODY = 4000
 
 
 def _fm(text):
@@ -36,6 +36,7 @@ def _fm(text):
 
 def _md(text):
     """極簡 Markdown → HTML（標題／清單／code fence／粗體／行內碼／連結）。"""
+    _cut = len(text) > MAX_BODY
     t = _h.escape(text[:MAX_BODY])
     out, code = [], False
     for line in t.splitlines():
@@ -73,6 +74,8 @@ def _md(text):
             out.append(f"<p>{s}</p>")
     if code:
         out.append("</pre>")
+    if _cut:
+        out.append("<p class=\"pf-note\">✂ 正文超過 4,000 字元，此處只顯示前段；完整內容在 skill 檔（SKILL.md）。</p>")
     h = "\n".join(out)
     h = re.sub(r"\*\*([^*]+)\*\*", r"<b>\1</b>", h)
     h = re.sub(r"`([^`]+)`", r"<code>\1</code>", h)
@@ -97,7 +100,11 @@ def _collect():
                 continue
             fm, body = _fm(text)
             rel = os.path.relpath(dirpath, root).replace("\\", "/")
-            cat = rel.split("/")[0] if "/" in rel else "其他"
+            parts = rel.split("/")
+            if parts[0] in ("mp", "omh") and len(parts) > 1:
+                cat = parts[1]                      # mp/engineering → engineering
+            else:
+                cat = parts[0] if len(parts) > 1 else "其他"
             extras = []
             for sub in ("references", "scripts", "templates", "assets"):
                 d2 = os.path.join(dirpath, sub)
