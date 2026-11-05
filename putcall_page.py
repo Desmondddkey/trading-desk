@@ -42,10 +42,8 @@ def _chart(d):
     def YS(v):
         return SPX_B - (v - smin) / max(1e-9, smax - smin) * (SPX_B - SPX_T)
 
-    pcs = [s["pc"] for s in ser]
-    pmin = min(min(pcs), 0.40)
-    pmax = max(max(pcs), 1.10)
-    pmin, pmax = min(pmin, 0.40), max(pmax, 1.15)
+    # 照原圖固定軸：0.45 – 1.05（超出的值照畫但被裁在框內）
+    pmin, pmax = 0.45, 1.05
 
     def YP(v):
         return PC_B - (v - pmin) / max(1e-9, pmax - pmin) * (PC_B - PC_T)
@@ -56,13 +54,13 @@ def _chart(d):
     P.append(f'<rect width="{W}" height="{H}" fill="#fff"/>')
 
     # P/C 水平格線 + 右軸
-    step = 0.10
-    v = 0.40
+    step = 0.05
+    v = 0.45
     while v <= pmax + 1e-9:
         y = YP(v)
         P.append(f'<line x1="{L}" y1="{y:.1f}" x2="{W-R}" y2="{y:.1f}" '
                  f'stroke="#eceae4" stroke-width="1"/>')
-        P.append(f'<text x="{W-R+6}" y="{y+4:.1f}" fill="{MUTED}" font-size="11.5">'
+        P.append(f'<text x="{W-R+6}" y="{y+4:.1f}" fill="{MUTED}" font-size="10.5">'
                  f'{v:.3f}</text>')
         v += step
 
@@ -71,12 +69,19 @@ def _chart(d):
                    for i, s in enumerate(ser) if s["spx"])
     P.append(f'<polyline points="{pts}" fill="none" stroke="{NAVY}" stroke-width="1.1"/>')
 
+    # SPX 右軸（照原圖：右邊標價位）
+    for lv in (700, 1000, 2000, 3000, 4000, 5000, 6000, 7000):
+        if smin <= lv <= smax:
+            y = YS(lv)
+            P.append(f'<text x="{W-R+6}" y="{y+4:.1f}" fill="{MUTED}" font-size="10.5">'
+                     f'{lv:,}</text>')
+
     # P/C 線 + 250 日均線
     ppts = " ".join(f"{X(i):.1f},{YP(s['pc']):.1f}" for i, s in enumerate(ser))
-    P.append(f'<polyline points="{ppts}" fill="none" stroke="{PURPLE}" stroke-width="1.3"/>')
+    P.append(f'<polyline points="{ppts}" fill="none" stroke="{PURPLE}" stroke-width="0.9"/>')
     mpts = " ".join(f"{X(i):.1f},{YP(s['ma']):.1f}"
                     for i, s in enumerate(ser) if s["ma"] is not None)
-    P.append(f'<polyline points="{mpts}" fill="none" stroke="{GREY}" stroke-width="1"/>')
+    P.append(f'<polyline points="{mpts}" fill="none" stroke="#7a7468" stroke-width="1.4"/>')
 
     # 賣壓高峰豎虛線（跨兩個面板）
     pos = {s: i for i, s in enumerate(xs)}
@@ -108,7 +113,7 @@ def _chart(d):
     P.append(f'<text x="{L+82}" y="16" fill="{INK}" font-size="12">'
              f'CBOE Equity Put/Call Ratio, 250-DMA</text>')
     cur = d.get("latest") or {}
-    P.append(f'<text x="{W-R}" y="{PC_B-8}" fill="{INK}" font-size="11" text-anchor="end">'
+    P.append(f'<text x="{L+470}" y="16" fill="{INK}" font-size="11.5">'
              f'{_esc(d.get("as_of"))}　P/C {cur.get("pc")}　250DMA {cur.get("ma250")}</text>')
     P.append(f'<text x="{L}" y="{H-6}" fill="#9a948a" font-size="10">'
              f'來源：{_esc(d.get("source"))}</text>')

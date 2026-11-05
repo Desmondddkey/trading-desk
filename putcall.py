@@ -42,7 +42,10 @@ def _pc():
     if not rows:
         return None
     s = pd.Series({pd.Timestamp(d): v for d, v in rows}).sort_index()
-    return s[~s.index.duplicated(keep="last")]
+    s = s[~s.index.duplicated(keep="last")]
+    # 清洗：CBOE Equity P/C 歷史上界 ~1.5；0 或 >1.8 屬解析錯誤
+    s = s[(s > 0.05) & (s < 1.8)]
+    return s
 
 
 def _spx():

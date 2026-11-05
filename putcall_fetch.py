@@ -23,7 +23,7 @@ ARCH_URL = "https://cdn.cboe.com/resources/options/volume_and_call_put_ratios/eq
 DAY_URL = "https://www.cboe.com/us/options/market_statistics/daily/?dt={d}"
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 SLEEP = 0.25
-WORKERS = 5
+WORKERS = 6
 
 
 def _get(url, timeout=30):
@@ -75,10 +75,11 @@ def _parse_day(html):
 def main():
     start = dt.date(2019, 10, 7)
     today = dt.date.today()
-    raw = _load_raw()
-    if not raw:
-        raw = dict(_load_archive())
-        print(f"archive {len(raw)} rows", file=sys.stderr)
+    raw = dict(_load_archive())          # ★ 每次都以存檔為底，唔會覆蓋舊年份
+    print(f"archive {len(raw)} rows", file=sys.stderr)
+    existing = _load_raw()
+    raw.update(existing)                 # 已抓到的日子優先
+    print(f"existing {len(existing)} rows", file=sys.stderr)
 
     todo = []
     d = start
