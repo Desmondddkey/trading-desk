@@ -596,6 +596,11 @@ def build():
              f'🕒 頁面生成 {_now:%Y-%m-%d %H:%M}（HKT）｜'
              f'資料截止 卡片 {_esc(card["day"])}／廣度 {_esc(b.get("asof") or b.get("as_of") or "—")}｜'
              f'下次自動更新 {_nxt:%m-%d %H:%M}</div>')
+    try:
+        import ntmflow_page as _ntfp
+        P.append(_ntfp.strip())
+    except Exception:                                        # noqa: BLE001
+        pass
     P.append('<div style="font-size:12.5px;opacity:.75;margin:2px 0 6px">'
              '順序 = 環境 → 廣度 → 板塊 → 候選 → 計劃 → 9:30 ready。'
              '<b>5 燈唔過，後面唔使睇。</b></div>')

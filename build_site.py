@@ -1031,6 +1031,7 @@ SIDEBAR_LINKS = [
     ("_pinned", "", "技能庫", "skills.html"),
     ("_pinned", "", "Luk 手冊", "lukplaybook.html"),
     ("_pinned", "", "Put/Call", "putcall.html"),
+    ("_pinned", "", "期權資金流", "ntmflow.html"),
     ("_pinned", "", "廚房看板", "jobboard.html"),
     ("_pinned", "", "DATABASE", "datahealth.html"),
 
@@ -2619,6 +2620,13 @@ def build():
         _pct2, _pcb = _pcp.build()
         pages["putcall"] = (_pct2, _pcb, base)
         log(f"✓ putcall.html ({len(_pcb)//1024} KB)")
+    except Exception as _epc:                                 # noqa: BLE001
+        log(f"⚠ Put/Call：{type(_epc).__name__}")
+    try:
+        import ntmflow_page as _ntf
+        _ntt, _ntb = _ntf.build()
+        pages["ntmflow"] = (_ntt, _ntb, base)
+        log(f"✓ ntmflow.html ({len(_ntb)//1024} KB)")
     except Exception as _etw:                                 # noqa: BLE001
         log(f"⚠ 頂部觀察：{type(_etw).__name__}")
 
