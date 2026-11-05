@@ -51,6 +51,22 @@ def _load_archive():
     return out
 
 
+_PREV = {"n": 0}
+
+
+def _save(raw):
+    """原子寫入，且唔准令檔變細（防止被中斷的執行覆蓋已抓到的日子）。"""
+    if len(raw) < _PREV["n"]:
+        print(f"skip shrink write {len(raw)} < {_PREV['n']}", file=sys.stderr)
+        return
+    tmp = RAW + ".tmp"
+    with io.open(tmp, "w", encoding="utf-8", newline="\n") as fh:
+        for k in sorted(raw):
+            fh.write(f"{k},{raw[k]}\n")
+    os.replace(tmp, RAW)
+    _PREV["n"] = len(raw)
+
+
 def _load_raw():
     if not os.path.exists(RAW):
         return {}
@@ -78,6 +94,7 @@ def main():
     raw = dict(_load_archive())          # ★ 每次都以存檔為底，唔會覆蓋舊年份
     print(f"archive {len(raw)} rows", file=sys.stderr)
     existing = _load_raw()
+    _PREV["n"] = max(len(existing), len(raw))
     raw.update(existing)                 # 已抓到的日子優先
     print(f"existing {len(existing)} rows", file=sys.stderr)
 
@@ -110,15 +127,11 @@ def main():
                 raw[day.isoformat()] = val
                 new += 1
             if done % 100 == 0 or done == len(todo):
-                with io.open(RAW, "w", encoding="utf-8", newline="\n") as fh:
-                    for k in sorted(raw):
-                        fh.write(f"{k},{raw[k]}\n")
+                _save(raw)
                 print(f"{done}/{len(todo)} new={new} total={len(raw)}", file=sys.stderr)
             time.sleep(SLEEP / WORKERS)
 
-    with io.open(RAW, "w", encoding="utf-8", newline="\n") as f:
-        for k in sorted(raw):
-            f.write(f"{k},{raw[k]}\n")
+    _save(raw)
     print(json.dumps({"rows": len(raw), "added": new}), file=sys.stderr)
     return 0
 
