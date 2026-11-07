@@ -17,6 +17,15 @@ ROOTS = [
 ]
 MAX_BODY = 4000
 
+_ZH_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                        "content", "skills_zh.json")
+try:
+    import json as _json
+    with io.open(_ZH_PATH, encoding="utf-8") as _f:
+        ZH = _json.load(_f)
+except Exception:                                            # noqa: BLE001
+    ZH = {}
+
 
 def _fm(text):
     """frontmatter → dict（只支援 key: value 單行）。"""
@@ -155,6 +164,7 @@ def build():
                           if x)
         P.append(f'<details class="skcard" data-c="{_h.escape(r["cat"])}">'
                  f'<summary><b>{_h.escape(r["name"])}</b>'
+                 f'<span class="skzh">{_h.escape(ZH.get(r["name"], ""))}</span>'
                  f'<span class="skd">{_h.escape(r["desc"])}</span>'
                  f'<span class="skm">{_h.escape(meta)}</span></summary>'
                  f'<div class="skbody">{_md(r["body"])}')
@@ -168,7 +178,8 @@ def build():
 .skcard{border:1px solid #cfc7bb;border-radius:8px;margin:0 0 8px;background:#fff;color:#1f1e1d}
 .skcard>summary{cursor:pointer;padding:9px 12px;list-style:none;display:block;color:#1f1e1d}
 .skcard>summary::-webkit-details-marker{display:none}
-.skd{display:block;color:#5b564c;font-size:12.5px;margin-top:2px}
+.skzh{display:block;color:#1f1e1d;font-size:13px;margin-top:3px;font-weight:600}
+.skd{display:block;color:#6b6a63;font-size:11.5px;margin-top:2px}
 .skm{display:block;color:#7a7367;font-size:11.5px;margin-top:3px}
 .skbody{padding:4px 14px 12px;border-top:1px solid #e6e0d6;font-size:13px;line-height:1.55;color:#1f1e1d}
 .skbody h3{font-size:14px;margin:12px 0 4px;color:#1f1e1d}

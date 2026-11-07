@@ -1,0 +1,150 @@
+agent-memory-cleanup	Use when agent memory or skills drift: audit, then edit.
+agent-reach	>
+airtable	Airtable REST API via curl. Records CRUD, filters, upserts.
+analytical-chart-png	Use when rendering an analytical chart to PNG for delivery.
+answer-me-with-html	>-
+api-cost-tracker	Track AI API costs across OpenAI, Anthropic, Google AI with budget alerts, analytics, and optimization tips
+apple-design	苹果设计原则与流体交互动效知识库，源自 WWDC 设计演讲，为 Web 平台翻译的 17 条交互设计原则
+apple-notes	Manage Apple Notes via memo CLI: create, search, edit.
+apple-reminders	Apple Reminders via remindctl: add, list, complete.
+architecture-diagram	Dark-themed SVG architecture/cloud/infra diagrams as HTML.
+arxiv	Search arXiv papers by keyword, author, category, or ID.
+ascii-video	ASCII video: convert video/audio to colored ASCII MP4/GIF.
+ask-matt	Ask which skill or flow fits your situation. A router over the skills in this repo.
+attack-the-premise	Use when a fix keeps failing. Name the premise first.
+attention-budget	Use when agent work could spam: spend least human attention.
+baoyu-infographic	Infographics: 21 layouts x 21 styles (信息图, 可视化).
+big-pics-little-words	>-
+blocked-page-recovery	Use when a fetch fails: 403/429, paywall, WAF, bot wall.
+bloomberg-headlines	读取彭博社(Bloomberg)最新头条新闻。当用户想查看彭博社新闻、财经头条、Bloomberg headlines、最新市场资讯时使用此skill。
+box	Box manages cloud files, sharing, search, and metadata.
+brain-system	人脑系统是一套面向 AI Agent / 智能助手的类人脑认知操作系统，用来把一个只会即时问答的 Agent，升级成更擅长长期协作、连续执行、记忆整理、任务复盘和自我维护的工作伙伴。它不是宣称 AI 拥有意识，而是把人脑中的注意力调度、工作记忆、长期记忆、执行控制、反馈学习、睡眠巩固、神经通路和抑制机制，转化成一套可执行的 Agent 工作流。系统会把目标、事实、用户偏好、历史经验、工具、技能、风险、假设、证据和下一步行动组织成可激活的认知网络；面对任务时先识别意图和优先级，激活最相关的信息，抑制噪声和重复失败路径，再通过最小验证、工具证据、状态记录、错误反馈和复盘更新自己的判断。它包含长期记忆卫生、任务队列管理、状态仪表盘、上下文检查点、周期性自维护、睡眠式整理、快速神经通路、稳健排障、执行控制、反思复盘、经验沉淀、风险边界和自我优化等模块。适合用于长期项目跟进、复杂任务拆解、多轮排障、知识库沉淀、偏好学习、上下文压缩、Agent 自维护、工作流稳定化、从错误中学习，以及让智能助手形成更一致、更可复用的做事风格。典型触发语包括“给自己装一个人脑系统”“增强人脑系统”“像人脑一样思考/学习/记忆”“长期记忆”“自我优化”“复盘”“注意力管理”“执行控制”“任务队列”“睡眠整理”“减少遗忘”“沉淀经验”等。
+bro	Use when a reply was too dense. Restates it plainly.
+claude-code	Delegate coding to Claude Code CLI (features, PRs).
+claude-design	Design one-off HTML artifacts (landing, deck, prototype).
+code-review	Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes: Standards (does the code follow this repo's documented coding standards?) and Spec (does the code match what the originating issue/spec asked for?). Runs both reviews in parallel sub-agents and reports them side by side. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to \"review since X\".
+codebase-design	Shared vocabulary for designing deep modules. Use when the user wants to design or improve a module's interface, find deepening opportunities, decide where a seam goes, make code more testable or AI-navigable, or when another skill needs the deep-module vocabulary.
+codebase-inspection	Inspect codebases w/ pygount: LOC, languages, ratios.
+codex	Delegate coding to OpenAI Codex CLI (features, PRs).
+competitor-news-monitor	Watch named companies for material news; cited digests.
+computer-use	Drive the desktop background-first; escalate on signal.
+dashboard-design	Use when building a dashboard: one question per screen.
+data-visualization-analyst	>
+defuddle	Extract clean Markdown from HTML pages with Defuddle CLI.
+delegated-verification	Use when dispatching or judging verifier subagents.
+design-artifact	Design principles and creative direction for building HTML artifacts — pages, reports, plans, landing pages, demos, decks, and small tools. Use when creating or restyling any visual HTML deliverable and deciding its palette, type pairing, layout, theming, or overall register, or when the output must not look generically AI-generated.
+design-md	Author/validate/export Google's DESIGN.md token spec files.
+design-taste-frontend	>-
+diagnosing-bugs	Diagnosis loop for hard bugs and performance regressions. Use when the user says "diagnose"/"debug this", or reports something broken/throwing/failing/slow.
+diagram-design	Use when drawing a diagram: 45 types, HTML/SVG/PNG.
+document-to-action-items	Extract cited obligations, deadlines, tasks from documents.
+docx	Create, read, edit, template, and review Word .docx files.
+dogfood	Exploratory QA of web apps: find bugs, evidence, reports.
+domain-modeling	Build and sharpen a project's domain model. Use when discussing codebase terminology, writing or editing a GLOSSARY.md, or recording or editing an ADR.
+earnings-catalyst	Earnings/guidance/news catalyst checklist for a screened ticker, fixed 6-item output.
+effective-html	Use when building an HTML artifact: self-contained, visual.
+email-inbox-triage	Triage an inbox: prioritize threads, draft replies safely.
+external-system-teardown	Use when asked to RAE or rebuild an external system.
+fanout-research	Use for high-stakes research with 3 verifiers.
+findmy	Track Apple devices/AirTags via FindMy.app on macOS.
+frontend-design	Creates unique, production-grade frontend interfaces with exceptional design quality. Use when user asks to build web components, pages, materials, posters, or applications (e.g., websites, landing pages, dashboards, React components, HTML/CSS layouts, or styling/beautifying any web UI). Generates creative, polished code and UI designs that avoid mediocre AI aesthetics.
+gif-search	Search/download GIFs from Tenor via curl + jq.
+git-guardrails-claude-code	Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, etc.) before they execute. Use when user wants to prevent destructive git operations, add git safety hooks, or block git push/reset in Claude Code.
+github	GitHub via gh CLI: PRs, issues, reviews, repos, auth.
+google-workspace	Google OAuth2 client credentials (downloaded from Google Cloud Console)
+grill-me	A relentless interview to sharpen a plan or design.
+grill-with-docs	A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go.
+grilling	Grill the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-test their thinking, or uses any 'grill' trigger phrases.
+grounded-citations	Ground answers and documents in cited, verifiable sources.
+handoff	Compact the current conversation into a handoff document for another agent to pick up.
+hermes-agent	Use, configure, theme, extend, and orchestrate Hermes Agent.
+hermes-agent-skill-authoring	Author in-repo SKILL.md files: frontmatter and structure.
+hermes-profile-separation	Use when splitting one agent's work into Hermes profiles.
+hermes-skill-management	Install an external skill; make it always-on in Hermes.
+himalaya	Himalaya CLI: IMAP/SMTP email from terminal.
+html	Create or redesign self-contained single-file HTML artifacts with a visual direction shaped by the user's brief, project, and subject. Use when HTML is the deliverable for a report, explainer, landing page, presentation, tool, mixed artifact, or broad request. This is the collection's only implicit router. Route clear wireframe, prototype, mockup, plan, or diagram requests to the matching direct-invocation specialist when available. Do not use for ordinary application implementation when a standalone HTML file is not the deliverable.
+html-diagram	Direct-invocation specialist for self-contained HTML diagrams whose layout, notation, and interaction clarify relationships, sequence, topology, state, hierarchy, or quantitative structure. Use when the user explicitly invokes html-diagram or the broad html skill routes a diagram request here. Do not activate independently from a general request.
+html-plan	Direct-invocation specialist for clear, self-contained HTML plans that preserve source material while improving hierarchy, sequence, ownership, dependencies, and reviewability. Use when the user explicitly invokes html-plan or the broad html skill routes a plan request here. Do not activate independently from a general request.
+html-prototype	Direct-invocation specialist for polished, responsive, self-contained HTML mockups and interactive prototypes grounded in the user's conversation, product context, and design language. Use when the user explicitly invokes html-prototype or the broad html skill routes a mockup or prototype request here. Do not activate independently from a general request. Treat a mockup as a noninteractive fidelity mode within this skill, not as a separate skill.
+html-wireframe	Direct-invocation specialist for low-fidelity, self-contained HTML wireframes that test information hierarchy, content, navigation, task flow, and responsive structure before visual design. Use when the user explicitly invokes html-wireframe or the broad html skill routes a wireframe request here. Do not activate independently from a general request. Do not use for polished mockups or production-like interaction; use html-prototype for those.
+humanizer	Humanize text: strip AI-isms and add real voice.
+i-have-adhd	Shape output for a reader with ADHD so they can act on it: lead with the next action, number multi-step work, restate state across turns, suppress tangents, give specific time estimates, make wins visible. Auto-loaded by default; stays on until 'stop adhd mode'.
+imessage	Send and receive iMessages/SMS via the imsg CLI on macOS.
+implement	Implement a piece of work based on a spec or set of tickets.
+implement-spec	Implement the result of /to-spec and /to-tickets in code.
+improve-codebase-architecture	Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.
+inspecting-hermes-desktop-dom	Read the live Hermes desktop DOM/CSS over CDP.
+json-canvas	Create and edit JSON Canvas files (.canvas) with nodes, edges, groups, and connections. Use when working with .canvas files, creating visual canvases, mind maps, flowcharts, or when the user mentions Canvas files in Obsidian.
+karpathy-guidelines	Use when writing code: four rules against LLM slop.
+kitchen-ops	Use when improving Hermes' own kitchen: ops, verification.
+knap	Render Markdown from templates and structured data using Knap CLI. Use when the user asks to apply a Knap template, turn JSON or CSV data into notes, batch-generate Markdown files, or format Defuddle output into a note.
+llm-wiki	Karpathy's LLM Wiki: build/query interlinked markdown KB.
+local-llm-models	Download/verify local LLM models (GGUF, Ollama).
+manim-video	Manim CE animations: 3Blue1Brown math/algo videos.
+maps	Geocode, POIs, routes, timezones via OpenStreetMap/OSRM.
+market-regime-daily-insight	Use when judging daily market regime before trading.
+market-research	Fixed top-down US market brief: regime to sectors to RS to setup to risk.
+meeting-action-items	Turn meeting notes into cited decisions, owners, tickets.
+memory-never-forget	Memory system v4.13: Dual-layer structure (todos for execution + knowledge for strategy) with Dream/Refinement memory mechanisms.
+mempalace-recall	Use before answering what was decided: show old text.
+microsoft-office	Create, read, and edit Word, PowerPoint, and Excel files.
+migrate-to-shoehorn	Migrate test files from `as` type assertions to @total-typescript/shoehorn. Use when user mentions shoehorn, wants to replace `as` in tests, or needs partial test data.
+node-inspect-debugger	Debug Node.js via --inspect + Chrome DevTools Protocol CLI.
+notion	Notion API + ntn CLI: pages, databases, markdown, Workers.
+obsidian	Read, search, create, and edit notes in the Obsidian vault.
+obsidian-bases	Create and edit Obsidian Bases (.base files) with views, filters, formulas, and summaries. Use when working with .base files, creating database-like views of notes, or when the user mentions Bases, table views, card views, filters, or formulas in Obsidian.
+obsidian-cli	Interact with Obsidian vaults using the Obsidian CLI to read, create, search, and manage notes, tasks, properties, and more. Also supports plugin and theme development with commands to reload plugins, run JavaScript, capture errors, take screenshots, and inspect the DOM. Use when the user asks to interact with their Obsidian vault, manage notes, search vault content, perform vault operations from the command line, or develop and debug Obsidian plugins and themes.
+obsidian-markdown	Create and edit Obsidian Flavored Markdown with wikilinks, embeds, callouts, properties, and other Obsidian-specific syntax. Use when working with .md files in Obsidian, or when the user mentions wikilinks, callouts, frontmatter, tags, embeds, or Obsidian notes.
+one-pager	>-
+opencode	Delegate coding to OpenCode CLI (features, PR review).
+p5js	p5.js sketches: gen art, shaders, interactive, 3D.
+pdf	PDF files: create, read, merge, fill, OCR, edit text.
+ponytail	Use on coding tasks. Smallest complete change; YAGNI.
+popular-web-designs	54 real design systems (Stripe, Linear, Vercel) as HTML/CSS.
+powerpoint	Create, read, edit .pptx decks with python-pptx.
+pr	Use when writing a PR body.
+product-price-monitor	Watch product, flight, or listing prices; alert on target.
+prototype	Build a throwaway prototype to answer a design question. Use when the user wants to sanity-check whether a state model or logic feels right, or explore what a UI should look like.
+pstack-core	Use when writing, debugging, or reviewing code or scripts.
+python-debugpy	Debug Python: pdb REPL + debugpy remote (DAP).
+report-chart-rendering	Use when rendering a CJK chart/report image for delivery.
+requesting-code-review	Pre-commit review: security scan, quality gates, auto-fix.
+research	Investigate a question against high-trust primary sources and capture the findings as a Markdown file in the repo. Use when the user wants a topic researched, docs or API facts gathered, or reading legwork delegated to a background agent.
+retro	Conduct a retrospective on a coding session.
+run-cloned-app	Use when asked to download and run a cloned repo.
+scaffold-exercises	Create exercise directory structures with sections, problems, solutions, and explainers that pass linting. Use when user wants to scaffold exercises, create exercise stubs, or set up a new course section.
+sdlc-review	Review Kanban handoffs and route verified outcomes.
+second-brain-wiki	|
+setup-matt-pocock-skills	Configure this repo for the engineering skills: set up its issue tracker, triage label vocabulary, and domain doc layout. Run once before first use of the other engineering skills.
+setup-pre-commit	Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the current repo. Use when user wants to add pre-commit hooks, set up Husky, configure lint-staged, or add commit-time formatting/typechecking/testing.
+signal-labeling	Use when measuring whether signals have edge.
+simplify-code	Parallel 4-agent cleanup of recent code changes.
+simulation-model-validation	Use when validating a simulation, backtest, or model.
+songsee	Audio spectrograms/features (mel, chroma, MFCC) via CLI.
+songwriting-and-ai-music	Songwriting craft and Suno AI music prompts.
+spike	Throwaway experiments to validate an idea before build.
+stock-screener-review	Review layer-1/2 scan JSON/CSV, apply hard gates, emit focus list + Telegram message.
+systematic-debugging	4-phase root cause debugging: understand bugs before fixing.
+tdd	Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions "red-green-refactor", or wants integration tests.
+teach	Teach the user a new skill or concept, within this workspace.
+teams-meeting-pipeline	Teams meeting summaries, job replay, Graph subscriptions.
+test-driven-development	TDD: enforce RED-GREEN-REFACTOR, tests before code.
+text-to-image-free	>
+think-three-levels	Use when a task is polishing, not multiplying.
+to-questionnaire	Turn a decision you can't fully answer into a questionnaire for someone else to fill in.
+to-spec	Turn the current conversation into a spec and publish it to the project issue tracker: no interview, just synthesis of what you've already discussed.
+to-tickets	Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker (edges as text in one file per ticket locally, or native blocking links on a real tracker).
+trading-desk-site	Use when building or deploying the trading desk site.
+trading-os	US swing-trading research: TV scans and ORH/RVOL alerts.
+trading-os-source-material	Use when reading the Notion KB or verifying a rule source.
+triage	Move issues and external PRs through a state machine of triage roles, categorise, verify, grill if needed, and write agent-ready briefs.
+unlazy	Use for long multi-part work: gates prove it is finished.
+video-to-notion-transcript	Video to transcript to Notion; local Whisper, GPU.
+wait-what	Stop. That last message did not land: re-pitch it.
+wayfinder	Plan a huge chunk of work (more than one agent session can hold) as a shared map of decision tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear.
+weekly-review-planning	Weekly reset: commitments, stalled work, next-week plan.
+wizard	Generate an interactive bash wizard that walks a human through steps only they can perform. Use when provisioning infrastructure, setting up credentials or CI secrets, walking an unfamiliar third-party dashboard, or running a one-off migration or cutover. Don't invoke this for steps the agent can perform itself.
+writing-for-agents	Writing documents for agents. Use when creating or editing skills, or modifying AGENTS.md or CLAUDE.md.
+xlsx	Create, read, edit Excel .xlsx workbooks and CSVs.
+xurl	X/Twitter via xurl CLI: raw post search, posting, DM, media.
+youtube-content	YouTube transcripts to summaries, threads, blogs.
