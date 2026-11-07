@@ -180,7 +180,7 @@ CSS = """
   font-variant-numeric:tabular-nums;white-space:nowrap}
 .sr-tbl td.n,.sr-tbl th.n{text-align:right}
 .sr-chip{display:inline-block;min-width:26px;text-align:center;border-radius:3px;
-  font-size:10.5px;font-weight:800;padding:1px 3px}
+  font-size:10.5px;font-weight:800;padding:1px 3px;color:#14161a}
 .sr-note{font-size:10.5px;opacity:.55;line-height:1.7;margin-top:8px}
 .pos{color:#1f7f52}.neg{color:#a04a44}
 """
