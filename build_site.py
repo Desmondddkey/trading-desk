@@ -1049,6 +1049,20 @@ tbody tr:hover{background:rgba(148,163,184,.055)}
 .grid2,.grid3{gap:var(--sp-3)}
 .card .body>.grid2+.grid2{margin-top:var(--sp-3)}
 a{text-underline-offset:2px}
+/* ★ 2026-11-07 深色模式可讀性：細字唔好低過 0.78 透明度；表格字提亮 */
+body{color:#eef3fb}
+.card .body{color:#e4ebf6}
+table td{color:#e7eefb}
+table th{color:#b9c7dc;opacity:.85}
+table td[style*="opacity"]{opacity:1 !important;color:#cbd8ea}
+[style*="opacity:.7"]:not(svg),[style*="opacity:.72"]:not(svg){opacity:.92 !important}
+[style*="opacity:.5"]:not(svg):not(path),[style*="opacity:.55"]:not(svg),
+[style*="opacity:.6"]:not(svg),[style*="opacity:.62"]:not(svg),
+[style*="opacity:.65"]:not(svg){opacity:.82 !important}
+small,.crumb{color:#a9bad3}
+html[data-theme="light"] body{color:#1F1E1D}
+html[data-theme="light"] .card .body,html[data-theme="light"] table td{color:#2A2825}
+html[data-theme="light"] small,html[data-theme="light"] .crumb{color:#6B6A63}
 /* 外部圖（matplotlib PNG）統一成「圖版」：白底、圓角、留白，深色模式下睇落係刻意 */
 .card .body>img,.card .body>p>img{max-width:100%;height:auto;display:block;
   border-radius:8px;background:#fff;padding:8px;border:1px solid var(--hair)}
@@ -1090,6 +1104,7 @@ SIDEBAR_LINKS = [
     # ★ 2026-10-24 Desmond：「加多個主題 放市場下面；RS板改名 RS THEME」
     ("_grp", "主題"),
     ("_link", None, "行業輪動", "sectorrot.html"),
+    ("_link", None, "行業輪動 v2", "sectorrot2.html"),
     ("_link", None, "RS THEME", "rsboard.html"),
     ("_link", None, "Sectors", "sectors.html"),
 
@@ -2405,6 +2420,13 @@ def build():
         log(f"✓ mmmodel.html ({len(_mmb)//1024} KB)")
     except Exception as _emm:                                # noqa: BLE001
         log(f"⚠ mmmodel：{type(_emm).__name__}: {_emm}")
+    try:
+        import sector_rot2_page as _s2
+        _s2t, _s2b = _s2.build()
+        pages["sectorrot2"] = (_s2t, _s2b, base)
+        log(f"✓ sectorrot2.html ({len(_s2b)//1024} KB)")
+    except Exception as _e2:                                 # noqa: BLE001
+        log(f"⚠ sectorrot2：{type(_e2).__name__}: {_e2}")
     try:
         import sector_rot as _sr
         _srt, _srb = _sr.build()
