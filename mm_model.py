@@ -182,7 +182,54 @@ def compute(d):
         "stats_model": stats(eq[mask]), "stats_bh": stats(bh[mask]),
         "span": [start.strftime("%Y-%m-%d"), df.index[-1].strftime("%Y-%m-%d")],
         "chart": _series(df, score, eq, bh, expo, mask),
+        "monthly": _monthly(score, expo),
+        "annual": _annual(strat, ret, mask),
+        "periods": _periods(eq[mask], bh[mask]),
     }
+
+
+def _monthly(score, expo):
+    import pandas as pd
+    d = pd.DataFrame({"s": score, "a": expo * 100.0}).resample("ME").last().dropna()
+    return {"date": [x.strftime("%Y-%m-%d") for x in d.index],
+            "score": [round(float(v), 1) for v in d["s"]],
+            "alloc": [round(float(v), 0) for v in d["a"]]}
+
+
+def _annual(strat, ret, mask):
+    import pandas as pd
+    df = pd.DataFrame({"m": strat[mask], "b": ret[mask]})
+    out = []
+    for y, g in df.groupby(df.index.year):
+        if len(g) < 20:
+            continue
+        out.append({"year": int(y),
+                    "m": round(float((1 + g["m"]).prod() - 1) * 100, 1),
+                    "b": round(float((1 + g["b"]).prod() - 1) * 100, 1)})
+    return out[-20:]
+
+
+def _periods(eq, bh):
+    def seg(series, n):
+        if n == "max":
+            a, b = series.iloc[0], series.iloc[-1]
+        elif n == "ytd":
+            y0 = series[series.index.year == series.index[-1].year]
+            a, b = y0.iloc[0], y0.iloc[-1]
+        else:
+            k = 252 * n
+            if len(series) <= k:
+                return None
+            a, b = series.iloc[-1 - k], series.iloc[-1]
+        return round((b / a - 1) * 100, 1)
+    out = []
+    for lab, n in (("YTD", "ytd"), ("1 年", 1), ("2 年", 2), ("5 年", 5),
+                   ("10 年", 10), ("15 年", 15), ("20 年", 20), ("Max", "max")):
+        a, b = seg(eq, n), seg(bh, n)
+        if a is None or b is None:
+            continue
+        out.append((lab, (a, b)))
+    return out
 
 
 def _series(df, score, eq, bh, expo, mask, n=1400):
@@ -196,11 +243,15 @@ def _series(df, score, eq, bh, expo, mask, n=1400):
     def pick(s):
         return [None if v != v else round(float(v), 4) for v in s.iloc[::step]]
 
+    # ★ 兩條線都由 100 起（原圖係同一 log 尺比較，唔可以一條由 1 起）
+    def norm(series):
+        base = series.dropna().iloc[0]
+        return [None if v != v else round(float(v) / base * 100, 2) for v in series.iloc[::step]]
     return {
         "date": [d.strftime("%Y-%m-%d") for d in t.index[::step]],
-        "px": pick(t["c"]),
+        "px": norm(t["c"]),
         "score": [None if v != v else round(float(v), 1) for v in sc.iloc[::step]],
-        "eq": pick(e), "bh": pick(b),
+        "eq": norm(e), "bh": norm(b),
         "expo": [round(float(v), 2) for v in x.iloc[::step]],
     }
 
@@ -294,10 +345,13 @@ CSS = """
 .mm-tbl td{padding:4px 7px;border-bottom:1px solid rgba(148,163,184,.1);font-variant-numeric:tabular-nums}
 .mm-on{color:#1f7f52;font-weight:800}.mm-off{color:#a04a44;opacity:.8}
 .mm-note{font-size:10.5px;opacity:.55;line-height:1.7;margin-top:8px}
+.mm-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+.mm-scroll svg{display:block}
 """
 
 
 def build():
+    import mm_view as V
     try:
         with io.open(os.path.join(OUT, "mm_model.json"), encoding="utf-8") as f:
             snap = json.load(f)
@@ -309,37 +363,71 @@ def build():
                             '</div></div>')
     s = snap["score"] or 0
     if s >= FULL_AT:
-        verdict, col = "全倉（invested）", "#1f7f52"
+        verdict, col = "全倉（invested）", "#2f8f5b"
     elif s >= HALF_AT:
         verdict, col = "半倉（一半現金）", "#b9a05f"
     else:
         verdict, col = "現金（risk-off）", "#a04a44"
 
+    st, bh = snap["stats_model"], snap["stats_bh"]
+    cs = snap["chart"]
+    mo = snap.get("monthly") or {}
+
     L = [f"<style>{CSS}</style>"]
+
+    # ── 頭：分數 + 倉位
     L.append('<div class="card"><h2>MM Model <small>' + _esc(snap["date"]) +
              '｜25 個子模型 → 合成 0-100</small></h2><div class="body">')
-    L.append('<div class="mm-hero">')
-    L.append(f'<div><div class="mm-score" style="color:{col}">{int(s)}<span '
-             f'style="font-size:15px;opacity:.45">/100</span></div>'
+    L.append(f'<div class="mm-hero"><div><div class="mm-score" style="color:{col}">{int(s)}'
+             f'<span style="font-size:15px;opacity:.45">/100</span></div>'
              f'<div class="mm-verdict" style="color:{col}">{verdict}</div>'
              f'<div class="mm-bar"><i style="width:{min(100,s):.0f}%;background:{col}"></i></div>'
-             f'<div class="mm-meta">門檻 70 = 全倉｜30 = 半倉｜Gold 門檻 75</div></div>')
-    L.append(f'<div class="mm-meta">今日倉位 {snap["expo_today"]}%<br>'
-             f'樣本 {_esc(snap["span"][0])} → {_esc(snap["span"][1])}</div>')
-    st, bh = snap["stats_model"], snap["stats_bh"]
-    L.append('<div class="mm-meta">'
-             f'模型 CAGR <b>{st["cagr"]}%</b>｜最大回撤 <b>{st["maxdd"]}%</b><br>'
-             f'買入持有 CAGR {bh["cagr"]}%｜最大回撤 {bh["maxdd"]}%</div>')
+             f'<div class="mm-meta">門檻 70 = 全倉｜30 = 半倉｜Gold 門檻 75</div></div>'
+             f'<div class="mm-meta">建議倉位 {snap["expo_today"]}%<br>'
+             f'樣本 {_esc(snap["span"][0])} → {_esc(snap["span"][1])}</div>'
+             f'<div class="mm-meta">Model CAGR <b>{st["cagr"]}%</b>｜最大回撤 '
+             f'<b>{st["maxdd"]}%</b><br>S&amp;P CAGR {bh["cagr"]}%｜最大回撤 {bh["maxdd"]}%</div>'
+             '</div></div></div>')
+
+    # ── 圖 1：價格 + 模型（log）
+    L.append('<div class="card"><h2>1 · S&amp;P 500 vs Composite Model '
+             '<small>log 尺｜藍 = S&amp;P｜橙 = 模型</small></h2>'
+             '<div class="body"><div class="mm-scroll">')
+    L.append(V.price_chart(cs, st, bh))
+    L.append('</div><div class="mm-note">左右滑動睇歷史；打開時自動對齊最右（最新）。</div>'
+             '</div></div>')
+
+    # ── 圖 2：Composite Indicator
+    L.append('<div class="card"><h2>2 · Composite Indicator '
+             '<small>0-100｜虛線 40 / 60</small></h2><div class="body"><div class="mm-scroll">')
+    L.append(V.step_chart(mo.get("date"), mo.get("score"),
+                          colour="#2f8f5b", label="Composite Indicator",
+                          value_txt=f'{snap["date"]} = {s:.1f}',
+                          dash=(40, 60), lo=0, hi=100))
     L.append('</div></div></div>')
 
-    L.append('<div class="card"><h2>歷史 <small>綠底 = 全倉｜黃 = 半倉｜紅 = 現金'
-             '（以收市計分，下一日生效）</small></h2><div class="body">')
-    L.append(_chart(snap["chart"]))
-    L.append('<div class="mm-note">價格用 log 尺。分數 = 25 條之中 true 嘅比例；'
-             '回測含 0.02% 每邊成本。</div></div></div>')
+    # ── 圖 3：Allocation %
+    L.append('<div class="card"><h2>3 · S&amp;P 500 Allocation % '
+             '<small>0-100｜0 = 全現金｜100 = 全倉</small></h2><div class="body"><div class="mm-scroll">')
+    L.append(V.step_chart(mo.get("date"), mo.get("alloc"),
+                          colour="#52525b", label="S&amp;P 500 Allocation %",
+                          value_txt=f'{snap["date"]} = {snap["expo_today"]:.1f}%',
+                          dash=(50,), lo=0, hi=100))
+    L.append('</div></div></div>')
 
+    # ── 表：年回報 + 期間回報
+    L.append('<div class="grid2">')
+    L.append('<div class="card"><h2>年回報 <small>近 20 年</small></h2><div class="body">')
+    L.append(V.annual_table(snap.get("annual") or []))
+    L.append('</div></div>')
+    L.append('<div class="card"><h2>期間回報</h2><div class="body">')
+    L.append(V.period_table(snap.get("periods") or []))
+    L.append('</div></div></div>')
+
+    # ── 25 個子模型
     on = sum(1 for m in snap["models"] if m["on"])
-    L.append(f'<div class="card"><h2>25 個子模型 <small>{on}/25 成立</small></h2><div class="body">')
+    L.append(f'<div class="card"><h2>25 個子模型 <small>{on}/25 成立</small></h2>'
+             '<div class="body">')
     L.append('<div class="tscroll"><table class="mm-tbl"><thead><tr>'
              '<th>#</th><th>模型</th><th>狀態</th><th class="n">近 250 日成立</th>'
              '</tr></thead><tbody>')
@@ -350,9 +438,14 @@ def build():
                  f'<td class="n">{m["days"]}</td></tr>')
     L.append('</tbody></table></div>')
     L.append('<div class="mm-note">★ Minervini 原版 25 個子模型冇公開。以上 25 條係我方可核 proxy，'
-             '只用公開指數價、VIX、10 年息、美元計，公式寫死喺 mm_model.py，'
-             '唔可以當成官方數字或者投資建議。</div>')
-    L.append('</div></div>')
+             '只用公開指數價、VIX、10 年息、美元計，公式寫死喺 mm_model.py。'
+             '唔可以當成官方數字或者投資建議。</div></div></div>')
+    # 預設最右（最新）；向左滑睇歷史
+    L.append('<script>(function(){function R(){document.querySelectorAll'
+             '(".mm-scroll").forEach(function(e){e.scrollLeft=e.scrollWidth;});}'
+             'if(document.readyState!=="loading")R();'
+             'else document.addEventListener("DOMContentLoaded",R);'
+             'window.addEventListener("resize",R);})();</script>')
     return ("MM Model", "".join(L))
 
 
