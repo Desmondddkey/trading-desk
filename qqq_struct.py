@@ -475,6 +475,27 @@ def _card_open(title, extra=""):
     return f'<div class="card"><h2>{title}{extra}</h2><div class="body">'
 
 
+JSON_PATH = os.path.join(OUT, "qqq_struct.json")
+
+
+def _load_json():
+    try:
+        with io.open(JSON_PATH, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:                                        # noqa: BLE001
+        return None
+
+
+def _age_days(ds):
+    """日曆日差（由 ISO 字串）；讀唔到 = None（唔准當 0）。"""
+    import datetime as _dt
+    try:
+        d = _dt.date.fromisoformat(str(ds)[:10])
+    except Exception:                                        # noqa: BLE001
+        return None
+    return (_dt.date.today() - d).days
+
+
 # ────────────────────────────── 頁面 ──────────────────────────────
 CSS = """
 .qs-name{font-size:30px;font-weight:800;line-height:1;letter-spacing:-.02em}
@@ -503,17 +524,26 @@ CSS = """
 
 
 def build(snap=None):
+    # ★ 頁面只讀 JSON（唔上網）：collector = `python qqq_struct.py`
+    #   build 期間上網會令成個 generator 慢同可能卡死（trading-desk-site 嘅 page 合約）
     if snap is None:
-        snap = build_snapshot()
+        snap = _load_json()
     if not snap:
         return ("QQQ 雙結構", '<div class="card"><div class="body">'
-                             'DATA_UNAVAILABLE — QQQ 數據抓唔到（cache 亦冇）。</div></div>')
+                             'DATA_UNAVAILABLE — 未跑 qqq_struct.py（output/qqq_struct.json）。</div></div>')
 
     st = snap["state"]
     col = COL.get(st, "#94a3b8")
     z_d, z_w = snap["z_d"], snap["z_w"]
 
     L = [f"<style>{CSS}</style>"]
+
+    # ── 0 新鮮度（Missing ≠ Zero：檔一舊就講，唔准扮今日）
+    age = _age_days(snap.get("date"))
+    if age is not None and age > 5:
+        L.append(f'<div class="card"><div class="body" style="color:#f59e0b;font-size:12px">'
+                 f'⚠ 數據停咗 {age} 日（最後 {snap.get("date")}）— collector 未跑，'
+                 f'以下係舊快照。</div></div>')
 
     # ── ① 狀態卡
     L.append(_card_open("QQQ 雙結構",
