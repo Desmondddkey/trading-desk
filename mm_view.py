@@ -159,3 +159,80 @@ def period_table(periods):
                    f'<td class="n">{v[1]:+.1f}%</td></tr>')
     out.append('</tbody></table>')
     return "".join(out)
+
+
+def vix_chart(vd, W=1160):
+    """S&P 500（log）× VIX：同 Mark 原圖一樣上下兩格，VIX 標 12 / 20 / 28.5 / 40。"""
+    if not vd or len(vd.get("vix", [])) < 100:
+        return '<div class="dim">DATA_UNAVAILABLE</div>'
+    spx, vix, dates = vd["spx"], vd["vix"], vd["date"]
+    n = len(spx)
+    pad_l, pad_r = 58, 54
+    x0, x1 = pad_l, W - pad_r
+    h1, h2, gap = 230, 150, 24
+    H = h1 + h2 + gap + 22
+
+    def X(i):
+        return x0 + i / max(1, n - 1) * (x1 - x0)
+
+    lo, hi = _m.log10(min(spx)), _m.log10(max(spx))
+    pad = (hi - lo) * 0.05
+    lo, hi = lo - pad, hi + pad
+
+    def Y1(v):
+        return 4 + (hi - _m.log10(v)) / (hi - lo) * (h1 - 8)
+
+    P = [f'<svg viewBox="0 0 {W} {H}" width="{W}" style="width:{W}px;max-width:none" '
+         f'role="img" aria-label="S&P 500 vs VIX">']
+    for e in range(2, 6):
+        for mult in (1, 3.162):
+            v = (10 ** e) * mult
+            if lo <= _m.log10(v) <= hi:
+                P.append(f'<line x1="{x0}" y1="{Y1(v):.1f}" x2="{x1}" y2="{Y1(v):.1f}" '
+                         f'stroke="#e5e7eb" stroke-width="0.7"/>')
+                P.append(f'<text x="{x0-5}" y="{Y1(v)+3:.1f}" font-size="9" fill="#6b7280" '
+                         f'text-anchor="end">{v:,.0f}</text>')
+                P.append(f'<text x="{x1+5}" y="{Y1(v)+3:.1f}" font-size="9" fill="#6b7280">'
+                         f'{v:,.0f}</text>')
+    P.append('<polyline points="' + " ".join(f"{X(i):.1f},{Y1(v):.1f}" for i, v in enumerate(spx))
+             + f'" fill="none" stroke="{BLUE}" stroke-width="1.1"/>')
+    P.append(f'<text x="{x0}" y="{h1-6}" font-size="10" fill="#111827" font-weight="700">'
+             f'S&amp;P 500 {vd["spx_last"]:,.2f}</text>')
+
+    y2 = h1 + gap
+    vmax = 90
+    vmin = 0
+
+    def Y2(v):
+        return y2 + (vmax - max(vmin, min(vmax, v))) / (vmax - vmin) * h2
+
+    for v in (10, 20, 30, 40, 50, 60, 70, 80, 90):
+        P.append(f'<line x1="{x0}" y1="{Y2(v):.1f}" x2="{x1}" y2="{Y2(v):.1f}" '
+                 f'stroke="#eef0f2" stroke-width="0.6"/>')
+        P.append(f'<text x="{x0-5}" y="{Y2(v)+3:.1f}" font-size="8.5" fill="#6b7280" '
+                 f'text-anchor="end">{v}</text>')
+    for lv, lab, dash in ((12, "", "2 3"), (20, "20", "4 4"),
+                          (28.5, "28.5 熊市警告", "5 3"), (40, "40 高恐慌", "5 3")):
+        P.append(f'<line x1="{x0}" y1="{Y2(lv):.1f}" x2="{x1}" y2="{Y2(lv):.1f}" '
+                 f'stroke="#9ca3af" stroke-width="0.9" stroke-dasharray="{dash}"/>')
+        if lab:
+            P.append(f'<text x="{x1+5}" y="{Y2(lv)+3:.1f}" font-size="8.5" fill="#6b7280">'
+                     f'{lv}</text>')
+    P.append('<polyline points="' + " ".join(f"{X(i):.1f},{Y2(v):.1f}" for i, v in enumerate(vix))
+             + '" fill="none" stroke="#e39a3b" stroke-width="0.9"/>')
+    P.append(f'<text x="{x1-6}" y="{Y2(85):.1f}" font-size="9" fill="#6b7280" '
+             f'text-anchor="end">High Fear</text>')
+    P.append(f'<text x="{x0+6}" y="{Y2(3):.1f}" font-size="9" fill="#6b7280">High Complacency</text>')
+    P.append(f'<text x="{x0}" y="{y2+h2-4}" font-size="10" fill="#111827" font-weight="700">'
+             f'VIX {vd["last"]:.2f}（{vd["last_date"]}）</text>')
+    last, lastx = "", -1e9
+    for i, ds in enumerate(dates):
+        yr = ds[:4]
+        if yr != last:
+            last = yr
+            if X(i) - lastx > (x1 - x0) * 0.05:
+                lastx = X(i)
+                P.append(f'<text x="{X(i):.1f}" y="{H-6}" font-size="9" fill="#6b7280" '
+                         f'text-anchor="middle">{yr}</text>')
+    P.append('</svg>')
+    return "".join(P)

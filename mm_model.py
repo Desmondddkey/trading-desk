@@ -191,6 +191,31 @@ def compute(d):
         "monthly": _monthly(score, expo),
         "annual": _annual(strat, ret, mask),
         "periods": _periods(eq[mask], bh[mask]),
+        "vix": _vix_block(df, d.get("^VIX")),
+    }
+
+
+def _vix_block(df, vix):
+    """S&P 500 vs VIX（1997 起，同 Mark 張圖同一段）。"""
+    import pandas as pd
+    if vix is None:
+        return None
+    v = vix.reindex(df.index).ffill()
+    t = pd.DataFrame({"s": df["c"], "v": v}).dropna()
+    t = t.loc["1997-01-17":]
+    if len(t) < 200:
+        return None
+    step = max(1, len(t) // 1400)
+    idx = list(range(0, len(t), step))
+    if idx[-1] != len(t) - 1:
+        idx.append(len(t) - 1)
+    return {
+        "date": [x.strftime("%Y-%m-%d") for x in t.index[idx]],
+        "spx": [round(float(x), 2) for x in t["s"].iloc[idx]],
+        "vix": [round(float(x), 2) for x in t["v"].iloc[idx]],
+        "last": round(float(t["v"].iloc[-1]), 2),
+        "last_date": t.index[-1].strftime("%Y-%m-%d"),
+        "spx_last": round(float(t["s"].iloc[-1]), 2),
     }
 
 
@@ -245,20 +270,23 @@ def _series(df, score, eq, bh, expo, mask, n=1400):
     b = bh[mask]
     x = expo[mask]
     step = max(1, len(t) // n)
+    idx = list(range(0, len(t), step))
+    if idx[-1] != len(t) - 1:
+        idx.append(len(t) - 1)          # ★ 最新一日唔可以被抽樣跳走
 
     def pick(s):
-        return [None if v != v else round(float(v), 4) for v in s.iloc[::step]]
+        return [None if v != v else round(float(v), 4) for v in s.iloc[idx]]
 
     # ★ 兩條線都由 100 起（原圖係同一 log 尺比較，唔可以一條由 1 起）
     def norm(series):
         base = series.dropna().iloc[0]
         return [None if v != v else round(float(v) / base * 100, 2) for v in series.iloc[::step]]
     return {
-        "date": [d.strftime("%Y-%m-%d") for d in t.index[::step]],
+        "date": [d.strftime("%Y-%m-%d") for d in t.index[idx]],
         "px": norm(t["c"]),
-        "score": [None if v != v else round(float(v), 1) for v in sc.iloc[::step]],
+        "score": [None if v != v else round(float(v), 1) for v in sc.iloc[idx]],
         "eq": norm(e), "bh": norm(b),
-        "expo": [round(float(v), 2) for v in x.iloc[::step]],
+        "expo": [round(float(v), 2) for v in x.iloc[idx]],
     }
 
 
@@ -419,6 +447,30 @@ def build():
                           value_txt=f'{snap["date"]} = {snap["expo_today"]:.1f}%',
                           dash=(50,), lo=0, hi=100))
     L.append('</div></div></div>')
+
+    # ── 圖 4：S&P 500 vs VIX（Mark 2026-11-05 貼嘅圖）
+    vd = snap.get("vix") or {}
+    if vd:
+        v = vd.get("last") or 0
+        if v >= 40:
+            vt, vc = "高恐慌（歷史上多數係中期底附近）", "#a04a44"
+        elif v >= 28.5:
+            vt, vc = "熊市警告（28.5 係 Mark 嘅警戒線）", "#a04a44"
+        elif v >= 20:
+            vt, vc = "波動偏高", "#b9a05f"
+        elif v >= 12:
+            vt, vc = "正常", "#2f8f5b"
+        else:
+            vt, vc = "極度自滿（High Complacency）", "#b9a05f"
+        L.append('<div class="card"><h2>4 · S&amp;P 500 vs VIX '
+                 f'<small>1997 起｜VIX {v:.2f}</small></h2><div class="body">'
+                 '<div class="hscroll">')
+        L.append(V.vix_chart(vd))
+        L.append('</div>'
+                 f'<div class="mm-verdict" style="color:{vc};margin-top:8px">{vt}</div>'
+                 '<div class="mm-note">VIX ≥ 28.5 = 熊市警告（Mark Minervini 2026-11-05）；'
+                 '≥ 40 = 高恐慌；≤ 12 = 極度自滿。呢個係環境資訊，唔係入場訊號。</div>'
+                 '</div></div>')
 
     # ── 表：年回報 + 期間回報
     L.append('<div class="grid2">')
