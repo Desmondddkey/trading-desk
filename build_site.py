@@ -1021,6 +1021,46 @@ html[data-theme="light"] .jb-card{border-color:#E3E1DA;
 
 """
 
+
+DESIGN_REFRESH = """
+/* ══ 2026-11-07 設計統一（Desmond：重新執一次排版）══════════════
+   原則：一套間距、一套字階、數字等寬、卡片一致。
+   ★ 只改節奏（spacing/type），唔改任何頁面內容或顏色語意。 */
+:root{
+  --sp-1:6px; --sp-2:10px; --sp-3:14px; --sp-4:20px;
+  --radius:10px; --hair:rgba(148,163,184,.18);
+  --fs-body:13px; --fs-meta:11px; --fs-h2:13.5px; --fs-table:12.5px;
+}
+body{font-size:var(--fs-body);line-height:1.55}
+.wrap{max-width:1280px}
+.card{margin:0 0 var(--sp-3);border-radius:var(--radius)}
+.card>h2{font-size:var(--fs-h2);padding:10px var(--sp-3);letter-spacing:.02em}
+.card>.body{padding:var(--sp-3) var(--sp-4)}
+.card>.body>h3:first-child,.card>.body>p:first-child{margin-top:0}
+h1{font-size:19px}
+h3{font-size:14.5px;margin:var(--sp-4) 0 var(--sp-2)}
+p,li{max-width:78ch}
+table{font-size:var(--fs-table)}
+table th{font-size:10.5px;letter-spacing:.04em;padding:5px 8px}
+table td{padding:4px 8px}
+tbody tr:hover{background:rgba(148,163,184,.055)}
+.num,td.n,.kpi .v{font-variant-numeric:tabular-nums}
+.kpi .v{font-size:18px}
+.grid2,.grid3{gap:var(--sp-3)}
+.card .body>.grid2+.grid2{margin-top:var(--sp-3)}
+a{text-underline-offset:2px}
+/* 外部圖（matplotlib PNG）統一成「圖版」：白底、圓角、留白，深色模式下睇落係刻意 */
+.card .body>img,.card .body>p>img{max-width:100%;height:auto;display:block;
+  border-radius:8px;background:#fff;padding:8px;border:1px solid var(--hair)}
+code,pre{font-size:12px}
+@media(max-width:700px){
+  .wrap{padding:0 10px 40px}
+  .card>.body{padding:0}
+  .card>h2{padding:9px 11px;font-size:12.5px}
+  h3{font-size:13.5px;margin:14px 0 6px}
+}
+"""
+
 SIDEBAR_LINKS = [
     # 2026-10-19 方案 C：5 個分組；廚房看板獨立最頂；PLAYBOOK 最底
     # ★ 2026-10-24 Desmond：「每日流程放最頂」
@@ -1395,6 +1435,16 @@ def _polish(html_text):
 
     t = _RE_TABLE.sub(_wrap, t)
     t = _hscroll_wide(t)
+    # ★ 死頁守門：內容少過 900 字元 → 明示未接數據，唔好扮完成
+    try:
+        import re as _re2
+        _plain = _re2.sub(r"<[^>]+>", " ", t)
+        if len(_plain.strip()) < 900 and '<div class="wrap">' in t:
+            _banner = ('<div class="card"><div class="body" style="color:#fbc06a">'
+                       '⚠ 此頁暫時冇內容（未接數據／未完成）。</div></div>')
+            t = t.replace('<div class="wrap">', '<div class="wrap">' + _banner, 1)
+    except Exception:                                        # noqa: BLE001
+        pass
     return t
 
 
@@ -2708,6 +2758,7 @@ def build():
     #    （下次 build 會覆蓋 → 滿意就打返入 generator）
     _css = CSS + SIDEBAR_CSS + tvhover.TVHOVER_CSS + _TS_CSS
     _css = _impeccable_css(_css)
+    _css = _css + DESIGN_REFRESH
     with io.open(os.path.join(SITE, "site.css"), "w", encoding="utf-8") as _f:
         _f.write(_css)
     log(f"✓ site.css ({len(_css)//1024} KB)")

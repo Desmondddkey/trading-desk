@@ -2,82 +2,176 @@
  "pages": [
   {
    "page": "alerts.html",
-   "bytes": 86032,
+   "bytes": 118809,
    "issues": [
     [
      "NO_DATE_BADGE",
-     "「ALERT 所有警報分類」附近冇 ISO 日期"
+     "「Setup Alert 所有警報分類」附近冇 ISO 日期"
     ]
    ],
    "h1": "HI! Desmond",
    "h2": [
-    "ALERT 所有警報分類"
+    "所有 JOB 訊號",
+    "Setup Alert 所有警報分類"
    ],
    "date_formats": {
-    "ISO": 535
+    "ISO": 1041
    },
    "decimals": {
-    "1": 7,
-    "2": 477
+    "1": 44,
+    "2": 1068,
+    "3": 6
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "audit.html",
+   "bytes": 28839,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "系統審計 賺幾多錢 · Kelly",
+    "每個 Job 賺幾多 按賺蝕排序",
+    "每日自檢 + 自動優化 2026-11-06",
+    "優化曲線 Kelly → 資金",
+    "出場規則 Kelly 對比 邊個出場最賺錢",
+    "Kelly 點讀"
+   ],
+   "date_formats": {
+    "ISO": 10
+   },
+   "decimals": {
+    "1": 22,
+    "2": 62,
+    "3": 1
+   },
+   "tables": 3,
+   "empty_tables": 0
+  },
+  {
+   "page": "backtest.html",
+   "bytes": 29851,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Backtest 每個訊號源嘅實測 EV",
+    "全表 T+1 開盤入場、無前視",
+    "點量出嚟 可覆核"
+   ],
+   "date_formats": {
+    "ISO": 9,
+    "MD": 1
+   },
+   "decimals": {
+    "2": 63,
+    "1": 32
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "beachball.html",
+   "bytes": 46236,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "沙灘球反應"
+   ],
+   "date_formats": {
+    "ISO": 9
+   },
+   "decimals": {
+    "1": 17,
+    "2": 91
    },
    "tables": 1,
    "empty_tables": 0
   },
   {
    "page": "bee50.html",
-   "bytes": 51945,
+   "bytes": 33152,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
     "🐝 Stockbee 50 每日最強動能 50 隻"
    ],
    "date_formats": {
-    "ISO": 12,
+    "ISO": 8,
     "MD": 1
    },
    "decimals": {
-    "1": 4,
-    "2": 3
+    "1": 1
    },
    "tables": 0,
    "empty_tables": 0
   },
   {
-   "page": "breadth.html",
-   "bytes": 38191,
-   "issues": [],
+   "page": "breadth_edge.html",
+   "bytes": 137661,
+   "issues": [
+    [
+     "FAKE_TODAY",
+     "標題寫「今日」但冇日期：['今日讀數']"
+    ],
+    [
+     "NUM_FORMAT",
+     "5 種小數位：.1×37,.2×43,.3×2,.4×2,.16×1"
+    ]
+   ],
+   "h1": "升跌比高，突破期望值更高？",
+   "h2": [
+    "一句話",
+    "測試方法",
+    "四組結果",
+    "為什麼",
+    "同之前兩個發現一致",
+    "今日讀數",
+    "限制"
+   ],
+   "date_formats": {
+    "ISO": 1
+   },
+   "decimals": {
+    "2": 43,
+    "1": 37,
+    "3": 2,
+    "16": 1,
+    "4": 2
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "briefing.html",
+   "bytes": 42739,
+   "issues": [
+    [
+     "FAKE_TODAY",
+     "標題寫「今日」但冇日期：['📖 The Read 今日一句話']"
+    ],
+    [
+     "NO_DATE_BADGE",
+     "「圖表隊列 2026-11-06 19:20」附近冇 ISO 日期"
+    ]
+   ],
    "h1": "HI! Desmond",
    "h2": [
-    "🌊 Breadth · 市場廣度 Stockbee Market Monitor 式｜至 2026-10-19"
+    "Champion 組合 每日 top-3｜paper",
+    "📖 The Read 今日一句話",
+    "👀 明日要睇咩",
+    "Wishing Wealth GMI Dr. Wish",
+    "RS THEMES 原 Sheet 即時（iframe）",
+    "成長／價值 風險閘 IWF 111.75 ／ IWD 257.45｜週線最後完整週 2026-11-06",
+    "市場狀態 market_insight_20261106.json",
+    "廣度歷史（我哋自己） breadth_20261106.json"
    ],
    "date_formats": {
     "ISO": 13
    },
    "decimals": {
-    "1": 9,
-    "2": 3
-   },
-   "tables": 1,
-   "empty_tables": 0
-  },
-  {
-   "page": "briefing.html",
-   "bytes": 63558,
-   "issues": [],
-   "h1": "HI! Desmond",
-   "h2": [
-    "成長／價值 風險閘 IWF 122.92 ／ IWD 255.52｜至 2026-10-16",
-    "市場狀態 market_insight_20261019.json",
-    "廣度歷史（我哋自己） breadth_20261019.json",
-    "🌊 Stockbee 廣度 升 4%+ / 跌 4%+ 家數｜呢把尺同上面唔同，唔可以混用",
-    "⚠️ 圖表隊列（過期 8 日） 2026-10-11 15:43"
-   ],
-   "date_formats": {
-    "ISO": 17
-   },
-   "decimals": {
-    "1": 47,
-    "2": 55,
+    "2": 40,
+    "1": 40,
     "4": 3,
     "6": 1
    },
@@ -86,18 +180,18 @@
   },
   {
    "page": "calculator.html",
-   "bytes": 47258,
+   "bytes": 28364,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
     "🧮 倉位計算機 Position Sizing"
    ],
    "date_formats": {
-    "ISO": 12
+    "ISO": 8
    },
    "decimals": {
-    "1": 12,
-    "2": 22,
+    "2": 19,
+    "1": 9,
     "3": 2
    },
    "tables": 0,
@@ -105,7 +199,7 @@
   },
   {
    "page": "cm.html",
-   "bytes": 97588,
+   "bytes": 33580,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
@@ -113,115 +207,585 @@
     "B 級觀察名單 &lt;4/5"
    ],
    "date_formats": {
-    "ISO": 13
+    "ISO": 9
    },
    "decimals": {
-    "1": 119,
-    "2": 508
+    "1": 33,
+    "2": 284
    },
    "tables": 2,
    "empty_tables": 0
   },
   {
    "page": "cycle.html",
-   "bytes": 42929,
+   "bytes": 42204,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
-    "成長／價值 風險閘 IWF 122.91 ／ IWD 255.52｜至 2026-10-16"
+    "🌀 成長週期 而家應該幾積極？"
    ],
    "date_formats": {
-    "ISO": 13
+    "ISO": 11
    },
    "decimals": {
-    "1": 7,
-    "2": 5,
-    "3": 1,
-    "4": 2
+    "1": 274,
+    "2": 528
    },
-   "tables": 0,
+   "tables": 2,
    "empty_tables": 0
   },
   {
    "page": "dailyscan.html",
-   "bytes": 69577,
-   "issues": [],
+   "bytes": 688308,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "6 種小數位：.1×660,.2×421,.3×30,.14×6,.15×52,.16×21"
+    ]
+   ],
    "h1": "HI! Desmond",
    "h2": [
     "Daily Scan L1 掃描 + L2 圖表隊列"
    ],
    "date_formats": {
-    "ISO": 14
+    "ISO": 54
    },
    "decimals": {
-    "1": 43,
-    "2": 267
+    "1": 660,
+    "2": 421,
+    "16": 21,
+    "14": 6,
+    "15": 52,
+    "3": 30
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan_2026-10-19.html",
+   "bytes": 349559,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "5 種小數位：.1×213,.2×244,.14×1,.15×22,.16×13"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 49
+   },
+   "decimals": {
+    "1": 213,
+    "2": 244,
+    "15": 22,
+    "16": 13,
+    "14": 1
    },
    "tables": 1,
    "empty_tables": 0
   },
   {
+   "page": "dailyscan_2026-10-20.html",
+   "bytes": 404773,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "6 種小數位：.1×299,.2×292,.3×17,.14×3,.15×40,.16×18"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 43
+   },
+   "decimals": {
+    "1": 299,
+    "2": 292,
+    "15": 40,
+    "16": 18,
+    "14": 3,
+    "3": 17
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan_2026-10-21.html",
+   "bytes": 468014,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "6 種小數位：.1×459,.2×346,.3×17,.14×1,.15×16,.16×41"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 44
+   },
+   "decimals": {
+    "1": 459,
+    "2": 346,
+    "16": 41,
+    "15": 16,
+    "3": 17,
+    "14": 1
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan_2026-10-22.html",
+   "bytes": 594723,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "6 種小數位：.1×727,.2×516,.3×24,.14×2,.15×54,.16×34"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 45
+   },
+   "decimals": {
+    "1": 727,
+    "2": 516,
+    "15": 54,
+    "14": 2,
+    "16": 34,
+    "3": 24
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan_2026-10-23.html",
+   "bytes": 468560,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "7 種小數位：.1×647,.2×422,.3×25,.14×3,.15×44,.16×23,.17×1"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 48
+   },
+   "decimals": {
+    "1": 647,
+    "2": 422,
+    "16": 23,
+    "15": 44,
+    "14": 3,
+    "17": 1,
+    "3": 25
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan_2026-10-25.html",
+   "bytes": 564901,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "7 種小數位：.1×883,.2×579,.3×33,.14×9,.15×65,.16×27,.17×1"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 49
+   },
+   "decimals": {
+    "1": 883,
+    "2": 579,
+    "15": 65,
+    "16": 27,
+    "14": 9,
+    "17": 1,
+    "3": 33
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan_2026-10-26.html",
+   "bytes": 566421,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "8 種小數位：.1×906,.2×570,.3×39,.13×1,.14×4,.15×68,.16×28,.17×3"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 50
+   },
+   "decimals": {
+    "1": 906,
+    "2": 570,
+    "16": 28,
+    "15": 68,
+    "13": 1,
+    "14": 4,
+    "17": 3,
+    "3": 39
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan_2026-10-27.html",
+   "bytes": 530908,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "8 種小數位：.1×857,.2×532,.3×36,.13×1,.14×3,.15×59,.16×27,.17×3"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 51
+   },
+   "decimals": {
+    "1": 857,
+    "2": 532,
+    "15": 59,
+    "16": 27,
+    "14": 3,
+    "13": 1,
+    "17": 3,
+    "3": 36
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan_2026-10-28.html",
+   "bytes": 564723,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "7 種小數位：.1×874,.2×570,.3×35,.13×2,.14×6,.15×70,.16×28"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 52
+   },
+   "decimals": {
+    "1": 874,
+    "2": 570,
+    "15": 70,
+    "16": 28,
+    "13": 2,
+    "14": 6,
+    "3": 35
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan_2026-10-29.html",
+   "bytes": 568349,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "7 種小數位：.1×902,.2×581,.3×42,.14×6,.15×74,.16×23,.17×1"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 53
+   },
+   "decimals": {
+    "1": 902,
+    "2": 581,
+    "14": 6,
+    "15": 74,
+    "16": 23,
+    "17": 1,
+    "3": 42
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan_2026-10-30.html",
+   "bytes": 552749,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "7 種小數位：.1×868,.2×563,.3×41,.14×8,.15×66,.16×23,.17×1"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 53
+   },
+   "decimals": {
+    "1": 868,
+    "2": 563,
+    "15": 66,
+    "16": 23,
+    "14": 8,
+    "17": 1,
+    "3": 41
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan_2026-11-01.html",
+   "bytes": 499046,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "7 種小數位：.1×747,.2×511,.3×31,.13×1,.14×15,.15×72,.16×12"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 55
+   },
+   "decimals": {
+    "1": 747,
+    "2": 511,
+    "16": 12,
+    "15": 72,
+    "14": 15,
+    "3": 31,
+    "13": 1
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan_2026-11-02.html",
+   "bytes": 499755,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "7 種小數位：.1×756,.2×502,.3×33,.13×12,.14×7,.15×60,.16×19"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 55
+   },
+   "decimals": {
+    "1": 756,
+    "2": 502,
+    "16": 19,
+    "15": 60,
+    "14": 7,
+    "13": 12,
+    "3": 33
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan_2026-11-03.html",
+   "bytes": 485149,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "7 種小數位：.1×739,.2×483,.3×34,.13×10,.14×8,.15×59,.16×15"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 55
+   },
+   "decimals": {
+    "1": 739,
+    "2": 483,
+    "15": 59,
+    "16": 15,
+    "14": 8,
+    "13": 10,
+    "3": 34
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan_2026-11-04.html",
+   "bytes": 456991,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "7 種小數位：.1×631,.2×415,.3×27,.13×9,.14×6,.15×42,.16×18"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 55
+   },
+   "decimals": {
+    "1": 631,
+    "2": 415,
+    "16": 18,
+    "15": 42,
+    "14": 6,
+    "13": 9,
+    "3": 27
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "dailyscan_2026-11-05.html",
+   "bytes": 501406,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "7 種小數位：.1×772,.2×500,.3×39,.13×6,.14×8,.15×68,.16×16"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Daily Scan L1 掃描 + L2 圖表隊列"
+   ],
+   "date_formats": {
+    "ISO": 55
+   },
+   "decimals": {
+    "1": 772,
+    "2": 500,
+    "16": 16,
+    "15": 68,
+    "14": 8,
+    "13": 6,
+    "3": 39
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
    "page": "datahealth.html",
-   "bytes": 41747,
+   "bytes": 22889,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
-    "數據健康 Data Health"
+    "DATABASE 每個數據源嘅真實更新時間"
    ],
    "date_formats": {
-    "ISO": 15,
-    "MD": 7
+    "ISO": 10,
+    "MD": 8
    },
    "decimals": {
-    "1": 7,
-    "2": 3
+    "1": 4
    },
    "tables": 1,
    "empty_tables": 0
   },
   {
    "page": "desk.html",
-   "bytes": 649082,
-   "issues": [],
-   "h1": "📊 機會 · OPPORTUNITY DESK",
-   "h2": [
-    "① 📍 RS Leader 位置圖 —— 邊隻領導股有交易機會？",
-    "② 🔄 行業輪動 —— 資金去邊",
-    "③ ⚠️ ATRX 風險 —— 到呢個位，幾大機率跌"
+   "bytes": 497,
+   "issues": [
+    [
+     "DEAD_PAGE",
+     "body 只有 497 bytes"
+    ]
    ],
-   "date_formats": {
-    "ISO": 96
-   },
-   "decimals": {
-    "1": 10929,
-    "2": 9543,
-    "3": 2652
-   },
-   "tables": 14,
+   "h1": null,
+   "h2": [],
+   "date_formats": {},
+   "decimals": {},
+   "tables": 0,
    "empty_tables": 0
   },
   {
-   "page": "earnings.html",
-   "bytes": 194609,
+   "page": "earningscal.html",
+   "bytes": 71873,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
-    "📊 財報日曆 EDGE-008 二元風險判定",
-    "★ 判定規則（EDGE-008）"
+    "財報日曆 本站原生 · Finviz 資料 · 截至 2026-11-07"
    ],
    "date_formats": {
     "ISO": 23
    },
    "decimals": {
-    "1": 5,
-    "2": 714
+    "1": 208,
+    "2": 366
    },
-   "tables": 0,
+   "tables": 7,
+   "empty_tables": 0
+  },
+  {
+   "page": "edgeimprove.html",
+   "bytes": 25802,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Edge Improving 針對實盤交易記錄",
+    "① 持倉時間 持倉越短 = 越似手勢；越長 = 越似持倉。",
+    "② 方向 × 工具 反向 ETF 買入 = 睇跌。呢個係你近期主要收入來源。",
+    "③ 每日單數 單數越多 = 越可能報復交易 / 亂做。",
+    "④ 入場時段 開市頭 30 分鐘雜訊最多。",
+    "⑤ 同一隻股次數 同一隻做太多次 = 冇新資訊。",
+    "⑥ 睇升 vs 睇跌 兩種係唔同技能，勝率同賠率都唔應該混埋計。",
+    "每日 / 每週 改善 做完即刻可以改嘅行為"
+   ],
+   "date_formats": {
+    "ISO": 10
+   },
+   "decimals": {
+    "2": 23,
+    "1": 4
+   },
+   "tables": 6,
    "empty_tables": 0
   },
   {
    "page": "external.html",
-   "bytes": 40282,
+   "bytes": 22300,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
@@ -229,33 +793,165 @@
     "★ 接入原則"
    ],
    "date_formats": {
-    "ISO": 12
+    "ISO": 8
    },
    "decimals": {
-    "1": 6,
-    "2": 4
+    "1": 8,
+    "2": 1
    },
    "tables": 0,
    "empty_tables": 0
   },
   {
-   "page": "index.html",
-   "bytes": 63558,
+   "page": "fatpitch.html",
+   "bytes": 27024,
+   "issues": [
+    [
+     "NO_DATE_BADGE",
+     "「🎯 肥球掃描 J Law：等一個賠率明顯站在我這」附近冇 ISO 日期"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🎯 肥球掃描 J Law：等一個賠率明顯站在我這邊的機會"
+   ],
+   "date_formats": {
+    "ISO": 8
+   },
+   "decimals": {
+    "2": 91,
+    "1": 64,
+    "3": 1
+   },
+   "tables": 3,
+   "empty_tables": 0
+  },
+  {
+   "page": "feargauge.html",
+   "bytes": 21131,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
-    "成長／價值 風險閘 IWF 122.92 ／ IWD 255.52｜至 2026-10-16",
-    "市場狀態 market_insight_20261019.json",
-    "廣度歷史（我哋自己） breadth_20261019.json",
-    "🌊 Stockbee 廣度 升 4%+ / 跌 4%+ 家數｜呢把尺同上面唔同，唔可以混用",
-    "⚠️ 圖表隊列（過期 8 日） 2026-10-11 15:43"
+    "投降／過熱儀表"
    ],
    "date_formats": {
-    "ISO": 17
+    "ISO": 11
    },
    "decimals": {
-    "1": 47,
-    "2": 55,
+    "1": 5,
+    "2": 18
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "finish.html",
+   "bytes": 20284,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🎯 收工標準（Definition of Done）"
+   ],
+   "date_formats": {
+    "ISO": 8
+   },
+   "decimals": {
+    "1": 2
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "gto.html",
+   "bytes": 28356,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🎲 GTO 手牌分析 Daily Scan 選股 EV"
+   ],
+   "date_formats": {
+    "ISO": 8
+   },
+   "decimals": {
+    "1": 76,
+    "2": 123
+   },
+   "tables": 8,
+   "empty_tables": 0
+  },
+  {
+   "page": "hermesdir.html",
+   "bytes": 22121,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Hermes 目錄 呢個 agent 做得到咩、去邊度睇",
+    "CLI 指令 以 hermes --help 為準",
+    "內建工具 我實際用嘅",
+    "官方文件"
+   ],
+   "date_formats": {
+    "ISO": 8
+   },
+   "decimals": {
+    "1": 2
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "howto.html",
+   "bytes": 20721,
+   "issues": [
+    [
+     "FAKE_TODAY",
+     "標題寫「今日」但冇日期：['🧭 一脈相承 由今日開始，點用整套系統']"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🧭 一脈相承 由今日開始，點用整套系統"
+   ],
+   "date_formats": {
+    "ISO": 8
+   },
+   "decimals": {
+    "1": 3,
+    "2": 2
+   },
+   "tables": 3,
+   "empty_tables": 0
+  },
+  {
+   "page": "index.html",
+   "bytes": 42739,
+   "issues": [
+    [
+     "FAKE_TODAY",
+     "標題寫「今日」但冇日期：['📖 The Read 今日一句話']"
+    ],
+    [
+     "NO_DATE_BADGE",
+     "「圖表隊列 2026-11-06 19:20」附近冇 ISO 日期"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Champion 組合 每日 top-3｜paper",
+    "📖 The Read 今日一句話",
+    "👀 明日要睇咩",
+    "Wishing Wealth GMI Dr. Wish",
+    "RS THEMES 原 Sheet 即時（iframe）",
+    "成長／價值 風險閘 IWF 111.75 ／ IWD 257.45｜週線最後完整週 2026-11-06",
+    "市場狀態 market_insight_20261106.json",
+    "廣度歷史（我哋自己） breadth_20261106.json"
+   ],
+   "date_formats": {
+    "ISO": 13
+   },
+   "decimals": {
+    "2": 40,
+    "1": 40,
     "4": 3,
     "6": 1
    },
@@ -264,7 +960,7 @@
   },
   {
    "page": "jeffsun.html",
-   "bytes": 45038,
+   "bytes": 21358,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
@@ -272,407 +968,1243 @@
     "★ 讀法"
    ],
    "date_formats": {
-    "ISO": 12,
+    "ISO": 8,
     "MD": 1
    },
    "decimals": {
-    "1": 76,
-    "2": 16
+    "1": 2,
+    "2": 1
    },
    "tables": 1,
    "empty_tables": 0
   },
   {
    "page": "jobboard.html",
-   "bytes": 197748,
+   "bytes": 263483,
    "issues": [
     [
      "DATE_FORMAT",
-     "混用 ISO×772/MD×64/US×1"
+     "混用 ISO×1311/MD×98/US×1"
     ],
     [
      "NUM_FORMAT",
-     "5 種小數位：.1×178,.2×749,.3×56,.4×17,.6×2"
+     "5 種小數位：.1×292,.2×1244,.3×55,.4×18,.6×1"
     ],
     [
      "NO_DATE_BADGE",
-     "「ALERT 所有警報分類」附近冇 ISO 日期"
+     "「Setup Alert 所有警報分類」附近冇 ISO 日期"
     ]
    ],
    "h1": "HI! Desmond",
    "h2": [
-    "🍳 廚房看板 所有常駐 job 狀態",
-    "🚨 需要處理 1 個 job 失敗",
-    "ALERT 所有警報分類"
+    "🍳 Job 監控 所有常駐 job 狀態",
+    "🚨 需要處理 6 個 job 失敗",
+    "Setup Alert 所有警報分類"
    ],
    "date_formats": {
-    "ISO": 772,
-    "MD": 64,
+    "ISO": 1311,
+    "MD": 98,
     "US": 1
    },
    "decimals": {
-    "1": 178,
-    "2": 749,
-    "4": 17,
-    "3": 56,
-    "6": 2
+    "1": 292,
+    "2": 1244,
+    "3": 55,
+    "4": 18,
+    "6": 1
    },
    "tables": 1,
    "empty_tables": 0
   },
   {
    "page": "leadermap.html",
-   "bytes": 41505,
+   "bytes": 512207,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
-    "📍 RS Leader 位置圖 邊隻領導股有交易機會？",
-    "當日候選 2026-10-19",
-    "當日候選 2026-10-10"
+    "① 📍 RS Leader 位置圖 —— 邊隻領導股有交易機會？"
    ],
    "date_formats": {
-    "ISO": 25
+    "ISO": 58
    },
    "decimals": {
-    "1": 8,
-    "2": 28
+    "1": 9725,
+    "2": 295
    },
-   "tables": 2,
+   "tables": 12,
    "empty_tables": 0
   },
   {
    "page": "leaders.html",
-   "bytes": 952612,
+   "bytes": 2266174,
    "issues": [
     [
      "NUM_FORMAT",
-     "8 種小數位：.1×6713,.2×2325,.3×192,.4×4,.5×20,.6×89,.7×76,.8×8"
+     "9 種小數位：.1×10254,.2×3558,.3×364,.4×30,.5×123,.6×499,.7×274,.8×1,.9×4"
     ]
    ],
    "h1": "HI! Desmond",
    "h2": [
     "圖表牆 · 一次過睇哂所有 NEL 迷你 K 線 ＋ 50SMA ＋ ADR%（90 日，最後 40 支）",
-    "NEL · 非延伸領導股 62 隻｜延伸 ≤ 4.0×",
-    "動能池（未過延伸閘） 68 隻",
-    "領導股按行業 25 個行業"
+    "NEL · 非延伸領導股 77 隻｜延伸 ≤ 4.0×",
+    "動能池（未過延伸閘） 102 隻",
+    "領導股按行業 31 個行業"
    ],
    "date_formats": {
-    "ISO": 13
+    "ISO": 9
    },
    "decimals": {
-    "1": 6713,
-    "2": 2325,
-    "3": 192,
-    "4": 4,
-    "5": 20,
-    "6": 89,
-    "7": 76,
-    "8": 8
+    "1": 10254,
+    "3": 364,
+    "2": 3558,
+    "4": 30,
+    "5": 123,
+    "6": 499,
+    "7": 274,
+    "8": 1,
+    "9": 4
    },
    "tables": 3,
    "empty_tables": 0
   },
   {
-   "page": "livefeeds.html",
-   "bytes": 42830,
+   "page": "levelup.html",
+   "bytes": 20030,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
-    "外部即時數據 iframe 原貌"
+    "Market Pulse LevelUp Tools · 外部"
    ],
    "date_formats": {
-    "ISO": 15
+    "ISO": 8,
+    "MD": 1
    },
    "decimals": {
-    "1": 7,
-    "2": 4
+    "2": 3,
+    "1": 2
    },
    "tables": 0,
    "empty_tables": 0
   },
   {
+   "page": "livefeeds.html",
+   "bytes": 509,
+   "issues": [
+    [
+     "DEAD_PAGE",
+     "body 只有 509 bytes"
+    ]
+   ],
+   "h1": null,
+   "h2": [],
+   "date_formats": {},
+   "decimals": {},
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
    "page": "logbook.html",
-   "bytes": 148822,
+   "bytes": 170492,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
     "LOG BOOK 全部更新記錄"
    ],
    "date_formats": {
-    "ISO": 187,
-    "MD": 42
+    "ISO": 248,
+    "MD": 58
    },
    "decimals": {
-    "1": 166,
-    "2": 224,
-    "3": 33,
-    "4": 7
+    "1": 211,
+    "2": 313,
+    "4": 9,
+    "3": 42
    },
    "tables": 1,
    "empty_tables": 0
   },
   {
-   "page": "method.html",
-   "bytes": 63358,
+   "page": "lukplaybook.html",
+   "bytes": 54223,
+   "issues": [
+    [
+     "DATE_FORMAT",
+     "混用 ISO×9/MD×1/US×12"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🏆 Martin Luk 手冊 USIC #1 · 969.8% 嘅可複製部分",
+    "一單交易，養起之後 54 次止蝕",
+    "緊止蝕，造就大倉位（而唔會爆戶口）",
+    "持倉時間、倉位大細，同埋佢點樣用 0.3% 風險跑 200%–350% 槓桿",
+    "為咩 Martin Luk 唔再買日線箱體突破（65.9% 回調 vs 2.3% 突破）",
+    "空頭點樣貢獻咗佢淨 R 嘅大約一半",
+    "出場規則：為咩只減 15%，其餘 85% 拖日線收市",
+    "佢借用過嘅六位師傅"
+   ],
+   "date_formats": {
+    "ISO": 9,
+    "MD": 1,
+    "US": 12
+   },
+   "decimals": {
+    "1": 136,
+    "2": 35
+   },
+   "tables": 9,
+   "empty_tables": 0
+  },
+  {
+   "page": "margin.html",
+   "bytes": 51313,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
-    "Layer 2 · 每個方法各自一個清單 layer2_20261019_1810.json"
+    "💳 保證金債務 × QQQ 槓桿的收縮與回補"
    ],
    "date_formats": {
-    "ISO": 12
+    "ISO": 24
    },
    "decimals": {
-    "1": 30,
-    "2": 128
+    "1": 3188,
+    "3": 11,
+    "2": 31
    },
-   "tables": 1,
+   "tables": 3,
+   "empty_tables": 0
+  },
+  {
+   "page": "market-top.html",
+   "bytes": 139747,
+   "issues": [],
+   "h1": "美股見頂未？用我們自己的數據核對",
+   "h2": [
+    "結論",
+    "先核對 Claude 的數字",
+    "四個指數實際位置",
+    "我們自己的廣度證據",
+    "第一性原理：頂不是一個點",
+    "決策規則：不預測，只定義觸發",
+    "對你今天的實務含義",
+    "限制"
+   ],
+   "date_formats": {
+    "ISO": 1
+   },
+   "decimals": {
+    "2": 25,
+    "1": 49,
+    "16": 1,
+    "4": 2
+   },
+   "tables": 3,
+   "empty_tables": 0
+  },
+  {
+   "page": "martinluk.html",
+   "bytes": 20089,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🏆 Martin Luk FAQ / Q&amp;A / Screeners"
+   ],
+   "date_formats": {
+    "ISO": 8
+   },
+   "decimals": {
+    "2": 1,
+    "1": 6
+   },
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
+   "page": "mb_top250.html",
+   "bytes": 42848,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [],
+   "date_formats": {
+    "ISO": 14
+   },
+   "decimals": {
+    "2": 1,
+    "1": 1
+   },
+   "tables": 5,
    "empty_tables": 0
   },
   {
    "page": "mm.html",
-   "bytes": 66710,
+   "bytes": 50125,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
     "🌊 Market Monitor Stockbee 每日 breadth",
-    "最新一日 10/16/2026",
+    "最新一日 11/5/2026",
     "近 40 日升跌家數 綠向左＝升 4%+，紅向右＝跌 4%+"
    ],
    "date_formats": {
-    "ISO": 12
+    "ISO": 8
    },
    "decimals": {
-    "1": 5,
-    "2": 46
+    "1": 82,
+    "2": 43
    },
    "tables": 1,
    "empty_tables": 0
   },
   {
+   "page": "mmmodel.html",
+   "bytes": 129022,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "MM Model 2026-11-06｜25 個子模型 → 合成 0-100",
+    "1 · S&amp;P 500 vs Composite Model log 尺｜藍 = S&amp;P｜橙 = 模型",
+    "2 · Composite Indicator 0-100｜虛線 40 / 60",
+    "3 · S&amp;P 500 Allocation % 0-100｜0 = 全現金｜100 = 全倉",
+    "4 · S&amp;P 500 vs VIX 1997 起｜VIX 25.64",
+    "年回報 近 20 年",
+    "期間回報",
+    "25 個子模型 12/25 成立"
+   ],
+   "date_formats": {
+    "ISO": 14,
+    "MD": 2
+   },
+   "decimals": {
+    "1": 15548,
+    "2": 9
+   },
+   "tables": 3,
+   "empty_tables": 0
+  },
+  {
+   "page": "modelbook.html",
+   "bytes": 74067,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Model Book Notion 知識庫",
+    "行為對照 理論 vs 你嘅實盤",
+    "覺察問題 唔係叫你做多啲，係叫你停一停",
+    "Model Book 目錄 68 頁"
+   ],
+   "date_formats": {
+    "ISO": 36,
+    "MD": 4
+   },
+   "decimals": {
+    "1": 26,
+    "2": 76
+   },
+   "tables": 11,
+   "empty_tables": 0
+  },
+  {
+   "page": "modelbook_lib.html",
+   "bytes": 513,
+   "issues": [
+    [
+     "DEAD_PAGE",
+     "body 只有 513 bytes"
+    ]
+   ],
+   "h1": null,
+   "h2": [],
+   "date_formats": {},
+   "decimals": {},
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
+   "page": "modelbook_top250.html",
+   "bytes": 513,
+   "issues": [
+    [
+     "DEAD_PAGE",
+     "body 只有 513 bytes"
+    ]
+   ],
+   "h1": null,
+   "h2": [],
+   "date_formats": {},
+   "decimals": {},
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
    "page": "ndx.html",
-   "bytes": 77883,
+   "bytes": 58910,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
     "🇺🇸 納指權重股 NDX 100 成分 + 市值權重",
-    "前 10 大 合共 69.4%",
+    "前 10 大 合共 69.6%",
     "全部成分股 按市值排序",
     "★ 點用"
    ],
    "date_formats": {
-    "ISO": 12
+    "ISO": 8
    },
    "decimals": {
-    "1": 8,
-    "2": 329
+    "1": 5,
+    "2": 319
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "ntmflow.html",
+   "bytes": 20733,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🌊 期權資金流 QQQ 近月 NTM Call / Put 名義金額"
+   ],
+   "date_formats": {
+    "ISO": 19
+   },
+   "decimals": {
+    "3": 1,
+    "1": 39,
+    "2": 3
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "optledger.html",
+   "bytes": 25585,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "💰 優化帳本 —— 錢 ↔ 優化 掛勾",
+    "📈 你自己嘅實際表現 19 個交易日",
+    "📒 已量化嘅優化 6 條",
+    "❓ 已改但未量化 4 條 —— 唔准當成果",
+    "📊 模擬系統現況 2026-11-06"
+   ],
+   "date_formats": {
+    "ISO": 19,
+    "MD": 2
+   },
+   "decimals": {
+    "2": 10,
+    "3": 3,
+    "1": 1
    },
    "tables": 1,
    "empty_tables": 0
   },
   {
    "page": "positioning.html",
-   "bytes": 43641,
+   "bytes": 24762,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
-    "🎯 Positioning · 大型投機者擁擠度 CFTC COT｜報告日 2026-10-13"
+    "🎯 Positioning · 大型投機者擁擠度 CFTC COT｜報告日 2026-11-03"
    ],
    "date_formats": {
-    "ISO": 13
+    "ISO": 9
    },
    "decimals": {
-    "1": 852,
-    "2": 3
+    "1": 849
    },
    "tables": 1,
    "empty_tables": 0
   },
   {
+   "page": "process.html",
+   "bytes": 43020,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "每日流程"
+   ],
+   "date_formats": {
+    "ISO": 16,
+    "MD": 2
+   },
+   "decimals": {
+    "2": 70,
+    "1": 36,
+    "3": 4
+   },
+   "tables": 5,
+   "empty_tables": 0
+  },
+  {
+   "page": "putcall.html",
+   "bytes": 208290,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "📉 Put/Call Ratio CBOE Equity，250 日均線"
+   ],
+   "date_formats": {
+    "ISO": 22
+   },
+   "decimals": {
+    "2": 48,
+    "3": 22,
+    "1": 30157
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "qqqstruct.html",
+   "bytes": 226680,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "QQQ 雙結構 2026-11-06｜只有 QQQ 自己嘅價：21EMA（日）× 10 週 SMA（週）",
+    "狀態統計 同一把尺量歷史，唔係感覺",
+    "日線：21EMA 延伸（ATR）",
+    "週線：10 週 SMA 延伸（ATR）",
+    "QQQ × 兩條結構 — 近兩年 價格逐段按狀態上色；下面 = 四種狀態色帶同延伸（ATR）"
+   ],
+   "date_formats": {
+    "ISO": 1020,
+    "MD": 14
+   },
+   "decimals": {
+    "1": 6230,
+    "2": 3689
+   },
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
    "page": "regime.html",
-   "bytes": 41864,
+   "bytes": 23015,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
     "🎲 Setup × Regime 矩陣 setup_regime_backtest.json｜3 年｜16,066 單"
    ],
    "date_formats": {
-    "ISO": 12
+    "ISO": 8
    },
    "decimals": {
-    "1": 18,
-    "2": 26
+    "2": 23,
+    "1": 15
    },
    "tables": 2,
    "empty_tables": 0
   },
   {
    "page": "regime_mri.html",
-   "bytes": 44344,
+   "bytes": 33089,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
     "MARKET REGIME MRI 0–100",
-    "七個分項 滿分 = 權重｜照 Pine 原碼"
+    "七個分項 滿分 = 權重｜照 Pine 原碼",
+    "📊 廣度 × 期望值 升跌比越高，突破期望值越差",
+    "📊 Weinstein 四階段 Stan Weinstein｜30 週 MA"
    ],
    "date_formats": {
-    "ISO": 13
+    "ISO": 11,
+    "MD": 2
    },
    "decimals": {
-    "1": 17,
-    "2": 5
+    "2": 28,
+    "1": 41,
+    "3": 1
    },
-   "tables": 1,
+   "tables": 2,
    "empty_tables": 0
   },
   {
    "page": "review.html",
-   "bytes": 37018,
+   "bytes": 18115,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
     "Review"
    ],
    "date_formats": {
-    "ISO": 12
+    "ISO": 8
    },
    "decimals": {
-    "1": 4,
-    "2": 3
+    "1": 1
    },
    "tables": 0,
    "empty_tables": 0
   },
   {
-   "page": "rocketstock.html",
-   "bytes": 51279,
+   "page": "review2.html",
+   "bytes": 22437,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
-    "RocketStock SEPA 相對強弱排名（公開 API）",
-    "今日精選 2026-10-19｜市場狀態 regular｜3 隻",
-    "RS 排名 Top 20 2026-10-17",
-    "板塊資金流 5 日",
-    "SEPA 實績 站方自己公布｜未平倉 33 隻",
-    "基本面追蹤 15 隻"
+    "覆盤"
    ],
    "date_formats": {
-    "ISO": 14
+    "ISO": 8
    },
    "decimals": {
-    "1": 14,
-    "2": 117
+    "2": 9,
+    "1": 3,
+    "3": 10
    },
-   "tables": 3,
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "rocketstock.html",
+   "bytes": 509,
+   "issues": [
+    [
+     "DEAD_PAGE",
+     "body 只有 509 bytes"
+    ]
+   ],
+   "h1": null,
+   "h2": [],
+   "date_formats": {},
+   "decimals": {},
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsbeforeprice.html",
+   "bytes": 31822,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Before Price RS 先創新高，價未跟上",
+    "命中名單 按「價落後」排序",
+    "點用呢個表"
+   ],
+   "date_formats": {
+    "ISO": 9,
+    "MD": 1
+   },
+   "decimals": {
+    "2": 100,
+    "1": 67
+   },
+   "tables": 1,
    "empty_tables": 0
   },
   {
    "page": "rsboard.html",
-   "bytes": 107697,
+   "bytes": 307933,
    "issues": [],
    "h1": "HI! Desmond",
    "h2": [
-    "指數 Index 8 隻",
-    "群組 Group 50 隻",
-    "板塊 Sector 34 隻"
+    "RS THEME"
    ],
    "date_formats": {
-    "ISO": 13
+    "ISO": 16
    },
    "decimals": {
-    "1": 281,
-    "2": 3
+    "2": 111,
+    "1": 9256,
+    "4": 1053
+   },
+   "tables": 4,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsscan.html",
+   "bytes": 113206,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Daily Scan"
+   ],
+   "date_formats": {
+    "ISO": 25
+   },
+   "decimals": {
+    "2": 707,
+    "1": 1089,
+    "3": 151
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsscan_2026-10-11.html",
+   "bytes": 151520,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Daily Scan"
+   ],
+   "date_formats": {
+    "ISO": 21
+   },
+   "decimals": {
+    "2": 1017,
+    "1": 1566,
+    "3": 210
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsscan_2026-10-21.html",
+   "bytes": 128572,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Daily Scan"
+   ],
+   "date_formats": {
+    "ISO": 22
+   },
+   "decimals": {
+    "2": 842,
+    "1": 1299,
+    "3": 154
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsscan_2026-10-22.html",
+   "bytes": 152282,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Daily Scan"
+   ],
+   "date_formats": {
+    "ISO": 23
+   },
+   "decimals": {
+    "2": 1024,
+    "1": 1531,
+    "3": 204
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsscan_2026-10-23.html",
+   "bytes": 123874,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Daily Scan"
+   ],
+   "date_formats": {
+    "ISO": 24
+   },
+   "decimals": {
+    "2": 794,
+    "1": 1223,
+    "3": 159
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsscan_2026-10-26.html",
+   "bytes": 142799,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Daily Scan"
+   ],
+   "date_formats": {
+    "ISO": 25
+   },
+   "decimals": {
+    "2": 924,
+    "1": 1467,
+    "3": 204
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsscan_2026-10-27.html",
+   "bytes": 135783,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Daily Scan"
+   ],
+   "date_formats": {
+    "ISO": 25
+   },
+   "decimals": {
+    "2": 865,
+    "1": 1387,
+    "3": 192
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsscan_2026-10-28.html",
+   "bytes": 143785,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Daily Scan"
+   ],
+   "date_formats": {
+    "ISO": 25
+   },
+   "decimals": {
+    "2": 945,
+    "1": 1475,
+    "3": 188
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsscan_2026-10-29.html",
+   "bytes": 142751,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Daily Scan"
+   ],
+   "date_formats": {
+    "ISO": 25
+   },
+   "decimals": {
+    "2": 938,
+    "1": 1468,
+    "3": 186
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsscan_2026-10-30.html",
+   "bytes": 139833,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Daily Scan"
+   ],
+   "date_formats": {
+    "ISO": 25
+   },
+   "decimals": {
+    "2": 904,
+    "1": 1372,
+    "3": 185
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsscan_2026-11-02.html",
+   "bytes": 127922,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Daily Scan"
+   ],
+   "date_formats": {
+    "ISO": 25
+   },
+   "decimals": {
+    "2": 818,
+    "1": 1287,
+    "3": 173
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsscan_2026-11-03.html",
+   "bytes": 125061,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Daily Scan"
+   ],
+   "date_formats": {
+    "ISO": 25
+   },
+   "decimals": {
+    "2": 800,
+    "1": 1268,
+    "3": 154
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsscan_2026-11-04.html",
+   "bytes": 124662,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Daily Scan"
+   ],
+   "date_formats": {
+    "ISO": 25
+   },
+   "decimals": {
+    "2": 800,
+    "1": 1259,
+    "3": 154
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsscan_2026-11-05.html",
+   "bytes": 127873,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Daily Scan"
+   ],
+   "date_formats": {
+    "ISO": 25
+   },
+   "decimals": {
+    "2": 824,
+    "1": 1274,
+    "3": 170
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "rsscan_2026-11-06.html",
+   "bytes": 113190,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS Daily Scan"
+   ],
+   "date_formats": {
+    "ISO": 25
+   },
+   "decimals": {
+    "2": 707,
+    "1": 1089,
+    "3": 151
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "sectorrot.html",
+   "bytes": 53046,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "行業輪動 2026-11-06｜RS 評分 = 本組 50 隻之內嘅百分位",
+    "行業領導（Sector Leaders） 11 個行業 SPDR，按 1M RS 排序",
+    "Industry RS Rank 39 隻行業／主題 ETF，按 1M RS 排序；撳欄頭可排序"
+   ],
+   "date_formats": {
+    "ISO": 9
+   },
+   "decimals": {
+    "1": 2,
+    "2": 274
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "sectors.html",
+   "bytes": 79060,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "RS GROUP MOVE SPY 基準｜21 日 RS｜2026-11-06",
+    "行業 RS"
+   ],
+   "date_formats": {
+    "ISO": 11
+   },
+   "decimals": {
+    "1": 651,
+    "2": 4,
+    "3": 5
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "setupfactory.html",
+   "bytes": 39177,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🏭 Setup Factory —— 技巧資料庫",
+    "🧪 Strategy Lab —— 逐步睇一個 setup 點發生",
+    "🔄 由觀察到複盤 由本站整理，唔係作者原文系統",
+    "🧪 九個真實案例 計劃 / 觀察 / 成交 / 結果 要分開辨認",
+    "⚠ 邊界 —— 唔可以當成完整系統",
+    "📖 術語速查"
+   ],
+   "date_formats": {
+    "ISO": 19
+   },
+   "decimals": {
+    "2": 14,
+    "1": 44
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "setups.html",
+   "bytes": 30567,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "The Plan · 每日計劃 rs_select_2026-11-06.json"
+   ],
+   "date_formats": {
+    "ISO": 8
+   },
+   "decimals": {
+    "2": 50,
+    "1": 16
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "skills.html",
+   "bytes": 716844,
+   "issues": [
+    [
+     "NUM_FORMAT",
+     "5 種小數位：.1×79,.2×78,.3×31,.4×15,.5×11"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🧰 技能庫 我識做嘅嘢，一目了然"
+   ],
+   "date_formats": {
+    "ISO": 27,
+    "MD": 5
+   },
+   "decimals": {
+    "1": 79,
+    "2": 78,
+    "4": 15,
+    "5": 11,
+    "3": 31
+   },
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
+   "page": "sysmap.html",
+   "bytes": 65640,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🗺 系統地圖 每個 job 做緊咩"
+   ],
+   "date_formats": {
+    "ISO": 46,
+    "MD": 9
+   },
+   "decimals": {
+    "2": 31,
+    "1": 70
+   },
+   "tables": 8,
+   "empty_tables": 0
+  },
+  {
+   "page": "themes.html",
+   "bytes": 505,
+   "issues": [
+    [
+     "DEAD_PAGE",
+     "body 只有 505 bytes"
+    ]
+   ],
+   "h1": null,
+   "h2": [],
+   "date_formats": {},
+   "decimals": {},
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
+   "page": "thinkinr.html",
+   "bytes": 127760,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Think in R 以 R 為單位，唔係以錢為單位",
+    "每月表現 一行一月，睇趨勢唔係睇單",
+    "每週表現 近 20 週，一行一週",
+    "4R 牆 每一格 = 一單 4R 或以上（43 格）",
+    "全部交易 按時間順序，一格一單",
+    "R 分佈",
+    "Think in R 原則 來源：AMD 交易檢討"
+   ],
+   "date_formats": {
+    "ISO": 2683
+   },
+   "decimals": {
+    "2": 3,
+    "1": 2
    },
    "tables": 3,
    "empty_tables": 0
   },
   {
-   "page": "sectors.html",
-   "bytes": 39993,
+   "page": "tightscan.html",
+   "bytes": 65195,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "Tight Range 掃描"
+   ],
+   "date_formats": {
+    "ISO": 9
+   },
+   "decimals": {
+    "2": 359,
+    "1": 539
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "topwatch.html",
+   "bytes": 22148,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🏔 頂部觀察 唔預測，只定觸發"
+   ],
+   "date_formats": {
+    "ISO": 8
+   },
+   "decimals": {
+    "2": 8,
+    "1": 50
+   },
+   "tables": 2,
+   "empty_tables": 0
+  },
+  {
+   "page": "vantharp.html",
+   "bytes": 24360,
+   "issues": [],
+   "h1": "HI! Desmond",
+   "h2": [
+    "🧠 Van K. Tharp 五法",
+    "📚 原文出處"
+   ],
+   "date_formats": {
+    "ISO": 10
+   },
+   "decimals": {
+    "2": 3,
+    "1": 9
+   },
+   "tables": 0,
+   "empty_tables": 0
+  },
+  {
+   "page": "wave.html",
+   "bytes": 25913,
    "issues": [
     [
-     "NO_DATE_BADGE",
-     "「🏭 Sectors · 行業輪動 同 機會 頁第」附近冇 ISO 日期"
+     "FAKE_TODAY",
+     "標題寫「今日」但冇日期：['今日候選（RS 先、Setup 後）', '預測（今日 RS≥70 候選）']"
     ]
    ],
    "h1": "HI! Desmond",
    "h2": [
-    "🏭 Sectors · 行業輪動 同 機會 頁第③面板同一個實作"
+    "🌊 肥波總覽 大市 → 板塊 → RS → 設置"
    ],
    "date_formats": {
-    "ISO": 12
+    "ISO": 8
    },
    "decimals": {
-    "1": 44,
-    "2": 3
+    "1": 63,
+    "4": 4,
+    "2": 48,
+    "3": 1
    },
-   "tables": 1,
-   "empty_tables": 0
-  },
-  {
-   "page": "setups.html",
-   "bytes": 55257,
-   "issues": [],
-   "h1": "HI! Desmond",
-   "h2": [
-    "The Plan · 每日計劃 rs_select_2026-10-11.json"
-   ],
-   "date_formats": {
-    "ISO": 12
-   },
-   "decimals": {
-    "1": 33,
-    "2": 78
-   },
-   "tables": 1,
-   "empty_tables": 0
-  },
-  {
-   "page": "themes.html",
-   "bytes": 37347,
-   "issues": [],
-   "h1": "HI! Desmond",
-   "h2": [
-    "🧩 Themes · 主題強度 NEL 原文公式：70%×中位 + 30%×最強"
-   ],
-   "date_formats": {
-    "ISO": 12
-   },
-   "decimals": {
-    "1": 9,
-    "2": 3
-   },
-   "tables": 1,
+   "tables": 4,
    "empty_tables": 0
   },
   {
    "page": "week.html",
-   "bytes": 247953,
+   "bytes": 865081,
    "issues": [
     [
      "NUM_FORMAT",
-     "7 種小數位：.1×6056,.2×2255,.4×4,.5×20,.6×89,.7×76,.8×8"
+     "9 種小數位：.1×9350,.2×3439,.3×126,.4×30,.5×123,.6×499,.7×274,.8×1,.9×4"
     ]
    ],
    "h1": "HI! Desmond",
    "h2": [
-    "本週最強嘅流動性股 流動池 432 隻之中，按 1 週表現排"
+    "本週最強嘅流動性股 流動池 704 隻之中，按 1 週表現排"
    ],
    "date_formats": {
-    "ISO": 12
+    "ISO": 8
    },
    "decimals": {
-    "1": 6056,
-    "2": 2255,
-    "4": 4,
-    "5": 20,
-    "6": 89,
-    "7": 76,
-    "8": 8
+    "1": 9350,
+    "3": 126,
+    "2": 3439,
+    "4": 30,
+    "5": 123,
+    "6": 499,
+    "7": 274,
+    "8": 1,
+    "9": 4
+   },
+   "tables": 1,
+   "empty_tables": 0
+  },
+  {
+   "page": "yoyo_ball.html",
+   "bytes": 21855,
+   "issues": [
+    [
+     "FAKE_TODAY",
+     "標題寫「今日」但冇日期：['今日訊號']"
+    ]
+   ],
+   "h1": "HI! Desmond",
+   "h2": [
+    "YOYO Ball MACD(6,20,9) + 9/21EMA + 窄止蝕",
+    "Setup 規則 做空（做多完全反轉）",
+    "止蝕寬度 vs EV 同一批訊號，只改止蝕",
+    "今日訊號"
+   ],
+   "date_formats": {
+    "ISO": 8
+   },
+   "decimals": {
+    "2": 2,
+    "1": 13
    },
    "tables": 1,
    "empty_tables": 0
   }
  ],
- "dead_links": {}
+ "dead_links": {
+  "method.html": [
+   "dailyscan_2026-10-19.html",
+   "dailyscan_2026-10-20.html",
+   "dailyscan_2026-10-21.html"
+  ]
+ }
 }
