@@ -1793,7 +1793,7 @@ def build():
         '如果你想睇其他分頁（XLK/XLF/…），喺下面嘅 Sheet 自己切換。</div>'
         f'<iframe src="https://docs.google.com/spreadsheets/d/{_themes_sid}'
         f'/htmlembed?gid={_themes_gid}&amp;widget=true&amp;headers=false" '
-        'style="width:100%;height:620px;border:0;border-radius:10px;'
+        'style="width:100%;height:360px;border:0;border-radius:10px;'
         'background:#fff" loading="lazy" referrerpolicy="no-referrer">'
         '</iframe>'
         f'<div style="margin-top:8px;font-size:11.5px;opacity:.6">'
