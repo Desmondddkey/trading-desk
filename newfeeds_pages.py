@@ -37,7 +37,7 @@ def _tone(v, pos=0, neg=0):
 SHEET_CSS = """
 .sheetbox{position:relative;width:100%;height:74vh;min-height:520px;
   border:1px solid rgba(128,128,128,.3);border-radius:10px;overflow:hidden;
-  background:#fff;margin:0 0 16px}
+  background:#fff;margin:0 0 16px;color:#1f1e1d}
 .sheetbox iframe{width:100%;height:100%;border:0;display:block}
 .sheetload{position:absolute;inset:0;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:14px;background:#0d1220;

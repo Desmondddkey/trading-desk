@@ -46,7 +46,7 @@ CSS = """
 [data-theme="dark"] .b-lock{color:#fbc06a}
 .ext-body{padding:0}
 .ext-frame{width:100%;height:80vh;min-height:560px;border:0;display:block;
-  background:#fff}
+  background:#fff;color:#1f1e1d}
 .ext-note{padding:14px 16px;font-size:12.5px;line-height:1.8}
 .ext-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;
   padding:9px 15px;border-radius:8px;border:1px solid rgba(128,128,128,.4);

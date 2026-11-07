@@ -165,13 +165,13 @@ def build():
     P.append('</div>')
 
     P.append("""<style>
-.skcard{border:1px solid #cfc7bb;border-radius:8px;margin:0 0 8px;background:#fff}
-.skcard>summary{cursor:pointer;padding:9px 12px;list-style:none;display:block}
+.skcard{border:1px solid #cfc7bb;border-radius:8px;margin:0 0 8px;background:#fff;color:#1f1e1d}
+.skcard>summary{cursor:pointer;padding:9px 12px;list-style:none;display:block;color:#1f1e1d}
 .skcard>summary::-webkit-details-marker{display:none}
 .skd{display:block;color:#5b564c;font-size:12.5px;margin-top:2px}
 .skm{display:block;color:#7a7367;font-size:11.5px;margin-top:3px}
-.skbody{padding:4px 14px 12px;border-top:1px solid #e6e0d6;font-size:13px;line-height:1.55}
-.skbody h3{font-size:14px;margin:12px 0 4px}
+.skbody{padding:4px 14px 12px;border-top:1px solid #e6e0d6;font-size:13px;line-height:1.55;color:#1f1e1d}
+.skbody h3{font-size:14px;margin:12px 0 4px;color:#1f1e1d}
 .skbody pre{background:#f6f3ec;padding:8px 10px;border-radius:5px;overflow-x:auto;font-size:12px}
 .skbody code{background:#f2eee5;padding:1px 4px;border-radius:3px;font-size:12px}
 .skfiles{margin-top:10px;font-size:11.5px;color:#5b564c}

@@ -157,7 +157,7 @@ def build():
     P.append('<details class="art"><summary>English original（未刪節）</summary>'
              f'<div class="artbody">{_full_article()}</div></details>')
     P.append("""<style>
-.art{border:1px solid #cfc7bb;border-radius:8px;background:#fff;margin:0 0 12px}
+.art{border:1px solid #cfc7bb;border-radius:8px;background:#fff;margin:0 0 12px;color:#1f1e1d}
 .art>summary{cursor:pointer;padding:10px 14px;font-weight:700;font-size:13px}
 .artbody{padding:4px 16px 16px;border-top:1px solid #e6e0d6;font-size:13px;line-height:1.6}
 .artbody h2{font-size:15px;margin:16px 0 6px}

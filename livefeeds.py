@@ -91,7 +91,7 @@ CSS = """
 .lf-btns a.pri:hover{background:#1d4ed8}
 .lf-body{position:relative;background:rgba(128,128,128,.05)}
 .lf-frame{width:100%;height:78vh;min-height:520px;border:0;display:block;
-  background:#fff}
+  background:#fff;color:#1f1e1d}
 [data-theme="dark"] .lf-frame{background:#0f1420}
 .lf-nobody{padding:18px 16px;background:rgba(128,128,128,.05)}
 .lf-load{position:absolute;inset:0;display:flex;flex-direction:column;

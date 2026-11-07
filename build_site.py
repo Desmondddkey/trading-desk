@@ -1025,17 +1025,15 @@ SIDEBAR_LINKS = [
     # 2026-10-19 方案 C：5 個分組；廚房看板獨立最頂；PLAYBOOK 最底
     # ★ 2026-10-24 Desmond：「每日流程放最頂」
     ("_pinned", "", "每日流程", "process.html"),
-    ("_pinned", "", "收工標準", "finish.html"),
-    ("_pinned", "", "一脈相承", "howto.html"),
-    ("_pinned", "", "Put/Call", "putcall.html"),
-    ("_pinned", "", "期權資金流", "ntmflow.html"),
-    ("_pinned", "", "廚房看板", "jobboard.html"),
-    ("_pinned", "", "DATABASE", "datahealth.html"),
+    ("_pinned", "", "使用手冊", "howto.html"),
 
     ("_grp", "HERMES"),
     ("_link", None, "Hermes 目錄", "hermesdir.html"),
     ("_link", None, "Hermes 技能", "skills.html"),
     ("_link", None, "系統地圖", "sysmap.html"),
+    ("_link", None, "DATABASE", "datahealth.html"),
+    ("_link", None, "Job 監控", "jobboard.html"),
+    ("_link", None, "收工標準", "finish.html"),
 
     ("_grp", "市場"),
     ("_link", None, "MARKET REGIME", "regime_mri.html"),
@@ -1045,6 +1043,8 @@ SIDEBAR_LINKS = [
     ("_link", None, "QQQ 雙結構", "qqqstruct.html"),
     ("_link", None, "MM Model", "mmmodel.html"),
     ("_link", None, "保證金債務", "margin.html"),
+    ("_link", None, "Put/Call", "putcall.html"),
+    ("_link", None, "期權資金流", "ntmflow.html"),
 
     # ★ 2026-10-24 Desmond：「加多個主題 放市場下面；RS板改名 RS THEME」
     ("_grp", "主題"),
@@ -2471,7 +2471,7 @@ def build():
                          + _abody + '</div>')
             except Exception:                                # noqa: BLE001
                 pass
-            pages["jobboard"] = ("廚房看板", _body, base)
+            pages["jobboard"] = ("Job 監控", _body, base)
             log(f"✓ jobboard.html ({len(_body)//1024} KB, {len(_jobs)} jobs)")
     except Exception as _e6:                                 # noqa: BLE001
         log(f"⚠ 廚房看板失敗：{type(_e6).__name__}: {_e6}")

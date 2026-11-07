@@ -14,7 +14,7 @@ CSS = """
 .ml-badge{font-size:10.5px;padding:1px 7px;border-radius:5px;font-weight:700;
   background:rgba(34,197,94,.14);color:#22c55e;border:1px solid rgba(34,197,94,.3)}
 .ml-frame{width:100%;height:70vh;min-height:520px;border:1px solid rgba(128,128,128,.25);
-  border-radius:6px;background:#fff}
+  border-radius:6px;background:#fff;color:#1f1e1d}
 .ml-links{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
 .ml-btn{font-size:11.5px;padding:5px 10px;border:1px solid rgba(249,115,22,.45);
   border-radius:5px;color:#f97316;text-decoration:none;font-weight:700}

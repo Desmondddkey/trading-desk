@@ -75,7 +75,7 @@ CSS = """
   color:inherit;font-family:inherit;cursor:pointer}
 .lm-bar .lm-n{margin-left:auto;font-size:11.5px;opacity:.6}
 .lm-img{width:100%;border-radius:10px;border:1px solid rgba(128,128,128,.28);
-  background:#fff;display:block}
+  background:#fff;display:block;color:#1f1e1d}
 .lm-wrap{overflow-x:auto}
 .lm-legend{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0 0;font-size:12.5px}
 .lm-red{color:#c0262b;font-weight:700}

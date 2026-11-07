@@ -293,7 +293,7 @@ function jbFilter(mode,btn){
 def build(jobs, execs, incs):
     today = datetime.date.today().isoformat()
     parts = [f'<style>{CSS}</style><script>{JS}</script>']
-    parts.append(f'<h2>🍳 廚房看板 <small>所有常駐 job 狀態</small></h2>')
+    parts.append(f'<h2>🍳 Job 監控 <small>所有常駐 job 狀態</small></h2>')
     parts.append(
         f'<p class="crumb">本機讀取 <code>~/AppData/Local/hermes/cron/</code>'
         f'｜生成 {_esc(today)}｜'
