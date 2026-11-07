@@ -351,8 +351,8 @@ CSS = """
 .mm-tbl td{padding:4px 7px;border-bottom:1px solid rgba(148,163,184,.1);font-variant-numeric:tabular-nums}
 .mm-on{color:#1f7f52;font-weight:800}.mm-off{color:#a04a44;opacity:.8}
 .mm-note{font-size:10.5px;opacity:.55;line-height:1.7;margin-top:8px}
-.mm-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
-.mm-scroll svg{display:block}
+.hscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+.hscroll svg{display:block}
 """
 
 
@@ -398,13 +398,13 @@ def build():
     # ── 圖 1：價格 + 模型（log）
     L.append('<div class="card"><h2>1 · S&amp;P 500 vs Composite Model '
              '<small>log 尺｜藍 = S&amp;P｜橙 = 模型</small></h2>'
-             '<div class="body"><div class="mm-scroll">')
+             '<div class="body"><div class="hscroll">')
     L.append(V.price_chart(cs, st, bh))
     L.append('</div></div>')
 
     # ── 圖 2：Composite Indicator
     L.append('<div class="card"><h2>2 · Composite Indicator '
-             '<small>0-100｜虛線 40 / 60</small></h2><div class="body"><div class="mm-scroll">')
+             '<small>0-100｜虛線 40 / 60</small></h2><div class="body"><div class="hscroll">')
     L.append(V.step_chart(mo.get("date"), mo.get("score"),
                           colour="#2f8f5b", label="Composite Indicator",
                           value_txt=f'{snap["date"]} = {s:.1f}',
@@ -413,7 +413,7 @@ def build():
 
     # ── 圖 3：Allocation %
     L.append('<div class="card"><h2>3 · S&amp;P 500 Allocation % '
-             '<small>0-100｜0 = 全現金｜100 = 全倉</small></h2><div class="body"><div class="mm-scroll">')
+             '<small>0-100｜0 = 全現金｜100 = 全倉</small></h2><div class="body"><div class="hscroll">')
     L.append(V.step_chart(mo.get("date"), mo.get("alloc"),
                           colour="#52525b", label="S&amp;P 500 Allocation %",
                           value_txt=f'{snap["date"]} = {snap["expo_today"]:.1f}%',
@@ -445,12 +445,6 @@ def build():
     L.append('<div class="mm-note">★ Minervini 原版 25 個子模型冇公開。以上 25 條係我方可核 proxy，'
              '只用公開指數價、VIX、10 年息、美元計，公式寫死喺 mm_model.py。'
              '唔可以當成官方數字或者投資建議。</div></div></div>')
-    # 預設最右（最新）；向左滑睇歷史
-    L.append('<script>(function(){function R(){document.querySelectorAll'
-             '(".mm-scroll").forEach(function(e){e.scrollLeft=e.scrollWidth;});}'
-             'if(document.readyState!=="loading")R();'
-             'else document.addEventListener("DOMContentLoaded",R);'
-             'window.addEventListener("resize",R);})();</script>')
     return ("MM Model", "".join(L))
 
 

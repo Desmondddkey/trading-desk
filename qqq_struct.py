@@ -387,7 +387,7 @@ def _chart(cs):
     def Y(v):
         return 2 + (hi - v) / (hi - lo) * (ph - 4)
 
-    P = [f'<svg viewBox="0 0 {W} {H}" width="100%" style="min-width:640px;max-width:{W}px" '
+    P = [f'<svg viewBox="0 0 {W} {H}" width="{W}" style="width:{W}px;max-width:none" '
          f'role="img" aria-label="QQQ 雙結構兩年圖">']
     # 價格格線
     import math as _m
@@ -620,7 +620,9 @@ def build(snap=None):
     # ── ④ 兩年圖
     L.append(_card_open("QQQ × 兩條結構 — 近兩年",
                         '<small>價格逐段按狀態上色；下面 = 四種狀態色帶同延伸（ATR）</small>'))
+    L.append('<div class="hscroll">')
     L.append(_chart(snap["chart"]))
+    L.append('</div>')
     L.append('<div class="qs-leg" style="margin-top:8px">'
              f'<span><i style="background:{EMA_COL}"></i>21EMA</span>'
              f'<span><i style="background:{SMA_COL}"></i>10 週 SMA</span>'

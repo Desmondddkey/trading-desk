@@ -1327,6 +1327,27 @@ def _impeccable_css(css):
     return css
 
 
+_RE_WIDE_SVG = __import__("re").compile(
+    r'<svg (?=[^>]*min-width:([0-9]{3,})px)[^>]*>.*?</svg>', __import__("re").S)
+
+
+def _hscroll_wide(h):
+    """★ 2026-11-07 Desmond：手機睇唔到最右（最新）。
+    任何 inline min-width >= 600px 嘅 SVG（寬圖表）自動包一層 .hscroll；
+    全站一份 JS 喺開頁時 scrollLeft = scrollWidth（預設最右 = 最新）。"""
+    out, pos = [], 0
+    for m in _RE_WIDE_SVG.finditer(h):
+        if int(m.group(1)) < 600:
+            continue
+        if 'class="hscroll"' in h[max(0, m.start() - 60):m.start()]:
+            continue
+        out.append(h[pos:m.start()])
+        out.append('<div class="hscroll">' + m.group(0) + '</div>')
+        pos = m.end()
+    out.append(h[pos:])
+    return "".join(out)
+
+
 def _polish(html_text):
     """四件事，全部喺輸出前一次過做（唔改個別頁模組）：
        ① 補 meta viewport
@@ -1370,6 +1391,7 @@ def _polish(html_text):
         return f'<div class="tscroll">{m.group(1)}</div>'
 
     t = _RE_TABLE.sub(_wrap, t)
+    t = _hscroll_wide(t)
     return t
 
 
@@ -1387,7 +1409,10 @@ def page(active, title, body, payload, extra_head=""):
   if(v){{try{{v=JSON.parse(v);}}catch(e){{}}
     if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v);}}
 }}catch(e){{}}}})();</script>
-<link rel="stylesheet" href="site.css?v={BUILD_TS}"><script src="sortable.js?v={BUILD_TS}"></script>{extra_head}</head><body>
+<link rel="stylesheet" href="site.css?v={BUILD_TS}"><script src="sortable.js?v={BUILD_TS}"></script>
+<style>/* 寬圖表：手機橫向滑動，預設最右（最新） */
+.hscroll{{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}}
+.hscroll svg{{display:block}}</style>{extra_head}</head><body>
 <script>
 /* ★ 自動更新：用返原來網址，頁面發現有新 build 就自己 reload 一次
    唔會迴圈：sessionStorage 記住已 reload 過嘅版本 */
@@ -1433,7 +1458,11 @@ def page(active, title, body, payload, extra_head=""):
 </footer>
 </div>
 <script>var D={data};{JS}
-document.addEventListener('DOMContentLoaded',function(){{ if(window.PAGE) PAGE(); }});</script>
+/* ★ 所有 .hscroll：打開時對齊最右（最新），向左滑睇歷史 */
+function HSCROLL(){{document.querySelectorAll('.hscroll').forEach(function(e){{e.scrollLeft=e.scrollWidth;}});}}
+document.addEventListener('DOMContentLoaded',function(){{ if(window.PAGE) PAGE(); HSCROLL(); }});
+window.addEventListener('resize',HSCROLL);
+window.addEventListener('load',HSCROLL);</script>
 <script>{THEME_LANG_JS}</script>
 <script>{SIDEBAR_JS}</script>
 <script>{tvhover.TVHOVER_JS}</script>
