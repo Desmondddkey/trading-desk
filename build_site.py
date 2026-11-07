@@ -1041,10 +1041,12 @@ SIDEBAR_LINKS = [
     ("_link", None, "Market Monitor", "mm.html"),
     ("_link", None, "頂部觀察", "topwatch.html"),
     ("_link", None, "QQQ 雙結構", "qqqstruct.html"),
+    ("_link", None, "MM Model", "mmmodel.html"),
     ("_link", None, "保證金債務", "margin.html"),
 
     # ★ 2026-10-24 Desmond：「加多個主題 放市場下面；RS板改名 RS THEME」
     ("_grp", "主題"),
+    ("_link", None, "行業輪動", "sectorrot.html"),
     ("_link", None, "RS THEME", "rsboard.html"),
     ("_link", None, "Sectors", "sectors.html"),
 
@@ -2300,6 +2302,20 @@ def build():
         log(f"✓ qqqstruct.html ({len(_qsb)//1024} KB)")
     except Exception as _eq:                                 # noqa: BLE001
         log(f"⚠ qqqstruct：{type(_eq).__name__}: {_eq}")
+    try:
+        import mm_model as _mm
+        _mmt, _mmb = _mm.build()
+        pages["mmmodel"] = (_mmt, _mmb, base)
+        log(f"✓ mmmodel.html ({len(_mmb)//1024} KB)")
+    except Exception as _emm:                                # noqa: BLE001
+        log(f"⚠ mmmodel：{type(_emm).__name__}: {_emm}")
+    try:
+        import sector_rot as _sr
+        _srt, _srb = _sr.build()
+        pages["sectorrot"] = (_srt, _srb, base)
+        log(f"✓ sectorrot.html ({len(_srb)//1024} KB)")
+    except Exception as _esr:                                # noqa: BLE001
+        log(f"⚠ sectorrot：{type(_esr).__name__}: {_esr}")
     try:
         import fatpitch_page as _fp
         _fpb = _fp.render_html()

@@ -33,12 +33,18 @@ OUT = os.path.join(HERE, "output")
 CACHE_H = 6.0            # 6 小時：同 fear_gauge / group_rs 同一個新鮮度紀律
 WIN = 2520               # 10 年交易日
 
+# ★ 2026-11-07 Desmond：「顏色改返同張圖一樣」→ 全部由原圖 pixel 取樣
 COL = {
-    "RISK ON": "#22c55e",
-    "PULLBACK": "#eab308",
-    "PROBE": "#38bdf8",
-    "RISK OFF": "#ef4444",
+    "RISK ON": "#1f7f52",     # 深綠
+    "PULLBACK": "#b9a05f",    # 金字（取樣 b4a564）
+    "PROBE": "#906060",       # 褐紅（取樣 906060）
+    "RISK OFF": "#a04a44",    # 磚紅（條帶取樣 b05040）
 }
+EXT_UP = "#544878"            # price upside extended（取樣）
+EXT_DN = "#904848"            # price downside extended（取樣）
+SMA_COL = "#b4ccd8"           # 10 週結構（取樣，寬帶）
+EMA_COL = "#c0d8e4"           # 21EMA 結構（取樣，緊帶）
+PULLBACK_C = COL["PULLBACK"]
 DESC = {
     "RISK ON": "兩線之上 — 趨勢環境",
     "PULLBACK": "週線之上、日線之下 — 上升趨勢回調",
@@ -301,7 +307,7 @@ def _gauge(z, label):
     P.append(f'<rect x="{X(-1.5):.1f}" y="18" width="{X(-1.5)-pad:.1f}" height="10" '
              f'fill="#ef4444" fill-opacity="0.18"/>')
     P.append(f'<rect x="{X(1.5):.1f}" y="18" width="{pad + (W - pad - X(1.5)):.1f}" '
-             f'height="10" fill="#7c6cf6" fill-opacity="0.18"/>')
+             f'height="10" fill="{EXT_UP}" fill-opacity="0.18"/>')
     P.append(f'<rect x="{pad}" y="18" width="{W-2*pad:.1f}" height="10" fill="#64748b" '
              f'fill-opacity="0.25" rx="3"/>')
     for v, lab in ((-1.5, "−1.5σ"), (0, "0"), (1.5, "+1.5σ")):
@@ -310,7 +316,7 @@ def _gauge(z, label):
                  f'fill-opacity="0.8"/>')
         P.append(f'<text x="{X(v):.1f}" y="44" fill="#94a3b8" font-size="9.5" '
                  f'text-anchor="middle">{lab}</text>')
-    col = "#ef4444" if z <= -1.5 else "#7c6cf6" if z >= 1.5 else "#e2e8f0"
+    col = EXT_DN if z <= -1.5 else EXT_UP if z >= 1.5 else "#e2e8f0"
     P.append(f'<circle cx="{X(max(lo, min(hi, z))):.1f}" cy="23" r="5.5" fill="{col}" '
              f'stroke="#0b1120" stroke-width="1.5"/>')
     P.append(f'<text x="{X(max(lo, min(hi, z))):.1f}" y="10" fill="{col}" '
@@ -339,7 +345,7 @@ def _histo(hist, z):
     for i, cnt in enumerate(counts):
         e0 = edges[i]
         hgt = (cnt / mx) * (H - top - 16)
-        col = "#ef4444" if e0 < -1.5 else "#7c6cf6" if e0 >= 1.5 else "#64748b"
+        col = EXT_DN if e0 < -1.5 else EXT_UP if e0 >= 1.5 else "#64748b"
         P.append(f'<rect x="{pad + i*bw:.2f}" y="{H-16-hgt:.1f}" width="{max(bw-0.4,0.6):.2f}" '
                  f'height="{hgt:.1f}" fill="{col}" fill-opacity="0.85"><title>'
                  f'{e0:+.2f} ~ {edges[i+1]:+.2f}σ：{cnt} 日</title></rect>')
@@ -398,12 +404,12 @@ def _chart(cs):
              f'letter-spacing=".06em">QQQ 收市</text>')
     # 結構線
     pts = " ".join(f"{X(i):.1f},{Y(v):.1f}" for i, v in enumerate(ema))
-    P.append(f'<polyline points="{pts}" fill="none" stroke="#7dd3fc" '
+    P.append(f'<polyline points="{pts}" fill="none" stroke="{EMA_COL}" '
              f'stroke-width="1.1" stroke-opacity="0.75"/>')
     seg = [(i, v) for i, v in enumerate(cs["sma10w"]) if v is not None]
     if seg:
         pts = " ".join(f"{X(i):.1f},{Y(v):.1f}" for i, v in seg)
-        P.append(f'<polyline points="{pts}" fill="none" stroke="#a5b4fc" '
+        P.append(f'<polyline points="{pts}" fill="none" stroke="{SMA_COL}" '
                  f'stroke-width="1.3" stroke-dasharray="5 3" stroke-opacity="0.85"/>')
     # 價格（逐段上色）
     for i in range(1, n):
@@ -440,7 +446,7 @@ def _chart(cs):
         y = EY(v)
         ytop = min(y, EY(0))
         hh = abs(EY(0) - y)
-        col = "#ef4444" if v < 0 else "#7c6cf6"
+        col = EXT_DN if v < 0 else EXT_UP
         P.append(f'<rect x="{X(i):.2f}" y="{ytop:.1f}" width="{max(bw*0.8,0.7):.2f}" '
                  f'height="{max(hh,0.6):.1f}" fill="{col}" fill-opacity="0.75">'
                  f'<title>{cs["dates"][i]} 日線 {v:+.2f} ATR</title></rect>')
@@ -455,7 +461,7 @@ def _chart(cs):
             prev_w = v
     if wpts:
         P.append('<polyline points="' + " ".join(f"{X(i):.1f},{EY(v):.1f}" for i, v in wpts)
-                 + '" fill="none" stroke="#eab308" stroke-width="1.2" stroke-opacity="0.85"/>')
+                 + f'" fill="none" stroke="{PULLBACK_C}" stroke-width="1.2" stroke-opacity="0.85"/>')
     # 月份標籤：每月第一個交易日，最少相隔 4% 圖寬
     lastm = ""
     lastx = -1e9
@@ -554,10 +560,10 @@ def build(snap=None):
     L.append(f'<div class="qs-cell"><div class="qs-k">收市</div>'
              f'<div class="qs-v">{snap["close"]:.2f}<small>{snap["chg_pct"]:+.2f}%</small></div></div>')
     L.append(f'<div class="qs-cell"><div class="qs-k">距 21EMA</div>'
-             f'<div class="qs-v" style="color:{"#22c55e" if snap["dist_d_pct"]>=0 else "#ef4444"}">'
+             f'<div class="qs-v" style="color:{COL["RISK ON"] if snap["dist_d_pct"]>=0 else COL["RISK OFF"]}">'
              f'{snap["dist_d_pct"]:+.2f}%<small>{snap["ema21"]:.2f}</small></div></div>')
     L.append(f'<div class="qs-cell"><div class="qs-k">距 10 週 SMA</div>'
-             f'<div class="qs-v" style="color:{"#22c55e" if snap["dist_w_pct"]>=0 else "#ef4444"}">'
+             f'<div class="qs-v" style="color:{COL["RISK ON"] if snap["dist_w_pct"]>=0 else COL["RISK OFF"]}">'
              f'{snap["dist_w_pct"]:+.2f}%<small>{snap["sma10w"]:.2f}</small></div></div>')
     L.append(f'<div class="qs-cell"><div class="qs-k">日線延伸</div>'
              f'<div class="qs-v">{snap["ext_d"]:+.2f}<small>ATR　{(z_d or 0):+.2f}σ</small></div></div>')
@@ -616,11 +622,11 @@ def build(snap=None):
                         '<small>價格逐段按狀態上色；下面 = 四種狀態色帶同延伸（ATR）</small>'))
     L.append(_chart(snap["chart"]))
     L.append('<div class="qs-leg" style="margin-top:8px">'
-             f'<span><i style="background:#7dd3fc"></i>21EMA</span>'
-             f'<span><i style="background:#a5b4fc"></i>10 週 SMA</span>'
-             '<span><i style="background:#ef4444"></i>負延伸</span>'
-             '<span><i style="background:#7c6cf6"></i>正延伸</span>'
-             '<span><i style="background:#eab308"></i>週線延伸線</span></div>')
+             f'<span><i style="background:{EMA_COL}"></i>21EMA</span>'
+             f'<span><i style="background:{SMA_COL}"></i>10 週 SMA</span>'
+             f'<span><i style="background:{EXT_DN}"></i>負延伸</span>'
+             f'<span><i style="background:{EXT_UP}"></i>正延伸</span>'
+             f'<span><i style="background:{PULLBACK_C}"></i>週線延伸線</span></div>')
     L.append(f'<div class="qs-note">延伸 =（收市 − 線）÷ ATR14；|z| ≥ 1.5 = 延伸（z = 延伸 ÷ 近 {WIN:,} 日標準差）。'
              f'狀態 = 收市 vs 21EMA × 週收市 vs 10 週 SMA。'
              f'樣本 {snap["sessions"]:,} 日（{snap["span"]}）。</div>')
