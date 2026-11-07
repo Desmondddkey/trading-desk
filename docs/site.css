@@ -463,6 +463,10 @@ tbody tr:hover{background:rgba(148,163,184,.055)}
 .grid2,.grid3{gap:var(--sp-3)}
 .card .body>.grid2+.grid2{margin-top:var(--sp-3)}
 a{text-underline-offset:2px}
+/* ★ 圖表跟主題：同一內容出深／淺兩版，只顯示對應版本 */
+.fig-dark{display:none}
+html[data-theme="dark"] .fig-dark{display:block}
+html[data-theme="dark"] .fig-light{display:none}
 /* ★ 2026-11-07 深色模式可讀性：細字唔好低過 0.78 透明度；表格字提亮 */
 body{color:#eef3fb}
 .card .body{color:#e4ebf6}

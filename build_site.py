@@ -1049,6 +1049,10 @@ tbody tr:hover{background:rgba(148,163,184,.055)}
 .grid2,.grid3{gap:var(--sp-3)}
 .card .body>.grid2+.grid2{margin-top:var(--sp-3)}
 a{text-underline-offset:2px}
+/* ★ 圖表跟主題：同一內容出深／淺兩版，只顯示對應版本 */
+.fig-dark{display:none}
+html[data-theme="dark"] .fig-dark{display:block}
+html[data-theme="dark"] .fig-light{display:none}
 /* ★ 2026-11-07 深色模式可讀性：細字唔好低過 0.78 透明度；表格字提亮 */
 body{color:#eef3fb}
 .card .body{color:#e4ebf6}
@@ -1650,9 +1654,10 @@ def _champion_card():
                      f'（RS 1M {esc(r1) if r1 is not None else "—"}%）</div>')
     else:
         h.append('<div class="dim">今日冇 today_six.json</div>')
-    h.append('<img src="fleet_equity.png" alt="資金曲線" '
-             'style="width:100%;max-width:100%;border-radius:8px;margin-top:8px;'
-             'border:1px solid rgba(128,128,128,.25)">')
+    _fig_style = ('style="width:100%;max-width:100%;border-radius:8px;margin-top:8px;'
+                  'border:1px solid rgba(128,128,128,.25)"')
+    h.append(f'<img class="fig-light" src="fleet_equity_light.png" alt="資金曲線（淺色）" {_fig_style}>')
+    h.append(f'<img class="fig-dark" src="fleet_equity_dark.png" alt="資金曲線（深色）" {_fig_style}>')
     h.append('<div style="margin-top:8px;font-size:11.5px;opacity:.6">'
              '出場階梯 = 2R 減 33% → ATRX8 減 33% → 拖 10EMA 全清（SOUL §4.3）。'
              '熊市 0 單，唔硬做。</div></div>')
