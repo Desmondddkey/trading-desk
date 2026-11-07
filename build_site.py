@@ -1027,12 +1027,15 @@ SIDEBAR_LINKS = [
     ("_pinned", "", "每日流程", "process.html"),
     ("_pinned", "", "收工標準", "finish.html"),
     ("_pinned", "", "一脈相承", "howto.html"),
-    ("_pinned", "", "系統地圖", "sysmap.html"),
-    ("_pinned", "", "技能庫", "skills.html"),
     ("_pinned", "", "Put/Call", "putcall.html"),
     ("_pinned", "", "期權資金流", "ntmflow.html"),
     ("_pinned", "", "廚房看板", "jobboard.html"),
     ("_pinned", "", "DATABASE", "datahealth.html"),
+
+    ("_grp", "HERMES"),
+    ("_link", None, "Hermes 目錄", "hermesdir.html"),
+    ("_link", None, "Hermes 技能", "skills.html"),
+    ("_link", None, "系統地圖", "sysmap.html"),
 
     ("_grp", "市場"),
     ("_link", None, "MARKET REGIME", "regime_mri.html"),
@@ -2331,6 +2334,13 @@ def build():
         log(f"✓ qqqstruct.html ({len(_qsb)//1024} KB)")
     except Exception as _eq:                                 # noqa: BLE001
         log(f"⚠ qqqstruct：{type(_eq).__name__}: {_eq}")
+    try:
+        import hermesdir_page as _hd
+        _hdt, _hdb = _hd.build()
+        pages["hermesdir"] = (_hdt, _hdb, base)
+        log(f"✓ hermesdir.html ({len(_hdb)//1024} KB)")
+    except Exception as _ehd:                                # noqa: BLE001
+        log(f"⚠ hermesdir：{type(_ehd).__name__}: {_ehd}")
     try:
         import mm_model as _mm
         _mmt, _mmb = _mm.build()
