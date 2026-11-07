@@ -17,6 +17,117 @@ from collections import Counter, defaultdict
 JOBS = r"C:/Users/rain0/AppData/Local/hermes/cron/jobs.json"
 DESC = r"C:/Users/rain0/trading-os/edge_book/job_descriptions.json"
 
+_WD = ["日", "一", "二", "三", "四", "五", "六"]
+
+
+def _expand(field, lo, hi):
+    """cron 欄位 → 展開數字 list（支援 *、a-b、*/n、a,b）。"""
+    out = []
+    for part in str(field).split(","):
+        part = part.strip()
+        step = 1
+        if part.startswith("*/"):
+            step = int(part[2:])
+            out.extend(range(lo, hi + 1, step))
+            continue
+        if "-" in part and "/" in part:
+            rng, st = part.split("/")
+            a, b = rng.split("-")
+            out.extend(range(int(a), int(b) + 1, int(st)))
+            continue
+        if "-" in part:
+            a, b = part.split("-")
+            out.extend(range(int(a), int(b) + 1))
+            continue
+        if part == "*":
+            out.extend(range(lo, hi + 1))
+            continue
+        out.append(int(part))
+    return sorted(set(out))
+
+
+def expr_like(v):
+    """係唔係 5 欄 cron 表達式（唔係 'every 30m' 呢類人話）。"""
+    if not isinstance(v, str):
+        return False
+    parts = v.split()
+    if len(parts) != 5:
+        return False
+    for x in parts:
+        core = x.replace("*", "").replace("/", "").replace(",", "").replace("-", "")
+        if core and not core.isdigit():
+            return False
+    return True
+
+
+def human_schedule(expr):
+    """cron → 人話（HKT）。例：*/15 21-23,0-4 * * 2-6 → 21:00–04:59 每 15 分鐘｜週二–六"""
+    try:
+        f = str(expr).split()
+        if len(f) != 5:
+            return str(expr)
+        mins = _expand(f[0], 0, 59)
+        hours = _expand(f[1], 0, 23)
+        dom = f[2]
+        dow = _expand(f[4], 0, 6) if f[4] != "*" else list(range(7))
+    except Exception:                                        # noqa: BLE001
+        return str(expr)
+    if not mins or not hours:
+        return str(expr)
+
+    # 連續小時（容許跨午夜）
+    hs = sorted(hours)
+    n = len(hs)
+    if n == 1:
+        start_h = end_h = hs[0]
+        wrapped = False
+    else:
+        gaps = [(hs[(i + 1) % n] - hs[i]) % 24 for i in range(n)]
+        k = max(range(n), key=lambda i: gaps[i])
+        start_h, end_h = hs[(k + 1) % n], hs[k]
+        wrapped = start_h > end_h
+        contiguous = sum(gaps) - gaps[k] == n - 1
+        if not contiguous:            # 唔連續 → 逐個列
+            times = "、".join(f"{h:02d}:{mins[0]:02d}" for h in hs[:4])
+            if len(mins) > 1:
+                times = "、".join(f"{h:02d}:00" for h in hs[:4])
+            pre = f"每月 {dom} 日 " if dom != "*" else ""
+            return pre + times + _dow_txt(dow)
+
+    step = None
+    if len(mins) > 1:
+        gaps_m = {mins[i + 1] - mins[i] for i in range(len(mins) - 1)}
+        step = gaps_m.pop() if len(gaps_m) == 1 else None
+
+    if len(mins) == 1:
+        if n == 1:
+            t = f"{hs[0]:02d}:{mins[0]:02d}"
+        elif n <= 4:
+            t = "、".join(f"{h:02d}:{mins[0]:02d}" for h in hs)
+        else:
+            t = f"{start_h:02d}:{mins[0]:02d}–{end_h:02d}:{mins[0]:02d}"
+    else:
+        ev = "每分鐘" if step == 1 else (f"每 {step} 分鐘" if step else f"每小時 {len(mins)} 次")
+        if n == 1:
+            t = f"{hs[0]:02d}:00–{hs[0]:02d}:59 {ev}"
+        else:
+            t = f"{start_h:02d}:00–{end_h:02d}:59 {ev}"
+
+    if dom != "*":
+        return f"每月 {dom} 日 {t}" + _dow_txt(dow).replace("｜每日", "")
+    return t + _dow_txt(dow)
+
+
+def _dow_txt(dow):
+    if dow == list(range(7)):
+        return "｜每日"
+    if len(dow) == 1:
+        return f"｜週{_WD[dow[0]]}"
+    if dow == list(range(dow[0], dow[-1] + 1)):
+        return f"｜週{_WD[dow[0]]}–{_WD[dow[-1]]}"
+    return "｜" + "、".join(f"週{_WD[x]}" for x in dow[:4])
+
+
 # 依實際流程排（HKT）。job 名 → 階段
 PHASES = [
     ("盤中（美股開市）", "#22c55e", [
@@ -168,14 +279,16 @@ def build():
         for n in rows:
             j = jobs[n]
             sch = (j.get("schedule") or {})
-            t = sch.get("display") or sch.get("expr") or ""
+            raw = sch.get("expr") or sch.get("display") or ""
+            t = human_schedule(raw) if expr_like(raw) else (sch.get("display") or raw)
             dsc = desc.get(n) or {}
             fn = dsc.get("功能") or (j.get("prompt") or "")[:40]
             use = dsc.get("作用") or "—"
             script = j.get("script") or "（agent）"
             st = j.get("last_status") or "未跑"
             stc = "#22c55e" if st == "ok" else ("#ef4444" if st else "#94a3b8")
-            P.append(f'<tr><td class="n" style="white-space:nowrap">{_esc(t)}</td>'
+            P.append(f'<tr><td class="n" style="white-space:nowrap" title="{_esc(raw)}">'
+                     f'{_esc(t)}</td>'
                      f'<td><b>{_esc(n)}</b><br><span style="font-size:10px;opacity:.5">'
                      f'{_esc(script)}</span></td>'
                      f'<td>{_esc(fn)}<br><span style="font-size:10.5px;opacity:.65">'
