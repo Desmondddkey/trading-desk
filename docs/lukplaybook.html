@@ -8,7 +8,7 @@
   if(v){try{v=JSON.parse(v);}catch(e){}
     if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v);}
 }catch(e){}})();</script>
-<link rel="stylesheet" href="site.css?v=2026-11-07 11:35"><script src="sortable.js?v=2026-11-07 11:35"></script>
+<link rel="stylesheet" href="site.css?v=2026-11-07 13:13"><script src="sortable.js?v=2026-11-07 13:13"></script>
 <style>/* 寬圖表：手機橫向滑動，預設最右（最新） */
 .hscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
 .hscroll svg{display:block}</style></head><body>
@@ -16,7 +16,7 @@
 /* ★ 自動更新：用返原來網址，頁面發現有新 build 就自己 reload 一次
    唔會迴圈：sessionStorage 記住已 reload 過嘅版本 */
 (function(){
-  var BV="2026-11-07 11:35";
+  var BV="2026-11-07 13:13";
   try{
     if(sessionStorage.getItem('hv')===BV) return;
   }catch(e){}
@@ -37,18 +37,206 @@
     .catch(function(){});
 })();
 </script>
-<button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button><div id="navoverlay"></div><button id="sbtoggle" title="收合側欄">&lsaquo;</button><aside id="sb"><a class="brand" href="index.html">HI! Desmond<span class="bld">11-07 11:36</span></a><button id="themebtn">🌙 深色</button><a href="process.html" data-pin="1"><span class="i"></span><span class="lbl">每日流程</span></a><a href="finish.html" data-pin="1"><span class="i"></span><span class="lbl">收工標準</span></a><a href="howto.html" data-pin="1"><span class="i"></span><span class="lbl">一脈相承</span></a><a href="sysmap.html" data-pin="1"><span class="i"></span><span class="lbl">系統地圖</span></a><a href="skills.html" data-pin="1"><span class="i"></span><span class="lbl">技能庫</span></a><a href="lukplaybook.html" class="on" data-pin="1"><span class="i"></span><span class="lbl">Luk 手冊</span></a><a href="putcall.html" data-pin="1"><span class="i"></span><span class="lbl">Put/Call</span></a><a href="ntmflow.html" data-pin="1"><span class="i"></span><span class="lbl">期權資金流</span></a><a href="jobboard.html" data-pin="1"><span class="i"></span><span class="lbl">廚房看板</span></a><a href="datahealth.html" data-pin="1"><span class="i"></span><span class="lbl">DATABASE</span></a><details class="gw"><summary class="grp">市場</summary><div class="gl"><a href="regime_mri.html"><span class="ab">MA</span><span class="lbl">MARKET REGIME</span></a><a href="index.html"><span class="ab">市場</span><span class="lbl">市場簡報</span></a><a href="mm.html"><span class="ab">Ma</span><span class="lbl">Market Monitor</span></a><a href="topwatch.html"><span class="ab">頂部</span><span class="lbl">頂部觀察</span></a><a href="qqqstruct.html"><span class="ab">QQ</span><span class="lbl">QQQ 雙結構</span></a><a href="mmmodel.html"><span class="ab">MM</span><span class="lbl">MM Model</span></a><a href="margin.html"><span class="ab">保證</span><span class="lbl">保證金債務</span></a></div></details><details class="gw"><summary class="grp">主題</summary><div class="gl"><a href="sectorrot.html"><span class="ab">行業</span><span class="lbl">行業輪動</span></a><a href="rsboard.html"><span class="ab">RS</span><span class="lbl">RS THEME</span></a><a href="sectors.html"><span class="ab">Se</span><span class="lbl">Sectors</span></a></div></details><details class="gw"><summary class="grp">選股</summary><div class="gl"><a href="dailyscan.html"><span class="ab">Da</span><span class="lbl">Daily Scan</span></a><a href="alerts.html"><span class="ab">Se</span><span class="lbl">Setup Alert</span></a><a href="leaders.html"><span class="ab">RS</span><span class="lbl">RS Leader</span></a><a href="rsbeforeprice.html"><span class="ab">RS</span><span class="lbl">RS Before Price</span></a><a href="cm.html"><span class="ab">RS</span><span class="lbl">RS Pullback</span></a><a href="week.html"><span class="ab">We</span><span class="lbl">Weekly MM</span></a><a href="leadermap.html"><span class="ab">RS</span><span class="lbl">RS Leader 位置圖</span></a><a href="rsscan.html"><span class="ab">RS</span><span class="lbl">RS Daily Scan</span></a><a href="beachball.html"><span class="ab">沙灘</span><span class="lbl">沙灘球反應</span></a><a href="feargauge.html"><span class="ab">投降</span><span class="lbl">投降儀表</span></a><a href="fatpitch.html"><span class="ab">肥球</span><span class="lbl">肥球掃描（J Law）</span></a><a href="gto.html"><span class="ab">GT</span><span class="lbl">GTO 手牌分析</span></a><a href="wave.html"><span class="ab">肥波</span><span class="lbl">肥波總覽</span></a><a href="tightscan.html"><span class="ab">Ti</span><span class="lbl">Tight Range</span></a><a href="setups.html"><span class="ab">Th</span><span class="lbl">The Plan</span></a><a href="https://finviz.com/calendar/earnings/season-preview?view=list&sort=marketCap" target="_blank" rel="noopener" class="ext-link"><span class="i">None</span><span class="lbl">財報（Finviz）</span></a><a href="yoyo_ball.html"><span class="ab">YO</span><span class="lbl">YOYO Ball</span></a><a href="regime.html"><span class="ab">Se</span><span class="lbl">Setup 矩陣</span></a></div></details><details class="gw"><summary class="grp">成績</summary><div class="gl"><a href="thinkinr.html"><span class="ab">Th</span><span class="lbl">Think in R</span></a><a href="backtest.html"><span class="ab">Ba</span><span class="lbl">Backtest</span></a><a href="audit.html"><span class="ab">系統</span><span class="lbl">系統審計</span></a><a href="edgeimprove.html"><span class="ab">Ed</span><span class="lbl">Edge Improving</span></a><a href="positioning.html"><span class="ab">Po</span><span class="lbl">Positioning</span></a><a href="review.html"><span class="ab">Re</span><span class="lbl">Review</span></a><a href="review2.html"><span class="ab">覆盤</span><span class="lbl">覆盤（R／期望值）</span></a><a href="calculator.html"><span class="ab">倉位</span><span class="lbl">倉位計算機</span></a></div></details><details class="gw"><summary class="grp">PLAYBOOK</summary><div class="gl"><a href="https://jfsrev.substack.com/p/my-trading-tools-process-routine" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Jeff Sun 工具/流程</span></a><a href="https://traderslab.gitbook.io/primetrading" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">PrimeTrading 手冊</span></a><a href="https://qullamaggie.net/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Qullamaggie</span></a><a href="https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">QM 3 個 setups</span></a><a href="https://qullamaggie.net/alex-desjardinss-method/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Alex Desjardins 方法</span></a><details class="gw pinfold"><summary class="grp"> 方法</summary><div class="gl"><a href="vantharp.html"><span class="ab">Va</span><span class="lbl">Van Tharp 五法</span></a><a href="optledger.html"><span class="ab">優化</span><span class="lbl">優化帳本</span></a><a href="setupfactory.html"><span class="ab">Se</span><span class="lbl">Setup Factory</span></a><a href="cycle.html"><span class="ab">成長</span><span class="lbl">成長週期</span></a></div></details><details class="gw pinfold"><summary class="grp"> MODEL BOOK</summary><div class="gl"><a href="modelbook.html"><span class="ab">概覽</span><span class="lbl">概覽</span></a><a href="mb_top250.html"><span class="ab">To</span><span class="lbl">Top 250 US Gainers</span></a><a href="modelbook.html#cases"><span class="ab">量化</span><span class="lbl">量化案例庫</span></a></div></details></div></details><details class="gw"><summary class="grp">外部數據</summary><div class="gl"><a href="external.html"><span class="ab">外部</span><span class="lbl">外部數據源</span></a><a href="martinluk.html"><span class="ab">Ma</span><span class="lbl">Martin Luk</span></a><a href="levelup.html"><span class="ab">Ma</span><span class="lbl">Market Pulse</span></a></div></details><div class="sbbtm"><a href="logbook.html" data-bottom="1"><span class="ab">LO</span><span class="lbl">LOG BOOK</span></a></div></aside>
+<button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button><div id="navoverlay"></div><button id="sbtoggle" title="收合側欄">&lsaquo;</button><aside id="sb"><a class="brand" href="index.html">HI! Desmond<span class="bld">11-07 13:14</span></a><button id="themebtn">🌙 深色</button><a href="process.html" data-pin="1"><span class="i"></span><span class="lbl">每日流程</span></a><a href="finish.html" data-pin="1"><span class="i"></span><span class="lbl">收工標準</span></a><a href="howto.html" data-pin="1"><span class="i"></span><span class="lbl">一脈相承</span></a><a href="sysmap.html" data-pin="1"><span class="i"></span><span class="lbl">系統地圖</span></a><a href="skills.html" data-pin="1"><span class="i"></span><span class="lbl">技能庫</span></a><a href="putcall.html" data-pin="1"><span class="i"></span><span class="lbl">Put/Call</span></a><a href="ntmflow.html" data-pin="1"><span class="i"></span><span class="lbl">期權資金流</span></a><a href="jobboard.html" data-pin="1"><span class="i"></span><span class="lbl">廚房看板</span></a><a href="datahealth.html" data-pin="1"><span class="i"></span><span class="lbl">DATABASE</span></a><details class="gw"><summary class="grp">市場</summary><div class="gl"><a href="regime_mri.html"><span class="ab">MA</span><span class="lbl">MARKET REGIME</span></a><a href="index.html"><span class="ab">市場</span><span class="lbl">市場簡報</span></a><a href="mm.html"><span class="ab">Ma</span><span class="lbl">Market Monitor</span></a><a href="topwatch.html"><span class="ab">頂部</span><span class="lbl">頂部觀察</span></a><a href="qqqstruct.html"><span class="ab">QQ</span><span class="lbl">QQQ 雙結構</span></a><a href="mmmodel.html"><span class="ab">MM</span><span class="lbl">MM Model</span></a><a href="margin.html"><span class="ab">保證</span><span class="lbl">保證金債務</span></a></div></details><details class="gw"><summary class="grp">主題</summary><div class="gl"><a href="sectorrot.html"><span class="ab">行業</span><span class="lbl">行業輪動</span></a><a href="rsboard.html"><span class="ab">RS</span><span class="lbl">RS THEME</span></a><a href="sectors.html"><span class="ab">Se</span><span class="lbl">Sectors</span></a></div></details><details class="gw"><summary class="grp">選股</summary><div class="gl"><a href="dailyscan.html"><span class="ab">Da</span><span class="lbl">Daily Scan</span></a><a href="alerts.html"><span class="ab">Se</span><span class="lbl">Setup Alert</span></a><a href="leaders.html"><span class="ab">RS</span><span class="lbl">RS Leader</span></a><a href="rsbeforeprice.html"><span class="ab">RS</span><span class="lbl">RS Before Price</span></a><a href="cm.html"><span class="ab">RS</span><span class="lbl">RS Pullback</span></a><a href="week.html"><span class="ab">We</span><span class="lbl">Weekly MM</span></a><a href="leadermap.html"><span class="ab">RS</span><span class="lbl">RS Leader 位置圖</span></a><a href="rsscan.html"><span class="ab">RS</span><span class="lbl">RS Daily Scan</span></a><a href="beachball.html"><span class="ab">沙灘</span><span class="lbl">沙灘球反應</span></a><a href="feargauge.html"><span class="ab">投降</span><span class="lbl">投降儀表</span></a><a href="fatpitch.html"><span class="ab">肥球</span><span class="lbl">肥球掃描（J Law）</span></a><a href="gto.html"><span class="ab">GT</span><span class="lbl">GTO 手牌分析</span></a><a href="wave.html"><span class="ab">肥波</span><span class="lbl">肥波總覽</span></a><a href="tightscan.html"><span class="ab">Ti</span><span class="lbl">Tight Range</span></a><a href="setups.html"><span class="ab">Th</span><span class="lbl">The Plan</span></a><a href="https://finviz.com/calendar/earnings/season-preview?view=list&sort=marketCap" target="_blank" rel="noopener" class="ext-link"><span class="i">None</span><span class="lbl">財報（Finviz）</span></a><a href="yoyo_ball.html"><span class="ab">YO</span><span class="lbl">YOYO Ball</span></a><a href="regime.html"><span class="ab">Se</span><span class="lbl">Setup 矩陣</span></a></div></details><details class="gw"><summary class="grp">成績</summary><div class="gl"><a href="thinkinr.html"><span class="ab">Th</span><span class="lbl">Think in R</span></a><a href="backtest.html"><span class="ab">Ba</span><span class="lbl">Backtest</span></a><a href="audit.html"><span class="ab">系統</span><span class="lbl">系統審計</span></a><a href="edgeimprove.html"><span class="ab">Ed</span><span class="lbl">Edge Improving</span></a><a href="positioning.html"><span class="ab">Po</span><span class="lbl">Positioning</span></a><a href="review.html"><span class="ab">Re</span><span class="lbl">Review</span></a><a href="review2.html"><span class="ab">覆盤</span><span class="lbl">覆盤（R／期望值）</span></a><a href="calculator.html"><span class="ab">倉位</span><span class="lbl">倉位計算機</span></a></div></details><details class="gw" open><summary class="grp">PLAYBOOK</summary><div class="gl"><a href="lukplaybook.html" class="on"><span class="ab">Lu</span><span class="lbl">Luk 手冊</span></a><a href="https://jfsrev.substack.com/p/my-trading-tools-process-routine" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Jeff Sun 工具/流程</span></a><a href="https://traderslab.gitbook.io/primetrading" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">PrimeTrading 手冊</span></a><a href="https://qullamaggie.net/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Qullamaggie</span></a><a href="https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">QM 3 個 setups</span></a><a href="https://qullamaggie.net/alex-desjardinss-method/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Alex Desjardins 方法</span></a><details class="gw pinfold"><summary class="grp"> 方法</summary><div class="gl"><a href="vantharp.html"><span class="ab">Va</span><span class="lbl">Van Tharp 五法</span></a><a href="optledger.html"><span class="ab">優化</span><span class="lbl">優化帳本</span></a><a href="setupfactory.html"><span class="ab">Se</span><span class="lbl">Setup Factory</span></a><a href="cycle.html"><span class="ab">成長</span><span class="lbl">成長週期</span></a></div></details><details class="gw pinfold"><summary class="grp"> MODEL BOOK</summary><div class="gl"><a href="modelbook.html"><span class="ab">概覽</span><span class="lbl">概覽</span></a><a href="mb_top250.html"><span class="ab">To</span><span class="lbl">Top 250 US Gainers</span></a><a href="modelbook.html#cases"><span class="ab">量化</span><span class="lbl">量化案例庫</span></a></div></details></div></details><details class="gw"><summary class="grp">外部數據</summary><div class="gl"><a href="external.html"><span class="ab">外部</span><span class="lbl">外部數據源</span></a><a href="martinluk.html"><span class="ab">Ma</span><span class="lbl">Martin Luk</span></a><a href="levelup.html"><span class="ab">Ma</span><span class="lbl">Market Pulse</span></a></div></details><div class="sbbtm"><a href="logbook.html" data-bottom="1"><span class="ab">LO</span><span class="lbl">LOG BOOK</span></a></div></aside>
 <div class="wrap">
 <header class="top">
  <div style="display:flex;align-items:flex-start;gap:10px">
   <div style="flex:1 1 auto">
    <h1><span>HI! Desmond</span></h1>
-   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-11-07 11:35</code></p>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-11-07 13:13</code></p>
   </div>
  </div>
 </header>
 <h2>🏆 Martin Luk 手冊 <small>USIC #1 · 969.8% 嘅可複製部分</small></h2><p class="crumb">來源：James Muninn（記錄 112 場直播、211 小時，重建多日 swing）｜2026 年 1–10 月 +844.5%（文章）｜Kinfo 驗證帳戶 > $4M</p><h3>一、核心算式（唯一可照抄嘅部分）</h3><pre>倉位 % = 帳戶風險 % ÷ 止蝕距離 %</pre><div class="pf-mini2"><div class="tscroll"><table><thead><tr><th>交易者</th><th>止蝕</th><th>風險</th><th>倉位</th><th>同一隻股 +50% 嘅結果</th></tr></thead><tbody><tr><td>一般日線交易者</td><td>3.0%</td><td>0.50%</td><td>16.7%</td><td>+16.7R（帳戶 +8.35%）</td></tr><tr><td>Martin Luk</td><td>1.5%（1 分鐘）</td><td>0.50%</td><td>33.3%</td><td>+33.3R（帳戶 +16.65%）</td></tr></tbody></table></div></div><div class="pf-note">兩者輸嘅時候一樣蝕 0.50%。差別純粹係「同一筆風險買到幾多曝險」。</div><h3>二、風險階梯（2026，帳戶過百萬後）</h3><div class="pf-mini2"><div class="tscroll"><table><thead><tr><th>情況</th><th>每單風險</th></tr></thead><tbody><tr><td>標準</td><td>0.30%</td></tr><tr><td>連蝕期</td><td>0.15% – 0.25%</td></tr><tr><td>一年一兩次高信心</td><td>1.0% – 1.5%</td></tr><tr><td>單一股票上限</td><td>35%（硬上限）</td></tr></tbody></table></div></div><h3>三、出場：15% + 85%（2025 年後改動）</h3><pre>+3R ~ +5R  → 減 10–15%（用嚟「養住個止蝕」）
-其餘 85–90% → 日線收市跌穿 9EMA（快股）或 21EMA（慢股）才走</pre><div class="pf-note">文章原話：MRVL 2026-03-31 → 05-07，+25R；SMCI 提早賣走核心，之後再升 200%+，他自己評為 40R+ 錯誤。</div><h3>四、持倉時間（2026 數據）</h3><div class="pf-mini2"><div class="tscroll"><table><thead><tr><th>類別</th><th>平均交易日</th></tr></thead><tbody><tr><td>多頭贏單（拖 9EMA）</td><td>9.0</td></tr><tr><td>多頭贏單（實際直播出場）</td><td>7.4</td></tr><tr><td>空頭贏單</td><td>6.9 – 8.6</td></tr><tr><td>所有輸單</td><td>0.54</td></tr></tbody></table></div></div><div class="pf-note">45.8% 嘅交易、53.7% 嘅輸單，喺第 1 日就止蝕（多數入場後 15–90 分鐘）。</div><h3>五、入場方式（2026，多頭）</h3><div class="pf-mini2"><div class="tscroll"><table><thead><tr><th>訊號</th><th>佔比</th></tr></thead><tbody><tr><td>AVWAP / VWAP 收復或拒絕</td><td>29.6%</td></tr><tr><td>日內楔形／微趨勢線突破</td><td>19.2%</td></tr><tr><td>1m / 5m / 15m 開盤區間突破</td><td>17.1%</td></tr><tr><td>開盤洗盤後收復</td><td>10.4%</td></tr></tbody></table></div></div><div class="pf-note">水平箱體突破幾乎消失（2.3%）。原因：2024 年後乾淨箱體變少、突破後被洗走太多次；改成等 3–7 日回調入 9/21EMA 與 AVWAP，止蝕可以收緊 50%。</div><h3>六、空頭（42% 交易，貢獻 > 一半淨 R）</h3><div class="pf-mini2"><div class="tscroll"><table><thead><tr><th>設置</th><th>做法</th></tr></thead><tbody><tr><td>弱反彈（Weak Bounce）</td><td>前領頭股跌穿 21EMA → 2–4 日縮量反彈入下跌 9/21EMA → 日內失敗做空</td></tr><tr><td>拋物線做空</td><td>連續 5–10 日垂直、跳空入高潮 → 1m/5m 開盤區間跌破，止蝕放在日內高位之上</td></tr></tbody></table></div></div><div class="pf-note">空頭勝率 23.5% > 多頭 16.9%。轉向靠兩個即時訊號：① 自己連續止蝕；② 100 隻動能股掃描有 90 隻變差。</div><h3>七、心理現實（最容易被忽略）</h3><div class="pf-mini2"><div class="tscroll"><table><thead><tr><th>事實</th><th>數字</th></tr></thead><tbody><tr><td>全年 R 總和</td><td>+300R</td></tr><tr><td>其中 10 單貢獻</td><td>+220R（73%）</td></tr><tr><td>全 -1R 止蝕收場</td><td>461 單中 305 單</td></tr><tr><td>最長連蝕（2026 數據）</td><td>33 單</td></tr><tr><td>2025-12 單月回撤</td><td>−26.6%（74 單，勝率 12.2%）</td></tr></tbody></table></div></div><div class="pf-note">2025-12 有 46% 交易被他自己歸類為「隨機交易」。教訓：因為每單只 0.3–0.5%，連蝕 20 單只蝕 6–10%，一單贏家已足够補回。</div><h3>八、對我們系統嘅四個差異（未改，等批准）</h3><div class="pf-mini2"><div class="tscroll"><table><thead><tr><th>項目</th><th>我們現時</th><th>Martin Luk</th><th>影響</th></tr></thead><tbody><tr><td>止蝕距離</td><td>3%（上限）</td><td>1.5% 日內</td><td>同樣 0.5% 風險，倉位由 16.7% → 33%</td></tr><tr><td>第一次減倉</td><td>2R 減 33%</td><td>+3R~+5R 減 10–15%</td><td>我們切斷大贏家嘅腿</td></tr><tr><td>拖線</td><td>10EMA（日線收市）</td><td>9EMA（快）/ 21EMA（慢）</td><td>我們慢一日</td></tr><tr><td>持有贏單</td><td>未統計</td><td>7.4–9.0 日</td><td>要開始量度</td></tr></tbody></table></div></div><div class="pf-note">⚠ 以上屬 SOUL §4 風控／出場規則，係單向門：我只出方案，改要你批。同時提醒：Luk 用 Portfolio Margin，200–350% gross 曝險；我們冇槓桿，唔可以照搬倉位。</div><h3>九、可即刻做（不需批准）</h3><ul><li>每日計劃卡加一欄「拖線天數」，開始量度贏單持有日數</li><li>R 分佈圖：頭 10 單佔全年幾成 R（檢驗我們是否同一模式）</li><li>止蝕距離 vs 倉位對照表：同一 0.5% 風險下，1.5% / 2% / 3% 嘅倉位與 R 差異</li></ul><h3>十、原文全文（英文，逐字）</h3><div class="pf-note">下面係 Muninn 文章全文，未刪節；數字如與上面摘要不同，以原文為準。</div><details class="art"><summary>展開全文（約 19,500 字元）</summary><div class="artbody"><p>Martin Luk's stellar performance in 2025 was not a one-year heater.</p>
+其餘 85–90% → 日線收市跌穿 9EMA（快股）或 21EMA（慢股）才走</pre><div class="pf-note">文章原話：MRVL 2026-03-31 → 05-07，+25R；SMCI 提早賣走核心，之後再升 200%+，他自己評為 40R+ 錯誤。</div><h3>四、持倉時間（2026 數據）</h3><div class="pf-mini2"><div class="tscroll"><table><thead><tr><th>類別</th><th>平均交易日</th></tr></thead><tbody><tr><td>多頭贏單（拖 9EMA）</td><td>9.0</td></tr><tr><td>多頭贏單（實際直播出場）</td><td>7.4</td></tr><tr><td>空頭贏單</td><td>6.9 – 8.6</td></tr><tr><td>所有輸單</td><td>0.54</td></tr></tbody></table></div></div><div class="pf-note">45.8% 嘅交易、53.7% 嘅輸單，喺第 1 日就止蝕（多數入場後 15–90 分鐘）。</div><h3>五、入場方式（2026，多頭）</h3><div class="pf-mini2"><div class="tscroll"><table><thead><tr><th>訊號</th><th>佔比</th></tr></thead><tbody><tr><td>AVWAP / VWAP 收復或拒絕</td><td>29.6%</td></tr><tr><td>日內楔形／微趨勢線突破</td><td>19.2%</td></tr><tr><td>1m / 5m / 15m 開盤區間突破</td><td>17.1%</td></tr><tr><td>開盤洗盤後收復</td><td>10.4%</td></tr></tbody></table></div></div><div class="pf-note">水平箱體突破幾乎消失（2.3%）。原因：2024 年後乾淨箱體變少、突破後被洗走太多次；改成等 3–7 日回調入 9/21EMA 與 AVWAP，止蝕可以收緊 50%。</div><h3>六、空頭（42% 交易，貢獻 > 一半淨 R）</h3><div class="pf-mini2"><div class="tscroll"><table><thead><tr><th>設置</th><th>做法</th></tr></thead><tbody><tr><td>弱反彈（Weak Bounce）</td><td>前領頭股跌穿 21EMA → 2–4 日縮量反彈入下跌 9/21EMA → 日內失敗做空</td></tr><tr><td>拋物線做空</td><td>連續 5–10 日垂直、跳空入高潮 → 1m/5m 開盤區間跌破，止蝕放在日內高位之上</td></tr></tbody></table></div></div><div class="pf-note">空頭勝率 23.5% > 多頭 16.9%。轉向靠兩個即時訊號：① 自己連續止蝕；② 100 隻動能股掃描有 90 隻變差。</div><h3>七、心理現實（最容易被忽略）</h3><div class="pf-mini2"><div class="tscroll"><table><thead><tr><th>事實</th><th>數字</th></tr></thead><tbody><tr><td>全年 R 總和</td><td>+300R</td></tr><tr><td>其中 10 單貢獻</td><td>+220R（73%）</td></tr><tr><td>全 -1R 止蝕收場</td><td>461 單中 305 單</td></tr><tr><td>最長連蝕（2026 數據）</td><td>33 單</td></tr><tr><td>2025-12 單月回撤</td><td>−26.6%（74 單，勝率 12.2%）</td></tr></tbody></table></div></div><div class="pf-note">2025-12 有 46% 交易被他自己歸類為「隨機交易」。教訓：因為每單只 0.3–0.5%，連蝕 20 單只蝕 6–10%，一單贏家已足够補回。</div><h3>八、對我們系統嘅四個差異（未改，等批准）</h3><div class="pf-mini2"><div class="tscroll"><table><thead><tr><th>項目</th><th>我們現時</th><th>Martin Luk</th><th>影響</th></tr></thead><tbody><tr><td>止蝕距離</td><td>3%（上限）</td><td>1.5% 日內</td><td>同樣 0.5% 風險，倉位由 16.7% → 33%</td></tr><tr><td>第一次減倉</td><td>2R 減 33%</td><td>+3R~+5R 減 10–15%</td><td>我們切斷大贏家嘅腿</td></tr><tr><td>拖線</td><td>10EMA（日線收市）</td><td>9EMA（快）/ 21EMA（慢）</td><td>我們慢一日</td></tr><tr><td>持有贏單</td><td>未統計</td><td>7.4–9.0 日</td><td>要開始量度</td></tr></tbody></table></div></div><div class="pf-note">⚠ 以上屬 SOUL §4 風控／出場規則，係單向門：我只出方案，改要你批。同時提醒：Luk 用 Portfolio Margin，200–350% gross 曝險；我們冇槓桿，唔可以照搬倉位。</div><h3>九、可即刻做（不需批准）</h3><ul><li>每日計劃卡加一欄「拖線天數」，開始量度贏單持有日數</li><li>R 分佈圖：頭 10 單佔全年幾成 R（檢驗我們是否同一模式）</li><li>止蝕距離 vs 倉位對照表：同一 0.5% 風險下，1.5% / 2% / 3% 嘅倉位與 R 差異</li></ul><h3>十、原文全文（中文，逐段對照）</h3><div class="pf-note">Muninn 文章全文中文翻譯；數字、專有名詞保留原文。英文原文喺下面第二個摺位。</div><details class="art" open><summary>展開全文（中文）</summary><div class="artbody"><p>Martin Luk 喺 2025 年嘅驚人表現，唔係一年貨仔嘅熱手。</p>
+<p>佢 2026 年 USIC（截至 8 月）已經做到 844.5%，10 月再加一個 150%+ 嘅月份。零期權、零 0DTE、零期貨。</p>
+<p>而且佢唔係用細戶口做。</p>
+<p>Martin Luk 喺 @Kinfo 已經驗證，帳戶規模超過 400 萬美元。</p>
+<p>最正嘅係：佢全程喺 YouTube 直播。</p>
+<p>過去幾個月，我睇咗並記錄咗佢 112 場直播（211 小時原始片段），重建咗佢大約 100% 嘅多日 swing 交易，再同佢 Discord 交易日誌做獨立盲測對照。</p>
+<p>要留意：Kinfo 驗證係過去 12 個月，而我嘅數據集係 2026 年。</p>
+<p>所以，我哋睇下佢實際點樣交易，同埋係咩令佢做到咁誇張嘅回報。</p>
+<h2>一單交易，養起之後 54 次止蝕</h2>
+<p>2021 年 1 月，Luk 仲係一個 18 歲、對圖表、風險管理、倉位大細一無所知嘅大學一年級生。佢喺 GME 盤前 501 美元嘅頂位買入，冇止蝕，結果輸咗一半身家。</p>
+<p>呢個教訓，佢記住咗。</p>
+<p>三年後，GME 因為 @TheRoaringKitty 多年來第一次發帖而跳空上升，佢用完全唔同嘅方式處理。</p>
+<p>大部分人見到嘅係一隻盤前升 40% 嘅迷因股；Luk 見到嘅係一個帶歷史級成交量嘅 Episodic Pivot（事件轉折點）。</p>
+<p>佢喺 1 分鐘開盤區間突破入場，止蝕 3%，之後兩日分批減倉。</p>
+<p>同一個 GME，爆倉三年後再trade，佢已經學識咗。</p>
+<p>單係呢一單，佢賺咗 54R。意思係：呢一單嘅利潤，足夠支付之後 54 次完整止蝕。</p>
+<p>以 20% 勝率計，只要一單可以養起兩個月嘅「紙割」，我哋就唔需要經常啱。</p>
+<h2>緊止蝕，造就大倉位（而唔會爆戶口）</h2>
+<p>睇 Luk 嘅統計（平均虧損 -1.30%，止蝕中位數 1.28%），好容易會將「圖表上嘅止蝕距離」同「帳戶風險」混淆。</p>
+<p>佢每一注都由同一條公式管住：</p>
+<p><code>倉位（佔淨值 %）= 帳戶風險 % ÷ 止蝕距離 %</code></p>
+<p>2024 同 2025 年，Luk 標準一單嘅風險大約係總淨值嘅 0.50%。</p>
+<p>到 2026 年，帳戶去到幾百萬美元級別，佢將標準每單風險降至 0.30%（連蝕期再降到 0.15%–0.25%，只有一年一兩次嘅超高信心交易才加到 1.0%–1.5%）。</p>
+<p>佢異常緊嘅止蝕，唔單止令輸單細，仲令佢可以用同樣嘅美元風險開大好多嘅倉。</p>
+<p>緊止蝕 = 同一筆美元風險，可以買到更大嘅曝險，同時提高每單嘅 R。</p>
+<p>比較兩個交易者就一目了然：</p>
+<p><strong>交易者 A（日線止蝕 3.0%）</strong>：風險 0.5% 淨值 ÷ 3.0% 止蝕 = 帳戶 16.7% 落注。股價 +50% → +16.7R（總淨值 +8.35%）。</p>
+<p><strong>Martin Luk（日內 1 分鐘／5 分鐘止蝕 1.5%）</strong>：同樣 0.5% 淨值風險 ÷ 1.5% 日內止蝕 = 帳戶 33.3% 落注。同一個 +50% 走勢 → +33.3R（總淨值 +16.65%）。</p>
+<blockquote>
+<p>‼️ <strong>如果交易失敗，兩個人一樣蝕 0.50% 帳戶。如果交易成功，Luk 喺同一段走勢賺到雙倍 R、雙倍美元回報。</strong></p>
+</blockquote>
+<p>呢個就係佢研究 @Qullamaggie 之後，由純日線突破入場進化走嘅原因。</p>
+<p>比較兩個交易者，會見到相似之處，亦會見到咩令佢哋分開。</p>
+<p>兩個傳奇嘅原始數據。建立世代財富，可以有幾條路。</p>
+<p>Luk 喺 @Traderlion_ 同 @RichardMoglen 嘅訪問講過：</p>
+<blockquote>
+<p><strong>「即使而家係三百萬美元嘅帳戶，我仍然可以用 1 分鐘圖同 5 分鐘圖，配好緊嘅止蝕入場……因為我止蝕好緊，通常只有 1% 或 1.5%，好少超過 2% 或 3%，所以我可以輕鬆開到 20% 或 30% 倉位，而只係冒 0.3% 到 0.5% 風險。」</strong></p>
+<p><strong>「我鍾意緊止蝕，因為可以建立更大倉位、追求更大 R。我嘅做法係：我接受同一隻股被止蝕兩三次，然後一旦捉到嗰段走勢，就輕鬆賺 10R 或 20R。」</strong></p>
+</blockquote>
+<h2>持倉時間、倉位大細，同埋佢點樣用 0.3% 風險跑 200%–350% 槓桿</h2>
+<p>講到 Luk 嘅數字，永遠有四條問題：</p>
+<ol>
+<li>佢嘅多頭贏單實際持幾久？</li>
+<li>佢嘅空頭同輸單持幾久？</li>
+<li>佢正常倉位有幾大？</li>
+<li>一個每單只冒 0.3%–0.5% 風險嘅人，點可能唔用期權，一個月賺 +60% 到 +150%？</li>
+</ol>
+<p>以下係佢嘅統計：</p>
+<p>喺幾百萬美元帳戶上一個月賺 150%+，你需要嘅數據。</p>
+<h3>贏單同輸單持幾久</h3>
+<ul>
+<li><strong>多頭贏單</strong>：拖 9EMA 日線收市，平均 9.0 個交易日；按直播實際出場，7.4 個交易日。</li>
+<li><strong>空頭贏單</strong>：拖 9EMA 平均 8.6 個交易日；直播實際出場 6.9 個交易日；拋物線爆破同弱反彈洗盤，只係 2–3 個交易日。</li>
+<li><strong>所有輸單</strong>：平均 0.54 個交易日。佢每一單交易有 45.8%（所有輸單嘅 53.7%）喺第 1 日就止蝕，多數係入場後 15–90 分鐘內。</li>
+</ul>
+<h3>倉位大細同 200%–350% 槓桿引擎</h3>
+<p>因為佢日內止蝕極緊（&lt;1.5%），冒 0.3%–0.5% 帳戶風險，就自動等於將帳戶 20%–30% 放入單一股票（任何一隻硬上限 35%）。</p>
+<p>咁樣好快就會用完購買力？會，但冇你想像咁快。</p>
+<p>8 月，佢同時持有 12 隻流動性龍頭（DELL、INTC、MU、PANW、CRWD、NET 等），每隻 25%–30%，佢撞到天花板。</p>
+<blockquote>
+<p><strong>「我諗大約 315%……我今日應該用完火力。我想喺 9EMA 1 分鐘圖呢個回調買 SMCI，但購買力用完了。」</strong></p>
+</blockquote>
+<p>咁佢點做？睇下當一個熱市俾佢 6–8 個有效設置時，流程係點：</p>
+<ol>
+<li><strong>佢賺到加曝險嘅權利</strong>：當第 1 注去到 +3R 到 +5R（通常第 1 或第 2 日），佢減 10%–15%，並將剩餘 85% 嘅止蝕升到 breakeven。呢注之後已經係零風險。</li>
+<li><strong>用 IB 組合保證金疊 4–10+ 注，做到 200%–350% 總曝險</strong>：標準 Reg-T 隔夜上限 200%，但七位數 Interactive 帳戶開 Portfolio Margin（DELL、MU、PANW、CRWD 呢類分散龍頭只需 15%–30% 保證金），持有 8–12 注、每注 25%–30%，總曝險就去到 200%–350%（2025 年峰值 280%、2026 年 5 月 250%、2026 年 8 月 315%–350%，正好係佢購買力見頂嘅位置）。</li>
+<li><strong>總未平倉風險維持 2.5% 以下</strong>：即使 8 注、300% 總曝險，如果全部喺同一秒以最初 -0.3% 止蝕被打走，帳戶只會蝕 -2.4%（而實際上有一半止蝕已經喺 breakeven）。</li>
+<li><strong>1–2 週快速 swing 週轉，喺同一個月內複利</strong>：因為贏單 6–9 個交易日就解決，佢唔會一個月坐住同一個組合。喺趨勢月，佢會用兩三波 +10%–+25%（每波 +10R 到 +25R）去翻 200%–350% 曝險。</li>
+</ol>
+<p>緊止蝕 + 大倉位 + 組合保證金 + 快週轉，就係佢最大 USIC 月份背後嘅精確算術：</p>
+<ul>
+<li>2025 年 5 月：+64.2%</li>
+<li>2025 年 9 月：+89.0%</li>
+<li>2025 年 11 月：+54.9%</li>
+<li>2026 年 4 月：+62.0%</li>
+<li>2026 年 7 月：+85.8%</li>
+<li>2026 年 10 月：+150.64%</li>
+</ul>
+<p>正如 Luk 喺直播講：</p>
+<blockquote>
+<p><strong>「（2025 年如果冇槓桿）大概只有 300% 或 400%。可以肯定，我一半以上嘅利潤來自槓桿。」</strong></p>
+</blockquote>
+<hr />
+<p><strong>我會喺影片或文章拆解佢嗰幾個爆數月份嘅具體交易同管理手法。想睇就去 app.qullamaggiedeepdive.com 登記。</strong></p>
+<h2>為咩 Martin Luk 唔再買日線箱體突破（65.9% 回調 vs 2.3% 突破）</h2>
+<p>Fintwit、Discord、各種私人社群，每晚大部分時間都喺度畫多週箱體嘅水平阻力線，然後買突破。</p>
+<p>我將 2026 數據集入面 Martin Luk 所有多頭交易按設置分類，水平箱體突破幾乎唔存在：</p>
+<p>（圖：設置分佈 —— 回調 65.9%、突破 2.3%）</p>
+<p>佢為咩放棄日線箱體突破？佢講過三個原因：</p>
+<ol>
+<li><strong>乾淨嘅多週箱體同突破，2024 年之後對佢失效</strong>：「形成一個好窄嘅區間，然後好乾淨嘅突破，過去一兩年真係好少見……舊年我開始見到好多輸單，喺 LOD（當日低位）打走我止蝕，然後同一日或者幾日內又升返上高位。之後我開始改。」</li>
+<li><strong>突破入場反覆被洗</strong>：「2024 年之後，我買開盤區間突破，好多次都係被洗走之後止蝕……如果市場鍾意洗，我就唔買開盤區間高位，改為 trade 個洗盤。」</li>
+<li><strong>止蝕可以收緊 50%，倉位大一倍</strong>：佢喺 QS 嘅一個研究發現，喺 1 小時圖買入回調入收斂中嘅 9/21/50EMA，止蝕係 1.78%，比等前一日高位突破更緊：「我嘅止蝕可以收緊 50%，而你可以建立比用前一日高位大 100% 嘅倉位。」</li>
+</ol>
+<p>所以 Luk 改為：先等隻股證明實力，再等佢回調 3–7 日入上升中嘅 9EMA、21EMA 同 Anchored VWAP，然後喺日內時框執行：</p>
+<p>多頭入場技術：</p>
+<div class="tscroll"><table>
+<thead>
+<tr>
+<th>日內入場觸發</th>
+<th>佔入場比例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AVWAP / VWAP 收復或拒絕</td>
+<td>29.6%</td>
+</tr>
+<tr>
+<td>日內楔形／微趨勢線突破</td>
+<td>19.2%</td>
+</tr>
+<tr>
+<td>1m / 5m / 15m 開盤區間突破</td>
+<td>17.1%</td>
+</tr>
+<tr>
+<td>開盤洗穿再收復</td>
+<td>10.4%</td>
+</tr>
+</tbody>
+</table></div>
+<p>2026 年 5 月嘅 IONQ，正好示範「trade 突破」同「trade 回調」嘅分別：</p>
+<p>突破交易者會鎖住少少早期利潤，第 3 日就將止蝕升到 breakeven。Martin 用回調入場，賺咗接近 30%，即 25R。</p>
+<h2>空頭點樣貢獻咗佢淨 R 嘅大約一半</h2>
+<p>除咗水平趨勢線，Fintwit、Discord 同交易社群因為市況差，充斥住「現金都係一個倉位」嘅講法。而大家都知道真相係：大部分人被磨死，係因為強行做多。</p>
+<p>喺我 2026 數據集，Luk 有 42% 交易係空頭。佢超過一半嘅淨 R 來自空頭。空頭勝率 23.5%，多頭只有 16.9%。</p>
+<h3>佢點知幾時由多轉空</h3>
+<p>佢唔靠宏觀預測、唔靠複雜廣度震盪指標、唔靠市場過濾器。佢主要用兩個即時訊號：</p>
+<ol>
+<li><strong>自己嘅交易回饋（第 1 指標）</strong>：當領頭股嘅高質多頭設置開始失效，佢連續被止蝕，就即刻停止強行做多。</li>
+<li><strong>自選清單廣度</strong>：當佢掃每日大約 100 隻動能股，100 隻有 90 隻睇落好差（跳空下跌、突破失敗、跌穿向下嘅 9 同 21EMA），佢就將整套打法轉去空頭。</li>
+</ol>
+<h3>佢兩個核心空頭設置</h3>
+<ol>
+<li><strong>弱反彈入下跌中嘅 9 / 21EMA 同 AVWAP</strong>：前領頭股放量跌穿 21EMA 之後，等佢縮量反彈 2–4 日，貼返下跌中嘅 9EMA、21EMA 或跌穿位 AVWAP，然後喺日內失敗位做空。</li>
+<li><strong>拋物線做空</strong>：當一隻已經延伸嘅龍頭連續 5–10 日垂直上升，跳空入高潮頂、遠離 9EMA，佢喺第一個 1 分鐘或 5 分鐘開盤區間跌破／VWAP 失敗做空，止蝕放喺日內高位之上，極窄。</li>
+</ol>
+<hr />
+<p><strong>💡註</strong>：呢兩個空頭設置 Qullamaggie 都 trade 過（不過佢做嘅係跌破，唔係弱反彈），但大部分人只認識拋物線做空。所以自己做研究咁重要。</p>
+<hr />
+<p>2026 年 7 月嘅 SNDK 空頭，就係教科書級嘅弱反彈做空。</p>
+<ul>
+<li><strong>跌破同弱反彈（7 月 7–23 日）</strong>：SNDK 6 月喺 2,100 美元以上見頂，7 月 7 日跌穿 9 同 21EMA，7 月 17 日插到 1,325.03 美元；之後弱反彈四個交易日，貼返下跌中嘅 9EMA。</li>
+<li><strong>空頭再入場（7 月 24 日）</strong>：Luk 7 月 23 日星期四第一次做空被止蝕，所以等 SNDK 7 月 24 日拒絕下跌中嘅日線 9/21EMA，喺 15 分鐘跌破位約 1,560 美元再入場（「我確實被止蝕，但我在日線 21EMA、60 分鐘 150EMA、15 分鐘跌破位重新入場」）。</li>
+<li><strong>跌穿第一支持都唔走（7 月 27 日）</strong>：SNDK 星期一下插到 1,300 美元 pivot 支持，Luk 仍然持住全部空倉，因為大市（SPY 同 IWM）只係跌破第 1 日（「1,300 呢個位幾好，可以減一部分。但我不會……我寧願等指數再向下延伸多啲才平多啲」）。</li>
+<li><strong>恐慌弱勢中平倉（7 月 28 日）</strong>：第二朝 SNDK 再跳空跌 4%，插穿 1,100 美元整數關 —— 幾日內跌近 30%。Luk 喺恐慌洗盤平倉：「SNDK 跌穿 1100。我就是幾喜歡 1100 呢個數字 —— 所以就喺呢個位平倉。有時你唔需要好紮實嘅理由去喺弱勢平空倉……空頭永遠有下一個機會，而你下一單空頭嘅入場價通常會更高。」</li>
+</ul>
+<h2>出場規則：為咩只減 15%，其餘 85% 拖日線收市</h2>
+<p>2024 年，Luk 會喺 +2R 或 +3R 第一次急升時賣走 30%–50% 倉位。</p>
+<p>但覆盤之後，佢發現太早賣一半，等於斬斷佢最大 20R+ 趨勢單嘅腿。2025 同 2026 年，佢改成兩段式出場：</p>
+<ol>
+<li><strong>+3R 到 +5R 只減 10%–15%，用嚟「養住個止蝕」</strong>：喺 +4R 賣 15%，鎖定 0.60R 已實現利潤。呢個小減倉，足夠支付將剩餘 85% 止蝕升到 breakeven（或者喺趨勢未確立時，維持最壞情況接近零）。</li>
+<li><strong>其餘 85%–90% 核心倉拖日線收市</strong>：一旦交易「養起」，佢就關掉 1 分鐘圖嚟做出場判斷。股價插穿 9EMA 佢唔會賣，要<strong>收市</strong>跌穿 9EMA（快股）或 21EMA（慢股）才觸發離場。</li>
+</ol>
+<p>呢個兩段式出場嘅好處，睇 MRVL（3 月 31 日至 5 月 7 日，+57% 或 +25R）就明白：</p>
+<ul>
+<li>佢 3 月 31 日喺回調收復位入場，止蝕好緊；兩日後喺 +3R–+5R 減 15% 養止蝕；剩餘 85% 核心沿住上升 9EMA 揸咗 26 個交易日，直到 5 月 7 日，+57.0%（+25R）。</li>
+<li>相反，當佢違反呢條規則，喺 SMCI 早期強勢就賣走核心、冇等日線收市跌穿 9EMA，隻股之後再升 200%+，佢自己評呢一次過早離場為 40R+ 嘅錯誤。</li>
+</ul>
+<h2>佢借用過嘅六位師傅</h2>
+<p>同 Qullamaggie 一樣，Luk 冇發明任何秘密指標或者新嘢。佢借用別人嘅想法，融合六個概念。同樣重要：佢改編呢啲概念，並且剝走所有拖慢佢嘅部分：</p>
+<ol>
+<li><strong>Jay Law（@jlawstock）</strong>：2023 年 2 月香港一個兩日面授課程，帶佢認識動能交易同美股。JLaw 啟發佢參加 USIC。</li>
+<li><strong>Kristjan Kullamägi（@Qullamaggie）</strong>：幾百小時 archived Twitch 直播，研究 Episodic Pivot、high-tight flag、同拖日線均線嘅怪獸股（「Qullamaggie 係我最大嘅師傅」）。</li>
+<li><strong>Mark Minervini（@markminervini）</strong>：Stage 2 趨勢模板、波動收縮、漸進式加曝險。</li>
+<li><strong>Brian Shannon（@alphatrends）</strong>：由催化劑日、swing 高、swing 低畫 Anchored VWAP，用 1 分鐘同 5 分鐘圖定位機構支持阻力。</li>
+<li><strong>Pradeep Bonde（@PradeepBonde／Stockbee）</strong>：Episodic Pivot 催化劑、動能爆發、市場廣度情境意識。</li>
+<li><strong>Stan Weinstein（@StanWeinstein）</strong>：跨板塊階段分析。</li>
+</ol>
+<p>佢亦歸功 @jaredtendler 教佢 inch-worm 概念，同《The Mental Game of Trading》幫佢劃出 A-game、B-game、C-game，喺 tilt 螺旋擴大之前截停。</p>
+<p>因為佢日間喺香港上全日制大學課程，當地時間晚上 9:30 至凌晨 4:00 trade 美股，所以佢將整個每日準備壓縮到開市前 30 分鐘。</p>
+<p>所以，真係冇藉口做唔到交易。</p>
+<h2>背後嘅心理：唔係人人頂得住</h2>
+<p>年回報 +969.8%，回撤極細。紙面上好似毫不費力，甚至容易。但現實係殘酷嘅。</p>
+<p>10 單交易，佔咗全年利潤接近 75%。</p>
+<ul>
+<li>461 單之中，305 單以完整 -1R 止蝕收場。</li>
+<li>其中 211 單 —— 即接近一半交易 —— 第 1 日就止蝕。</li>
+<li>我 2026 數據集入面，佢最長連蝕係 33 單。佢喺 2025 年 11 月直播講過一段 18–20 單連蝕。</li>
+<li>單單 10 筆交易，就喺 +300R 淨 R 之中貢獻 +220R。</li>
+</ul>
+<p>即使對 Luk 嚟講，心理難度都係真實嘅。到 2025 年 11 月，佢 USIC 帳戶 YTD 已經 +1,358.2%。然後 2025 年 12 月：一段冇趨勢、反覆震盪嘅市，佢強行做咗 74 單，只贏 9 單（勝率 12.2%），單月回撤 -26.6%，令 2025 全年最終回報變成 +969.8%。</p>
+<p>年終覆盤時，佢發現呢 74 單之中有 46% 係「隨機交易」—— 因為悶同挫敗，喺日內噪音入面多空亂轉。更差嘅係，呢 74 單 chop 造成嘅精神耗盡，令佢之後喺 SanDisk（SNDK）一個巨大 A+ 突破前猶豫，錯過咗。</p>
+<p>真正嘅教訓喺呢度：因為佢每單只冒 0.3%–0.5%（當 pnl 話事時更少），一段正常 20 單連蝕，只係蝕淨值 -6% 到 -10%。你只需要一個贏家，就足夠養起。</p>
+<hr />
+<p><em><strong>鍾意呢篇文章，想睇多啲？話我知。</strong></em></p>
+<p>下星期我會分享一條 45 分鐘以上嘅 Masterclass 影片。</p>
+<p>‼️如果你想研究佢所有交易，佢哋好快會喺 app.qullamaggiedeepdive.com 上架。</p></div></details><details class="art"><summary>English original（未刪節）</summary><div class="artbody"><p>Martin Luk's stellar performance in 2025 was not a one-year heater.</p>
 <p>His 2026 USIC performance through August was 844.5%, and he topped it with a 150%+ month in October. Zero options. Zero 0DTEs. Zero futures.</p>
 <p>And he's not doing it with a small account.</p>
 <p>Martin Luk is verified on @Kinfo with an account size of over $4M</p>
@@ -258,7 +446,7 @@
  ｜交易台 <code>trading-os-lab/dashboard.py</code>
 </footer>
 </div>
-<script>var D={"_generated":"2026-11-07 11:35"};
+<script>var D={"_generated":"2026-11-07 13:13"};
 function q(s,r){return (r||document).querySelector(s);}
 function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){

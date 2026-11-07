@@ -1029,7 +1029,6 @@ SIDEBAR_LINKS = [
     ("_pinned", "", "一脈相承", "howto.html"),
     ("_pinned", "", "系統地圖", "sysmap.html"),
     ("_pinned", "", "技能庫", "skills.html"),
-    ("_pinned", "", "Luk 手冊", "lukplaybook.html"),
     ("_pinned", "", "Put/Call", "putcall.html"),
     ("_pinned", "", "期權資金流", "ntmflow.html"),
     ("_pinned", "", "廚房看板", "jobboard.html"),
@@ -1087,6 +1086,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "倉位計算機", "calculator.html"),
 
     ("_grp", "PLAYBOOK"),
+    ("_link", None, "Luk 手冊", "lukplaybook.html"),
     ("_ext", "", "Jeff Sun 工具/流程", "https://jfsrev.substack.com/p/my-trading-tools-process-routine"),
     ("_ext", "", "PrimeTrading 手冊", "https://traderslab.gitbook.io/primetrading"),
     ("_ext", "", "Qullamaggie", "https://qullamaggie.net/"),

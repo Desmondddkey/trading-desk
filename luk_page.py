@@ -48,6 +48,25 @@ def _full_article():
     return html
 
 
+ARTICLE_ZH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                          "content", "luk_article_zh.md")
+
+
+def _full_article_zh():
+    """原文全文（中文翻譯，逐段對應）。"""
+    import io as _io
+    import os as _os
+    try:
+        import markdown as _md
+    except ImportError:
+        return '<div class="dim">UNVERIFIED：markdown 模組未安裝</div>'
+    if not _os.path.exists(ARTICLE_ZH):
+        return '<div class="dim">UNVERIFIED：找不到 content/luk_article_zh.md</div>'
+    with _io.open(ARTICLE_ZH, encoding="utf-8") as f:
+        txt = f.read()
+    return _md.markdown(txt, extensions=["tables", "fenced_code", "sane_lists"])
+
+
 def build():
     P = ['<h2>🏆 Martin Luk 手冊 <small>USIC #1 · 969.8% 嘅可複製部分</small></h2>']
     P.append('<p class="crumb">來源：James Muninn（記錄 112 場直播、211 小時，重建多日 swing）'
@@ -130,10 +149,12 @@ def build():
              '<li>R 分佈圖：頭 10 單佔全年幾成 R（檢驗我們是否同一模式）</li>'
              '<li>止蝕距離 vs 倉位對照表：同一 0.5% 風險下，1.5% / 2% / 3% 嘅倉位與 R 差異</li>'
              '</ul>')
-    P.append('<h3>十、原文全文（英文，逐字）</h3>')
-    P.append('<div class="pf-note">下面係 Muninn 文章全文，未刪節；'
-             '數字如與上面摘要不同，以原文為準。</div>')
-    P.append('<details class="art"><summary>展開全文（約 19,500 字元）</summary>'
+    P.append('<h3>十、原文全文（中文，逐段對照）</h3>')
+    P.append('<div class="pf-note">Muninn 文章全文中文翻譯；數字、專有名詞保留原文。'
+             '英文原文喺下面第二個摺位。</div>')
+    P.append('<details class="art" open><summary>展開全文（中文）</summary>'
+             f'<div class="artbody">{_full_article_zh()}</div></details>')
+    P.append('<details class="art"><summary>English original（未刪節）</summary>'
              f'<div class="artbody">{_full_article()}</div></details>')
     P.append("""<style>
 .art{border:1px solid #cfc7bb;border-radius:8px;background:#fff;margin:0 0 12px}
