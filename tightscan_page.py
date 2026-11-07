@@ -15,12 +15,14 @@ SRC = os.path.join(HERE, "output", "tight_scan.json")
 IND = os.path.join(HERE, "data", "tv_meta.json")
 
 CSS = """
-.ts-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.ts-tbl{width:auto;min-width:100%;border-collapse:collapse;font-size:12.5px;table-layout:auto}
+.ts-tbl td,.ts-tbl th{white-space:nowrap;padding:3px 7px}
+.ts-tbl td:nth-child(3){max-width:190px;overflow:hidden;text-overflow:ellipsis}
 .ts-tbl th{text-align:left;font-size:10.5px;letter-spacing:.04em;opacity:.55;
   font-weight:800;padding:6px 8px;border-bottom:1px solid rgba(148,163,184,.25);
   white-space:nowrap;cursor:pointer;user-select:none}
 .ts-tbl th:hover{opacity:.9}
-.ts-tbl td{padding:5px 8px;border-bottom:1px solid rgba(148,163,184,.1);
+.ts-tbl td{border-bottom:1px solid rgba(148,163,184,.1);
   font-variant-numeric:tabular-nums}
 .ts-tbl td.n,.ts-tbl th.n{text-align:right}
 .ts-tk{font-weight:800;text-decoration:none;color:inherit}
@@ -79,7 +81,7 @@ def build():
          f'<div style="font-size:11px;opacity:.55;margin:0 0 10px">'
          f'數據日 {d.get("date")}｜宇宙 {d.get("universe")} 隻（S&P 500 ∪ L2）'
          f'｜命中 {d.get("hits")} 隻（TIGHT ≥ {d.get("min_tight"):.0f}）</div>',
-         '<table class="ts-tbl"><thead><tr>',
+         '<div class="tscroll"><table class="ts-tbl"><thead><tr>',
          '<th class="n" onclick="tsSort(this,0)" data-dir="desc">TIGHT</th>',
          '<th onclick="tsSort(this,1)">代號</th>',
          '<th>行業</th>',
@@ -111,7 +113,7 @@ def build():
             f'<td class="n" data-v="{r["atrp"]}">{r["atrp"]:.1f}%</td>'
             f'<td class="n" data-v="{r["dollar_m"]}">{r["dollar_m"]:.0f}</td></tr>')
 
-    P.append('</tbody></table>')
+    P.append('</tbody></table></div>')
     P.append('<div class="ts-note">'
              '<b>TIGHT</b>＝100 ×（1 − 箱體ATR/6），箱體＝最近 10 日（最高−最低）÷ ATR50。'
              '≥70 綠（可做突破）｜55–69 橙（只做回調）｜＞70 分位置有刻度線。'

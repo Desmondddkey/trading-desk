@@ -1074,7 +1074,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "肥波總覽", "wave.html"),
     ("_link", None, "Tight Range", "tightscan.html"),
     ("_link", None, "The Plan", "setups.html"),
-    ("_ext", None, "財報（Finviz）", "https://finviz.com/calendar/earnings/season-preview?view=list&sort=marketCap"),
+    ("_link", None, "財報日曆", "earningscal.html"),
     ("_link", None, "YOYO Ball", "yoyo_ball.html"),
     ("_link", None, "Setup 矩陣", "regime.html"),
 
@@ -2334,6 +2334,13 @@ def build():
         log(f"✓ qqqstruct.html ({len(_qsb)//1024} KB)")
     except Exception as _eq:                                 # noqa: BLE001
         log(f"⚠ qqqstruct：{type(_eq).__name__}: {_eq}")
+    try:
+        import earnings_cal_page as _ec
+        _ect, _ecb = _ec.build()
+        pages["earningscal"] = (_ect, _ecb, base)
+        log(f"✓ earningscal.html ({len(_ecb)//1024} KB)")
+    except Exception as _eec:                                # noqa: BLE001
+        log(f"⚠ earningscal：{type(_eec).__name__}: {_eec}")
     try:
         import hermesdir_page as _hd
         _hdt, _hdb = _hd.build()
