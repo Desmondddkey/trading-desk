@@ -16,7 +16,7 @@
 
 定義（寫死）
   分數 = 25 條 true 嘅比例 × 100（每條等權 4 分）
-  倉位 = ≥70 全倉｜30-69 半倉｜<30 現金
+  倉位 = <55 全現金｜55-70 線性｜≥70 全倉
   回測 = 今日收市計分，下一個交易日開倉（無前視），成本 0.02% 每邊
 更新：cron 平日 17:15 HKT（18:00 前 build 好）
 """
@@ -33,7 +33,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.path.join(HERE, "data", "mm_model.pkl")
 OUT = os.path.join(HERE, "output")
 CACHE_H = 6.0
-FULL_AT, HALF_AT = 70, 30
+FULL_AT, HALF_AT, CASH_AT = 70, 55, 55
 GOLD_AT = 75
 COST = 0.0002
 
@@ -153,8 +153,13 @@ def compute(d):
     score = M.mean(axis=1) * 100
 
     # 倉位（今日收市決定，下一日生效）：圖中 70 / 30 兩條線
-    expo = pd.Series(np.where(score >= FULL_AT, 1.0,
-                              np.where(score >= HALF_AT, 0.5, 0.0)), index=df.index)
+    # 倉位映射：<55 = 全現金（唔交易）｜55-70 = 線性 0→100｜≥70 = 全倉
+    # ★ 原版 75 分 → 71% 倉，所以高分區唔一定 100%，用線性最接近
+    expo = pd.Series(
+        np.where(score >= FULL_AT, 1.0,
+                 np.where(score >= CASH_AT,
+                          (score - CASH_AT) / (FULL_AT - CASH_AT), 0.0)),
+        index=df.index).clip(0, 1)
     expo = expo.shift(1).fillna(0.0)
     ret = df["c"].pct_change().fillna(0.0)
     trade = expo.diff().abs().fillna(0.0)
@@ -176,7 +181,8 @@ def compute(d):
         "date": df.index[-1].strftime("%Y-%m-%d"),
         "score": None if pd.isna(score.iloc[-1]) else round(float(score.iloc[-1]), 0),
         "expo_today": (100 if (score.iloc[-1] >= FULL_AT) else
-                       50 if (score.iloc[-1] >= HALF_AT) else 0),
+                       (round(float((score.iloc[-1] - CASH_AT) / (FULL_AT - CASH_AT) * 100))
+                        if (score.iloc[-1] >= CASH_AT) else 0)),
         "models": [{"name": n, "on": bool(M[n].iloc[-1] == 1) if not pd.isna(M[n].iloc[-1]) else None,
                     "days": int((M[n].tail(250) == 1).sum())} for n in names],
         "stats_model": stats(eq[mask]), "stats_bh": stats(bh[mask]),
@@ -206,7 +212,7 @@ def _annual(strat, ret, mask):
         out.append({"year": int(y),
                     "m": round(float((1 + g["m"]).prod() - 1) * 100, 1),
                     "b": round(float((1 + g["b"]).prod() - 1) * 100, 1)})
-    return out[-20:]
+    return list(reversed(out))[:20]   # 最新年喺最上
 
 
 def _periods(eq, bh):
@@ -364,10 +370,10 @@ def build():
     s = snap["score"] or 0
     if s >= FULL_AT:
         verdict, col = "全倉（invested）", "#2f8f5b"
-    elif s >= HALF_AT:
-        verdict, col = "半倉（一半現金）", "#b9a05f"
+    elif s >= CASH_AT:
+        verdict, col = f"減倉（{snap['expo_today']}% 倉）", "#b9a05f"
     else:
-        verdict, col = "現金（risk-off）", "#a04a44"
+        verdict, col = "全現金（no trade）", "#a04a44"
 
     st, bh = snap["stats_model"], snap["stats_bh"]
     cs = snap["chart"]
@@ -382,7 +388,7 @@ def build():
              f'<span style="font-size:15px;opacity:.45">/100</span></div>'
              f'<div class="mm-verdict" style="color:{col}">{verdict}</div>'
              f'<div class="mm-bar"><i style="width:{min(100,s):.0f}%;background:{col}"></i></div>'
-             f'<div class="mm-meta">門檻 70 = 全倉｜30 = 半倉｜Gold 門檻 75</div></div>'
+             f'<div class="mm-meta"><55 = 全現金（no trade）｜55-70 線性加倉｜≥70 全倉</div></div>'
              f'<div class="mm-meta">建議倉位 {snap["expo_today"]}%<br>'
              f'樣本 {_esc(snap["span"][0])} → {_esc(snap["span"][1])}</div>'
              f'<div class="mm-meta">Model CAGR <b>{st["cagr"]}%</b>｜最大回撤 '
@@ -394,8 +400,7 @@ def build():
              '<small>log 尺｜藍 = S&amp;P｜橙 = 模型</small></h2>'
              '<div class="body"><div class="mm-scroll">')
     L.append(V.price_chart(cs, st, bh))
-    L.append('</div><div class="mm-note">左右滑動睇歷史；打開時自動對齊最右（最新）。</div>'
-             '</div></div>')
+    L.append('</div></div>')
 
     # ── 圖 2：Composite Indicator
     L.append('<div class="card"><h2>2 · Composite Indicator '

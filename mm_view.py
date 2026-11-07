@@ -138,12 +138,12 @@ def step_chart(dates, values, W=1160, h=110, colour=GREEN, label="", value_txt="
 
 def annual_table(rows):
     out = ['<div class="tscroll"><table class="mm-tbl"><thead><tr>'
-           '<th>年</th><th class="n">Model</th><th class="n">S&amp;P 500</th>'
+           '<th data-v="0">年</th><th class="n">Model</th><th class="n">S&amp;P 500</th>'
            '<th class="n">差</th></tr></thead><tbody>']
     for r in rows:
         d = r["m"] - r["b"]
         cls = "mm-on" if d > 0 else "mm-off"
-        out.append(f'<tr><td>{r["year"]}</td>'
+        out.append(f'<tr><td data-v="{r["year"]}">{r["year"]}</td>'
                    f'<td class="n">{r["m"]:+.1f}%</td>'
                    f'<td class="n">{r["b"]:+.1f}%</td>'
                    f'<td class="n {cls}">{d:+.1f}%</td></tr>')
