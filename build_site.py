@@ -1040,6 +1040,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "市場簡報", "index.html"),
     ("_link", None, "Market Monitor", "mm.html"),
     ("_link", None, "頂部觀察", "topwatch.html"),
+    ("_link", None, "QQQ 雙結構", "qqqstruct.html"),
     ("_link", None, "保證金債務", "margin.html"),
 
     # ★ 2026-10-24 Desmond：「加多個主題 放市場下面；RS板改名 RS THEME」
@@ -2292,6 +2293,13 @@ def build():
         log(f"✓ feargauge.html ({len(_fgb)//1024} KB)")
     except Exception as _e:                                  # noqa: BLE001
         log(f"⚠ feargauge：{type(_e).__name__}")
+    try:
+        import qqq_struct as _qs
+        _qst, _qsb = _qs.build()
+        pages["qqqstruct"] = (_qst, _qsb, base)
+        log(f"✓ qqqstruct.html ({len(_qsb)//1024} KB)")
+    except Exception as _eq:                                 # noqa: BLE001
+        log(f"⚠ qqqstruct：{type(_eq).__name__}: {_eq}")
     try:
         import fatpitch_page as _fp
         _fpb = _fp.render_html()

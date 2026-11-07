@@ -1,45 +1,45 @@
 {
- "date": "2026-11-05",
- "generated": "2026-11-06",
+ "date": "2026-11-06",
+ "generated": "2026-11-07",
  "score": 3,
  "verdict": "接近投降",
  "expectancy": "+9.04%／95.0% ★",
- "vix": 26.86,
- "vix3m": 24.93,
- "vix_ratio": 1.077,
- "vxn": 25.08,
- "breadth": 33.0,
- "fg": 19.9,
- "pc": 0.87,
+ "vix": 25.64,
+ "vix3m": 24.53,
+ "vix_ratio": 1.045,
+ "vxn": 34.14,
+ "breadth": 36.1,
+ "fg": 23.1,
+ "pc": 0.86,
  "checks": [
   {
    "name": "VIX ≥ 30",
    "hit": false,
-   "value": "26.86",
+   "value": "25.64",
    "edge": "20日 +10.79%／勝100%（n=15，事件重疊，不可外推）"
   },
   {
    "name": "VIX/VIX3M > 1",
    "hit": true,
-   "value": "1.08",
+   "value": "1.05",
    "edge": "+5.69%／71%（n=48）"
   },
   {
    "name": "廣度 < 25%",
    "hit": false,
-   "value": "33%",
+   "value": "36%",
    "edge": "+3.31%／85%（n=213）"
   },
   {
    "name": "F&G < 25",
    "hit": true,
-   "value": "20",
+   "value": "23",
    "edge": "+2.88%／89%（n=44）"
   },
   {
    "name": "Put/Call ≥ 0.80",
    "hit": true,
-   "value": "0.87",
+   "value": "0.86",
    "edge": "+3.31%／66%（n=61）"
   }
  ],
