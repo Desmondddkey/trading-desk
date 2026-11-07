@@ -1045,6 +1045,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "保證金債務", "margin.html"),
     ("_link", None, "Put/Call", "putcall.html"),
     ("_link", None, "期權資金流", "ntmflow.html"),
+    ("_link", None, "投降儀表", "feargauge.html"),
 
     # ★ 2026-10-24 Desmond：「加多個主題 放市場下面；RS板改名 RS THEME」
     ("_grp", "主題"),
@@ -1068,7 +1069,6 @@ SIDEBAR_LINKS = [
     ("_link", None, "RS Leader 位置圖", "leadermap.html"),
     ("_link", None, "RS Daily Scan", "rsscan.html"),
     ("_link", None, "沙灘球反應", "beachball.html"),
-    ("_link", None, "投降儀表", "feargauge.html"),
     ("_link", None, "肥球掃描（J Law）", "fatpitch.html"),
     ("_link", None, "GTO 手牌分析", "gto.html"),
     ("_link", None, "肥波總覽", "wave.html"),
