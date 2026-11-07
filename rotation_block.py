@@ -69,7 +69,7 @@ CSS = """
 .rot-pan .it{font-size:11.5px;padding:2px 0;border-bottom:1px solid rgba(128,128,128,.1)}
 .rot-pan .it:last-child{border:0}
 .rot-pan .it b{font-weight:800}
-.rot-tbl{width:100%;border-collapse:collapse;font-size:11.5px;
+.rot-tbl{width:auto;border-collapse:collapse;font-size:11.5px;
   font-variant-numeric:tabular-nums;table-layout:fixed}
 .rot-tbl th{text-align:left;font-size:10px;font-weight:700;opacity:.6;
   padding:4px 5px;border-bottom:1px solid rgba(128,128,128,.3);white-space:nowrap}
@@ -147,12 +147,13 @@ def build():
              f'<span class="rot-sub">數據 {_esc(d.get("date"))}'
              f'｜{len(rows)} 個行業</span></div>')
     P.append('<table class="rot-tbl"><colgroup>'
-             '<col style="width:30px"><col style="width:52px">'
-             '<col><col style="width:86px"><col style="width:40px">'
-             '<col style="width:120px"><col style="width:120px">'
-             '<col style="width:120px"><col style="width:40px">'
+             '<col style="width:30px"><col style="width:44px">'
+             '<col style="width:52px">'
+             '<col style="width:180px"><col style="width:86px">'
+             '<col style="width:104px"><col style="width:104px">'
+             '<col style="width:104px"><col style="width:40px">'
              '</colgroup><thead><tr>'
-             '<th>#</th><th>ETF</th><th>名稱</th><th>PHASE</th><th>RS</th>'
+             '<th>#</th><th>RS</th><th>ETF</th><th>名稱</th><th>PHASE</th>'
              '<th>1W</th><th>1M</th><th>3M</th><th>寬</th>'
              '</tr></thead><tbody>')
     for r in rows:
@@ -162,13 +163,13 @@ def build():
         P.append(
             '<tr>'
             f'<td>{_esc(r.get("rank"))}</td>'
+            f'<td>{int(float(r.get("score") or 0))}</td>'
             f'<td><a class="tv" data-sym="{_esc(tk)}" '
             f'href="https://www.tradingview.com/chart/?symbol={_esc(tk)}" '
             f'target="_blank" rel="noopener">{_esc(tk)}</a></td>'
             f'<td style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'
             f'{_esc(r.get("name"))}</td>'
             f'<td>{_stage(r.get("stage"))}</td>'
-            f'<td>{int(float(r.get("score") or 0))}</td>'
             f'<td><span class="rot-x">{_p(r.get("x1w"))}</span>{_xb(r.get("x1w"))}</td>'
             f'<td><span class="rot-x">{_p(r.get("x1m"))}</span>{_xb(r.get("x1m"))}</td>'
             f'<td><span class="rot-x">{_p(r.get("x3m"))}</span>{_xb(r.get("x3m"))}</td>'
