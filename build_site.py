@@ -1105,6 +1105,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "Put/Call", "putcall.html"),
     ("_link", None, "期權資金流", "ntmflow.html"),
     ("_link", None, "投降儀表", "feargauge.html"),
+    ("_link", None, "Stage Analysis", "stage.html"),
 
     # ★ 2026-10-24 Desmond：「加多個主題 放市場下面；RS板改名 RS THEME」
     ("_grp", "主題"),
@@ -2777,6 +2778,13 @@ def build():
         log(f"✓ lukplaybook.html ({len(_lkb)//1024} KB)")
     except Exception as _elk:                                 # noqa: BLE001
         log(f"⚠ Luk 手冊：{type(_elk).__name__}")
+    try:
+        import stage_page as _stg
+        _stt, _stb = _stg.build()
+        pages["stage"] = (_stt, _stb, base)
+        log(f"✓ stage.html ({len(_stb)//1024} KB)")
+    except Exception as _est:                                # noqa: BLE001
+        log(f"⚠ Stage Analysis：{type(_est).__name__}: {_est}")
     try:
         import qmb_page as _qmb
         _qt, _qb = _qmb.build()
