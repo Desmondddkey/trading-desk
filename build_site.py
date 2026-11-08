@@ -1150,6 +1150,7 @@ SIDEBAR_LINKS = [
 
     ("_grp", "PLAYBOOK"),
     ("_link", None, "Luk 手冊", "lukplaybook.html"),
+    ("_link", None, "Qullamaggie 手冊", "qmb.html"),
     ("_link", None, "系統房間", "room.html"),
     ("_ext", "", "Jeff Sun 工具/流程", "https://jfsrev.substack.com/p/my-trading-tools-process-routine"),
     ("_ext", "", "PrimeTrading 手冊", "https://traderslab.gitbook.io/primetrading"),
@@ -2776,6 +2777,15 @@ def build():
         log(f"✓ lukplaybook.html ({len(_lkb)//1024} KB)")
     except Exception as _elk:                                 # noqa: BLE001
         log(f"⚠ Luk 手冊：{type(_elk).__name__}")
+    try:
+        import qmb_page as _qmb
+        _qt, _qb = _qmb.build()
+        pages["qmb"] = (_qt, _qb, base)
+        log(f"✓ qmb.html ({len(_qb)//1024} KB)")
+    except Exception as _eq:                                 # noqa: BLE001
+        import traceback as _tb
+        log(f"⚠ Qullamaggie 手冊：{type(_eq).__name__}: {_eq}")
+        _tb.print_exc()
     try:
         import putcall_page as _pcp
         _pct2, _pcb = _pcp.build()
