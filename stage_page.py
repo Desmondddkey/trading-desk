@@ -28,8 +28,8 @@ CSS = """
 .st-leg span{display:inline-flex;align-items:center;gap:5px}
 .st-leg b{display:inline-block;width:9px;height:9px;border-radius:2px}
 .st-hist{margin:10px 0 0}
-.st-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.st-tbl table{width:100%;min-width:640px;border-collapse:collapse;font-size:12px}
+.st-tbl{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+.st-tbl table{min-width:640px;width:max-content;border-collapse:collapse;font-size:12px}
 .st-tbl th{text-align:left;font-weight:600;padding:5px 6px;border-bottom:1px solid var(--hair);
   font-size:11px;opacity:.75;white-space:nowrap}
 .st-tbl td{padding:5px 6px;border-bottom:1px solid rgba(148,163,184,.12);vertical-align:middle}
@@ -40,6 +40,7 @@ CSS = """
 .st-note{font-size:10.5px;opacity:.55;margin-top:8px}
 @media(max-width:760px){.st-kpi{grid-template-columns:repeat(2,1fr)}
   .st-tbl table{min-width:600px;font-size:11.5px}
+  .st-tbl{overflow-x:auto}
   .st-tbl th,.st-tbl td{padding:5px 5px}
   .st-mini{width:90px;min-width:90px}}
 </style>
@@ -134,7 +135,7 @@ def build():
     rows = d.get("groups") or []
     P.append('<div class="card"><h2>行業分組 '
              f'<small>{len(rows)} 組（每組 ≥3 隻）</small></h2><div class="body">')
-    P.append('<div class="st-scroll"><div class="st-tbl"><table><thead><tr>'
+    P.append('<div class="st-tbl"><table><thead><tr>'
              '<th>行業</th><th class="n">隻數</th><th>分佈</th>'
              '<th class="n">S1</th><th class="n">S2</th><th class="n">S3</th>'
              '<th class="n">S4</th><th>健康</th></tr></thead><tbody>')
@@ -151,7 +152,7 @@ def build():
                            for k in ("S1", "S2", "S3", "S4"))
                  + f'<td><span class="st-chip" style="background:{HC.get(r["health"], "#6b7280")}">'
                    f'{r["health"]}</span></td></tr>')
-    P.append("</tbody></table></div></div>")
+    P.append("</tbody></table></div>")
     P.append('<div class="st-note">S2 ≥70% 強｜60–70 健康｜45–60 中性｜30–45 弱｜&lt;30 看淡。'
              '分類：收市 vs 30 週 SMA、SMA 4 週斜率 ±1%。</div>')
     P.append("</div></div>")
