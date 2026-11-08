@@ -482,8 +482,9 @@ html[data-theme="light"] body{color:#1F1E1D}
 html[data-theme="light"] .card .body,html[data-theme="light"] table td{color:#2A2825}
 html[data-theme="light"] small,html[data-theme="light"] .crumb{color:#6B6A63}
 /* 外部圖（matplotlib PNG）統一成「圖版」：白底、圓角、留白，深色模式下睇落係刻意 */
-.card .body>img,.card .body>p>img{max-width:100%;height:auto;display:block;
-  border-radius:8px;background:#fff;padding:8px;border:1px solid var(--hair)}
+.card .body>img:not(.fig-light):not(.fig-dark),.card .body>p>img{max-width:100%;
+  height:auto;display:block;border-radius:8px;background:#fff;padding:8px;
+  border:1px solid var(--hair)}
 code,pre{font-size:12px}
 @media(max-width:700px){
   .wrap{padding:0 10px 40px}

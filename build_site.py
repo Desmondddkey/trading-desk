@@ -1068,8 +1068,9 @@ html[data-theme="light"] body{color:#1F1E1D}
 html[data-theme="light"] .card .body,html[data-theme="light"] table td{color:#2A2825}
 html[data-theme="light"] small,html[data-theme="light"] .crumb{color:#6B6A63}
 /* 外部圖（matplotlib PNG）統一成「圖版」：白底、圓角、留白，深色模式下睇落係刻意 */
-.card .body>img,.card .body>p>img{max-width:100%;height:auto;display:block;
-  border-radius:8px;background:#fff;padding:8px;border:1px solid var(--hair)}
+.card .body>img:not(.fig-light):not(.fig-dark),.card .body>p>img{max-width:100%;
+  height:auto;display:block;border-radius:8px;background:#fff;padding:8px;
+  border:1px solid var(--hair)}
 code,pre{font-size:12px}
 @media(max-width:700px){
   .wrap{padding:0 10px 40px}
@@ -1149,6 +1150,7 @@ SIDEBAR_LINKS = [
 
     ("_grp", "PLAYBOOK"),
     ("_link", None, "Luk 手冊", "lukplaybook.html"),
+    ("_link", None, "系統房間", "room.html"),
     ("_ext", "", "Jeff Sun 工具/流程", "https://jfsrev.substack.com/p/my-trading-tools-process-routine"),
     ("_ext", "", "PrimeTrading 手冊", "https://traderslab.gitbook.io/primetrading"),
     ("_ext", "", "Qullamaggie", "https://qullamaggie.net/"),
@@ -1482,7 +1484,12 @@ def page(active, title, body, payload, extra_head=""):
     if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v);}}
 }}catch(e){{}}}})();</script>
 <link rel="stylesheet" href="site.css?v={BUILD_TS}"><script src="sortable.js?v={BUILD_TS}"></script>
-<style>/* 寬圖表：手機橫向滑動，預設最右（最新） */
+<style>/* 圖表跟主題（每個頁面自帶，唔靠 site.css 順序） */
+.fig-dark{{display:none}}
+img.fig-light,img.fig-dark{{max-width:100%;height:auto}}
+html[data-theme="dark"] .fig-dark{{display:block}}
+html[data-theme="dark"] .fig-light{{display:none}}
+/* 寬圖表：手機橫向滑動，預設最右（最新） */
 .hscroll{{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}}
 .hscroll svg{{display:block}}</style>{extra_head}</head><body>
 <script>
@@ -2432,6 +2439,13 @@ def build():
         log(f"✓ sectorrot2.html ({len(_s2b)//1024} KB)")
     except Exception as _e2:                                 # noqa: BLE001
         log(f"⚠ sectorrot2：{type(_e2).__name__}: {_e2}")
+    try:
+        import room_page as _rm
+        _rmt, _rmb = _rm.build()
+        pages["room"] = (_rmt, _rmb, base)
+        log(f"✓ room.html ({len(_rmb)//1024} KB)")
+    except Exception as _erm:                                # noqa: BLE001
+        log(f"⚠ room：{type(_erm).__name__}: {_erm}")
     try:
         import sector_rot as _sr
         _srt, _srb = _sr.build()
