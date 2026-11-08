@@ -39,8 +39,10 @@ CSS = """
 .st-chip{font-size:10.5px;padding:1px 7px;border-radius:999px;color:#fff;white-space:nowrap}
 .st-note{font-size:10.5px;opacity:.55;margin-top:8px}
 @media(max-width:760px){.st-kpi{grid-template-columns:repeat(2,1fr)}
-  .st-tbl table{min-width:600px;font-size:11.5px}
+  .st-tbl table{min-width:100%;font-size:11.5px}
   .st-tbl{overflow-x:auto}
+  .st-tbl td:first-child,.st-tbl th:first-child{max-width:190px;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis}
   .st-tbl th,.st-tbl td{padding:5px 5px}
   .st-mini{width:90px;min-width:90px}}
 </style>
