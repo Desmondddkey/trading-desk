@@ -135,6 +135,19 @@ def _collect():
     return rows
 
 
+USAGE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output", "skill_usage.json")
+
+
+def _top_usage(n=10):
+    try:
+        import json as _j
+        with io.open(USAGE, encoding="utf-8") as f:
+            d = _j.load(f)
+        return list((d.get("counts") or {}).items())[:n]
+    except Exception:                                        # noqa: BLE001
+        return []
+
+
 def build():
     rows = _collect()
     cats = sorted({r["cat"] for r in rows})
@@ -156,6 +169,20 @@ def build():
         P.append(f'<button class="skchip" data-c="{_h.escape(c)}">{_h.escape(c)} {n}</button>')
     P.append('</div>')
 
+    top = _top_usage(10)
+    if top:
+        mx = max(c for _, c in top) or 1
+        P.append('<div class="card"><h2>Top 10 · 按使用次數 '
+                 '<small>累計 skill_view 呼叫</small></h2><div class="body">')
+        P.append('<div class="sktop">')
+        for i, (nm, c) in enumerate(top, 1):
+            P.append(f'<div class="skrow"><span class="skrank">{i}</span>'
+                     f'<span class="skname">{_h.escape(nm)}</span>'
+                     f'<span class="skzh2">{_h.escape(ZH.get(nm, ""))}</span>'
+                     f'<span class="skbar"><i style="width:{c / mx * 100:.0f}%"></i></span>'
+                     f'<span class="skcnt">{c}</span></div>')
+        P.append('</div><div class="sknote">由 state.db 嘅 tool_calls 統計；'
+                 '每朝 build 會更新。</div></div></div>')
     P.append('<div id="sklist">')
     for r in rows:
         meta = " · ".join(x for x in (r["cat"], r["src"],
@@ -189,6 +216,17 @@ def build():
 .skchip{padding:5px 10px;border:1px solid #cfc7bb;border-radius:999px;background:#fff;
   font-size:12px;cursor:pointer;color:#3a3730}
 .skchip.on{background:#c2410c;border-color:#c2410c;color:#fff}
+.sktop{display:flex;flex-direction:column;gap:2px}
+.skrow{display:grid;grid-template-columns:22px 190px 1fr 130px 40px;gap:10px;
+  align-items:center;padding:4px 0;border-bottom:1px solid rgba(148,163,184,.12);font-size:12.5px}
+.skrank{opacity:.5;font-weight:800;text-align:right}
+.skname{font-weight:800}
+.skzh2{opacity:.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.skbar{height:5px;background:rgba(148,163,184,.18);border-radius:3px;overflow:hidden}
+.skbar i{display:block;height:100%;background:#2f8f5b}
+.skcnt{text-align:right;font-variant-numeric:tabular-nums;opacity:.8}
+.sknote{font-size:10.5px;opacity:.55;margin-top:8px}
+@media(max-width:760px){.skrow{grid-template-columns:20px 120px 1fr 60px 34px;gap:6px}}
 .hide{display:none}
 </style>
 <script>
