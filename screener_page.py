@@ -39,10 +39,11 @@ CSS = """
 .scr-btn:hover{border-color:#3b82f6}
 .scr-btn.on{background:rgba(59,130,246,.16);border-color:#3b82f6;font-weight:700}
 .scr-count{font-size:11.5px;opacity:.7;margin-left:auto;font-variant-numeric:tabular-nums}
-.scr-wrap{max-height:78vh;overflow:auto;border-top:1px solid rgba(148,163,184,.22)}
-.scr-tbl{width:100%;border-collapse:collapse;font-size:12.5px;table-layout:auto}
-.scr-tbl th{position:sticky;top:0;z-index:2;background:#0b1220;
-  text-align:left;font-size:10.5px;font-weight:800;letter-spacing:.04em;opacity:.72;
+.scr-wrap{max-height:calc(100vh - 196px);overflow:auto;overscroll-behavior:contain;
+  border-top:1px solid rgba(148,163,184,.22);scroll-margin-top:125px}
+.scr-tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;table-layout:auto}
+.scr-tbl th{position:sticky;top:0;z-index:3;background:#0b1220!important;color:inherit;
+  text-align:left;font-size:10.5px;font-weight:800;letter-spacing:.04em;
   padding:7px 7px;border-bottom:1px solid rgba(148,163,184,.30);white-space:nowrap;
   cursor:pointer;user-select:none}
 .scr-tbl td{padding:3px 7px;border-bottom:1px solid rgba(148,163,184,.10);
@@ -58,7 +59,7 @@ CSS = """
 .scr-tag.o{color:#f97316;border-color:rgba(249,115,22,.55)}
 .scr-up{color:#22c55e}.scr-dn{color:#ef4444}
 .scr-note{font-size:10.5px;line-height:1.7;opacity:.6;margin:10px 0 0;max-width:900px}
-html[data-theme="light"] .scr-tbl th{background:#f6f8fb}
+html[data-theme="light"] .scr-tbl th{background:#f6f8fb!important}
 /* 手機：只留決策欄（代號 RS ATR% ATRX TIGHT 距21EMA 距20日高 距52高 訊號） */
 @media (max-width:900px){
   .scr-tbl th:nth-child(2),.scr-tbl td:nth-child(2),
@@ -268,7 +269,7 @@ def build():
     ]
     th = "".join(f'<th title="{t}">{h}</th>' for h, t in heads)
 
-    body.append('<div class="scr-wrap"><table class="scr-tbl"><thead><tr>' + th + '</tr></thead><tbody>')
+    body.append('<div class="scr-wrap"><table class="scr-tbl" data-ownscroll="1"><thead><tr>' + th + '</tr></thead><tbody>')
     for r in rows:
         perf = r.get("perf") or {}
         tags = r.get("tags") or []

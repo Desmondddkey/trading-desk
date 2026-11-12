@@ -230,6 +230,8 @@ def build(force=False):
     recs = []
     for r in rows_in:
         t = str(r.get("symbol") or "").upper()
+        if not (t and t.replace(".", "").replace("-", "").isalnum()):
+            continue                                            # ORCL/PD 之類唔係可交易代號
         df = keep.get(t)
         m = meta.get(t) or {}
         rec = {

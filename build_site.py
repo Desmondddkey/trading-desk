@@ -1457,6 +1457,10 @@ def _polish(html_text):
         before = t[max(0, m.start() - 260):m.start()]
         if "tscroll" in before or "overflow-x" in before:
             return m.group(1)
+        # 頁面自己已包好可橫向滑動嘅容器（例如 Stock Screener 嘅 .scr-wrap）
+        # → 唔好再套 .tscroll，否則多一層 overflow 會令 position:sticky 表頭失效
+        if 'data-ownscroll="1"' in m.group(1)[:600]:
+            return m.group(1)
         return f'<div class="tscroll">{m.group(1)}</div>'
 
     t = _RE_TABLE.sub(_wrap, t)
