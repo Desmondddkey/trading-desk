@@ -1134,6 +1134,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "GTO 手牌分析", "gto.html"),
     ("_link", None, "肥波總覽", "wave.html"),
     ("_link", None, "Tight Range", "tightscan.html"),
+    ("_link", None, "HTF Flag（50/80）", "htf.html"),
     ("_link", None, "The Plan", "setups.html"),
     ("_link", None, "財報日曆", "earningscal.html"),
     ("_link", None, "YOYO Ball", "yoyo_ball.html"),
@@ -2778,6 +2779,13 @@ def build():
         log(f"✓ lukplaybook.html ({len(_lkb)//1024} KB)")
     except Exception as _elk:                                 # noqa: BLE001
         log(f"⚠ Luk 手冊：{type(_elk).__name__}")
+    try:
+        import htf_page as _hf
+        _hft, _hfb = _hf.build()
+        pages["htf"] = (_hft, _hfb, base)
+        log(f"✓ htf.html ({len(_hfb)//1024} KB)")
+    except Exception as _ehf:                               # noqa: BLE001
+        log(f"⚠ HTF Flag：{type(_ehf).__name__}: {_ehf}")
     try:
         import stage_page as _stg
         _stt, _stb = _stg.build()
