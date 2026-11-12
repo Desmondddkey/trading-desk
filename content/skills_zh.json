@@ -184,5 +184,6 @@
  "rev-u3d-dump": "Unity IL2CPP dump",
  "rev-unicorn-debug": "用 Unicorn 做模擬除錯",
  "find-skills": "搵／安裝現成 agent 技能（技能市集搜尋）",
- "agent-browser": "命令列瀏覽器：導航、填表、截圖、抓資料"
+ "agent-browser": "命令列瀏覽器：導航、填表、截圖、抓資料",
+ "socratic-tutor": "蘇格拉底式家教：診斷→技能地圖 0-5→逐題追問→間隔複習→最終測驗"
 }
