@@ -1131,12 +1131,10 @@ SIDEBAR_LINKS = [
     # ── 其餘（維持原本相對次序）──
     ("_link", None, "RS Leader 位置圖", "leadermap.html"),
     ("_link", None, "RS Daily Scan", "rsscan.html"),
-    ("_link", None, "沙灘球反應", "beachball.html"),
+    # ★ 2026-11-12：沙灘球／GTO／HTF 已併入 Stock Screener 嘅 tag，導航收起（檔案保留）
     ("_link", None, "肥球掃描（J Law）", "fatpitch.html"),
-    ("_link", None, "GTO 手牌分析", "gto.html"),
     ("_link", None, "肥波總覽", "wave.html"),
     ("_link", None, "Tight Range", "tightscan.html"),
-    ("_link", None, "HTF Flag（50/80）", "htf.html"),
     ("_link", None, "The Plan", "setups.html"),
     ("_link", None, "財報日曆", "earningscal.html"),
     ("_link", None, "YOYO Ball", "yoyo_ball.html"),
@@ -2361,12 +2359,33 @@ def build():
 
     # ── ★ 2026-10-23 移除 rocketstock / livefeeds（外部數據合併入 external.html）──
 
-    # ── ★ 2026-11-12 Stock Screener（一頁篩選 744 隻；數據 screener_cache.py）──
+    # ── ★ 2026-11-12 Stock Screener（一頁篩選 744 隻；數據 screener_cache.py + screener_extra.py）──
     try:
         import screener_page as _scr
         _st, _sb = _scr.build()
         pages["screener"] = (_st, _sb, base)
         log(f"✓ screener.html ({len(_sb)//1024} KB)")
+        # 歷史日期頁（同一頁、唔同數據日）
+        import glob as _g
+        for _f in sorted(_g.glob(os.path.join(HERE, "data", "screener_hist", "*.json")))[-6:]:
+            _d = os.path.basename(_f)[:10]
+            try:
+                _t2, _b2 = _scr.build(snap=_f)
+                pages[f"screener_{_d}"] = (_t2, _b2, base)
+            except Exception as _e2:                        # noqa: BLE001
+                log(f"⚠ screener {_d} 失敗：{type(_e2).__name__}")
+        # Stock Wall（圖表包只喺開呢頁時 fetch）
+        try:
+            import wall_page as _wp
+            _wt, _wb = _wp.build()
+            pages["screenwall"] = (_wt, _wb, base)
+            _wsrc = os.path.join(HERE, "data", "wall_series.json")
+            if os.path.exists(_wsrc):
+                shutil.copy(_wsrc, os.path.join(SITE, "wall_series.json"))
+                log(f"✓ wall_series.json ({os.path.getsize(_wsrc)//1024} KB)")
+            log(f"✓ screenwall.html ({len(_wb)//1024} KB)")
+        except Exception as _e3:                            # noqa: BLE001
+            log(f"⚠ Stock Wall 失敗：{type(_e3).__name__}: {_e3}")
     except Exception as _e_scr:                             # noqa: BLE001
         log(f"⚠ Stock Screener 失敗：{type(_e_scr).__name__}: {_e_scr}")
 

@@ -108,12 +108,36 @@ JS = r"""
       if(ok) shown++;
     }
     msg.textContent='顯示 '+shown+' / '+rows.length+' 隻';
+    shares();
+  }
+  function shares(){
+    var acct=parseFloat(($('fAcct').value||'200000'));
+    if(isNaN(acct)||acct<=0) acct=200000;
+    for(var i=0;i<rows.length;i++){
+      var r=rows[i], cell=r.querySelector('td.sh');
+      if(!cell) continue;
+      var c=parseFloat(r.dataset.c), st=parseFloat(r.dataset.st);
+      if(!c||!st||c<=st){cell.textContent='—';continue;}
+      var n=Math.floor(Math.min(acct*0.005/(c-st), acct*0.33/c));
+      cell.textContent = n>0 ? n : '—';
+    }
   }
   var ids=['fQ','fSector','fRs','fAtrx','fTight','fAtrp','fRvol','fD52','fDvol','fTag'];
   ids.forEach(function(id){
     var el=$(id); if(!el) return;
     el.addEventListener('input',apply); el.addEventListener('change',apply);
   });
+  var acctEl=$('fAcct');
+  if(acctEl){acctEl.addEventListener('input',shares);acctEl.addEventListener('change',shares);}
+  var wallBtn=$('scrWall');
+  if(wallBtn){wallBtn.addEventListener('click',function(){
+    var list=[];
+    for(var i=0;i<rows.length;i++){ if(rows[i].style.display!=='none') list.push(rows[i].dataset.t); }
+    if(!list.length) return;
+    var url='screenwall.html?t='+encodeURIComponent(list.slice(0,60).join(','))
+            +'&v='+Date.now().toString(36);
+    window.open(url,'_blank');
+  });}
   var PRESETS={
     '全部':      {fRs:'',fAtrx:'',fTight:'',fD52:'',fDvol:'',fTag:''},
     'A+ 候選':   {fRs:'80',fAtrx:'4',fTight:'40',fD52:'-15',fDvol:'30',fTag:''},
@@ -201,11 +225,18 @@ def _tight_cell(t):
     return f'<span{style}>{f:.0f}</span>'
 
 
-TAGCLS = {"領導": "g", "新高": "g", "RS新高": "b", "突破": "b", "回調": "o", "收縮": "o"}
+TAGCLS = {"領導": "g", "新高": "g", "RS新高": "b", "突破": "b",
+          "回調": "o", "收縮": "o", "HTF": "b", "沙灘球": "o"}
 
 
-def build():
-    d = _load(SRC, {})
+def _hist_days():
+    import glob
+    fs = sorted(glob.glob(os.path.join(HERE, "data", "screener_hist", "*.json")))
+    return [os.path.basename(f)[:10] for f in fs][-8:]
+
+
+def build(snap=None):
+    d = _load(snap or SRC, {})
     rows = d.get("rows") or []
     if not rows:
         return ("Stock Screener",
@@ -227,7 +258,21 @@ def build():
     pbtn = "".join(
         f'<button class="scr-btn{" on" if p == "全部" else ""}" data-p="{p}">{p}</button>'
         for p in presets)
-    body.append(f'<div class="scr-tools">{pbtn}<span class="scr-count" id="scrCount"></span></div>')
+    days = _hist_days()
+    cur = (d.get("as_of") or "")[:10]
+    dsel = ""
+    if days:
+        opts = "".join(
+            '<option value="screener%s.html"%s>%s</option>'
+            % ("" if x == days[-1] else "_" + x, " selected" if x == cur else "", x)
+            for x in reversed(days))
+        dsel = ('<div class="scr-f"><label for="fDay">日期</label>'
+                '<select id="fDay" onchange="location.href=this.value">' + opts + '</select></div>')
+    body.append(f'<div class="scr-tools">{pbtn}{dsel}'
+                '<div class="scr-f"><label for="fAcct">帳戶淨值</label>'
+                '<input id="fAcct" type="number" step="1000" value="200000" style="min-width:92px"></div>'
+                '<button class="scr-btn" id="scrWall" title="把現時篩選結果排成圖表牆（最多 60 隻）">📊 Stock Wall</button>'
+                '<span class="scr-count" id="scrCount"></span></div>')
 
     def fld(fid, label, ph="", wide=False, typ="number", step="any"):
         cls = "scr-f wide" if wide else "scr-f"
@@ -265,6 +310,8 @@ def build():
         ("距52高", "（價 ÷ 52週最高 − 1）× 100"),
         ("RVOL", "成交額相對 50 日平均（TradingView）"),
         ("成交額$M", "10 日平均成交額（百萬美元）"),
+        ("止蝕", "3% 係上限；10 日低點更緊（距入場 <0.60 ATR）就用 LOD — 同 daily_plan.stop_plan 同一條規則"),
+        ("股數", "min(帳戶 × 0.5% ÷ (價 − 止蝕), 帳戶 × 33% ÷ 價)；帳戶喺頁頂可改"),
         ("訊號", "領導 RS≥90 且距52高≥−10｜新高 距52高≥−0.5｜突破 距20日高≥−0.3 且 RVOL≥1.5｜回調 距21EMA ±0.5 且 RS≥75 且喺50MA上｜收縮 TIGHT≥70 且距52高≥−12｜RS新高 RS line 距自己52週高≤0.5%"),
     ]
     th = "".join(f'<th title="{t}">{h}</th>' for h, t in heads)
@@ -282,6 +329,7 @@ def build():
         _blank = lambda v: "" if v is None else v          # noqa: E731
         body.append(
             f'<tr data-t="{r["t"]}" data-ind="{ind}" data-sector="{r.get("sector") or ""}"'
+            f' data-c="{_blank(r.get("close"))}" data-st="{_blank(r.get("stop"))}"'
             f' data-rs="{_blank(rs)}" data-atrx="{_blank(r.get("atrx"))}"'
             f' data-tight="{_blank(r.get("tight"))}" data-atrp="{_blank(r.get("atr_pct"))}"'
             f' data-rvol="{_blank(r.get("rvol"))}" data-d52="{_blank(d52)}"'
@@ -303,6 +351,8 @@ def build():
             f'<td>{_n(d52, 1)}</td>'
             f'<td>{_n(r.get("rvol"), 1)}×</td>'
             f'<td>{_n(r.get("dvol_m"), 0)}</td>'
+            f'<td>{_n(r.get("stop"), 2)} <span style="opacity:.45;font-size:9.5px">{r.get("stop_kind") or ""}</span></td>'
+            f'<td class="sh">—</td>'
             f'<td>{tg}</td></tr>')
     body.append('</tbody></table></div>')
 
@@ -311,8 +361,11 @@ def build():
         '① 全部數字同其他頁共用同一條尺：ATR14 / EMA21 / 50MA 由 rs_scan 定義，TIGHT 由 tight_scan 定義，'
         'RS 百分位用真百分位（唔用飽和公式）。'
         '② 缺失顯示 —（例：上市未夠一年冇 12 個月回報 → 冇 RS），唔會當 0。'
-        '③ 預設只係幫你填格，唔會自動交易；呢頁永遠唔會出買入訊號，最多標「訊號」。'
-        '④ 744 隻嚟自 TV 掃描（成交額 ≥$30M、ADR ≥4%、無 Biotech），唔係全美股。'
+        '③ 止蝕＝3% 上限，10 日低點更緊且距入場 <0.60 ATR 才改用 LOD（同 daily_plan.stop_plan 同一條規則）；'
+        '股數＝min(帳戶×0.5% ÷ 風險距離, 帳戶×33% ÷ 價)，帳戶喺頁頂可改。'
+        '④ 訊號 tag：領導／新高／突破／回調／收縮／RS新高／HTF（htf_flag.json）／沙灘球（beachball.json）。'
+        '⑤ 日期下拉＝最近 6 個交易日，用同一條尺重算；📊 Stock Wall 會把現時篩選結果排成圖表牆（最多 60 隻）。'
+        '⑥ 744 隻嚟自 TV 掃描（成交額 ≥$30M、ADR ≥4%、無 Biotech），唔係全美股。'
         '</p>')
     body.append('</div>')
     body.append(f"<script>{JS}</script>")
