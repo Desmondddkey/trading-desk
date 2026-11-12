@@ -1120,6 +1120,8 @@ SIDEBAR_LINKS = [
     #   Daily Scan > Alert (Set up alert) > 領導股 (RS leader) >
     #   RS Before Price > 1CM 回調 (RS Pullback) > 最強 1 週 (Weekly MM)
     ("_grp", "選股"),
+    # ★ 2026-11-12 Desmond：「抽出有用嘅，塞落同一頁做 STOCK SCREENER」
+    ("_link", None, "Stock Screener", "screener.html"),
     ("_link", None, "Daily Scan", "dailyscan.html"),
     ("_link", None, "Setup Alert", "alerts.html"),
     ("_link", None, "RS Leader", "leaders.html"),
@@ -2354,6 +2356,15 @@ def build():
         log(f"⚠ MARKET REGIME 失敗：{type(_e13).__name__}: {_e13}")
 
     # ── ★ 2026-10-23 移除 rocketstock / livefeeds（外部數據合併入 external.html）──
+
+    # ── ★ 2026-11-12 Stock Screener（一頁篩選 744 隻；數據 screener_cache.py）──
+    try:
+        import screener_page as _scr
+        _st, _sb = _scr.build()
+        pages["screener"] = (_st, _sb, base)
+        log(f"✓ screener.html ({len(_sb)//1024} KB)")
+    except Exception as _e_scr:                             # noqa: BLE001
+        log(f"⚠ Stock Screener 失敗：{type(_e_scr).__name__}: {_e_scr}")
 
     # ── Daily Scan（Desmond 2026-10-19：L1 + L2）──
     try:

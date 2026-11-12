@@ -41,6 +41,9 @@
         if (typeof x === 'number' && typeof y === 'number') {
           return dir === 'asc' ? x - y : y - x;
         }
+        // 冇數值（— ／空 ／文字）永遠排尾，唔會因為字串比較而搶到最前
+        if (typeof x === 'number') return -1;
+        if (typeof y === 'number') return 1;
         var sx = String(x), sy = String(y);
         return dir === 'asc' ? (sx > sy ? 1 : sx < sy ? -1 : 0)
                              : (sx < sy ? 1 : sx > sy ? -1 : 0);
