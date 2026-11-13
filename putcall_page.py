@@ -12,13 +12,14 @@ import json
 import os
 
 SRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output", "putcall.json")
+ZSRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output", "putcall_zone.json")
 
 
 def _esc(x):
     return _h.escape(str(x if x is not None else ""))
 
 
-def _chart(d):
+def _chart(d, z=None):
     ser = d.get("series") or []
     if len(ser) < 200:
         return '<div class="dim">DATA_UNAVAILABLE：未夠數據（需要 200 日以上）</div>'
@@ -96,6 +97,25 @@ def _chart(d):
         P.append(f'<text x="{x+3:.1f}" y="{SPX_T+11}" fill="{RED}" font-size="9.5" '
                  f'opacity="0.9">{lab}</text>')
 
+    # ── 逆向區間：門檻線 + 穿越事件（putcall_zone.py 驗證）──
+    if z and z.get("threshold"):
+        thr = float(z["threshold"])
+        if pmin <= thr <= pmax:
+            yy = YP(thr)
+            P.append(f'<line x1="{L}" y1="{yy:.1f}" x2="{W-R}" y2="{yy:.1f}" '
+                     f'stroke="#2e7d32" stroke-width="1.3" stroke-dasharray="5 4"/>')
+            lx, ly = W - R - 250, yy - 6
+            P.append(f'<rect x="{lx-4}" y="{ly-10}" width="252" height="14" fill="#fff" opacity="0.92"/>')
+            P.append(f'<text x="{lx}" y="{ly}" fill="#2e7d32" font-size="10">'
+                     f'逆向區間門檻 P/C ≥ {thr:.3f}（第 {z.get("pctile")} 百分位）</text>')
+        for ev in (z.get("events") or [])[-8:]:
+            if ev.get("d") not in pos:
+                continue
+            x = X(pos[ev["d"]])
+            P.append(f'<line x1="{x:.1f}" y1="{PC_T}" x2="{x:.1f}" y2="{PC_B}" '
+                     f'stroke="#2e7d32" stroke-width="0.7" stroke-dasharray="2 3" '
+                     f'opacity="0.55"/>')
+
     # 年份刻度
     seen = set()
     for i, s in enumerate(ser):
@@ -126,6 +146,13 @@ def build():
         return ("Put/Call Ratio", '<div class="dim">DATA_UNAVAILABLE：未跑 putcall.py</div>')
     with io.open(SRC, encoding="utf-8") as f:
         d = json.load(f)
+    z = None
+    if os.path.exists(ZSRC):
+        try:
+            with io.open(ZSRC, encoding="utf-8") as f:
+                z = json.load(f)
+        except (OSError, ValueError):
+            z = None
     cur = d.get("latest") or {}
     ser = d.get("series") or []
 
@@ -150,8 +177,34 @@ def build():
              f'<td>對照上圖</td></tr>')
     P.append('</tbody></table></div>')
 
+    if z:
+        st20 = (z.get("stats") or {}).get("fwd20") or {}
+        st40 = (z.get("stats") or {}).get("fwd40") or {}
+        b20 = (z.get("baseline") or {}).get("20") or {}
+        b40 = (z.get("baseline") or {}).get("40") or {}
+        verdict = "未見 edge"
+        if st20.get("avg") is not None and b20.get("avg") is not None:
+            if st20["avg"] - b20["avg"] > 0.5 and st20.get("win", 0) >= 60:
+                verdict = "逆向區間有 edge（20 日）"
+        P.append('<h3 style="margin-top:14px">散戶買 put 逆向區間（第 %s 百分位）</h3>' % z.get("pctile"))
+        P.append('<div class="pf-mini2"><table><thead><tr><th>項目</th>'
+                 '<th class="n">數值</th><th>對照基率</th></tr></thead><tbody>')
+        P.append(f'<tr><td>門檻 P/C</td><td class="n">≥ {z.get("threshold")}</td>'
+                 f'<td>全歷史第 {z.get("pctile")} 百分位（唔用絕對值）</td></tr>')
+        P.append(f'<tr><td>今日</td><td class="n">{z.get("current_pc")}</td>'
+                 f'<td>{"✅ 在區間內" if z.get("in_zone") else "未到門檻"}</td></tr>')
+        P.append(f'<tr><td>事件數</td><td class="n">{z.get("n_events")}</td>'
+                 f'<td>由下向上穿越，{z.get("cooldown")} 日冷卻</td></tr>')
+        P.append(f'<tr><td>之後 20 日</td><td class="n">{st20.get("avg")}%（贏 {st20.get("win")}%）</td>'
+                 f'<td>{b20.get("avg")}%（贏 {b20.get("win")}%）｜n={st20.get("n")}</td></tr>')
+        P.append(f'<tr><td>之後 40 日</td><td class="n">{st40.get("avg")}%（贏 {st40.get("win")}%）</td>'
+                 f'<td>{b40.get("avg")}%（贏 {b40.get("win")}%）｜n={st40.get("n")}</td></tr>')
+        P.append(f'<tr><td><b>判決</b></td><td class="n">{verdict}</td>'
+                 f'<td>{_esc(z.get("note"))}</td></tr>')
+        P.append('</tbody></table></div>')
+
     P.append('<h3 style="margin-top:14px">圖表</h3>')
-    P.append(_chart(d))
+    P.append(_chart(d, z))
 
     P.append('<h3 style="margin-top:14px">最近 12 個交易日</h3>')
     P.append('<div class="pf-mini2"><table><thead><tr><th>日期</th>'
