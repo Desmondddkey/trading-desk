@@ -1096,6 +1096,7 @@ SIDEBAR_LINKS = [
 
     ("_grp", "市場"),
     ("_link", None, "MARKET REGIME", "regime_mri.html"),
+    ("_link", None, "環境熱力圖", "regimeheat.html"),
     ("_link", None, "市場簡報", "index.html"),
     ("_link", None, "Market Monitor", "mm.html"),
     ("_link", None, "頂部觀察", "topwatch.html"),
@@ -2358,6 +2359,15 @@ def build():
         log(f"⚠ MARKET REGIME 失敗：{type(_e13).__name__}: {_e13}")
 
     # ── ★ 2026-10-23 移除 rocketstock / livefeeds（外部數據合併入 external.html）──
+
+    # ── ★ 2026-11-13 環境熱力圖（2D regime + Setup×環境）──
+    try:
+        import regimeheat_page as _rh
+        _rht, _rhb = _rh.build()
+        pages["regimeheat"] = (_rht, _rhb, base)
+        log(f"✓ regimeheat.html ({len(_rhb)//1024} KB)")
+    except Exception as _e_rh:                              # noqa: BLE001
+        log(f"⚠ 環境熱力圖失敗：{type(_e_rh).__name__}: {_e_rh}")
 
     # ── ★ 2026-11-12 Stock Screener（一頁篩選 744 隻；數據 screener_cache.py + screener_extra.py）──
     try:
