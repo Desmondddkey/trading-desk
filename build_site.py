@@ -1126,6 +1126,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "Daily Scan", "dailyscan.html"),
     ("_link", None, "Setup Alert", "alerts.html"),
     ("_link", None, "RS Leader", "leaders.html"),
+    ("_link", None, "PEG 清單", "peg.html"),
     ("_link", None, "RS 新高領先股", "rsnewhigh.html"),
     ("_link", None, "RS Before Price", "rsbeforeprice.html"),
     ("_link", None, "RS Pullback", "cm.html"),
@@ -2360,6 +2361,15 @@ def build():
         log(f"⚠ MARKET REGIME 失敗：{type(_e13).__name__}: {_e13}")
 
     # ── ★ 2026-10-23 移除 rocketstock / livefeeds（外部數據合併入 external.html）──
+
+    # ── ★ 2026-11-16 PEG 清單（iain：每季最強名單，等 9/21EMA 回調）──
+    try:
+        import peg_page as _pg
+        _pgt, _pgb = _pg.build()
+        pages["peg"] = (_pgt, _pgb, base)
+        log(f"✓ peg.html ({len(_pgb)//1024} KB)")
+    except Exception as _e_pg:                              # noqa: BLE001
+        log(f"⚠ PEG 清單失敗：{type(_e_pg).__name__}: {_e_pg}")
 
     # ── ★ 2026-11-16 RS 新高領先股（Chinar Amrutkar market-leaders）──
     try:

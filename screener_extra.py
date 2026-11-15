@@ -122,6 +122,7 @@ def _ohlc(df):
     e9 = float(c.ewm(span=9, adjust=False).mean().iloc[-1])
     e21v = float(c.ewm(span=21, adjust=False).mean().iloc[-1])
     o["ema9"] = round(e9, 2)
+    o["d9"] = round((px - e9) / atr14, 2)
     o["ema21"] = round(e21v, 2)
     o["stack"] = 1 if (px > e9 > e21v > sma50) else 0
     pocket, pdays = 0, None
