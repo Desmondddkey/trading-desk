@@ -1,0 +1,185 @@
+Crumb fetch rate-limited (HTTP 429), continuing without crumb
+  yfinance 下載 48 隻 OHLC…
+  下載完成：48 隻，最後 2026-11-13
+  yfinance 下載 733 隻 OHLC…
+Failed to get ticker 'ORCL/PD' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 404: {"finance":{"result":null,"error":{"code":"Not Found","description":"HTTP 404 Not Found"}}}
+HTTP Error 401: {"finance":{"result":null,"error":{"code":"Unauthorized","description":"User is unable to access this feature - https://bit.ly/yahoo-finance-api-feedback"}}}
+
+1 Failed download:
+['ORCL/PD']: YFException("Failed to parse json response from Yahoo Finance: {'code': 'Not Found', 'description': 'HTTP 404 Not Found'}")
+  下載完成：733 隻，最後 2026-11-13
+  yfinance 下載 732 隻 OHLC…
+Failed to get ticker 'ORCL/PD' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 404: {"finance":{"result":null,"error":{"code":"Not Found","description":"HTTP 404 Not Found"}}}
+HTTP Error 401: {"finance":{"result":null,"error":{"code":"Unauthorized","description":"User is unable to access this feature - https://bit.ly/yahoo-finance-api-feedback"}}}
+
+1 Failed download:
+['ORCL/PD']: YFException("Failed to parse json response from Yahoo Finance: {'code': 'Not Found', 'description': 'HTTP 404 Not Found'}")
+  下載完成：732 隻，最後 2026-11-13
+✓ RS 迷你圖：732/732 隻有數據｜統計：731 隻
+✓ external.html (4 KB)
+✓ martinluk.html (2 KB)
+✓ sysmap.html (46 KB)
+✓ howto.html (2 KB)
+· earnings.html 已停用（改用 Finviz）
+✓ yoyo_ball.html (3 KB)
+✓ edgeimprove.html (7 KB)
+✓ modelbook 加量化案例庫
+✓ modelbook.html (54 KB)
+✓ audit.html (10 KB)
+✓ backtest.html (12 KB)
+✓ levelup.html (2 KB)
+✓ rsbeforeprice.html (5 KB)
+✓ thinkinr.html (107 KB)
+✓ datahealth.html（即時 5／過期 5／缺失 1）
+✓ alerts.html (549 筆)
+✓ logbook.html (182 條)
+✓ regime_mri.html (14 KB)
+✓ rsnewhigh.html (91 KB)
+✓ regimeheat.html (4 KB)
+✓ screener.html (607 KB)
+✓ wall_series.json (634 KB)
+✓ screenwall.html (6 KB)
+  yfinance 下載 116 隻 OHLC…
+  下載完成：116 隻，最後 2026-11-13
+✓ dailyscan.html (796 KB)
+  yfinance 下載 86 隻 OHLC…
+  下載完成：86 隻，最後 2026-11-13
+✓ dailyscan_2026-11-13.html (628 KB)
+  yfinance 下載 103 隻 OHLC…
+  下載完成：103 隻，最後 2026-11-13
+✓ dailyscan_2026-11-12.html (749 KB)
+  yfinance 下載 111 隻 OHLC…
+  下載完成：111 隻，最後 2026-11-13
+✓ dailyscan_2026-11-11.html (805 KB)
+  yfinance 下載 107 隻 OHLC…
+  下載完成：107 隻，最後 2026-11-13
+✓ dailyscan_2026-11-10.html (778 KB)
+✓ rsscan.html (140 KB)
+✓ rsscan 快照頁 10 個
+✓ beachball.html (53 KB)
+✓ feargauge.html (3 KB)
+✓ qqqstruct.html (203 KB)
+✓ earningscal.html (32 KB)
+✓ hermesdir.html (4 KB)
+✓ mmmodel.html (108 KB)
+✓ sectorrot2.html (9 KB)
+✓ room.html (1 KB)
+✓ sectorrot.html (34 KB)
+✓ fatpitch.html (8 KB)
+✓ gto.html (10 KB)
+✓ wave.html (7 KB)
+✓ tightscan.html (46 KB)
+✓ finish.html（收工標準）
+✓ process.html (33 KB)
+✓ mb_top250.html (24 KB)
+✓ leadermap.html (27 KB)
+✓ leadermap.html (552 KB)
+✓ sectors.html (60 KB)
+✓ jobboard.html (271 KB, 105 jobs)
+  yfinance 下載 83 隻 ETF…
+✓ rsboard.html（RS THEME）282 KB
+✓ cycle.html（成長週期 v2，23 KB）
+✓ topwatch.html (4 KB)
+✓ margin.html (32 KB)
+✓ skills.html (873 KB)
+✓ lukplaybook.html (35 KB)
+✓ htf.html (69 KB)
+✓ stage.html (37 KB)
+✓ qmb.html (16 KB)
+✓ putcall.html (187 KB)
+✓ ntmflow.html (4 KB)
+✓ site.css (24 KB)
+✓ sortable.js
+✓ briefing.html (51 KB)
+✓ leaders.html (2140 KB)
+✓ cm.html (41 KB)
+✓ week.html (818 KB)
+✓ setupfactory.html (46 KB)
+✓ optledger.html (28 KB)
+✓ vantharp.html (28 KB)
+✓ sectors.html (80 KB)
+✓ positioning.html (26 KB)
+✓ review.html (19 KB)
+✓ review2.html (24 KB)
+✓ calculator.html (30 KB)
+✓ external.html (25 KB)
+✓ martinluk.html (21 KB)
+✓ sysmap.html (76 KB)
+✓ howto.html (23 KB)
+✓ yoyo_ball.html (24 KB)
+✓ edgeimprove.html (28 KB)
+✓ modelbook.html (80 KB)
+✓ audit.html (31 KB)
+✓ backtest.html (34 KB)
+✓ levelup.html (21 KB)
+✓ rsbeforeprice.html (26 KB)
+✓ thinkinr.html (138 KB)
+✓ datahealth.html (25 KB)
+✓ alerts.html (140 KB)
+✓ logbook.html (225 KB)
+✓ regime_mri.html (35 KB)
+✓ rsnewhigh.html (112 KB)
+✓ regimeheat.html (23 KB)
+✓ screener.html (632 KB)
+✓ screener_2026-11-04.html (634 KB)
+✓ screener_2026-11-05.html (631 KB)
+✓ screener_2026-11-06.html (631 KB)
+✓ screener_2026-11-09.html (632 KB)
+✓ screener_2026-11-10.html (628 KB)
+✓ screener_2026-11-11.html (628 KB)
+✓ screenwall.html (26 KB)
+✓ dailyscan.html (824 KB)
+✓ dailyscan_2026-11-13.html (656 KB)
+✓ dailyscan_2026-11-12.html (778 KB)
+✓ dailyscan_2026-11-11.html (835 KB)
+✓ dailyscan_2026-11-10.html (807 KB)
+✓ rsscan.html (161 KB)
+✓ rsscan_2026-11-02.html (128 KB)
+✓ rsscan_2026-11-03.html (126 KB)
+✓ rsscan_2026-11-04.html (125 KB)
+✓ rsscan_2026-11-05.html (129 KB)
+✓ rsscan_2026-11-06.html (114 KB)
+✓ rsscan_2026-11-09.html (129 KB)
+✓ rsscan_2026-11-10.html (193 KB)
+✓ rsscan_2026-11-11.html (201 KB)
+✓ rsscan_2026-11-12.html (188 KB)
+✓ rsscan_2026-11-13.html (161 KB)
+✓ beachball.html (73 KB)
+✓ feargauge.html (23 KB)
+✓ qqqstruct.html (226 KB)
+✓ earningscal.html (53 KB)
+✓ hermesdir.html (24 KB)
+✓ mmmodel.html (128 KB)
+✓ sectorrot2.html (29 KB)
+✓ room.html (21 KB)
+✓ sectorrot.html (53 KB)
+✓ fatpitch.html (29 KB)
+✓ gto.html (30 KB)
+✓ wave.html (27 KB)
+✓ tightscan.html (65 KB)
+✓ finish.html (22 KB)
+✓ process.html (54 KB)
+✓ mb_top250.html (44 KB)
+✓ leadermap.html (578 KB)
+✓ jobboard.html (326 KB)
+✓ mm.html (51 KB)
+✓ bee50.html (34 KB)
+✓ ndx.html (59 KB)
+✓ jeffsun.html (27 KB)
+✓ rsboard.html (309 KB)
+✓ cycle.html (43 KB)
+✓ setups.html (38 KB)
+✓ regime.html (24 KB)
+✓ topwatch.html (23 KB)
+✓ margin.html (52 KB)
+✓ skills.html (953 KB)
+✓ lukplaybook.html (65 KB)
+✓ htf.html (90 KB)
+✓ stage.html (57 KB)
+✓ qmb.html (50 KB)
+✓ putcall.html (207 KB)
+✓ ntmflow.html (24 KB)
+✓ index.html（＝簡報）
+✓ version.json  2026-11-16 00:48

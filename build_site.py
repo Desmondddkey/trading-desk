@@ -1126,6 +1126,7 @@ SIDEBAR_LINKS = [
     ("_link", None, "Daily Scan", "dailyscan.html"),
     ("_link", None, "Setup Alert", "alerts.html"),
     ("_link", None, "RS Leader", "leaders.html"),
+    ("_link", None, "RS 新高領先股", "rsnewhigh.html"),
     ("_link", None, "RS Before Price", "rsbeforeprice.html"),
     ("_link", None, "RS Pullback", "cm.html"),
     ("_link", None, "Weekly MM", "week.html"),
@@ -2359,6 +2360,15 @@ def build():
         log(f"⚠ MARKET REGIME 失敗：{type(_e13).__name__}: {_e13}")
 
     # ── ★ 2026-10-23 移除 rocketstock / livefeeds（外部數據合併入 external.html）──
+
+    # ── ★ 2026-11-16 RS 新高領先股（Chinar Amrutkar market-leaders）──
+    try:
+        import rsnewhigh_page as _rn
+        _rnt, _rnb = _rn.build()
+        pages["rsnewhigh"] = (_rnt, _rnb, base)
+        log(f"✓ rsnewhigh.html ({len(_rnb)//1024} KB)")
+    except Exception as _e_rn:                              # noqa: BLE001
+        log(f"⚠ RS 新高頁失敗：{type(_e_rn).__name__}: {_e_rn}")
 
     # ── ★ 2026-11-13 環境熱力圖（2D regime + Setup×環境）──
     try:
