@@ -131,7 +131,29 @@ def build():
             f'↗ 開 {_esc(name.split(" · ")[0])}（新視窗）</a>'
             f'</div></div>')
 
-    # ── ③ 說明 ──
+    # ── ③ 文章翻譯（原文連結 + Notion 全文）──
+    parts.append('<h2 style="margin-top:18px">📄 文章翻譯（全文）</h2>')
+    _arts = [
+        ("📘", "iain｜我把交易系統簡化成 6 個核心指標",
+         "https://x.com/ohiain/status/2032191353984090336",
+         "9/21/50EMA ＋ 10 週線行為；Swing Data（市值／ADR%／ATR／距 LoD／距 52 高／"
+         "成交金額／RS）；Pocket Pivot；ATR% 倍數（>10 ATR 唔追）；"
+         "AVWAP／Fib／即日 VWAP 判斷誰在水中。",
+         "https://www.notion.so/4191ab8501ba8197a465e6b667442ee4"),
+    ]
+    for icon, name, url, why, nurl in _arts:
+        parts.append(
+            f'<div class="ext-card"><div class="ext-hd">'
+            f'<span class="t">{icon} {_esc(name)}</span>'
+            f'<span class="ext-badge">已翻譯</span></div>'
+            f'<div class="ext-note"><div class="ext-why">{why}</div>'
+            f'<a class="ext-btn" href="{_esc(url)}" target="_blank" rel="noopener">'
+            f'↗ 原文（X）</a>　'
+            f'<a class="ext-btn" href="{_esc(nurl)}" target="_blank" rel="noopener">'
+            f'↗ 中文全文（Notion，含圖）</a>'
+            f'</div></div>')
+
+    # ── ④ 說明 ──
     parts.append('<div class="card"><h2>★ 接入原則</h2><div class="body">'
                  '<div style="font-size:12.5px;line-height:1.9">'
                  '① <b>冇 login 牆</b> → 直接 iframe（NEL）<br>'

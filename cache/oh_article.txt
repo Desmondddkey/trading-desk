@@ -1,0 +1,109 @@
+These are the indicators and tools I use in my trading system, and I want to be clear upfront that I've simplified my approach down to just these core elements because each one serves a specific purpose that's been built around my own personal trading tendencies, my risk management framework, and the setups I know how to trade.
+
+I'm not using these tools the way most people use them, and I'm not following textbook definitions or generic interpretations.
+
+I've spent thousands of hours studying how each of these indicators behaves in different market environments, and I've customized my usage to fit my own psychology and my own edge.
+
+which is why I'm sharing not just what I use but how I actually use them in real time when I'm making decisions about entries, exits, and risk management.
+
+The first set of tools I rely on every single day is the 9/21/50EMA, and the 10Week moving average:
+
+and what I'm looking for with these is not just whether price is above or below them but rather the behavior around these EMAs.
+
+because that behavior tells me everything I need to know about momentum, structure, and whether buyers or sellers are in control.
+
+1) The 9EMA shows me short-term momentum and whether buyers are still showing up on a "day to day" basis.
+
+if a stock is holding above the rising 9EMA and bouncing off it (acting as support) on pullbacks, that tells me the trend is strong and I can be more aggressive with entries and position sizing.
+
+2) The 21EMA is my structure gauge, and it shows me whether the trend is orderly or erratic.
+
+if a stock is making higher lows into the 21EMA and respecting it as support, that's a sign of controlled strength that I want to play into.
+
+...but if it's whipping above and below the 21EMA with no respect for structure, that's a sign of chop, and I should stay away.
+
+3) The 50EMA is my last line in the sand for trend confirmation.
+
+and if price breaks below the 50EMA with conviction and volume, that's a character change and I'm not interested in playing offense until I see a reclaim with velocity and institutional sponsorship.
+
+4) The 10Week moving average (grey squigly line) is what I use on the daily timeframe to identify major support levels for swing trades.
+
+and I love buying undercuts and reclaims of the 9EMA/10Week MA because it's often where institutions step in to defend positions and where the best risk/reward setups present themselves during pullbacks in strong trends.
+
+The second tool I use is Swing Data by @jfsrev, and I've highlighted on my charts in the top right corner.
+
+which include Market Cap, ADR% (Average Daily  Range), ATR (Average True Range), LoD distance (Low of Day distance), Off 52W High, Average $ Volume, RS Rating, Sector, and related tickers, all of which help me confirm whether a stock has the institutional characteristics and volatility profile I need to justify putting on risk.
+
+The Market Cap of $79.588 billion tells me $SNDK is a large-cap name with significant institutional participation and liquidity, which means I can get in and out of positions without worrying about spreads or getting trapped in a stock that doesn't have enough volume to support size.
+
+The ADRR% of 9.27% is incredibly important to me because it shows the average daily range, and anything above 3% tells me the stock has enough volatility to make the risk/reward math work for my aggressive swing trading style (a stock with over 9% ADR is exactly the kind of high-beta, high-momentum name I'm looking for because it gives me the room to capture meaningful moves on 3-5 day swings).
+
+The ATR of 34.41 confirms that same volatility profile in dollar terms, and the LoD distance of 93% tells me how far the current price is from the low of the day, which helps me gauge whether I'm entering near the lows with tight risk or chasing into an extended intraday move where the risk/reward is less favorable. A general rule of thumb is to not chase a name > 60% from LOD distance as this is extremely extended intraday!
+
+The "Off 52W High" showing NaN% tells me the stock is either at or very close to all-time highs, which is exactly where I want to be positioned because stocks at ATHs have no overhead resistance and tend to trend the cleanest with the least supply, and this aligns perfectly with my preference for buying ATH breakouts and riding Stage 2 momentum.
+
+The Average $ Volume of $7.188 billion is critical because it tells me there's massive institutional sponsorship and liquidity in this name, which means real money is involved and I'm not trading some thinly-traded stock that's going to gap against me or fail to follow through on breakouts.
+
+The RS Rating of is something I'm watching closely because it gives me a relative strength score compared to the broader market. I also focus on the stock's behavior relative to its sector and whether it's showing leadership within its own group rather than just comparing it to the entire market.
+
+The sector classification of "Electronic Technology" with the specific industry of "Computer Peripherals" tells me exactly what theme and industry group this stock belongs to, which helps me track sector rotation and understand whether money is flowing into this space or rotating out, and the related tickers like XLK give me context on how the broader tech sector is behaving and whether this stock is moving with or against its peers.
+
+These data points work together to give me a complete "360 degree view" of the stock's characteristics before I ever enter a trade.
+
+I'm not just blindly entering setups based on how the chart looks... I'm using objective, quantifiable data to confirm that the stock has the DNA I need for my system to work, and if even one of these data points is off or doesn't meet my criteria, I tend to pass on the trade and wait for something better because there's always another opportunity coming if I'm patient and disciplined about my stock selection process!
+
+The third tool I use is Simple Volume with Pocket Pivots:
+
+and what I'm watching for here is whether the stock is showing above average volume on up days and below average volume on down days (healthy accumulation).
+
+...because that pattern tells me that buyers are stepping in with conviction while sellers are exhausted or absent.
+
+A pocket pivot is when a stock has the highest volume in ten days on an up day while price is still within a base or consolidation, and that's one of the strongest signals of institutional accumulation that I know of because it shows that the big dawg are quietly building positions before the obvious breakout that everyone else is going to chase (most likely).
+
+When I see a stock forming pocket pivots on multiple occasions during a consolidation, especially near key support levels like the 21 or 50EMA, that tells me the stock is being accumulated and I should be preparing a plan to enter on the next expansion with volume confirmation!
+
+The fourth tool I use is the ATR% Multiple from the 50day moving average.
+
+and the dots on my chart represent stocks that are more than 10 ATR extended from the 50day MA.
+
+which tells me that the stock is overextended and I should not be chasing it at that level because the risk/reward is skrewed and the probability of a pullback is high.
+
+I use this tool to avoid buying stocks that have already run too far too fast without giving me a proper entry, because even if the stock is in a strong theme and showing relative strength, if it's 15 or 20 ATR extended from its 50day MA, I know from experience that it's more likely to chop me out or reverse than it is to continue higher without a digestion phase first.
+
+This tool keeps me disciplined and prevents me from FOMO-ing into extended moves that look exciting but don't have the math on my side.
+
+The fifth and sixth tools I use are AVWAP (anchored volume weighted average price), Fibs, and intraday VWAP, and I use all three of these to gauge who's "underwater."
+
+Looking at $DOCN, I'm asking myself : "are buyers underwater and likely to sell into strength, or are sellers underwater and likely to cover into weakness?"
+
+AVWAP is anchored from a specific point like a breakout or a major low, and it shows me the average price that participants have paid since that point, which helps me understand whether the majority of holders are sitting on gains or sitting on losses.
+
+If price is trading well above the AVWAP, that tells me most buyers are profitable and the stock has room to run before people start taking profits, but if price is chopping right around the AVWAP, that tells me there's a lot of supply from people who are just trying to get out at breakeven.
+
+Fibs help me identify key retracement levels where I'd expect support or resistance based on prior moves, and intraday VWAP is what I use on lower timeframes to see whether buyers or sellers are in control during the trading day.
+
+if a stock is holding above VWAP and reclaiming it with velocity after a flush, that tells me buyers are stepping in and I can look for entries on the right side of that reclaim.
+
+The reason I'm sharing all of this in such detail is because I want you to understand that indicators and tools are not magic.
+
+they don't work just because you put them on your chart and stare at them hoping for a signal.
+
+They work because I've taken the time to understand what they're actually measuring, how they behave in different environments, and how they fit into my own specific trading style and psychology, and that process of customization and personalization is what turns a generic indicator into an executable real edge!
+
+I've spent years refining how I use these tools, and I've stripped away everything else that was cluttering my charts and distracting me from the information that actually matters, because simplicity is what allows me to execute with conviction and make decisions quickly without second-guessing myself or getting paralyzed by too many conflicting signals.
+
+If you're a beginner or intermediate trader and you're struggling with consistency, I'd encourage you to ask yourself:
+
+are you using indicators because everyone else is using them?
+
+...or have you actually spent the time to understand what they're telling you and how they fit into your own process?
+
+because until you can answer that question and customize your tools to match your own tendencies and your own edge, you're just copying someone else's system and hoping it works for you, and that's not a recipe for long term success.
+
+Do the hard work noboby wants to do... which is test, get feedback, revise, test, get feedback, revise and keep going!
+
+Figure out what works for YOU and get ride of all other noise.
+
+I hope this helps!
+
+- iain 🩵
