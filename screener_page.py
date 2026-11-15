@@ -146,7 +146,8 @@ JS = r"""
     '回調':      {fRs:'75',fAtrx:'',fTight:'',fD52:'',fDvol:'',fTag:'回調'},
     '收縮':      {fRs:'70',fAtrx:'',fTight:'45',fD52:'-15',fDvol:'',fTag:''},
     '新高':      {fRs:'',fAtrx:'',fTight:'',fD52:'-1',fDvol:'',fTag:'新高'},
-    'RS新高':    {fRs:'',fAtrx:'',fTight:'',fD52:'',fDvol:'',fTag:'RS新高'}
+    'RS新高':    {fRs:'',fAtrx:'',fTight:'',fD52:'',fDvol:'',fTag:'RS新高'},
+    'iain 6':    {fRs:'80',fAtrx:'10',fTight:'',fD52:'-3',fDvol:'50',fTag:'IAIN6'}
   };
   var btns=[].slice.call(root.querySelectorAll('.scr-presets .scr-btn'));
   if(!btns.length) btns=[].slice.call(root.querySelectorAll('[data-p]'));
@@ -226,7 +227,8 @@ def _tight_cell(t):
 
 
 TAGCLS = {"領導": "g", "新高": "g", "RS新高": "b", "突破": "b",
-          "回調": "o", "收縮": "o", "HTF": "b", "沙灘球": "o"}
+          "回調": "o", "收縮": "o", "HTF": "b", "沙灘球": "o",
+          "IAIN6": "g", "Pocket": "b"}
 
 
 def _hist_days():
@@ -254,7 +256,7 @@ def build(snap=None):
         f'｜掃描 {str(d.get("scan_generated") or "")[:10] or "—"}'
         f'｜RS = 本池百分位（基準 SPY）</span></div>')
 
-    presets = ["全部", "A+ 候選", "領導", "近突破", "回調", "收縮", "新高", "RS新高"]
+    presets = ["全部", "A+ 候選", "iain 6", "領導", "近突破", "回調", "收縮", "新高", "RS新高"]
     pbtn = "".join(
         f'<button class="scr-btn{" on" if p == "全部" else ""}" data-p="{p}">{p}</button>'
         for p in presets)
@@ -363,7 +365,9 @@ def build(snap=None):
         '② 缺失顯示 —（例：上市未夠一年冇 12 個月回報 → 冇 RS），唔會當 0。'
         '③ 止蝕＝3% 上限，10 日低點更緊且距入場 <0.60 ATR 才改用 LOD（同 daily_plan.stop_plan 同一條規則）；'
         '股數＝min(帳戶×0.5% ÷ 風險距離, 帳戶×33% ÷ 價)，帳戶喺頁頂可改。'
-        '④ 訊號 tag：領導／新高／突破／回調／收縮／RS新高／HTF（htf_flag.json）／沙灘球（beachball.json）。'
+        '④ 訊號 tag：領導／新高／突破／回調／收縮／RS新高／HTF／沙灘球／IAIN6／Pocket。'
+        'IAIN6（iain @ohiain 六工具）：收市 > 9EMA > 21EMA > 50MA、距52高 ≥−3%、ADR ≥3%、'
+        '成交額 ≥$50M、RS ≥80、ATRX ≤10，而且近 3 日有 Pocket Pivot 或貼住 21EMA（±0.5 ATR）。'
         '⑤ 日期下拉＝最近 6 個交易日，用同一條尺重算；📊 Stock Wall 會把現時篩選結果排成圖表牆（最多 60 隻）。'
         '⑥ 744 隻嚟自 TV 掃描（成交額 ≥$30M、ADR ≥4%、無 Biotech），唔係全美股。'
         '</p>')

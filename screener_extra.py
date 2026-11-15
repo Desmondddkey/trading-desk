@@ -118,6 +118,31 @@ def _ohlc(df):
     o["dist_pivot"] = round((px / o["pivot"] - 1) * 100, 2)
     o["d52w"] = round((px / o["hi52"] - 1) * 100, 2)
     o["newhi"] = 1 if o["d52w"] >= -0.5 else 0
+    # ── iain 6：EMA 多頭排列（9>21>50）＋ Pocket Pivot（2026-11-15）──
+    e9 = float(c.ewm(span=9, adjust=False).mean().iloc[-1])
+    e21v = float(c.ewm(span=21, adjust=False).mean().iloc[-1])
+    o["ema9"] = round(e9, 2)
+    o["ema21"] = round(e21v, 2)
+    o["stack"] = 1 if (px > e9 > e21v > sma50) else 0
+    pocket, pdays = 0, None
+    if len(c) >= 12 and v is not None:
+        prev_c = float(c.iloc[-2])
+        vols = [float(x) for x in v.iloc[-12:-1]]
+        if vols and float(v.iloc[-1]) > max(vols) and px > prev_c:
+            if (px - e21v) / atr14 <= 2.0 and px <= o["pivot"] * 1.005:
+                pocket, pdays = 1, 0
+        if not pocket:
+            for k in range(1, 4):
+                i = len(c) - 1 - k
+                if i < 12:
+                    break
+                vv = [float(x) for x in v.iloc[i - 10:i]]
+                if vv and float(v.iloc[i]) > max(vv) and float(c.iloc[i]) > float(c.iloc[i - 1]):
+                    if (float(c.iloc[i]) - e21v) / atr14 <= 2.0:
+                        pocket, pdays = 1, k
+                        break
+    o["pocket"] = pocket
+    o["pocket_days"] = pdays
     o["stage"] = ("?" if sma200 is None else
                   "UP" if (px > sma50 > sma200 and o["ma50_up"]) else
                   "DOWN" if (px < sma50 and sma200 and px < sma200) else "MIXED")
@@ -178,6 +203,24 @@ def _tags(r, htf, bb):
         t.append("收縮")
     if r.get("rsline_newhi"):
         t.append("RS新高")
+    # ── IAIN6（2026-11-15，iain @ohiain 六工具蒸餾）──
+    # 1) close > 9EMA > 21EMA > 50MA（多頭排列）
+    # 2) 距 52 週高 ≥ −3%（貼新高）
+    # 3) ADR% ≥ 3%（波動夠）
+    # 4) 10 日平均成交額 ≥ $50M（流動性）
+    # 5) RS ≥ 80
+    # 6) ATRX ≤ 10（未過度延伸）；且 (近 3 日 pocket pivot) 或 (距 21EMA ±0.5 ATR)
+    adr = r.get("adr")
+    if (r.get("stack") == 1
+            and d52 is not None and d52 >= -3
+            and adr is not None and adr >= 3
+            and (r.get("dvol_m") or 0) >= 50
+            and (rs or 0) >= 80
+            and r.get("atrx") is not None and r["atrx"] <= 10
+            and (r.get("pocket") == 1 or (d21 is not None and -0.5 <= d21 <= 0.5))):
+        t.append("IAIN6")
+    if r.get("pocket") == 1:
+        t.append("Pocket")
     if r["t"] in htf:
         t.append("HTF")
     if r["t"] in bb:
