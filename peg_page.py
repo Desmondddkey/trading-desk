@@ -61,6 +61,29 @@ def _q(d=None):
     return f"{d.year}Q{(d.month - 1) // 3 + 1}"
 
 
+PQ = os.path.join(HERE, "data", "peg_quarter.json")
+
+
+def _quarter_members(pick):
+    """每季凍結一次名單：季內只更新價格／距離，唔換馬（帖文要求）。"""
+    q = _q()
+    try:
+        d = json.load(io.open(PQ, encoding="utf-8"))
+    except (OSError, ValueError):
+        d = {}
+    if d.get("quarter") == q and d.get("members"):
+        return set(d["members"]), q, True
+    members = [r["t"] for r in pick]
+    try:
+        with io.open(PQ, "w", encoding="utf-8") as f:
+            json.dump({"quarter": q, "members": members,
+                       "created": date.today().isoformat()}, f,
+                      ensure_ascii=False, indent=1)
+    except OSError:
+        pass
+    return set(members), q, False
+
+
 def build():
     d = _load(SRC, {})
     rows = d.get("rows") or []
@@ -81,10 +104,15 @@ def build():
         pick.append(r)
     pick.sort(key=lambda x: (-(x.get("rs") or 0), abs(x.get("d21") or 99)))
     pick = pick[:TOP_N]
+    members, q, frozen = _quarter_members(pick)
+    by_t = {r["t"]: r for r in rows}
+    sel = [by_t[t] for t in members if t in by_t]
+    sel.sort(key=lambda x: (-(x.get("rs") or 0), abs(x.get("d21") or 99)))
 
     body = [f"<style>{CSS}</style>", '<div class="card">']
     body.append('<div class="pg-head"><h2>PEG 清單</h2>'
-                f'<span class="pg-meta">{_q()}｜{len(pick)} 隻｜資料 {d.get("as_of")}</span></div>')
+                f'<span class="pg-meta">{q}｜{len(sel)} 隻｜資料 {d.get("as_of")}'
+                f'｜{"已凍結（季內唔換馬）" if frozen else "本季名單已建立"}</span></div>')
     body.append('<p class="pg-rule">'
                 '每季建立一次：追蹤最強（RS ≥85）嘅股票，標記並整合到 9／21EMA，'
                 '等佢哋回調到 EMA 附近（距 9EMA 或 21EMA ≤ 1 ATR）就是可執行進場點，'
@@ -98,11 +126,13 @@ def build():
                           ["代號", "名稱", "板塊", "價", "距9EMA", "距21EMA", "RS",
                            "距52高%", "ADR%", "成交額$M", "狀態"])
                 + "</tr></thead><tbody>")
-    for r in pick:
+    for r in sel:
         d9, d21 = r.get("d9"), r.get("d21")
         near = min(abs(d9) if d9 is not None else 99, abs(d21) if d21 is not None else 99)
         seed = '<span class="pg-seed">帖文例子</span>' if r["t"] in SEED else ""
-        if near <= 0.5:
+        if r.get("above50") == 0:
+            state = "跌穿50MA"
+        elif near <= 0.5:
             state = '<span class="pg-ready">可入場</span>'
         elif near <= 1.0:
             state = "接近"
