@@ -1083,7 +1083,7 @@ code,pre{font-size:12px}
 SIDEBAR_LINKS = [
     # 2026-10-19 方案 C：5 個分組；廚房看板獨立最頂；PLAYBOOK 最底
     # ★ 2026-10-24 Desmond：「每日流程放最頂」
-    ("_pinned", "", "今日", "today.html"),
+    ("_pinned", "", "今日", "nel.html"),
     ("_pinned", "", "每日流程", "process.html"),
     ("_pinned", "", "使用手冊", "howto.html"),
 
@@ -1098,7 +1098,7 @@ SIDEBAR_LINKS = [
     ("_grp", "市場"),
     ("_link", None, "MARKET REGIME", "regime_mri.html"),
     ("_link", None, "環境熱力圖", "regimeheat.html"),
-    ("_link", None, "市場簡報", "index.html"),
+    ("_link", None, "市場簡報", "briefing.html"),
     ("_link", None, "Market Monitor", "mm.html"),
     ("_link", None, "頂部觀察", "topwatch.html"),
     ("_link", None, "QQQ 雙結構", "qqqstruct.html"),
@@ -2363,7 +2363,16 @@ def build():
 
     # ── ★ 2026-10-23 移除 rocketstock / livefeeds（外部數據合併入 external.html）──
 
-    # ── ★ 2026-11-16 手機首頁「今日 / 大市 / 名單 / 工具」──
+    # ── ★ 2026-11-16 v1 Market Console（NEL 排版 × 本地數據）＝首頁 ──
+    try:
+        import nel as _nel
+        _nt, _nb = _nel.build()
+        pages["nel"] = (_nt, _nb, base)
+        log(f"✓ nel.html ({len(_nb)//1024} KB)")
+    except Exception as _e_nel:                             # noqa: BLE001
+        log(f"⚠ Market Console 失敗：{type(_e_nel).__name__}: {_e_nel}")
+
+    # ── 2026-11-16 手機首頁「今日 / 大市 / 名單 / 工具」──
     try:
         import today_page as _td
         _tdt, _tdb = _td.build()
@@ -2933,9 +2942,16 @@ def build():
     except Exception as _ev:                                 # noqa: BLE001
         log(f"⚠ viewport 修補：{type(_ev).__name__}")
 
-    # index = 簡報
-    shutil.copy2(os.path.join(SITE, "briefing.html"), os.path.join(SITE, "index.html"))
-    log("✓ index.html（＝簡報）")
+    # index = Market Console（v1 首頁）；簡報保留喺 briefing.html
+    _stub = ("""<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta http-equiv="refresh" content="0;url=nel.html">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Market Console</title></head><body style="background:#070b16;color:#e8eef8;
+font-family:system-ui,sans-serif;padding:24px">
+<p>載入 Market Console… <a href="nel.html" style="color:#7cc4ff">nel.html</a></p>
+</body></html>""")
+    io.open(os.path.join(SITE, "index.html"), "w", encoding="utf-8").write(_stub)
+    log("✓ index.html（→ nel.html）")
     return 0
 
 
