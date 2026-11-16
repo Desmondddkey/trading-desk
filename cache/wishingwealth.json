@@ -1,15 +1,15 @@
 {
  "status": "OK",
- "gmi": 2,
+ "gmi": 1,
  "gmi_max": 6,
- "gmi2": 2,
+ "gmi2": 3,
  "gmi2_max": 9,
- "t2108": 52.0,
+ "t2108": 47.0,
  "color": null,
- "qqq_day": 18,
+ "qqq_day": 22,
  "qqq_dir": "down",
- "title": "Day 18 of $QQQ short term down-trend; QQQ remains in a daily BWR down-trend. So is SPY. Dotted line in chart is daily close.",
- "published": "Tue, 10 Nov 2026 03:02:42 +0000",
+ "title": "Day 22 of $QQQ short term down-trend and it is in BWR down-trend; GMI=1 and Red; Beware possible dead cat bounce.",
+ "published": "Mon, 16 Nov 2026 02:10:57 +0000",
  "source": "https://wishingwealthblog.com/feed/",
- "_ts": 1794762438.316257
+ "_ts": 1794825932.9609416
 }
