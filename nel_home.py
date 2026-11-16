@@ -17,7 +17,9 @@ from nel import (_load, _key_shots, _sector_agg, _zh_sector,      # noqa: E402
                  _f, _cls)
 
 CSS = """
-.nxt{max-width:760px;margin:0 auto;padding:0 0 84px}
+.nxt{width:100%;max-width:760px;margin:0 auto;padding:0 0 84px;box-sizing:border-box;
+  overflow-x:clip}
+.nxt *{min-width:0}
 .nxt-top{position:sticky;top:0;z-index:30;display:flex;align-items:baseline;
   justify-content:space-between;gap:10px;padding:12px 16px 10px;
   background:rgba(7,11,22,.94);backdrop-filter:blur(10px);
@@ -60,11 +62,16 @@ html[data-theme="light"] .nxt-top{background:rgba(246,248,251,.95)}
 .nxt-tbl a:hover{color:#f97316}
 .nxt-pos{color:#3ddc97}.nxt-neg{color:#ff8b8b}
 .nxt-hscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -15px;padding:0 15px}
-.nxt-tabs{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;
-  grid-template-columns:repeat(4,1fr);background:rgba(8,13,26,.96);backdrop-filter:blur(12px);
+.nxt-tabs{position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:760px;
+  box-sizing:border-box;z-index:60;display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  background:rgba(8,13,26,.97);backdrop-filter:blur(12px);
   border-top:1px solid rgba(148,163,184,.25)}
+@media(max-width:420px){.nxt-vd{font-size:24px}.nxt-lamp{font-size:38px}
+  .nxt-tabs button{font-size:12px}}
 html[data-theme="light"] .nxt-tabs{background:rgba(246,248,251,.97)}
-.nxt-tabs button{appearance:none;background:none;border:0;color:inherit;opacity:.5;
+.nxt-tabs button{appearance:none;background:transparent!important;border:0!important;
+  border-radius:0!important;color:inherit;opacity:.5;
   padding:10px 0 8px;font-size:12.5px;font-weight:700;letter-spacing:.04em;min-height:52px}
 .nxt-tabs button.on{opacity:1}
 .nxt-dot{display:block;width:4px;height:4px;border-radius:50%;background:transparent;margin:0 auto 5px}
