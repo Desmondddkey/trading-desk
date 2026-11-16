@@ -2365,7 +2365,7 @@ def build():
 
     # ── ★ 2026-11-16 v1 Market Console（NEL 排版 × 本地數據）＝首頁 ──
     try:
-        import nel as _nel
+        import nel_home as _nel
         _nt, _nb = _nel.build()
         pages["nel"] = (_nt, _nb, base)
         log(f"✓ nel.html ({len(_nb)//1024} KB)")
