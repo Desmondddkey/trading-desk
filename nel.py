@@ -99,6 +99,24 @@ def _cls(v):
     return "nx-pos" if v > 0 else ("nx-neg" if v < 0 else "")
 
 
+SECTOR_ZH = {
+    "Retail Trade": "零售", "Consumer Durables": "耐用消費",
+    "Consumer Non-Durables": "必需消費", "Health Technology": "醫療科技",
+    "Communications": "通訊", "Energy Minerals": "能源",
+    "Technology Services": "科技服務", "Electronic Technology": "電子科技",
+    "Finance": "金融", "Producer Manufacturing": "工業製造",
+    "Non-Energy Minerals": "非能源礦產", "Process Industries": "化工",
+    "Distribution Services": "分銷", "Consumer Services": "消費服務",
+    "Transportation": "運輸", "Health Services": "醫療服務",
+    "Utilities": "公用", "Commercial Services": "商業服務",
+    "Industrial Services": "工業服務", "Miscellaneous": "其他",
+}
+
+
+def _zh_sector(s):
+    return SECTOR_ZH.get(s, s)
+
+
 def _load():
     _bp = _latest(os.path.join(TS, "output", "breadth_*.json"))
     br = (_j(_bp, {}) or {}) if _bp else {}
@@ -174,7 +192,7 @@ def build():
 
     P = [f"<style>{CSS}</style>", '<div class="nx">']
     P.append(f'<div class="nx-head"><span class="nx-brand">MARKET CONSOLE</span>'
-             f'<span class="nx-meta">{day}｜breadth {os.path.basename(br.get("_file", "")) or "—"}'
+             f'<span class="nx-meta">{day}｜{br.get("_file", "—")}'
              f'｜screener {scr.get("as_of", "—")}</span></div>')
     _tab_items = [("today", "今日"), ("market", "大市"), ("list", "名單"), ("tools", "工具")]
     _tab_html = []
@@ -249,7 +267,7 @@ def build():
                  '<table class="nx-tbl"><thead><tr><th>板塊</th><th>隻數</th>'
                  '<th>中位 RS</th><th>平均 1M</th></tr></thead><tbody>')
         for s in secs[:4] + secs[-2:]:
-            P.append(f'<tr><td>{s["sector"]}</td><td>{s["n"]}</td>'
+            P.append(f'<tr><td>{_zh_sector(s["sector"])}</td><td>{s["n"]}</td>'
                      f'<td>{_f(s["rs"],0)}</td>'
                      f'<td class="{_cls(s["m1"])}">{_f(s["m1"],1,True)}%</td></tr>')
         P.append('</tbody></table><p class="nx-note">Top4 + Bottom2。'
