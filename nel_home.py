@@ -68,14 +68,14 @@ html[data-theme="light"] .nxt-top{background:rgba(246,248,251,.95)}
   background:rgba(8,13,26,.97);backdrop-filter:blur(12px);
   border-top:1px solid rgba(148,163,184,.25)}
 @media(max-width:420px){.nxt-vd{font-size:24px}.nxt-lamp{font-size:38px}
-  .nxt-tabs button{font-size:12px}}
+  .nxt-tabs a,.nxt-tabs button{font-size:12px}}
 html[data-theme="light"] .nxt-tabs{background:rgba(246,248,251,.97)}
-.nxt-tabs button{appearance:none;background:transparent!important;border:0!important;
-  border-radius:0!important;color:inherit;opacity:.5;
+.nxt-tabs a,.nxt-tabs button{appearance:none;background:transparent!important;border:0!important;
+  border-radius:0!important;color:inherit;text-decoration:none;text-align:center;opacity:.5;
   padding:10px 0 8px;font-size:12.5px;font-weight:700;letter-spacing:.04em;min-height:52px}
-.nxt-tabs button.on{opacity:1}
+.nxt-tabs a.on,.nxt-tabs button.on{opacity:1}
 .nxt-dot{display:block;width:4px;height:4px;border-radius:50%;background:transparent;margin:0 auto 5px}
-.nxt-tabs button.on .nxt-dot{background:#f5c542}
+.nxt-tabs a.on .nxt-dot,.nxt-tabs button.on .nxt-dot{background:#f5c542}
 """
 
 JS = """
@@ -85,11 +85,11 @@ JS = """
     if(!ok[id]) id='today';
     document.querySelectorAll('.nxt-panel').forEach(function(p){
       p.classList.toggle('on', p.id==='panel-'+id);});
-    document.querySelectorAll('.nxt-tabs button').forEach(function(b){
+    document.querySelectorAll('.nxt-tabs a,.nxt-tabs button').forEach(function(b){
       b.classList.toggle('on', b.getAttribute('data-tab')===id);});
     if(history.replaceState) history.replaceState(null,'','#'+id);
   }
-  document.querySelectorAll('.nxt-tabs button').forEach(function(b){
+  document.querySelectorAll('.nxt-tabs a,.nxt-tabs button').forEach(function(b){
     b.addEventListener('click',function(){show(b.getAttribute('data-tab'));window.scrollTo(0,0);});});
   show((location.hash||'#today').replace('#',''));
   window.addEventListener('hashchange',function(){
@@ -266,8 +266,8 @@ def build():
     P.append('<nav class="nxt-tabs">')
     for _id, _n in [("today", "今日"), ("market", "大市"), ("list", "名單"), ("tools", "工具")]:
         _on = ' class="on"' if _id == "today" else ""
-        P.append(f'<button type="button" data-tab="{_id}"{_on}>'
-                 f'<span class="nxt-dot"></span>{_n}</button>')
+        P.append(f'<a href="#{_id}" data-tab="{_id}"{_on}>'
+                 f'<span class="nxt-dot"></span>{_n}</a>')
     P.append('</nav>')
     P.append(f"<script>{JS}</script>")
     P.append('</div>')
