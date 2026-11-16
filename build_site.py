@@ -1083,6 +1083,7 @@ code,pre{font-size:12px}
 SIDEBAR_LINKS = [
     # 2026-10-19 方案 C：5 個分組；廚房看板獨立最頂；PLAYBOOK 最底
     # ★ 2026-10-24 Desmond：「每日流程放最頂」
+    ("_pinned", "", "今日", "today.html"),
     ("_pinned", "", "每日流程", "process.html"),
     ("_pinned", "", "使用手冊", "howto.html"),
 
@@ -2361,6 +2362,15 @@ def build():
         log(f"⚠ MARKET REGIME 失敗：{type(_e13).__name__}: {_e13}")
 
     # ── ★ 2026-10-23 移除 rocketstock / livefeeds（外部數據合併入 external.html）──
+
+    # ── ★ 2026-11-16 手機首頁「今日 / 大市 / 名單 / 工具」──
+    try:
+        import today_page as _td
+        _tdt, _tdb = _td.build()
+        pages["today"] = (_tdt, _tdb, base)
+        log(f"✓ today.html ({len(_tdb)//1024} KB)")
+    except Exception as _e_td:                              # noqa: BLE001
+        log(f"⚠ 今日頁失敗：{type(_e_td).__name__}: {_e_td}")
 
     # ── ★ 2026-11-16 PEG 清單（iain：每季最強名單，等 9/21EMA 回調）──
     try:
