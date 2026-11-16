@@ -141,6 +141,7 @@ JS = r"""
   var PRESETS={
     '全部':      {fRs:'',fAtrx:'',fTight:'',fD52:'',fDvol:'',fTag:''},
     'A+ 候選':   {fRs:'80',fAtrx:'4',fTight:'40',fD52:'-15',fDvol:'30',fTag:''},
+    '關鍵球':    {fRs:'90',fAtrx:'4',fTight:'45',fD52:'-10',fDvol:'',fTag:''},
     '領導':      {fRs:'90',fAtrx:'',fTight:'',fD52:'-10',fDvol:'',fTag:'領導'},
     '近突破':    {fRs:'',fAtrx:'4',fTight:'',fD52:'-2',fDvol:'30',fTag:''},
     '回調':      {fRs:'75',fAtrx:'',fTight:'',fD52:'',fDvol:'',fTag:'回調'},
@@ -256,7 +257,7 @@ def build(snap=None):
         f'｜掃描 {str(d.get("scan_generated") or "")[:10] or "—"}'
         f'｜RS = 本池百分位（基準 SPY）</span></div>')
 
-    presets = ["全部", "A+ 候選", "iain 6", "領導", "近突破", "回調", "收縮", "新高", "RS新高"]
+    presets = ["全部", "A+ 候選", "關鍵球", "iain 6", "領導", "近突破", "回調", "收縮", "新高", "RS新高"]
     pbtn = "".join(
         f'<button class="scr-btn{" on" if p == "全部" else ""}" data-p="{p}">{p}</button>'
         for p in presets)
