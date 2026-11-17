@@ -87,7 +87,7 @@ JS = r"""
   function num(id,dflt){var v=parseFloat(($(id).value||'').trim());return isNaN(v)?dflt:v}
   function txt(id){return ($(id).value||'').trim().toLowerCase()}
   function apply(){
-    var q=txt('fQ'), sec=$('fSector').value, tag=$('fTag').value;
+    var q=txt('fQ'), sec=$('fSector').value, tag=$('fTag').value, avw=$('fAvw').value;
     var rs=num('fRs',null), ax=num('fAtrx',null), tg=num('fTight',null),
         ap=num('fAtrp',null), rv=num('fRvol',null), d52=num('fD52',null),
         dv=num('fDvol',null);
@@ -104,6 +104,7 @@ JS = r"""
       if(ok && rv!==null && (d.rvol==='' || parseFloat(d.rvol)<rv)) ok=false;
       if(ok && d52!==null && (d.d52==='' || parseFloat(d.d52)<d52)) ok=false;
       if(ok && dv!==null && (d.dvol==='' || parseFloat(d.dvol)<dv)) ok=false;
+      if(ok && avw && d.avw!==avw) ok=false;
       r.style.display=ok?'':'none';
       if(ok) shown++;
     }
@@ -122,7 +123,7 @@ JS = r"""
       cell.textContent = n>0 ? n : '—';
     }
   }
-  var ids=['fQ','fSector','fRs','fAtrx','fTight','fAtrp','fRvol','fD52','fDvol','fTag'];
+  var ids=['fQ','fSector','fRs','fAtrx','fTight','fAtrp','fRvol','fD52','fDvol','fTag','fAvw'];
   ids.forEach(function(id){
     var el=$(id); if(!el) return;
     el.addEventListener('input',apply); el.addEventListener('change',apply);
@@ -148,7 +149,8 @@ JS = r"""
     '收縮':      {fRs:'70',fAtrx:'',fTight:'45',fD52:'-15',fDvol:'',fTag:''},
     '新高':      {fRs:'',fAtrx:'',fTight:'',fD52:'-1',fDvol:'',fTag:'新高'},
     'RS新高':    {fRs:'',fAtrx:'',fTight:'',fD52:'',fDvol:'',fTag:'RS新高'},
-    'iain 6':    {fRs:'80',fAtrx:'10',fTight:'',fD52:'-3',fDvol:'50',fTag:'IAIN6'}
+    'iain 6':    {fRs:'80',fAtrx:'10',fTight:'',fD52:'-3',fDvol:'50',fTag:'IAIN6'},
+    'AVWAP52 重疊': {fRs:'80',fAtrx:'6',fTight:'',fD52:'-12',fDvol:'30',fTag:'',fAvw:'重疊'}
   };
   var btns=[].slice.call(root.querySelectorAll('.scr-presets .scr-btn'));
   if(!btns.length) btns=[].slice.call(root.querySelectorAll('[data-p]'));
@@ -227,6 +229,17 @@ def _tight_cell(t):
     return f'<span{style}>{f:.0f}</span>'
 
 
+def _avw_cell(a):
+    if not a:
+        return "—"
+    d = a.get("d_atr")
+    st = a.get("state") or ""
+    if d is None:
+        return "—"
+    c = "#22c55e" if st == "在上" else ("#f59e0b" if st == "重疊" else "#94a3b8")
+    return f'<span style="color:{c};font-weight:700">{st} {d:+.2f}</span>'
+
+
 TAGCLS = {"領導": "g", "新高": "g", "RS新高": "b", "突破": "b",
           "回調": "o", "收縮": "o", "HTF": "b", "沙灘球": "o",
           "IAIN6": "g", "Pocket": "b"}
@@ -245,6 +258,12 @@ def build(snap=None):
         return ("Stock Screener",
                 "<p>DATA_UNAVAILABLE — 未跑 screener_cache.py（data/screener.json）</p>")
 
+    _avw = _load(os.path.join(HERE, "data", "avwap52.json"), {}) or {}
+    avw_rows = _avw.get("rows") or {}
+    if avw_rows:
+        for _r in rows:
+            _r["_avw"] = avw_rows.get(_r.get("t"))
+
     sectors = sorted({(r.get("sector") or "") for r in rows if r.get("sector")})
     sec_opts = "".join(f'<option value="{s}">{s}</option>' for s in sectors)
 
@@ -257,7 +276,7 @@ def build(snap=None):
         f'｜掃描 {str(d.get("scan_generated") or "")[:10] or "—"}'
         f'｜RS = 本池百分位（基準 SPY）</span></div>')
 
-    presets = ["全部", "A+ 候選", "關鍵球", "iain 6", "領導", "近突破", "回調", "收縮", "新高", "RS新高"]
+    presets = ["全部", "A+ 候選", "關鍵球", "AVWAP52 重疊", "iain 6", "領導", "近突破", "回調", "收縮", "新高", "RS新高"]
     pbtn = "".join(
         f'<button class="scr-btn{" on" if p == "全部" else ""}" data-p="{p}">{p}</button>'
         for p in presets)
@@ -297,6 +316,9 @@ def build(snap=None):
                 '<select id="fTag"><option value="">全部</option>'
                 '<option>領導</option><option>突破</option><option>回調</option>'
                 '<option>收縮</option><option>新高</option><option>RS新高</option></select></div>')
+    body.append('<div class="scr-f"><label for="fAvw">52W AVWAP</label>'
+                '<select id="fAvw"><option value="">全部</option>'
+                '<option>重疊</option><option>在上</option><option>在下</option></select></div>')
     body.append('<button class="scr-btn" id="scrReset">重設</button>')
     body.append('<button class="scr-btn" id="scrCsv">下載 CSV</button>')
     body.append('</div>')
@@ -316,6 +338,7 @@ def build(snap=None):
         ("止蝕", "3% 係上限；10 日低點更緊（距入場 <0.60 ATR）就用 LOD — 同 daily_plan.stop_plan 同一條規則"),
         ("股數", "min(帳戶 × 0.5% ÷ (價 − 止蝕), 帳戶 × 33% ÷ 價)；帳戶喺頁頂可改"),
         ("訊號", "領導 RS≥90 且距52高≥−10｜新高 距52高≥−0.5｜突破 距20日高≥−0.3 且 RVOL≥1.5｜回調 距21EMA ±0.5 且 RS≥75 且喺50MA上｜收縮 TIGHT≥70 且距52高≥−12｜RS新高 RS line 距自己52週高≤0.5%"),
+        ("AVWAP52", "由 52 週最高價當日 anchor 起計嘅成交量加權平均價；距線以 ATR 表示。重疊＝|距| ≤0.5 ATR（可執行入場區）、在上＝已重奪、在下＝未收復（The Setup Factory）"),
     ]
     th = "".join(f'<th title="{t}">{h}</th>' for h, t in heads)
 
@@ -336,7 +359,9 @@ def build(snap=None):
             f' data-rs="{_blank(rs)}" data-atrx="{_blank(r.get("atrx"))}"'
             f' data-tight="{_blank(r.get("tight"))}" data-atrp="{_blank(r.get("atr_pct"))}"'
             f' data-rvol="{_blank(r.get("rvol"))}" data-d52="{_blank(d52)}"'
-            f' data-dvol="{_blank(r.get("dvol_m"))}" data-tags="{tags_txt}">'
+            f' data-dvol="{_blank(r.get("dvol_m"))}" data-tags="{tags_txt}"'
+            f' data-avw="{(r.get("_avw") or {}).get("state") or ""}"'
+            f' data-avwd="{(r.get("_avw") or {}).get("d_atr") if (r.get("_avw") or {}).get("d_atr") is not None else ""}">'
             f'<td><a class="scr-tk" href="https://www.tradingview.com/chart/?symbol={r["t"]}"'
             f' target="_blank" rel="noopener" data-sym="{r["t"]}">{r["t"]}</a></td>'
             f'<td class="scr-ind" data-txt="{ind}">{ind_s}</td>'
@@ -356,7 +381,8 @@ def build(snap=None):
             f'<td>{_n(r.get("dvol_m"), 0)}</td>'
             f'<td>{_n(r.get("stop"), 2)} <span style="opacity:.45;font-size:9.5px">{r.get("stop_kind") or ""}</span></td>'
             f'<td class="sh">—</td>'
-            f'<td>{tg}</td></tr>')
+            f'<td>{tg}</td>'
+            f'<td data-v="{(r.get("_avw") or {}).get("d_atr") if (r.get("_avw") or {}).get("d_atr") is not None else ""}">{_avw_cell(r.get("_avw"))}</td></tr>')
     body.append('</tbody></table></div>')
 
     body.append(

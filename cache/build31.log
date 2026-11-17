@@ -1,0 +1,67 @@
+  yfinance 下載 48 隻 OHLC…
+  下載完成：48 隻，最後 2026-11-16
+  yfinance 下載 733 隻 OHLC…
+Failed to get ticker 'ORCL/PD' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 404: {"finance":{"result":null,"error":{"code":"Not Found","description":"HTTP 404 Not Found"}}}
+
+1 Failed download:
+['ORCL/PD']: YFException("Failed to parse json response from Yahoo Finance: {'code': 'Not Found', 'description': 'HTTP 404 Not Found'}")
+  下載完成：733 隻，最後 2026-11-16
+  圖表快取命中（733 隻，至 2026-11-16）
+✓ RS 迷你圖：732/732 隻有數據｜統計：731 隻
+✓ external.html (4 KB)
+✓ martinluk.html (2 KB)
+✓ sysmap.html (46 KB)
+✓ howto.html (2 KB)
+· earnings.html 已停用（改用 Finviz）
+✓ yoyo_ball.html (3 KB)
+✓ edgeimprove.html (7 KB)
+✓ modelbook 加量化案例庫
+✓ modelbook.html (54 KB)
+✓ audit.html (10 KB)
+✓ backtest.html (12 KB)
+✓ levelup.html (2 KB)
+✓ rsbeforeprice.html (8 KB)
+✓ thinkinr.html (107 KB)
+✓ datahealth.html（即時 9／過期 1／缺失 1）
+✓ alerts.html (565 筆)
+✓ logbook.html (182 條)
+✓ regime_mri.html (14 KB)
+✓ nel.html (13 KB)
+✓ today.html (6 KB)
+✓ peg.html (11 KB)
+✓ rsnewhigh.html (94 KB)
+✓ regimeheat.html (4 KB)
+✓ screener.html (687 KB)
+✓ wall_series.json (634 KB)
+✓ screenwall.html (6 KB)
+  yfinance 下載 110 隻 OHLC…
+  下載完成：110 隻，最後 2026-11-16
+✓ dailyscan.html (759 KB)
+  yfinance 下載 84 隻 OHLC…
+  下載完成：84 隻，最後 2026-11-16
+✓ dailyscan_2026-11-15.html (613 KB)
+  yfinance 下載 86 隻 OHLC…
+  下載完成：86 隻，最後 2026-11-16
+✓ dailyscan_2026-11-13.html (628 KB)
+  yfinance 下載 103 隻 OHLC…
+  下載完成：103 隻，最後 2026-11-16
+✓ dailyscan_2026-11-12.html (748 KB)
+  yfinance 下載 111 隻 OHLC…
+  下載完成：111 隻，最後 2026-11-16
+✓ dailyscan_2026-11-11.html (804 KB)
+✓ rsscan.html (132 KB)
+✓ rsscan 快照頁 10 個
+✓ beachball.html (39 KB)
+✓ feargauge.html (3 KB)
+✓ qqqstruct.html (203 KB)
+✓ earningscal.html (31 KB)
+✓ hermesdir.html (4 KB)
+✓ mmmodel.html (108 KB)
+✓ sectorrot2.html (9 KB)
+✓ room.html (1 KB)
+✓ sectorrot.html (34 KB)
+✓ fatpitch.html (8 KB)
+✓ gto.html (10 KB)
+✓ wave.html (8 KB)
+✓ tightscan.html (46 KB)
