@@ -62,7 +62,7 @@ def drop_spy():
 def main(argv=None):
     argv = argv or sys.argv[1:]
     steps = [("scan_market.py", 240), ("screener_cache.py", 1800),
-             ("screener_extra.py", 900), ("avwap52.py", 600)]
+             ("screener_extra.py", 900), ("avwap52.py", 600), ("headwinds.py", 300)]
     if "--skip-scan" in argv:
         steps = steps[1:]
     print(f"🔄 Screener 刷新 {len(steps)} 步")

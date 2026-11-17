@@ -14,7 +14,9 @@ if HERE not in sys.path:
     sys.path.insert(0, HERE)
 
 from nel import (_load, _key_shots, _sector_agg, _zh_sector,      # noqa: E402
-                 _f, _cls)
+                 _f, _cls, _j)
+
+HW = os.path.join(HERE, "data", "headwinds.json")
 
 CSS = """
 .nxt{width:100%;max-width:760px;margin:0 auto;padding:0 0 84px;box-sizing:border-box;
@@ -102,6 +104,7 @@ def build():
     br, ins, dash, bud, scr, pos = _load()
     rows = scr.get("rows") or []
     ks = _key_shots(rows)
+    hw = _j(HW, {}) or {}
     day = (br.get("as_of") or "")[:10] or scr.get("as_of") or "—"
     regime = dash.get("regime") or br.get("regime") or "—"
     cap = dash.get("trade_cap")
@@ -122,7 +125,13 @@ def build():
              f'<p class="nxt-sig">{status}｜關鍵球 {len(ks)} 隻｜配額 剩 {bud.get("left", "—")}</p>'
              f'<p class="nxt-meta">SPY {_f(dash.get("spy_close") or br.get("spy_close"), 2)}'
              f'｜ADL {_f((br.get("adl") or {}).get("value"), 1)}'
-             f'｜站上40MA {_f(br.get("pct40ma"), 1)}%</p></div>')
+             f'｜站上40MA {_f(br.get("pct40ma"), 1)}%</p>')
+    if hw.get("flags") and (hw.get("count") or 0) >= 2:
+        _hc = "#ff6b6b" if hw.get("count") >= 3 else "#f5c542"
+        P.append(f'<p class="nxt-sig" style="color:{_hc};font-weight:800;margin-top:10px">'
+                 f'⚠️ 宏觀逆風 {hw.get("count")}/4（{hw.get("risk")}）'
+                 f'｜{hw.get("advice","")}</p>')
+    P.append('</div>')
 
     P.append('<div class="nxt-block"><h3>關鍵球（四條全中）</h3>')
     if ks:
@@ -214,6 +223,24 @@ def build():
     else:
         P.append('<div class="nxt-block"><h3>Positioning</h3>'
                  '<p class="nxt-note" style="margin:0">DATA_UNAVAILABLE — 未跑 positioning.py</p></div>')
+
+    if hw.get("flags"):
+        cnt, risk = hw.get("count"), hw.get("risk") or "—"
+        col = "#ff6b6b" if cnt >= 3 else ("#f5c542" if cnt == 2 else "#3ddc97")
+        P.append(f'<div class="nxt-block"><h3>四大宏觀逆風 · {cnt}/4</h3>'
+                 f'<p class="nxt-next" style="color:{col};font-weight:800;font-size:17px;margin:0 0 6px">'
+                 f'{risk}風險</p>')
+        for f in hw["flags"]:
+            mark = "⚠" if f.get("on") else "·"
+            P.append(f'<div class="nxt-kv"><span class="k">{mark} {f.get("name","")}</span>'
+                     f'<span class="v" style="font-size:12px;font-weight:600">{f.get("value","—")}</span></div>')
+        P.append(f'<p class="nxt-next" style="margin-top:8px">{hw.get("advice","")}</p>')
+        P.append('<div class="nxt-note">')
+        for f in hw["flags"]:
+            if f.get("on"):
+                P.append(f'· {f.get("desc","")}<br>')
+        P.append(f'資料 {hw.get("asOf","—")}｜來源 Ted Zhang（Revere）四項條件，'
+                 '已用 DXY／XLP÷SPY／10Y／2Y−聯邦基金 每日重算。</div></div>')
     P.append('</section>')
 
     # ── 名單 ──
