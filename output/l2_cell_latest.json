@@ -1,0 +1,38 @@
+{
+ "as_of": "20261111",
+ "limit": 3,
+ "rows": [
+  {
+   "day": "20261111",
+   "ticker": "TPC",
+   "src": "FOCUS",
+   "entry": 100.15,
+   "stop": 97.15,
+   "r1": 3.0,
+   "mfe_r": 0.61,
+   "last_r": -1.0,
+   "first": "STOP",
+   "trim2r": 106.16,
+   "atrx8": 117.22,
+   "e10": 89.77,
+   "repeat": 0,
+   "new": false
+  },
+  {
+   "day": "20261111",
+   "ticker": "LIF",
+   "src": "STALK",
+   "entry": 44.15,
+   "stop": 42.83,
+   "r1": 1.32,
+   "mfe_r": 0.38,
+   "last_r": -1.0,
+   "first": "STOP",
+   "trim2r": 46.8,
+   "atrx8": 65.1,
+   "e10": 44.9,
+   "repeat": 0,
+   "new": false
+  }
+ ]
+}

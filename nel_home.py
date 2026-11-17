@@ -74,10 +74,12 @@ html[data-theme="light"] .nxt-top{background:rgba(246,248,251,.95)}
   .nxt-tabs a,.nxt-tabs button{font-size:12px}}
 html[data-theme="light"] .nxt-tabs{background:rgba(246,248,251,.97)}
 .nxt-tabs a,.nxt-tabs button{appearance:none;background:transparent!important;border:0!important;
-  border-radius:0!important;color:inherit;text-decoration:none;text-align:center;opacity:.5;
-  padding:10px 0 8px;font-size:12.5px;font-weight:700;letter-spacing:.04em;min-height:52px}
+  border-radius:0!important;color:inherit;text-decoration:none;opacity:.5;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  padding:8px 0 7px;font-size:12.5px;font-weight:700;letter-spacing:.04em;min-height:52px}
+.nxt-tabs .nxt-dot{margin:0}
 .nxt-tabs a.on,.nxt-tabs button.on{opacity:1}
-.nxt-dot{display:block;width:4px;height:4px;border-radius:50%;background:transparent;margin:0 auto 5px}
+.nxt-dot{display:block;width:4px;height:4px;border-radius:50%;background:transparent}
 .nxt-tabs a.on .nxt-dot,.nxt-tabs button.on .nxt-dot{background:#f5c542}
 """
 
@@ -312,15 +314,15 @@ def build():
     P.append(f'<div class="nxt-block"><h3>關鍵球 A+｜{len(ks)} 隻</h3>')
     if ks:
         P.append('<div class="nxt-hscroll"><table class="nxt-tbl"><thead><tr>'
-                 '<th>代號</th><th>價</th><th>RS</th><th>ATRX</th><th>距52高</th>'
-                 '<th>TIGHT</th><th>止蝕</th><th>距pivot</th></tr></thead><tbody>')
+                 '<th>代號</th><th>RS</th><th>EXT</th><th>TIGHT</th><th>距52高</th>'
+                 '<th>止蝕</th><th>距pivot</th></tr></thead><tbody>')
         for r in ks:
             d52 = r.get("d52w", r.get("off52_tv"))
             P.append(f'<tr><td><a href="https://www.tradingview.com/chart/?symbol={r["t"]}"'
                      f' target="_blank" rel="noopener">{r["t"]}</a></td>'
-                     f'<td>{_f(r.get("close"),2)}</td><td>{int(r["rs"])}</td>'
-                     f'<td>{_f(r.get("atrx"),1)}</td><td>{_f(d52,1)}%</td>'
-                     f'<td>{_f(r.get("tight"),0)}</td><td>{_f(r.get("stop"),2)}</td>'
+                     f'<td>{int(r["rs"])}</td>'
+                     f'<td>{_f(r.get("atrx"),1)}</td><td>{_f(r.get("tight"),0)}</td>'
+                     f'<td>{_f(d52,1)}%</td><td>{_f(r.get("stop"),2)}</td>'
                      f'<td>{_f(r.get("dist_pivot"),1)}%</td></tr>')
         P.append('</tbody></table></div>')
     else:
@@ -358,7 +360,7 @@ def build():
     for _id, _n in [("today", "今日"), ("market", "大市"), ("list", "名單"), ("tools", "工具")]:
         _on = ' class="on"' if _id == "today" else ""
         P.append(f'<a href="#{_id}" data-tab="{_id}"{_on}>'
-                 f'<span class="nxt-dot"></span>{_n}</a>')
+                 f'<span>{_n}</span><span class="nxt-dot"></span></a>')
     P.append('</nav>')
     P.append(f"<script>{JS}</script>")
     P.append('</div>')

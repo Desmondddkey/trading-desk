@@ -1,0 +1,28 @@
+{
+ "as_of": "20261117",
+ "limit": 3,
+ "rows": [
+  {
+   "ticker": "APPN",
+   "src": "FOCUS",
+   "ref": 55.58,
+   "stop": 53.91,
+   "trim2r": 58.91,
+   "atrx8": 66.85,
+   "e10": 52.23,
+   "new": false,
+   "score": 100
+  },
+  {
+   "ticker": "AZTA",
+   "src": "FOCUS",
+   "ref": 47.22,
+   "stop": 45.8,
+   "trim2r": 50.05,
+   "atrx8": 57.08,
+   "e10": 42.99,
+   "new": false,
+   "score": 100
+  }
+ ]
+}

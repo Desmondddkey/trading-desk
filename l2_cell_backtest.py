@@ -46,6 +46,26 @@ def log(m):
 
 
 def load_px():
+    """價錢來源：優先 screener_ohlc.pkl（每日自動刷新），舊 tight_prices.pkl 只做後備。
+    2026-11-17 修：tight_prices.pkl 停喺 10-27，令回測一直用舊數據但仍然報「新」數字。"""
+    fresh = os.path.join(HERE, "data", "screener_ohlc.pkl")
+    try:
+        d = pickle.load(io.open(fresh, "rb"))
+        out = {}
+        for t, df in d.items():
+            if t.startswith("_") or df is None or len(df) < 80:
+                continue
+            bars = [[ix.strftime("%Y-%m-%d"), float(r.Open), float(r.High),
+                     float(r.Low), float(r.Close), float(r.Volume)]
+                    for ix, r in df.iterrows()
+                    if r.Close == r.Close]
+            if bars:
+                out[t] = bars
+        if out:
+            log(f"價錢：screener_ohlc.pkl（{len(out)} 隻，至 {max(b[-1][0] for b in out.values())}）")
+            return out
+    except Exception as e:                                    # noqa: BLE001
+        log(f"⚠ screener_ohlc 讀唔到（{type(e).__name__}），用舊 tight_prices")
     try:
         return pickle.load(io.open(PICKLE, "rb"))
     except Exception as e:                                    # noqa: BLE001
