@@ -1,0 +1,24 @@
+🔄 Screener 刷新 8 步
+   ↺ 已清 _SPY（下次會重抓最新交易日）
+▶ screener_cache.py
+     快取已存：747 隻
+   ✓ C:\Users\rain0\trading-os-web\data\screener.json｜746 隻（OHLC 746）｜as_of 2026-11-16｜3s
+▶ screener_extra.py
+   ✓ 歷史快照 6 日
+     完成 16s
+▶ avwap52.py
+   ✓ 744 隻｜as_of 2026-11-16｜在上 76／在下 565／重疊 103
+      NVDA: AVWAP 181.15｜收 156.14｜-2.04 ATR｜在下｜anchor 2026-10-06（17 日）
+▶ headwinds.py
+      ⚠ 10 年債息急升    10Y 5.12%｜6個月 +0.45pp｜20日 -0.02pp
+      ⚠ 加息已計價       2Y 4.88% − 聯邦基金 3.88% = +1.00pp
+▶ correction_risk.py
+      ⚠ 波動結構    VIX 22.91（10日均 20.90）
+      · 新高動能衰減  新高新低淨值 +10.8（5日前 +13.2）
+▶ rsnewhigh_fetch.py
+   ✓ rs_new_high.json｜179 隻
+▶ fill_industry.py
+▶ positioning.py
+      IBIT Bitcoin        Crowded Long  large net      2375 idx5y 92.2
+      ETHA Ether          中性            large net      1293 idx5y 76.7
+✓ Screener 刷新完成

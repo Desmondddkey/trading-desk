@@ -1,0 +1,12 @@
+🔄 Screener 刷新 8 步
+   ↺ 已清 _SPY（下次會重抓最新交易日）
+▶ screener_cache.py
+     快取已存：747 隻
+   ✓ C:\Users\rain0\trading-os-web\data\screener.json｜746 隻（OHLC 746）｜as_of 2026-11-16｜3s
+▶ screener_extra.py
+   ✓ 歷史快照 6 日
+     完成 15s
+▶ avwap52.py
+   ✓ 744 隻｜as_of 2026-11-16｜在上 76／在下 565／重疊 103
+      NVDA: AVWAP 181.15｜收 156.14｜-2.04 ATR｜在下｜anchor 2026-10-06（17 日）
+▶ headwinds.py

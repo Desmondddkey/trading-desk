@@ -17,6 +17,7 @@ from nel import (_load, _key_shots, _sector_agg, _zh_sector,      # noqa: E402
                  _f, _cls, _j)
 
 HW = os.path.join(HERE, "data", "headwinds.json")
+CR = os.path.join(HERE, "data", "correction_risk.json")
 
 CSS = """
 .nxt{width:100%;max-width:760px;margin:0 auto;padding:0 0 84px;box-sizing:border-box;
@@ -100,6 +101,37 @@ JS = """
 """
 
 
+def _hint(t):
+    return f'<p class="nxt-note" style="margin:0 0 8px;opacity:.62">{t}</p>'
+
+
+def _cr_block(cr):
+    """修正風險模型（自建）——大市 tab 最頂。"""
+    if not cr.get("components"):
+        return ""
+    lv = int(cr.get("level") or 0)
+    col = {0: "#3ddc97", 1: "#3ddc97", 2: "#f5c542", 3: "#f97316", 4: "#ff6b6b"}.get(lv, "#94a3b8")
+    P = [f'<div class="nxt-block" style="border-color:{col}55">'
+         f'<h3>修正風險模型 · 自建</h3>'
+         + _hint("4 級制：3 級新倉減半、4 級唔開新倉。黏性＝降級要連續 5 日確認。") +
+         f'<p class="nxt-next" style="color:{col};font-weight:800;font-size:24px;margin:0">'
+         f'LEVEL {lv} / 4</p>'
+         f'<p class="nxt-note" style="margin:2px 0 8px">'
+         f'{cr.get("rawScore")}/5 構件成立｜黏性 {cr.get("stickyDays",0)} 日</p>']
+    for c in cr["components"]:
+        mark = "⚠" if c.get("on") else "·"
+        P.append(f'<div class="nxt-kv"><span class="k">{mark} {c.get("name","")}</span>'
+                 f'<span class="v" style="font-size:12px;font-weight:600">{c.get("value","—")}</span></div>')
+    P.append(f'<p class="nxt-next" style="margin-top:8px">{cr.get("advice","")}</p>')
+    P.append('<div class="nxt-note">')
+    for c in cr["components"]:
+        if c.get("on"):
+            P.append(f'· {c.get("desc","")}<br>')
+    P.append(f'資料 {cr.get("asOf","—")}｜非價格主導：廣度背離／信貸／利率美元／波動結構／新高動能。'
+             '原作者未公開公式，呢個係同思路自建，唔可以當成 TSF 官方評分。</div></div>')
+    return "".join(P)
+
+
 def _hw_block(hw):
     """四大宏觀逆風——放喺大市 tab 最頂。"""
     if not hw.get("flags"):
@@ -107,6 +139,7 @@ def _hw_block(hw):
     cnt, risk = hw.get("count"), hw.get("risk") or "—"
     col = "#ff6b6b" if cnt >= 3 else ("#f5c542" if cnt == 2 else "#3ddc97")
     P = [f'<div class="nxt-block"><h3>四大宏觀逆風 · {cnt}/4</h3>'
+         + _hint("2 項＝放慢；3 項＝新倉減半；4 項＝2000／2022 式，唔開新倉。") +
          f'<p class="nxt-next" style="color:{col};font-weight:800;font-size:17px;margin:0 0 6px">'
          f'{risk}風險</p>']
     for f in hw["flags"]:
@@ -128,6 +161,7 @@ def build():
     rows = scr.get("rows") or []
     ks = _key_shots(rows)
     hw = _j(HW, {}) or {}
+    cr = _j(CR, {}) or {}
     day = (br.get("as_of") or "")[:10] or scr.get("as_of") or "—"
     regime = dash.get("regime") or br.get("regime") or "—"
     cap = dash.get("trade_cap")
@@ -176,8 +210,10 @@ def build():
 
     # ── 大市 ──
     P.append('<section class="nxt-panel" id="panel-market">')
+    P.append(_cr_block(cr))
     P.append(_hw_block(hw))
-    P.append('<div class="nxt-block"><h3>主尺 · 廣度</h3>')
+    P.append('<div class="nxt-block"><h3>主尺 · 廣度</h3>'
+             + _hint("ADL 同新高新低淨值同時 > 0 = 健康；一正一負 = 背離，減注。"))
     for k, v in [("Regime／Posture",
                   f'{br.get("regime","—")}／{(br.get("posture") or {}).get("posture","—")}'),
                  ("多空比", _f(br.get("ls_ratio_proxy"), 2)),
@@ -191,7 +227,9 @@ def build():
 
     ix = ins.get("indices") or {}
     if ix:
-        P.append('<div class="nxt-block"><h3>Tape · 指數 vs 均線</h3><div class="nxt-hscroll">'
+        P.append('<div class="nxt-block"><h3>Tape · 指數 vs 均線</h3>'
+                 + _hint("全部企 20MA 上 = 順風；龍頭跌穿 20MA 先算轉弱。")
+                 + '<div class="nxt-hscroll">'
                  '<table class="nxt-tbl"><thead><tr><th>指數</th><th>收市</th>'
                  '<th>vs 20MA</th><th>vs 50MA</th><th>vs 200MA</th></tr></thead><tbody>')
         for sym in ("SPY", "QQQ", "IWM", "DIA"):
@@ -208,7 +246,8 @@ def build():
 
     b = ins.get("breadth") or {}
     if b:
-        P.append('<div class="nxt-block"><h3>Breadth · 站上均線</h3>')
+        P.append('<div class="nxt-block"><h3>Breadth · 站上均線</h3>'
+                 + _hint("50MA 比例 < 40% ＝ 內部弱，突破容易失敗。"))
         for k, v in [("20MA", b.get("above20")), ("50MA", b.get("above50")),
                      ("200MA", b.get("above200")), ("20日新高", b.get("new_highs")),
                      ("20日新低", b.get("new_lows"))]:
@@ -218,7 +257,23 @@ def build():
 
     secs = _sector_agg(rows)
     if secs:
-        P.append('<div class="nxt-block"><h3>Sector · Top4 / Bottom2</h3><div class="nxt-hscroll">'
+        _vx = (ins.get("vix") or {}).get("last")
+        _sp = (ins.get("indices") or {}).get("SPY", {}).get("last") or br.get("spy_close")
+        if _vx and _sp:
+            _mv = _vx / 16.0
+            P.append('<div class="nxt-block"><h3>VIX 16 規則</h3>'
+                     + _hint("預期日波幅 ≈ VIX ÷ 16。波幅大 → 止蝕要闊、倉要細。")
+                     + f'<div class="nxt-kv"><span class="k">VIX</span>'
+                       f'<span class="v">{_vx:.2f}</span></div>'
+                     f'<div class="nxt-kv"><span class="k">預期日波幅</span>'
+                       f'<span class="v">±{_mv:.2f}%</span></div>'
+                     f'<div class="nxt-kv"><span class="k">SPY 點數</span>'
+                       f'<span class="v">±{_sp * _mv / 100:.2f}</span></div>'
+                     '<p class="nxt-note">參考：12 → ±0.75%｜16 → ±1.0%｜20 → ±1.25%｜'
+                     '24 → ±1.5%｜32 → ±2.0%｜40 → ±2.5%</p></div>')
+        P.append('<div class="nxt-block"><h3>Sector · Top4 / Bottom2</h3>'
+                 + _hint("Top4 揀方向，Bottom2 用嚟避開；唔好買 Bottom2 嘅反彈。")
+                 + '<div class="nxt-hscroll">'
                  '<table class="nxt-tbl"><thead><tr><th>板塊</th><th>隻數</th>'
                  '<th>中位 RS</th><th>平均 1M</th></tr></thead><tbody>')
         for s in secs[:4] + secs[-2:]:
@@ -230,7 +285,9 @@ def build():
 
     ms = pos.get("markets") or []
     if ms:
-        P.append('<div class="nxt-block"><h3>Positioning · COT 大戶倉位</h3><div class="nxt-pills">')
+        P.append('<div class="nxt-block"><h3>Positioning · COT 大戶倉位</h3>'
+                 + _hint("≤10 = 擁擠空（反彈燃料）；≥90 = 擁擠多（回落風險）。")
+                 + '<div class="nxt-pills">')
         for m in ms:
             c = m.get("crowded") or "—"
             cls = "bad" if "Short" in c else ("hot" if "Long" in c else "")
