@@ -1,0 +1,11 @@
+  yfinance 下載 48 隻 OHLC…
+  下載完成：48 隻，最後 2026-11-17
+  yfinance 下載 748 隻 OHLC…
+Failed to get ticker 'ORCL/PD' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 404: {"finance":{"result":null,"error":{"code":"Not Found","description":"HTTP 404 Not Found"}}}
+
+1 Failed download:
+['ORCL/PD']: YFException("Failed to parse json response from Yahoo Finance: {'code': 'Not Found', 'description': 'HTTP 404 Not Found'}")
+  下載完成：748 隻，最後 2026-11-17
+  圖表快取命中（748 隻，至 2026-11-17）
+✓ RS 迷你圖：747/747 隻有數據｜統計：746 隻

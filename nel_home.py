@@ -18,6 +18,7 @@ from nel import (_load, _key_shots, _sector_agg, _zh_sector,      # noqa: E402
 
 HW = os.path.join(HERE, "data", "headwinds.json")
 CR = os.path.join(HERE, "data", "correction_risk.json")
+SP13 = os.path.join(HERE, "data", "spark13.json")
 
 CSS = """
 .nxt{width:100%;max-width:760px;margin:0 auto;padding:0 0 84px;box-sizing:border-box;
@@ -103,6 +104,26 @@ JS = """
 """
 
 
+def _spark(vals, pos4=""):
+    """Jeff Sun 風格 13 週 mini bars：最後一根藍色。"""
+    if not vals:
+        return "—"
+    mx = max(abs(v) for v in vals) or 1.0
+    bw, gap, hmax = 4.4, 1.6, 16
+    w = len(vals) * (bw + gap)
+    bars = []
+    for i, v in enumerate(vals):
+        h = max(1.5, hmax * abs(v) / mx)
+        col = "#2563eb" if i == len(vals) - 1 else ("#94a3b8" if v >= 0 else "#e2e8f0")
+        x = i * (bw + gap)
+        bars.append(f'<rect x="{x:.1f}" y="{hmax - h:.1f}" width="{bw}" height="{h:.1f}" '
+                    f'rx="1" fill="{col}"/>')
+    return (f'<span style="display:inline-flex;align-items:center;gap:6px">'
+            f'<svg width="{w:.0f}" height="{hmax}" style="overflow:visible">'
+            f'{"".join(bars)}</svg>'
+            f'<b style="font-size:11px">{pos4}</b></span>')
+
+
 def _hint(t):
     return f'<p class="nxt-note" style="margin:0 0 8px;opacity:.62">{t}</p>'
 
@@ -164,6 +185,7 @@ def build():
     ks = _key_shots(rows)
     hw = _j(HW, {}) or {}
     cr = _j(CR, {}) or {}
+    sp13 = (_j(SP13, {}) or {}).get("rows") or {}
     day = (br.get("as_of") or "")[:10] or scr.get("as_of") or "—"
     regime = dash.get("regime") or br.get("regime") or "—"
     cap = dash.get("trade_cap")
@@ -314,15 +336,17 @@ def build():
     P.append(f'<div class="nxt-block"><h3>關鍵球 A+｜{len(ks)} 隻</h3>')
     if ks:
         P.append('<div class="nxt-hscroll"><table class="nxt-tbl"><thead><tr>'
-                 '<th>代號</th><th>RS</th><th>EXT</th><th>TIGHT</th><th>距52高</th>'
-                 '<th>止蝕</th><th>距pivot</th></tr></thead><tbody>')
+                 '<th>代號</th><th>RS</th><th>EXT</th><th>TIGHT</th><th>推移（13週）</th>'
+                 '<th>4週</th><th>距52高</th><th>距pivot</th></tr></thead><tbody>')
         for r in ks:
             d52 = r.get("d52w", r.get("off52_tv"))
             P.append(f'<tr><td><a href="https://www.tradingview.com/chart/?symbol={r["t"]}"'
                      f' target="_blank" rel="noopener">{r["t"]}</a></td>'
                      f'<td>{int(r["rs"])}</td>'
                      f'<td>{_f(r.get("atrx"),1)}</td><td>{_f(r.get("tight"),0)}</td>'
-                     f'<td>{_f(d52,1)}%</td><td>{_f(r.get("stop"),2)}</td>'
+                     f'<td>{_spark((sp13.get(r["t"]) or {}).get("v"), (sp13.get(r["t"]) or {}).get("pos4",""))}</td>'
+                     f'<td>{(sp13.get(r["t"]) or {}).get("pos4","—")}</td>'
+                     f'<td>{_f(d52,1)}%</td>'
                      f'<td>{_f(r.get("dist_pivot"),1)}%</td></tr>')
         P.append('</tbody></table></div>')
     else:
