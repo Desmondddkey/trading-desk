@@ -336,16 +336,16 @@ def build():
     P.append(f'<div class="nxt-block"><h3>關鍵球 A+｜{len(ks)} 隻</h3>')
     if ks:
         P.append('<div class="nxt-hscroll"><table class="nxt-tbl"><thead><tr>'
-                 '<th>代號</th><th>RS</th><th>EXT</th><th>TIGHT</th><th>推移（13週）</th>'
-                 '<th>4週</th><th>距52高</th><th>距pivot</th></tr></thead><tbody>')
+                 '<th>代號</th><th>推移（13週）</th><th>4週</th><th>RS</th><th>EXT</th>'
+                 '<th>TIGHT</th><th>距52高</th><th>距pivot</th></tr></thead><tbody>')
         for r in ks:
             d52 = r.get("d52w", r.get("off52_tv"))
             P.append(f'<tr><td><a href="https://www.tradingview.com/chart/?symbol={r["t"]}"'
                      f' target="_blank" rel="noopener">{r["t"]}</a></td>'
-                     f'<td>{int(r["rs"])}</td>'
-                     f'<td>{_f(r.get("atrx"),1)}</td><td>{_f(r.get("tight"),0)}</td>'
                      f'<td>{_spark((sp13.get(r["t"]) or {}).get("v"), (sp13.get(r["t"]) or {}).get("pos4",""))}</td>'
                      f'<td>{(sp13.get(r["t"]) or {}).get("pos4","—")}</td>'
+                     f'<td>{int(r["rs"])}</td>'
+                     f'<td>{_f(r.get("atrx"),1)}</td><td>{_f(r.get("tight"),0)}</td>'
                      f'<td>{_f(d52,1)}%</td>'
                      f'<td>{_f(r.get("dist_pivot"),1)}%</td></tr>')
         P.append('</tbody></table></div>')
