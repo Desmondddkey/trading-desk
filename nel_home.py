@@ -100,6 +100,29 @@ JS = """
 """
 
 
+def _hw_block(hw):
+    """四大宏觀逆風——放喺大市 tab 最頂。"""
+    if not hw.get("flags"):
+        return ""
+    cnt, risk = hw.get("count"), hw.get("risk") or "—"
+    col = "#ff6b6b" if cnt >= 3 else ("#f5c542" if cnt == 2 else "#3ddc97")
+    P = [f'<div class="nxt-block"><h3>四大宏觀逆風 · {cnt}/4</h3>'
+         f'<p class="nxt-next" style="color:{col};font-weight:800;font-size:17px;margin:0 0 6px">'
+         f'{risk}風險</p>']
+    for f in hw["flags"]:
+        mark = "⚠" if f.get("on") else "·"
+        P.append(f'<div class="nxt-kv"><span class="k">{mark} {f.get("name","")}</span>'
+                 f'<span class="v" style="font-size:12px;font-weight:600">{f.get("value","—")}</span></div>')
+    P.append(f'<p class="nxt-next" style="margin-top:8px">{hw.get("advice","")}</p>')
+    P.append('<div class="nxt-note">')
+    for f in hw["flags"]:
+        if f.get("on"):
+            P.append(f'· {f.get("desc","")}<br>')
+    P.append(f'資料 {hw.get("asOf","—")}｜來源 Ted Zhang（Revere）四項條件，'
+             '已用 DXY／XLP÷SPY／10Y／2Y−聯邦基金 每日重算。</div></div>')
+    return "".join(P)
+
+
 def build():
     br, ins, dash, bud, scr, pos = _load()
     rows = scr.get("rows") or []
@@ -153,6 +176,7 @@ def build():
 
     # ── 大市 ──
     P.append('<section class="nxt-panel" id="panel-market">')
+    P.append(_hw_block(hw))
     P.append('<div class="nxt-block"><h3>主尺 · 廣度</h3>')
     for k, v in [("Regime／Posture",
                   f'{br.get("regime","—")}／{(br.get("posture") or {}).get("posture","—")}'),
@@ -224,23 +248,6 @@ def build():
         P.append('<div class="nxt-block"><h3>Positioning</h3>'
                  '<p class="nxt-note" style="margin:0">DATA_UNAVAILABLE — 未跑 positioning.py</p></div>')
 
-    if hw.get("flags"):
-        cnt, risk = hw.get("count"), hw.get("risk") or "—"
-        col = "#ff6b6b" if cnt >= 3 else ("#f5c542" if cnt == 2 else "#3ddc97")
-        P.append(f'<div class="nxt-block"><h3>四大宏觀逆風 · {cnt}/4</h3>'
-                 f'<p class="nxt-next" style="color:{col};font-weight:800;font-size:17px;margin:0 0 6px">'
-                 f'{risk}風險</p>')
-        for f in hw["flags"]:
-            mark = "⚠" if f.get("on") else "·"
-            P.append(f'<div class="nxt-kv"><span class="k">{mark} {f.get("name","")}</span>'
-                     f'<span class="v" style="font-size:12px;font-weight:600">{f.get("value","—")}</span></div>')
-        P.append(f'<p class="nxt-next" style="margin-top:8px">{hw.get("advice","")}</p>')
-        P.append('<div class="nxt-note">')
-        for f in hw["flags"]:
-            if f.get("on"):
-                P.append(f'· {f.get("desc","")}<br>')
-        P.append(f'資料 {hw.get("asOf","—")}｜來源 Ted Zhang（Revere）四項條件，'
-                 '已用 DXY／XLP÷SPY／10Y／2Y−聯邦基金 每日重算。</div></div>')
     P.append('</section>')
 
     # ── 名單 ──
