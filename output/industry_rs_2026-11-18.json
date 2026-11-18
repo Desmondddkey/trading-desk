@@ -522,25 +522,25 @@
 "level": "industry"
 },
 {
-"industry": "Internet Software/Services",
-"n": 20,
-"rs": 37.3,
-"rs_5d_ago": 52.6,
-"delta": -15.3,
-"med1m": -5.199999999999999,
-"med1w": -3.05,
-"med3m": -10.1,
-"level": "industry"
-},
-{
 "industry": "Auto Parts: OEM",
 "n": 4,
-"rs": 36.0,
+"rs": 37.3,
 "rs_5d_ago": 36.8,
-"delta": -0.8,
+"delta": 0.5,
 "med1m": -5.487382359378419,
 "med1w": -0.3736446395188196,
 "med3m": -13.064082278481017,
+"level": "industry"
+},
+{
+"industry": "Internet Software/Services",
+"n": 19,
+"rs": 36.0,
+"rs_5d_ago": 52.6,
+"delta": -16.6,
+"med1m": -5.6,
+"med1w": -2.9,
+"med3m": -12.1,
 "level": "industry"
 },
 {
@@ -802,7 +802,7 @@
 "rs": 4.0,
 "rs_5d_ago": 9.2,
 "delta": -5.2,
-"med1m": -21.357285429141715,
+"med1m": -21.8,
 "med1w": -11.0,
 "med3m": -23.0,
 "level": "industry"
@@ -942,25 +942,25 @@
 "level": "sector"
 },
 {
-"industry": "Consumer Non-Durables",
-"n": 25,
+"industry": "Technology Services",
+"n": 197,
 "rs": 52.6,
-"rs_5d_ago": 68.4,
-"delta": -15.8,
-"med1m": -2.9,
-"med1w": -3.0,
-"med3m": -0.2805049088359042,
+"rs_5d_ago": 57.9,
+"delta": -5.3,
+"med1m": -2.7,
+"med1w": -2.2,
+"med3m": 0.6364359586316632,
 "level": "sector"
 },
 {
-"industry": "Technology Services",
-"n": 198,
+"industry": "Consumer Non-Durables",
+"n": 25,
 "rs": 47.4,
-"rs_5d_ago": 57.9,
-"delta": -10.5,
-"med1m": -2.9000000000000004,
-"med1w": -2.25,
-"med3m": 0.7682179793158317,
+"rs_5d_ago": 68.4,
+"delta": -21.0,
+"med1m": -2.9,
+"med1w": -3.0,
+"med3m": -0.2805049088359042,
 "level": "sector"
 },
 {
