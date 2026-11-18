@@ -19,6 +19,7 @@ from nel import (_load, _key_shots, _sector_agg, _zh_sector,      # noqa: E402
 HW = os.path.join(HERE, "data", "headwinds.json")
 CR = os.path.join(HERE, "data", "correction_risk.json")
 SP13 = os.path.join(HERE, "data", "spark13.json")
+TH20 = os.path.join(HERE, "data", "thrust20.json")
 
 CSS = """
 .nxt{width:100%;max-width:760px;margin:0 auto;padding:0 0 84px;box-sizing:border-box;
@@ -104,6 +105,42 @@ JS = """
 """
 
 
+def _thrust_block(t):
+    """20% 廣度（Stockbee study）：5 日升/跌 20% 家數＋淨值。"""
+    if not t.get("latest"):
+        return ""
+    L = t["latest"]
+    col = {"極端偏空": "#3ddc97", "極端偏多": "#ff8b8b"}.get(t.get("signal"), "#94a3b8")
+    ser = t.get("series") or {}
+    net = ser.get("net") or []
+    bars = ""
+    if net:
+        mx = max(1, max(abs(v) for v in net))
+        w = 3.0
+        parts = []
+        for i, v in enumerate(net):
+            h = max(1.0, 16 * abs(v) / mx)
+            c = "#3ddc97" if v >= 0 else "#ff6b6b"
+            parts.append(f'<rect x="{i*(w+1):.0f}" y="{16-h:.1f}" width="{w}" height="{h:.1f}" '
+                         f'fill="{c}" opacity=".85"/>')
+        bars = (f'<svg width="{len(net)*(w+1):.0f}" height="16" style="display:block;margin:6px 0">'
+                f'{"".join(parts)}</svg>')
+    return (f'<div class="nxt-block"><h3>20% 廣度（5 日）</h3>'
+            + _hint("5 日升／跌 20% 家數。極端偏空 → 之後多數反彈；極端偏多 → 之後多數回調。")
+            + f'<p class="nxt-next" style="color:{col};font-weight:800;font-size:16px;margin:0 0 6px">'
+              f'{t.get("signal","—")}</p>'
+            f'<div class="nxt-kv"><span class="k">升 ≥20%（5日）</span>'
+            f'<span class="v">{L["up20"]}（p{L["up_pctile"]}）｜50MA {L["up_ma50"]}</span></div>'
+            f'<div class="nxt-kv"><span class="k">跌 ≥20%（5日）</span>'
+            f'<span class="v">{L["dn20"]}（p{L["dn_pctile"]}）</span></div>'
+            f'<div class="nxt-kv"><span class="k">淨值</span>'
+            f'<span class="v">{L["net"]:+d}｜50MA {L["net_ma50"]:+.1f}</span></div>'
+            + bars
+            + f'<p class="nxt-next">{t.get("note","")}</p>'
+            f'<p class="nxt-note">資料 {t.get("asOf","—")}｜池 {t.get("pool","—")} 隻'
+            f'（本地流動池，唔係全美股，只可同自己歷史比較）</p></div>')
+
+
 def _spark(vals, pos4=""):
     """Jeff Sun 風格 13 週 mini bars：最後一根藍色。"""
     if not vals:
@@ -186,6 +223,7 @@ def build():
     hw = _j(HW, {}) or {}
     cr = _j(CR, {}) or {}
     sp13 = (_j(SP13, {}) or {}).get("rows") or {}
+    th20 = _j(TH20, {}) or {}
     day = (br.get("as_of") or "")[:10] or scr.get("as_of") or "—"
     regime = dash.get("regime") or br.get("regime") or "—"
     cap = dash.get("trade_cap")
@@ -236,6 +274,7 @@ def build():
     P.append('<section class="nxt-panel" id="panel-market">')
     P.append(_cr_block(cr))
     P.append(_hw_block(hw))
+    P.append(_thrust_block(th20))
     P.append('<div class="nxt-block"><h3>主尺 · 廣度</h3>'
              + _hint("ADL 同新高新低淨值同時 > 0 = 健康；一正一負 = 背離，減注。"))
     for k, v in [("Regime／Posture",
