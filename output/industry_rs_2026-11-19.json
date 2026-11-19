@@ -588,11 +588,22 @@
 "level": "industry"
 },
 {
+"industry": "Oil & Gas Production",
+"n": 10,
+"rs": 31.2,
+"rs_5d_ago": 40.5,
+"delta": -9.3,
+"med1m": -9.08115577889447,
+"med1w": -4.829667519181587,
+"med3m": -11.5,
+"level": "industry"
+},
+{
 "industry": "Major Telecommunications",
 "n": 5,
-"rs": 31.2,
+"rs": 29.9,
 "rs_5d_ago": 97.3,
-"delta": -66.1,
+"delta": -67.4,
 "med1m": -9.2,
 "med1w": 0.5396194262993403,
 "med3m": -12.15880893300248,
@@ -601,9 +612,9 @@
 {
 "industry": "Electronic Equipment/Instruments",
 "n": 11,
-"rs": 29.9,
+"rs": 28.6,
 "rs_5d_ago": 28.4,
-"delta": 1.5,
+"delta": 0.2,
 "med1m": -10.1,
 "med1w": -8.0,
 "med3m": -17.9,
@@ -612,9 +623,9 @@
 {
 "industry": "Coal",
 "n": 4,
-"rs": 28.6,
+"rs": 27.3,
 "rs_5d_ago": 29.7,
-"delta": -1.1,
+"delta": -2.4,
 "med1m": -10.2,
 "med1w": -1.854317386231037,
 "med3m": -17.200000000000003,
@@ -623,9 +634,9 @@
 {
 "industry": "Marine Shipping",
 "n": 20,
-"rs": 27.3,
+"rs": 26.0,
 "rs_5d_ago": 27.0,
-"delta": 0.3,
+"delta": -1.0,
 "med1m": -10.55,
 "med1w": -3.2840882694541182,
 "med3m": 0.44999999999999996,
@@ -634,9 +645,9 @@
 {
 "industry": "Industrial Machinery",
 "n": 26,
-"rs": 26.0,
+"rs": 24.7,
 "rs_5d_ago": 16.2,
-"delta": 9.8,
+"delta": 8.5,
 "med1m": -10.85,
 "med1w": -8.5,
 "med3m": -21.95,
@@ -645,9 +656,9 @@
 {
 "industry": "Financial Publishing/Services",
 "n": 3,
-"rs": 24.7,
+"rs": 23.4,
 "rs_5d_ago": 50.0,
-"delta": -25.3,
+"delta": -26.6,
 "med1m": -11.2,
 "med1w": -5.6,
 "med3m": -41.864953423341504,
@@ -656,9 +667,9 @@
 {
 "industry": "Contract Drilling",
 "n": 5,
-"rs": 23.4,
+"rs": 22.1,
 "rs_5d_ago": 32.4,
-"delta": -9.0,
+"delta": -10.3,
 "med1m": -11.7,
 "med1w": -6.9,
 "med3m": -16.0,
@@ -667,9 +678,9 @@
 {
 "industry": "Engineering & Construction",
 "n": 26,
-"rs": 22.1,
+"rs": 20.8,
 "rs_5d_ago": 21.6,
-"delta": 0.5,
+"delta": -0.8,
 "med1m": -11.852745597458437,
 "med1w": -3.3,
 "med3m": -28.55,
@@ -678,23 +689,12 @@
 {
 "industry": "Electronics Distributors",
 "n": 5,
-"rs": 20.8,
+"rs": 19.5,
 "rs_5d_ago": 25.7,
-"delta": -4.9,
+"delta": -6.2,
 "med1m": -12.4,
 "med1w": -7.688118811881188,
 "med3m": -8.7,
-"level": "industry"
-},
-{
-"industry": "Oil & Gas Production",
-"n": 9,
-"rs": 19.5,
-"rs_5d_ago": 40.5,
-"delta": -21.0,
-"med1m": -13.2,
-"med1w": -4.859335038363174,
-"med3m": -11.3,
 "level": "industry"
 },
 {
@@ -866,13 +866,13 @@
 "sectors": [
 {
 "industry": "Consumer Durables",
-"n": 28,
+"n": 27,
 "rs": 100.0,
 "rs_5d_ago": 94.7,
 "delta": 5.3,
-"med1m": 10.87974591692064,
-"med1w": -3.3195957820738142,
-"med3m": 5.65,
+"med1m": 13.651383725733167,
+"med1w": -3.3,
+"med3m": 7.7,
 "level": "sector"
 },
 {
@@ -1064,13 +1064,13 @@
 },
 {
 "industry": "Energy Minerals",
-"n": 34,
+"n": 35,
 "rs": 5.3,
 "rs_5d_ago": 10.5,
 "delta": -5.2,
-"med1m": -15.9,
-"med1w": -4.55,
-"med3m": -11.25,
+"med1m": -15.3,
+"med1w": -4.6,
+"med3m": -11.3,
 "level": "sector"
 },
 {
