@@ -1,15 +1,15 @@
 {
  "status": "OK",
- "gmi": 1,
+ "gmi": 0,
  "gmi_max": 6,
- "gmi2": 3,
+ "gmi2": 0,
  "gmi2_max": 9,
- "t2108": 47.0,
+ "t2108": 38.0,
  "color": null,
- "qqq_day": 22,
+ "qqq_day": 25,
  "qqq_dir": "down",
- "title": "Day 22 of $QQQ short term down-trend and it is in BWR down-trend; GMI=1 and Red; Beware possible dead cat bounce.",
- "published": "Mon, 16 Nov 2026 02:10:57 +0000",
+ "title": "Day 25 of $QQQ short term down-trend; If on Day 1, I bought SQQQ at its close at 36.14 I would now be up +28.3%. I hope some of you bought it. SQQQ is the 3x in",
+ "published": "Wed, 18 Nov 2026 22:12:10 +0000",
  "source": "https://wishingwealthblog.com/feed/",
- "_ts": 1795017105.5498445
+ "_ts": 1795049522.5715585
 }
