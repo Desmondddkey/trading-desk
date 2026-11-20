@@ -1,26 +1,26 @@
 {
- "as_of": "20261119",
+ "as_of": "20261120",
  "limit": 3,
  "rows": [
   {
-   "ticker": "AMG",
+   "ticker": "AXGN",
    "src": "FOCUS",
-   "ref": 393.35,
-   "stop": 381.55,
-   "trim2r": 416.95,
-   "atrx8": 504.06,
-   "e10": 388.11,
-   "new": true,
+   "ref": 56.35,
+   "stop": 54.66,
+   "trim2r": 59.73,
+   "atrx8": 67.36,
+   "e10": 54.3,
+   "new": false,
    "score": 100
   },
   {
-   "ticker": "APPN",
+   "ticker": "AZTA",
    "src": "FOCUS",
-   "ref": 54.03,
-   "stop": 52.4,
-   "trim2r": 57.27,
-   "atrx8": 67.21,
-   "e10": 52.74,
+   "ref": 47.09,
+   "stop": 45.68,
+   "trim2r": 49.92,
+   "atrx8": 59.59,
+   "e10": 44.93,
    "new": false,
    "score": 100
   }
