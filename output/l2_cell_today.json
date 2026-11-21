@@ -5,22 +5,22 @@
   {
    "ticker": "AXGN",
    "src": "FOCUS",
-   "ref": 56.35,
-   "stop": 54.66,
-   "trim2r": 59.73,
-   "atrx8": 67.36,
-   "e10": 54.3,
+   "ref": 55.75,
+   "stop": 54.08,
+   "trim2r": 59.09,
+   "atrx8": 67.85,
+   "e10": 54.56,
    "new": false,
    "score": 100
   },
   {
    "ticker": "AZTA",
    "src": "FOCUS",
-   "ref": 47.09,
-   "stop": 45.68,
-   "trim2r": 49.92,
-   "atrx8": 59.59,
-   "e10": 44.93,
+   "ref": 44.8,
+   "stop": 43.46,
+   "trim2r": 47.49,
+   "atrx8": 58.93,
+   "e10": 44.9,
    "new": false,
    "score": 100
   }
