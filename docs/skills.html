@@ -8,7 +8,7 @@
   if(v){try{v=JSON.parse(v);}catch(e){}
     if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v);}
 }catch(e){}})();</script>
-<link rel="stylesheet" href="site.css?v=2026-11-23 08:55"><script src="sortable.js?v=2026-11-23 08:55"></script>
+<link rel="stylesheet" href="site.css?v=2026-11-23 17:56"><script src="sortable.js?v=2026-11-23 17:56"></script>
 <style>/* 圖表跟主題（每個頁面自帶，唔靠 site.css 順序） */
 .fig-dark{display:none}
 img.fig-light,img.fig-dark{max-width:100%;height:auto}
@@ -21,7 +21,7 @@ html[data-theme="dark"] .fig-light{display:none}
 /* ★ 自動更新：用返原來網址，頁面發現有新 build 就自己 reload 一次
    唔會迴圈：sessionStorage 記住已 reload 過嘅版本 */
 (function(){
-  var BV="2026-11-23 08:55";
+  var BV="2026-11-23 17:56";
   try{
     if(sessionStorage.getItem('hv')===BV) return;
   }catch(e){}
@@ -42,17 +42,75 @@ html[data-theme="dark"] .fig-light{display:none}
     .catch(function(){});
 })();
 </script>
-<button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button><div id="navoverlay"></div><button id="sbtoggle" title="收合側欄">&lsaquo;</button><aside id="sb"><a class="brand" href="index.html">HI! Desmond<span class="bld">11-23 08:57</span></a><button id="themebtn">🌙 深色</button><a href="nel.html" data-pin="1"><span class="i"></span><span class="lbl">今日</span></a><a href="process.html" data-pin="1"><span class="i"></span><span class="lbl">每日流程</span></a><a href="howto.html" data-pin="1"><span class="i"></span><span class="lbl">使用手冊</span></a><details class="gw" open><summary class="grp">HERMES</summary><div class="gl"><a href="hermesdir.html"><span class="ab">He</span><span class="lbl">Hermes 目錄</span></a><a href="skills.html" class="on"><span class="ab">He</span><span class="lbl">Hermes 技能</span></a><a href="sysmap.html"><span class="ab">系統</span><span class="lbl">系統地圖</span></a><a href="datahealth.html"><span class="ab">DA</span><span class="lbl">DATABASE</span></a><a href="jobboard.html"><span class="ab">Jo</span><span class="lbl">Job 監控</span></a><a href="finish.html"><span class="ab">收工</span><span class="lbl">收工標準</span></a></div></details><details class="gw"><summary class="grp">市場</summary><div class="gl"><a href="regime_mri.html"><span class="ab">MA</span><span class="lbl">MARKET REGIME</span></a><a href="regimeheat.html"><span class="ab">環境</span><span class="lbl">環境熱力圖</span></a><a href="briefing.html"><span class="ab">市場</span><span class="lbl">市場簡報</span></a><a href="mm.html"><span class="ab">Ma</span><span class="lbl">Market Monitor</span></a><a href="topwatch.html"><span class="ab">頂部</span><span class="lbl">頂部觀察</span></a><a href="qqqstruct.html"><span class="ab">QQ</span><span class="lbl">QQQ 雙結構</span></a><a href="mmmodel.html"><span class="ab">MM</span><span class="lbl">MM Model</span></a><a href="margin.html"><span class="ab">保證</span><span class="lbl">保證金債務</span></a><a href="putcall.html"><span class="ab">Pu</span><span class="lbl">Put/Call</span></a><a href="ntmflow.html"><span class="ab">期權</span><span class="lbl">期權資金流</span></a><a href="feargauge.html"><span class="ab">投降</span><span class="lbl">投降儀表</span></a><a href="stage.html"><span class="ab">St</span><span class="lbl">Stage Analysis</span></a></div></details><details class="gw"><summary class="grp">主題</summary><div class="gl"><a href="sectorrot.html"><span class="ab">行業</span><span class="lbl">行業輪動</span></a><a href="sectorrot2.html"><span class="ab">行業</span><span class="lbl">行業輪動 v2</span></a><a href="rsboard.html"><span class="ab">RS</span><span class="lbl">RS THEME</span></a><a href="sectors.html"><span class="ab">Se</span><span class="lbl">Sectors</span></a></div></details><details class="gw"><summary class="grp">選股</summary><div class="gl"><a href="screener.html"><span class="ab">St</span><span class="lbl">Stock Screener</span></a><a href="dailyscan.html"><span class="ab">Da</span><span class="lbl">Daily Scan</span></a><a href="alerts.html"><span class="ab">Se</span><span class="lbl">Setup Alert</span></a><a href="leaders.html"><span class="ab">RS</span><span class="lbl">RS Leader</span></a><a href="peg.html"><span class="ab">PE</span><span class="lbl">PEG 清單</span></a><a href="rsnewhigh.html"><span class="ab">RS</span><span class="lbl">RS 新高領先股</span></a><a href="rsbeforeprice.html"><span class="ab">RS</span><span class="lbl">RS Before Price</span></a><a href="cm.html"><span class="ab">RS</span><span class="lbl">RS Pullback</span></a><a href="week.html"><span class="ab">We</span><span class="lbl">Weekly MM</span></a><a href="leadermap.html"><span class="ab">RS</span><span class="lbl">RS Leader 位置圖</span></a><a href="rsscan.html"><span class="ab">RS</span><span class="lbl">RS Daily Scan</span></a><a href="fatpitch.html"><span class="ab">肥球</span><span class="lbl">肥球掃描（J Law）</span></a><a href="wave.html"><span class="ab">肥波</span><span class="lbl">肥波總覽</span></a><a href="tightscan.html"><span class="ab">Ti</span><span class="lbl">Tight Range</span></a><a href="setups.html"><span class="ab">Th</span><span class="lbl">The Plan</span></a><a href="earningscal.html"><span class="ab">財報</span><span class="lbl">財報日曆</span></a><a href="yoyo_ball.html"><span class="ab">YO</span><span class="lbl">YOYO Ball</span></a><a href="regime.html"><span class="ab">Se</span><span class="lbl">Setup 矩陣</span></a></div></details><details class="gw"><summary class="grp">成績</summary><div class="gl"><a href="thinkinr.html"><span class="ab">Th</span><span class="lbl">Think in R</span></a><a href="backtest.html"><span class="ab">Ba</span><span class="lbl">Backtest</span></a><a href="audit.html"><span class="ab">系統</span><span class="lbl">系統審計</span></a><a href="edgeimprove.html"><span class="ab">Ed</span><span class="lbl">Edge Improving</span></a><a href="positioning.html"><span class="ab">Po</span><span class="lbl">Positioning</span></a><a href="review.html"><span class="ab">Re</span><span class="lbl">Review</span></a><a href="review2.html"><span class="ab">覆盤</span><span class="lbl">覆盤（R／期望值）</span></a><a href="calculator.html"><span class="ab">倉位</span><span class="lbl">倉位計算機</span></a></div></details><details class="gw"><summary class="grp">PLAYBOOK</summary><div class="gl"><a href="lukplaybook.html"><span class="ab">Lu</span><span class="lbl">Luk 手冊</span></a><a href="qmb.html"><span class="ab">Qu</span><span class="lbl">Qullamaggie 手冊</span></a><a href="room.html"><span class="ab">系統</span><span class="lbl">系統房間</span></a><a href="https://jfsrev.substack.com/p/my-trading-tools-process-routine" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Jeff Sun 工具/流程</span></a><a href="https://traderslab.gitbook.io/primetrading" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">PrimeTrading 手冊</span></a><a href="https://qullamaggie.net/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Qullamaggie</span></a><a href="https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">QM 3 個 setups</span></a><a href="https://qullamaggie.net/alex-desjardinss-method/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Alex Desjardins 方法</span></a><details class="gw pinfold"><summary class="grp"> 方法</summary><div class="gl"><a href="vantharp.html"><span class="ab">Va</span><span class="lbl">Van Tharp 五法</span></a><a href="optledger.html"><span class="ab">優化</span><span class="lbl">優化帳本</span></a><a href="setupfactory.html"><span class="ab">Se</span><span class="lbl">Setup Factory</span></a><a href="cycle.html"><span class="ab">成長</span><span class="lbl">成長週期</span></a></div></details><details class="gw pinfold"><summary class="grp"> MODEL BOOK</summary><div class="gl"><a href="modelbook.html"><span class="ab">概覽</span><span class="lbl">概覽</span></a><a href="mb_top250.html"><span class="ab">To</span><span class="lbl">Top 250 US Gainers</span></a><a href="modelbook.html#cases"><span class="ab">量化</span><span class="lbl">量化案例庫</span></a></div></details></div></details><details class="gw"><summary class="grp">外部數據</summary><div class="gl"><a href="external.html"><span class="ab">外部</span><span class="lbl">外部數據源</span></a><a href="martinluk.html"><span class="ab">Ma</span><span class="lbl">Martin Luk</span></a><a href="levelup.html"><span class="ab">Ma</span><span class="lbl">Market Pulse</span></a></div></details><div class="sbbtm"><a href="logbook.html" data-bottom="1"><span class="ab">LO</span><span class="lbl">LOG BOOK</span></a></div></aside>
+<button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button><div id="navoverlay"></div><button id="sbtoggle" title="收合側欄">&lsaquo;</button><aside id="sb"><a class="brand" href="index.html">HI! Desmond<span class="bld">11-23 17:58</span></a><button id="themebtn">🌙 深色</button><a href="nel.html" data-pin="1"><span class="i"></span><span class="lbl">今日</span></a><a href="process.html" data-pin="1"><span class="i"></span><span class="lbl">每日流程</span></a><a href="howto.html" data-pin="1"><span class="i"></span><span class="lbl">使用手冊</span></a><details class="gw" open><summary class="grp">HERMES</summary><div class="gl"><a href="hermesdir.html"><span class="ab">He</span><span class="lbl">Hermes 目錄</span></a><a href="skills.html" class="on"><span class="ab">He</span><span class="lbl">Hermes 技能</span></a><a href="sysmap.html"><span class="ab">系統</span><span class="lbl">系統地圖</span></a><a href="datahealth.html"><span class="ab">DA</span><span class="lbl">DATABASE</span></a><a href="jobboard.html"><span class="ab">Jo</span><span class="lbl">Job 監控</span></a><a href="finish.html"><span class="ab">收工</span><span class="lbl">收工標準</span></a></div></details><details class="gw"><summary class="grp">市場</summary><div class="gl"><a href="regime_mri.html"><span class="ab">MA</span><span class="lbl">MARKET REGIME</span></a><a href="regimeheat.html"><span class="ab">環境</span><span class="lbl">環境熱力圖</span></a><a href="briefing.html"><span class="ab">市場</span><span class="lbl">市場簡報</span></a><a href="mm.html"><span class="ab">Ma</span><span class="lbl">Market Monitor</span></a><a href="topwatch.html"><span class="ab">頂部</span><span class="lbl">頂部觀察</span></a><a href="qqqstruct.html"><span class="ab">QQ</span><span class="lbl">QQQ 雙結構</span></a><a href="mmmodel.html"><span class="ab">MM</span><span class="lbl">MM Model</span></a><a href="margin.html"><span class="ab">保證</span><span class="lbl">保證金債務</span></a><a href="putcall.html"><span class="ab">Pu</span><span class="lbl">Put/Call</span></a><a href="ntmflow.html"><span class="ab">期權</span><span class="lbl">期權資金流</span></a><a href="feargauge.html"><span class="ab">投降</span><span class="lbl">投降儀表</span></a><a href="stage.html"><span class="ab">St</span><span class="lbl">Stage Analysis</span></a></div></details><details class="gw"><summary class="grp">主題</summary><div class="gl"><a href="sectorrot.html"><span class="ab">行業</span><span class="lbl">行業輪動</span></a><a href="sectorrot2.html"><span class="ab">行業</span><span class="lbl">行業輪動 v2</span></a><a href="rsboard.html"><span class="ab">RS</span><span class="lbl">RS THEME</span></a><a href="sectors.html"><span class="ab">Se</span><span class="lbl">Sectors</span></a></div></details><details class="gw"><summary class="grp">選股</summary><div class="gl"><a href="screener.html"><span class="ab">St</span><span class="lbl">Stock Screener</span></a><a href="dailyscan.html"><span class="ab">Da</span><span class="lbl">Daily Scan</span></a><a href="alerts.html"><span class="ab">Se</span><span class="lbl">Setup Alert</span></a><a href="leaders.html"><span class="ab">RS</span><span class="lbl">RS Leader</span></a><a href="peg.html"><span class="ab">PE</span><span class="lbl">PEG 清單</span></a><a href="rsnewhigh.html"><span class="ab">RS</span><span class="lbl">RS 新高領先股</span></a><a href="rsbeforeprice.html"><span class="ab">RS</span><span class="lbl">RS Before Price</span></a><a href="cm.html"><span class="ab">RS</span><span class="lbl">RS Pullback</span></a><a href="week.html"><span class="ab">We</span><span class="lbl">Weekly MM</span></a><a href="leadermap.html"><span class="ab">RS</span><span class="lbl">RS Leader 位置圖</span></a><a href="rsscan.html"><span class="ab">RS</span><span class="lbl">RS Daily Scan</span></a><a href="fatpitch.html"><span class="ab">肥球</span><span class="lbl">肥球掃描（J Law）</span></a><a href="wave.html"><span class="ab">肥波</span><span class="lbl">肥波總覽</span></a><a href="tightscan.html"><span class="ab">Ti</span><span class="lbl">Tight Range</span></a><a href="setups.html"><span class="ab">Th</span><span class="lbl">The Plan</span></a><a href="earningscal.html"><span class="ab">財報</span><span class="lbl">財報日曆</span></a><a href="yoyo_ball.html"><span class="ab">YO</span><span class="lbl">YOYO Ball</span></a><a href="regime.html"><span class="ab">Se</span><span class="lbl">Setup 矩陣</span></a></div></details><details class="gw"><summary class="grp">成績</summary><div class="gl"><a href="thinkinr.html"><span class="ab">Th</span><span class="lbl">Think in R</span></a><a href="backtest.html"><span class="ab">Ba</span><span class="lbl">Backtest</span></a><a href="audit.html"><span class="ab">系統</span><span class="lbl">系統審計</span></a><a href="edgeimprove.html"><span class="ab">Ed</span><span class="lbl">Edge Improving</span></a><a href="positioning.html"><span class="ab">Po</span><span class="lbl">Positioning</span></a><a href="review.html"><span class="ab">Re</span><span class="lbl">Review</span></a><a href="review2.html"><span class="ab">覆盤</span><span class="lbl">覆盤（R／期望值）</span></a><a href="calculator.html"><span class="ab">倉位</span><span class="lbl">倉位計算機</span></a></div></details><details class="gw"><summary class="grp">PLAYBOOK</summary><div class="gl"><a href="lukplaybook.html"><span class="ab">Lu</span><span class="lbl">Luk 手冊</span></a><a href="qmb.html"><span class="ab">Qu</span><span class="lbl">Qullamaggie 手冊</span></a><a href="room.html"><span class="ab">系統</span><span class="lbl">系統房間</span></a><a href="https://jfsrev.substack.com/p/my-trading-tools-process-routine" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Jeff Sun 工具/流程</span></a><a href="https://traderslab.gitbook.io/primetrading" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">PrimeTrading 手冊</span></a><a href="https://qullamaggie.net/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Qullamaggie</span></a><a href="https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">QM 3 個 setups</span></a><a href="https://qullamaggie.net/alex-desjardinss-method/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Alex Desjardins 方法</span></a><details class="gw pinfold"><summary class="grp"> 方法</summary><div class="gl"><a href="vantharp.html"><span class="ab">Va</span><span class="lbl">Van Tharp 五法</span></a><a href="optledger.html"><span class="ab">優化</span><span class="lbl">優化帳本</span></a><a href="setupfactory.html"><span class="ab">Se</span><span class="lbl">Setup Factory</span></a><a href="cycle.html"><span class="ab">成長</span><span class="lbl">成長週期</span></a></div></details><details class="gw pinfold"><summary class="grp"> MODEL BOOK</summary><div class="gl"><a href="modelbook.html"><span class="ab">概覽</span><span class="lbl">概覽</span></a><a href="mb_top250.html"><span class="ab">To</span><span class="lbl">Top 250 US Gainers</span></a><a href="modelbook.html#cases"><span class="ab">量化</span><span class="lbl">量化案例庫</span></a></div></details></div></details><details class="gw"><summary class="grp">外部數據</summary><div class="gl"><a href="external.html"><span class="ab">外部</span><span class="lbl">外部數據源</span></a><a href="martinluk.html"><span class="ab">Ma</span><span class="lbl">Martin Luk</span></a><a href="levelup.html"><span class="ab">Ma</span><span class="lbl">Market Pulse</span></a></div></details><div class="sbbtm"><a href="logbook.html" data-bottom="1"><span class="ab">LO</span><span class="lbl">LOG BOOK</span></a></div></aside>
 <div class="wrap">
 <header class="top">
  <div style="display:flex;align-items:flex-start;gap:10px">
   <div style="flex:1 1 auto">
    <h1><span>HI! Desmond</span></h1>
-   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-11-23 08:55</code></p>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-11-23 17:56</code></p>
   </div>
  </div>
 </header>
-<h2>🧰 技能庫 <small>我識做嘅嘢，一目了然</small></h2><p class="crumb">187 個技能｜19 個分類｜每晚安 build 時自動重掃，唔需要人手更新</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px"><input id="skq" placeholder="搜尋技能名／描述…" style="flex:1;min-width:220px;padding:8px 10px;border:1px solid #cfc7bb;border-radius:6px;font-size:13px;background:#fff"><span id="skn" class="crumb" style="align-self:center">187 個</span></div><div id="skchips" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px"><button class="skchip on" data-c="">全部</button><button class="skchip" data-c=".archive">.archive 1</button><button class="skchip" data-c="apple">apple 4</button><button class="skchip" data-c="autonomous-ai-agents">autonomous-ai-agents 12</button><button class="skchip" data-c="creative">creative 21</button><button class="skchip" data-c="design">design 3</button><button class="skchip" data-c="devops">devops 1</button><button class="skchip" data-c="email">email 2</button><button class="skchip" data-c="engineering">engineering 20</button><button class="skchip" data-c="media">media 4</button><button class="skchip" data-c="misc">misc 4</button><button class="skchip" data-c="note-taking">note-taking 6</button><button class="skchip" data-c="productivity">productivity 26</button><button class="skchip" data-c="research">research 5</button><button class="skchip" data-c="reverse-engineering">reverse-engineering 33</button><button class="skchip" data-c="social-media">social-media 1</button><button class="skchip" data-c="software-development">software-development 19</button><button class="skchip" data-c="trading-os">trading-os 10</button><button class="skchip" data-c="web">web 5</button><button class="skchip" data-c="其他">其他 10</button></div><div class="card"><h2>Top 10 · 按使用次數 <small>累計 skill_view 呼叫</small></h2><div class="body"><div class="sktop"><div class="skrow"><span class="skrank">1</span><span class="skname">trading-os</span><span class="skzh2">美股 swing 研究：掃描與警報</span><span class="skbar"><i style="width:100%"></i></span><span class="skcnt">40</span></div><div class="skrow"><span class="skrank">2</span><span class="skname">hermes-agent</span><span class="skzh2">Hermes 本身：設定、主題、工具、排程</span><span class="skbar"><i style="width:90%"></i></span><span class="skcnt">36</span></div><div class="skrow"><span class="skrank">3</span><span class="skname">trading-desk-site</span><span class="skzh2">交易台網站：建置、驗證、部署</span><span class="skbar"><i style="width:32%"></i></span><span class="skcnt">13</span></div><div class="skrow"><span class="skrank">4</span><span class="skname">hermes-skill-management</span><span class="skzh2">安裝外部技能／設為 always-on</span><span class="skbar"><i style="width:28%"></i></span><span class="skcnt">11</span></div><div class="skrow"><span class="skrank">5</span><span class="skname">youtube-content</span><span class="skzh2">YouTube 逐字稿→摘要／thread／blog</span><span class="skbar"><i style="width:15%"></i></span><span class="skcnt">6</span></div><div class="skrow"><span class="skrank">6</span><span class="skname">external-system-teardown</span><span class="skzh2">拆解外部系統（RAE）並重建</span><span class="skbar"><i style="width:15%"></i></span><span class="skcnt">6</span></div><div class="skrow"><span class="skrank">7</span><span class="skname">systematic-debugging</span><span class="skzh2">四階段根因除錯</span><span class="skbar"><i style="width:15%"></i></span><span class="skcnt">6</span></div><div class="skrow"><span class="skrank">8</span><span class="skname">diagram-design</span><span class="skzh2">畫圖（45 種圖表類型，HTML／SVG／PNG）</span><span class="skbar"><i style="width:12%"></i></span><span class="skcnt">5</span></div><div class="skrow"><span class="skrank">9</span><span class="skname">local-llm-models</span><span class="skzh2">下載／驗證本地 LLM（GGUF、Ollama）</span><span class="skbar"><i style="width:8%"></i></span><span class="skcnt">3</span></div><div class="skrow"><span class="skrank">10</span><span class="skname">report-chart-rendering</span><span class="skzh2">出中文圖表／報告圖（CJK 字型）</span><span class="skbar"><i style="width:8%"></i></span><span class="skcnt">3</span></div></div><div class="sknote">由 state.db 嘅 tool_calls 統計；每朝 build 會更新。</div></div></div><div id="sklist"><details class="skcard" data-c=".archive"><summary><b>hermes-profile-separation</b><span class="skzh">把一個 agent 嘅工作拆去唔同 profile</span><span class="skd">Use when splitting one agent&#x27;s work into Hermes profiles.</span><span class="skm">.archive · Hermes · v1.0.0</span></summary><div class="skbody"><h3>Separating a workload into its own Hermes profile</h3>
+<h2>🧰 技能庫 <small>我識做嘅嘢，一目了然</small></h2><p class="crumb">187 個技能｜19 個分類｜每晚安 build 時自動重掃，唔需要人手更新</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px"><input id="skq" placeholder="搜尋技能名／描述…" style="flex:1;min-width:220px;padding:8px 10px;border:1px solid #cfc7bb;border-radius:6px;font-size:13px;background:#fff"><span id="skn" class="crumb" style="align-self:center">187 個</span></div><div id="skchips" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px"><button class="skchip on" data-c="">全部</button><button class="skchip" data-c=".archive">.archive 3</button><button class="skchip" data-c="apple">apple 4</button><button class="skchip" data-c="autonomous-ai-agents">autonomous-ai-agents 12</button><button class="skchip" data-c="creative">creative 21</button><button class="skchip" data-c="design">design 3</button><button class="skchip" data-c="devops">devops 1</button><button class="skchip" data-c="email">email 2</button><button class="skchip" data-c="engineering">engineering 20</button><button class="skchip" data-c="media">media 4</button><button class="skchip" data-c="misc">misc 4</button><button class="skchip" data-c="note-taking">note-taking 6</button><button class="skchip" data-c="productivity">productivity 26</button><button class="skchip" data-c="research">research 5</button><button class="skchip" data-c="reverse-engineering">reverse-engineering 33</button><button class="skchip" data-c="social-media">social-media 1</button><button class="skchip" data-c="software-development">software-development 17</button><button class="skchip" data-c="trading-os">trading-os 10</button><button class="skchip" data-c="web">web 5</button><button class="skchip" data-c="其他">其他 10</button></div><div class="card"><h2>Top 10 · 按使用次數 <small>累計 skill_view 呼叫</small></h2><div class="body"><div class="sktop"><div class="skrow"><span class="skrank">1</span><span class="skname">trading-os</span><span class="skzh2">美股 swing 研究：掃描與警報</span><span class="skbar"><i style="width:100%"></i></span><span class="skcnt">40</span></div><div class="skrow"><span class="skrank">2</span><span class="skname">hermes-agent</span><span class="skzh2">Hermes 本身：設定、主題、工具、排程</span><span class="skbar"><i style="width:90%"></i></span><span class="skcnt">36</span></div><div class="skrow"><span class="skrank">3</span><span class="skname">trading-desk-site</span><span class="skzh2">交易台網站：建置、驗證、部署</span><span class="skbar"><i style="width:32%"></i></span><span class="skcnt">13</span></div><div class="skrow"><span class="skrank">4</span><span class="skname">hermes-skill-management</span><span class="skzh2">安裝外部技能／設為 always-on</span><span class="skbar"><i style="width:28%"></i></span><span class="skcnt">11</span></div><div class="skrow"><span class="skrank">5</span><span class="skname">youtube-content</span><span class="skzh2">YouTube 逐字稿→摘要／thread／blog</span><span class="skbar"><i style="width:15%"></i></span><span class="skcnt">6</span></div><div class="skrow"><span class="skrank">6</span><span class="skname">external-system-teardown</span><span class="skzh2">拆解外部系統（RAE）並重建</span><span class="skbar"><i style="width:15%"></i></span><span class="skcnt">6</span></div><div class="skrow"><span class="skrank">7</span><span class="skname">systematic-debugging</span><span class="skzh2">四階段根因除錯</span><span class="skbar"><i style="width:15%"></i></span><span class="skcnt">6</span></div><div class="skrow"><span class="skrank">8</span><span class="skname">diagram-design</span><span class="skzh2">畫圖（45 種圖表類型，HTML／SVG／PNG）</span><span class="skbar"><i style="width:12%"></i></span><span class="skcnt">5</span></div><div class="skrow"><span class="skrank">9</span><span class="skname">local-llm-models</span><span class="skzh2">下載／驗證本地 LLM（GGUF、Ollama）</span><span class="skbar"><i style="width:8%"></i></span><span class="skcnt">3</span></div><div class="skrow"><span class="skrank">10</span><span class="skname">report-chart-rendering</span><span class="skzh2">出中文圖表／報告圖（CJK 字型）</span><span class="skbar"><i style="width:8%"></i></span><span class="skcnt">3</span></div></div><div class="sknote">由 state.db 嘅 tool_calls 統計；每朝 build 會更新。</div></div></div><div id="sklist"><details class="skcard" data-c=".archive"><summary><b>analytical-chart-png</b><span class="skzh">把分析圖表輸出成 PNG 交付</span><span class="skd">Use when rendering an analytical chart to PNG for delivery.</span><span class="skm">.archive · Hermes · v1.0.0</span></summary><div class="skbody"><h3>Analytical chart PNG deliverables</h3>
+
+<p>Class: turning computed numbers into a chart image a human reads — a rotation map, a</p>
+<p>position/scatter map, a ranked table-graphic, a weekly panel. The user for this skill is a</p>
+<p>CJK reader who wants the labels in Chinese and the file delivered as an image, usually on a</p>
+<p>schedule. These rules are about the RENDERING and the DELIVERY, not the analysis behind it.</p>
+
+<p>The user frequently sends a reference chart and asks for it to be reproduced or distilled.</p>
+<p>When that happens, implement the chart&#x27;s geometry literally (its axes, bands and boxes) and</p>
+<p>keep the source image&#x27;s proportions; the value you add is data and correctness, not a</p>
+<p>redesign.</p>
+
+<h3>When to Use</h3>
+
+<p>Trigger: producing a chart image as the deliverable — a rotation/position/scatter map, a</p>
+<p>ranked table-graphic, a panel of bands and boxes — especially when the labels are Chinese,</p>
+<p>when the user has sent a reference chart to reproduce, or when the image is delivered by a</p>
+<p>scheduled job rather than in-line.</p>
+
+<p>Do not use for a chart that lives inside an interactive notebook, or for a report where a</p>
+<p>Markdown table would do — the constraints here are about rasterising text and symbols, and</p>
+<p>about getting a file to a human.</p>
+
+<h3>Procedure</h3>
+
+<li><b>Write one script that owns the whole pipeline</b>: load data → score → draw → save PNG +</li>
+<p>   sidecar JSON. The sidecar holds every number drawn on the chart, so a claim can be</p>
+<p>   re-derived without re-reading pixels. Never hand-edit the PNG.</p>
+<li><b>Before inventing any quantity for an axis, search the live system for the same formula.</b></li>
+<p>   A chart axis that turns out to be a metric the pipeline already computes (<code>(close - sma50)</p>
+<p>   / atr</code> was that system&#x27;s existing <code>atrx</code>) must call that function, not re-implement it —</p>
+<p>   two implementations of one quantity is how a chart ends up disagreeing with the system it</p>
+<p>   is supposed to visualise. If a constant appears in the drawing (an axis line, a filter</p>
+<p>   edge), label it with the constant&#x27;s NAME so a reader can match it to the source.</p>
+<li><b>Resolve a CJK font by absolute path, bold and regular separately.</b></li>
+<p>   <code>C:/Windows/Fonts/msjhbd.ttc</code> (bold) and <code>msjh.ttc</code> (regular), falling back to</p>
+<p>   <code>msyhbd.ttc</code> / <code>msyh.ttc</code>. <code>ImageFont.truetype</code> reads <code>.ttc</code> collections fine. Wrap the</p>
+<p>   <code>truetype</code> call in a try and fall back to <code>ImageFont.load_default()</code> so a missing font</p>
+<p>   degrades instead of crashing the scheduled job.</p>
+<li><b>Draw shapes for symbols — do not put emoji in the image.</b> CJK UI fonts carry no emoji</li>
+<p>   glyphs, so a coloured circle or a warning sign renders as an empty tofu box. Replace each</p>
+<p>   with a drawn <code>ellipse</code> / <code>polygon</code> plus a word. This bites in three places at once and each</p>
+<p>   is easy to miss: the legend, the header line, and the footer conclusion.</p>
+<li><b>Place labels with a collision resolver.</b> Keep a list of rectangles already claimed, try</li>
+<p>   a fixed candidate order (right, left, below-right, above-right, …), and accept the first</p>
+<p>   offset whose box intersects nothing and stays inside the plot. Without it, points that sit</p>
+<p>   close together produce overlapping text and the chart becomes unreadable exactly where it</p>
+<p>   is most interesting. Pad each claimed box by a few pixels so near-misses still separate.</p>
+<li><b>Derive the axis limits from the data, seeded by the fixed range the design needs.</b></li>
+<p>   <code>XMIN = min(design_min, data.min() - pad)</code>. A fixed range silently draws points outside the</p>
+<p>   plot area, where they overlap the axis labels and look like a rendering fault.</p>
+<li><b>Size the canvas from the content, and reserve space for every text block.</b> <code>W</code>/<code>H</code> should</li>
+<p>   be a function of row count and panel count, and any multi-line footer must have its height</p>
+<p>   subtracted. Measure with <code>draw.textlength(text, font=...)</code> and truncate long footers in a</p>
+<p>   loop rather than hoping they fit; an overflowing footer is clipped exactly where the</p>
+<p>   conclusion lives.</p>
+<li><b>Look at the rendered image before delivering it.</b> The code returning exit 0 proves the</li>
+<p>   script ran, not</p>
+<p class="pf-note">✂ 正文超過 4,000 字元，此處只顯示前段；完整內容在 skill 檔（SKILL.md）。</p></div></details><details class="skcard" data-c=".archive"><summary><b>hermes-profile-separation</b><span class="skzh">把一個 agent 嘅工作拆去唔同 profile</span><span class="skd">Use when splitting one agent&#x27;s work into Hermes profiles.</span><span class="skm">.archive · Hermes · v1.0.0</span></summary><div class="skbody"><h3>Separating a workload into its own Hermes profile</h3>
 
 <p>Class: one agent handles two unrelated bodies of work that must stop contaminating each</p>
 <p>other — different domain, different rules, different output. The goal is an <b>isolated</b></p>
@@ -115,7 +173,61 @@ html[data-theme="dark"] .fig-light{display:none}
 <li><b>Break every hardcoded path that crosses the two projects.</b> See the coupling trap.</li>
 <li>**Verify by running the new profile&#x27;s job end to end and checking the output byte count</li>
 
-<p class="pf-note">✂ 正文超過 4,000 字元，此處只顯示前段；完整內容在 skill 檔（SKILL.md）。</p></div></details><details class="skcard" data-c="apple"><summary><b>apple-notes</b><span class="skzh">用 CLI 管理 Apple Notes</span><span class="skd">Manage Apple Notes via memo CLI: create, search, edit.</span><span class="skm">apple · Hermes · v1.0.1</span></summary><div class="skbody"><h3>Apple Notes</h3>
+<p class="pf-note">✂ 正文超過 4,000 字元，此處只顯示前段；完整內容在 skill 檔（SKILL.md）。</p></div></details><details class="skcard" data-c=".archive"><summary><b>simulation-model-validation</b><span class="skzh">驗證模擬／回測／模型</span><span class="skd">Use when validating a simulation, backtest, or model.</span><span class="skm">.archive · Hermes · v1.0.0 · 6 個支援檔</span></summary><div class="skbody"><h3>Simulation model validation</h3>
+
+<p>Class: any model that answers *&quot;what would have happened&quot;* — Monte Carlo, backtest, grid</p>
+<p>sweep, capacity model, account-survival model. These rules decide whether its output may be</p>
+<p>quoted at all. They govern the MODEL, not the domain; apply them before any domain reading.</p>
+
+<h3>When to use</h3>
+
+<p>Building or extending a simulator or backtester; sweeping parameters; reporting a statistic</p>
+<p>that came from a model rather than from observation; deciding whether a measured difference</p>
+<p>between two configurations is real; tuning a model or strategy until it passes.</p>
+
+<h3>The gates — all of them, before quoting a number</h3>
+
+<li><b>Prove the model can fail.</b> Assert the harshest corner of the input space produces the</li>
+<p>   bad outcome and the mildest corner does not. This is the highest-value check because the</p>
+<p>   failure is silent: a model that cannot reach the failure state prints a clean number</p>
+<p>   everywhere and reads as a bill of health. The usual cause is a parameter hiding the</p>
+<p>   failure — sizing each unit at a <b>fixed dollar amount</b> can make the worst possible run</p>
+<p>   smaller than the threshold it is meant to breach, so every cell reports <code>0.00%</code>.</p>
+<p>   Size by a <b>fraction of the constraint</b> instead, and let the absolute value be an output,</p>
+<p>   never an input.</p>
+<li><b>Prove the reported number is the number you care about.</b> A survival, no-crash, or</li>
+<p>   monotonicity metric can pass while the thing you want is absent. A candidate can clear a</p>
+<p>   one-period survival test most of the time while carrying negative expectancy — so</p>
+<p>   &quot;it did not blow up&quot; is evidence about <b>magnitude</b>, never about <b>edge</b>. Name the</p>
+<p>   proxy, name the goal, and show the link. With no link, the metric is not a result.</p>
+<li><b>Eliminate nuisance parameters algebraically.</b> If an output should not depend on a</li>
+<p>   parameter, express the model so it drops out, then confirm the invariance numerically.</p>
+<p>   A large class of questions collapses this way: scale the model by the constraint and the</p>
+<p>   failure condition becomes independent of the constraint&#x27;s absolute size. Invariance is</p>
+<p>   both a correctness check and a big cut to the search space — sweeping the absolute value</p>
+<p>   would burn the whole run proving nothing.</p>
+<li><b>Compare candidates under identical randomness.</b> A difference quoted between two</li>
+<p>   configurations must come from the change, not from the draw. Fix the seed per comparison</p>
+<p>   so the delta is the delta; a delta taken across different draws is noise wearing a sign.</p>
+<li><b>State the model&#x27;s limits in the output itself, with the direction of the error.</b></li>
+<p>   Every assumption that pushes results one way must be printed: independence of outcomes</p>
+<p>   when real sequences cluster (clustering makes the bad outcome MORE likely, so the model</p>
+<p>   is the optimistic side), an end-of-day measurement when the real check is continuous, a</p>
+<p>   rule not modelled because the provider never supplied it. An unlabelled optimistic</p>
+<p>   number is a wrong number.</p>
+<li><b>Every input carries its provenance, and a measurement only travels with the</li>
+<p>   instrument, timeframe, and exit rule it was measured on.</b> Record beside each constant</p>
+<p>   what it was measured on, not just its value. Substituting a number from a different</p>
+<p>   system is the most damaging error a model can make because it is invisible: an edge</p>
+<p>   measured on one instrument with one exit rule will produce a clean, specific, and</p>
+<p>   entirely fictional result inside a model of a different instrument. Write the</p>
+<p>   prohibition into the source, not into a comment — the next reader reuses the number</p>
+<p>   precisely because it is the only one available. If the model&#x27;s domain is X and the only</p>
+<p>   measured evidence is from Y, the honest output is that X is <b>unmeasured</b>.</p>
+<li><b>A missing external rule set leaves the model in a PENDING state that names nothing.</b></li>
+<p>   When the governing rules come from a provider and have not been supplied, do not fill</p>
+<p>   them from memory or from a similar provider. Label the output pending and list exac</p>
+<p class="pf-note">✂ 正文超過 4,000 字元，此處只顯示前段；完整內容在 skill 檔（SKILL.md）。</p><div class="skfiles"><b>支援檔</b> <code>references/backtest-reconstruction.md</code> <code>references/falsifiable-filters-and-ledgers.md</code> <code>references/grid-sweeps-and-frontiers.md</code> <code>references/independent-engine-cross-check.md</code> <code>references/randomization-and-permutation-tests.md</code> <code>references/verification-of-delivered-artifacts.md</code></div></div></details><details class="skcard" data-c="apple"><summary><b>apple-notes</b><span class="skzh">用 CLI 管理 Apple Notes</span><span class="skd">Manage Apple Notes via memo CLI: create, search, edit.</span><span class="skm">apple · Hermes · v1.0.1</span></summary><div class="skbody"><h3>Apple Notes</h3>
 
 <p>Use <code>memo</code> to manage Apple Notes directly from the terminal. Notes sync across all Apple devices via iCloud.</p>
 
@@ -10674,64 +10786,6 @@ xurl auth status
 <p>After this, the agent can use any command below without further setup. OAuth 2.0 tokens auto-refresh.</p>
 
 <p>&gt; <b>Common pitfall:</b> If you omit <code>--app my-app</code> from <code>xurl auth oauth2</code>, the OAuth</p>
-<p class="pf-note">✂ 正文超過 4,000 字元，此處只顯示前段；完整內容在 skill 檔（SKILL.md）。</p></div></details><details class="skcard" data-c="software-development"><summary><b>analytical-chart-png</b><span class="skzh">把分析圖表輸出成 PNG 交付</span><span class="skd">Use when rendering an analytical chart to PNG for delivery.</span><span class="skm">software-development · Hermes · v1.0.0</span></summary><div class="skbody"><h3>Analytical chart PNG deliverables</h3>
-
-<p>Class: turning computed numbers into a chart image a human reads — a rotation map, a</p>
-<p>position/scatter map, a ranked table-graphic, a weekly panel. The user for this skill is a</p>
-<p>CJK reader who wants the labels in Chinese and the file delivered as an image, usually on a</p>
-<p>schedule. These rules are about the RENDERING and the DELIVERY, not the analysis behind it.</p>
-
-<p>The user frequently sends a reference chart and asks for it to be reproduced or distilled.</p>
-<p>When that happens, implement the chart&#x27;s geometry literally (its axes, bands and boxes) and</p>
-<p>keep the source image&#x27;s proportions; the value you add is data and correctness, not a</p>
-<p>redesign.</p>
-
-<h3>When to Use</h3>
-
-<p>Trigger: producing a chart image as the deliverable — a rotation/position/scatter map, a</p>
-<p>ranked table-graphic, a panel of bands and boxes — especially when the labels are Chinese,</p>
-<p>when the user has sent a reference chart to reproduce, or when the image is delivered by a</p>
-<p>scheduled job rather than in-line.</p>
-
-<p>Do not use for a chart that lives inside an interactive notebook, or for a report where a</p>
-<p>Markdown table would do — the constraints here are about rasterising text and symbols, and</p>
-<p>about getting a file to a human.</p>
-
-<h3>Procedure</h3>
-
-<li><b>Write one script that owns the whole pipeline</b>: load data → score → draw → save PNG +</li>
-<p>   sidecar JSON. The sidecar holds every number drawn on the chart, so a claim can be</p>
-<p>   re-derived without re-reading pixels. Never hand-edit the PNG.</p>
-<li><b>Before inventing any quantity for an axis, search the live system for the same formula.</b></li>
-<p>   A chart axis that turns out to be a metric the pipeline already computes (<code>(close - sma50)</p>
-<p>   / atr</code> was that system&#x27;s existing <code>atrx</code>) must call that function, not re-implement it —</p>
-<p>   two implementations of one quantity is how a chart ends up disagreeing with the system it</p>
-<p>   is supposed to visualise. If a constant appears in the drawing (an axis line, a filter</p>
-<p>   edge), label it with the constant&#x27;s NAME so a reader can match it to the source.</p>
-<li><b>Resolve a CJK font by absolute path, bold and regular separately.</b></li>
-<p>   <code>C:/Windows/Fonts/msjhbd.ttc</code> (bold) and <code>msjh.ttc</code> (regular), falling back to</p>
-<p>   <code>msyhbd.ttc</code> / <code>msyh.ttc</code>. <code>ImageFont.truetype</code> reads <code>.ttc</code> collections fine. Wrap the</p>
-<p>   <code>truetype</code> call in a try and fall back to <code>ImageFont.load_default()</code> so a missing font</p>
-<p>   degrades instead of crashing the scheduled job.</p>
-<li><b>Draw shapes for symbols — do not put emoji in the image.</b> CJK UI fonts carry no emoji</li>
-<p>   glyphs, so a coloured circle or a warning sign renders as an empty tofu box. Replace each</p>
-<p>   with a drawn <code>ellipse</code> / <code>polygon</code> plus a word. This bites in three places at once and each</p>
-<p>   is easy to miss: the legend, the header line, and the footer conclusion.</p>
-<li><b>Place labels with a collision resolver.</b> Keep a list of rectangles already claimed, try</li>
-<p>   a fixed candidate order (right, left, below-right, above-right, …), and accept the first</p>
-<p>   offset whose box intersects nothing and stays inside the plot. Without it, points that sit</p>
-<p>   close together produce overlapping text and the chart becomes unreadable exactly where it</p>
-<p>   is most interesting. Pad each claimed box by a few pixels so near-misses still separate.</p>
-<li><b>Derive the axis limits from the data, seeded by the fixed range the design needs.</b></li>
-<p>   <code>XMIN = min(design_min, data.min() - pad)</code>. A fixed range silently draws points outside the</p>
-<p>   plot area, where they overlap the axis labels and look like a rendering fault.</p>
-<li><b>Size the canvas from the content, and reserve space for every text block.</b> <code>W</code>/<code>H</code> should</li>
-<p>   be a function of row count and panel count, and any multi-line footer must have its height</p>
-<p>   subtracted. Measure with <code>draw.textlength(text, font=...)</code> and truncate long footers in a</p>
-<p>   loop rather than hoping they fit; an overflowing footer is clipped exactly where the</p>
-<p>   conclusion lives.</p>
-<li><b>Look at the rendered image before delivering it.</b> The code returning exit 0 proves the</li>
-<p>   script ran, not</p>
 <p class="pf-note">✂ 正文超過 4,000 字元，此處只顯示前段；完整內容在 skill 檔（SKILL.md）。</p></div></details><details class="skcard" data-c="software-development"><summary><b>codebase-inspection</b><span class="skzh">用 pygount 睇 LOC／語言比例</span><span class="skd">Inspect codebases w/ pygount: LOC, languages, ratios.</span><span class="skm">software-development · Hermes · v1.0.0</span></summary><div class="skbody"><h3>Codebase Inspection with pygount</h3>
 
 <p>Analyze repositories for lines of code, language breakdown, file counts, and code-vs-comment ratios using <code>pygount</code>.</p>
@@ -11776,61 +11830,7 @@ git diff -- src/foo.py            # specific file(s)
 
 <p>Tell each reviewer to:</p>
 <li>Search the existing codebase for evidence (don&#x27;t reason from the diff alone).</li>
-<p class="pf-note">✂ 正文超過 4,000 字元，此處只顯示前段；完整內容在 skill 檔（SKILL.md）。</p></div></details><details class="skcard" data-c="software-development"><summary><b>simulation-model-validation</b><span class="skzh">驗證模擬／回測／模型</span><span class="skd">Use when validating a simulation, backtest, or model.</span><span class="skm">software-development · Hermes · v1.0.0 · 6 個支援檔</span></summary><div class="skbody"><h3>Simulation model validation</h3>
-
-<p>Class: any model that answers *&quot;what would have happened&quot;* — Monte Carlo, backtest, grid</p>
-<p>sweep, capacity model, account-survival model. These rules decide whether its output may be</p>
-<p>quoted at all. They govern the MODEL, not the domain; apply them before any domain reading.</p>
-
-<h3>When to use</h3>
-
-<p>Building or extending a simulator or backtester; sweeping parameters; reporting a statistic</p>
-<p>that came from a model rather than from observation; deciding whether a measured difference</p>
-<p>between two configurations is real; tuning a model or strategy until it passes.</p>
-
-<h3>The gates — all of them, before quoting a number</h3>
-
-<li><b>Prove the model can fail.</b> Assert the harshest corner of the input space produces the</li>
-<p>   bad outcome and the mildest corner does not. This is the highest-value check because the</p>
-<p>   failure is silent: a model that cannot reach the failure state prints a clean number</p>
-<p>   everywhere and reads as a bill of health. The usual cause is a parameter hiding the</p>
-<p>   failure — sizing each unit at a <b>fixed dollar amount</b> can make the worst possible run</p>
-<p>   smaller than the threshold it is meant to breach, so every cell reports <code>0.00%</code>.</p>
-<p>   Size by a <b>fraction of the constraint</b> instead, and let the absolute value be an output,</p>
-<p>   never an input.</p>
-<li><b>Prove the reported number is the number you care about.</b> A survival, no-crash, or</li>
-<p>   monotonicity metric can pass while the thing you want is absent. A candidate can clear a</p>
-<p>   one-period survival test most of the time while carrying negative expectancy — so</p>
-<p>   &quot;it did not blow up&quot; is evidence about <b>magnitude</b>, never about <b>edge</b>. Name the</p>
-<p>   proxy, name the goal, and show the link. With no link, the metric is not a result.</p>
-<li><b>Eliminate nuisance parameters algebraically.</b> If an output should not depend on a</li>
-<p>   parameter, express the model so it drops out, then confirm the invariance numerically.</p>
-<p>   A large class of questions collapses this way: scale the model by the constraint and the</p>
-<p>   failure condition becomes independent of the constraint&#x27;s absolute size. Invariance is</p>
-<p>   both a correctness check and a big cut to the search space — sweeping the absolute value</p>
-<p>   would burn the whole run proving nothing.</p>
-<li><b>Compare candidates under identical randomness.</b> A difference quoted between two</li>
-<p>   configurations must come from the change, not from the draw. Fix the seed per comparison</p>
-<p>   so the delta is the delta; a delta taken across different draws is noise wearing a sign.</p>
-<li><b>State the model&#x27;s limits in the output itself, with the direction of the error.</b></li>
-<p>   Every assumption that pushes results one way must be printed: independence of outcomes</p>
-<p>   when real sequences cluster (clustering makes the bad outcome MORE likely, so the model</p>
-<p>   is the optimistic side), an end-of-day measurement when the real check is continuous, a</p>
-<p>   rule not modelled because the provider never supplied it. An unlabelled optimistic</p>
-<p>   number is a wrong number.</p>
-<li><b>Every input carries its provenance, and a measurement only travels with the</li>
-<p>   instrument, timeframe, and exit rule it was measured on.</b> Record beside each constant</p>
-<p>   what it was measured on, not just its value. Substituting a number from a different</p>
-<p>   system is the most damaging error a model can make because it is invisible: an edge</p>
-<p>   measured on one instrument with one exit rule will produce a clean, specific, and</p>
-<p>   entirely fictional result inside a model of a different instrument. Write the</p>
-<p>   prohibition into the source, not into a comment — the next reader reuses the number</p>
-<p>   precisely because it is the only one available. If the model&#x27;s domain is X and the only</p>
-<p>   measured evidence is from Y, the honest output is that X is <b>unmeasured</b>.</p>
-<li><b>A missing external rule set leaves the model in a PENDING state that names nothing.</b></li>
-<p>   When the governing rules come from a provider and have not been supplied, do not fill</p>
-<p>   them from memory or from a similar provider. Label the output pending and list exac</p>
-<p class="pf-note">✂ 正文超過 4,000 字元，此處只顯示前段；完整內容在 skill 檔（SKILL.md）。</p><div class="skfiles"><b>支援檔</b> <code>references/backtest-reconstruction.md</code> <code>references/falsifiable-filters-and-ledgers.md</code> <code>references/grid-sweeps-and-frontiers.md</code> <code>references/independent-engine-cross-check.md</code> <code>references/randomization-and-permutation-tests.md</code> <code>references/verification-of-delivered-artifacts.md</code></div></div></details><details class="skcard" data-c="software-development"><summary><b>spike</b><span class="skzh">快速 spike 驗證一個想法</span><span class="skd">Throwaway experiments to validate an idea before build.</span><span class="skm">software-development · Hermes · v1.0.0</span></summary><div class="skbody"><h3>Spike</h3>
+<p class="pf-note">✂ 正文超過 4,000 字元，此處只顯示前段；完整內容在 skill 檔（SKILL.md）。</p></div></details><details class="skcard" data-c="software-development"><summary><b>spike</b><span class="skzh">快速 spike 驗證一個想法</span><span class="skd">Throwaway experiments to validate an idea before build.</span><span class="skm">software-development · Hermes · v1.0.0</span></summary><div class="skbody"><h3>Spike</h3>
 
 <p>Use this skill when the user wants to <b>feel out an idea</b> before committing to a real build — validating feasibility, comparing approaches, or surfacing unknowns that no amount of research will answer. Spikes are disposable by design. Throw them away once they&#x27;ve paid their debt.</p>
 
@@ -14339,7 +14339,7 @@ curl -s --max-time 180 \
  ｜交易台 <code>trading-os-lab/dashboard.py</code>
 </footer>
 </div>
-<script>var D={"_generated":"2026-11-23 08:55"};
+<script>var D={"_generated":"2026-11-23 17:56"};
 function q(s,r){return (r||document).querySelector(s);}
 function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
