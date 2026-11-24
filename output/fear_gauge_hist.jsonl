@@ -23,3 +23,4 @@
 {"date": "2026-11-19", "score": 3, "verdict": "接近投降", "vix": 28.0, "vix_ratio": 1.05, "breadth": 33.4, "fg": 19.2, "pc": 0.902}
 {"date": "2026-11-20", "score": 4, "verdict": "投降區", "vix": 39.51, "vix_ratio": 1.198, "breadth": 28.3, "fg": 9.8, "pc": 0.942}
 {"date": "2026-11-23", "score": 3, "verdict": "接近投降", "vix": 27.27, "vix_ratio": 1.052, "breadth": 34.4, "fg": 17.8, "pc": 0.915}
+{"date": "2026-11-24", "score": 3, "verdict": "接近投降", "vix": 26.38, "vix_ratio": 1.037, "breadth": 32.1, "fg": 16.9, "pc": 0.903}
