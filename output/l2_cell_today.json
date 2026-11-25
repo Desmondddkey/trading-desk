@@ -1,26 +1,26 @@
 {
- "as_of": "20261124",
+ "as_of": "20261125",
  "limit": 3,
  "rows": [
   {
-   "ticker": "AAON",
+   "ticker": "APPN",
    "src": "FOCUS",
-   "ref": 80.16,
-   "stop": 77.76,
-   "trim2r": 84.97,
-   "atrx8": 126.37,
-   "e10": 76.32,
+   "ref": 54.8,
+   "stop": 53.16,
+   "trim2r": 58.09,
+   "atrx8": 71.0,
+   "e10": 53.11,
    "new": false,
    "score": 100
   },
   {
-   "ticker": "APPN",
+   "ticker": "AXGN",
    "src": "FOCUS",
-   "ref": 54.69,
-   "stop": 53.05,
-   "trim2r": 57.97,
-   "atrx8": 70.3,
-   "e10": 52.74,
+   "ref": 59.83,
+   "stop": 58.04,
+   "trim2r": 63.42,
+   "atrx8": 68.61,
+   "e10": 56.13,
    "new": false,
    "score": 100
   }
