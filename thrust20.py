@@ -49,6 +49,7 @@ def main():
     df = pd.DataFrame({"up": up, "dn": dn, "net": net}).dropna()
     df["up_ma"] = df["up"].rolling(50, min_periods=10).mean()
     df["net_ma"] = df["net"].rolling(50, min_periods=10).mean()
+    df["dn_ma"] = df["dn"].rolling(50, min_periods=10).mean()
 
     if len(df) < 60:
         print("DATA_UNAVAILABLE — 歷史不足")
@@ -66,7 +67,7 @@ def main():
     else:
         sig, note = "中性", "兩邊都唔極端；跟隨趨勢與個股設置"
 
-    tail = df.tail(60)
+    tail = df.tail(120)
     payload = {
         "asOf": str(df.index[-1])[:10],
         "pool": len(cols),
@@ -83,6 +84,8 @@ def main():
             "up": [int(x) for x in tail["up"]],
             "dn": [int(x) for x in tail["dn"]],
             "net": [int(x) for x in tail["net"]],
+            "net_ma": [round(float(x), 1) for x in tail["net_ma"]],
+            "dn_ma": [round(float(x), 1) for x in tail["dn_ma"]] if "dn_ma" in tail else [],
         },
         "fetchedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }
