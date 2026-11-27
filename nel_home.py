@@ -15,6 +15,7 @@ if HERE not in sys.path:
 
 from nel import (_load, _key_shots, _sector_agg, _zh_sector,      # noqa: E402
                  _f, _cls, _j)
+import theme_stage_page as _tsp                                 # noqa: E402
 
 HW = os.path.join(HERE, "data", "headwinds.json")
 CR = os.path.join(HERE, "data", "correction_risk.json")
@@ -69,7 +70,7 @@ html[data-theme="light"] .nxt-top{background:rgba(246,248,251,.95)}
 .nxt-hscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -15px;padding:0 15px}
 .nxt-tabs{position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:760px;
   box-sizing:border-box;z-index:60;display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
+  grid-template-columns:repeat(5,minmax(0,1fr));
   background:rgba(8,13,26,.97);backdrop-filter:blur(12px);
   border-top:1px solid rgba(148,163,184,.25)}
 @media(max-width:420px){.nxt-vd{font-size:24px}.nxt-lamp{font-size:38px}
@@ -87,7 +88,7 @@ html[data-theme="light"] .nxt-tabs{background:rgba(246,248,251,.97)}
 
 JS = """
 (function(){
-  var ok={today:1,market:1,list:1,tools:1};
+  var ok={today:1,market:1,theme:1,list:1,tools:1};
   function show(id){
     if(!ok[id]) id='today';
     document.querySelectorAll('.nxt-panel').forEach(function(p){
@@ -232,7 +233,7 @@ def build():
                f"可以做 {cap} 單（只做 A+）" if isinstance(cap, int) else "—")
     status = br.get("status") or "—"
 
-    P = [f"<style>{CSS}</style>", '<div class="nxt">']
+    P = [f"<style>{CSS}{_tsp.CSS}</style>", '<div class="nxt">']
     P.append(f'<div class="nxt-top"><span class="nxt-brand">交易台</span>'
              f'<span class="nxt-asof">{day}｜{br.get("_file", "—")}</span></div>')
 
@@ -370,6 +371,15 @@ def build():
 
     P.append('</section>')
 
+    # ── 主題（四階段 S1–S4）──
+    try:
+        P.append(_tsp.panel_html())
+    except Exception as _e_th:                                  # noqa: BLE001
+        P.append('<section class="nxt-panel" id="panel-theme">'
+                 '<div class="nxt-block"><h3>主題 · 四階段</h3>'
+                 f'<p class="nxt-note" style="margin:0">— 渲染失敗：{type(_e_th).__name__}</p>'
+                 '</div></section>')
+
     # ── 名單 ──
     P.append('<section class="nxt-panel" id="panel-list">')
     P.append(f'<div class="nxt-block"><h3>關鍵球 A+｜{len(ks)} 隻</h3>')
@@ -420,7 +430,8 @@ def build():
     P.append('</section>')
 
     P.append('<nav class="nxt-tabs">')
-    for _id, _n in [("today", "今日"), ("market", "大市"), ("list", "名單"), ("tools", "工具")]:
+    for _id, _n in [("today", "今日"), ("market", "大市"), ("theme", "主題"),
+                    ("list", "名單"), ("tools", "工具")]:
         _on = ' class="on"' if _id == "today" else ""
         P.append(f'<a href="#{_id}" data-tab="{_id}"{_on}>'
                  f'<span>{_n}</span><span class="nxt-dot"></span></a>')

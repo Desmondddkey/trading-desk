@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """stage_page.py — Stage Analysis（Weinstein 四階段），市場 › Stage Analysis
 
-只讀 output/stage_analysis.json；collector（stage_analysis.py）每日跑。
+★ 2026-11-27：改讀 data/stage_for_page.json —— 同一份 stage_theme.py 計算，
+   同「今日 › 主題」tab 用同一個定義（之前讀 output/stage_analysis.json，
+   兩邊公式唔同 = 兩個答案答同一個問題）。
 """
 from __future__ import annotations
 
@@ -11,7 +13,7 @@ import json
 import os
 from datetime import date
 
-_T = "C:/Users/rain0/trading-os/output/stage_analysis.json"
+_T = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "stage_for_page.json")
 COL = {"S1": "#3b7dd8", "S2": "#d8a12a", "S3": "#d63384", "S4": "#e8657a"}
 NAME = {"S1": "S1 底部", "S2": "S2 上升", "S3": "S3 頭部", "S4": "S4 下跌"}
 HC = {"強": "#1f7f52", "健康": "#2f8f5b", "中性": "#6b7280", "弱": "#b4751a", "看淡": "#a04a44"}
