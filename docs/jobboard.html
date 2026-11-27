@@ -8,7 +8,7 @@
   if(v){try{v=JSON.parse(v);}catch(e){}
     if(v==='dark'||v==='light')document.documentElement.setAttribute('data-theme',v);}
 }catch(e){}})();</script>
-<link rel="stylesheet" href="site.css?v=2026-11-27 17:56"><script src="sortable.js?v=2026-11-27 17:56"></script>
+<link rel="stylesheet" href="site.css?v=2026-11-27 18:50"><script src="sortable.js?v=2026-11-27 18:50"></script>
 <style>/* 圖表跟主題（每個頁面自帶，唔靠 site.css 順序） */
 .fig-dark{display:none}
 img.fig-light,img.fig-dark{max-width:100%;height:auto}
@@ -21,7 +21,7 @@ html[data-theme="dark"] .fig-light{display:none}
 /* ★ 自動更新：用返原來網址，頁面發現有新 build 就自己 reload 一次
    唔會迴圈：sessionStorage 記住已 reload 過嘅版本 */
 (function(){
-  var BV="2026-11-27 17:56";
+  var BV="2026-11-27 18:50";
   try{
     if(sessionStorage.getItem('hv')===BV) return;
   }catch(e){}
@@ -42,13 +42,13 @@ html[data-theme="dark"] .fig-light{display:none}
     .catch(function(){});
 })();
 </script>
-<button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button><div id="navoverlay"></div><button id="sbtoggle" title="收合側欄">&lsaquo;</button><aside id="sb"><a class="brand" href="index.html">HI! Desmond<span class="bld">11-27 18:04</span></a><button id="themebtn">🌙 深色</button><a href="nel.html" data-pin="1"><span class="i"></span><span class="lbl">今日</span></a><a href="process.html" data-pin="1"><span class="i"></span><span class="lbl">每日流程</span></a><a href="howto.html" data-pin="1"><span class="i"></span><span class="lbl">使用手冊</span></a><details class="gw" open><summary class="grp">HERMES</summary><div class="gl"><a href="hermesdir.html"><span class="ab">He</span><span class="lbl">Hermes 目錄</span></a><a href="skills.html"><span class="ab">He</span><span class="lbl">Hermes 技能</span></a><a href="sysmap.html"><span class="ab">系統</span><span class="lbl">系統地圖</span></a><a href="datahealth.html"><span class="ab">DA</span><span class="lbl">DATABASE</span></a><a href="jobboard.html" class="on"><span class="ab">Jo</span><span class="lbl">Job 監控</span></a><a href="finish.html"><span class="ab">收工</span><span class="lbl">收工標準</span></a></div></details><details class="gw"><summary class="grp">市場</summary><div class="gl"><a href="regime_mri.html"><span class="ab">MA</span><span class="lbl">MARKET REGIME</span></a><a href="regimeheat.html"><span class="ab">環境</span><span class="lbl">環境熱力圖</span></a><a href="briefing.html"><span class="ab">市場</span><span class="lbl">市場簡報</span></a><a href="mm.html"><span class="ab">Ma</span><span class="lbl">Market Monitor</span></a><a href="topwatch.html"><span class="ab">頂部</span><span class="lbl">頂部觀察</span></a><a href="qqqstruct.html"><span class="ab">QQ</span><span class="lbl">QQQ 雙結構</span></a><a href="mmmodel.html"><span class="ab">MM</span><span class="lbl">MM Model</span></a><a href="margin.html"><span class="ab">保證</span><span class="lbl">保證金債務</span></a><a href="putcall.html"><span class="ab">Pu</span><span class="lbl">Put/Call</span></a><a href="ntmflow.html"><span class="ab">期權</span><span class="lbl">期權資金流</span></a><a href="feargauge.html"><span class="ab">投降</span><span class="lbl">投降儀表</span></a><a href="stage.html"><span class="ab">St</span><span class="lbl">Stage Analysis</span></a></div></details><details class="gw"><summary class="grp">主題</summary><div class="gl"><a href="sectorrot.html"><span class="ab">行業</span><span class="lbl">行業輪動</span></a><a href="sectorrot2.html"><span class="ab">行業</span><span class="lbl">行業輪動 v2</span></a><a href="rsboard.html"><span class="ab">RS</span><span class="lbl">RS THEME</span></a><a href="sectors.html"><span class="ab">Se</span><span class="lbl">Sectors</span></a></div></details><details class="gw"><summary class="grp">選股</summary><div class="gl"><a href="screener.html"><span class="ab">St</span><span class="lbl">Stock Screener</span></a><a href="dailyscan.html"><span class="ab">Da</span><span class="lbl">Daily Scan</span></a><a href="alerts.html"><span class="ab">Se</span><span class="lbl">Setup Alert</span></a><a href="leaders.html"><span class="ab">RS</span><span class="lbl">RS Leader</span></a><a href="peg.html"><span class="ab">PE</span><span class="lbl">PEG 清單</span></a><a href="rsnewhigh.html"><span class="ab">RS</span><span class="lbl">RS 新高領先股</span></a><a href="rsbeforeprice.html"><span class="ab">RS</span><span class="lbl">RS Before Price</span></a><a href="cm.html"><span class="ab">RS</span><span class="lbl">RS Pullback</span></a><a href="week.html"><span class="ab">We</span><span class="lbl">Weekly MM</span></a><a href="leadermap.html"><span class="ab">RS</span><span class="lbl">RS Leader 位置圖</span></a><a href="rsscan.html"><span class="ab">RS</span><span class="lbl">RS Daily Scan</span></a><a href="fatpitch.html"><span class="ab">肥球</span><span class="lbl">肥球掃描（J Law）</span></a><a href="wave.html"><span class="ab">肥波</span><span class="lbl">肥波總覽</span></a><a href="tightscan.html"><span class="ab">Ti</span><span class="lbl">Tight Range</span></a><a href="setups.html"><span class="ab">Th</span><span class="lbl">The Plan</span></a><a href="earningscal.html"><span class="ab">財報</span><span class="lbl">財報日曆</span></a><a href="yoyo_ball.html"><span class="ab">YO</span><span class="lbl">YOYO Ball</span></a><a href="regime.html"><span class="ab">Se</span><span class="lbl">Setup 矩陣</span></a></div></details><details class="gw"><summary class="grp">成績</summary><div class="gl"><a href="thinkinr.html"><span class="ab">Th</span><span class="lbl">Think in R</span></a><a href="backtest.html"><span class="ab">Ba</span><span class="lbl">Backtest</span></a><a href="audit.html"><span class="ab">系統</span><span class="lbl">系統審計</span></a><a href="edgeimprove.html"><span class="ab">Ed</span><span class="lbl">Edge Improving</span></a><a href="positioning.html"><span class="ab">Po</span><span class="lbl">Positioning</span></a><a href="review.html"><span class="ab">Re</span><span class="lbl">Review</span></a><a href="review2.html"><span class="ab">覆盤</span><span class="lbl">覆盤（R／期望值）</span></a><a href="calculator.html"><span class="ab">倉位</span><span class="lbl">倉位計算機</span></a></div></details><details class="gw"><summary class="grp">PLAYBOOK</summary><div class="gl"><a href="lukplaybook.html"><span class="ab">Lu</span><span class="lbl">Luk 手冊</span></a><a href="qmb.html"><span class="ab">Qu</span><span class="lbl">Qullamaggie 手冊</span></a><a href="room.html"><span class="ab">系統</span><span class="lbl">系統房間</span></a><a href="https://jfsrev.substack.com/p/my-trading-tools-process-routine" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Jeff Sun 工具/流程</span></a><a href="https://traderslab.gitbook.io/primetrading" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">PrimeTrading 手冊</span></a><a href="https://qullamaggie.net/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Qullamaggie</span></a><a href="https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">QM 3 個 setups</span></a><a href="https://qullamaggie.net/alex-desjardinss-method/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Alex Desjardins 方法</span></a><details class="gw pinfold"><summary class="grp"> 方法</summary><div class="gl"><a href="vantharp.html"><span class="ab">Va</span><span class="lbl">Van Tharp 五法</span></a><a href="optledger.html"><span class="ab">優化</span><span class="lbl">優化帳本</span></a><a href="setupfactory.html"><span class="ab">Se</span><span class="lbl">Setup Factory</span></a><a href="cycle.html"><span class="ab">成長</span><span class="lbl">成長週期</span></a></div></details><details class="gw pinfold"><summary class="grp"> MODEL BOOK</summary><div class="gl"><a href="modelbook.html"><span class="ab">概覽</span><span class="lbl">概覽</span></a><a href="mb_top250.html"><span class="ab">To</span><span class="lbl">Top 250 US Gainers</span></a><a href="modelbook.html#cases"><span class="ab">量化</span><span class="lbl">量化案例庫</span></a></div></details></div></details><details class="gw"><summary class="grp">外部數據</summary><div class="gl"><a href="external.html"><span class="ab">外部</span><span class="lbl">外部數據源</span></a><a href="martinluk.html"><span class="ab">Ma</span><span class="lbl">Martin Luk</span></a><a href="levelup.html"><span class="ab">Ma</span><span class="lbl">Market Pulse</span></a></div></details><div class="sbbtm"><a href="logbook.html" data-bottom="1"><span class="ab">LO</span><span class="lbl">LOG BOOK</span></a></div></aside>
+<button id="navtoggle" aria-label="選單" aria-expanded="false">☰</button><div id="navoverlay"></div><button id="sbtoggle" title="收合側欄">&lsaquo;</button><aside id="sb"><a class="brand" href="index.html">HI! Desmond<span class="bld">11-27 18:53</span></a><button id="themebtn">🌙 深色</button><a href="nel.html" data-pin="1"><span class="i"></span><span class="lbl">今日</span></a><a href="process.html" data-pin="1"><span class="i"></span><span class="lbl">每日流程</span></a><a href="howto.html" data-pin="1"><span class="i"></span><span class="lbl">使用手冊</span></a><details class="gw" open><summary class="grp">HERMES</summary><div class="gl"><a href="hermesdir.html"><span class="ab">He</span><span class="lbl">Hermes 目錄</span></a><a href="skills.html"><span class="ab">He</span><span class="lbl">Hermes 技能</span></a><a href="sysmap.html"><span class="ab">系統</span><span class="lbl">系統地圖</span></a><a href="datahealth.html"><span class="ab">DA</span><span class="lbl">DATABASE</span></a><a href="jobboard.html" class="on"><span class="ab">Jo</span><span class="lbl">Job 監控</span></a><a href="finish.html"><span class="ab">收工</span><span class="lbl">收工標準</span></a></div></details><details class="gw"><summary class="grp">市場</summary><div class="gl"><a href="regime_mri.html"><span class="ab">MA</span><span class="lbl">MARKET REGIME</span></a><a href="regimeheat.html"><span class="ab">環境</span><span class="lbl">環境熱力圖</span></a><a href="briefing.html"><span class="ab">市場</span><span class="lbl">市場簡報</span></a><a href="mm.html"><span class="ab">Ma</span><span class="lbl">Market Monitor</span></a><a href="topwatch.html"><span class="ab">頂部</span><span class="lbl">頂部觀察</span></a><a href="qqqstruct.html"><span class="ab">QQ</span><span class="lbl">QQQ 雙結構</span></a><a href="mmmodel.html"><span class="ab">MM</span><span class="lbl">MM Model</span></a><a href="margin.html"><span class="ab">保證</span><span class="lbl">保證金債務</span></a><a href="putcall.html"><span class="ab">Pu</span><span class="lbl">Put/Call</span></a><a href="ntmflow.html"><span class="ab">期權</span><span class="lbl">期權資金流</span></a><a href="feargauge.html"><span class="ab">投降</span><span class="lbl">投降儀表</span></a><a href="stage.html"><span class="ab">St</span><span class="lbl">Stage Analysis</span></a></div></details><details class="gw"><summary class="grp">主題</summary><div class="gl"><a href="sectorrot.html"><span class="ab">行業</span><span class="lbl">行業輪動</span></a><a href="sectorrot2.html"><span class="ab">行業</span><span class="lbl">行業輪動 v2</span></a><a href="rsboard.html"><span class="ab">RS</span><span class="lbl">RS THEME</span></a><a href="sectors.html"><span class="ab">Se</span><span class="lbl">Sectors</span></a></div></details><details class="gw"><summary class="grp">選股</summary><div class="gl"><a href="screener.html"><span class="ab">St</span><span class="lbl">Stock Screener</span></a><a href="dailyscan.html"><span class="ab">Da</span><span class="lbl">Daily Scan</span></a><a href="alerts.html"><span class="ab">Se</span><span class="lbl">Setup Alert</span></a><a href="leaders.html"><span class="ab">RS</span><span class="lbl">RS Leader</span></a><a href="peg.html"><span class="ab">PE</span><span class="lbl">PEG 清單</span></a><a href="rsnewhigh.html"><span class="ab">RS</span><span class="lbl">RS 新高領先股</span></a><a href="rsbeforeprice.html"><span class="ab">RS</span><span class="lbl">RS Before Price</span></a><a href="cm.html"><span class="ab">RS</span><span class="lbl">RS Pullback</span></a><a href="week.html"><span class="ab">We</span><span class="lbl">Weekly MM</span></a><a href="leadermap.html"><span class="ab">RS</span><span class="lbl">RS Leader 位置圖</span></a><a href="rsscan.html"><span class="ab">RS</span><span class="lbl">RS Daily Scan</span></a><a href="fatpitch.html"><span class="ab">肥球</span><span class="lbl">肥球掃描（J Law）</span></a><a href="wave.html"><span class="ab">肥波</span><span class="lbl">肥波總覽</span></a><a href="tightscan.html"><span class="ab">Ti</span><span class="lbl">Tight Range</span></a><a href="setups.html"><span class="ab">Th</span><span class="lbl">The Plan</span></a><a href="earningscal.html"><span class="ab">財報</span><span class="lbl">財報日曆</span></a><a href="yoyo_ball.html"><span class="ab">YO</span><span class="lbl">YOYO Ball</span></a><a href="regime.html"><span class="ab">Se</span><span class="lbl">Setup 矩陣</span></a></div></details><details class="gw"><summary class="grp">成績</summary><div class="gl"><a href="thinkinr.html"><span class="ab">Th</span><span class="lbl">Think in R</span></a><a href="backtest.html"><span class="ab">Ba</span><span class="lbl">Backtest</span></a><a href="audit.html"><span class="ab">系統</span><span class="lbl">系統審計</span></a><a href="edgeimprove.html"><span class="ab">Ed</span><span class="lbl">Edge Improving</span></a><a href="positioning.html"><span class="ab">Po</span><span class="lbl">Positioning</span></a><a href="review.html"><span class="ab">Re</span><span class="lbl">Review</span></a><a href="review2.html"><span class="ab">覆盤</span><span class="lbl">覆盤（R／期望值）</span></a><a href="calculator.html"><span class="ab">倉位</span><span class="lbl">倉位計算機</span></a></div></details><details class="gw"><summary class="grp">PLAYBOOK</summary><div class="gl"><a href="lukplaybook.html"><span class="ab">Lu</span><span class="lbl">Luk 手冊</span></a><a href="qmb.html"><span class="ab">Qu</span><span class="lbl">Qullamaggie 手冊</span></a><a href="room.html"><span class="ab">系統</span><span class="lbl">系統房間</span></a><a href="https://jfsrev.substack.com/p/my-trading-tools-process-routine" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Jeff Sun 工具/流程</span></a><a href="https://traderslab.gitbook.io/primetrading" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">PrimeTrading 手冊</span></a><a href="https://qullamaggie.net/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Qullamaggie</span></a><a href="https://qullamaggie.com/my-3-timeless-setups-that-have-made-me-tens-of-millions/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">QM 3 個 setups</span></a><a href="https://qullamaggie.net/alex-desjardinss-method/" target="_blank" rel="noopener" class="ext-link"><span class="i"></span><span class="lbl">Alex Desjardins 方法</span></a><details class="gw pinfold"><summary class="grp"> 方法</summary><div class="gl"><a href="vantharp.html"><span class="ab">Va</span><span class="lbl">Van Tharp 五法</span></a><a href="optledger.html"><span class="ab">優化</span><span class="lbl">優化帳本</span></a><a href="setupfactory.html"><span class="ab">Se</span><span class="lbl">Setup Factory</span></a><a href="cycle.html"><span class="ab">成長</span><span class="lbl">成長週期</span></a></div></details><details class="gw pinfold"><summary class="grp"> MODEL BOOK</summary><div class="gl"><a href="modelbook.html"><span class="ab">概覽</span><span class="lbl">概覽</span></a><a href="mb_top250.html"><span class="ab">To</span><span class="lbl">Top 250 US Gainers</span></a><a href="modelbook.html#cases"><span class="ab">量化</span><span class="lbl">量化案例庫</span></a></div></details></div></details><details class="gw"><summary class="grp">外部數據</summary><div class="gl"><a href="external.html"><span class="ab">外部</span><span class="lbl">外部數據源</span></a><a href="martinluk.html"><span class="ab">Ma</span><span class="lbl">Martin Luk</span></a><a href="levelup.html"><span class="ab">Ma</span><span class="lbl">Market Pulse</span></a></div></details><div class="sbbtm"><a href="logbook.html" data-bottom="1"><span class="ab">LO</span><span class="lbl">LOG BOOK</span></a></div></aside>
 <div class="wrap">
 <header class="top">
  <div style="display:flex;align-items:flex-start;gap:10px">
   <div style="flex:1 1 auto">
    <h1><span>HI! Desmond</span></h1>
-   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-11-27 17:56</code></p>
+   <p class="crumb">繁體中文版｜骨架蒸餾自 <a href="https://i-manage-risk.github.io/NEL/index.html" target="_blank" rel="noopener">NEL · Market console</a>（逆向工程）｜資料 <code>2026-11-27 18:50</code></p>
   </div>
  </div>
 </header>
@@ -160,164 +160,32 @@ function jbFilter(mode,btn){
     if(mode!=='all') g.open = vis;
   });
 }
-</script><h2>🍳 Job 監控 <small>所有常駐 job 狀態</small></h2><p class="crumb">本機讀取 <code>~/AppData/Local/hermes/cron/</code>｜生成 2026-11-27｜<b>108</b> 個 job 註冊｜<a href="https://desmondddkey.github.io/trading-desk/index.html">回主頁</a></p><div class="jb-stats"><div class="jb-stat"><div class="v jb-ok">96</div><div class="k">正常</div></div><div class="jb-stat"><div class="v jb-err">4</div><div class="k">失敗</div></div><div class="jb-stat"><div class="v jb-none">1</div><div class="k">從未跑過</div></div><div class="jb-stat"><div class="v jb-none">7</div><div class="k">已停用</div></div><div class="jb-stat"><div class="v jb-err">4</div><div class="k">未關閉事故</div></div></div><div class="card"><h2>🚨 需要處理 <small>4 個 job 失敗</small></h2><div style="padding:12px 16px"><div style="padding:9px 0;border-bottom:1px solid rgba(128,128,128,.16);font-size:12.5px"><b>notion-records-daily</b> <code style="font-size:12.0px">4358f4b0099b</code><br><span class="jb-err" style="font-size:12.0px">22 小時前｜⚠️ Notion 記錄同步超時（&gt;600s）— 今日表格未更新。</span></div><div style="padding:9px 0;border-bottom:1px solid rgba(128,128,128,.16);font-size:12.5px"><b>impeccable-guard-weekly</b> <code style="font-size:12.0px">0cbed7057efa</code><br><span class="jb-err" style="font-size:12.0px">6 日前｜ValueError: too many values to unpack (expected 2)</span></div><div style="padding:9px 0;border-bottom:1px solid rgba(128,128,128,.16);font-size:12.5px"><b>modelbook-all-weekly</b> <code style="font-size:12.0px">ebafc5a80d36</code><br><span class="jb-err" style="font-size:12.0px">6 日前｜  Model Book 案例庫＋重建頁: rc=1 KeyError: &#x27;cases&#x27;</span></div><div style="padding:9px 0;border-bottom:1px solid rgba(128,128,128,.16);font-size:12.5px"><b>modelbook-weekly</b> <code style="font-size:12.0px">be337a022904</code><br><span class="jb-err" style="font-size:12.0px">6 日前｜KeyError: &#x27;cases&#x27;</span></div></div></div><div class="jb-filters"><button class="on" onclick="jbFilter('all',this)">全部 108</button><button onclick="jbFilter('err',this)">🚨 失敗 4</button><button onclick="jbFilter('on',this)">✅ 運作中 100</button><button onclick="jbFilter('never',this)">⚪ 從未跑 1</button><button onclick="jbFilter('must',this)">📌 一定要睇 12</button><button onclick="jbFilter('eye',this)">👀 有時間睇 30</button></div><details class="jb-group" data-cat="act" open><summary><b>📌 今日行動</b> · 直接影響你今日買咩、幾時出<span class="jb-g-n">12 個</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 risk-gate-daily<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">今日風險閘：帳戶回撤到邊、仲可唔可以開新倉、單筆風險上限幾多。</div><div class="jb-meta"><span class="jb-sched">0 18 * * 1-5</span>｜4 分鐘前｜下次 11-30T18:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">risk_gate_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 18:00</span><span class="jb-chip">cdeefec14434</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:01</span><span class="jb-log-s">completed</span><span>4.8s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 18:00</span><span class="jb-log-s">completed</span><span>4.8s</span></div></div><div class="jb-pre"># Cron Job: risk-gate-daily
-
-**Job ID:** cdeefec14434
-**Run Time:** 2026-11-27 18:00:17
-**Mode:** no_agent (script)
-
----
-
-🚦 RISK GATE · 2026-11-25 收市　（IWF÷IWD）
-
-▶ 今日應該做咩 → 【RISK_OFF】🛑 唔開新倉（現金為王）· 只建立觀察清單
-　資金去 value／現金。增長股清倉或只留極少，主力做觀察清單。
-
-── 三個輸入 ──
- ① 閘門　risk_off　ratio 0.4200 vs band 0.4528–0.4691
-　　　　risk-off 自 2026-10-14（第 31 日）　｜　現時 zone 自 2026-11-25（第 1 日）
- ② 動量　fading（-0.51σ）　距 10 週中線 -8.88%（10 日前 -7.24%）
- ③ 延伸　距 10 週中線 -3.22σ（band 外 -3.87σ）　21 日 EMA -1.53σ　未延伸
-
-── 之後 20 日歷史（本機重算，n = 該 zone 日數）──
- ▶RISK_OFF  n=310   QQQE 0.2%  升 49%  growth 贏 45%
- 　PROBE     n=208   QQQE 0.8%  升 54%  growth 贏 45%
- 　RAMP_UP   n=209   QQQE 1.2%  升 64%  growth 贏 71%
- 　TRIM      n=86    QQQE 0.4%  升 59%  growth 贏 33%
- 　HOLD      n=104   QQQE 2.4%  升 74%  growth 贏 54%
- 　RELOAD    n=240   QQQE 1.1%  升 64%  growth 贏 60%
-
-── 對照原圖（2026-10-09 同一日）──
- ratio 0.42 vs 0.5045　band 0.4528–0.4691 vs 0.4865–0.4989
- band 外 -3.87σ vs 0.44σ　距中線 -3.22σ vs 0.93σ　gap% -8.88 vs 2.2（10 日前 -7.24 vs 2.8）
- 日數（本機 vs 原圖）：RISK_OFF 310/289｜PROBE 208/201｜RAMP_UP 209/230｜TRIM 86/81｜HOLD 104/104｜RELOAD 240/239
-
-⚠️ 原圖卡②寫「Rising · −0.02σ」—— 個字同自己個數（負數）矛盾。本引擎照**符號**判（負 = fading → RELOAD）。要改成「Rising」請講。
-
-倉位鐵律（不變）：單筆風險 0.5%｜單一倉位 ≤33%｜組合風險 ≤1.5%｜ATRX &gt;4 = 硬刪（EDGE-009）
-規則 risk-gate-v1｜環境判斷，唔係入場訊號｜改 trade_cap／倉位 = 單向門，要 Desmond 批</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 discipline-gate<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">13 條紀律閘即時檢查（每 30 分鐘）。你買之前問佢：呢單准唔准做。</div><div class="jb-meta"><span class="jb-sched">0,30 21-23,0-5 * * 2-6</span>｜12 小時前｜下次 11-27T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">discipline_gate_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-27 05:30</span><span class="jb-chip">1ff4503b45e5</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:30</span><span class="jb-log-s">completed</span><span>0.5s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 04:00</span><span class="jb-log-s">completed</span><span>0.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 01:30</span><span class="jb-log-s">completed</span><span>0.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 00:30</span><span class="jb-log-s">completed</span><span>0.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:30</span><span class="jb-log-s">completed</span><span>0.4s</span></div></div><div class="jb-pre"># Cron Job: discipline-gate
-
-**Job ID:** 1ff4503b45e5
-**Run Time:** 2026-11-27 05:30:05
-**Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 close-watch-exit<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">美股收市前 20 分鐘檢查持倉：跌穿 10EMA 叫你全清、到 2R 叫你減 33%。</div><div class="jb-meta"><span class="jb-sched">45 3,4 * * 2-6</span>｜13 小時前｜下次 11-28T03:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">close_watch_cron.py</span><span class="jb-chip">→ telegram:322829419</span><span class="jb-chip">輸出 11-27 04:45</span><span class="jb-chip">ee30ce622ee2</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 03:45</span><span class="jb-log-s">completed</span><span>1.3s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 03:45</span><span class="jb-log-s">completed</span><span>1.5s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 04:45</span><span class="jb-log-s">completed</span><span>0.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 04:45</span><span class="jb-log-s">completed</span><span>0.4s</span></div></div><div class="jb-pre"># Cron Job: close-watch-exit
-
-**Job ID:** ee30ce622ee2
-**Run Time:** 2026-11-27 04:45:05
-**Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 setup-alerts<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">6 種 setup 嘅即時入場警報（每分鐘掃）。冇訊息＝冇 setup 成立，唔係壞。</div><div class="jb-meta"><span class="jb-sched">* 21-23,0 * * 1-5</span>｜17 小時前｜下次 11-27T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">setup_alerts_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 11-27 00:59</span><span class="jb-chip">82a425b3367b</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:54</span><span class="jb-log-s">completed</span><span>0.5s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 00:16</span><span class="jb-log-s">completed</span><span>0.5s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:11</span><span class="jb-log-s">completed</span><span>0.5s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:12</span><span class="jb-log-s">completed</span><span>0.5s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 00:06</span><span class="jb-log-s">completed</span><span>0.5s</span></div></div><div class="jb-pre"># Cron Job: setup-alerts
-
-**Job ID:** 82a425b3367b
-**Run Time:** 2026-11-27 00:59:05
-**Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 jeffsun-intraday-ORH-RVOL-alert<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">開盤區間突破（ORH）+ 成交量爆發警報。呢啲係 Jeff Sun 體系最核心嘅入場點。</div><div class="jb-meta"><span class="jb-sched">* 21-23 * * 1-5</span>｜18 小時前｜下次 11-27T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">jeffsun_intraday_alert_cron.py</span><span class="jb-chip">→ origin,local</span><span class="jb-chip">輸出 11-26 23:59</span><span class="jb-chip">b09331bb96e3</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:02</span><span class="jb-log-s">completed</span><span>3.6s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:15</span><span class="jb-log-s">completed</span><span>3.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:50</span><span class="jb-log-s">completed</span><span>3.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 22:58</span><span class="jb-log-s">completed</span><span>3.8s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-25 23:08</span><span class="jb-log-s">completed</span><span>3.8s</span></div></div><div class="jb-pre"># Cron Job: jeffsun-intraday-ORH-RVOL-alert
-
-**Job ID:** b09331bb96e3
-**Run Time:** 2026-11-26 23:59:08
-**Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 yoyo-gap-alert<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">YOYO 跳空 setup 警報（1chartmaster 方法）。跳空後回補嘅機會。</div><div class="jb-meta"><span class="jb-sched">50 21 * * 1-5</span>｜19 小時前｜下次 11-27T21:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">yoyo_gap_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 22:57</span><span class="jb-chip">3db5b92a221f</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 22:57</span><span class="jb-log-s">completed</span><span>12.2s</span></div></div><div class="jb-pre"># Cron Job: yoyo-gap-alert
-
-**Job ID:** 3db5b92a221f
-**Run Time:** 2026-11-26 22:57:47
-**Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 premarket-list-daily<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">開市前清單：三個原則 + 唔應該做 + 3 條自問。</div><div class="jb-meta"><span class="jb-sched">0 21,22 * * 1-5</span>｜19 小時前｜下次 11-27T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">premarket_list_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 22:57</span><span class="jb-chip">e582a8d94a5b</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 22:57</span><span class="jb-log-s">completed</span><span>0.7s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:00</span><span class="jb-log-s">completed</span><span>0.6s</span></div></div><div class="jb-pre"># Cron Job: premarket-list-daily
-
-**Job ID:** e582a8d94a5b
-**Run Time:** 2026-11-26 22:57:35
-**Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 osib-setup-alert<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">OSIB（開盤狹窄區間突破）setup 警報。同 ORH 唔同：呢個要求區間更窄。</div><div class="jb-meta"><span class="jb-sched">40 21 * * 1-5</span>｜20 小時前｜下次 11-27T21:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">osib_alert_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 21:40</span><span class="jb-chip">4489ae84e4bd</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:40</span><span class="jb-log-s">completed</span><span>3.8s</span></div></div><div class="jb-pre"># Cron Job: osib-setup-alert
-
-**Job ID:** 4489ae84e4bd
-**Run Time:** 2026-11-26 21:40:32
-**Mode:** no_agent (script)
-
----
-
-🔔 OSIB 機會｜記憶體 板塊 flush
-
-   5 隻 gap down ≤ -4.0%：
-
-     MU     gap -8.71%｜全日 -4.53%
-
-     SNDK   gap -8.51%｜全日 -5.57%
-
-     SKHY   gap -6.94%｜全日 -0.75%
-
-     STX    gap -6.52%｜全日 -2.10%
-
-     WDC    gap -6.21%｜全日 -0.55%
-
-   · SNXX（SNDK）：O≠L（O1.36 L1.18）= 唔係 hammer
-
-   · MUU（MU）：O≠L（O8.56 L7.67）= 唔係 hammer
-
-   · SKHY（SKHY）：O≠L（O104.21 L101.91）= 唔係 hammer
-
-   · WDC（WDC）：O≠L（O256.94 L244.77）= 唔係 hammer
-
-   · STX（STX）：O≠L（O451.03 L432.04）= 唔係 hammer
-
-   ⚡ 反向確認：RAMZ gap +17.26% = 板塊真跌
-
-
-
-   ★ 判準寫死喺 osib_scan.py（12 個測試守住）。唔符合就唔做 —— 唔好勉強。</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 macro-tail-guard<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">宏觀尾部風險警報：VIX 急升、指數跳空、廣度崩潰 → 叫你減倉或全清。</div><div class="jb-meta"><span class="jb-sched">25 21 * * 1-5</span>｜20 小時前｜下次 11-27T21:25</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">macro_tail_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 21:25</span><span class="jb-chip">c2e00155bc00</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:26</span><span class="jb-log-s">completed</span><span>2.6s</span></div></div><div class="jb-pre"># Cron Job: macro-tail-guard
-
-**Job ID:** c2e00155bc00
-**Run Time:** 2026-11-26 21:25:59
-**Mode:** no_agent (script)
-
----
-
-🟠 宏觀尾端風險：REDUCE
-
-     觸發信號：
-
-       · VIX 28.3 ≥ 25（警戒）
-
-       · SPY 跳空 -2.17% ≤ -1.5%
-
-     建議動作：
-
-       ★ 倉位 × 0.5（單筆風險 0.5% → 0.25%）
-
-       ★ 優先減：相關性最高嘅一對（例如同板塊 2 隻）
-
-       ★ 唔開新倉，除非 A+ 級
-
-
-
-     數據：vix=28.29｜vix_1d_pct=-4.95｜vix_5d_pct=-5.45｜spy_gap_pct=-2.17｜spy_1d_pct=-0.29｜spy_day=2026-11-25｜breadth_src=breadth_20261126.json｜breadth_age_days=0｜net_nhnl=-6.3</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 ftd-pre-alert-daily<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">FTD（跟進日）前嘅領先股。市場跌完、可能見底時，話你知邊幾隻已經偷步走強。</div><div class="jb-meta"><span class="jb-sched">20 21 * * 1-5</span>｜20 小時前｜下次 11-27T21:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">ftd_pre_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 21:21</span><span class="jb-chip">6a495306cd96</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:21</span><span class="jb-log-s">completed</span><span>7.9s</span></div></div><div class="jb-pre"># Cron Job: ftd-pre-alert-daily
-
-**Job ID:** 6a495306cd96
-**Run Time:** 2026-11-26 21:21:06
-**Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> setup-check<span class="jb-cat">📌 今日行動</span></div><div class="jb-meta"><span class="jb-sched">50 18 * * 2-6</span>｜23 小時前｜下次 11-27T18:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">setup_check_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 18:50</span><span class="jb-chip">7162d6d74296</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:50</span><span class="jb-log-s">completed</span><span>1.3s</span></div></div><div class="jb-pre"># Cron Job: setup-check
+</script><h2>🍳 Job 監控 <small>所有常駐 job 狀態</small></h2><p class="crumb">本機讀取 <code>~/AppData/Local/hermes/cron/</code>｜生成 2026-11-27｜<b>108</b> 個 job 註冊｜<a href="https://desmondddkey.github.io/trading-desk/index.html">回主頁</a></p><div class="jb-stats"><div class="jb-stat"><div class="v jb-ok">96</div><div class="k">正常</div></div><div class="jb-stat"><div class="v jb-err">4</div><div class="k">失敗</div></div><div class="jb-stat"><div class="v jb-none">1</div><div class="k">從未跑過</div></div><div class="jb-stat"><div class="v jb-none">7</div><div class="k">已停用</div></div><div class="jb-stat"><div class="v jb-err">4</div><div class="k">未關閉事故</div></div></div><div class="card"><h2>🚨 需要處理 <small>4 個 job 失敗</small></h2><div style="padding:12px 16px"><div style="padding:9px 0;border-bottom:1px solid rgba(128,128,128,.16);font-size:12.5px"><b>notion-records-daily</b> <code style="font-size:12.0px">4358f4b0099b</code><br><span class="jb-err" style="font-size:12.0px">23 小時前｜⚠️ Notion 記錄同步超時（&gt;600s）— 今日表格未更新。</span></div><div style="padding:9px 0;border-bottom:1px solid rgba(128,128,128,.16);font-size:12.5px"><b>impeccable-guard-weekly</b> <code style="font-size:12.0px">0cbed7057efa</code><br><span class="jb-err" style="font-size:12.0px">6 日前｜ValueError: too many values to unpack (expected 2)</span></div><div style="padding:9px 0;border-bottom:1px solid rgba(128,128,128,.16);font-size:12.5px"><b>modelbook-all-weekly</b> <code style="font-size:12.0px">ebafc5a80d36</code><br><span class="jb-err" style="font-size:12.0px">6 日前｜  Model Book 案例庫＋重建頁: rc=1 KeyError: &#x27;cases&#x27;</span></div><div style="padding:9px 0;border-bottom:1px solid rgba(128,128,128,.16);font-size:12.5px"><b>modelbook-weekly</b> <code style="font-size:12.0px">be337a022904</code><br><span class="jb-err" style="font-size:12.0px">6 日前｜KeyError: &#x27;cases&#x27;</span></div></div></div><div class="jb-filters"><button class="on" onclick="jbFilter('all',this)">全部 108</button><button onclick="jbFilter('err',this)">🚨 失敗 4</button><button onclick="jbFilter('on',this)">✅ 運作中 100</button><button onclick="jbFilter('never',this)">⚪ 從未跑 1</button><button onclick="jbFilter('must',this)">📌 一定要睇 12</button><button onclick="jbFilter('eye',this)">👀 有時間睇 30</button></div><details class="jb-group" data-cat="act" open><summary><b>📌 今日行動</b> · 直接影響你今日買咩、幾時出<span class="jb-g-n">12 個</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok" data-cat="act" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> setup-check<span class="jb-cat">📌 今日行動</span></div><div class="jb-meta"><span class="jb-sched">50 18 * * 2-6</span>｜2 分鐘前｜下次 11-28T18:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">setup_check_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 18:50</span><span class="jb-chip">7162d6d74296</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:50</span><span class="jb-log-s">completed</span><span>1.3s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 18:50</span><span class="jb-log-s">completed</span><span>0.5s</span></div></div><div class="jb-pre"># Cron Job: setup-check
 
 **Job ID:** 7162d6d74296
-**Run Time:** 2026-11-26 18:50:58
+**Run Time:** 2026-11-27 18:50:12
 **Mode:** no_agent (script)
 
 ---
 
 🔍 Setup 檢查（每日）
   🟡 階段 CHOP｜倉位 ×0.75
-  ⚠️ 矩陣已 40 日未更新 —— 跑 `python setup_regime_backtest.py --years 3`
+  ⚠️ 矩陣已 41 日未更新 —— 跑 `python setup_regime_backtest.py --years 3`
   · pct40ma 58.1%｜20 日 +32.7pp
 
   ⛔ 今日暫停：
-     HVE（7 HVE 史上最高量 (Omar/1chartmaster)）—— ⚠️ 疑有害（BULL n=31 -0.138）</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 Daily-Pre-market-Plan<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">今日一張紙：regime、買咩候選、組合熱度、集中度警告。開市前睇呢張就夠。</div><div class="jb-meta"><span class="jb-sched">10 18 * * 1-5</span>｜23 小時前｜下次 11-27T18:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">daily_plan_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 11-26 18:11</span><span class="jb-chip">a3e31543c579</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:11</span><span class="jb-log-s">completed</span><span>25.2s</span></div></div><div class="jb-pre"># Cron Job: Daily-Pre-market-Plan
+     HVE（7 HVE 史上最高量 (Omar/1chartmaster)）—— ⚠️ 疑有害（BULL n=31 -0.138）</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 Daily-Pre-market-Plan<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">今日一張紙：regime、買咩候選、組合熱度、集中度警告。開市前睇呢張就夠。</div><div class="jb-meta"><span class="jb-sched">10 18 * * 1-5</span>｜42 分鐘前｜下次 11-30T18:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">daily_plan_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 11-27 18:10</span><span class="jb-chip">a3e31543c579</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:11</span><span class="jb-log-s">completed</span><span>25.2s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 18:10</span><span class="jb-log-s">completed</span><span>25.6s</span></div></div><div class="jb-pre"># Cron Job: Daily-Pre-market-Plan
 
 **Job ID:** a3e31543c579
-**Run Time:** 2026-11-26 18:11:22
+**Run Time:** 2026-11-27 18:10:37
 **Mode:** no_agent (script)
 
 ---
 
 ⚡ USIC Daily Brief｜Wed 25 Nov 2026
-   （plan 2026-11-25 收市｜insight 2026-11-26）
+   （plan 2026-11-25 收市｜insight 2026-11-27）
    ⚠️ 兩份來源日期唔同（plan 用收市日、insight 用發布日）— 睇數字時記住呢個差
-「唔好只顧賺錢，要顧住保護你已經有嘅嘢。」—— Paul Tudor Jones
+「參與度廣，突破就可靠；參與度窄，突破就變陷阱。」—— Stockbee
 
 ① 今日唯一要答嘅問題
    我嘅 setups 今日有幾大機會 work？（今日唯一要答嘅問題）
@@ -327,7 +195,7 @@ function jbFilter(mode,btn){
    🟢 價格行為：SPY 716.70 vs 5DMA 712.69
    🔴 淨 52 週新高低 7.00（NH 19 / NL 12，S&amp;P500，10 日均 -0.30）
       20 日新高低：66 / 10（淨 56）｜50MA 上 59.00% vs 前日 55.10% ← 兩個唔同嘅尺，唔可以混用
-   🟢 VIX 28.29｜波動擴張（風險升、止蝕易被打）
+   🟢 VIX 26.80｜波動擴張（風險升、止蝕易被打）
    🟢 領導板塊（1 週 RS vs SPY）：生物科技 9.82%｜材料 3.34%｜醫療 3.23%
    🔴 落後板塊（1 週 RS vs SPY）：軟體 -0.13%（1月 -8.11%）｜科技 -3.05%（1月 -10.90%）｜半導體 -7.93%（1月 -17.99%）
       🎯 逆勢機會（若做空/逆向 ETF）：科技／半導體 —— 1 週 RS 落後大盤 &gt;3%
@@ -363,9 +231,209 @@ function jbFilter(mode,btn){
 
 ⑥ 比賽時鐘：USIC 月度 剩 0 個交易日（至 2026-10-31）｜目標 ≥5.0%
 
-⑨ T1 追蹤（RVOL 達標 → 2R → 
+⑨ T1 追蹤（RVOL 達標 → 2R → T3 →
 
-…（截斷）</div></div></div></div></details><details class="jb-group" data-cat="scan"><summary><b>🔍 選股掃描</b> · 產生候選名單，你揀邊隻睇圖<span class="jb-g-n">5 個</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok" data-cat="scan" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 leader-map-daily<span class="jb-cat">🔍 選股掃描</span></div><div class="jb-purpose">RS Leader 位置圖：邊隻領導股而家喺「買入區」內（唔追高、唔接刀）。</div><div class="jb-meta"><span class="jb-sched">10 6 * * 2-6</span>｜11 小時前｜下次 11-28T06:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">leader_map_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-27 06:10</span><span class="jb-chip">b922364baec4</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 06:10</span><span class="jb-log-s">completed</span><span>3.9s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 06:11</span><span class="jb-log-s">completed</span><span>4.0s</span></div></div><div class="jb-pre"># Cron Job: leader-map-daily
+…（截斷）</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 risk-gate-daily<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">今日風險閘：帳戶回撤到邊、仲可唔可以開新倉、單筆風險上限幾多。</div><div class="jb-meta"><span class="jb-sched">0 18 * * 1-5</span>｜52 分鐘前｜下次 11-30T18:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">risk_gate_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 18:00</span><span class="jb-chip">cdeefec14434</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:01</span><span class="jb-log-s">completed</span><span>4.8s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 18:00</span><span class="jb-log-s">completed</span><span>4.8s</span></div></div><div class="jb-pre"># Cron Job: risk-gate-daily
+
+**Job ID:** cdeefec14434
+**Run Time:** 2026-11-27 18:00:17
+**Mode:** no_agent (script)
+
+---
+
+🚦 RISK GATE · 2026-11-25 收市　（IWF÷IWD）
+
+▶ 今日應該做咩 → 【RISK_OFF】🛑 唔開新倉（現金為王）· 只建立觀察清單
+　資金去 value／現金。增長股清倉或只留極少，主力做觀察清單。
+
+── 三個輸入 ──
+ ① 閘門　risk_off　ratio 0.4200 vs band 0.4528–0.4691
+　　　　risk-off 自 2026-10-14（第 31 日）　｜　現時 zone 自 2026-11-25（第 1 日）
+ ② 動量　fading（-0.51σ）　距 10 週中線 -8.88%（10 日前 -7.24%）
+ ③ 延伸　距 10 週中線 -3.22σ（band 外 -3.87σ）　21 日 EMA -1.53σ　未延伸
+
+── 之後 20 日歷史（本機重算，n = 該 zone 日數）──
+ ▶RISK_OFF  n=310   QQQE 0.2%  升 49%  growth 贏 45%
+ 　PROBE     n=208   QQQE 0.8%  升 54%  growth 贏 45%
+ 　RAMP_UP   n=209   QQQE 1.2%  升 64%  growth 贏 71%
+ 　TRIM      n=86    QQQE 0.4%  升 59%  growth 贏 33%
+ 　HOLD      n=104   QQQE 2.4%  升 74%  growth 贏 54%
+ 　RELOAD    n=240   QQQE 1.1%  升 64%  growth 贏 60%
+
+── 對照原圖（2026-10-09 同一日）──
+ ratio 0.42 vs 0.5045　band 0.4528–0.4691 vs 0.4865–0.4989
+ band 外 -3.87σ vs 0.44σ　距中線 -3.22σ vs 0.93σ　gap% -8.88 vs 2.2（10 日前 -7.24 vs 2.8）
+ 日數（本機 vs 原圖）：RISK_OFF 310/289｜PROBE 208/201｜RAMP_UP 209/230｜TRIM 86/81｜HOLD 104/104｜RELOAD 240/239
+
+⚠️ 原圖卡②寫「Rising · −0.02σ」—— 個字同自己個數（負數）矛盾。本引擎照**符號**判（負 = fading → RELOAD）。要改成「Rising」請講。
+
+倉位鐵律（不變）：單筆風險 0.5%｜單一倉位 ≤33%｜組合風險 ≤1.5%｜ATRX &gt;4 = 硬刪（EDGE-009）
+規則 risk-gate-v1｜環境判斷，唔係入場訊號｜改 trade_cap／倉位 = 單向門，要 Desmond 批</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 discipline-gate<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">13 條紀律閘即時檢查（每 30 分鐘）。你買之前問佢：呢單准唔准做。</div><div class="jb-meta"><span class="jb-sched">0,30 21-23,0-5 * * 2-6</span>｜13 小時前｜下次 11-27T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">discipline_gate_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-27 05:30</span><span class="jb-chip">1ff4503b45e5</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:30</span><span class="jb-log-s">completed</span><span>0.5s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 04:00</span><span class="jb-log-s">completed</span><span>0.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 01:30</span><span class="jb-log-s">completed</span><span>0.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 00:30</span><span class="jb-log-s">completed</span><span>0.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:30</span><span class="jb-log-s">completed</span><span>0.4s</span></div></div><div class="jb-pre"># Cron Job: discipline-gate
+
+**Job ID:** 1ff4503b45e5
+**Run Time:** 2026-11-27 05:30:05
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 close-watch-exit<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">美股收市前 20 分鐘檢查持倉：跌穿 10EMA 叫你全清、到 2R 叫你減 33%。</div><div class="jb-meta"><span class="jb-sched">45 3,4 * * 2-6</span>｜14 小時前｜下次 11-28T03:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">close_watch_cron.py</span><span class="jb-chip">→ telegram:322829419</span><span class="jb-chip">輸出 11-27 04:45</span><span class="jb-chip">ee30ce622ee2</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 03:45</span><span class="jb-log-s">completed</span><span>1.3s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 03:45</span><span class="jb-log-s">completed</span><span>1.5s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 04:45</span><span class="jb-log-s">completed</span><span>0.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 04:45</span><span class="jb-log-s">completed</span><span>0.4s</span></div></div><div class="jb-pre"># Cron Job: close-watch-exit
+
+**Job ID:** ee30ce622ee2
+**Run Time:** 2026-11-27 04:45:05
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 setup-alerts<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">6 種 setup 嘅即時入場警報（每分鐘掃）。冇訊息＝冇 setup 成立，唔係壞。</div><div class="jb-meta"><span class="jb-sched">* 21-23,0 * * 1-5</span>｜17 小時前｜下次 11-27T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">setup_alerts_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 11-27 00:59</span><span class="jb-chip">82a425b3367b</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:54</span><span class="jb-log-s">completed</span><span>0.5s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 00:16</span><span class="jb-log-s">completed</span><span>0.5s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:11</span><span class="jb-log-s">completed</span><span>0.5s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:12</span><span class="jb-log-s">completed</span><span>0.5s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 00:06</span><span class="jb-log-s">completed</span><span>0.5s</span></div></div><div class="jb-pre"># Cron Job: setup-alerts
+
+**Job ID:** 82a425b3367b
+**Run Time:** 2026-11-27 00:59:05
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 jeffsun-intraday-ORH-RVOL-alert<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">開盤區間突破（ORH）+ 成交量爆發警報。呢啲係 Jeff Sun 體系最核心嘅入場點。</div><div class="jb-meta"><span class="jb-sched">* 21-23 * * 1-5</span>｜18 小時前｜下次 11-27T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">jeffsun_intraday_alert_cron.py</span><span class="jb-chip">→ origin,local</span><span class="jb-chip">輸出 11-26 23:59</span><span class="jb-chip">b09331bb96e3</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:02</span><span class="jb-log-s">completed</span><span>3.6s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:15</span><span class="jb-log-s">completed</span><span>3.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:50</span><span class="jb-log-s">completed</span><span>3.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 22:58</span><span class="jb-log-s">completed</span><span>3.8s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-25 23:08</span><span class="jb-log-s">completed</span><span>3.8s</span></div></div><div class="jb-pre"># Cron Job: jeffsun-intraday-ORH-RVOL-alert
+
+**Job ID:** b09331bb96e3
+**Run Time:** 2026-11-26 23:59:08
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 yoyo-gap-alert<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">YOYO 跳空 setup 警報（1chartmaster 方法）。跳空後回補嘅機會。</div><div class="jb-meta"><span class="jb-sched">50 21 * * 1-5</span>｜19 小時前｜下次 11-27T21:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">yoyo_gap_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 22:57</span><span class="jb-chip">3db5b92a221f</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 22:57</span><span class="jb-log-s">completed</span><span>12.2s</span></div></div><div class="jb-pre"># Cron Job: yoyo-gap-alert
+
+**Job ID:** 3db5b92a221f
+**Run Time:** 2026-11-26 22:57:47
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 premarket-list-daily<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">開市前清單：三個原則 + 唔應該做 + 3 條自問。</div><div class="jb-meta"><span class="jb-sched">0 21,22 * * 1-5</span>｜19 小時前｜下次 11-27T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">premarket_list_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 22:57</span><span class="jb-chip">e582a8d94a5b</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 22:57</span><span class="jb-log-s">completed</span><span>0.7s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:00</span><span class="jb-log-s">completed</span><span>0.6s</span></div></div><div class="jb-pre"># Cron Job: premarket-list-daily
+
+**Job ID:** e582a8d94a5b
+**Run Time:** 2026-11-26 22:57:35
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 osib-setup-alert<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">OSIB（開盤狹窄區間突破）setup 警報。同 ORH 唔同：呢個要求區間更窄。</div><div class="jb-meta"><span class="jb-sched">40 21 * * 1-5</span>｜21 小時前｜下次 11-27T21:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">osib_alert_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 21:40</span><span class="jb-chip">4489ae84e4bd</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:40</span><span class="jb-log-s">completed</span><span>3.8s</span></div></div><div class="jb-pre"># Cron Job: osib-setup-alert
+
+**Job ID:** 4489ae84e4bd
+**Run Time:** 2026-11-26 21:40:32
+**Mode:** no_agent (script)
+
+---
+
+🔔 OSIB 機會｜記憶體 板塊 flush
+
+   5 隻 gap down ≤ -4.0%：
+
+     MU     gap -8.71%｜全日 -4.53%
+
+     SNDK   gap -8.51%｜全日 -5.57%
+
+     SKHY   gap -6.94%｜全日 -0.75%
+
+     STX    gap -6.52%｜全日 -2.10%
+
+     WDC    gap -6.21%｜全日 -0.55%
+
+   · SNXX（SNDK）：O≠L（O1.36 L1.18）= 唔係 hammer
+
+   · MUU（MU）：O≠L（O8.56 L7.67）= 唔係 hammer
+
+   · SKHY（SKHY）：O≠L（O104.21 L101.91）= 唔係 hammer
+
+   · WDC（WDC）：O≠L（O256.94 L244.77）= 唔係 hammer
+
+   · STX（STX）：O≠L（O451.03 L432.04）= 唔係 hammer
+
+   ⚡ 反向確認：RAMZ gap +17.26% = 板塊真跌
+
+
+
+   ★ 判準寫死喺 osib_scan.py（12 個測試守住）。唔符合就唔做 —— 唔好勉強。</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 macro-tail-guard<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">宏觀尾部風險警報：VIX 急升、指數跳空、廣度崩潰 → 叫你減倉或全清。</div><div class="jb-meta"><span class="jb-sched">25 21 * * 1-5</span>｜21 小時前｜下次 11-27T21:25</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">macro_tail_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 21:25</span><span class="jb-chip">c2e00155bc00</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:26</span><span class="jb-log-s">completed</span><span>2.6s</span></div></div><div class="jb-pre"># Cron Job: macro-tail-guard
+
+**Job ID:** c2e00155bc00
+**Run Time:** 2026-11-26 21:25:59
+**Mode:** no_agent (script)
+
+---
+
+🟠 宏觀尾端風險：REDUCE
+
+     觸發信號：
+
+       · VIX 28.3 ≥ 25（警戒）
+
+       · SPY 跳空 -2.17% ≤ -1.5%
+
+     建議動作：
+
+       ★ 倉位 × 0.5（單筆風險 0.5% → 0.25%）
+
+       ★ 優先減：相關性最高嘅一對（例如同板塊 2 隻）
+
+       ★ 唔開新倉，除非 A+ 級
+
+
+
+     數據：vix=28.29｜vix_1d_pct=-4.95｜vix_5d_pct=-5.45｜spy_gap_pct=-2.17｜spy_1d_pct=-0.29｜spy_day=2026-11-25｜breadth_src=breadth_20261126.json｜breadth_age_days=0｜net_nhnl=-6.3</div></div></div><div class="jb-card" data-state="ok" data-cat="act" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 ftd-pre-alert-daily<span class="jb-cat">📌 今日行動</span></div><div class="jb-purpose">FTD（跟進日）前嘅領先股。市場跌完、可能見底時，話你知邊幾隻已經偷步走強。</div><div class="jb-meta"><span class="jb-sched">20 21 * * 1-5</span>｜21 小時前｜下次 11-27T21:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">ftd_pre_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 21:21</span><span class="jb-chip">6a495306cd96</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:21</span><span class="jb-log-s">completed</span><span>7.9s</span></div></div><div class="jb-pre"># Cron Job: ftd-pre-alert-daily
+
+**Job ID:** 6a495306cd96
+**Run Time:** 2026-11-26 21:21:06
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div></div></div></div></details><details class="jb-group" data-cat="scan"><summary><b>🔍 選股掃描</b> · 產生候選名單，你揀邊隻睇圖<span class="jb-g-n">5 個</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok" data-cat="scan" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 jeffsun-daily-scan-layer1+2<span class="jb-cat">🔍 選股掃描</span></div><div class="jb-purpose">每日選股掃描：由全市場篩到 FOCUS（幾十隻）+ STALK（十幾隻）。揀股第一步。</div><div class="jb-meta"><span class="jb-sched">5 18 * * 1-5</span>｜47 分鐘前｜下次 11-30T18:05</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">jeffsun_scan_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 18:05</span><span class="jb-chip">0c0bef303eee</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:06</span><span class="jb-log-s">completed</span><span>24.1s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 18:05</span><span class="jb-log-s">completed</span><span>23.9s</span></div></div><div class="jb-pre"># Cron Job: jeffsun-daily-scan-layer1+2
+
+**Job ID:** 0c0bef303eee
+**Run Time:** 2026-11-27 18:05:36
+**Mode:** no_agent (script)
+
+---
+
+L1 | 100 tickers
+  Mom_1W_Small: ANF, ANRO, TGLS
+  Mom_1M_Small: ANRO, CAR, COLM, CRCT, CROX, ETON, EVMN, FCN …+10
+  Mom_6M_Small: ANF, APPN, AZTA, CBRL, CDNA, CRCT, ETON, SGHT …+2
+  Mom_1M_Large: GKOS
+  Mom_6M_Large: GKOS
+  1_Fundamental_Growth: AAON, AGRO, AGX, ALSN, ANIP, ARW, AUGO, AXGN …+50
+  3_Post_Earnings_Cont_Base: BNAI
+  4_Strongest_Stock_JK: APPN, CDNA, KNSA, VIA
+  Daily_Tightness_Swing: APPN, BOBS, CARS, CRCT, CROX, DUOL, GCT, GFF …+14
+  [empty scans: 5_Strongest_Stock_10B_Rev_30_JK, Mom_3M_Small, Mom_1W_Large, Mom_3M_Large]
+
+Excel saved: C:\Users\rain0\trading-os\output\My_Scans_20261127.xlsx
+JS Layer-2 | 2026-11-27
+D-N = 累計喺呢個 list 嘅連續日數（D1=今日首次上 list，D2=連續第2日，越高风险越大/越值得優先）
+
+FOCUS (45)
+ALSN D2 · 52wH 90% · 50MA 1.44x · earn 88D
+ANF D3 · 52wH 99% · 50MA 2.8x · earn 96D
+ANRO D3 · 52wH 81% · 50MA 1.8x · earn ok
+APPN D4 · 52wH 96% · 50MA 2.74x · earn 83D
+AXGN D6 · 52wH 99% · 50MA 4.89x · earn 88D
+AZTA D4 · 52wH 94% · 50MA 2.33x · earn 69D
+BOBS D4 · 52wH 88% · 50MA 3.81x · earn ok
+CARS D2 · 52wH 91% · 50MA 2.23x · earn ok
+CRCT D4 · 52wH 91% · 50MA 4.23x · earn ok
+CROX D3 · 52wH 97% · 50MA 4.58x · earn 76D
+ETON D4 · 52wH 92% · 50MA 1.79x · earn ok
+GFF D2 · 52wH 99% · 50MA 2.13x · earn 69D
+GRDN D2 · 52wH 99% · 50MA 3.53x · earn ok
+PANL D2 · 52wH 86% · 50MA 0.27x · earn ok
+PCTY D3 · 52wH 96% · 50MA 2.36x · earn 70D
+PRG D3 · 52wH 87% · 50MA 4.33x · earn ok
+RCEL D6 · 52wH 86% · 50MA 1.1x · earn 77D
+RSKD D6 · 52wH 91% · 50MA 2.36x · earn ok
+SGHT D4 · 52wH 94% · 50MA 2.55x · earn ok
+TASK D4 · 52wH 74% · 50MA 2.43x · earn ok
+TRUP D3 · 52wH 94% · 50MA 3.68x · earn 77D
+TYL D3 · 52wH 89% · 50MA 3.9x · earn 76D
+VIA D6 · 52wH 97% · 50MA 3.72x · earn ok
+HELE D3 · 52wH 94% · 50MA 4.16x · earn 41D
+CDNA D6 · 52wH 84% · 50MA 1.24x · earn ok
+LILA D3 · 52wH 91% · 50MA 1.29x · earn 83D
+TMDX D4 · 52wH 60% · 50MA 2.0x · earn ok
+MSGE D2 · 52wH 92% · 50MA 1.37x · earn 68D
+DCTH D4 · 52wH 85% · 50MA 1.86x · earn ok
+KNSA D6 · 52wH 98% · 50MA 4.08x · earn 88D
+GKOS D4 · 52wH 99% · 50MA 6.07x · earn 82D
+KNTK D3 · 52wH 93% · 50MA 0.67x · earn ok
+SENEA D2 · 52wH 84% · 50MA 0.5x · earn 70D
+DUOL D2 · 52wH 72% · 50MA 0.66x · earn ok
+NXST D6 · 52wH 82% · 50MA 4.35x · earn ok
+SEZL D6 · 52wH 74% · 50MA 1.4x · earn ok
+TREE D4 · 52wH 55% · 50MA 4.3x · earn ok
+TRIN D2 · 52wH 92% · 50MA 0.26x · earn ok
+GCT D2 · 52wH 92% · 50MA 0.79x · earn ok
+PAR D4 · 52wH 58% · 50MA 4.01x · earn ok
+PRAX D2 · 52wH 88% · 50MA 2.59x · earn 83D
+EVMN D4 · 52wH 24% · 50MA 1.58x
+
+…（截斷）</div></div></div><div class="jb-card" data-state="ok" data-cat="scan" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 leader-map-daily<span class="jb-cat">🔍 選股掃描</span></div><div class="jb-purpose">RS Leader 位置圖：邊隻領導股而家喺「買入區」內（唔追高、唔接刀）。</div><div class="jb-meta"><span class="jb-sched">10 6 * * 2-6</span>｜12 小時前｜下次 11-28T06:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">leader_map_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-27 06:10</span><span class="jb-chip">b922364baec4</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 06:10</span><span class="jb-log-s">completed</span><span>3.9s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 06:11</span><span class="jb-log-s">completed</span><span>4.0s</span></div></div><div class="jb-pre"># Cron Job: leader-map-daily
 
 **Job ID:** b922364baec4
 **Run Time:** 2026-11-27 06:10:06
@@ -379,12 +447,12 @@ function jbFilter(mode,btn){
 🔵 CORT 疊加 6/6｜ADR 4.8%｜X +0.81｜Y +1.04
 🔵 FROG 疊加 6/6｜ADR 5.02%｜X +0.92｜Y +1.59
 
-MEDIA:C:\Users\rain0\trading-os-lab\output\leader_map_2026-11-27.png</div></div></div><div class="jb-card" data-state="ok" data-cat="scan" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 yoyo-gap-postclose<span class="jb-cat">🔍 選股掃描</span></div><div class="jb-purpose">YOYO 跳空收市後記錄。</div><div class="jb-meta"><span class="jb-sched">45 5 * * 2-6</span>｜12 小時前｜下次 11-28T05:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">yoyo_gap_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-27 05:45</span><span class="jb-chip">046006cbd297</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 05:45</span><span class="jb-log-s">completed</span><span>12.1s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 05:46</span><span class="jb-log-s">completed</span><span>11.9s</span></div></div><div class="jb-pre"># Cron Job: yoyo-gap-postclose
+MEDIA:C:\Users\rain0\trading-os-lab\output\leader_map_2026-11-27.png</div></div></div><div class="jb-card" data-state="ok" data-cat="scan" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 yoyo-gap-postclose<span class="jb-cat">🔍 選股掃描</span></div><div class="jb-purpose">YOYO 跳空收市後記錄。</div><div class="jb-meta"><span class="jb-sched">45 5 * * 2-6</span>｜13 小時前｜下次 11-28T05:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">yoyo_gap_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-27 05:45</span><span class="jb-chip">046006cbd297</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 05:45</span><span class="jb-log-s">completed</span><span>12.1s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 05:46</span><span class="jb-log-s">completed</span><span>11.9s</span></div></div><div class="jb-pre"># Cron Job: yoyo-gap-postclose
 
 **Job ID:** 046006cbd297
 **Run Time:** 2026-11-27 05:45:17
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="scan" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 morales-prone<span class="jb-cat">🔍 選股掃描</span></div><div class="jb-purpose">Gil Morales「Eat My Short」setup：適合做空／避開嘅形態。</div><div class="jb-meta"><span class="jb-sched">20 21 * * 1-5</span>｜20 小時前｜下次 11-27T21:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">morales_prone_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 21:21</span><span class="jb-chip">115779632393</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:21</span><span class="jb-log-s">completed</span><span>5.0s</span></div></div><div class="jb-pre"># Cron Job: morales-prone
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="scan" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 morales-prone<span class="jb-cat">🔍 選股掃描</span></div><div class="jb-purpose">Gil Morales「Eat My Short」setup：適合做空／避開嘅形態。</div><div class="jb-meta"><span class="jb-sched">20 21 * * 1-5</span>｜21 小時前｜下次 11-27T21:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">morales_prone_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 21:21</span><span class="jb-chip">115779632393</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:21</span><span class="jb-log-s">completed</span><span>5.0s</span></div></div><div class="jb-pre"># Cron Job: morales-prone
 
 **Job ID:** 115779632393
 **Run Time:** 2026-11-26 21:21:02
@@ -410,75 +478,7 @@ MEDIA:C:\Users\rain0\trading-os-lab\output\leader_map_2026-11-27.png</div></div>
 
   SMCI H&amp;S｜現價 23.31
 
-  HPE H&amp;S｜現價 40.82</div></div></div><div class="jb-card" data-state="ok" data-cat="scan" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 jeffsun-daily-scan-layer1+2<span class="jb-cat">🔍 選股掃描</span></div><div class="jb-purpose">每日選股掃描：由全市場篩到 FOCUS（幾十隻）+ STALK（十幾隻）。揀股第一步。</div><div class="jb-meta"><span class="jb-sched">5 18 * * 1-5</span>｜23 小時前｜下次 11-27T18:05</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">jeffsun_scan_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 18:06</span><span class="jb-chip">0c0bef303eee</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:06</span><span class="jb-log-s">completed</span><span>24.1s</span></div></div><div class="jb-pre"># Cron Job: jeffsun-daily-scan-layer1+2
-
-**Job ID:** 0c0bef303eee
-**Run Time:** 2026-11-26 18:06:21
-**Mode:** no_agent (script)
-
----
-
-L1 | 100 tickers
-  Mom_1W_Small: ANF, ANRO, TGLS
-  Mom_1M_Small: ANRO, CAR, COLM, CRCT, CROX, ETON, EVMN, FCN …+10
-  Mom_6M_Small: ANF, APPN, AZTA, CBRL, CDNA, CRCT, ETON, SGHT …+2
-  Mom_1M_Large: GKOS
-  Mom_6M_Large: GKOS
-  1_Fundamental_Growth: AAON, AGRO, AGX, ALSN, ANIP, ARW, AUGO, AXGN …+50
-  3_Post_Earnings_Cont_Base: BNAI
-  4_Strongest_Stock_JK: APPN, CDNA, KNSA, VIA
-  Daily_Tightness_Swing: APPN, BOBS, CARS, CRCT, CROX, DUOL, GCT, GFF …+14
-  [empty scans: 5_Strongest_Stock_10B_Rev_30_JK, Mom_3M_Small, Mom_1W_Large, Mom_3M_Large]
-
-Excel saved: C:\Users\rain0\trading-os\output\My_Scans_20261126.xlsx
-JS Layer-2 | 2026-11-26
-D-N = 累計喺呢個 list 嘅連續日數（D1=今日首次上 list，D2=連續第2日，越高风险越大/越值得優先）
-
-FOCUS (46)
-ALSN D1 · 52wH 90% · 50MA 1.44x · earn 89D
-ANF D2 · 52wH 99% · 50MA 2.8x · earn 97D
-ANRO D2 · 52wH 81% · 50MA 1.8x · earn ok
-APPN D3 · 52wH 96% · 50MA 2.74x · earn 84D
-AXGN D5 · 52wH 99% · 50MA 4.89x · earn 89D
-AZTA D3 · 52wH 94% · 50MA 2.33x · earn 70D
-BOBS D3 · 52wH 88% · 50MA 3.81x · earn ok
-CARS D1 · 52wH 91% · 50MA 2.23x · earn ok
-CBRL D5 · 52wH 99% · 50MA 4.17x · earn 6D
-CRCT D3 · 52wH 91% · 50MA 4.23x · earn ok
-CROX D2 · 52wH 97% · 50MA 4.58x · earn 77D
-ETON D3 · 52wH 92% · 50MA 1.79x · earn ok
-GFF D1 · 52wH 99% · 50MA 2.13x · earn 70D
-GRDN D1 · 52wH 99% · 50MA 3.53x · earn ok
-PANL D1 · 52wH 86% · 50MA 0.27x · earn ok
-PCTY D2 · 52wH 96% · 50MA 2.36x · earn 71D
-PRG D2 · 52wH 87% · 50MA 4.33x · earn ok
-RCEL D5 · 52wH 86% · 50MA 1.1x · earn 78D
-RSKD D5 · 52wH 91% · 50MA 2.36x · earn ok
-SGHT D3 · 52wH 94% · 50MA 2.55x · earn ok
-TASK D3 · 52wH 74% · 50MA 2.43x · earn ok
-TRUP D2 · 52wH 94% · 50MA 3.68x · earn 78D
-TYL D2 · 52wH 89% · 50MA 3.9x · earn 77D
-VIA D5 · 52wH 97% · 50MA 3.72x · earn ok
-HELE D2 · 52wH 94% · 50MA 4.16x · earn 42D
-CDNA D5 · 52wH 84% · 50MA 1.24x · earn ok
-LILA D2 · 52wH 91% · 50MA 1.29x · earn 84D
-TMDX D3 · 52wH 60% · 50MA 2.0x · earn ok
-MSGE D1 · 52wH 92% · 50MA 1.37x · earn 69D
-DCTH D3 · 52wH 85% · 50MA 1.86x · earn ok
-KNSA D5 · 52wH 98% · 50MA 4.08x · earn 89D
-GKOS D3 · 52wH 99% · 50MA 6.07x · earn 83D
-KNTK D2 · 52wH 93% · 50MA 0.67x · earn ok
-SENEA D1 · 52wH 84% · 50MA 0.5x · earn 71D
-DUOL D1 · 52wH 72% · 50MA 0.66x · earn ok
-NXST D5 · 52wH 82% · 50MA 4.35x · earn ok
-SEZL D5 · 52wH 74% · 50MA 1.4x · earn ok
-TREE D3 · 52wH 55% · 50MA 4.3x · earn ok
-TRIN D1 · 52wH 92% · 50MA 0.26x · earn ok
-GCT D1 · 52wH 92% · 50MA 0.79x · earn ok
-PAR D3 · 52wH 58% · 50MA 4.01x · earn ok
-PRAX D1 · 52wH 88% · 50MA 2.59x 
-
-…（截斷）</div></div></div><div class="jb-card" data-state="ok" data-cat="scan" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 weekly-watchlist-sunday-0900<span class="jb-cat">🔍 選股掃描</span></div><div class="jb-purpose">週度觀察名單：今個星期值得跟嘅股。星期日睇一次就夠。</div><div class="jb-meta"><span class="jb-sched">0 9 * * 0</span>｜5 日前｜下次 11-29T09:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">weekly_watchlist_cron.py</span><span class="jb-chip">→ telegram:322829419</span><span class="jb-chip">輸出 11-22 09:01</span><span class="jb-chip">60db02c0cae2</span></div><div class="jb-pre"># Cron Job: weekly-watchlist-sunday-0900
+  HPE H&amp;S｜現價 40.82</div></div></div><div class="jb-card" data-state="ok" data-cat="scan" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 weekly-watchlist-sunday-0900<span class="jb-cat">🔍 選股掃描</span></div><div class="jb-purpose">週度觀察名單：今個星期值得跟嘅股。星期日睇一次就夠。</div><div class="jb-meta"><span class="jb-sched">0 9 * * 0</span>｜5 日前｜下次 11-29T09:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">weekly_watchlist_cron.py</span><span class="jb-chip">→ telegram:322829419</span><span class="jb-chip">輸出 11-22 09:01</span><span class="jb-chip">60db02c0cae2</span></div><div class="jb-pre"># Cron Job: weekly-watchlist-sunday-0900
 
 **Job ID:** 60db02c0cae2
 **Run Time:** 2026-11-22 09:01:14
@@ -515,7 +515,17 @@ Relentless RS 🔵 / Re-test / pullback watching for a pivot.
 
 Downtrend regime — 唔做多，現金為主；呢張清單淨係觀察名單。
 No Chasing / No FOMO / Focus on the names and levels you like. 🐟 🎣
-WATCH_ONLY · 研究用途，非買入指令（entry 要另行符合 ORH+RVOL 規則）</div></div></div></div></details><details class="jb-group" data-cat="mkt"><summary><b>🌍 市場環境</b> · regime / 廣度 / 板塊 / 主題——決定用幾多子彈<span class="jb-g-n">7 個</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok" data-cat="mkt" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 market-insight-layer3b<span class="jb-cat">🌍 市場環境</span></div><div class="jb-purpose">市場階段判斷（BULL／CHOP／BEAR）+ 今日應該用邊種武器。</div><div class="jb-meta"><span class="jb-sched">50 17 * * 1-5</span>｜14 分鐘前｜下次 11-30T17:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">layer3b_market_insight_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:50</span><span class="jb-chip">2367ab2cc84b</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:51</span><span class="jb-log-s">completed</span><span>11.7s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:50</span><span class="jb-log-s">completed</span><span>11.8s</span></div></div><div class="jb-pre"># Cron Job: market-insight-layer3b
+WATCH_ONLY · 研究用途，非買入指令（entry 要另行符合 ORH+RVOL 規則）</div></div></div></div></details><details class="jb-group" data-cat="mkt"><summary><b>🌍 市場環境</b> · regime / 廣度 / 板塊 / 主題——決定用幾多子彈<span class="jb-g-n">7 個</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok" data-cat="mkt" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 layer4-breadth-daily<span class="jb-cat">🌍 市場環境</span></div><div class="jb-purpose">市場廣度：幾多 % 股票站上 40MA、ADL、新高新低。判斷「係唔係健康升市」。</div><div class="jb-meta"><span class="jb-sched">40 18 * * 1-5</span>｜12 分鐘前｜下次 11-30T18:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">layer4_breadth_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 18:40</span><span class="jb-chip">65e8f22aeca8</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 18:40</span><span class="jb-log-s">completed</span><span>8.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:41</span><span class="jb-log-s">completed</span><span>8.1s</span></div></div><div class="jb-pre"># Cron Job: layer4-breadth-daily
+
+**Job ID:** 65e8f22aeca8
+**Run Time:** 2026-11-27 18:40:20
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="mkt" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 theme-watch-daily<span class="jb-cat">🌍 市場環境</span></div><div class="jb-purpose">主題監察：邊個主題（AI、核能、國防…）正在聚集動能。</div><div class="jb-meta"><span class="jb-sched">25 18 * * 0-5</span>｜27 分鐘前｜下次 11-29T18:25</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">theme_watch_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 18:25</span><span class="jb-chip">b3ca777d817f</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:26</span><span class="jb-log-s">completed</span><span>36.9s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 18:25</span><span class="jb-log-s">completed</span><span>29.0s</span></div></div><div class="jb-pre"># Cron Job: theme-watch-daily
+
+**Job ID:** b3ca777d817f
+**Run Time:** 2026-11-27 18:25:41
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="mkt" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 market-insight-layer3b<span class="jb-cat">🌍 市場環境</span></div><div class="jb-purpose">市場階段判斷（BULL／CHOP／BEAR）+ 今日應該用邊種武器。</div><div class="jb-meta"><span class="jb-sched">50 17 * * 1-5</span>｜1 小時前｜下次 11-30T17:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">layer3b_market_insight_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:50</span><span class="jb-chip">2367ab2cc84b</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:51</span><span class="jb-log-s">completed</span><span>11.7s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:50</span><span class="jb-log-s">completed</span><span>11.8s</span></div></div><div class="jb-pre"># Cron Job: market-insight-layer3b
 
 **Job ID:** 2367ab2cc84b
 **Run Time:** 2026-11-27 17:50:24
@@ -591,7 +601,7 @@ WATCH_ONLY · 研究用途，非買入指令（entry 要另行符合 ORH+RVOL �
 **Job ID:** 80fea3d4e7d9
 **Run Time:** 2026-11-26 21:00:59
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="mkt" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 rotation-map-weekly<span class="jb-cat">🌍 市場環境</span></div><div class="jb-purpose">輪動圖（RRG）：板塊由「改善」→「領先」→「轉弱」→「落後」嘅位置。</div><div class="jb-meta"><span class="jb-sched">30 19 * * 2-6</span>｜22 小時前｜下次 11-27T19:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">rotation_map_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 19:31</span><span class="jb-chip">361060b9cf75</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 19:31</span><span class="jb-log-s">completed</span><span>5.7s</span></div></div><div class="jb-pre"># Cron Job: rotation-map-weekly
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="mkt" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 rotation-map-weekly<span class="jb-cat">🌍 市場環境</span></div><div class="jb-purpose">輪動圖（RRG）：板塊由「改善」→「領先」→「轉弱」→「落後」嘅位置。</div><div class="jb-meta"><span class="jb-sched">30 19 * * 2-6</span>｜23 小時前｜下次 11-27T19:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">rotation_map_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 19:31</span><span class="jb-chip">361060b9cf75</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 19:31</span><span class="jb-log-s">completed</span><span>5.7s</span></div></div><div class="jb-pre"># Cron Job: rotation-map-weekly
 
 **Job ID:** 361060b9cf75
 **Run Time:** 2026-11-26 19:31:00
@@ -602,27 +612,17 @@ WATCH_ONLY · 研究用途，非買入指令（entry 要另行符合 ORH+RVOL �
 🔄 行業輪動圖（週報）
 前三強：
 
-MEDIA:C:\Users\rain0\trading-os-lab\output\rotation_map_2026-11-25.png</div></div></div><div class="jb-card" data-state="ok" data-cat="mkt" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 market-watch<span class="jb-cat">🌍 市場環境</span></div><div class="jb-purpose">大市觀察：指數位置、領頭板塊、有冇 distribution 跡象。</div><div class="jb-meta"><span class="jb-sched">10 19 * * 2-6</span>｜22 小時前｜下次 11-27T19:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">market_watch_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 19:11</span><span class="jb-chip">91fa81dc34c3</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 19:11</span><span class="jb-log-s">completed</span><span>3.1s</span></div></div><div class="jb-pre"># Cron Job: market-watch
+MEDIA:C:\Users\rain0\trading-os-lab\output\rotation_map_2026-11-25.png</div></div></div><div class="jb-card" data-state="ok" data-cat="mkt" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 market-watch<span class="jb-cat">🌍 市場環境</span></div><div class="jb-purpose">大市觀察：指數位置、領頭板塊、有冇 distribution 跡象。</div><div class="jb-meta"><span class="jb-sched">10 19 * * 2-6</span>｜23 小時前｜下次 11-27T19:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">market_watch_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 19:11</span><span class="jb-chip">91fa81dc34c3</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 19:11</span><span class="jb-log-s">completed</span><span>3.1s</span></div></div><div class="jb-pre"># Cron Job: market-watch
 
 **Job ID:** 91fa81dc34c3
 **Run Time:** 2026-11-26 19:11:00
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="mkt" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 layer4-breadth-daily<span class="jb-cat">🌍 市場環境</span></div><div class="jb-purpose">市場廣度：幾多 % 股票站上 40MA、ADL、新高新低。判斷「係唔係健康升市」。</div><div class="jb-meta"><span class="jb-sched">40 18 * * 1-5</span>｜23 小時前｜下次 11-27T18:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">layer4_breadth_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 18:41</span><span class="jb-chip">65e8f22aeca8</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:41</span><span class="jb-log-s">completed</span><span>8.1s</span></div></div><div class="jb-pre"># Cron Job: layer4-breadth-daily
-
-**Job ID:** 65e8f22aeca8
-**Run Time:** 2026-11-26 18:41:05
-**Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="mkt" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 theme-watch-daily<span class="jb-cat">🌍 市場環境</span></div><div class="jb-purpose">主題監察：邊個主題（AI、核能、國防…）正在聚集動能。</div><div class="jb-meta"><span class="jb-sched">25 18 * * 0-5</span>｜23 小時前｜下次 11-27T18:25</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">theme_watch_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 18:26</span><span class="jb-chip">b3ca777d817f</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:26</span><span class="jb-log-s">completed</span><span>36.9s</span></div></div><div class="jb-pre"># Cron Job: theme-watch-daily
-
-**Job ID:** b3ca777d817f
-**Run Time:** 2026-11-26 18:26:34
-**Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div></div></details><details class="jb-group" data-cat="perf"><summary><b>📊 成績覆盤</b> · 你賺蝕幾多、邊個 setup 真係得<span class="jb-g-n">16 個</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok" data-cat="perf" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 track-record-daily<span class="jb-cat">📊 成績覆盤</span></div><div class="jb-purpose">成績追蹤：累計回報、勝率、贏輸比。用嚟對比目標（每月 ≥5%）。</div><div class="jb-meta"><span class="jb-sched">45 17 * * 1-5</span>｜18 分鐘前｜下次 11-30T17:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">track_record_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:45</span><span class="jb-chip">de5b5231056b</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:45</span><span class="jb-log-s">completed</span><span>18.1s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:46</span><span class="jb-log-s">completed</span><span>15.8s</span></div></div><div class="jb-pre"># Cron Job: track-record-daily
+**Status:** silent (empty output)</div></div></div></div></details><details class="jb-group" data-cat="perf"><summary><b>📊 成績覆盤</b> · 你賺蝕幾多、邊個 setup 真係得<span class="jb-g-n">16 個</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok" data-cat="perf" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 track-record-daily<span class="jb-cat">📊 成績覆盤</span></div><div class="jb-purpose">成績追蹤：累計回報、勝率、贏輸比。用嚟對比目標（每月 ≥5%）。</div><div class="jb-meta"><span class="jb-sched">45 17 * * 1-5</span>｜1 小時前｜下次 11-30T17:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">track_record_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:45</span><span class="jb-chip">de5b5231056b</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:45</span><span class="jb-log-s">completed</span><span>18.1s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:46</span><span class="jb-log-s">completed</span><span>15.8s</span></div></div><div class="jb-pre"># Cron Job: track-record-daily
 
 **Job ID:** de5b5231056b
 **Run Time:** 2026-11-27 17:45:30
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="perf" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 edge-candidate-daily<span class="jb-cat">📊 成績覆盤</span></div><div class="jb-purpose">每日最多提 1 條新 edge 候選。冇新候選＝靜音。</div><div class="jb-meta"><span class="jb-sched">10 8 * * *</span>｜9 小時前｜下次 11-28T08:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">edge_candidate_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 08:10</span><span class="jb-chip">eec144c36d53</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 08:10</span><span class="jb-log-s">completed</span><span>0.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 08:10</span><span class="jb-log-s">completed</span><span>0.3s</span></div></div><div class="jb-pre"># Cron Job: edge-candidate-daily
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="perf" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 edge-candidate-daily<span class="jb-cat">📊 成績覆盤</span></div><div class="jb-purpose">每日最多提 1 條新 edge 候選。冇新候選＝靜音。</div><div class="jb-meta"><span class="jb-sched">10 8 * * *</span>｜10 小時前｜下次 11-28T08:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">edge_candidate_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 08:10</span><span class="jb-chip">eec144c36d53</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 08:10</span><span class="jb-log-s">completed</span><span>0.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 08:10</span><span class="jb-log-s">completed</span><span>0.3s</span></div></div><div class="jb-pre"># Cron Job: edge-candidate-daily
 
 **Job ID:** eec144c36d53
 **Run Time:** 2026-11-27 08:10:05
@@ -672,12 +672,12 @@ MEDIA:C:\Users\rain0\trading-os-lab\output\rotation_map_2026-11-25.png</div></di
 
   合計 NAV $679,908（7 個 job × $100,000）
 
-MEDIA:C:\Users\rain0\trading-os\output\fleet_equity_light_20261104.png</div></div></div><div class="jb-card" data-state="ok" data-cat="perf" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 earnings-daily<span class="jb-cat">📊 成績覆盤</span></div><div class="jb-purpose">財報日曆：邊隻幾時出財報 + 你嘅持倉／候選有冇中招（D≤5 唔可以入場）。</div><div class="jb-meta"><span class="jb-sched">20 6 * * 2-6</span>｜11 小時前｜下次 11-28T06:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">earnings_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 06:20</span><span class="jb-chip">49a694c12551</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 06:20</span><span class="jb-log-s">completed</span><span>0.8s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 06:20</span><span class="jb-log-s">completed</span><span>0.7s</span></div></div><div class="jb-pre"># Cron Job: earnings-daily
+MEDIA:C:\Users\rain0\trading-os\output\fleet_equity_light_20261104.png</div></div></div><div class="jb-card" data-state="ok" data-cat="perf" data-pri="📌"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">📌 earnings-daily<span class="jb-cat">📊 成績覆盤</span></div><div class="jb-purpose">財報日曆：邊隻幾時出財報 + 你嘅持倉／候選有冇中招（D≤5 唔可以入場）。</div><div class="jb-meta"><span class="jb-sched">20 6 * * 2-6</span>｜12 小時前｜下次 11-28T06:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">earnings_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 06:20</span><span class="jb-chip">49a694c12551</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 06:20</span><span class="jb-log-s">completed</span><span>0.8s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 06:20</span><span class="jb-log-s">completed</span><span>0.7s</span></div></div><div class="jb-pre"># Cron Job: earnings-daily
 
 **Job ID:** 49a694c12551
 **Run Time:** 2026-11-27 06:20:06
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="perf" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 jeffsun-intraday-rvol-record<span class="jb-cat">📊 成績覆盤</span></div><div class="jb-purpose">記錄今日 RVOL 數據（供日後回溯）。</div><div class="jb-meta"><span class="jb-sched">5 6 * * 2-6</span>｜11 小時前｜下次 11-28T06:05</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">jeffsun_intraday_record_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 06:06</span><span class="jb-chip">eb999ff9b9d5</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 06:06</span><span class="jb-log-s">completed</span><span>1.7m</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 06:07</span><span class="jb-log-s">completed</span><span>2.0m</span></div></div><div class="jb-pre"># Cron Job: jeffsun-intraday-rvol-record
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="perf" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 jeffsun-intraday-rvol-record<span class="jb-cat">📊 成績覆盤</span></div><div class="jb-purpose">記錄今日 RVOL 數據（供日後回溯）。</div><div class="jb-meta"><span class="jb-sched">5 6 * * 2-6</span>｜12 小時前｜下次 11-28T06:05</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">jeffsun_intraday_record_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 06:06</span><span class="jb-chip">eb999ff9b9d5</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 06:06</span><span class="jb-log-s">completed</span><span>1.7m</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 06:07</span><span class="jb-log-s">completed</span><span>2.0m</span></div></div><div class="jb-pre"># Cron Job: jeffsun-intraday-rvol-record
 
 **Job ID:** eb999ff9b9d5
 **Run Time:** 2026-11-27 06:06:45
@@ -1094,7 +1094,7 @@ Notion：https://www.notion.so/41e1ab8501ba81419132e8c358169ab1
   SHK: n14｜達2R 7.1%｜T+1勝 50.0%｜期望 0.083R｜PF 1.46
   UCR: n14｜達2R 7.1%｜T+1勝 50.0%｜期望 0.083R｜PF 1.46
   YOYO: n13｜達2R 7.7%｜T+1勝 53.8%｜期望 0.27R｜PF 2.53
-📓 Notion 已更新：月頁 + 日頁（掃描結果 / ORH 警報 / Edge Audit）</div></div></div></div></details><details class="jb-group" data-cat="rec" open><summary><b>📓 記錄同步</b> · Notion、日誌、每日摘要<span class="jb-g-n">12 個</span> <span class="jb-g-err">🚨 1</span></summary><div class="jb-grid"><div class="jb-card err" data-state="err" data-cat="rec" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-err"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 notion-records-daily<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">Notion 記錄同步（日誌／筆記）。</div><div class="jb-meta"><span class="jb-sched">35 19 * * 1-5</span>｜22 小時前｜下次 11-27T19:35</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">notion_records_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 19:45</span><span class="jb-chip">⚠ 1 事故</span><span class="jb-chip">4358f4b0099b</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r e"><span>❌</span><span>2026-11-26 19:45</span><span class="jb-log-s">failed</span><span>10.0m</span></div></div><div class="jb-pre" style="color:#e5484d;border-color:rgba(229,72,77,.4)">Script exited with code 1
+📓 Notion 已更新：月頁 + 日頁（掃描結果 / ORH 警報 / Edge Audit）</div></div></div></div></details><details class="jb-group" data-cat="rec" open><summary><b>📓 記錄同步</b> · Notion、日誌、每日摘要<span class="jb-g-n">12 個</span> <span class="jb-g-err">🚨 1</span></summary><div class="jb-grid"><div class="jb-card err" data-state="err" data-cat="rec" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-err"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 notion-records-daily<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">Notion 記錄同步（日誌／筆記）。</div><div class="jb-meta"><span class="jb-sched">35 19 * * 1-5</span>｜23 小時前｜下次 11-27T19:35</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">notion_records_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 19:45</span><span class="jb-chip">⚠ 1 事故</span><span class="jb-chip">4358f4b0099b</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r e"><span>❌</span><span>2026-11-26 19:45</span><span class="jb-log-s">failed</span><span>10.0m</span></div></div><div class="jb-pre" style="color:#e5484d;border-color:rgba(229,72,77,.4)">Script exited with code 1
 stdout:
 ⚠️ Notion 記錄同步超時（&gt;600s）— 今日表格未更新。</div><div class="jb-pre"># Cron Job: notion-records-daily
 
@@ -1105,7 +1105,7 @@ stdout:
 
 Script exited with code 1
 stdout:
-⚠️ Notion 記錄同步超時（&gt;600s）— 今日表格未更新。</div></div></div><div class="jb-card" data-state="ok" data-cat="rec" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 digest-morning<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">早上摘要：尋晚美股發生咩事、今日要留意咩。</div><div class="jb-meta"><span class="jb-sched">40 7 * * 2-6</span>｜10 小時前｜下次 11-28T07:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">push_morning_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-27 07:40</span><span class="jb-chip">9c6b1538e232</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 07:40</span><span class="jb-log-s">completed</span><span>1.3s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 07:41</span><span class="jb-log-s">completed</span><span>51.1s</span></div></div><div class="jb-pre"># Cron Job: digest-morning
+⚠️ Notion 記錄同步超時（&gt;600s）— 今日表格未更新。</div></div></div><div class="jb-card" data-state="ok" data-cat="rec" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 digest-morning<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">早上摘要：尋晚美股發生咩事、今日要留意咩。</div><div class="jb-meta"><span class="jb-sched">40 7 * * 2-6</span>｜11 小時前｜下次 11-28T07:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">push_morning_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-27 07:40</span><span class="jb-chip">9c6b1538e232</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 07:40</span><span class="jb-log-s">completed</span><span>1.3s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 07:41</span><span class="jb-log-s">completed</span><span>51.1s</span></div></div><div class="jb-pre"># Cron Job: digest-morning
 
 **Job ID:** 9c6b1538e232
 **Run Time:** 2026-11-27 07:40:05
@@ -1172,7 +1172,7 @@ VIX 28.29（VIX/VIX3M 1.076）｜廣度 30.9%｜F&amp;G 15.0｜P/C 0.917
 **Job ID:** 4e6508a24b92
 **Run Time:** 2026-11-27 07:04:13
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="rec" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 digest-evening<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">收市後摘要：今日成績、邊單贏輸、明日重點。</div><div class="jb-meta"><span class="jb-sched">35 23 * * 2-6</span>｜18 小時前｜下次 11-27T23:35</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">push_evening_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 23:35</span><span class="jb-chip">2cd155ef3ea4</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-25 23:35</span><span class="jb-log-s">completed</span><span>1.6s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:35</span><span class="jb-log-s">completed</span><span>1.4s</span></div></div><div class="jb-pre"># Cron Job: digest-evening
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="rec" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 digest-evening<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">收市後摘要：今日成績、邊單贏輸、明日重點。</div><div class="jb-meta"><span class="jb-sched">35 23 * * 2-6</span>｜19 小時前｜下次 11-27T23:35</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">push_evening_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 23:35</span><span class="jb-chip">2cd155ef3ea4</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-25 23:35</span><span class="jb-log-s">completed</span><span>1.6s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:35</span><span class="jb-log-s">completed</span><span>1.4s</span></div></div><div class="jb-pre"># Cron Job: digest-evening
 
 **Job ID:** 2cd155ef3ea4
 **Run Time:** 2026-11-26 23:35:06
@@ -1275,7 +1275,7 @@ STALK 勝率 40.0%｜平均 -3.85%｜MFE +15.74%（n=200）
 
   HPE H&amp;S｜現價 40.82
 
-全部 paper · 冇 broker 連線（SOUL §8.7）</div></div></div><div class="jb-card" data-state="ok" data-cat="rec" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 digest-premarket<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">開市前摘要：今日盤前重點。</div><div class="jb-meta"><span class="jb-sched">28 21 * * 1-5</span>｜20 小時前｜下次 11-27T21:28</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">push_premarket_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 21:28</span><span class="jb-chip">3c9b5aedff28</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:28</span><span class="jb-log-s">completed</span><span>0.4s</span></div></div><div class="jb-pre"># Cron Job: digest-premarket
+全部 paper · 冇 broker 連線（SOUL §8.7）</div></div></div><div class="jb-card" data-state="ok" data-cat="rec" data-pri="👀"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">👀 digest-premarket<span class="jb-cat">📓 記錄同步</span></div><div class="jb-purpose">開市前摘要：今日盤前重點。</div><div class="jb-meta"><span class="jb-sched">28 21 * * 1-5</span>｜21 小時前｜下次 11-27T21:28</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">push_premarket_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 21:28</span><span class="jb-chip">3c9b5aedff28</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:28</span><span class="jb-log-s">completed</span><span>0.4s</span></div></div><div class="jb-pre"># Cron Job: digest-premarket
 
 **Job ID:** 3c9b5aedff28
 **Run Time:** 2026-11-26 21:28:58
@@ -1423,12 +1423,12 @@ STALK 勝率 40.0%｜平均 -3.85%｜MFE +15.74%（n=200）
 
   ★ 記錄方法：&quot;記錄 &lt;代號&gt; &lt;方向&gt; &lt;入場&gt; &lt;股數&gt; &lt;止蝕&gt;&quot;
 
-    或直接貼券商截圖。</div></div></div></div></details><details class="jb-group" data-cat="sys"><summary><b>⚙️ 系統</b> · 網站、測試、廚房自己<span class="jb-g-n">8 個</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok" data-cat="sys" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 kitchen-watchdog<span class="jb-cat">⚙️ 系統</span></div><div class="jb-purpose">每小時巡查：邊個 job 失敗咗就叫你。健康時完全靜音。</div><div class="jb-meta"><span class="jb-sched">0 * * * *</span>｜4 分鐘前｜下次 11-27T19:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">kitchen_watchdog_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 11-27 18:00</span><span class="jb-chip">8db0186fed4a</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 00:00</span><span class="jb-log-s">completed</span><span>1.3s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 08:01</span><span class="jb-log-s">completed</span><span>50.9s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 07:00</span><span class="jb-log-s">completed</span><span>0.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 11:00</span><span class="jb-log-s">completed</span><span>1.7s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 01:00</span><span class="jb-log-s">completed</span><span>0.4s</span></div></div><div class="jb-pre"># Cron Job: kitchen-watchdog
+    或直接貼券商截圖。</div></div></div></div></details><details class="jb-group" data-cat="sys"><summary><b>⚙️ 系統</b> · 網站、測試、廚房自己<span class="jb-g-n">8 個</span></summary><div class="jb-grid"><div class="jb-card" data-state="ok" data-cat="sys" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 kitchen-watchdog<span class="jb-cat">⚙️ 系統</span></div><div class="jb-purpose">每小時巡查：邊個 job 失敗咗就叫你。健康時完全靜音。</div><div class="jb-meta"><span class="jb-sched">0 * * * *</span>｜52 分鐘前｜下次 11-27T19:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">kitchen_watchdog_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 11-27 18:00</span><span class="jb-chip">8db0186fed4a</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 00:00</span><span class="jb-log-s">completed</span><span>1.3s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 08:01</span><span class="jb-log-s">completed</span><span>50.9s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 07:00</span><span class="jb-log-s">completed</span><span>0.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 11:00</span><span class="jb-log-s">completed</span><span>1.7s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 01:00</span><span class="jb-log-s">completed</span><span>0.4s</span></div></div><div class="jb-pre"># Cron Job: kitchen-watchdog
 
 **Job ID:** 8db0186fed4a
 **Run Time:** 2026-11-27 18:00:12
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="sys" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 trading-os-tests<span class="jb-cat">⚙️ 系統</span></div><div class="jb-purpose">跑全套測試（600+ 個）。防止改壞嘢。</div><div class="jb-meta"><span class="jb-sched">40 17 * * 1-5</span>｜23 分鐘前｜下次 11-30T17:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">trading_os_tests_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:40</span><span class="jb-chip">9ad4e340ccea</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r e"><span>❌</span><span>2026-11-26 17:41</span><span class="jb-log-s">failed</span><span>14.2s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:40</span><span class="jb-log-s">completed</span><span>12.2s</span></div></div><div class="jb-pre"># Cron Job: trading-os-tests
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="sys" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 trading-os-tests<span class="jb-cat">⚙️ 系統</span></div><div class="jb-purpose">跑全套測試（600+ 個）。防止改壞嘢。</div><div class="jb-meta"><span class="jb-sched">40 17 * * 1-5</span>｜1 小時前｜下次 11-30T17:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">trading_os_tests_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:40</span><span class="jb-chip">9ad4e340ccea</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r e"><span>❌</span><span>2026-11-26 17:41</span><span class="jb-log-s">failed</span><span>14.2s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:40</span><span class="jb-log-s">completed</span><span>12.2s</span></div></div><div class="jb-pre"># Cron Job: trading-os-tests
 
 **Job ID:** 9ad4e340ccea
 **Run Time:** 2026-11-27 17:40:24
@@ -1506,7 +1506,7 @@ STALK 勝率 40.0%｜平均 -3.85%｜MFE +15.74%（n=200）
 **Job ID:** 7eb75d820e90
 **Run Time:** 2026-11-27 06:00:19
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="sys" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 site-db-daily<span class="jb-cat">⚙️ 系統</span></div><div class="jb-purpose">網站資料庫同步。</div><div class="jb-meta"><span class="jb-sched">30 19 * * 2-6</span>｜22 小時前｜下次 11-27T19:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">site_db_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 19:32</span><span class="jb-chip">6d4bcfa998fe</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 19:32</span><span class="jb-log-s">completed</span><span>1.5m</span></div></div><div class="jb-pre"># Cron Job: site-db-daily
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="sys" data-pri="🔧"><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm">🔧 site-db-daily<span class="jb-cat">⚙️ 系統</span></div><div class="jb-purpose">網站資料庫同步。</div><div class="jb-meta"><span class="jb-sched">30 19 * * 2-6</span>｜23 小時前｜下次 11-27T19:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">site_db_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 19:32</span><span class="jb-chip">6d4bcfa998fe</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 19:32</span><span class="jb-log-s">completed</span><span>1.5m</span></div></div><div class="jb-pre"># Cron Job: site-db-daily
 
 **Job ID:** 6d4bcfa998fe
 **Run Time:** 2026-11-26 19:32:29
@@ -1676,17 +1676,42 @@ Traceback (most recent call last):
   File &quot;C:\Users\rain0\trading-os\mb_cases.py&quot;, line 391, in main
     report(d[&quot;cases&quot;], d[&quot;date&quot;])
            ~^^^^^^^^^
-KeyError: &#x27;cases&#x27;</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> stage-analysis-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">50 17 * * *</span>｜13 分鐘前｜下次 11-28T17:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">stage_analysis_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:50</span><span class="jb-chip">736361e5077f</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:51</span><span class="jb-log-s">completed</span><span>24.3s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:50</span><span class="jb-log-s">completed</span><span>24.2s</span></div></div><div class="jb-pre"># Cron Job: stage-analysis-daily
+KeyError: &#x27;cases&#x27;</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> yoyo-ball-alert<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">45 18 * * 1-5</span>｜7 分鐘前｜下次 11-30T18:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">yoyo_ball_alert_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 18:45</span><span class="jb-chip">c67e2db8c445</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 18:45</span><span class="jb-log-s">completed</span><span>2.2s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:46</span><span class="jb-log-s">completed</span><span>3.1s</span></div></div><div class="jb-pre"># Cron Job: yoyo-ball-alert
+
+**Job ID:** c67e2db8c445
+**Run Time:** 2026-11-27 18:45:14
+**Mode:** no_agent (script)
+
+---
+
+⚪ 2026-11-27 今日休息 —— 冇符合條件嘅 setup。
+GMI 過濾：GMI 0/6  → 大盤弱，做空優先
+（呢個係正常結果。條件嚴格 = 少出手 = 高賠率。）</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> webscan-alerts<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">10 18 * * 2-6</span>｜42 分鐘前｜下次 11-28T18:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">webscan_alerts_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 18:10</span><span class="jb-chip">b0ac3ddf26e5</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 18:10</span><span class="jb-log-s">completed</span><span>0.3s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:10</span><span class="jb-log-s">completed</span><span>1.2s</span></div></div><div class="jb-pre"># Cron Job: webscan-alerts
+
+**Job ID:** b0ac3ddf26e5
+**Run Time:** 2026-11-27 18:10:12
+**Mode:** no_agent (script)
+
+---
+
+📋 收市新名單 2026-11-27
+· 沙灘球 13 新：COCO(B9)、CARS(B8)、SENS(B6)、OOMA(B3)、SCCO(B3)、MSGE(B19)、GFF(B14)、LRMR(B13)、GCT(B12)、PRAX(B11)、DUOL(B11)、GRDN(B10) 等 13 隻
+· HTF 1 新：VRDN(H)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> site-rebuild-1730<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">55 17 * * *</span>｜48 分鐘前｜下次 11-28T17:55</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">site_rebuild_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 18:04</span><span class="jb-chip">5866b5234686</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:58</span><span class="jb-log-s">completed</span><span>2.8m</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 18:04</span><span class="jb-log-s">completed</span><span>9.6m</span></div></div><div class="jb-pre"># Cron Job: site-rebuild-1730
+
+**Job ID:** 5866b5234686
+**Run Time:** 2026-11-27 18:04:45
+**Mode:** no_agent (script)
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> stage-analysis-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">50 17 * * *</span>｜1 小時前｜下次 11-28T17:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">stage_analysis_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:50</span><span class="jb-chip">736361e5077f</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:51</span><span class="jb-log-s">completed</span><span>24.3s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:50</span><span class="jb-log-s">completed</span><span>24.2s</span></div></div><div class="jb-pre"># Cron Job: stage-analysis-daily
 
 **Job ID:** 736361e5077f
 **Run Time:** 2026-11-27 17:50:36
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> htf-flag-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">40 17 * * *</span>｜23 分鐘前｜下次 11-28T17:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">htf_flag_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:40</span><span class="jb-chip">8f6670b16a34</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:41</span><span class="jb-log-s">completed</span><span>22.3s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:40</span><span class="jb-log-s">completed</span><span>22.2s</span></div></div><div class="jb-pre"># Cron Job: htf-flag-daily
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> htf-flag-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">40 17 * * *</span>｜1 小時前｜下次 11-28T17:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">htf_flag_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:40</span><span class="jb-chip">8f6670b16a34</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:41</span><span class="jb-log-s">completed</span><span>22.3s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:40</span><span class="jb-log-s">completed</span><span>22.2s</span></div></div><div class="jb-pre"># Cron Job: htf-flag-daily
 
 **Job ID:** 8f6670b16a34
 **Run Time:** 2026-11-27 17:40:34
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> regime-heat-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">40 17 * * 2-6</span>｜24 分鐘前｜下次 11-28T17:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">regime_heat_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:40</span><span class="jb-chip">65735b030924</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:41</span><span class="jb-log-s">completed</span><span>2.6s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:40</span><span class="jb-log-s">completed</span><span>1.6s</span></div></div><div class="jb-pre"># Cron Job: regime-heat-daily
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> regime-heat-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">40 17 * * 2-6</span>｜1 小時前｜下次 11-28T17:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">regime_heat_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:40</span><span class="jb-chip">65735b030924</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:41</span><span class="jb-log-s">completed</span><span>2.6s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:40</span><span class="jb-log-s">completed</span><span>1.6s</span></div></div><div class="jb-pre"># Cron Job: regime-heat-daily
 
 **Job ID:** 65735b030924
 **Run Time:** 2026-11-27 17:40:14
@@ -1697,17 +1722,17 @@ KeyError: &#x27;cases&#x27;</div></div></div><div class="jb-card" data-state="ok
 🧭 環境 2026-11-25：高波動×趨勢（Q2）｜ATR% 2.36（p99）｜ER 0.266（p75）
    持續性：平均 4.6 日一段（≥3 日者 7.6 日）｜指標視窗 20 日 → ⚠ 偵測滯後，環境可能已轉
    本格冇任何 setup 達 n≥10 且 EV&gt;0 → 今日唔好加大注
-   已評分警報 84 單；Setup×環境 cell 要有 10 單才算數</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> screener-refresh-premarket<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">30 17 * * 1-5</span>｜32 分鐘前｜下次 11-30T17:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">screener_refresh_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:31</span><span class="jb-chip">52c8befe60cd</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:31</span><span class="jb-log-s">completed</span><span>1.6m</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:31</span><span class="jb-log-s">completed</span><span>48.0s</span></div></div><div class="jb-pre"># Cron Job: screener-refresh-premarket
+   已評分警報 84 單；Setup×環境 cell 要有 10 單才算數</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> screener-refresh-premarket<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">30 17 * * 1-5</span>｜1 小時前｜下次 11-30T17:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">screener_refresh_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:31</span><span class="jb-chip">52c8befe60cd</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:31</span><span class="jb-log-s">completed</span><span>1.6m</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:31</span><span class="jb-log-s">completed</span><span>48.0s</span></div></div><div class="jb-pre"># Cron Job: screener-refresh-premarket
 
 **Job ID:** 52c8befe60cd
 **Run Time:** 2026-11-27 17:31:49
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> mm-model-collect<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">20 17 * * 1-5</span>｜44 分鐘前｜下次 11-30T17:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">mm_model_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:20</span><span class="jb-chip">e5574f1ddaa3</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:20</span><span class="jb-log-s">completed</span><span>3.8s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:21</span><span class="jb-log-s">completed</span><span>3.7s</span></div></div><div class="jb-pre"># Cron Job: mm-model-collect
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> mm-model-collect<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">20 17 * * 1-5</span>｜1 小時前｜下次 11-30T17:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">mm_model_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:20</span><span class="jb-chip">e5574f1ddaa3</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:20</span><span class="jb-log-s">completed</span><span>3.8s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:21</span><span class="jb-log-s">completed</span><span>3.7s</span></div></div><div class="jb-pre"># Cron Job: mm-model-collect
 
 **Job ID:** e5574f1ddaa3
 **Run Time:** 2026-11-27 17:20:16
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> freshness-audit-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">15 17 * * 1-5</span>｜49 分鐘前｜下次 11-30T17:15</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">freshness_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:15</span><span class="jb-chip">dc8f01c7fbe9</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:15</span><span class="jb-log-s">completed</span><span>0.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:15</span><span class="jb-log-s">completed</span><span>1.2s</span></div></div><div class="jb-pre"># Cron Job: freshness-audit-daily
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> freshness-audit-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">15 17 * * 1-5</span>｜1 小時前｜下次 11-30T17:15</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">freshness_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:15</span><span class="jb-chip">dc8f01c7fbe9</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:15</span><span class="jb-log-s">completed</span><span>0.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:15</span><span class="jb-log-s">completed</span><span>1.2s</span></div></div><div class="jb-pre"># Cron Job: freshness-audit-daily
 
 **Job ID:** dc8f01c7fbe9
 **Run Time:** 2026-11-27 17:15:12
@@ -1742,17 +1767,17 @@ desk_parts      2026-11-27    ✓ 新鮮    dashboard_2026-11-27.html
   leadermap    數據源 [&#x27;rs_select&#x27;]  ✓
   breadth      數據源 [&#x27;breadth&#x27;]  ✓
   modelbook    數據源 [&#x27;model_book&#x27;]  ✓
-  audit        數據源 [&#x27;system_audit&#x27;]  ⚠️ 可能冇 cron</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> sector-rot-collect<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">10 17 * * 1-5</span>｜54 分鐘前｜下次 11-30T17:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">sector_rot_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:10</span><span class="jb-chip">f1e7c9e306f9</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:10</span><span class="jb-log-s">completed</span><span>2.3s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:11</span><span class="jb-log-s">completed</span><span>5.7s</span></div></div><div class="jb-pre"># Cron Job: sector-rot-collect
+  audit        數據源 [&#x27;system_audit&#x27;]  ⚠️ 可能冇 cron</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> sector-rot-collect<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">10 17 * * 1-5</span>｜1 小時前｜下次 11-30T17:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">sector_rot_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 17:10</span><span class="jb-chip">f1e7c9e306f9</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 17:10</span><span class="jb-log-s">completed</span><span>2.3s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:11</span><span class="jb-log-s">completed</span><span>5.7s</span></div></div><div class="jb-pre"># Cron Job: sector-rot-collect
 
 **Job ID:** f1e7c9e306f9
 **Run Time:** 2026-11-27 17:10:14
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> labeller-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">30 6 * * 2-6</span>｜11 小時前｜下次 11-28T06:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">labeller_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 06:30</span><span class="jb-chip">25835f445e35</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 06:31</span><span class="jb-log-s">completed</span><span>3.9s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 06:30</span><span class="jb-log-s">completed</span><span>3.5s</span></div></div><div class="jb-pre"># Cron Job: labeller-daily
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> labeller-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">30 6 * * 2-6</span>｜12 小時前｜下次 11-28T06:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">labeller_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 06:30</span><span class="jb-chip">25835f445e35</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 06:31</span><span class="jb-log-s">completed</span><span>3.9s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 06:30</span><span class="jb-log-s">completed</span><span>3.5s</span></div></div><div class="jb-pre"># Cron Job: labeller-daily
 
 **Job ID:** 25835f445e35
 **Run Time:** 2026-11-27 06:30:08
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> screener-refresh-postclose<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">10 6 * * 2-6</span>｜11 小時前｜下次 11-28T06:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">screener_refresh_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 06:10</span><span class="jb-chip">cc02d86edc63</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 06:10</span><span class="jb-log-s">completed</span><span>52.5s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 06:12</span><span class="jb-log-s">completed</span><span>1.2m</span></div></div><div class="jb-pre"># Cron Job: screener-refresh-postclose
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> screener-refresh-postclose<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">10 6 * * 2-6</span>｜12 小時前｜下次 11-28T06:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">screener_refresh_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 06:10</span><span class="jb-chip">cc02d86edc63</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 06:10</span><span class="jb-log-s">completed</span><span>52.5s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 06:12</span><span class="jb-log-s">completed</span><span>1.2m</span></div></div><div class="jb-pre"># Cron Job: screener-refresh-postclose
 
 **Job ID:** cc02d86edc63
 **Run Time:** 2026-11-27 06:10:57
@@ -1762,17 +1787,17 @@ desk_parts      2026-11-27    ✓ 新鮮    dashboard_2026-11-27.html
 **Job ID:** 79e0a57803ef
 **Run Time:** 2026-11-27 05:55:07
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> qqq-struct-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">20 5 * * 2-6</span>｜12 小時前｜下次 11-28T05:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">qqq_struct_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 05:20</span><span class="jb-chip">84a048d83f5b</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 05:20</span><span class="jb-log-s">completed</span><span>2.0s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 05:20</span><span class="jb-log-s">completed</span><span>2.1s</span></div></div><div class="jb-pre"># Cron Job: qqq-struct-daily
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> qqq-struct-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">20 5 * * 2-6</span>｜13 小時前｜下次 11-28T05:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">qqq_struct_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 05:20</span><span class="jb-chip">84a048d83f5b</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 05:20</span><span class="jb-log-s">completed</span><span>2.0s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 05:20</span><span class="jb-log-s">completed</span><span>2.1s</span></div></div><div class="jb-pre"># Cron Job: qqq-struct-daily
 
 **Job ID:** 84a048d83f5b
 **Run Time:** 2026-11-27 05:20:07
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> ntmflow-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">15 5 * * 2-6</span>｜12 小時前｜下次 11-28T05:15</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">ntmflow_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-27 05:15</span><span class="jb-chip">fe33b5bbf2d4</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 05:15</span><span class="jb-log-s">completed</span><span>1.9s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 05:15</span><span class="jb-log-s">completed</span><span>1.9s</span></div></div><div class="jb-pre"># Cron Job: ntmflow-daily
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> ntmflow-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">15 5 * * 2-6</span>｜13 小時前｜下次 11-28T05:15</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">ntmflow_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-27 05:15</span><span class="jb-chip">fe33b5bbf2d4</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 05:15</span><span class="jb-log-s">completed</span><span>1.9s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 05:15</span><span class="jb-log-s">completed</span><span>1.9s</span></div></div><div class="jb-pre"># Cron Job: ntmflow-daily
 
 **Job ID:** fe33b5bbf2d4
 **Run Time:** 2026-11-27 05:15:07
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> fear-gauge-alert<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">10 5 * * 2-6</span>｜12 小時前｜下次 11-28T05:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">fear_gauge_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 05:10</span><span class="jb-chip">b2d9211e1ea9</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 05:10</span><span class="jb-log-s">completed</span><span>10.7s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 05:11</span><span class="jb-log-s">completed</span><span>12.6s</span></div></div><div class="jb-pre"># Cron Job: fear-gauge-alert
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> fear-gauge-alert<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">10 5 * * 2-6</span>｜13 小時前｜下次 11-28T05:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">fear_gauge_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 05:10</span><span class="jb-chip">b2d9211e1ea9</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 05:10</span><span class="jb-log-s">completed</span><span>10.7s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 05:11</span><span class="jb-log-s">completed</span><span>12.6s</span></div></div><div class="jb-pre"># Cron Job: fear-gauge-alert
 
 **Job ID:** b2d9211e1ea9
 **Run Time:** 2026-11-27 05:10:16
@@ -1790,12 +1815,12 @@ VIX 28.29（VIX/VIX3M 1.076）｜廣度 30.9%｜F&amp;G 15.0｜P/C 0.917
 **Job ID:** 2d29209b3a78
 **Run Time:** 2026-11-27 04:55:05
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> putcall-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">50 4 * * 2-6</span>｜13 小時前｜下次 11-28T04:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">putcall_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-27 04:50</span><span class="jb-chip">5c48aecb538a</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 04:50</span><span class="jb-log-s">completed</span><span>38.1s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 04:51</span><span class="jb-log-s">completed</span><span>33.6s</span></div></div><div class="jb-pre"># Cron Job: putcall-daily
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> putcall-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">50 4 * * 2-6</span>｜14 小時前｜下次 11-28T04:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">putcall_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-27 04:50</span><span class="jb-chip">5c48aecb538a</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 04:50</span><span class="jb-log-s">completed</span><span>38.1s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 04:51</span><span class="jb-log-s">completed</span><span>33.6s</span></div></div><div class="jb-pre"># Cron Job: putcall-daily
 
 **Job ID:** 5c48aecb538a
 **Run Time:** 2026-11-27 04:50:43
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> rsw-radar-intraday<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">*/15 21-23,0-4 * * 2-6</span>｜13 小時前｜下次 11-27T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">rsw_radar_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 04:45</span><span class="jb-chip">8d53359f0317</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 02:15</span><span class="jb-log-s">completed</span><span>4.1s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:31</span><span class="jb-log-s">completed</span><span>4.2s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 03:30</span><span class="jb-log-s">completed</span><span>4.0s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 02:00</span><span class="jb-log-s">completed</span><span>4.0s</span></div><div class="jb-log-r"><span>·</span><span>2026-11-26 22:57</span><span class="jb-log-s">missed</span><span>—</span></div></div><div class="jb-pre"># Cron Job: rsw-radar-intraday
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> rsw-radar-intraday<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">*/15 21-23,0-4 * * 2-6</span>｜14 小時前｜下次 11-27T21:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">rsw_radar_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-27 04:45</span><span class="jb-chip">8d53359f0317</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-27 02:15</span><span class="jb-log-s">completed</span><span>4.1s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 21:31</span><span class="jb-log-s">completed</span><span>4.2s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 03:30</span><span class="jb-log-s">completed</span><span>4.0s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 02:00</span><span class="jb-log-s">completed</span><span>4.0s</span></div><div class="jb-log-r"><span>·</span><span>2026-11-26 22:57</span><span class="jb-log-s">missed</span><span>—</span></div></div><div class="jb-pre"># Cron Job: rsw-radar-intraday
 
 **Job ID:** 8d53359f0317
 **Run Time:** 2026-11-27 04:45:09
@@ -1820,7 +1845,7 @@ AZTA      46.77 (-1.6%) 弱 0.83ATR｜距低 0.60ATR｜低位 44.80｜✅回升 
 SENS       8.80 (+2.2%) 弱 0.46ATR｜距低 0.60ATR｜低位 8.01｜✅回升 RVOL 3.0x｜連續 31 次（19:32 起）｜15m +0.0% 30m +0.0% 60m +0.0%
 
    ⚠ 回測（n=257）機械化呢個規則 = −0.032R、t=−0.40 → 冇 edge。
-     用意：幫你即時睇到「邊隻領導股今日回氣」，由你判斷，唔係叫你跟。</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> growth-cycle-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">20 4 * * 2-6</span>｜13 小時前｜下次 11-28T04:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">growth_cycle_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-27 04:20</span><span class="jb-chip">ea35623c2a2d</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 04:21</span><span class="jb-log-s">completed</span><span>2.1s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 04:20</span><span class="jb-log-s">completed</span><span>2.2s</span></div></div><div class="jb-pre"># Cron Job: growth-cycle-daily
+     用意：幫你即時睇到「邊隻領導股今日回氣」，由你判斷，唔係叫你跟。</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> growth-cycle-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">20 4 * * 2-6</span>｜14 小時前｜下次 11-28T04:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">growth_cycle_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-27 04:20</span><span class="jb-chip">ea35623c2a2d</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 04:21</span><span class="jb-log-s">completed</span><span>2.1s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-27 04:20</span><span class="jb-log-s">completed</span><span>2.2s</span></div></div><div class="jb-pre"># Cron Job: growth-cycle-daily
 
 **Job ID:** ea35623c2a2d
 **Run Time:** 2026-11-27 04:20:07
@@ -1853,17 +1878,17 @@ STALE  group_rs     2026-11-25（group_rs_2026-11-25.json）
 STALE  fear_gauge   2026-11-25（fear_gauge.json）
 STALE  tight_scan   2026-10-27（tight_scan.json）
 STALE  rotation     2026-11-25（rotation_latest.json）
-→ 對應腳本要加／收緊快取時效，唔可以用「有檔就用」</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> wave-ledger-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">45 23 * * 1-5</span>｜18 小時前｜下次 11-27T23:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">wave_ledger_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 23:45</span><span class="jb-chip">454eba29c9d2</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-25 23:45</span><span class="jb-log-s">completed</span><span>1.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:45</span><span class="jb-log-s">completed</span><span>1.4s</span></div></div><div class="jb-pre"># Cron Job: wave-ledger-daily
+→ 對應腳本要加／收緊快取時效，唔可以用「有檔就用」</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> wave-ledger-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">45 23 * * 1-5</span>｜19 小時前｜下次 11-27T23:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">wave_ledger_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 23:45</span><span class="jb-chip">454eba29c9d2</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-25 23:45</span><span class="jb-log-s">completed</span><span>1.4s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:45</span><span class="jb-log-s">completed</span><span>1.4s</span></div></div><div class="jb-pre"># Cron Job: wave-ledger-daily
 
 **Job ID:** 454eba29c9d2
 **Run Time:** 2026-11-26 23:45:07
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> gto-notion-sync<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">40 23 * * 1-5</span>｜18 小時前｜下次 11-27T23:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">gto_notion_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 23:40</span><span class="jb-chip">827e776548e3</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-25 23:42</span><span class="jb-log-s">completed</span><span>1.1m</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:40</span><span class="jb-log-s">completed</span><span>31.7s</span></div></div><div class="jb-pre"># Cron Job: gto-notion-sync
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> gto-notion-sync<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">40 23 * * 1-5</span>｜19 小時前｜下次 11-27T23:40</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">gto_notion_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 23:40</span><span class="jb-chip">827e776548e3</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-25 23:42</span><span class="jb-log-s">completed</span><span>1.1m</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:40</span><span class="jb-log-s">completed</span><span>31.7s</span></div></div><div class="jb-pre"># Cron Job: gto-notion-sync
 
 **Job ID:** 827e776548e3
 **Run Time:** 2026-11-26 23:40:37
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> daily-budget-check<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">35 23 * * 0-4</span>｜18 小時前｜下次 11-29T23:35</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">daily_budget_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 11-26 23:35</span><span class="jb-chip">192255a1f5ab</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-25 23:36</span><span class="jb-log-s">completed</span><span>2.0s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:35</span><span class="jb-log-s">completed</span><span>1.9s</span></div></div><div class="jb-pre"># Cron Job: daily-budget-check
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> daily-budget-check<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">35 23 * * 0-4</span>｜19 小時前｜下次 11-29T23:35</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">daily_budget_cron.py</span><span class="jb-chip">→ telegram:322829419,local</span><span class="jb-chip">輸出 11-26 23:35</span><span class="jb-chip">192255a1f5ab</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-25 23:36</span><span class="jb-log-s">completed</span><span>2.0s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:35</span><span class="jb-log-s">completed</span><span>1.9s</span></div></div><div class="jb-pre"># Cron Job: daily-budget-check
 
 **Job ID:** 192255a1f5ab
 **Run Time:** 2026-11-26 23:35:06
@@ -1872,7 +1897,7 @@ STALE  rotation     2026-11-25（rotation_latest.json）
 ---
 
 ⚖️ 配額 0（BEAR）｜已用 0｜剩 0｜BEAR：唔開新倉，只管理舊倉
-   🎯 今日關鍵球候選：9 隻（RS≥90、ATRX 0–4、距52高≥−10、TIGHT≥45）</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> l2-cell-backtest-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">20 23 * * 2-6</span>｜18 小時前｜下次 11-27T23:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">l2_cell_backtest_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 23:20</span><span class="jb-chip">5327b2a9185b</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:20</span><span class="jb-log-s">completed</span><span>36.6s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-25 23:21</span><span class="jb-log-s">completed</span><span>39.2s</span></div></div><div class="jb-pre"># Cron Job: l2-cell-backtest-daily
+   🎯 今日關鍵球候選：9 隻（RS≥90、ATRX 0–4、距52高≥−10、TIGHT≥45）</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> l2-cell-backtest-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">20 23 * * 2-6</span>｜19 小時前｜下次 11-27T23:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">l2_cell_backtest_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 23:20</span><span class="jb-chip">5327b2a9185b</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 23:20</span><span class="jb-log-s">completed</span><span>36.6s</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-25 23:21</span><span class="jb-log-s">completed</span><span>39.2s</span></div></div><div class="jb-pre"># Cron Job: l2-cell-backtest-daily
 
 **Job ID:** 5327b2a9185b
 **Run Time:** 2026-11-26 23:20:42
@@ -1900,17 +1925,17 @@ STALK 勝率 40.0%｜平均 -3.85%｜MFE +15.74%（n=200）
 **Job ID:** b6537a2e37c1
 **Run Time:** 2026-11-26 22:57:38
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> expansion-break-shadow<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">50 19 * * 2-6</span>｜22 小時前｜下次 11-27T19:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">expansion_shadow_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 19:50</span><span class="jb-chip">a7713398dd1c</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 19:50</span><span class="jb-log-s">completed</span><span>1.0s</span></div></div><div class="jb-pre"># Cron Job: expansion-break-shadow
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> expansion-break-shadow<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">50 19 * * 2-6</span>｜23 小時前｜下次 11-27T19:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">expansion_shadow_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 19:50</span><span class="jb-chip">a7713398dd1c</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 19:50</span><span class="jb-log-s">completed</span><span>1.0s</span></div></div><div class="jb-pre"># Cron Job: expansion-break-shadow
 
 **Job ID:** a7713398dd1c
 **Run Time:** 2026-11-26 19:50:58
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> rs-alpha-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">45 19 * * 2-6</span>｜22 小時前｜下次 11-27T19:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">rs_alpha_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 19:46</span><span class="jb-chip">bd4e4f994ebf</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 19:46</span><span class="jb-log-s">completed</span><span>40.5s</span></div></div><div class="jb-pre"># Cron Job: rs-alpha-daily
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> rs-alpha-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">45 19 * * 2-6</span>｜23 小時前｜下次 11-27T19:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">rs_alpha_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 19:46</span><span class="jb-chip">bd4e4f994ebf</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 19:46</span><span class="jb-log-s">completed</span><span>40.5s</span></div></div><div class="jb-pre"># Cron Job: rs-alpha-daily
 
 **Job ID:** bd4e4f994ebf
 **Run Time:** 2026-11-26 19:46:38
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> premarket-audit-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">30 19 * * 1-5</span>｜22 小時前｜下次 11-27T19:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">system_audit_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 19:33</span><span class="jb-chip">66da6478ed6a</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 19:33</span><span class="jb-log-s">completed</span><span>2.2m</span></div></div><div class="jb-pre"># Cron Job: premarket-audit-daily
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> premarket-audit-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">30 19 * * 1-5</span>｜23 小時前｜下次 11-27T19:30</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">system_audit_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 19:33</span><span class="jb-chip">66da6478ed6a</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 19:33</span><span class="jb-log-s">completed</span><span>2.2m</span></div></div><div class="jb-pre"># Cron Job: premarket-audit-daily
 
 **Job ID:** 66da6478ed6a
 **Run Time:** 2026-11-26 19:33:07
@@ -1927,41 +1952,15 @@ STALK 勝率 40.0%｜平均 -3.85%｜MFE +15.74%（n=200）
 ⚙️ 自檢：3 個 job 配置已最佳
 🟢 今日倉位 100%｜累積 HK$+22,281｜回撤 HK$-39,208
    · 狀態正常
-🟢 基準 倉位倍數 ×1.00｜連勝 1 → 未夠 3，維持基準</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> rs-select-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">20 19 * * 1-5</span>｜22 小時前｜下次 11-27T19:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">rs_select_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 19:21</span><span class="jb-chip">d51684d170e1</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 19:21</span><span class="jb-log-s">completed</span><span>3.0s</span></div></div><div class="jb-pre"># Cron Job: rs-select-daily
+🟢 基準 倉位倍數 ×1.00｜連勝 1 → 未夠 3，維持基準</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> rs-select-daily<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">20 19 * * 1-5</span>｜23 小時前｜下次 11-27T19:20</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">rs_select_cron.py</span><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-26 19:21</span><span class="jb-chip">d51684d170e1</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 19:21</span><span class="jb-log-s">completed</span><span>3.0s</span></div></div><div class="jb-pre"># Cron Job: rs-select-daily
 
 **Job ID:** d51684d170e1
 **Run Time:** 2026-11-26 19:21:00
 **Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> premarket-refresh-1850<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">50 18 * * 1-5</span>｜23 小時前｜下次 11-27T18:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">premarket_refresh_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 18:52</span><span class="jb-chip">9ead11daac20</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:52</span><span class="jb-log-s">completed</span><span>1.9m</span></div></div><div class="jb-pre"># Cron Job: premarket-refresh-1850
+**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> premarket-refresh-1850<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">50 18 * * 1-5</span>｜1 日前｜下次 11-30T18:50</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">premarket_refresh_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 18:52</span><span class="jb-chip">9ead11daac20</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>▶</span><span></span><span class="jb-log-s">running</span><span>—</span></div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:52</span><span class="jb-log-s">completed</span><span>1.9m</span></div></div><div class="jb-pre"># Cron Job: premarket-refresh-1850
 
 **Job ID:** 9ead11daac20
 **Run Time:** 2026-11-26 18:52:52
-**Mode:** no_agent (script)
-**Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> yoyo-ball-alert<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">45 18 * * 1-5</span>｜23 小時前｜下次 11-27T18:45</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">yoyo_ball_alert_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 18:46</span><span class="jb-chip">c67e2db8c445</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:46</span><span class="jb-log-s">completed</span><span>3.1s</span></div></div><div class="jb-pre"># Cron Job: yoyo-ball-alert
-
-**Job ID:** c67e2db8c445
-**Run Time:** 2026-11-26 18:46:00
-**Mode:** no_agent (script)
-
----
-
-⚪ 2026-11-26 今日休息 —— 冇符合條件嘅 setup。
-GMI 過濾：GMI 0/6  → 大盤弱，做空優先
-（呢個係正常結果。條件嚴格 = 少出手 = 高賠率。）</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> webscan-alerts<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">10 18 * * 2-6</span>｜23 小時前｜下次 11-27T18:10</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">webscan_alerts_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 18:10</span><span class="jb-chip">b0ac3ddf26e5</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 18:10</span><span class="jb-log-s">completed</span><span>1.2s</span></div></div><div class="jb-pre"># Cron Job: webscan-alerts
-
-**Job ID:** b0ac3ddf26e5
-**Run Time:** 2026-11-26 18:10:58
-**Mode:** no_agent (script)
-
----
-
-📋 收市新名單 2026-11-26
-· Tight 7 新：CDNA(T58)、ORKA(T57)、AXGN(T55)、NWL(T55)、SN(T49)、DXC(T46)、RNG(T45)
-· 沙灘球 24 新：INNV(B9)、HELE(B8)、CHRD(B7)、FLGT(B6)、LBRX(B5)、KRO(B4)、EME(B3)、FIX(B3)、IESC(B3)、BLZE(B2)、CAR(B16)、PRG(B15) 等 24 隻
-· HTF 4 新：CDNL(H80)、BHVN(H)、AMC(H)、FCUV(H)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> site-rebuild-1730<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">55 17 * * *</span>｜1 日前｜下次 11-28T17:55</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">零 token</span><span class="jb-chip">site_rebuild_cron.py</span><span class="jb-chip">→ local</span><span class="jb-chip">輸出 11-26 17:58</span><span class="jb-chip">5866b5234686</span></div><div class="jb-log"><div class="jb-log-h">執行記錄（最新在上）</div><div class="jb-log-r"><span>✅</span><span>2026-11-26 17:58</span><span class="jb-log-s">completed</span><span>2.8m</span></div><div class="jb-log-r"><span>▶</span><span></span><span class="jb-log-s">running</span><span>—</span></div></div><div class="jb-pre"># Cron Job: site-rebuild-1730
-
-**Job ID:** 5866b5234686
-**Run Time:** 2026-11-26 17:58:44
 **Mode:** no_agent (script)
 **Status:** silent (empty output)</div></div></div><div class="jb-card" data-state="ok" data-cat="other" data-pri=""><div class="jb-hd" onclick="jbToggle(this)"><span class="jb-dot d-ok"></span><div style="flex:1;min-width:0"><div class="jb-nm"> memory-hygiene-weekly<span class="jb-cat"> 未分類</span></div><div class="jb-meta"><span class="jb-sched">0 9 * * 1</span>｜4 日前｜下次 11-30T09:00</div></div></div><div class="jb-body"><div class="jb-chips"><span class="jb-chip">→ origin</span><span class="jb-chip">輸出 11-23 09:03</span><span class="jb-chip">9742aac41fe1</span></div><div class="jb-pre"># Cron Job: memory-hygiene-weekly
 
@@ -2343,7 +2342,7 @@ function alFilter(){
  ｜交易台 <code>trading-os-lab/dashboard.py</code>
 </footer>
 </div>
-<script>var D={"_generated":"2026-11-27 17:56"};
+<script>var D={"_generated":"2026-11-27 18:50"};
 function q(s,r){return (r||document).querySelector(s);}
 function qa(s,r){return Array.from((r||document).querySelectorAll(s));}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){
