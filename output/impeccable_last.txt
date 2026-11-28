@@ -24,11 +24,15 @@ C:\Users\rain0\trading-os-web\docs\alerts.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.4:1 (need 4.5:1) — text #e45b5a on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.1:1 (need 4.5:1) — text #4e9e6b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 1.7:1 (need 4.5:1) — text #f6b546 on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.1:1 (need 4.5:1) — text #4e9e6b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.9:1 (need 4.5:1) — text #8a95a6 on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.0:1 (need 4.5:1) — text #f59e0b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.0:1 (need 4.5:1) — text #f59e0b on #faf8f4
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] :hover state 2.0:1 (need 4.5:1) — text #f59e0b on #faf8f4
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -56,10 +60,6 @@ C:\Users\rain0\trading-os-web\docs\alerts.html
     → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
 
 C:\Users\rain0\trading-os-web\docs\audit.html
-  [low-contrast] 1.0:1 (need 4.5:1) — text #2a2825 on #3a2410
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 1.0:1 (need 4.5:1) — text #2a2825 on #3a2410
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [undersized-ui-text] 10.5px functional text "Job" (below 11px floor)
     → Interactive and content-bearing UI text (links, buttons, nav items, labels, table cells, meta rows, timecodes) below 11px is a legibility failure, not a style choice. WCAG sets no absolute pixel floor, but functional text under 11px is a defensible quality bar: it fails on high-DPI and small viewports and it degrades tap and read targets. The 11px floor holds even inside a footer; only non-interactive legal smallprint gets the softer 10px floor. Being ON the DESIGN.md size ramp does not exempt a value here: adding 8px to the ramp launders the token but not the legibility problem, and that is exactly the escape hatch this rule closes. Exempts sup/sub, visually-hidden (sr-only) text, and code/terminal contexts. Decorative letterspaced micro-labels are still functional and stay in scope.
   [undersized-ui-text] 10.5px functional text "現行" (below 11px floor)
@@ -78,6 +78,8 @@ C:\Users\rain0\trading-os-web\docs\audit.html
     → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
 
 C:\Users\rain0\trading-os-web\docs\backtest.html
+  [side-tab] border-left: 2px + border-radius: 8px
+    → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
   [side-tab] border-left: 2px + border-radius: 8px
     → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
   [side-tab] border-left: 2px + border-radius: 8px
@@ -124,6 +126,8 @@ C:\Users\rain0\trading-os-web\docs\backtest.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] :hover state 3.0:1 (need 4.5:1) — text #d97706 on #faf8f4
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.0:1 (need 4.5:1) — text #d97706 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [dark-glow] Zero-offset text-shadow glow (#22c55e)
     → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
 
@@ -131,6 +135,42 @@ C:\Users\rain0\trading-os-web\docs\beachball.html
   [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.5:1 (need 4.5:1) — text #449964 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -307,6 +347,8 @@ C:\Users\rain0\trading-os-web\docs\briefing.html
   [low-contrast] 2.5:1 (need 4.5:1) — text #a3a39e on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 1.6:1 (need 4.5:1) — text #9fd4ff on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.0:1 (need 4.5:1) — text #38bdf8 on #f2fcf5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.1:1 (need 4.5:1) — text #38bdf8 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -4969,6 +5011,90 @@ C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-19.html
   [dark-glow] Zero-offset text-shadow glow (#22c55e)
     → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
 
+C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-20.html
+  [low-contrast] 3.9:1 (need 4.5:1) — text #ca5d2f on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.7:1 (need 4.5:1) — text #9f9e9d on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.9:1 (need 4.5:1) — text #ca5d2f on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "ds-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [cramped-padding] <div> "ds-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [dark-glow] Zero-offset text-shadow glow (#22c55e)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
+C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-22.html
+  [low-contrast] 3.9:1 (need 4.5:1) — text #ca5d2f on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.7:1 (need 4.5:1) — text #9f9e9d on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.9:1 (need 4.5:1) — text #ca5d2f on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "ds-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [cramped-padding] <div> "ds-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [dark-glow] Zero-offset text-shadow glow (#22c55e)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
+C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-23.html
+  [low-contrast] 3.9:1 (need 4.5:1) — text #ca5d2f on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.7:1 (need 4.5:1) — text #9f9e9d on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.9:1 (need 4.5:1) — text #ca5d2f on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "ds-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [cramped-padding] <div> "ds-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [dark-glow] Zero-offset text-shadow glow (#22c55e)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
+C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-24.html
+  [low-contrast] 3.9:1 (need 4.5:1) — text #ca5d2f on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.7:1 (need 4.5:1) — text #9f9e9d on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.9:1 (need 4.5:1) — text #ca5d2f on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "ds-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [cramped-padding] <div> "ds-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [dark-glow] Zero-offset text-shadow glow (#22c55e)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
+C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-25.html
+  [low-contrast] 3.9:1 (need 4.5:1) — text #ca5d2f on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.7:1 (need 4.5:1) — text #9f9e9d on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.9:1 (need 4.5:1) — text #ca5d2f on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "ds-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [cramped-padding] <div> "ds-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [dark-glow] Zero-offset text-shadow glow (#22c55e)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
+C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-26.html
+  [low-contrast] 3.9:1 (need 4.5:1) — text #ca5d2f on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.7:1 (need 4.5:1) — text #9f9e9d on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.9:1 (need 4.5:1) — text #ca5d2f on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "ds-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [cramped-padding] <div> "ds-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [dark-glow] Zero-offset text-shadow glow (#22c55e)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
 C:\Users\rain0\trading-os-web\docs\datahealth.html
   [low-contrast] 4.1:1 (need 4.5:1) — text #dc2626 on #f8e8e4
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -5366,20 +5492,6 @@ C:\Users\rain0\trading-os-web\docs\htf.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [dark-glow] Zero-offset text-shadow glow (#22c55e)
     → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
 
@@ -5420,35 +5532,33 @@ C:\Users\rain0\trading-os-web\docs\jobboard.html
     → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
   [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.9:1 (need 4.5:1) — text #e5484d on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.6:1 (need 4.5:1) — text #ed7f82 on #ffffff
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.6:1 (need 4.5:1) — text #e5484d on #f5f5f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.6:1 (need 4.5:1) — text #e5484d on #f5f5f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -5540,6 +5650,8 @@ C:\Users\rain0\trading-os-web\docs\jobboard.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #848383 on #f9f9f9
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.2:1 (need 4.5:1) — text #abaaa5 on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.5:1 (need 4.5:1) — text #dc8366 on #f4f3ef
@@ -5550,11 +5662,15 @@ C:\Users\rain0\trading-os-web\docs\jobboard.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.4:1 (need 4.5:1) — text #e45b5a on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.1:1 (need 4.5:1) — text #4e9e6b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 1.7:1 (need 4.5:1) — text #f6b546 on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.1:1 (need 4.5:1) — text #4e9e6b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.9:1 (need 4.5:1) — text #8a95a6 on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.0:1 (need 4.5:1) — text #f59e0b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.0:1 (need 4.5:1) — text #f59e0b on #faf8f4
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] :hover state 2.0:1 (need 4.5:1) — text #f59e0b on #faf8f4
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -5964,8 +6080,6 @@ C:\Users\rain0\trading-os-web\docs\leaders.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.1:1 (need 4.5:1) — text #38bdf8 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 1.7:1 (need 4.5:1) — text #4ade80 on #ffffff
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [undersized-ui-text] 10.5px functional text "代號 / 行業" (below 11px floor)
     → Interactive and content-bearing UI text (links, buttons, nav items, labels, table cells, meta rows, timecodes) below 11px is a legibility failure, not a style choice. WCAG sets no absolute pixel floor, but functional text under 11px is a defensible quality bar: it fails on high-DPI and small viewports and it degrades tap and read targets. The 11px floor holds even inside a footer; only non-interactive legal smallprint gets the softer 10px floor. Being ON the DESIGN.md size ramp does not exempt a value here: adding 8px to the ramp launders the token but not the legibility problem, and that is exactly the escape hatch this rule closes. Exempts sup/sub, visually-hidden (sr-only) text, and code/terminal contexts. Decorative letterspaced micro-labels are still functional and stay in scope.
   [undersized-ui-text] 10.5px functional text "RS-D" (below 11px floor)
@@ -6038,70 +6152,6 @@ C:\Users\rain0\trading-os-web\docs\levelup.html
     → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
 
 C:\Users\rain0\trading-os-web\docs\logbook.html
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.5:1 (need 4.5:1) — text #0891b2 on #faf9f5
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.0:1 (need 4.5:1) — text #f59e0b on #faf9f5
@@ -6180,6 +6230,46 @@ C:\Users\rain0\trading-os-web\docs\logbook.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.5:1 (need 4.5:1) — text #0891b2 on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
@@ -6403,6 +6493,46 @@ C:\Users\rain0\trading-os-web\docs\logbook.html
   [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.5:1 (need 4.5:1) — text #a09f9b on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.0:1 (need 4.5:1) — text #f59e0b on #faf8f4
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] :hover state 3.5:1 (need 4.5:1) — text #0891b2 on #faf8f4
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -6706,8 +6836,6 @@ C:\Users\rain0\trading-os-web\docs\nel.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.7:1 (need 4.5:1) — text #7f7f7d on #f5f5f2
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 1.6:1 (need 4.5:1) — text #3ddc97 on #f5f5f2
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.7:1 (need 4.5:1) — text #7f7f7d on #f5f5f2
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.7:1 (need 4.5:1) — text #7f7f7d on #f5f5f2
@@ -6720,11 +6848,161 @@ C:\Users\rain0\trading-os-web\docs\nel.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.7:1 (need 4.5:1) — text #7f7f7d on #f5f5f2
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.7:1 (need 4.5:1) — text #7f7f7d on #f5f5f2
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.2:1 (need 4.5:1) — text #a0a4ac on #eff0ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #7d7c7b on #eff0ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.7:1 (need 4.5:1) — text #718fe1 on #eff0ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #7d7c7b on #eff0ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.5:1 (need 4.5:1) — text #d8c482 on #eff0ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.0:1 (need 3:1) — text #c8a63a on #eff0ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #7d7c7b on #eff0ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.0:1 (need 4.5:1) — text #ed8bbb on #eff0ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #7d7c7b on #eff0ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.6:1 (need 4.5:1) — text #9a9996 on #f5f5f2
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.2:1 (need 4.5:1) — text #ec4899 on #f5f5f2
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.6:1 (need 4.5:1) — text #3ddc97 on #f5f5f2
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.5:1 (need 4.5:1) — text #f5c542 on #f5f5f2
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #ff8b8b on #f5f5f2
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.7:1 (need 4.5:1) — text #7f7f7d on #f5f5f2
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.7:1 (need 4.5:1) — text #7f7f7d on #f5f5f2
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.3:1 (need 4.5:1) — text #c49a88 on #f5f5f2
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.7:1 (need 4.5:1) — text #82817e on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.0:1 (need 4.5:1) — text #b1b1af on #f6f8fb
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 1.7:1 (need 4.5:1) — text #3ddc97 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 1.7:1 (need 4.5:1) — text #3ddc97 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 1.7:1 (need 4.5:1) — text #3ddc97 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 1.7:1 (need 4.5:1) — text #3ddc97 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 1.7:1 (need 4.5:1) — text #3ddc97 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 1.5:1 (need 4.5:1) — text #f5c542 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 1.7:1 (need 4.5:1) — text #3ddc97 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 3.3:1 (need 4.5:1) — text #ec4899 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.1:1 (need 4.5:1) — text #ff8b8b on #faf8f4
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [wide-tracking] letter-spacing: 0.08em on body text
     → Letter spacing above 0.05em on body text disrupts natural character groupings and slows reading. Reserve wide tracking for short uppercase labels only.
@@ -6824,19 +7102,23 @@ C:\Users\rain0\trading-os-web\docs\process.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.2:1 (need 4.5:1) — text #8a8986 on #f4f3ef
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.4:1 (need 4.5:1) — text #6aac81 on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.4:1 (need 4.5:1) — text #6aac81 on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 1.5:1 (need 4.5:1) — text #f5be62 on #f4f3ef
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.4:1 (need 4.5:1) — text #6aac81 on #f4f3ef
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 1.5:1 (need 4.5:1) — text #f5be62 on #f4f3ef
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 1.5:1 (need 4.5:1) — text #f5be62 on #f4f3ef
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.1:1 (need 4.5:1) — text #cf6e6c on #f4f3ef
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.3:1 (need 4.5:1) — text #a2a19b on #f4f3ef
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.3:1 (need 4.5:1) — text #a2a19b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.0:1 (need 4.5:1) — text #0b63ce on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.0:1 (need 4.5:1) — text #0b63ce on #f97316
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.0:1 (need 4.5:1) — text #0b63ce on #f97316
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -6868,30 +7150,42 @@ C:\Users\rain0\trading-os-web\docs\process.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.8:1 (need 4.5:1) — text #6366f1 on #eeede9
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.8:1 (need 4.5:1) — text #6366f1 on #eeede9
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+  [low-contrast] 1.8:1 (need 4.5:1) — text #38bdf8 on #eeede9
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 1.9:1 (need 4.5:1) — text #38bdf8 on #f4f3ef
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.9:1 (need 4.5:1) — text #f59e0b on #f4f3ef
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.3:1 (need 4.5:1) — text #a2a19b on #f4f3ef
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] :hover state 1.8:1 (need 4.5:1) — text #15803d on #f97316
@@ -6918,9 +7212,13 @@ C:\Users\rain0\trading-os-web\docs\process.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] :hover state 1.8:1 (need 4.5:1) — text #15803d on #f97316
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] :hover state 2.0:1 (need 4.5:1) — text #f59e0b on #faf8f4
+  [low-contrast] :hover state 1.8:1 (need 4.5:1) — text #15803d on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 1.8:1 (need 4.5:1) — text #15803d on #f97316
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] :hover state 2.0:1 (need 4.5:1) — text #38bdf8 on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 2.0:1 (need 4.5:1) — text #f59e0b on #faf8f4
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [dark-glow] Zero-offset text-shadow glow (#22c55e)
     → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
@@ -7042,7 +7340,11 @@ C:\Users\rain0\trading-os-web\docs\regime.html
 C:\Users\rain0\trading-os-web\docs\regime_mri.html
   [side-tab] border-left: 2px + border-radius: 8px
     → Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.
+  [low-contrast] 2.0:1 (need 3:1) — text #f59e0b on #f5f4f0
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.2:1 (need 4.5:1) — text #a9a8a2 on #f5f4f0
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.0:1 (need 4.5:1) — text #f59e0b on #f5f4f0
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.6:1 (need 4.5:1) — text #9b9a97 on #f5f4f0
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -7050,9 +7352,9 @@ C:\Users\rain0\trading-os-web\docs\regime_mri.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 4.0:1 (need 4.5:1) — text #de3636 on #f3f2ee
+  [low-contrast] 4.1:1 (need 4.5:1) — text #c64f1e on #f3f2ee
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 4.0:1 (need 4.5:1) — text #de3636 on #f3f2ee
+  [low-contrast] 4.1:1 (need 4.5:1) — text #c64f1e on #f3f2ee
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.1:1 (need 3:1) — text #f59e0b on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -7148,19 +7450,9 @@ C:\Users\rain0\trading-os-web\docs\rsboard.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.5:1 (need 4.5:1) — text #8a8987 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 4.0:1 (need 4.5:1) — text #a855f7 on #ffffff
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 1.7:1 (need 4.5:1) — text #4ade80 on #ffffff
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.1:1 (need 4.5:1) — text #38bdf8 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -7184,7 +7476,41 @@ C:\Users\rain0\trading-os-web\docs\rsboard.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 4.0:1 (need 4.5:1) — text #a855f7 on #ffffff
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -7511,6 +7837,12 @@ C:\Users\rain0\trading-os-web\docs\rsscan.html
   [low-contrast] 3.6:1 (need 4.5:1) — text #6183e4 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.8:1 (need 4.5:1) — text #ce6060 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -8146,6 +8478,138 @@ C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-19.html
     → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
 
 C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-20.html
+  [low-contrast] 2.9:1 (need 4.5:1) — text #5ba677 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.1:1 (need 4.5:1) — text #d47a55 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #6183e4 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ce6060 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.9:1 (need 4.5:1) — text #dc2626 on #fae3e3
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "rs-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [dark-glow] Zero-offset text-shadow glow (#22c55e)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
+C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-23.html
+  [low-contrast] 2.9:1 (need 4.5:1) — text #5ba677 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.1:1 (need 4.5:1) — text #d47a55 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #6183e4 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ce6060 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.9:1 (need 4.5:1) — text #dc2626 on #fae3e3
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "rs-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [dark-glow] Zero-offset text-shadow glow (#22c55e)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
+C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-24.html
+  [low-contrast] 2.9:1 (need 4.5:1) — text #5ba677 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.1:1 (need 4.5:1) — text #d47a55 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #6183e4 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ce6060 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.9:1 (need 4.5:1) — text #dc2626 on #fae3e3
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "rs-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [dark-glow] Zero-offset text-shadow glow (#22c55e)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
+C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-25.html
+  [low-contrast] 2.9:1 (need 4.5:1) — text #5ba677 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.1:1 (need 4.5:1) — text #d47a55 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #6183e4 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ce6060 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.9:1 (need 4.5:1) — text #dc2626 on #fae3e3
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "rs-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [dark-glow] Zero-offset text-shadow glow (#22c55e)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
+C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-26.html
+  [low-contrast] 2.9:1 (need 4.5:1) — text #5ba677 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.1:1 (need 4.5:1) — text #d47a55 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.6:1 (need 4.5:1) — text #6183e4 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ce6060 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.9:1 (need 4.5:1) — text #dc2626 on #fae3e3
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "rs-wrap": children flush against border+bg on all sides (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [dark-glow] Zero-offset text-shadow glow (#22c55e)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
+C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-27.html
   [low-contrast] 1.9:1 (need 4.5:1) — text #b8b7b4 on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.9:1 (need 4.5:1) — text #5ba677 on #ffffff
@@ -8155,6 +8619,12 @@ C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-20.html
   [low-contrast] 3.6:1 (need 4.5:1) — text #6183e4 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.8:1 (need 4.5:1) — text #ce6060 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.8:1 (need 4.5:1) — text #ffffff on #f97316
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -8331,6 +8801,54 @@ C:\Users\rain0\trading-os-web\docs\screener_2026-11-20.html
   [dark-glow] Zero-offset text-shadow glow (#22c55e)
     → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
 
+C:\Users\rain0\trading-os-web\docs\screener_2026-11-23.html
+  [low-contrast] 3.8:1 (need 4.5:1) — text #848383 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "card": children flush against border+bg on right/left (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [cramped-padding] <div> "scr-wrap": children flush against border-top on top (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [dark-glow] Zero-offset text-shadow glow (#22c55e)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
+C:\Users\rain0\trading-os-web\docs\screener_2026-11-24.html
+  [low-contrast] 3.8:1 (need 4.5:1) — text #848383 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "card": children flush against border+bg on right/left (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [cramped-padding] <div> "scr-wrap": children flush against border-top on top (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [dark-glow] Zero-offset text-shadow glow (#22c55e)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
+C:\Users\rain0\trading-os-web\docs\screener_2026-11-25.html
+  [low-contrast] 3.8:1 (need 4.5:1) — text #848383 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "card": children flush against border+bg on right/left (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [cramped-padding] <div> "scr-wrap": children flush against border-top on top (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [dark-glow] Zero-offset text-shadow glow (#22c55e)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
+C:\Users\rain0\trading-os-web\docs\screener_2026-11-27.html
+  [low-contrast] 3.8:1 (need 4.5:1) — text #848383 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [cramped-padding] <div> "card": children flush against border+bg on right/left (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [cramped-padding] <div> "scr-wrap": children flush against border-top on top (no inset)
+    → Text is too close to the edge of its container. Two shapes: (1) an element with its own text where the space between the rendered text and the border box is too small for the font size, and (2) a wrapper whose children's text lands flush against a visible boundary (border, outline, or non-transparent background) with nothing to inset it. Add at least 8px (ideally 12–16px) of space inside bordered, outlined, or colored containers.
+  [dark-glow] Zero-offset text-shadow glow (#22c55e)
+    → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
+
 C:\Users\rain0\trading-os-web\docs\screenwall.html
   [low-contrast] 3.2:1 (need 4.5:1) — text #ba8470 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -8346,11 +8864,11 @@ C:\Users\rain0\trading-os-web\docs\sectorrot.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.9:1 (need 4.5:1) — text #6da484 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 3.1:1 (need 4.5:1) — text #d3796b on #ffffff
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.4:1 (need 4.5:1) — text #82b195 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.6:1 (need 4.5:1) — text #d98c80 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.1:1 (need 4.5:1) — text #d3796b on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.6:1 (need 4.5:1) — text #d98c80 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -8370,6 +8888,8 @@ C:\Users\rain0\trading-os-web\docs\sectorrot2.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.6:1 (need 4.5:1) — text #2a2825 on #b16b66
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.7:1 (need 4.5:1) — text #2a2825 on #b36e69
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.1:1 (need 4.5:1) — text #7f7e7c on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.1:1 (need 4.5:1) — text #7f7e7c on #ffffff
@@ -8378,9 +8898,17 @@ C:\Users\rain0\trading-os-web\docs\sectorrot2.html
     → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
 
 C:\Users\rain0\trading-os-web\docs\sectors.html
-  [low-contrast] 3.0:1 (need 4.5:1) — text #959492 on #ffffff
+  [low-contrast] 2.0:1 (need 3:1) — text #f59e0b on #f9f9f9
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.0:1 (need 3:1) — text #f59e0b on #f9f9f9
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 2.1:1 (need 4.5:1) — text #f59e0b on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 2.1:1 (need 4.5:1) — text #38bdf8 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 1.7:1 (need 4.5:1) — text #4ade80 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.0:1 (need 4.5:1) — text #959492 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [undersized-ui-text] 10.5px functional text "ETF" (below 11px floor)
     → Interactive and content-bearing UI text (links, buttons, nav items, labels, table cells, meta rows, timecodes) below 11px is a legibility failure, not a style choice. WCAG sets no absolute pixel floor, but functional text under 11px is a defensible quality bar: it fails on high-DPI and small viewports and it degrades tap and read targets. The 11px floor holds even inside a footer; only non-interactive legal smallprint gets the softer 10px floor. Being ON the DESIGN.md size ramp does not exempt a value here: adding 8px to the ramp launders the token but not the legibility problem, and that is exactly the escape hatch this rule closes. Exempts sup/sub, visually-hidden (sr-only) text, and code/terminal contexts. Decorative letterspaced micro-labels are still functional and stay in scope.
@@ -8476,8 +9004,6 @@ C:\Users\rain0\trading-os-web\docs\setupfactory.html
 C:\Users\rain0\trading-os-web\docs\setups.html
   [low-contrast] 2.1:1 (need 4.5:1) — text #38bdf8 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 1.7:1 (need 4.5:1) — text #4ade80 on #ffffff
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [undersized-ui-text] 10.5px functional text "代號 / 行業" (below 11px floor)
     → Interactive and content-bearing UI text (links, buttons, nav items, labels, table cells, meta rows, timecodes) below 11px is a legibility failure, not a style choice. WCAG sets no absolute pixel floor, but functional text under 11px is a defensible quality bar: it fails on high-DPI and small viewports and it degrades tap and read targets. The 11px floor holds even inside a footer; only non-interactive legal smallprint gets the softer 10px floor. Being ON the DESIGN.md size ramp does not exempt a value here: adding 8px to the ramp launders the token but not the legibility problem, and that is exactly the escape hatch this rule closes. Exempts sup/sub, visually-hidden (sr-only) text, and code/terminal contexts. Decorative letterspaced micro-labels are still functional and stay in scope.
   [undersized-ui-text] 10.5px functional text "收市" (below 11px floor)
@@ -8564,15 +9090,35 @@ C:\Users\rain0\trading-os-web\docs\stage.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.0:1 (need 4.5:1) — text #ffffff on #2f8f5b
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 4.0:1 (need 4.5:1) — text #ffffff on #2f8f5b
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.0:1 (need 4.5:1) — text #ffffff on #2f8f5b
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 4.0:1 (need 4.5:1) — text #ffffff on #2f8f5b
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 4.0:1 (need 4.5:1) — text #ffffff on #2f8f5b
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 4.0:1 (need 4.5:1) — text #ffffff on #2f8f5b
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 3.8:1 (need 4.5:1) — text #ffffff on #b4751a
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -8853,7 +9399,7 @@ C:\Users\rain0\trading-os-web\docs\yoyo_ball.html
   [dark-glow] Zero-offset text-shadow glow (#22c55e)
     → Colored glow shadows — a zero-offset chromatic halo (box- or text-shadow) on any background, or any colored blurred shadow on a dark background — are the default "cool" look of AI-generated UIs. Use neutral elevation shadows and subtle, purposeful lighting instead.
 
-4284 anti-patterns found.
+4542 anti-patterns found.
 
 ── Advisory (not counted as failures) ──
 
@@ -9068,7 +9614,7 @@ C:\Users\rain0\trading-os-web\docs\backtest.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.3:1 (need 4.5:1) — text #747371 on #f4f3ef
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 9 em-dashes in body text
+  [em-dash-overuse] 10 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\beachball.html
@@ -9142,7 +9688,7 @@ C:\Users\rain0\trading-os-web\docs\briefing.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 19 em-dashes in body text
+  [em-dash-overuse] 23 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\calculator.html
@@ -9160,7 +9706,7 @@ C:\Users\rain0\trading-os-web\docs\cycle.html
 C:\Users\rain0\trading-os-web\docs\dailyscan.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 119 em-dashes in body text
+  [em-dash-overuse] 139 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\dailyscan_2026-10-19.html
@@ -9310,25 +9856,61 @@ C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-15.html
 C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-16.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 143 em-dashes in body text
+  [em-dash-overuse] 144 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-17.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 146 em-dashes in body text
+  [em-dash-overuse] 147 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-18.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 114 em-dashes in body text
+  [em-dash-overuse] 118 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-19.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 134 em-dashes in body text
+  [em-dash-overuse] 132 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
+
+C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-20.html
+  [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 109 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
+
+C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-22.html
+  [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 85 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
+
+C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-23.html
+  [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 89 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
+
+C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-24.html
+  [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 137 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
+
+C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-25.html
+  [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 155 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
+
+C:\Users\rain0\trading-os-web\docs\dailyscan_2026-11-26.html
+  [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 138 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\datahealth.html
@@ -9666,13 +10248,13 @@ C:\Users\rain0\trading-os-web\docs\jobboard.html
 C:\Users\rain0\trading-os-web\docs\leadermap.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 144 em-dashes in body text
+  [em-dash-overuse] 150 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\leaders.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 200 em-dashes in body text
+  [em-dash-overuse] 164 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\levelup.html
@@ -9816,6 +10398,10 @@ C:\Users\rain0\trading-os-web\docs\nel.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.3:1 (need 4.5:1) — text #76736b on #f9f3e0
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.4:1 (need 4.5:1) — text #64748b on #f5f5f2
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 15 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\ntmflow.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
@@ -9841,8 +10427,6 @@ C:\Users\rain0\trading-os-web\docs\process.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.3:1 (need 4.5:1) — text #73726f on #f4f3ef
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 4.3:1 (need 4.5:1) — text #dc2626 on #f4f3ef
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f3ef
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -9876,7 +10460,47 @@ C:\Users\rain0\trading-os-web\docs\process.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 12 em-dashes in body text
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 23 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\putcall.html
@@ -9909,8 +10533,6 @@ C:\Users\rain0\trading-os-web\docs\regime.html
 
 C:\Users\rain0\trading-os-web\docs\regime_mri.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] 4.4:1 (need 4.5:1) — text #dc2626 on #f5f4f0
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.49:1 (need 4.5:1) — text #706f6c on #f3f2ee
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -9996,7 +10618,7 @@ C:\Users\rain0\trading-os-web\docs\rsnewhigh.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 136 em-dashes in body text
+  [em-dash-overuse] 81 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\rsscan.html
@@ -10142,7 +10764,7 @@ C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-09.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.3:1 (need 4.5:1) — text #777673 on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 44 em-dashes in body text
+  [em-dash-overuse] 30 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-10.html
@@ -10152,8 +10774,6 @@ C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-10.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.3:1 (need 4.5:1) — text #777673 on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 42 em-dashes in body text
-    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-11.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
@@ -10162,8 +10782,6 @@ C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-11.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.3:1 (need 4.5:1) — text #777673 on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 44 em-dashes in body text
-    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-12.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
@@ -10172,8 +10790,6 @@ C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-12.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.3:1 (need 4.5:1) — text #777673 on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 44 em-dashes in body text
-    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-13.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
@@ -10182,8 +10798,6 @@ C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-13.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.3:1 (need 4.5:1) — text #777673 on #faf9f5
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 45 em-dashes in body text
-    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-16.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
@@ -10235,6 +10849,56 @@ C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-20.html
   [em-dash-overuse] 42 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
+C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-23.html
+  [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.3:1 (need 4.5:1) — text #777673 on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 42 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
+
+C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-24.html
+  [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.3:1 (need 4.5:1) — text #777673 on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 44 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
+
+C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-25.html
+  [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.3:1 (need 4.5:1) — text #777673 on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 43 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
+
+C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-26.html
+  [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.3:1 (need 4.5:1) — text #777673 on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 42 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
+
+C:\Users\rain0\trading-os-web\docs\rsscan_2026-11-27.html
+  [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.3:1 (need 4.5:1) — text #777673 on #faf9f5
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 42 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
+
 C:\Users\rain0\trading-os-web\docs\screener.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
@@ -10242,7 +10906,7 @@ C:\Users\rain0\trading-os-web\docs\screener.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 782 em-dashes in body text
+  [em-dash-overuse] 604 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\screener_2026-11-04.html
@@ -10332,7 +10996,7 @@ C:\Users\rain0\trading-os-web\docs\screener_2026-11-16.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 1535 em-dashes in body text
+  [em-dash-overuse] 1471 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\screener_2026-11-17.html
@@ -10342,7 +11006,7 @@ C:\Users\rain0\trading-os-web\docs\screener_2026-11-17.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 1535 em-dashes in body text
+  [em-dash-overuse] 1358 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\screener_2026-11-18.html
@@ -10352,7 +11016,7 @@ C:\Users\rain0\trading-os-web\docs\screener_2026-11-18.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 1535 em-dashes in body text
+  [em-dash-overuse] 1286 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\screener_2026-11-19.html
@@ -10362,7 +11026,7 @@ C:\Users\rain0\trading-os-web\docs\screener_2026-11-19.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 1533 em-dashes in body text
+  [em-dash-overuse] 1171 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\screener_2026-11-20.html
@@ -10372,7 +11036,47 @@ C:\Users\rain0\trading-os-web\docs\screener_2026-11-20.html
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
   [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 1533 em-dashes in body text
+  [em-dash-overuse] 1171 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
+
+C:\Users\rain0\trading-os-web\docs\screener_2026-11-23.html
+  [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 1171 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
+
+C:\Users\rain0\trading-os-web\docs\screener_2026-11-24.html
+  [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 1171 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
+
+C:\Users\rain0\trading-os-web\docs\screener_2026-11-25.html
+  [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 1171 em-dashes in body text
+    → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
+
+C:\Users\rain0\trading-os-web\docs\screener_2026-11-27.html
+  [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [low-contrast] 4.4:1 (need 4.5:1) — text #797877 on #ffffff
+    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
+  [em-dash-overuse] 1171 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\screenwall.html
@@ -10408,7 +11112,7 @@ C:\Users\rain0\trading-os-web\docs\setupfactory.html
 C:\Users\rain0\trading-os-web\docs\setups.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 8 em-dashes in body text
+  [em-dash-overuse] 11 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\skills.html
@@ -10474,15 +11178,13 @@ C:\Users\rain0\trading-os-web\docs\vantharp.html
 C:\Users\rain0\trading-os-web\docs\wave.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [low-contrast] :hover state 4.49:1 (need 4.5:1) — text #64748b on #faf8f4
-    → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 15 em-dashes in body text
+  [em-dash-overuse] 14 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\week.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #64748b on #f4f2ed
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
-  [em-dash-overuse] 49 em-dashes in body text
+  [em-dash-overuse] 53 em-dashes in body text
     → Em-dash saturation in body copy is an AI cadence tell. Advisory only: humans use em-dashes legitimately, so this fires only on saturation — at least 8 em-dashes (— or --) at a density near one per 500 characters of body text — never on a long article that uses a few. Prefer commas, colons, periods, or parentheses.
 
 C:\Users\rain0\trading-os-web\docs\yoyo_ball.html
@@ -10507,9 +11209,4 @@ C:\Users\rain0\trading-os-web\docs\yoyo_ball.html
   [low-contrast] 4.3:1 (need 4.5:1) — text #747371 on #f4f3ef
     → Text does not meet WCAG AA contrast requirements (4.5:1 for body, 3:1 for large text). Increase the contrast between text and background.
 
-686 advisory notes. Suppress with --no-advisory.
-npm notice
-npm notice New minor version of npm available! 12.0.2 -> 12.2.3
-npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
-npm notice To update run: npm install -g npm@12.2.3
-npm notice
+749 advisory notes. Suppress with --no-advisory.

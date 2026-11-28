@@ -26,3 +26,4 @@
 {"date": "2026-11-24", "score": 3, "verdict": "接近投降", "vix": 26.38, "vix_ratio": 1.037, "breadth": 32.1, "fg": 16.9, "pc": 0.903}
 {"date": "2026-11-25", "score": 3, "verdict": "接近投降", "vix": 27.77, "vix_ratio": 1.068, "breadth": 31.4, "fg": 14.8, "pc": 0.918}
 {"date": "2026-11-25", "score": 3, "verdict": "接近投降", "vix": 28.29, "vix_ratio": 1.076, "breadth": 30.9, "fg": 15.0, "pc": 0.917}
+{"date": "2026-11-27", "score": 2, "verdict": "超跌累積", "vix": 23.81, "vix_ratio": 1.0, "breadth": 33.8, "fg": 24.9, "pc": 0.864}
